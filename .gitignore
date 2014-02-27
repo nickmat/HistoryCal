@@ -1,0 +1,8 @@
+# Files created by build process
+build/vc9/Debug/
+build/vc9/Release/
+*.ncb
+*.suo
+*.user
+build/gnu
+!build/gnu/GNUmakefile
