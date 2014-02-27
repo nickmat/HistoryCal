@@ -91,6 +91,7 @@
     <sources>$(LOCAL_SRC)/test/testj325.cpp</sources>
     <sources>$(LOCAL_SRC)/test/testjulian.cpp</sources>
     <sources>$(LOCAL_SRC)/test/testmain.cpp</sources>
+    <sources>$(LOCAL_SRC)/test/testvocab.cpp</sources>
     <sources>$(LOCAL_SRC)/test/testweekly.cpp</sources>
 
     <headers>$(LOCAL_SRC)/test/testcommon.h</headers>

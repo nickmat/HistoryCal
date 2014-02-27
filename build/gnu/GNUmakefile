@@ -79,6 +79,7 @@ TESTS_OBJECTS =  \
 	tests_testj325.o \
 	tests_testjulian.o \
 	tests_testmain.o \
+	tests_testvocab.o \
 	tests_testweekly.o
 CAL_CXXFLAGS = $(VAR) $(VAR_5) -DMAKINGLIB_CAL -I../../include -fPIC -DPIC \
 	$(CPPFLAGS) $(CXXFLAGS)
@@ -209,6 +210,9 @@ tests_testjulian.o: ./../../src/test/testjulian.cpp
 	$(CXX) -c -o $@ $(TESTS_CXXFLAGS) $(CPPDEPS) $<
 
 tests_testmain.o: ./../../src/test/testmain.cpp
+	$(CXX) -c -o $@ $(TESTS_CXXFLAGS) $(CPPDEPS) $<
+
+tests_testvocab.o: ./../../src/test/testvocab.cpp
 	$(CXX) -c -o $@ $(TESTS_CXXFLAGS) $(CPPDEPS) $<
 
 tests_testweekly.o: ./../../src/test/testweekly.cpp
