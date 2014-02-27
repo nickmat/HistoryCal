@@ -1,0 +1,180 @@
+<?xml version="1.0"?>
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Name:        build/hcal.bkl
+ * Project:     HistoryCal: Programmable Historical Calendar Calculator.
+ * Purpose:     The 0.2.x bakefile source for building the HistoryCal program
+ * Author:      Nick Matthews
+ * Website:     http://historycal.org
+ * Created:     30th September 2013
+ * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Licence:     GNU GPLv3
+ *
+ *  HistoryCal is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  HistoryCal is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with HistoryCal.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+-->
+
+<makefile>
+
+  <set var="WX_MONOLITHIC">0</set>
+  <set var="WX_UNICODE">1</set>
+  <set var="WX_SHARED">0</set>
+
+  <include file="presets/wx.bkl"/>
+
+  <set var="BUILDCONF">
+    <if cond="WX_DEBUG=='1'">debug</if>
+    <if cond="WX_DEBUG=='0'">release</if>
+  </set>
+
+  <set var="BUILD_DIR"></set>
+  <set var="REL_ROOT">../..</set>
+  <set var="LOCAL_LIB">$(REL_ROOT)/lib/$(BUILD_DIR)</set>
+  <if cond="BUILD_DIR==''">
+    <set var="REL_ROOT">..</set>
+    <set var="LOCAL_LIB">$(REL_ROOT)/../lib</set>
+  </if>
+  <set var="LOCAL_SRC">$(REL_ROOT)/src</set>
+  <set var="LOCAL_INC">$(REL_ROOT)/include</set>
+  <set var="CPPUNIT_DIR">$(DOLLAR)($(ENV_VAR)CPPUNIT)</set>
+
+  <exe id="hcal" template="wxgui,wxlike">
+    <app-type>gui</app-type>
+    <runtime-libs>dynamic</runtime-libs>
+
+    <sources>$(LOCAL_SRC)/hcal/hcapp.cpp</sources>
+    <sources>$(LOCAL_SRC)/hcal/hcfbframe.cpp</sources>
+    <sources>$(LOCAL_SRC)/hcal/hcframe.cpp</sources>
+    <sources>$(LOCAL_SRC)/hcal/hcversion.cpp</sources>
+
+    <headers>$(LOCAL_SRC)/hcal/hcapp.h</headers>
+    <headers>$(LOCAL_SRC)/hcal/hcfbframe.h</headers>
+    <headers>$(LOCAL_SRC)/hcal/hcframe.h</headers>
+    <headers>$(LOCAL_SRC)/hcal/hcversion.h</headers>
+
+    <win32-res>$(LOCAL_SRC)/hcal/hcal.rc</win32-res>
+
+    <include>$(LOCAL_INC)</include>
+    <include>$(LOCAL_SRC)</include>
+
+    <sources>$(LOCAL_SRC)/dummy.cpp</sources>
+    <precomp-headers-gen>$(LOCAL_SRC)/dummy.cpp</precomp-headers-gen>
+    <precomp-headers-location>$(LOCAL_INC)</precomp-headers-location>
+    <precomp-headers-header>wx/wxprec.h</precomp-headers-header>
+    <precomp-headers>on</precomp-headers>
+    <precomp-headers-file>wxprec_$(id)</precomp-headers-file>
+
+    <library>cal</library>
+    <library>utf8api</library>
+    <wx-lib>core</wx-lib>
+    <wx-lib>base</wx-lib>
+  </exe>
+
+  <exe id="tests" template="wxlike">
+    <app-type>console</app-type>
+    <runtime-libs>dynamic</runtime-libs>
+
+    <sources>$(LOCAL_SRC)/test/testcal.cpp</sources>
+    <sources>$(LOCAL_SRC)/test/testcommon.cpp</sources>
+    <sources>$(LOCAL_SRC)/test/testgregorian.cpp</sources>
+    <sources>$(LOCAL_SRC)/test/testj325.cpp</sources>
+    <sources>$(LOCAL_SRC)/test/testjulian.cpp</sources>
+    <sources>$(LOCAL_SRC)/test/testmain.cpp</sources>
+    <sources>$(LOCAL_SRC)/test/testweekly.cpp</sources>
+
+    <headers>$(LOCAL_SRC)/test/testcommon.h</headers>
+
+    <include>$(LOCAL_INC)</include>
+    <include>$(CPPUNIT_DIR)/include</include>
+
+    <lib-path>$(CPPUNIT_DIR)/lib</lib-path>
+    <library>cal</library>
+    <library>utf8api</library>
+    <sys-lib>$(substituteFromDict(WX_DEBUG,{'0':'cppunit','1':'cppunitd'}))</sys-lib>
+  </exe>
+
+
+  <dll id="cal" template="wxlike">
+    <dllname>cal</dllname>
+    <libname>cal</libname>
+
+    <define>MAKINGLIB_CAL</define>
+
+    <sources>$(LOCAL_SRC)/cal/calbase.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calcalendars.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calcyclic.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calera.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calformat.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calgrammar.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calgregorian.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calhybrid.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/caljdn.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/caljulian.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calmath.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calmulti.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calparse.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calrecord.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calscheme.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calschemes.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calscripts.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calshift.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calversion.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calvocab.cpp</sources>
+
+    <headers>$(LOCAL_INC)/cal/caldefs.h</headers>
+    <headers>$(LOCAL_INC)/cal/calendars.h</headers>
+
+    <headers>$(LOCAL_SRC)/cal/calbase.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calcyclic.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calera.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calformat.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calgrammar.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calgregorian.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calhybrid.h</headers>
+    <headers>$(LOCAL_SRC)/cal/caljdn.h</headers>
+    <headers>$(LOCAL_SRC)/cal/caljulian.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calmath.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calmulti.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calparse.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calrecord.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calscheme.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calschemes.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calscripts.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calshift.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calversion.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calvocab.h</headers>
+
+    <include>$(LOCAL_INC)</include>
+
+    <library>utf8api</library>
+  </dll>
+
+  <dll id="utf8api" template="wxlike">
+    <dllname>utf8api</dllname>
+    <libname>utf8api</libname>
+
+    <define>MAKINGLIB_UTF8API</define>
+
+    <sources>$(LOCAL_SRC)/utf8/utf8proc.c</sources>
+    <sources>$(LOCAL_SRC)/utf8/utf8api.cpp</sources>
+
+    <headers>$(LOCAL_INC)/utf8/utf8api.h</headers>
+
+    <headers>$(LOCAL_SRC)/utf8/utf8proc.h</headers>
+
+    <include>$(LOCAL_INC)</include>
+  </dll>
+
+</makefile>
+

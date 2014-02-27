@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>HistoryCal - Julian Base</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="icon" type="image/png" href="../sys/logo1_32x32x32.png" />
+<link rel='stylesheet' type='text/css' href='../sys/hcal.css' />
+</head>
+<body>
+
+<h1>
+ <a  href="../index.htm"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
+ HistoryCal Calendar<br/>Julian Base (jb)
+</h1>
+
+<div id="page">
+
+<div id="crumbs">
+  <a href="../index.htm" class="m-item">Home</a>
+  <a href="../cal/index.htm" class="m-item level1">Calendars</a>
+  <a href="jb.htm" class="m-item level2 thispage">jb</a>
+  <a href="jdn.htm" class="m-item prev">&lt;&lt;</a>
+  <a href="g.htm" class="m-item next">&gt;&gt;</a>
+</div>
+
+<div id="content" class="nomenu">
+
+<h2>Calendar Description</h2>
+<p>
+ The Julian Basic calendar is the simplest possible interpretation of the
+ calendar introduced by Julius Caesar and using the Common Era year count.
+ It is the version generally used by astronomers. The year change is the 1st
+ January, the year zero is included, years before year zero are given as
+ negative. There is no attempt to allow for the irregular leap years that
+ occured when the calendar was first introduced.
+</p>
+
+<h3>Use Case</h3>
+<p>
+ The Julian calendar has been used throughout Europe and the European colonies
+ since its intoduction by Julius Caesar, but in many diferent variants. In this
+ form, some of its known uses are:
+</p>
+<ul>
+ <li>Scotland, from 1 Jan 1600 to 2 Sep 1752.</li>
+ <li>England and its overseas territories, from 1 Jan 1952 to 2 Sep 1952.</li>
+ <li>Astronomers, for all dates before 31 Dec 1582.</li>
+ <li>In HistoryCal, it is the base calendar for many variants.</li>
+</ul>
+
+<h3>Definition</h3>
+<table class='data'>
+<tr><th rowspan='2'>Number</th><th rowspan='2'>Name</th><th colspan='2'>Number of Days</th></tr>
+<tr><th>Common</th><th>Leap</th></tr>
+<tr><td>1</td><td>January</td><td>31</td><td>31</td></tr>
+<tr><td>2</td><td>February</td><td>28</td><td>29</td></tr>
+<tr><td>3</td><td>March</td><td>31</td><td>31</td></tr>
+<tr><td>4</td><td>April</td><td>30</td><td>30</td></tr>
+<tr><td>5</td><td>May</td><td>31</td><td>31</td></tr>
+<tr><td>6</td><td>June</td><td>30</td><td>30</td></tr>
+<tr><td>7</td><td>July</td><td>31</td><td>31</td></tr>
+<tr><td>8</td><td>August</td><td>31</td><td>31</td></tr>
+<tr><td>9</td><td>September</td><td>30</td><td>30</td></tr>
+<tr><td>10</td><td>October</td><td>31</td><td>31</td></tr>
+<tr><td>11</td><td>November</td><td>30</td><td>30</td></tr>
+<tr><td>12</td><td>December</td><td>31</td><td>31</td></tr>
+</table>
+<table class='record'>
+<tr><th colspan='3'>Record</th></tr>
+<tr><td>year</td><td>month</td><td>day</td></tr>
+</table>
+<p>
+ The <b>Record</b> consists of three <b>Fields</b> named <code>year,</code>
+ <code>month,</code> and <code>day.</code> There are twelve <code>months</code>
+ in a <code>year</code> numbered 1 to 12. The number of <code>days</code> in a
+ <code>month</code> varies between 28 and 31, numbered from 1.
+</p>
+<p>
+ The <b>Epoch</b> is set at <code>year 1 month 1 day 1 (<b>jb</b>) = day 1721424 (<b>jdn</b>).</code>
+</p>
+<p>
+ The Julian Basic Calendar consists of approximately solar year length years. There are two types of years, common year and leap year, which follow the repeating pattern of three common years then one leap year. The year is divided into twelve months with 28 to 31 days in each as shown in the table opposite.
+</p>
+
+<h3>Script</h3>
+<table class='code'>
+<tr><th>Default Script</th></tr>
+<tr><td
+><b>vocab</b> m1 {
+ name Short Month names;
+ style abrev;
+ lang en;
+ field Mon;
+ tokens {
+  1 Jan; 2 Feb; 3 Mar;
+  4 Apr; 5 May; 6 Jun;
+  7 Jul; 8 Aug; 9 Sep;
+  10 Oct; 11 Nov; 12 Dec;
+ };
+};
+<b>vocab</b> m2 {
+ name Full Month names;
+ style full;
+ lang en;
+ field Month;
+ tokens {
+  1 January; 2 Febuary; 3 March;
+  4 April; 5 May; 6 June;
+  7 July; 8 August; 9 September;
+  10 October; 11 November; 12 December;
+ };
+};
+<b>grammar</b> j {
+ alias field {Day day; Month month; Year year;};
+ alias unit {d day; m month; y year; w week;};
+ vocabs m2 m1;
+ format pref @(3:Day) @(2:Month:m1) @(1:Year);
+ format @(3:Day) @(2:Month:m2) @(1:Year);
+ format @(2:Month:m1) @(3:Day), @(1:Year);
+ format @(1:Year)@:(2:Month)@:(3:Day);
+};
+<b>scheme</b> jb {
+ name Julian Base;
+ base julian;
+ grammar j;
+};
+</td></tr>
+</table>
+<p>
+ The script has no dependencies and is the second calendar defined in the default script.
+</p>
+
+</div>
+
+<hr/>
+<div id='valid'>
+  <p>
+    <a href="http://validator.w3.org/check?uri=referer"><img
+        src="../sys/valid-xhtml10.png"
+        alt="Valid XHTML 1.0 Strict" height="31" width="88" /></a>
+  </p>
+</div>
+
+<div id='create-date'><p>19<sup>th</sup> January 2014</p></div>
+
+</div>
+
+</body>
+</html>

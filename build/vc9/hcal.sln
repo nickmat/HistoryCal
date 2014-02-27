@@ -1,0 +1,49 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hcal", "hcal_hcal.vcproj", "{FF430A71-6332-5273-BD7C-97C7495D86B7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AC963786-E3A6-5F96-8740-1EB06682A8E0} = {AC963786-E3A6-5F96-8740-1EB06682A8E0}
+		{5D9B2A09-305C-5078-9DB0-7CC6761C52D1} = {5D9B2A09-305C-5078-9DB0-7CC6761C52D1}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "hcal_tests.vcproj", "{1CCA3DFE-C0AE-5B43-A12D-C8A291367CD1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AC963786-E3A6-5F96-8740-1EB06682A8E0} = {AC963786-E3A6-5F96-8740-1EB06682A8E0}
+		{5D9B2A09-305C-5078-9DB0-7CC6761C52D1} = {5D9B2A09-305C-5078-9DB0-7CC6761C52D1}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cal", "hcal_cal.vcproj", "{AC963786-E3A6-5F96-8740-1EB06682A8E0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5D9B2A09-305C-5078-9DB0-7CC6761C52D1} = {5D9B2A09-305C-5078-9DB0-7CC6761C52D1}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "utf8api", "hcal_utf8api.vcproj", "{5D9B2A09-305C-5078-9DB0-7CC6761C52D1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release|Win32 = Release|Win32
+		Debug|Win32 = Debug|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FF430A71-6332-5273-BD7C-97C7495D86B7}.Release|Win32.ActiveCfg = Release|Win32
+		{FF430A71-6332-5273-BD7C-97C7495D86B7}.Release|Win32.Build.0 = Release|Win32
+		{FF430A71-6332-5273-BD7C-97C7495D86B7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FF430A71-6332-5273-BD7C-97C7495D86B7}.Debug|Win32.Build.0 = Debug|Win32
+		{1CCA3DFE-C0AE-5B43-A12D-C8A291367CD1}.Release|Win32.ActiveCfg = Release|Win32
+		{1CCA3DFE-C0AE-5B43-A12D-C8A291367CD1}.Release|Win32.Build.0 = Release|Win32
+		{1CCA3DFE-C0AE-5B43-A12D-C8A291367CD1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1CCA3DFE-C0AE-5B43-A12D-C8A291367CD1}.Debug|Win32.Build.0 = Debug|Win32
+		{AC963786-E3A6-5F96-8740-1EB06682A8E0}.Release|Win32.ActiveCfg = Release|Win32
+		{AC963786-E3A6-5F96-8740-1EB06682A8E0}.Release|Win32.Build.0 = Release|Win32
+		{AC963786-E3A6-5F96-8740-1EB06682A8E0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AC963786-E3A6-5F96-8740-1EB06682A8E0}.Debug|Win32.Build.0 = Debug|Win32
+		{5D9B2A09-305C-5078-9DB0-7CC6761C52D1}.Release|Win32.ActiveCfg = Release|Win32
+		{5D9B2A09-305C-5078-9DB0-7CC6761C52D1}.Release|Win32.Build.0 = Release|Win32
+		{5D9B2A09-305C-5078-9DB0-7CC6761C52D1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5D9B2A09-305C-5078-9DB0-7CC6761C52D1}.Debug|Win32.Build.0 = Debug|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
+

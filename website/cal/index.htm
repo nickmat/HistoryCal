@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0005):pcc: -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>HistoryCal - Calendar List</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="icon" type="image/png" href="../sys/logo1_32x32x32.png" />
+<link rel='stylesheet' type='text/css' href='../sys/hcal.css' />
+  <style type="text/css">
+
+   table.cal-list {
+    border: black 1px solid;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+   }
+
+   table.cal-list th {
+    background-color: #eef;
+    white-space: nowrap;
+    padding: 2px 5px;
+   }
+
+   table.cal-list td {
+    border: black 1px solid;
+    padding: 4px 5px;
+   }
+
+   td.nw {white-space: nowrap;}
+
+   td.filler {text-align: right; font-size: x-small;}
+
+   table.index {
+    background-color: #eee;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    text-align: center;
+    font-weight: bold;
+    font-size: small;
+   }
+
+   table.index td {
+    border: black 1px solid;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+   }
+
+   table.index td:hover { background-color: #ccf; }
+   table.index td.na:hover { background-color: #eee; }
+
+   table.index a:link, table.index a:visited {
+    color: blue;
+    text-decoration: none;
+   }
+
+   tr.head {
+    background-color: #fed;
+   }
+
+   td.label {
+    vertical-align: top;
+    white-space: nowrap;
+   }
+
+   td.link {
+    vertical-align: top;
+    white-space: nowrap;
+   }
+
+   td.link a {
+    font-weight: bold;
+    padding-top: 2px;
+    padding-bottom: 2px;
+   }
+
+  </style>
+</head>
+<body>
+
+<h1>
+ <a  href="../index.htm"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
+ HistoryCal<br/>Calendar List
+</h1>
+
+<div id='page' class='list'>
+
+<div id="crumbs">
+  <a href="../index.htm" class="m-item">Home</a>
+  <a href="../cal/index.htm" class="m-item level1 thispage">Calendars</a>
+  <a href="../new/news.htm" class="m-item prev">&lt;&lt;</a>
+  <a href="jdn.htm" class="m-item next">&gt;&gt;</a>
+</div>
+
+<div id='content' class='nomenu'>
+
+  <table class='index'>
+   <tr>
+    <td><a href="#Day">Day Count</a></td>
+    <td><a href="#French">French Republic</a></td>
+    <td><a href="#Gregorian">Gregorian</a></td>
+    <td><a href="#Hebrew">Hebrew</a></td>
+    <td><a href="#Islamic">Islamic</a></td>
+    <td><a href="#Julian">Julian</a></td>
+   </tr>
+   <tr>
+    <td><a href="#Week">Weekly</a></td>
+    <td colspan='0' class="na">&nbsp;</td>
+   </tr>
+  </table>
+
+  <table class='cal-list'>
+   <thead>
+    <tr>
+     <th>Code</th>
+     <th>Name</th>
+     <th>Description</th>
+    </tr>
+   </thead>
+   <tbody>
+
+    <tr id='Day' class='head'>
+     <td colspan='3'><b>Day Count</b></td>
+    </tr>
+    <tr>
+     <td class='link'><a href="jdn.htm" class="m-item">jdn</a></td>
+     <td class='label'>Julian Day Number</td>
+     <td>
+      The internal date representation used by HistoryCal. A minor variation of the "Julian Day".
+     </td>
+    </tr>
+<!--
+    <tr>
+     <td class='link'><a href="jd.htm" class="m-item">jd</a></td>
+     <td class='label'>Julian Day</td>
+     <td>
+      The system used by astronomers to mark time since midday Monday 1st January 4713 BCE (j).
+     </td>
+    </tr>
+    <tr>
+     <td class='link'><a href="mjd.htm" class="m-item">mjd</a></td>
+     <td class='label'>Modified Julian Day</td>
+     <td>
+      A variation of the Julian Day.
+     </td>
+    </tr>
+    <tr>
+     <td class='link'><a href="rd.htm" class="m-item">rd</a></td>
+     <td class='label'>Rata Die</td>
+     <td>
+      Day count based on Gregorian calendar where 1 (rd) equals 1st January 1 (g)
+     </td>
+    </tr>
+-->
+
+    <tr id='French' class='head'>
+     <td colspan='3'><b>French Republic</b></td>
+    </tr>
+<!--
+    <tr>
+     <td class='link'><a href="fr.htm" class="m-item">fr</a></td>
+     <td class='label'>French Republic</td>
+     <td>
+      The French Republican Calendar.
+     </td>
+    </tr>
+-->
+
+    <tr id='Gregorian' class='head'>
+     <td colspan='3'><b>Gregorian</b></td>
+    </tr>
+    <tr>
+     <td class='link'><a href="g.htm" class="m-item">g</a></td>
+     <td class='label'>Gregorian</td>
+     <td>
+      The Gregorian Calendar.
+     </td>
+    </tr>
+
+    <tr id='Hebrew' class='head'>
+     <td colspan='3'><b>Hebrew</b></td>
+    </tr>
+<!--
+    <tr>
+     <td class='link'><a href="h.htm" class="m-item">h</a></td>
+     <td class='label'>Hebrew</td>
+     <td>
+      The Hebrew Calendar.
+     </td>
+    </tr>
+-->
+
+    <tr id='Islamic' class='head'>
+     <td colspan='3'><b>Islamic</b></td>
+    </tr>
+<!--
+    <tr>
+     <td class='link'><a href="i.htm" class="m-item">i</a></td>
+     <td class='label'>Islamic</td>
+     <td>
+      The Islamic Calendar.
+     </td>
+    </tr>
+-->
+
+    <tr id='Julian' class='head'>
+     <td colspan='3'><b>Julian</b></td>
+    </tr>
+<!--
+    <tr>
+     <td class='link'><a href="j.htm" class="m-item">j</a></td>
+     <td class='label'>Julian</td>
+     <td>
+      The Julian Calendar.
+     </td>
+    </tr>
+-->
+    <tr>
+     <td class='link'><a href="jb.htm" class="m-item">jb</a></td>
+     <td class='label'>Julian Base</td>
+     <td>
+      A simplified version of the Julian Calendar.
+     </td>
+    </tr>
+<!--
+    <tr>
+     <td class='link'><a href="j-1225.htm" class="m-item">j-1225</a></td>
+     <td class='label'>Julian Nativity</td>
+     <td>
+      Julian calendar with the year change on the 25th December.
+     </td>
+    </tr>
+    <tr>
+     <td class='link'><a href="j325.htm" class="m-item">j325</a></td>
+     <td class='label'>Julian Annunciation</td>
+     <td>
+      Julian calendar with the year change on the 25th March. (Calculus Florentinus.)
+     </td>
+    </tr>
+    <tr>
+     <td class='link'><a href="j-325.htm" class="m-item">j-325</a></td>
+     <td class='label'>Julian Preceding Annunciation</td>
+     <td>
+      Julian calendar with the year change on the proceding 25th March. (Calculus Pisanus.)
+     </td>
+    </tr>
+-->
+
+    <tr id='Week' class='head'>
+     <td colspan='3'><b>Weekly</b></td>
+    </tr>
+<!--
+    <tr>
+     <td class='link'><a href="w.htm" class="m-item">w</a></td>
+     <td class='label'>Weekly</td>
+     <td>
+      The Week Count Calendar.
+     </td>
+    </tr>
+-->
+
+   </tbody>
+  </table>
+  <br />
+</div>
+
+<hr />
+<div id='valid'>
+  <p>
+    <a href="http://validator.w3.org/check?uri=referer"><img
+        src="../sys/valid-xhtml10.png"
+        alt="Valid XHTML 1.0 Strict" height="31" width="88" /></a>
+  </p>
+</div>
+
+<div id='create-date'><p> 23<sup>rd</sup> August 2013</p></div>
+
+</div>
+
+</body>
+</html>

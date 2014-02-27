@@ -1,0 +1,60 @@
+HistoryCal build system.
+~~~~~~~~~~~~~~~~~~~~~~
+
+The build system is created using the Bakefile 0.2.9 program.
+
+I should point out that I have little experience in with either the Mac OSX or
+the Gnu/Linux systems. This is more of a "How I did it" than a "How to"
+document. If you can improve on it, please do.
+
+The following assume you have the HistoryCal files in a directory called hcal.
+
+Windows Build
+~~~~~~~~~~~~~
+
+The HistoryCal program together with the libraries and test programs can be
+built using the MS Visual C++ 2008 express IDE with the files provided in
+the folder hcal\build\vc9. Later versions of MS Visual C++ should work
+by updating these files. If anyone would prefer to use the command line
+and nmake, please let me know and I will provide a suitable makefile.
+
+1) Download and install wxWidgets version 3.0.0.
+   Ensure the environment variable WXWIN is set to the wxWidgets root folder.
+
+2) To compile the test program, download and install the CppUnit framework.
+   Set the environment variable CPPUNIT to the library folder.
+
+3) To start the IDE, open the hcal\build\vc9 folder and double click the
+   hcal.sln file.
+
+
+Gnu/Linux Build
+~~~~~~~~~~~~~~~
+
+These instructions worked for me on Mint 14 MATE 64-bit
+
+1) Install build tools
+    sudo apt-get install build-essential libgtk2.0-dev
+
+2) Download the wxWidgets source file with Unix line endings and unpack it.
+   From within a terminal, navigate to wxWidgets root directory:-
+    mkdir gtk-build
+    cd gtk-build
+    ../configure --disable-shared
+    make
+    sudo make install
+
+3) Also from within a terminal, navigate to the hcal/build/gnu directory.
+    make
+    export LD_LIBRARY_PATH=./
+    ./hcal
+   should run the HistoryCal application.
+
+   I have been unable to compile and link the CppUnit test program yet - any
+   help with this would be appreciated.
+
+
+Mac/OSX Build
+~~~~~~~~~~~~~
+
+Still to do.
