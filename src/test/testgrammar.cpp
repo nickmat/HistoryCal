@@ -143,4 +143,4 @@ void TestGrammar::testSchemeOutput()
     CPPUNIT_ASSERT_EQUAL( 1, output.current );
 }
 
-// End of src/test/testvocab.cpp file
+// End of src/test/testgrammar.cpp file
