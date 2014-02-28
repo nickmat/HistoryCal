@@ -49,7 +49,7 @@ const char* Cal::cal_default_script =
     " format pref @(3:Day) @(2:Month:m1) @(1:Year);"
     " format @(3:Day) @(2:Month:m2) @(1:Year);"
     " format @(2:Month:m1) @(3:Day), @(1:Year);"
-    " format @(3:Year)@:(2:Month)@:(3:Day);"
+    " format @(1:Year)@:(2:Month)@:(3:Day);"
     "};\n"
 
     "scheme jb {name Julian Base; base julian; grammar j;};\n"
