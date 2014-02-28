@@ -85,6 +85,7 @@
     <app-type>console</app-type>
     <runtime-libs>dynamic</runtime-libs>
 
+    <sources>$(LOCAL_SRC)/test/def_g.cpp</sources>
     <sources>$(LOCAL_SRC)/test/testcal.cpp</sources>
     <sources>$(LOCAL_SRC)/test/testcommon.cpp</sources>
     <sources>$(LOCAL_SRC)/test/testgrammar.cpp</sources>
