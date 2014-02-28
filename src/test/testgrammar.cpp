@@ -37,6 +37,7 @@ class TestGrammar : public CPPUNIT_NS::TestFixture
 {
     CPPUNIT_TEST_SUITE( TestGrammar );
     CPPUNIT_TEST( testScript );
+    CPPUNIT_TEST( testSchemeInput );
     CPPUNIT_TEST_SUITE_END();
 
     Cal::Calendars* m_cal;
@@ -47,6 +48,7 @@ public:
     void tearDown();
 
     void testScript();
+    void testSchemeInput();
 };
 
 // Registers the fixture into the 'registry'
@@ -105,6 +107,21 @@ void TestGrammar::testScript()
         CPPUNIT_ASSERT( str != "" );
         CPPUNIT_ASSERT_EQUAL( str, info.vocab_names[i] );
     }
+}
+
+void TestGrammar::testSchemeInput()
+{
+    Scheme_input input;
+    m_cal->get_scheme_input( &input, m_sid );
+    string str = "year month day";
+    CPPUNIT_ASSERT_EQUAL( str, input.orders[0] );
+    str = "Day Month Year";
+    CPPUNIT_ASSERT_EQUAL( str, input.orders[1] );
+    str = "Month Day Year";
+    CPPUNIT_ASSERT_EQUAL( str, input.orders[2] );
+    str = "Year Month Day";
+    CPPUNIT_ASSERT_EQUAL( str, input.orders[3] );
+    CPPUNIT_ASSERT_EQUAL( 1, input.current );
 }
 
 // End of src/test/testvocab.cpp file
