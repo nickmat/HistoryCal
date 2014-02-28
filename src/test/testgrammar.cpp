@@ -38,6 +38,7 @@ class TestGrammar : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE( TestGrammar );
     CPPUNIT_TEST( testScript );
     CPPUNIT_TEST( testSchemeInput );
+    CPPUNIT_TEST( testSchemeOutput );
     CPPUNIT_TEST_SUITE_END();
 
     Cal::Calendars* m_cal;
@@ -49,6 +50,7 @@ public:
 
     void testScript();
     void testSchemeInput();
+    void testSchemeOutput();
 };
 
 // Registers the fixture into the 'registry'
@@ -64,7 +66,7 @@ void TestGrammar::setUp()
         " tokens {1 Jan; 2 Feb; 3 Mar; 4 Apr; 5 May; 6 Jun;"
         " 7 Jul; 8 Aug; 9 Sep; 10 Oct; 11 Nov; 12 Dec;};"
         "};\n"
-        "vocab m2 {name Full Month names; style full; lang en; field Month;"
+        "vocab m2 {name Full Month names; style full; lang en; field FullMonth;"
         " tokens {1 January; 2 Febuary; 3 March; 4 April; 5 May; 6 June;"
         " 7 July; 8 August; 9 September; 10 October; 11 November; 12 December;};"
         "};\n"
@@ -122,6 +124,23 @@ void TestGrammar::testSchemeInput()
     str = "Year Month Day";
     CPPUNIT_ASSERT_EQUAL( str, input.orders[3] );
     CPPUNIT_ASSERT_EQUAL( 1, input.current );
+}
+
+void TestGrammar::testSchemeOutput()
+{
+    Scheme_output output;
+    m_cal->get_scheme_output( &output, m_sid );
+    string str = "year month day";
+    CPPUNIT_ASSERT_EQUAL( str, output.formats[0] );
+    str = "Day Mon Year";
+    CPPUNIT_ASSERT_EQUAL( str, output.formats[1] );
+    str = "Day FullMonth Year";
+    CPPUNIT_ASSERT_EQUAL( str, output.formats[2] );
+    str = "Mon Day, Year";
+    CPPUNIT_ASSERT_EQUAL( str, output.formats[3] );
+    str = "Year:Month:Day";
+    CPPUNIT_ASSERT_EQUAL( str, output.formats[4] );
+    CPPUNIT_ASSERT_EQUAL( 1, output.current );
 }
 
 // End of src/test/testvocab.cpp file
