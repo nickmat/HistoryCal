@@ -221,6 +221,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\test\testgrammar.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\test\testgregorian.cpp"
 				>
 			</File>

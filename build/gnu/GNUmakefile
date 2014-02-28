@@ -75,6 +75,7 @@ TESTS_CXXFLAGS = $(VAR) $(VAR_5) -I../../include -I$(CPPUNIT)/include \
 TESTS_OBJECTS =  \
 	tests_testcal.o \
 	tests_testcommon.o \
+	tests_testgrammar.o \
 	tests_testgregorian.o \
 	tests_testj325.o \
 	tests_testjulian.o \
@@ -198,6 +199,9 @@ tests_testcal.o: ./../../src/test/testcal.cpp
 	$(CXX) -c -o $@ $(TESTS_CXXFLAGS) $(CPPDEPS) $<
 
 tests_testcommon.o: ./../../src/test/testcommon.cpp
+	$(CXX) -c -o $@ $(TESTS_CXXFLAGS) $(CPPDEPS) $<
+
+tests_testgrammar.o: ./../../src/test/testgrammar.cpp
 	$(CXX) -c -o $@ $(TESTS_CXXFLAGS) $(CPPDEPS) $<
 
 tests_testgregorian.o: ./../../src/test/testgregorian.cpp

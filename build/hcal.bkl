@@ -87,6 +87,7 @@
 
     <sources>$(LOCAL_SRC)/test/testcal.cpp</sources>
     <sources>$(LOCAL_SRC)/test/testcommon.cpp</sources>
+    <sources>$(LOCAL_SRC)/test/testgrammar.cpp</sources>
     <sources>$(LOCAL_SRC)/test/testgregorian.cpp</sources>
     <sources>$(LOCAL_SRC)/test/testj325.cpp</sources>
     <sources>$(LOCAL_SRC)/test/testjulian.cpp</sources>
