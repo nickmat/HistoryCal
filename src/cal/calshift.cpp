@@ -90,7 +90,7 @@ Field Shift::get_extended_field( const Field jdn, size_t index ) const
         Record rec( m_base, jdn );
         return rec.get_field( 0 );
     }
-    return f_invalid;
+    return m_base->get_extended_field( jdn, index );
 }
 
 bool Shift::check_usable( const Field* fields ) const

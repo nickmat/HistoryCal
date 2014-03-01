@@ -153,6 +153,10 @@ void TestDef_g::testCreation()
             str = "Short Month names";
         } else if( info.vocab_codes[i] == "m2" ) {
             str = "Full Month names";
+        } else if( info.vocab_codes[i] == "w1" ) {
+            str = "Short Weekday names";
+        } else if( info.vocab_codes[i] == "w2" ) {
+            str = "Full Weekday names";
         }
         CPPUNIT_ASSERT( str != "" );
         CPPUNIT_ASSERT_EQUAL( str, info.vocab_names[i] );

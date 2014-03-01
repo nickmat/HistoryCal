@@ -42,12 +42,20 @@ const char* Cal::cal_default_script =
     " tokens {1 January; 2 Febuary; 3 March; 4 April; 5 May; 6 June;"
     " 7 July; 8 August; 9 September; 10 October; 11 November; 12 December;};};\n"
 
+    "vocab w1 {name Short Weekday names; style abrev; lang en; field WDay;"
+    " tokens {1 Mon; 2 Tue; 3 Wed; 4 Thur; 5 Fri; 6 Sat; 7 Sun;};};\n"
+    "vocab w2 {name Full Weekday names; style full; lang en; field Weekday;"
+    " tokens {1 Monday; 2 Tuesday; 3 Wednesday;"
+    " 4 Thursday; 5 Friday; 6 Saturday; 7 Sunday;};};\n"
+
     "grammar j {"
-    " alias field { Day day; Month month; Year year; };"
+    " alias field { WDay wday; Day day; Month month; Year year; };"
     " alias unit { d day; m month; y year; w week; };"
-    " vocabs m2 m1;"
+    " vocabs m2 m1 w1 w2;"
     " format pref @(3:Day) @(2:Month:m1) @(1:Year);"
+    " format @(4:WDay:w1) @(3:Day) @(2:Month:m1) @(1:Year);"
     " format @(3:Day) @(2:Month:m2) @(1:Year);"
+    " format @(4:WDay:w2) @(3:Day) @(2:Month:m2) @(1:Year);"
     " format @(2:Month:m1) @(3:Day), @(1:Year);"
     " format @(1:Year)@:(2:Month)@:(3:Day);"
     "};\n"
@@ -64,12 +72,6 @@ const char* Cal::cal_default_script =
     "};\n"
 
     "scheme j325 {name Julian Lady Day; shift jb 1721142; grammar j.sh;};\n"
-
-    "vocab w1 {name Short Weekday names; style abrev; lang en; field WDay;"
-    " tokens {1 Mon; 2 Tue; 3 Wed; 4 Thur; 5 Fri; 6 Sat; 7 Sun;};};\n"
-    "vocab w2 {name Full Weekday names; style full; lang en; field Weekday;"
-    " tokens {1 Monday; 2 Tuesday; 3 Wednesday;"
-    " 4 Thursday; 5 Friday; 6 Saturday; 7 Sunday;};};\n"
 
     "grammar w {"
     " alias field { Weekday day; Week-Number count; };"

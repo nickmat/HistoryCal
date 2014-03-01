@@ -37,13 +37,14 @@ namespace Cal {
     class Base
     {
     public:
+        enum ExtendedFieldNumber { EFN_wday, EFN_COUNT };
         Base();
         virtual ~Base() {}
 
         // Return the maximum number of Fields required by the Record.
         virtual size_t record_size() const = 0;
         // Return the number of extended (read-only) Fields available.
-        virtual size_t extended_size() const { return record_size(); }
+        virtual size_t extended_size() const { return record_size() + EFN_COUNT; }
 
         // Returns the index to the named Record field, or -1 if not found.
         virtual int get_fieldname_index( const std::string& fieldname ) const;
@@ -53,7 +54,7 @@ namespace Cal {
         virtual Field get_jdn( const Field* fields ) const = 0;
 
         // Get an extended field value
-        virtual Field get_extended_field( const Field jdn, size_t index ) const { return f_invalid; }
+        virtual Field get_extended_field( const Field jdn, size_t index ) const;
 
         virtual bool check_usable( const Field* fields ) const;
 
@@ -125,6 +126,10 @@ namespace Cal {
         // return pos value if first comes before second, or neg if reversed
         // return f_invalid if an invalid field is encountered
         Field compare_except( const Field* first, const Field* second, size_t except = 0 ) const;
+
+    protected:
+        int get_extended_fieldname_index( const std::string& fieldname ) const;
+        std::string get_extended_fieldname( size_t index ) const;
 
     private:
         std::string create_default_order();

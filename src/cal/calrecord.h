@@ -75,7 +75,8 @@ namespace Cal {
         bool normalise( Norm norm );
         double get_average_days( Unit unit ) const;
 
-        Field get_field( size_t index ) const { return m_f[index]; }
+//        Field get_field( size_t index ) const { return m_f[index]; }
+        Field get_field( int index ) const;
         void set_field( Field value, size_t index ) { m_f[index] = value; }
 
     private:

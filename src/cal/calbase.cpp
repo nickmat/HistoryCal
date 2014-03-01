@@ -49,7 +49,7 @@ int Base::get_fieldname_index( const string& fieldname ) const
     } else if( fieldname == "day" ) {
         return 2;
     }
-    return -1;
+    return get_extended_fieldname_index( fieldname );
 }
 
 string Base::get_fieldname( size_t index ) const
@@ -58,7 +58,15 @@ string Base::get_fieldname( size_t index ) const
     if( index < 3 ) {
         return fnames[index];
     }
-    return "";
+    return get_extended_fieldname( index );
+}
+
+Field Base::get_extended_field( const Field jdn, size_t index ) const
+{
+    if( index == record_size() + EFN_wday && jdn != f_invalid ) {
+        return ( jdn % 7 ) + 1;
+    }
+    return f_invalid;
 }
 
 bool Base::check_usable( const Field* fields ) const
@@ -343,6 +351,22 @@ Field Base::compare_except( const Field* first, const Field* second, size_t exce
         }
     }
     return 0;
+}
+
+int Base::get_extended_fieldname_index( const string& fieldname ) const
+{
+    if( fieldname == "wday" ) {
+        return record_size() + EFN_wday;
+    }
+    return -1;
+}
+
+string Base::get_extended_fieldname( size_t index ) const
+{
+    if( index == record_size() + EFN_wday ) {
+        return "wday";
+    }
+    return "";
 }
 
 string Base::create_default_order()

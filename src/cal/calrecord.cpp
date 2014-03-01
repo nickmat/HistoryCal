@@ -63,7 +63,7 @@ Record::Record( Base* base, const string& str )
 void Record::set_str( const string& str )
 {
     clear_fields();
-    FieldVec f(m_base->record_size());
+    FieldVec f(m_base->extended_size());
     int cnt = parse_date( &f[0], f.size(), str );
     if( cnt < 1 ) {
         return; // Error parsing date
@@ -71,8 +71,13 @@ void Record::set_str( const string& str )
     XRefVec xref = m_base->get_xref_order( cnt );
     if( xref.size() ) {
         for( int i = 0 ; i < cnt ; i++ ) {
-            m_f[xref[i]] = f[i];
+            int x = xref[i];
+            if( x >= 0 && x < m_base->record_size() ) {
+                m_f[x] = f[i];
+            }
         }
+        // TODO: Test for any extended field values
+        // and ensure they are valid.
         m_jdn = get_jdn();
     } else {
         set_fields( &f[0], cnt );
@@ -321,30 +326,39 @@ int Record::parse_date( Field* fields, size_t size, const string& str )
     return i;
 }
 
-string Record::value_from_field( int index ) const
+Field Record::get_field( int index ) const
 {
     if( index >= 0 ) {
         if( index < (int) m_base->record_size() ) {
-            return field_to_str( m_f[index] );
+            return m_f[index];
         }
         if( index < (int) m_base->extended_size() ) {
-            Field f = m_base->get_extended_field( m_jdn, index );
-            return field_to_str( f );
+            return m_base->get_extended_field( m_jdn, index );
         }
     }
-    return "";
+    return f_invalid;
+}
+
+string Record::value_from_field( int index ) const
+{
+    Field f = get_field( index );
+    if( f == f_invalid ) {
+        return "";
+    }
+    return field_to_str( f );
 }
 
 string Record::lookup_token( int index, int dual, const string& vcode ) const
 {
     string result;
     if( dual < 0 ) {
-        if( index >= 0 && index < (int) m_base->record_size() ) {
+        if( index >= 0 ) {
+            Field f = get_field( index );
             if( vcode.size() ) {
-                result = m_base->lookup_token( m_f[index], vcode );
+                result = m_base->lookup_token( f, vcode );
             }
             if( result.empty() ) {
-                result = value_from_field( index );
+                result = field_to_str( f );
             }
         }
     } else {
