@@ -39,6 +39,7 @@ class TestDef_g : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST( testCreation );
     CPPUNIT_TEST( testStrTableInput );
     CPPUNIT_TEST( testStrTableOutput );
+    CPPUNIT_TEST( testRangeShorthand );
     CPPUNIT_TEST_SUITE_END();
 
     Cal::Calendars* m_cal;
@@ -54,6 +55,7 @@ public:
     void testCreation();
     void testStrTableInput();
     void testStrTableOutput();
+    void testRangeShorthand();
 };
 
 // Registers the fixture into the 'registry'
@@ -190,6 +192,32 @@ void TestDef_g::testStrTableOutput()
         string str = m_cal->jdn_to_str( m_sid, testJdnValues[i] );
         string tbl = test_strs[i][1];
         CPPUNIT_ASSERT_EQUAL( tbl, str );
+    }
+}
+
+void TestDef_g::testRangeShorthand()
+{
+    struct data { string in; string out; } t[] = {
+        { "19sep1948", "19 Sep 1948" },
+        { "sep1948", "Sep 1948" },
+        { "1948", "1948" },
+        { "1feb1948 ~ 29feb1948", "Feb 1948" },
+        { "1jan1948 ~ 31dec1948", "1948" },
+        { "1948 ~ sep1948", "Jan 1948 ~ Sep 1948" },
+        { "1948~19sep1948", "1 Jan 1948 ~ 19 Sep 1948" },
+        { "19sep1948~1948", "19 Sep 1948 ~ 31 Dec 1948" },
+        { "19 ? 1948", invalid }
+    };
+    size_t count = sizeof(t) / sizeof(data);
+
+    bool set = setInputOrder( "Day Month Year" );
+    CPPUNIT_ASSERT( set == true );
+    set = setOutputFormat( "Day Mon Year" );
+    CPPUNIT_ASSERT( set == true );
+    for( size_t i = 0 ; i < count ; i++ ) {
+        RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in );
+        string str = m_cal->rangelist_to_str( m_sid, rl );
+        CPPUNIT_ASSERT_EQUAL( t[i].out, str );
     }
 }
 

@@ -120,6 +120,9 @@ bool Julian::set_fields_as_begin_first( Field* fields, const Field* mask )
     if( mask[0] == f_invalid ) {
         return false; // Must have at least year
     }
+    if( mask[1] == f_invalid && mask[2] != f_invalid ) {
+        return false; // Can't handle date lists
+    }
     fields[0] = mask[0];
     fields[1] = ( mask[1] == f_invalid ) ? 1 : mask[1];
     fields[2] = ( mask[2] == f_invalid ) ? 1 : mask[2];
@@ -135,6 +138,9 @@ bool Julian::set_fields_as_begin_last( Field* fields, const Field* mask )
 {
     if( mask[0] == f_invalid ) {
         return false; // Must have at least year
+    }
+    if( mask[1] == f_invalid && mask[2] != f_invalid ) {
+        return false; // Can't handle date lists
     }
     fields[0] = mask[0];
     fields[1] = ( mask[1] == f_invalid ) ? 12 : mask[1];
