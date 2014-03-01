@@ -73,24 +73,6 @@ const char* Cal::cal_default_script =
 
     "scheme j325 {name Julian Lady Day; shift jb 1721142; grammar j.sh;};\n"
 
-    "grammar w {"
-    " alias field { Weekday day; Week-Number count; };"
-    " vocabs w2 w1;"
-    " format @(2:Weekday:w1) @(1:Week-Number);"
-    " format pref @(2:Weekday:w2) @(1:Week-Number);"
-    "};\n"
-
-    "scheme wb {name Weekly Base; cyclic; grammar w;};\n"
-
-    "grammar g+w {"
-    " alias field { Weekday wb.day; Day g.day; Month g.month; Year g.year; };"
-    " vocabs m2 m1 w2 w1;"
-    " format pref @(4:Weekday:w1) @(3:Day) @(2:Month:m1) @(1:Year);"
-    " format @(4:Weekday:w2) @(3:Day) @(2:Month:m2) @(1:Year);"
-    "};\n"
-
-    "scheme g+w {name Gregorian plus week; multi g wb; grammar g+w;};\n"
-
     "scheme eng1 {name English Hybrid;" 
     " hybrid {fields s.year year month day;"
     " scheme j325;"

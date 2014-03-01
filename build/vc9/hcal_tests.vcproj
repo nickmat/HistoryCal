@@ -248,10 +248,6 @@
 				RelativePath="..\..\src\test\testvocab.cpp"
 				>
 			</File>
-			<File
-				RelativePath="..\..\src\test\testweekly.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"

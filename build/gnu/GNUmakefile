@@ -81,14 +81,12 @@ TESTS_OBJECTS =  \
 	tests_testj325.o \
 	tests_testjulian.o \
 	tests_testmain.o \
-	tests_testvocab.o \
-	tests_testweekly.o
+	tests_testvocab.o
 CAL_CXXFLAGS = $(VAR) $(VAR_5) -DMAKINGLIB_CAL -I../../include -fPIC -DPIC \
 	$(CPPFLAGS) $(CXXFLAGS)
 CAL_OBJECTS =  \
 	cal_calbase.o \
 	cal_calcalendars.o \
-	cal_calcyclic.o \
 	cal_calera.o \
 	cal_calformat.o \
 	cal_calgrammar.o \
@@ -97,7 +95,6 @@ CAL_OBJECTS =  \
 	cal_caljdn.o \
 	cal_caljulian.o \
 	cal_calmath.o \
-	cal_calmulti.o \
 	cal_calparse.o \
 	cal_calrecord.o \
 	cal_calscheme.o \
@@ -223,16 +220,10 @@ tests_testmain.o: ./../../src/test/testmain.cpp
 tests_testvocab.o: ./../../src/test/testvocab.cpp
 	$(CXX) -c -o $@ $(TESTS_CXXFLAGS) $(CPPDEPS) $<
 
-tests_testweekly.o: ./../../src/test/testweekly.cpp
-	$(CXX) -c -o $@ $(TESTS_CXXFLAGS) $(CPPDEPS) $<
-
 cal_calbase.o: ./../../src/cal/calbase.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calcalendars.o: ./../../src/cal/calcalendars.cpp
-	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
-
-cal_calcyclic.o: ./../../src/cal/calcyclic.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calera.o: ./../../src/cal/calera.cpp
@@ -257,9 +248,6 @@ cal_caljulian.o: ./../../src/cal/caljulian.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calmath.o: ./../../src/cal/calmath.cpp
-	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
-
-cal_calmulti.o: ./../../src/cal/calmulti.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calparse.o: ./../../src/cal/calparse.cpp

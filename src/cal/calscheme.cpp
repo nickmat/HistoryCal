@@ -28,7 +28,6 @@
 #include "calscheme.h"
 
 #include "calbase.h"
-#include "calcyclic.h"
 #include "calera.h"
 #include "calgrammar.h"
 #include "calgregorian.h"
@@ -36,7 +35,6 @@
 #include "caljdn.h"
 #include "caljulian.h"
 #include "calmath.h"
-#include "calmulti.h"
 #include "calparse.h"
 #include "calrecord.h"
 #include "calschemes.h"
@@ -67,14 +65,10 @@ Scheme::Scheme( Schemes* schemes, const string& definition )
             } else {
                 assert( false ); // Shouldn't be here
             }
-        } else if( statement == "cyclic" ) {
-            m_base = new Cyclic( body );
         } else if( statement == "shift" ) {
             m_base = new Shift( schemes, body );
         } else if( statement == "hybrid" ) {
             m_base = new Hybrid( schemes, body );
-        } else if( statement == "multi" ) {
-            m_base = new Multi( schemes, body );
         } else if( statement == "era" ) {
             m_base = new Era( schemes, body );
         } else if( statement == "grammar" ) {

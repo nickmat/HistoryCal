@@ -215,10 +215,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\cal\calcyclic.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\cal\calera.cpp"
 				>
 			</File>
@@ -248,10 +244,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\cal\calmath.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\cal\calmulti.cpp"
 				>
 			</File>
 			<File
@@ -297,10 +289,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\cal\calcyclic.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\include\cal\caldefs.h"
 				>
 			</File>
@@ -338,10 +326,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\cal\calmath.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\cal\calmulti.h"
 				>
 			</File>
 			<File

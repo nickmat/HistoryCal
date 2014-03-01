@@ -94,7 +94,6 @@
     <sources>$(LOCAL_SRC)/test/testjulian.cpp</sources>
     <sources>$(LOCAL_SRC)/test/testmain.cpp</sources>
     <sources>$(LOCAL_SRC)/test/testvocab.cpp</sources>
-    <sources>$(LOCAL_SRC)/test/testweekly.cpp</sources>
 
     <headers>$(LOCAL_SRC)/test/testcommon.h</headers>
 
@@ -116,7 +115,6 @@
 
     <sources>$(LOCAL_SRC)/cal/calbase.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calcalendars.cpp</sources>
-    <sources>$(LOCAL_SRC)/cal/calcyclic.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calera.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calformat.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calgrammar.cpp</sources>
@@ -125,7 +123,6 @@
     <sources>$(LOCAL_SRC)/cal/caljdn.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/caljulian.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calmath.cpp</sources>
-    <sources>$(LOCAL_SRC)/cal/calmulti.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calparse.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calrecord.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calscheme.cpp</sources>
@@ -139,7 +136,6 @@
     <headers>$(LOCAL_INC)/cal/calendars.h</headers>
 
     <headers>$(LOCAL_SRC)/cal/calbase.h</headers>
-    <headers>$(LOCAL_SRC)/cal/calcyclic.h</headers>
     <headers>$(LOCAL_SRC)/cal/calera.h</headers>
     <headers>$(LOCAL_SRC)/cal/calformat.h</headers>
     <headers>$(LOCAL_SRC)/cal/calgrammar.h</headers>
@@ -148,7 +144,6 @@
     <headers>$(LOCAL_SRC)/cal/caljdn.h</headers>
     <headers>$(LOCAL_SRC)/cal/caljulian.h</headers>
     <headers>$(LOCAL_SRC)/cal/calmath.h</headers>
-    <headers>$(LOCAL_SRC)/cal/calmulti.h</headers>
     <headers>$(LOCAL_SRC)/cal/calparse.h</headers>
     <headers>$(LOCAL_SRC)/cal/calrecord.h</headers>
     <headers>$(LOCAL_SRC)/cal/calscheme.h</headers>
