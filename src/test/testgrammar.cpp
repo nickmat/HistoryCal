@@ -129,38 +129,34 @@ void TestGrammar::testSchemeInput()
 {
     Scheme_input input;
     m_cal->get_scheme_input( &input, m_sid );
-    string str = "year month day";
+    string str = "Day Month Year";
     CPPUNIT_ASSERT_EQUAL( str, input.orders[0] );
-    str = "Day Month Year";
-    CPPUNIT_ASSERT_EQUAL( str, input.orders[1] );
     str = "WDay Day Month Year";
-    CPPUNIT_ASSERT_EQUAL( str, input.orders[2] );
+    CPPUNIT_ASSERT_EQUAL( str, input.orders[1] );
     str = "Month Day Year";
-    CPPUNIT_ASSERT_EQUAL( str, input.orders[3] );
+    CPPUNIT_ASSERT_EQUAL( str, input.orders[2] );
     str = "Year Month Day";
-    CPPUNIT_ASSERT_EQUAL( str, input.orders[4] );
-    CPPUNIT_ASSERT_EQUAL( 1, input.current );
+    CPPUNIT_ASSERT_EQUAL( str, input.orders[3] );
+    CPPUNIT_ASSERT_EQUAL( 0, input.current );
 }
 
 void TestGrammar::testSchemeOutput()
 {
     Scheme_output output;
     m_cal->get_scheme_output( &output, m_sid );
-    string str = "year month day";
+    string str = "dd Mon yyyy";
     CPPUNIT_ASSERT_EQUAL( str, output.formats[0] );
-    str = "dd Mon yyyy";
-    CPPUNIT_ASSERT_EQUAL( str, output.formats[1] );
     str = "WDay dd Mon yyyy";
-    CPPUNIT_ASSERT_EQUAL( str, output.formats[2] );
+    CPPUNIT_ASSERT_EQUAL( str, output.formats[1] );
     str = "dd Month yyyy";
-    CPPUNIT_ASSERT_EQUAL( str, output.formats[3] );
+    CPPUNIT_ASSERT_EQUAL( str, output.formats[2] );
     str = "Weekday dd Month yyyy";
-    CPPUNIT_ASSERT_EQUAL( str, output.formats[4] );
+    CPPUNIT_ASSERT_EQUAL( str, output.formats[3] );
     str = "Mon dd, yyyy";
-    CPPUNIT_ASSERT_EQUAL( str, output.formats[5] );
+    CPPUNIT_ASSERT_EQUAL( str, output.formats[4] );
     str = "yyyy:mm:dd";
-    CPPUNIT_ASSERT_EQUAL( str, output.formats[6] );
-    CPPUNIT_ASSERT_EQUAL( 1, output.current );
+    CPPUNIT_ASSERT_EQUAL( str, output.formats[5] );
+    CPPUNIT_ASSERT_EQUAL( 0, output.current );
 }
 
 // End of src/test/testgrammar.cpp file

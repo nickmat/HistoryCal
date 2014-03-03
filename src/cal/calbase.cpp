@@ -214,18 +214,18 @@ string Base::get_alias_fieldname( const string& alias ) const
 StringVec Base::get_orders()
 {
     StringVec orders;
-    size_t size = m_grammar ? m_grammar->order_size() + 1 : 1;
     string order;
-    for( size_t i = 0 ; i < size ; i++ ) {
-        if( i == 0 ) {
-            order = create_default_order();
-        } else {
-            order = m_grammar->order( i-1 );
+    if( m_grammar && m_grammar->order_size() ) {
+        for( size_t i = 0 ; i < m_grammar->order_size() ; i++ ) {
+            order = m_grammar->order( i );
+            size_t pos = order.find( " |" );
+            if( pos != string::npos ) {
+                order = order.substr( 0, pos );
+            }
+            orders.push_back( order );
         }
-        size_t pos = order.find( " |" );
-        if( pos != string::npos ) {
-            order = order.substr( 0, pos );
-        }
+    } else {
+        order = create_default_order();
         orders.push_back( order );
     }
     return orders;
@@ -234,16 +234,16 @@ StringVec Base::get_orders()
 StringVec Base::get_formats()
 {
     StringVec formats;
-    size_t size = m_grammar ? m_grammar->format_size() + 1 : 1;
-    Format deffmt( create_default_format() );
     Format* fmt;
-    for( size_t i = 0 ; i < size ; i++ ) {
-        if( i == 0 ) {
-            fmt = &deffmt;
-        } else {
-            fmt = m_grammar->get_format( i-1 );
+    if( m_grammar && m_grammar->format_size() ) {
+        for( size_t i = 0 ; i < m_grammar->format_size() ; i++ ) {
+            fmt = m_grammar->get_format( i );
+            string format = fmt->get_user_format( m_grammar );
+            formats.push_back( format );
         }
-        string format = fmt->get_user_format( m_grammar );
+    } else {
+        Format deffmt( create_default_format() );
+        string format = deffmt.get_user_format( m_grammar );
         formats.push_back( format );
     }
     return formats;
@@ -251,28 +251,28 @@ StringVec Base::get_formats()
 
 string Base::get_format()
 {
-    if( m_current_format == 0 || m_grammar == NULL ) {
-        return create_default_format();
+    if( m_grammar && m_grammar->format_size() ) {
+        return m_grammar->format( m_current_format );
     }
-    return m_grammar->format( m_current_format - 1 );
+    return create_default_format();
 }
 
 void Base::set_grammar( Grammar* grammar )
 {
     m_grammar = grammar;
-    set_current_order( grammar->get_pref_order() + 1 );
-    m_current_format = grammar->get_pref_format() + 1;
+    set_current_order( grammar->get_pref_order() );
+    m_current_format = grammar->get_pref_format();
 }
 
 void Base::set_current_order( int index )
 {
     string order;
-    if( index < 1 || m_grammar == NULL || index > (int) m_grammar->order_size() ) {
+    if( m_grammar && m_grammar->order_size() ) {
+        m_current_order = index;
+        order = m_grammar->order( index );
+    } else {
         m_current_order = 0;
         order = create_default_order();
-    } else {
-        m_current_order = index;
-        order = m_grammar->order( index - 1 );
     }
     m_xref_order.clear();
     XRefVec xref;
