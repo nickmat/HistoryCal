@@ -52,7 +52,7 @@ using namespace Cal;
  *
  *  Create the window Icon.
  */
-HcFrame::HcFrame( 
+HcFrame::HcFrame(
     const wxString& title, const wxPoint& pos, const wxSize& size, long style )
     : m_cal(Init_schemes_default), m_from(2), m_to(2),
     hcFbFrame( (wxFrame*) NULL, wxID_ANY, title, pos, size, style )
@@ -149,6 +149,13 @@ void HcFrame::OnSelectToken( wxCommandEvent& event )
     (*m_textInput) << m_comboBoxToken->GetValue();
 }
 
+void HcFrame::OnCheckTextFull( wxCommandEvent& event )
+{
+    Scheme_info info;
+    m_cal.get_scheme_info( &info, m_from );
+    UpdateTextTokens( &info );
+}
+
 void HcFrame::OnInputEnter( wxCommandEvent& event )
 {
     CalculateOutput();
@@ -208,10 +215,14 @@ void HcFrame::UpdateTextTokens( Scheme_info* sinfo )
         string code = sinfo->vocab_codes[sel];
         m_cal.get_vocab_info( &vinfo, code );
     }
-    for( size_t i = 0 ; i < vinfo.tokens.size() ; i++ ) {
-        m_comboBoxToken->Append( vinfo.tokens[i] );
+    for( size_t i = 0 ; i < vinfo.words.size() ; i++ ) {
+        if( m_checkTextFull->GetValue() ) {
+            m_comboBoxToken->Append( vinfo.words[i] );
+        } else {
+            m_comboBoxToken->Append( vinfo.abbrevs[i] );
+        }
     }
-    if( vinfo.tokens.empty() ) {
+    if( vinfo.words.empty() ) {
         m_comboBoxToken->Append( "<None>" );
     }
     m_comboBoxToken->SetSelection( 0 );

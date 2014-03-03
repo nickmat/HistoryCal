@@ -149,14 +149,10 @@ void TestDef_g::testCreation()
     CPPUNIT_ASSERT( info.vocab_codes.size() == info.vocab_names.size() );
     for( size_t i = 0 ; i < info.vocab_codes.size() ; i++ ) {
         str = "";
-        if( info.vocab_codes[i] == "m1" ) {
-            str = "Short Month names";
-        } else if( info.vocab_codes[i] == "m2" ) {
-            str = "Full Month names";
-        } else if( info.vocab_codes[i] == "w1" ) {
-            str = "Short Weekday names";
-        } else if( info.vocab_codes[i] == "w2" ) {
-            str = "Full Weekday names";
+        if( info.vocab_codes[i] == "m" ) {
+            str = "Month names";
+        } else if( info.vocab_codes[i] == "w" ) {
+            str = "Weekday names";
         }
         CPPUNIT_ASSERT( str != "" );
         CPPUNIT_ASSERT_EQUAL( str, info.vocab_names[i] );
@@ -182,7 +178,7 @@ void TestDef_g::testStrTableInput()
 
 void TestDef_g::testStrTableOutput()
 {
-    bool set = setOutputFormat( "Day Mon Year" );
+    bool set = setOutputFormat( "dd Mon yyyy" );
     CPPUNIT_ASSERT( set == true );
     for( size_t i = 0 ; i < MaxSample ; i++ ) {
         string str = m_cal->jdn_to_str( m_sid, testJdnValues[i] );
@@ -190,7 +186,7 @@ void TestDef_g::testStrTableOutput()
         CPPUNIT_ASSERT_EQUAL( tbl, str );
     }
 
-    set = setOutputFormat( "Mon Day, Year" );
+    set = setOutputFormat( "Mon dd, yyyy" );
     CPPUNIT_ASSERT( set == true );
     for( size_t i = 0 ; i < MaxSample ; i++ ) {
         string str = m_cal->jdn_to_str( m_sid, testJdnValues[i] );
@@ -216,7 +212,7 @@ void TestDef_g::testRangeShorthand()
 
     bool set = setInputOrder( "Day Month Year" );
     CPPUNIT_ASSERT( set == true );
-    set = setOutputFormat( "Day Mon Year" );
+    set = setOutputFormat( "dd Mon yyyy" );
     CPPUNIT_ASSERT( set == true );
     for( size_t i = 0 ; i < count ; i++ ) {
         RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in );

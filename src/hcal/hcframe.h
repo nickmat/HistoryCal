@@ -52,6 +52,7 @@ private:
 		virtual void OnSelectInputFormat( wxCommandEvent& event );
 		virtual void OnSelectVocab( wxCommandEvent& event );
 		virtual void OnSelectToken( wxCommandEvent& event );
+		virtual void OnCheckTextFull( wxCommandEvent& event );
 		virtual void OnInputEnter( wxCommandEvent& event );
 		virtual void OnButtonConvert( wxCommandEvent& event );
 		virtual void OnSelectOutput( wxCommandEvent& event );

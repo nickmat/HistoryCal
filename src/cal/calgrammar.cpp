@@ -72,6 +72,11 @@ void Grammar::add_alias( const std::string& alias_def )
             alias = get_first_word( statements[i], &body );
             m_field_alias[alias] = body;
         }
+    } else if( alias == "format-number-code" ) {
+        for( size_t i = 0 ; i < statements.size() ; i++ ) {
+            alias = get_first_word( statements[i], &body );
+            m_num_code_alias[alias] = body;
+        }
     } else if( alias == "unit" ) {
         for( size_t i = 0 ; i < statements.size() ; i++ ) {
             alias = get_first_word( statements[i], &body );
@@ -146,6 +151,14 @@ string Grammar::get_field_alias( const string& fname ) const
     return fname;
 }
 
+string Grammar::get_num_code_alias( const string& fname ) const
+{
+    if( m_num_code_alias.count( fname ) > 0 ) {
+        return m_num_code_alias.find( fname )->second;
+    }
+    return fname;
+}
+
 Unit Grammar::get_unit_alias( const string& str ) const
 {
     string key = Utf8api::normal( str );
@@ -198,11 +211,12 @@ Field Grammar::find_token( const std::string& word ) const
     return f_invalid;
 }
 
-string Grammar::lookup_token( Field field, const std::string& vcode ) const
+string Grammar::lookup_token( Field field, const std::string& vcode, bool abbrev ) const
 {
     for( size_t i = 0 ; i < m_vocabs.size() ; i++ ) {
         if( m_vocabs[i]->get_code() == vcode ) {
-            string word = m_vocabs[i]->lookup( field );
+            Vocab::Style style = abbrev ? Vocab::style_abbrev : Vocab::style_full;
+            string word = m_vocabs[i]->lookup( field, style );
             if( word != "" ) {
                 return word;
             }

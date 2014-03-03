@@ -56,9 +56,14 @@ void TestVocab::setUp()
 {
     m_cal = new Calendars;
     m_cal->read_script(
-        "vocab m2 {name Full Month names; style full; lang en; field Month;"
-        " tokens {1 January; 2 Febuary; 3 March; 4 April; 5 May; 6 June;"
-        " 7 July; 8 August; 9 September; 10 October; 11 November; 12 December;};"
+        "vocab m {"
+        " name Month names; lang en; style-name Month Mon;"
+        " tokens {"
+        "  1 January Jan; 2 Febuary Feb; 3 March Mar;"
+        "  4 April Apr; 5 May; 6 June Jun;"
+        "  7 July Jul; 8 August Aug; 9 September Sep;"
+        "  10 October Oct; 11 November Nov; 12 December Dec;"
+        " };"
         "};\n"
     );
 }
@@ -70,22 +75,26 @@ void TestVocab::tearDown()
 
 void TestVocab::testScript()
 {
-    string code("m2");
+    string code("m");
     Vocab_info info;
     m_cal->get_vocab_info( &info, code );
-    string str = "Full Month names";
+    string str = "Month names";
     CPPUNIT_ASSERT_EQUAL( str, info.name );
-    str = "full";
-    CPPUNIT_ASSERT_EQUAL( str, info.style );
     str = "en";
     CPPUNIT_ASSERT_EQUAL( str, info.lang );
     str = "Month";
-    CPPUNIT_ASSERT_EQUAL( str, info.field );
+    CPPUNIT_ASSERT_EQUAL( str, info.style_full_name );
+    str = "Mon";
+    CPPUNIT_ASSERT_EQUAL( str, info.style_abbrev_name );
 
     str = "January";
-    CPPUNIT_ASSERT_EQUAL( str, info.tokens[1-1] );
+    CPPUNIT_ASSERT_EQUAL( str, info.words[1-1] );
+    str = "Jan";
+    CPPUNIT_ASSERT_EQUAL( str, info.abbrevs[1-1] );
     str = "September";
-    CPPUNIT_ASSERT_EQUAL( str, info.tokens[9-1] );
+    CPPUNIT_ASSERT_EQUAL( str, info.words[9-1] );
+    str = "Sep";
+    CPPUNIT_ASSERT_EQUAL( str, info.abbrevs[9-1] );
 }
 
 // End of src/test/testvocab.cpp file

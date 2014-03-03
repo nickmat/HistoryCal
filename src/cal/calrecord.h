@@ -37,7 +37,7 @@ namespace Cal {
 
     class Base;
 
-    class Record 
+    class Record
     {
     public:
         Record( Base* base );
@@ -93,7 +93,8 @@ namespace Cal {
         int parse_date( Field* nums, size_t size, const std::string& str );
 
         std::string value_from_field( int index ) const;
-        std::string lookup_token( int index, int dual, const std::string& vcode ) const;
+        std::string lookup_token(
+            int index, int dual, const std::string& vcode, const std::string& abbrev ) const;
         std::string get_output( const std::string& format ) const;
 
         Base*     m_base;

@@ -35,37 +35,41 @@ namespace Cal {
     class Token
     {
     public:
-        Token( Field field, const std::string& str ) : m_field(field), m_word(str) {}
+        Token( Field field, const std::string& str, const std::string& astr = "" )
+            : m_field(field), m_word(str), m_abbrev(astr) {}
         Token() : m_field(f_invalid) {}
 
         Field get_field() const { return m_field; }
         std::string get_word() const { return m_word; }
+        std::string get_abbrev() const { return m_abbrev; }
 
     private:
         Field       m_field;
         std::string m_word;
+        std::string m_abbrev;
     };
 
     class Vocab
     {
     public:
+        enum Style { style_full, style_abbrev };
+
         Vocab( const std::string& definition );
 
         std::string get_code() const { return m_code; }
         std::string get_name() const { return m_name; }
-        std::string get_style() const { return m_style; }
         std::string get_lang() const { return m_lang; }
-        std::string get_field() const { return m_field; }
+        std::string get_style_name( Style style ) const;
         void get_info( Vocab_info* info ) const;
         Field find( const std::string& word ) const;
-        std::string lookup( Field field ) const;
+        std::string lookup( Field field, Style style ) const;
 
     private:
         std::string  m_code;
         std::string  m_name;
-        std::string  m_style;
         std::string  m_lang;
-        std::string  m_field;
+        std::string  m_full_name;
+        std::string  m_abbrev_name;
         std::map<std::string,Token> m_words;
         std::map<Field,Token> m_fields;
     };

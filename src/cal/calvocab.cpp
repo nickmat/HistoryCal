@@ -37,47 +37,67 @@ using namespace Cal;
 Vocab::Vocab( const std::string& definition )
 {
     string body;
-    m_code = get_first_word( definition, &body );
+    string word = get_next_phrase( definition, &body );
+    m_code = word;
     StringVec statements = parse_statements( peel_cbrackets( body ) );
     for( size_t i = 0 ; i < statements.size() ; i++ ) {
-        string statement = get_first_word( statements[i], &body );
+        string statement = get_next_phrase( statements[i], &body );
         if( statement == "name" ) {
             m_name = body;
-        } else if( statement == "style" ) {
-            m_style = body;
         } else if( statement == "lang" ) {
             m_lang = body;
         } else if( statement == "lang" ) {
             m_lang = body;
-        } else if( statement == "field" ) {
-            m_field = body;
+        } else if( statement == "style-name" ) {
+            m_full_name = get_next_phrase( body, &body );
+            m_abbrev_name = body;
         } else if( statement == "tokens" ) {
             StringVec tokens = parse_statements( peel_cbrackets( body ) );
             for( size_t j = 0 ; j < tokens.size() ; j++ ) {
-                string value = get_first_word( tokens[j], &body );
-                Field field = strtol( value.c_str(), NULL, 0 );
-                Token token( field, body );
-                string key = Utf8api::normal( body );
+                string word = get_next_phrase( tokens[j], &body );
+                Field field = str_to_field( word );
+                word = get_next_phrase( body, &body );
+                string abbrev = get_next_phrase( body, &body );
+                Token token( field, word, abbrev );
+                string key = Utf8api::normal( word );
                 m_words[key] = token;
+                if( abbrev.size() ) {
+                    key = Utf8api::normal( abbrev );
+                    m_words[key] = token;
+                }
                 m_fields[field] = token;
             }
         }
     }
 }
 
+string Vocab::get_style_name( Style style ) const
+{
+    return style == style_full ? m_full_name : m_abbrev_name;
+}
+
 void Vocab::get_info( Vocab_info* info ) const
 {
-    info->name = m_name;
-    info->style = m_style;
-    info->lang = m_lang;
-    info->field = m_field;
-    for( map<Field,Token>::const_iterator it = m_fields.begin() ; it != m_fields.end() ; it++ ) {
-        Token token = it->second;
-        info->tokens.push_back( token.get_word() );
+    if( info ) {
+        info->name = m_name;
+        info->lang = m_lang;
+        info->style_full_name = m_full_name;
+        info->style_abbrev_name = m_abbrev_name;
+        map<Field,Token>::const_iterator it;
+        for( it = m_fields.begin() ; it != m_fields.end() ; it++ ) {
+            Token token = it->second;
+            info->words.push_back( token.get_word() );
+            string abbrev = token.get_abbrev();
+            if( abbrev.empty() ) {
+                info->abbrevs.push_back( token.get_word() );
+            } else {
+                info->abbrevs.push_back( token.get_abbrev() );
+            }
+        }
     }
 }
 
-Field Vocab::find( const std::string& word ) const
+Field Vocab::find( const string& word ) const
 {
     string key = Utf8api::normal( word );
     if( m_words.count( key ) > 0 ) {
@@ -87,13 +107,19 @@ Field Vocab::find( const std::string& word ) const
     return f_invalid;
 }
 
-std::string Vocab::lookup( Field field ) const
+string Vocab::lookup( Field field, Style style ) const
 {
+    string result;
     if( m_fields.count( field ) > 0 ) {
         Token token = m_fields.find( field )->second;
-        return token.get_word();
+        if( style == style_abbrev ) {
+            result = token.get_abbrev();
+        }
+        if( result.empty() ) {
+            result = token.get_word();
+        }
     }
-    return "";
+    return result;
 }
 
 // End of src/cal/calvocab.cpp file

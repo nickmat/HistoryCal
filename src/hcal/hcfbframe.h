@@ -23,6 +23,7 @@
 #include <wx/stattext.h>
 #include <wx/combobox.h>
 #include <wx/sizer.h>
+#include <wx/checkbox.h>
 #include <wx/textctrl.h>
 #include <wx/button.h>
 #include <wx/frame.h>
@@ -48,6 +49,7 @@ class hcFbFrame : public wxFrame
 		wxStaticText* m_staticText6;
 		wxComboBox* m_comboBoxVocab;
 		wxComboBox* m_comboBoxToken;
+		wxCheckBox* m_checkTextFull;
 		wxTextCtrl* m_textInput;
 		wxButton* m_buttonConvert;
 		wxStaticText* m_staticText3;
@@ -66,6 +68,7 @@ class hcFbFrame : public wxFrame
 		virtual void OnSelectInputFormat( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSelectVocab( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSelectToken( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnCheckTextFull( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnInputEnter( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnButtonConvert( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSelectOutput( wxCommandEvent& event ) { event.Skip(); }

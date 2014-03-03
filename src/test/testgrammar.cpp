@@ -62,23 +62,37 @@ void TestGrammar::setUp()
     m_sid = -1;
     m_cal = new Calendars;
     m_cal->read_script(
-        "vocab m1 {name Short Month names; style abrev; lang en; field Mon;"
-        " tokens {1 Jan; 2 Feb; 3 Mar; 4 Apr; 5 May; 6 Jun;"
-        " 7 Jul; 8 Aug; 9 Sep; 10 Oct; 11 Nov; 12 Dec;};"
+        "vocab m {"
+        " name Month names; lang en; style-name Month Mon;"
+        " tokens {"
+        "  1 January Jan; 2 Febuary Feb; 3 March Mar;"
+        "  4 April Apr; 5 May; 6 June Jun;"
+        "  7 July Jul; 8 August Aug; 9 September Sep;"
+        "  10 October Oct; 11 November Nov; 12 December Dec;"
+        " };"
         "};\n"
-        "vocab m2 {name Full Month names; style full; lang en; field FullMonth;"
-        " tokens {1 January; 2 Febuary; 3 March; 4 April; 5 May; 6 June;"
-        " 7 July; 8 August; 9 September; 10 October; 11 November; 12 December;};"
+
+        "vocab w {name Weekday names; lang en; style-name Weekday WDay;"
+        " tokens {"
+        "  1 Monday Mon; 2 Tuesday Tue; 3 Wednesday Wed;"
+        "  4 Thursday Thur; 5 Friday Fri; 6 Saturday Sat;"
+        "  7 Sunday Sun;"
+        " };"
         "};\n"
+
         "grammar j {"
-        " alias field { Day day; Month month; Year year; };"
+        " alias field { WDay wday; Day day; Month month; Year year; };"
+        " alias format-number-code { WDay w; Day dd; Month mm; Year yyyy; };"
         " alias unit { d day; m month; y year; w week; };"
-        " vocabs m2 m1;"
-        " format pref @(3:Day) @(2:Month:m1) @(1:Year);"
-        " format @(3:Day) @(2:Month:m2) @(1:Year);"
-        " format @(2:Month:m1) @(3:Day), @(1:Year);"
+        " vocabs m w;"
+        " format pref @(3:Day) @(2:Month:m.a) @(1:Year);"
+        " format @(4:WDay:w.a) @(3:Day) @(2:Month:m.a) @(1:Year);"
+        " format @(3:Day) @(2:Month:m) @(1:Year);"
+        " format @(4:WDay:w) @(3:Day) @(2:Month:m) @(1:Year);"
+        " format @(2:Month:m.a) @(3:Day), @(1:Year);"
         " format @(1:Year)@:(2:Month)@:(3:Day);"
         "};\n"
+
         "scheme jb {name Julian Base; base julian; grammar j;};\n"
     );
     m_sid = m_cal->get_scheme_id( "jb" );
@@ -101,10 +115,10 @@ void TestGrammar::testScript()
     CPPUNIT_ASSERT( info.vocab_codes.size() == info.vocab_names.size() );
     for( size_t i = 0 ; i < info.vocab_codes.size() ; i++ ) {
         str = "";
-        if( info.vocab_codes[i] == "m1" ) {
-            str = "Short Month names";
-        } else if( info.vocab_codes[i] == "m2" ) {
-            str = "Full Month names";
+        if( info.vocab_codes[i] == "m" ) {
+            str = "Month names";
+        } else if( info.vocab_codes[i] == "w" ) {
+            str = "Weekday names";
         }
         CPPUNIT_ASSERT( str != "" );
         CPPUNIT_ASSERT_EQUAL( str, info.vocab_names[i] );
@@ -119,10 +133,12 @@ void TestGrammar::testSchemeInput()
     CPPUNIT_ASSERT_EQUAL( str, input.orders[0] );
     str = "Day Month Year";
     CPPUNIT_ASSERT_EQUAL( str, input.orders[1] );
-    str = "Month Day Year";
+    str = "WDay Day Month Year";
     CPPUNIT_ASSERT_EQUAL( str, input.orders[2] );
-    str = "Year Month Day";
+    str = "Month Day Year";
     CPPUNIT_ASSERT_EQUAL( str, input.orders[3] );
+    str = "Year Month Day";
+    CPPUNIT_ASSERT_EQUAL( str, input.orders[4] );
     CPPUNIT_ASSERT_EQUAL( 1, input.current );
 }
 
@@ -132,14 +148,18 @@ void TestGrammar::testSchemeOutput()
     m_cal->get_scheme_output( &output, m_sid );
     string str = "year month day";
     CPPUNIT_ASSERT_EQUAL( str, output.formats[0] );
-    str = "Day Mon Year";
+    str = "dd Mon yyyy";
     CPPUNIT_ASSERT_EQUAL( str, output.formats[1] );
-    str = "Day FullMonth Year";
+    str = "WDay dd Mon yyyy";
     CPPUNIT_ASSERT_EQUAL( str, output.formats[2] );
-    str = "Mon Day, Year";
+    str = "dd Month yyyy";
     CPPUNIT_ASSERT_EQUAL( str, output.formats[3] );
-    str = "Year:Month:Day";
+    str = "Weekday dd Month yyyy";
     CPPUNIT_ASSERT_EQUAL( str, output.formats[4] );
+    str = "Mon dd, yyyy";
+    CPPUNIT_ASSERT_EQUAL( str, output.formats[5] );
+    str = "yyyy:mm:dd";
+    CPPUNIT_ASSERT_EQUAL( str, output.formats[6] );
     CPPUNIT_ASSERT_EQUAL( 1, output.current );
 }
 

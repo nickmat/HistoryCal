@@ -34,7 +34,7 @@
 using namespace Cal;
 using namespace std;
 
-Base::Base() 
+Base::Base()
     : m_grammar(NULL), m_current_order(0), m_current_format(0)
 {
 }
@@ -118,13 +118,13 @@ bool Base::balance_fields( Field* firsts, Field* lasts ) const
     return true;
 }
 
-bool Base::set_field_first( Field* fields, size_t index ) const 
+bool Base::set_field_first( Field* fields, size_t index ) const
 {
     fields[index] = 1;
     return true;
 }
 
-bool Base::set_field_last( Field* fields, size_t index ) const 
+bool Base::set_field_last( Field* fields, size_t index ) const
 {
     fields[index] = get_field_last( fields, index );
     return ( fields[index] != f_invalid );
@@ -143,7 +143,7 @@ Field Base::get_field_last( const Field* fields, size_t index ) const
 Field Base::unit_is_int( const Field* fields, Unit unit ) const
 {
     // We can always add years and multiple days to the fields without problem.
-    switch( unit ) 
+    switch( unit )
     {
     case unit_day:
         return 1;
@@ -156,7 +156,7 @@ Field Base::unit_is_int( const Field* fields, Unit unit ) const
 bool Base::can_add_unit( const Field* fields, Unit unit ) const
 {
     // We can always add years and multiple days to the fields without problem.
-    return unit == unit_month ? false : true; 
+    return unit == unit_month ? false : true;
 }
 
 bool Base::add_to_fields( Field* fields, Field value, Unit unit ) const
@@ -195,10 +195,10 @@ Field Base::compare_minor_fields( const Field* left, const Field* right, size_t 
     return 0;
 }
 
-string Base::lookup_token( Field field, const string& vcode ) const
+string Base::lookup_token( Field field, const string& vcode, bool abbrev ) const
 {
     if( m_grammar ) {
-        return m_grammar->lookup_token( field, vcode );
+        return m_grammar->lookup_token( field, vcode, abbrev );
     }
     return "";
 }

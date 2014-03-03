@@ -40,6 +40,7 @@ namespace Cal {
     std::string right_trim( const std::string& str );
     std::string full_trim( const std::string& str );
     std::string get_first_word( const std::string& str, std::string* tail = NULL, char sep = ' ' );
+    std::string get_next_phrase( const std::string& str, std::string* tail = NULL, char sep = ' ' );
     std::string peel_cbrackets( const std::string& str );
     std::string field_to_str( Field field );
     Field str_to_field( const std::string& str );

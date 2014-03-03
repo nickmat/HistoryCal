@@ -81,7 +81,7 @@ namespace Cal {
         // If the unit is a fixed integer (ie week) then return the value,
         // otherwise, if the unit is variable, a double or invalid for Record, return 0.
         virtual Field unit_is_int( const Field* fields, Unit unit ) const;
-        // If the unit is of a type that can be added to to a Record without the 
+        // If the unit is of a type that can be added to to a Record without the
         // possibility of creating an invalid Record, return true.
         virtual bool can_add_unit( const Field* fields, Unit unit ) const;
         // Add value * units to the Records fields. Value may be negative.
@@ -100,7 +100,7 @@ namespace Cal {
         // (less than index).
         virtual Field compare_minor_fields( const Field* left, const Field* right, size_t index );
 
-        std::string lookup_token( Field field, const std::string& vcode ) const;
+        std::string lookup_token( Field field, const std::string& vcode, bool abbrev ) const;
         std::string get_alias_fieldname( const std::string& alias ) const;
         StringVec get_orders();
         int get_current_order() const { return m_current_order; }

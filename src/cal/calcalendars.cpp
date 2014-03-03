@@ -90,10 +90,14 @@ void Calendars::get_scheme_output( Scheme_output* info, int scheme_id ) const
     sch->get_output( info );
 }
 
-void Calendars::get_vocab_info( Vocab_info* info, const string& code ) const
+bool Calendars::get_vocab_info( Vocab_info* info, const string& code ) const
 {
     Vocab* voc = m_schemes->get_vocab( code );
+    if( voc == NULL ) {
+        return false;
+    }
     voc->get_info( info );
+    return true;
 }
 
 void Calendars::set_scheme_order( int scheme_id, int order )

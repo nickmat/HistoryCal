@@ -87,6 +87,10 @@ hcFbFrame::hcFbFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_comboBoxToken = new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_DROPDOWN|wxCB_READONLY ); 
 	bSizer10->Add( m_comboBoxToken, 1, wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT|wxLEFT, 5 );
 	
+	m_checkTextFull = new wxCheckBox( this, wxID_ANY, _("Full"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_checkTextFull->SetValue(true); 
+	bSizer10->Add( m_checkTextFull, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT|wxLEFT, 5 );
+	
 	
 	bSizer1->Add( bSizer10, 0, wxEXPAND, 5 );
 	
@@ -179,6 +183,7 @@ hcFbFrame::hcFbFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_comboBoxInFormat->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( hcFbFrame::OnSelectInputFormat ), NULL, this );
 	m_comboBoxVocab->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( hcFbFrame::OnSelectVocab ), NULL, this );
 	m_comboBoxToken->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( hcFbFrame::OnSelectToken ), NULL, this );
+	m_checkTextFull->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( hcFbFrame::OnCheckTextFull ), NULL, this );
 	m_textInput->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( hcFbFrame::OnInputEnter ), NULL, this );
 	m_buttonConvert->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( hcFbFrame::OnButtonConvert ), NULL, this );
 	m_comboBoxOutput->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( hcFbFrame::OnSelectOutput ), NULL, this );
@@ -195,6 +200,7 @@ hcFbFrame::~hcFbFrame()
 	m_comboBoxInFormat->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( hcFbFrame::OnSelectInputFormat ), NULL, this );
 	m_comboBoxVocab->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( hcFbFrame::OnSelectVocab ), NULL, this );
 	m_comboBoxToken->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( hcFbFrame::OnSelectToken ), NULL, this );
+	m_checkTextFull->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( hcFbFrame::OnCheckTextFull ), NULL, this );
 	m_textInput->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( hcFbFrame::OnInputEnter ), NULL, this );
 	m_buttonConvert->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( hcFbFrame::OnButtonConvert ), NULL, this );
 	m_comboBoxOutput->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( hcFbFrame::OnSelectOutput ), NULL, this );

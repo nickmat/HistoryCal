@@ -100,6 +100,22 @@ string Cal::get_first_word( const string& str, string* tail, char sep )
     return result;
 }
 
+string Cal::get_next_phrase( const string& str, string* tail, char sep )
+{
+    if( str.empty() ) {
+        return "";
+    }
+    if( *str.begin() != '"' ) {
+        return get_first_word( str, tail, sep );
+    }
+    size_t pos = str.find( '"', 1 );
+    string result = str.substr( 1, pos - 1 );
+    if( tail ) {
+        *tail = ( pos == string::npos ) ? "" : left_trim( str.substr( pos + 1 ) );
+    }
+    return result;
+}
+
 string Cal::peel_cbrackets( const string& str )
 {
     string result;

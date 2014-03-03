@@ -35,7 +35,7 @@ int Jdn::get_fieldname_index( const string& fieldname ) const
     if( fieldname == "day" ) {
         return 0;
     }
-    return -1;
+    return get_extended_fieldname_index( fieldname );
 }
 
 string Jdn::get_fieldname( size_t index ) const
@@ -43,7 +43,7 @@ string Jdn::get_fieldname( size_t index ) const
     if( index == 0 ) {
         return "day";
     }
-    return "";
+    return get_extended_fieldname( index );
 }
 
 bool Jdn::set_fields_as_begin_first( Field* fields, const Field* mask )

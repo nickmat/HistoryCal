@@ -36,8 +36,8 @@ using namespace Cal;
 // Get a user friendly format string for user selection
 string Format::get_user_format( Grammar* gmr ) const
 {
-    string output, fname, vocab;
-    enum State { dooutput, doprolog, dopriority, dofname, dovocab };
+    string output, fname, vocab, abbrev;
+    enum State { dooutput, doprolog, dopriority, dofname, dovocab, doabbrev };
     State state = dooutput;
     for( string::const_iterator it = m_format.begin() ; it != m_format.end() ; it++ ) {
         switch( state )
@@ -63,7 +63,11 @@ string Format::get_user_format( Grammar* gmr ) const
             break;
         case dofname:
             if( *it == ')' ) {
-                output += fname;
+                if( gmr ) {
+                    output += gmr->get_num_code_alias( fname );
+                } else {
+                    output += fname;
+                }
                 fname.clear();
                 state = dooutput;
             } else if( *it == ':' ) {
@@ -73,19 +77,31 @@ string Format::get_user_format( Grammar* gmr ) const
             }
             break;
         case dovocab:
-            if( *it == ')' ) {
+        case doabbrev:
+            if( *it == '.' ) {
+                state = doabbrev;
+            } else if( *it == ')' ) {
                 if( gmr ) {
                     Vocab* v = gmr->find_vocab( vocab );
                     if( v ) {
-                        fname = v->get_field();
+                        if( abbrev == "a" ) {
+                            fname = v->get_style_name( Vocab::style_abbrev );
+                        } else {
+                            fname = v->get_style_name( Vocab::style_full );
+                        }
                     }
                 }
                 output += fname;
                 vocab.clear();
+                abbrev.clear();
                 fname.clear();
                 state = dooutput;
             } else {
-                vocab += *it;
+                if( state == dovocab ) {
+                    vocab += *it;
+                } else {
+                    abbrev += *it;
+                }
             }
             break;
         }

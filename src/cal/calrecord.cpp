@@ -72,7 +72,7 @@ void Record::set_str( const string& str )
     if( xref.size() ) {
         for( int i = 0 ; i < cnt ; i++ ) {
             int x = xref[i];
-            if( x >= 0 && x < m_base->record_size() ) {
+            if( x >= 0 && x < (int) m_base->record_size() ) {
                 m_f[x] = f[i];
             }
         }
@@ -348,14 +348,16 @@ string Record::value_from_field( int index ) const
     return field_to_str( f );
 }
 
-string Record::lookup_token( int index, int dual, const string& vcode ) const
+string Record::lookup_token(
+    int index, int dual, const string& vcode, const string& abbrev ) const
 {
     string result;
+    bool a = ( abbrev == "a" );
     if( dual < 0 ) {
         if( index >= 0 ) {
             Field f = get_field( index );
             if( vcode.size() ) {
-                result = m_base->lookup_token( f, vcode );
+                result = m_base->lookup_token( f, vcode, a );
             }
             if( result.empty() ) {
                 result = field_to_str( f );
@@ -371,8 +373,8 @@ string Record::lookup_token( int index, int dual, const string& vcode ) const
             }
             string suffix = "/";
             bool matched = true;
-            for( string::iterator rit = result.begin(), dit = dualstr.begin() 
-                ; rit != result.end() ; rit++, dit++ 
+            for( string::iterator rit = result.begin(), dit = dualstr.begin()
+                ; rit != result.end() ; rit++, dit++
             ) {
                 if( matched && *rit != *dit ) {
                     matched = false;
@@ -389,8 +391,10 @@ string Record::lookup_token( int index, int dual, const string& vcode ) const
 
 string Record::get_output( const std::string& fmt ) const
 {
-    string output, prolog, fname, dname, vocab, value;
-    enum State { ignore, dooutput, doprolog, dopriority, dofname, dodname, dovocab };
+    string output, prolog, fname, dname, vocab, abbrev, value;
+    enum State {
+        ignore, dooutput, doprolog, dopriority, dofname, dodname, dovocab, doabbrev
+    };
     State state = dooutput;
     for( string::const_iterator it = fmt.begin() ; it != fmt.end() ; it++ ) {
         switch( state )
@@ -422,13 +426,14 @@ string Record::get_output( const std::string& fmt ) const
         case dofname:
         case dodname:
         case dovocab:
+        case doabbrev:
             if( *it == ')' ) {
                 int i = get_field_index( fname );
                 int d = -1;
                 if( dname.size() ) {
                     d = get_field_index( dname );
                 }
-                value = lookup_token( i, d, vocab );
+                value = lookup_token( i, d, vocab, abbrev );
                 if( value.empty() ) {
                     state = ignore;
                 } else {
@@ -439,17 +444,22 @@ string Record::get_output( const std::string& fmt ) const
                 fname.clear();
                 dname.clear();
                 vocab.clear();
+                abbrev.clear();
             } else if( *it == ':' ) {
                 state = dovocab;
             } else if( *it == '/' ) {
                 state = dodname;
+            } else if( *it == '.' ) {
+                state = doabbrev;
             } else {
                 if( state == dofname ) {
                     fname += *it;
                 } else if( state == dodname ) {
                     dname += *it;
-                } else {
+                } else if( state == dovocab ) {
                     vocab += *it;
+                } else { // doabbrev
+                    abbrev += *it;
                 }
             }
             break;
@@ -457,6 +467,5 @@ string Record::get_output( const std::string& fmt ) const
     }
     return output;
 }
-
 
 // End of src/cal/calrecord.cpp file

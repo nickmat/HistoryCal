@@ -42,13 +42,14 @@ namespace Cal {
         Grammar( Schemes* schemes, const std::string& definition );
         ~Grammar();
 
-        void add_alias( const std::string& alias_def ); 
-        void add_order( const std::string& order ); 
+        void add_alias( const std::string& alias_def );
+        void add_order( const std::string& order );
         void add_vocabs( Schemes* schemes, const std::string& str );
-        void add_format( const std::string& format ); 
+        void add_format( const std::string& format );
 
         std::string code() const { return m_code; }
         std::string get_field_alias( const std::string& fname ) const;
+        std::string get_num_code_alias( const std::string& fname ) const;
         Unit get_unit_alias( const std::string& fname ) const;
         size_t order_size() const { return m_orders.size(); }
         StringVec* get_orders() { return &m_orders; }
@@ -63,7 +64,7 @@ namespace Cal {
         StringVec get_vocab_names() const;
 
         Field find_token( const std::string& word ) const;
-        std::string lookup_token( Field field, const std::string& vcode ) const;
+        std::string lookup_token( Field field, const std::string& vcode, bool abbrev ) const;
 
         Vocab* find_vocab( const std::string& code ) const;
 
@@ -72,11 +73,12 @@ namespace Cal {
 
         std::string                m_code;
         StringMap                  m_field_alias;
+        StringMap                  m_num_code_alias;
         std::map<std::string,Unit> m_unit_alias;
         StringVec                  m_orders;
-        int                        m_pref_order;
         std::vector<Vocab*>        m_vocabs;
         std::vector<Format*>       m_formats;
+        int                        m_pref_order;
         int                        m_pref_format;
     };
 

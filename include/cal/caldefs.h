@@ -84,10 +84,11 @@ namespace Cal {
     struct Vocab_info
     {
         std::string name;
-        std::string style;
         std::string lang;
-        std::string field;
-        StringVec tokens;
+        std::string style_full_name;
+        std::string style_abbrev_name;
+        StringVec words;
+        StringVec abbrevs;
     };
 
     struct Range
