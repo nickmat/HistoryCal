@@ -276,17 +276,32 @@ void Base::set_current_order( int index )
     }
     m_xref_order.clear();
     XRefVec xref;
-    while( order.size() ) {
+    int i, max_j = -1;
+    for( i = 0 ; order.size() ; i++ ) {
         string fname = get_first_word( order, &order );
-        if( fname == "|" ) {
-            m_xref_order[xref.size()] = xref;
-            xref.clear();
-            continue;
+        int j = get_fieldname_index( get_alias_fieldname( fname ) );
+        xref.push_back( j );
+        if( j > max_j ) {
+            max_j = j;
         }
-        int i = get_fieldname_index( get_alias_fieldname( fname ) );
-        xref.push_back( i );
     }
-    m_xref_order[xref.size()] = xref;
+    while( max_j > -1 ) {
+        m_xref_order[xref.size()] = xref;
+        int prev_max_j = max_j;
+        max_j = -1;
+        XRefVec x;
+        for( i = 0 ; i < (int) xref.size() ; i++ ) {
+            int j = xref[i];
+            if( j == prev_max_j ) {
+                continue;
+            }
+            x.push_back( j );
+            if( j > max_j ) {
+                max_j = j;
+            }
+        }
+        xref = x;
+    }
 }
 
 void Base::set_current_format( int index )
@@ -372,16 +387,11 @@ string Base::get_extended_fieldname( size_t index ) const
 string Base::create_default_order()
 {
     string order;
-    for( size_t i = record_size() ; i > 0 ; --i ) {
-        if( i < record_size() ) {
-            order += " | ";
+    for( size_t i = 0 ; i < record_size() ; i++ ) {
+        if( i > 0 ) {
+            order += " ";
         }
-        for( size_t j = 0 ; j < i ; j++ ) {
-            if( j > 0 ) {
-                order += " ";
-            }
-            order += get_fieldname( j );
-        }
+        order += get_fieldname( i );
     }
     return order;
 }
@@ -394,7 +404,7 @@ string Base::create_default_format()
         if( i > 0 ) {
             format += " ";
         }
-        format += "(" + field_to_str( i+1 ) + ":" + get_fieldname( i ) + ")";
+        format += "(" + get_fieldname( i ) + ")";
     }
     return format;
 }

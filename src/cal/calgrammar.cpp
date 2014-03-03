@@ -98,25 +98,6 @@ void Grammar::add_alias( const std::string& alias_def )
     }
 }
 
-void Grammar::add_order( const std::string& order )
-{
-    string str;
-    if( order.compare( 0, 5, "pref " ) == 0 ) {
-        get_first_word( order, &str );
-        m_pref_order = m_orders.size();
-    } else {
-        str = order;
-    }
-    string order_str = create_order_str( str );
-    for( size_t i = 0 ; i < m_orders.size() ; i++ ) {
-        if( order_str == m_orders[i] ) {
-            // Already there
-            return;
-        }
-    }
-    m_orders.push_back( order_str );
-}
-
 void Grammar::add_vocabs( Schemes* schemes, const std::string& str )
 {
     string body = str;
@@ -131,16 +112,29 @@ void Grammar::add_vocabs( Schemes* schemes, const std::string& str )
 
 void Grammar::add_format( const std::string& format )
 {
-    add_order( format );
-    string str;
+    string str = format;
+    bool pref = false;
     if( format.compare( 0, 5, "pref " ) == 0 ) {
         get_first_word( format, &str );
+        pref = true;
         m_pref_format = m_formats.size();
-    } else {
-        str = format;
     }
     Format* fmt = new Format(str);
     m_formats.push_back( fmt );
+    string order = fmt->get_order_str();
+    for( size_t i = 0 ; i < m_orders.size() ; i++ ) {
+        if( order == m_orders[i] ) {
+            // Already there
+            if( pref ) {
+                m_pref_order = i;
+            }
+            return;
+        }
+    }
+    if( pref ) {
+        m_pref_order = m_orders.size();
+    }
+    m_orders.push_back( order );
 }
 
 string Grammar::get_field_alias( const string& fname ) const
@@ -233,76 +227,6 @@ Vocab* Grammar::find_vocab( const std::string& code ) const
         }
     }
     return NULL;
-}
-string Grammar::create_order_str( const string& fmt ) const
-{
-    struct Priority { int value; string name; };
-    vector<Priority> ps;
-    Priority p;
-    int pmax = 0;
-    string p_str, fname;
-    enum State { dooutput, doprolog, dopriority, dofname, dovocab };
-    State state = dooutput;
-    for( string::const_iterator it = fmt.begin() ; it != fmt.end() ; it++ ) {
-        switch( state )
-        {
-        case dooutput:
-            if( *it == '@' ) {
-                state = doprolog;
-            }
-            break;
-        case doprolog:
-            if( *it == '(' ) {
-                state = dopriority;
-            }
-            break;
-        case dopriority:
-            if( *it == ':' ) {
-                state = dofname;
-            } else {
-                p_str += *it;
-            }
-            break;
-        case dofname:
-            if( *it == ')' || *it == ':' || *it == '/' ) {
-                p.value = str_to_field( p_str );
-                if( p.value > pmax ) {
-                    pmax = p.value;
-                }
-                p.name = fname;
-                ps.push_back( p );
-                p_str.clear();
-                fname.clear();
-                state = dooutput;
-            } else {
-                fname += *it;
-            }
-            break;
-        }
-    }
-    string output;
-    while( pmax > 0 ) {
-        int nextpmax = 0;
-        bool first = true;
-        for( size_t i = 0 ; i < ps.size() ; i++ ) {
-            if( ps[i].value <= pmax ) {
-                if( first ) {
-                    first = false;
-                } else {
-                    output += " ";
-                }
-                output += ps[i].name;
-                if( ps[i].value < pmax && ps[i].value > nextpmax ) {
-                    nextpmax = ps[i].value;
-                }
-            }
-        }
-        pmax = nextpmax;
-        if( pmax > 0 ) {
-            output += " | ";
-        }
-    }
-    return output;
 }
 
 // End of src/cal/calgrammar.cpp file

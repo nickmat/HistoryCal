@@ -28,6 +28,7 @@
 #include "calformat.h"
 
 #include "calgrammar.h"
+#include "calparse.h"
 #include "calvocab.h"
 
 using namespace std;
@@ -37,7 +38,7 @@ using namespace Cal;
 string Format::get_user_format( Grammar* gmr ) const
 {
     string output, fname, vocab, abbrev;
-    enum State { dooutput, doprolog, dopriority, dofname, dovocab, doabbrev };
+    enum State { dooutput, doprolog, dofname, dovocab, doabbrev };
     State state = dooutput;
     for( string::const_iterator it = m_format.begin() ; it != m_format.end() ; it++ ) {
         switch( state )
@@ -51,14 +52,9 @@ string Format::get_user_format( Grammar* gmr ) const
             break;
         case doprolog:
             if( *it == '(' ) {
-                state = dopriority;
+                state = dofname;
             } else {
                 output += *it;
-            }
-            break;
-        case dopriority:
-            if( *it == ':' ) {
-                state = dofname;
             }
             break;
         case dofname:
@@ -102,6 +98,41 @@ string Format::get_user_format( Grammar* gmr ) const
                 } else {
                     abbrev += *it;
                 }
+            }
+            break;
+        }
+    }
+    return output;
+}
+
+string Format::get_order_str() const
+{
+    string fname, output;
+    enum State { dooutput, doprolog, dofname, dovocab };
+    State state = dooutput;
+    for( string::const_iterator it = m_format.begin() ; it != m_format.end() ; it++ ) {
+        switch( state )
+        {
+        case dooutput:
+            if( *it == '@' ) {
+                state = doprolog;
+            }
+            break;
+        case doprolog:
+            if( *it == '(' ) {
+                state = dofname;
+            }
+            break;
+        case dofname:
+            if( *it == ')' || *it == ':' || *it == '/' ) {
+                if( output.size() ) {
+                    output += " ";
+                }
+                output += fname;
+                fname.clear();
+                state = dooutput;
+            } else {
+                fname += *it;
             }
             break;
         }

@@ -43,7 +43,6 @@ namespace Cal {
         ~Grammar();
 
         void add_alias( const std::string& alias_def );
-        void add_order( const std::string& order );
         void add_vocabs( Schemes* schemes, const std::string& str );
         void add_format( const std::string& format );
 
@@ -69,17 +68,15 @@ namespace Cal {
         Vocab* find_vocab( const std::string& code ) const;
 
     private:
-        std::string create_order_str( const std::string& str ) const;
-
         std::string                m_code;
         StringMap                  m_field_alias;
         StringMap                  m_num_code_alias;
         std::map<std::string,Unit> m_unit_alias;
-        StringVec                  m_orders;
         std::vector<Vocab*>        m_vocabs;
         std::vector<Format*>       m_formats;
-        int                        m_pref_order;
+        StringVec                  m_orders;
         int                        m_pref_format;
+        int                        m_pref_order;
     };
 
 }

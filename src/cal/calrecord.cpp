@@ -36,7 +36,8 @@
 using namespace Cal;
 using namespace std;
 
-Record::Record( Base* base ) : m_base(base), m_jdn(f_invalid), m_f(base->record_size())
+Record::Record( Base* base )
+    : m_base(base), m_jdn(f_invalid), m_f(base->record_size())
 {
     clear_fields();
 }
@@ -392,9 +393,7 @@ string Record::lookup_token(
 string Record::get_output( const std::string& fmt ) const
 {
     string output, prolog, fname, dname, vocab, abbrev, value;
-    enum State {
-        ignore, dooutput, doprolog, dopriority, dofname, dodname, dovocab, doabbrev
-    };
+    enum State { ignore, dooutput, doprolog, dofname, dodname, dovocab, doabbrev };
     State state = dooutput;
     for( string::const_iterator it = fmt.begin() ; it != fmt.end() ; it++ ) {
         switch( state )
@@ -413,14 +412,9 @@ string Record::get_output( const std::string& fmt ) const
             break;
         case doprolog:
             if( *it == '(' ) {
-                state = dopriority;
+                state = dofname;
             } else {
                 prolog += *it;
-            }
-            break;
-        case dopriority:
-            if( *it == ':' ) {
-                state = dofname;
             }
             break;
         case dofname:
