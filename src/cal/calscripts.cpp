@@ -73,14 +73,14 @@ const char* Cal::cal_default_script =
     "scheme g {name Gregorian; base gregorian; grammar j;};\n"
 
     "grammar j.sh {"
-    " alias field { Day day; Month month; Year s.year; Julian-Year unshift; };"
-    " alias field { Day day; Month month; Year year; };"
+    " alias field { Day day; Month month; Year year; Hist-Year unshift; };"
+    " alias format-number-code { Day dd; Month mm; Year yyyy; Hist-Year y; };"
     " vocabs m;"
-    " format pref @(Day) @(Month:m.a) @(Year/Julian-Year);"
+    " format pref @(Day) @(Month:m.a) @(Year/Hist-Year);"
     " format @(Day) @(Month:m.a) @(Year);"
     "};\n"
 
-    "scheme j325 {name Julian Lady Day; shift jb 1721142; grammar j.sh;};\n"
+    "scheme j325 {name Julian Annunciation; shift jb 1721142; grammar j.sh;};\n"
 
     "scheme eng1 {name English Hybrid;" 
     " hybrid {fields s.year year month day;"

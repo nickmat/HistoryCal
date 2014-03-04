@@ -37,8 +37,8 @@ using namespace Cal;
 // Get a user friendly format string for user selection
 string Format::get_user_format( Grammar* gmr ) const
 {
-    string output, fname, vocab, abbrev;
-    enum State { dooutput, doprolog, dofname, dovocab, doabbrev };
+    string output, fname, dname, vocab, abbrev;
+    enum State { dooutput, doprolog, dofname, dodname, dovocab, doabbrev };
     State state = dooutput;
     for( string::const_iterator it = m_format.begin() ; it != m_format.end() ; it++ ) {
         switch( state )
@@ -58,45 +58,49 @@ string Format::get_user_format( Grammar* gmr ) const
             }
             break;
         case dofname:
-            if( *it == ')' ) {
-                if( gmr ) {
-                    output += gmr->get_num_code_alias( fname );
-                } else {
-                    output += fname;
-                }
-                fname.clear();
-                state = dooutput;
-            } else if( *it == ':' ) {
-                state = dovocab;
-            } else {
-                fname += *it;
-            }
-            break;
+        case dodname:
         case dovocab:
         case doabbrev:
-            if( *it == '.' ) {
-                state = doabbrev;
-            } else if( *it == ')' ) {
+            if( *it == ')' ) {
                 if( gmr ) {
-                    Vocab* v = gmr->find_vocab( vocab );
-                    if( v ) {
-                        if( abbrev == "a" ) {
-                            fname = v->get_style_name( Vocab::style_abbrev );
-                        } else {
-                            fname = v->get_style_name( Vocab::style_full );
+                    if( vocab.size() ) {
+                        Vocab* v = gmr->find_vocab( vocab );
+                        if( v ) {
+                            if( abbrev == "a" ) {
+                                fname = v->get_style_name( Vocab::style_abbrev );
+                            } else {
+                                fname = v->get_style_name( Vocab::style_full );
+                            }
                         }
+                    } else {
+                        fname = gmr->get_num_code_alias( fname );
                     }
                 }
                 output += fname;
+                if( dname.size() ) {
+                    if( gmr ) {
+                        dname = gmr->get_num_code_alias( dname );
+                    }
+                    output += "/" + dname;
+                }
+                fname.clear();
+                dname.clear();
                 vocab.clear();
                 abbrev.clear();
-                fname.clear();
                 state = dooutput;
+            } else if( *it == '/' ) {
+                state = dodname;
+            } else if( *it == ':' ) {
+                state = dovocab;
+            } else if( *it == '.' ) {
+                state = doabbrev;
             } else {
-                if( state == dovocab ) {
-                    vocab += *it;
-                } else {
-                    abbrev += *it;
+                switch( state )
+                {
+                case dofname:  fname += *it;  break;
+                case dodname:  dname += *it;  break;
+                case dovocab:  vocab += *it;  break;
+                case doabbrev: abbrev += *it; break;
                 }
             }
             break;
@@ -139,6 +143,5 @@ string Format::get_order_str() const
     }
     return output;
 }
-
 
 // End of src/cal/calformat.cpp file

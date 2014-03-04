@@ -74,6 +74,7 @@ TESTS_CXXFLAGS = $(VAR) $(VAR_5) -I../../include -I$(CPPUNIT)/include \
 	$(CPPFLAGS) $(CXXFLAGS)
 TESTS_OBJECTS =  \
 	tests_def_g.o \
+	tests_def_j325.o \
 	tests_testcal.o \
 	tests_testcommon.o \
 	tests_testgrammar.o \
@@ -194,6 +195,9 @@ hcal_dummy.o: ./../../src/dummy.cpp
 	$(CXX) -c -o $@ $(HCAL_CXXFLAGS) $(CPPDEPS) $<
 
 tests_def_g.o: ./../../src/test/def_g.cpp
+	$(CXX) -c -o $@ $(TESTS_CXXFLAGS) $(CPPDEPS) $<
+
+tests_def_j325.o: ./../../src/test/def_j325.cpp
 	$(CXX) -c -o $@ $(TESTS_CXXFLAGS) $(CPPDEPS) $<
 
 tests_testcal.o: ./../../src/test/testcal.cpp

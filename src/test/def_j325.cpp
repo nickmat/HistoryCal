@@ -1,10 +1,10 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        src/test/def_g.cpp
+ * Name:        src/test/def_j325.cpp
  * Project:     Cal: Programmable Historical Calendar library.
- * Purpose:     CppUnit tests for the default Gregorian (g) calendar.
+ * Purpose:     CppUnit for default Julian Annunciation (j325) calendar.
  * Author:      Nick Matthews
  * Website:     http://historycal.org
- * Created:     28th February 2014
+ * Created:     4th March 2014
  * Copyright:   Copyright (c) 2014, Nick Matthews.
  * Licence:     GNU GPLv3
  *
@@ -33,9 +33,9 @@
 using namespace std;
 using namespace Cal;
 
-class TestDef_g : public CPPUNIT_NS::TestFixture
+class TestDef_j325 : public CPPUNIT_NS::TestFixture
 {
-    CPPUNIT_TEST_SUITE( TestDef_g );
+    CPPUNIT_TEST_SUITE( TestDef_j325 );
     CPPUNIT_TEST( testCreation );
     CPPUNIT_TEST( testStrTableInput );
     CPPUNIT_TEST( testStrTableOutput );
@@ -59,46 +59,46 @@ public:
 };
 
 // Registers the fixture into the 'registry'
-CPPUNIT_TEST_SUITE_REGISTRATION( TestDef_g );
+CPPUNIT_TEST_SUITE_REGISTRATION( TestDef_j325 );
 
 static const char* test_strs[MaxSample][2] = {
-    { "24 Jul -586", "Jul 24, -586" },
-    { "5 Dec -168", "Dec 5, -168" },
-    { "24 Sep 70", "Sep 24, 70" },
-    { "2 Oct 135", "Oct 2, 135" },
-    { "8 Jan 470", "Jan 8, 470" },
-    { "20 May 576", "May 20, 576" },
-    { "10 Nov 694", "Nov 10, 694" },
-    { "25 Apr 1013", "Apr 25, 1013" },
-    { "24 May 1096", "May 24, 1096" },
-    { "23 Mar 1190", "Mar 23, 1190" },
-    { "10 Mar 1240", "Mar 10, 1240" },
-    { "2 Apr 1288", "Apr 2, 1288" },
-    { "27 Apr 1298", "Apr 27, 1298" },
-    { "12 Jun 1391", "Jun 12, 1391" },
-    { "3 Feb 1436", "Feb 3, 1436" },
-    { "9 Apr 1492", "Apr 9, 1492" },
-    { "19 Sep 1553", "Sep 19, 1553" },
-    { "5 Mar 1560", "Mar 5, 1560" },
-    { "10 Jun 1648", "Jun 10, 1648" },
-    { "30 Jun 1680", "Jun 30, 1680" },
-    { "24 Jul 1716", "Jul 24, 1716" },
-    { "19 Jun 1768", "Jun 19, 1768" },
-    { "2 Aug 1819", "Aug 2, 1819" },
-    { "27 Mar 1839", "Mar 27, 1839" },
-    { "19 Apr 1903", "Apr 19, 1903" },
-    { "25 Aug 1929", "Aug 25, 1929" },
-    { "29 Sep 1941", "Sep 29, 1941" },
-    { "19 Apr 1943", "Apr 19, 1943" },
-    { "7 Oct 1943", "Oct 7, 1943" },
-    { "17 Mar 1992", "Mar 17, 1992" },
-    { "25 Feb 1996", "Feb 25, 1996" },
-    { "10 Nov 2038", "Nov 10, 2038" },
-    { "18 Jul 2094", "Jul 18, 2094" }
+    { "30 Jul -586", "30 Jul -586" },
+    { "8 Dec -168",  "8 Dec -168"  },
+    { "26 Sep 70",   "26 Sep 70"   },
+    { "3 Oct 135",   "3 Oct 135"   },
+    { "7 Jan 469",   "7 Jan 469/70" },
+    { "18 May 576",  "18 May 576"  },
+    { "7 Nov 694",   "7 Nov 694"   },
+    { "19 Apr 1013", "19 Apr 1013" },
+    { "18 May 1096", "18 May 1096" },
+    { "16 Mar 1189", "16 Mar 1189/90" },
+    { "3 Mar 1239",  "3 Mar 1239/40" },
+    { "26 Mar 1288", "26 Mar 1288" },
+    { "20 Apr 1298", "20 Apr 1298" },
+    { "4 Jun 1391",  "4 Jun 1391"  },
+    { "25 Jan 1435", "25 Jan 1435/6" },
+    { "31 Mar 1492", "31 Mar 1492" },
+    { "9 Sep 1553",  "9 Sep 1553"  },
+    { "24 Feb 1559", "24 Feb 1559/60" },
+    { "31 May 1648", "31 May 1648" },
+    { "20 Jun 1680", "20 Jun 1680" },
+    { "13 Jul 1716", "13 Jul 1716" },
+    { "8 Jun 1768",  "8 Jun 1768"  },
+    { "21 Jul 1819", "21 Jul 1819" },
+    { "15 Mar 1838", "15 Mar 1838/9" },
+    { "6 Apr 1903",  "6 Apr 1903"  },
+    { "12 Aug 1929", "12 Aug 1929" },
+    { "16 Sep 1941", "16 Sep 1941" },
+    { "6 Apr 1943",  "6 Apr 1943"  },
+    { "24 Sep 1943", "24 Sep 1943" },
+    { "4 Mar 1991",  "4 Mar 1991/2" },
+    { "12 Feb 1995", "12 Feb 1995/6" },
+    { "28 Oct 2038", "28 Oct 2038" },
+    { "5 Jul 2094",  "5 Jul 2094"  }
 };
 
 
-bool TestDef_g::setInputOrder( const string& order )
+bool TestDef_j325::setInputOrder( const string& order )
 {
     Scheme_input input;
     m_cal->get_scheme_input( &input, m_sid );
@@ -111,7 +111,7 @@ bool TestDef_g::setInputOrder( const string& order )
     return false;
 }
 
-bool TestDef_g::setOutputFormat( const string& format )
+bool TestDef_j325::setOutputFormat( const string& format )
 {
     Scheme_output output;
     m_cal->get_scheme_output( &output, m_sid );
@@ -124,42 +124,40 @@ bool TestDef_g::setOutputFormat( const string& format )
     return false;
 }
 
-void TestDef_g::setUp()
+void TestDef_j325::setUp()
 {
     m_cal = new Calendars(Init_schemes_default);
-    m_sid = m_cal->get_scheme_id( "g" );
+    m_sid = m_cal->get_scheme_id( "j325" );
 }
 
-void TestDef_g::tearDown()
+void TestDef_j325::tearDown()
 {
     delete m_cal;
 }
 
-void TestDef_g::testCreation()
+void TestDef_j325::testCreation()
 {
     CPPUNIT_ASSERT( m_sid >= 0 );
     Scheme_info info;
     m_cal->get_scheme_info( &info, m_sid );
-    string str = "Gregorian";
+    string str = "Julian Annunciation";
     CPPUNIT_ASSERT_EQUAL( str, info.name );
-    str = "g";
+    str = "j325";
     CPPUNIT_ASSERT_EQUAL( str, info.code );
-    str = "j";
+    str = "j.sh";
     CPPUNIT_ASSERT_EQUAL( str, info.grammar_code );
     CPPUNIT_ASSERT( info.vocab_codes.size() == info.vocab_names.size() );
     for( size_t i = 0 ; i < info.vocab_codes.size() ; i++ ) {
         str = "";
         if( info.vocab_codes[i] == "m" ) {
             str = "Month names";
-        } else if( info.vocab_codes[i] == "w" ) {
-            str = "Weekday names";
         }
         CPPUNIT_ASSERT( str != "" );
         CPPUNIT_ASSERT_EQUAL( str, info.vocab_names[i] );
     }
 }
 
-void TestDef_g::testStrTableInput()
+void TestDef_j325::testStrTableInput()
 {
     bool set = setInputOrder( "Day Month Year" );
     CPPUNIT_ASSERT( set == true );
@@ -168,15 +166,13 @@ void TestDef_g::testStrTableInput()
         CPPUNIT_ASSERT_EQUAL( testJdnValues[i], jdn );
     }
 
-    set = setInputOrder( "Month Day Year" );
-    CPPUNIT_ASSERT( set == true );
     for( size_t i = 0 ; i < MaxSample ; i++ ) {
         Field jdn = m_cal->str_to_jdn( m_sid, test_strs[i][1] );
         CPPUNIT_ASSERT_EQUAL( testJdnValues[i], jdn );
     }
 }
 
-void TestDef_g::testStrTableOutput()
+void TestDef_j325::testStrTableOutput()
 {
     bool set = setOutputFormat( "dd Mon yyyy" );
     CPPUNIT_ASSERT( set == true );
@@ -186,7 +182,7 @@ void TestDef_g::testStrTableOutput()
         CPPUNIT_ASSERT_EQUAL( tbl, str );
     }
 
-    set = setOutputFormat( "Mon dd, yyyy" );
+    set = setOutputFormat( "dd Mon yyyy/y" );
     CPPUNIT_ASSERT( set == true );
     for( size_t i = 0 ; i < MaxSample ; i++ ) {
         string str = m_cal->jdn_to_str( m_sid, testJdnValues[i] );
@@ -195,18 +191,24 @@ void TestDef_g::testStrTableOutput()
     }
 }
 
-void TestDef_g::testRangeShorthand()
+void TestDef_j325::testRangeShorthand()
 {
-    struct data { string in; string out; } t[] = {
-        { "19sep1948", "19 Sep 1948" },
-        { "sep1948", "Sep 1948" },
-        { "1948", "1948" },
-        { "1feb1948 ~ 29feb1948", "Feb 1948" },
-        { "1jan1948 ~ 31dec1948", "1948" },
-        { "1948 ~ sep1948", "Jan 1948 ~ Sep 1948" },
-        { "1948~19sep1948", "1 Jan 1948 ~ 19 Sep 1948" },
-        { "19sep1948~1948", "19 Sep 1948 ~ 31 Dec 1948" },
-        { "19 ? 1948", invalid }
+    struct data { string in; string out1; string out2; } t[] = {
+        { "6 sep 1948", "6 Sep 1948", "6 Sep 1948" },
+        { "23feb1942", "23 Feb 1942", "23 Feb 1942/3" },
+        { "25 March 1948 ~ 24 3 1948", "1948", "1948 ~ 1948/9" },
+        { "1948", "1948", "1948 ~ 1948/9" },
+        { "1feb1948 ~ 28 feb 1948", "Feb 1948", "Feb 1948/9" },
+        { "Feb1948", "Feb 1948", "Feb 1948/9" },
+        { "1 Apr 1948 ~ 30 4 1948", "Apr 1948", "Apr 1948" },
+        { "? 4 1948", "Apr 1948", "Apr 1948" },
+        { 
+            "Mar 1948", 
+            "25 Mar 1948 ~ 31 Mar 1948 | 1 Mar 1948 ~ 24 Mar 1948",
+            "25 Mar 1948 ~ 31 Mar 1948 | 1 Mar 1948/9 ~ 24 Mar 1948/9"
+        },
+        { "25 Mar 1948 ~ Apr 1948", "25 Mar 1948 ~ 30 Apr 1948", "25 Mar 1948 ~ 30 Apr 1948" },
+        { "19 ? 1948", "", "" },
     };
     size_t count = sizeof(t) / sizeof(data);
 
@@ -217,8 +219,15 @@ void TestDef_g::testRangeShorthand()
     for( size_t i = 0 ; i < count ; i++ ) {
         RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in );
         string str = m_cal->rangelist_to_str( m_sid, rl );
-        CPPUNIT_ASSERT_EQUAL( t[i].out, str );
+        CPPUNIT_ASSERT_EQUAL( t[i].out1, str );
+    }
+    set = setOutputFormat( "dd Mon yyyy/y" );
+    CPPUNIT_ASSERT( set == true );
+    for( size_t i = 0 ; i < count ; i++ ) {
+        RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in );
+        string str = m_cal->rangelist_to_str( m_sid, rl );
+        CPPUNIT_ASSERT_EQUAL( t[i].out2, str );
     }
 }
 
-// End of src/test/def_g.cpp file
+// End of src/test/def_j325.cpp file
