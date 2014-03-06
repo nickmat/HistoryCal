@@ -37,11 +37,11 @@ const char* Cal::cal_default_script =
     "};\n"
 
     "grammar d {"
-    " alias field { Day day; WDay wday; };"
-    " alias format-number-code { WDay w; Day ddddd; };"
     " vocabs w;"
     " format pref @(Day);"
     " format @(Day)@ (WDay:w.a);"
+    " alias field { Day day; WDay wday; };"
+    " alias format-number-code { WDay w; Day ddddd; };"
     "};\n"
 
     "scheme jdn {name Julian Day Number; base jdn; grammar d;};\n"
@@ -57,9 +57,6 @@ const char* Cal::cal_default_script =
     "};\n"
 
     "grammar j {"
-    " alias field { WDay wday; Day day; Month month; Year year; };"
-    " alias format-number-code { WDay w; Day dd; Month mm; Year yyyy; };"
-    " alias unit { d day; m month; y year; w week; };"
     " vocabs m w;"
     " format pref @(Day) @(Month:m.a) @(Year);"
     " format @(WDay:w.a) @(Day) @(Month:m.a) @(Year);"
@@ -67,9 +64,12 @@ const char* Cal::cal_default_script =
     " format @(WDay:w) @(Day) @(Month:m) @(Year);"
     " format @(Month:m.a) @(Day), @(Year);"
     " format @(Year)@:(Month)@:(Day);"
+    " alias field { WDay wday; Day day; Month month; Year year; };"
+    " alias format-number-code { WDay w; Day dd; Month mm; Year yyyy; };"
+    " alias unit { d day; m month; y year; w week; };"
     "};\n"
 
-    "scheme jb {name Julian Base; base julian; grammar j;};\n"
+    "scheme j {name Julian; base julian; grammar j;};\n"
     "scheme g {name Gregorian; base gregorian; grammar j;};\n"
 
     "grammar j.sh {"
@@ -80,18 +80,18 @@ const char* Cal::cal_default_script =
     " format @(Day) @(Month:m.a) @(Year);"
     "};\n"
 
-    "scheme j325 {name Julian Annunciation; shift jb 1721142; grammar j.sh;};\n"
+    "scheme j325 {name Julian Annunciation; shift j 1721142; grammar j.sh;};\n"
 
     "scheme eng1 {name English Hybrid;" 
     " hybrid {fields s.year year month day;"
     " scheme j325;"
-    " scheme jb {begin 2360975; match {s.year year; month month; day day;};};"
+    " scheme j {begin 2360975; match {s.year year; month month; day day;};};"
     " scheme g {begin 2361222; match {s.year year; month month; day day;};};};"
     " grammar j.sh;};\n"
 
     "scheme eng2 {name English Julian/Gregorian Change;" 
     " hybrid {fields year month day;"
-    " scheme jb;"
+    " scheme j;"
     " scheme g {begin 2361222; match {year year; month month; day day;};};};"
     " grammar j;};\n"
 
@@ -132,7 +132,7 @@ const char* Cal::cal_default_script =
     "};\n"
 
     "scheme test {name Test Julian Annunciation;"
-    " era jb year {1721507 -2147483646;};"
+    " era j year {1721507 -2147483646;};"
     " grammar j;"
     "};\n"
 ;
