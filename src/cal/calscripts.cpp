@@ -37,11 +37,9 @@ const char* Cal::cal_default_script =
     "};\n"
 
     "grammar d {"
-    " vocabs w;"
     " format pref @(Day);"
-    " format @(Day)@ (WDay:w.a);"
-    " alias field { Day day; WDay wday; };"
-    " alias format-number-code { WDay w; Day ddddd; };"
+    " alias field { Day day; };"
+    " alias format-number-code { Day ddddd; };"
     "};\n"
 
     "scheme jdn {name Julian Day Number; base jdn; grammar d;};\n"
