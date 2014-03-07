@@ -19,16 +19,71 @@
   <a href="../index.htm" class="m-item">Home</a>
   <a href="../cal/index.htm" class="m-item level1">Calendars</a>
   <a href="g.htm" class="m-item level2 thispage">g</a>
-  <a href="jb.htm" class="m-item prev">&lt;&lt;</a>
+  <a href="j.htm" class="m-item prev">&lt;&lt;</a>
   <a href="../man/manual-ind.htm" class="m-item next">&gt;&gt;</a>
 </div>
 
 <div id="content" class="nomenu">
 
 <h2>Calendar Description</h2>
-
 <p>
- Under construction.
+ This Gregorian calendar implements the changes made to the <a href='j.htm'>Julian calendar</a> by
+ Pope Gregory XIII. There were three changes made, a change to the way leap
+ years are determined, the year number change date (New Year) fixed to
+ 1st January, and the removal of excess days (compared to the solar year) that
+ had built up since AD 325 (the year the First Council of Nicaea was held).
+</p>
+<p>
+ The proleptic Gregorian calendar follows the ISO 8601 standard.
+ The year zero is included, years before year zero are given as negative.
+</p>
+
+<h3>Use Case</h3>
+<p>
+ The Geregorian calendar was first introduced in Catholic
+ countries in 1582 and has since be adopted by most of the world and has
+ become the most commonly used calendar today.
+</p>
+
+<h3>Definition</h3>
+<table class='record'>
+<tr><th colspan='3'>Record</th></tr>
+<tr><td>year</td><td>month</td><td>day</td></tr>
+</table>
+<p>
+ The Gregorian calendar is based on a solar year of 365.2425 days.
+ Days start at midnight.
+</p>
+<p>
+ The <b>Record</b> consists of three <b>Fields</b> named <code>year,</code>
+ <code>month,</code> and <code>day.</code>  There are two types of years, a
+ common year and a leap year. Years are leap years when the current era
+ year is divisible by 4 but not by 100 unless divisible by 400.
+ There are twelve <code>months</code> in a <code>year</code> numbered 1 to 12.
+ The number of <code>days</code> in a <code>month</code> varies between 28 and
+ 31, and are numbered from 1, as shown in the table for the
+ <a href='j.htm'>Julian calendar</a>. This gives a total of 365 days in a
+ common year and 366 in a leap year.
+</p>
+<p>
+ The <b>Epoch</b> is set at <code>year 1 month 1 day 1 (<b>g</b>) = day 1721426 (<b>jdn</b>).</code>
+</p>
+
+<h3>Script</h3>
+<table class='code'>
+<tr><th>Default Script</th></tr>
+<tr><td
+><b>scheme</b> g {
+ name Gregorian;
+ base gregorian;
+ grammar j;
+};
+</td></tr>
+</table>
+<p>
+ The default script that implements the Gregorian calendar uses the same
+ grammar as the <a href='j.htm'>Julian calendar</a>. It is the third
+ calendar defined in the default script.
 </p>
 
 </div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>HistoryCal - Julian Base</title>
+<title>HistoryCal - Julian</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="icon" type="image/png" href="../sys/logo1_32x32x32.png" />
 <link rel='stylesheet' type='text/css' href='../sys/hcal.css' />
@@ -10,7 +10,7 @@
 
 <h1>
  <a  href="../index.htm"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
- HistoryCal Calendar<br/>Julian Base (jb)
+ HistoryCal Calendar<br/>Julian (j)
 </h1>
 
 <div id="page">
@@ -18,7 +18,7 @@
 <div id="crumbs">
   <a href="../index.htm" class="m-item">Home</a>
   <a href="../cal/index.htm" class="m-item level1">Calendars</a>
-  <a href="jb.htm" class="m-item level2 thispage">jb</a>
+  <a href="j.htm" class="m-item level2 thispage">j</a>
   <a href="jdn.htm" class="m-item prev">&lt;&lt;</a>
   <a href="g.htm" class="m-item next">&gt;&gt;</a>
 </div>
@@ -27,12 +27,14 @@
 
 <h2>Calendar Description</h2>
 <p>
- The Julian Basic calendar is the simplest possible interpretation of the
- calendar introduced by Julius Caesar and using the Common Era year count.
- It is the version generally used by astronomers. The year change is the 1st
- January, the year zero is included, years before year zero are given as
- negative. There is no attempt to allow for the irregular leap years that
- occured when the calendar was first introduced.
+ This Julian calendar is the simplest possible interpretation of the
+ calendar introduced by Julius Caesar, amended by Augustus Caesar and using the
+ Current Era (also known as Common Era or Christian Era) year count.
+ It is also known as Julian Astronomical calendar as it is the version
+ generally used by astronomers. The year change is the 1st January, the year
+ zero is included, years before year zero are given as negative. There is no
+ attempt to allow for the irregular leap years that occured when the calendar
+ was first introduced.
 </p>
 
 <h3>Use Case</h3>
@@ -70,64 +72,71 @@
 <tr><td>year</td><td>month</td><td>day</td></tr>
 </table>
 <p>
+ The Julian calendar is based on a solar year of 365.25 days.
+ Days start at midnight.
+</p>
+<p>
  The <b>Record</b> consists of three <b>Fields</b> named <code>year,</code>
- <code>month,</code> and <code>day.</code> There are twelve <code>months</code>
- in a <code>year</code> numbered 1 to 12. The number of <code>days</code> in a
- <code>month</code> varies between 28 and 31, numbered from 1.
+ <code>month,</code> and <code>day.</code>  There are two types of years, a common year and a leap year,
+ which follow the repeating pattern of three common years then one leap year.
+ There are twelve <code>months</code> in a <code>year</code> numbered 1 to 12.
+ The number of <code>days</code> in a <code>month</code> varies between 28 and 31, and are numbered from 1,
+ as shown in the table opposite. This gives a total of 365 days in a common year and 366 in a leap year.
 </p>
 <p>
- The <b>Epoch</b> is set at <code>year 1 month 1 day 1 (<b>jb</b>) = day 1721424 (<b>jdn</b>).</code>
-</p>
-<p>
- The Julian Basic Calendar consists of approximately solar year length years. There are two types of years, common year and leap year, which follow the repeating pattern of three common years then one leap year. The year is divided into twelve months with 28 to 31 days in each as shown in the table opposite.
+ The <b>Epoch</b> is set at <code>year 1 month 1 day 1 (<b>j</b>) = day 1721424 (<b>jdn</b>).</code>
 </p>
 
 <h3>Script</h3>
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
-><b>vocab</b> m1 {
- name Short Month names;
- style abrev;
+><b>vocab</b> w {
+ name Weekday names;
  lang en;
- field Mon;
+ style-name Weekday WDay;
  tokens {
-  1 Jan; 2 Feb; 3 Mar;
-  4 Apr; 5 May; 6 Jun;
-  7 Jul; 8 Aug; 9 Sep;
-  10 Oct; 11 Nov; 12 Dec;
+  1 Monday Mon; 2 Tuesday Tue; 3 Wednesday Wed;
+  4 Thursday Thur; 5 Friday Fri; 6 Saturday Sat;
+  7 Sunday Sun;
  };
 };
-<b>vocab</b> m2 {
+<b>vocab</b> m {
  name Full Month names;
- style full;
  lang en;
- field Month;
+ style-name Month Mon;
  tokens {
-  1 January; 2 Febuary; 3 March;
-  4 April; 5 May; 6 June;
-  7 July; 8 August; 9 September;
-  10 October; 11 November; 12 December;
+  1 January Jan; 2 Febuary Feb; 3 March Mar;
+  4 April Apr; 5 May; 6 June Jun;
+  7 July Jul; 8 August Aug; 9 September Sep;
+  10 October Oct; 11 November Nov; 12 December Dec;
  };
 };
 <b>grammar</b> j {
- alias field {Day day; Month month; Year year;};
+ vocabs m w;
+ format pref @(Day) @(Month:m.a) @(Year);
+ format @(WDay:w.a) @(Day) @(Month:m.a) @(Year);
+ format @(Day) @(Month:m) @(Year);
+ format @(WDay:w) @(Day) @(Month:m) @(Year);
+ format @(Month:m.a) @(Day), @(Year);
+ format @(Year)@:(Month)@:(Day);
+ alias field {WDay wday; Day day; Month month; Year year;};
+ alias format-number-code {WDay w; Day dd; Month mm; Year yyyy;};
  alias unit {d day; m month; y year; w week;};
- vocabs m2 m1;
- format pref @(3:Day) @(2:Month:m1) @(1:Year);
- format @(3:Day) @(2:Month:m2) @(1:Year);
- format @(2:Month:m1) @(3:Day), @(1:Year);
- format @(1:Year)@:(2:Month)@:(3:Day);
 };
-<b>scheme</b> jb {
- name Julian Base;
+<b>scheme</b> j {
+ name Julian;
  base julian;
  grammar j;
 };
 </td></tr>
 </table>
 <p>
- The script has no dependencies and is the second calendar defined in the default script.
+ The script makes use of the globally available read-only field <code>wday</code>
+ to output weekdays.
+</p>
+<p>
+ The script is the second calendar defined in the default script.
 </p>
 
 </div>
