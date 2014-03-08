@@ -73,6 +73,7 @@ HCAL_OBJECTS =  \
 TESTS_CXXFLAGS = $(VAR) $(VAR_5) -I../../include -I$(CPPUNIT)/include \
 	$(CPPFLAGS) $(CXXFLAGS)
 TESTS_OBJECTS =  \
+	tests_def_eng.o \
 	tests_def_g.o \
 	tests_def_j325.o \
 	tests_testcal.o \
@@ -193,6 +194,9 @@ hcal_hcversion.o: ./../../src/hcal/hcversion.cpp
 
 hcal_dummy.o: ./../../src/dummy.cpp
 	$(CXX) -c -o $@ $(HCAL_CXXFLAGS) $(CPPDEPS) $<
+
+tests_def_eng.o: ./../../src/test/def_eng.cpp
+	$(CXX) -c -o $@ $(TESTS_CXXFLAGS) $(CPPDEPS) $<
 
 tests_def_g.o: ./../../src/test/def_g.cpp
 	$(CXX) -c -o $@ $(TESTS_CXXFLAGS) $(CPPDEPS) $<

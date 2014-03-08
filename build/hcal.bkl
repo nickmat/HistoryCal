@@ -85,6 +85,7 @@
     <app-type>console</app-type>
     <runtime-libs>dynamic</runtime-libs>
 
+    <sources>$(LOCAL_SRC)/test/def_eng.cpp</sources>
     <sources>$(LOCAL_SRC)/test/def_g.cpp</sources>
     <sources>$(LOCAL_SRC)/test/def_j325.cpp</sources>
     <sources>$(LOCAL_SRC)/test/testcal.cpp</sources>

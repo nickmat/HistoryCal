@@ -81,6 +81,15 @@ string Hybrid::get_fieldname( size_t index ) const
 Field Hybrid::get_jdn( const Field* fields ) const
 {
     if( fields[0] == f_invalid ) {
+        // We can't be sure there is not several answers
+        // but we will return the first (earliest) one found.
+        for( size_t i = 0 ; i < m_bases.size() ; i++ ) {
+            FieldVec fs = get_xref( &fields[1], i );
+            Field jdn = m_bases[i]->get_jdn( &fs[0] );
+            if( jdn != f_invalid && ( i == m_bases.size() - 1 || jdn < m_dates[i] ) ) {
+                return jdn;
+            }
+        }
         return f_invalid;
     }
     FieldVec fs = get_xref( &fields[1], fields[0] );
@@ -260,9 +269,17 @@ bool Hybrid::set_field_last( Field* fields, size_t index ) const
 
 void Hybrid::set_fields( Field* fields, Field jdn ) const
 {
-    fields[0] = find_scheme( jdn );
-    Record rec( m_bases[fields[0]], jdn );
-    set_xref( &fields[1], rec.get_field_ptr(), fields[0] );
+    Field sch = find_scheme( jdn );
+    fields[0] = sch;
+    Record rec( m_bases[sch], jdn );
+    XRefVec xref = m_xref_fields[sch];
+    for( size_t i = 0 ; i < xref.size() ; i++ ) {
+        if( xref[i] >= 0 ) {
+            fields[i+1] = rec.get_field( xref[i] );
+        } else {
+            fields[i+1] = f_invalid;
+        }
+    }
 }
 
 void Hybrid::create_fieldnames( const std::string& names )
@@ -323,7 +340,7 @@ void Hybrid::add_match( Base* base, const std::string& str )
 FieldVec Hybrid::get_xref( const Field* fields, Field sch ) const
 {
     FieldVec xref = m_xref_fields[sch];
-    FieldVec result(xref.size());
+    FieldVec result(m_rec_size, f_invalid);
     for( size_t i = 0 ; i < xref.size() ; i++ ) {
         if( xref[i] < 0 ) {
             continue;

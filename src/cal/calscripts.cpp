@@ -80,13 +80,24 @@ const char* Cal::cal_default_script =
 
     "scheme j325 {name Julian Annunciation; shift j 1721142; grammar j.sh;};\n"
 
-    "scheme eng1 {name English Hybrid;" 
-    " hybrid {fields s.year year month day;"
-    " scheme j325;"
-    " scheme j {begin 2360975; match {s.year year; month month; day day;};};"
-    " scheme g {begin 2361222; match {s.year year; month month; day day;};};};"
-    " grammar j.sh;};\n"
-
+    "scheme eng {name English Hybrid;" 
+    " hybrid {"
+    "  fields year month day unshift;"
+    "  scheme j325 {"
+    "   match {year year; month month; day day; unshift unshift;};"
+    "  };"
+    "  scheme j {"
+    "   begin 2360975;"
+    "   match {year year; month month; day day;};"
+    "  };"
+    "  scheme g {"
+    "   begin 2361222;"
+    "   match {year year; month month; day day;};"
+    "  };"
+    " };"
+    " grammar j.sh;"
+    "};\n"
+#if 0
     "scheme eng2 {name English Julian/Gregorian Change;" 
     " hybrid {fields year month day;"
     " scheme j;"
@@ -133,6 +144,7 @@ const char* Cal::cal_default_script =
     " era j year {1721507 -2147483646;};"
     " grammar j;"
     "};\n"
+#endif
 ;
 
 // End of src/cal/calscripts.cpp file
