@@ -28,6 +28,24 @@
 #include "calscripts.h"
 
 const char* Cal::cal_default_script =
+#if 0
+        "scheme j {name Julian; base julian;};\n"
+        "scheme g {name Gregorian; base gregorian;};\n"
+        "scheme t1 {name Test Hybrid;" 
+        " hybrid {"
+        "  fields year month day;"
+        "  scheme g {"
+        "   match {year year; month month; day day;};"
+        "  };"
+        "  scheme j {"
+        "   begin 2361222;"
+        "   match {year year; month month; day day;};"
+        "  };"
+        " };"
+        "};\n"
+;
+#endif
+
     "vocab w {name Weekday names; lang en; style-name Weekday WDay;"
     " tokens {"
     "  1 Monday Mon; 2 Tuesday Tue; 3 Wednesday Wed;"
@@ -80,6 +98,22 @@ const char* Cal::cal_default_script =
 
     "scheme j325 {name Julian Annunciation; shift j 1721142; grammar j.sh;};\n"
 
+    "vocab sch {"
+    " name Scheme names; lang en; style-name Scheme Sch;"
+    " tokens {"
+    "  0 \"Old Style\" OS; 1 Julian J; 2 \"New Style\" NS;"
+    " };"
+    "};\n"
+
+    "grammar hy {"
+    " alias field {Day day; Month month; Year year; Hist-Year unshift; Scheme scheme;};"
+    " alias format-number-code {Day dd; Month mm; Year yyyy; Hist-Year y; Scheme s;};"
+    " vocabs m sch;"
+    " format pref @(Day) @(Month:m.a) @(Year/Hist-Year);"
+    " format @(Day) @(Month:m.a) @(Year);"
+    " format @(Day) @(Month:m.a) @(Year) @(Scheme:sch.a);"
+    "};\n"
+
     "scheme eng {name English Hybrid;" 
     " hybrid {"
     "  fields year month day unshift;"
@@ -95,7 +129,7 @@ const char* Cal::cal_default_script =
     "   match {year year; month month; day day;};"
     "  };"
     " };"
-    " grammar j.sh;"
+    " grammar hy;"
     "};\n"
 #if 0
     "scheme eng2 {name English Julian/Gregorian Change;" 
@@ -103,7 +137,7 @@ const char* Cal::cal_default_script =
     " scheme j;"
     " scheme g {begin 2361222; match {year year; month month; day day;};};};"
     " grammar j;};\n"
-
+#endif
     "vocab er {name British Regnal Names; lang en; style-name Reign Rn;"
     " tokens {"
     "  0 \"Pre Regnal\" Pre;"
@@ -129,8 +163,9 @@ const char* Cal::cal_default_script =
     " format @(Year) @(Monarch:er) @(Day) @(Month:m.a);"
     "};\n"
 
-    "scheme er {name English Regnal;"
-    " era eng2 year {"
+    "scheme er {"
+    " name English Regnal;"
+    " era eng year {"
     "  1721507 -2147483646;"                                // 0
     "  2342780 2342780; 2347309 2347309; 2352006 2352006;"  // 1 2 3
     "  2364175 2364175; 2385829 2385829; 2389630 2389630;"  // 4 5 6
@@ -139,12 +174,25 @@ const char* Cal::cal_default_script =
     " };"
     " grammar er;"
     "};\n"
-
+#if 0
     "scheme test {name Test Julian Annunciation;"
     " era j year {1721507 -2147483646;};"
     " grammar j;"
     "};\n"
 #endif
+    "scheme t1 {name Test Hybrid;" 
+    " hybrid {"
+    "  fields year month day;"
+    "  scheme g {"
+    "   match {year year; month month; day day;};"
+    "  };"
+    "  scheme j {"
+    "   begin 2361222;"
+    "   match {year year; month month; day day;};"
+    "  };"
+    " };"
+    " grammar hy;"
+    "};\n"
 ;
 
 // End of src/cal/calscripts.cpp file

@@ -80,6 +80,7 @@ TESTS_OBJECTS =  \
 	tests_testcommon.o \
 	tests_testgrammar.o \
 	tests_testgregorian.o \
+	tests_testhybrid.o \
 	tests_testj325.o \
 	tests_testjulian.o \
 	tests_testmain.o \
@@ -214,6 +215,9 @@ tests_testgrammar.o: ./../../src/test/testgrammar.cpp
 	$(CXX) -c -o $@ $(TESTS_CXXFLAGS) $(CPPDEPS) $<
 
 tests_testgregorian.o: ./../../src/test/testgregorian.cpp
+	$(CXX) -c -o $@ $(TESTS_CXXFLAGS) $(CPPDEPS) $<
+
+tests_testhybrid.o: ./../../src/test/testhybrid.cpp
 	$(CXX) -c -o $@ $(TESTS_CXXFLAGS) $(CPPDEPS) $<
 
 tests_testj325.o: ./../../src/test/testj325.cpp

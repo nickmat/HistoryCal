@@ -147,13 +147,16 @@ void TestDef_eng::testCreation()
     CPPUNIT_ASSERT_EQUAL( str, info.name );
     str = "eng";
     CPPUNIT_ASSERT_EQUAL( str, info.code );
-    str = "j.sh";
+    str = "hy";
     CPPUNIT_ASSERT_EQUAL( str, info.grammar_code );
     CPPUNIT_ASSERT( info.vocab_codes.size() == info.vocab_names.size() );
     for( size_t i = 0 ; i < info.vocab_codes.size() ; i++ ) {
         str = "";
         if( info.vocab_codes[i] == "m" ) {
             str = "Month names";
+        }
+        if( info.vocab_codes[i] == "sch" ) {
+            str = "Scheme names";
         }
         CPPUNIT_ASSERT( str != "" );
         CPPUNIT_ASSERT_EQUAL( str, info.vocab_names[i] );
@@ -213,15 +216,6 @@ void TestDef_eng::testRangeShorthand()
         { "6 sep 1948", "6 Sep 1948", "6 Sep 1948" },
         { "23feb1942", "23 Feb 1942", "23 Feb 1942" },
         { "25 March 1448 ~ 24 3 1448", "1448", "1448 ~ 1448/9" },
-#if 0
-        { "1948", "1948", "1948 ~ 1948/9" },
-        { "1feb1948 ~ 28 feb 1948", "Feb 1948", "Feb 1948/9" },
-        { "Feb1948", "Feb 1948", "Feb 1948/9" },
-        { "1 Apr 1948 ~ 30 4 1948", "Apr 1948", "Apr 1948" },
-        { "? 4 1948", "Apr 1948", "Apr 1948" },
-        { "25 Mar 1948 ~ Apr 1948", "25 Mar 1948 ~ 30 Apr 1948", "25 Mar 1948 ~ 30 Apr 1948" },
-        { "19 ? 1948", "", "" },
-#endif
     };
     size_t count = sizeof(t) / sizeof(data);
 

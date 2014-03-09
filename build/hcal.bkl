@@ -92,6 +92,7 @@
     <sources>$(LOCAL_SRC)/test/testcommon.cpp</sources>
     <sources>$(LOCAL_SRC)/test/testgrammar.cpp</sources>
     <sources>$(LOCAL_SRC)/test/testgregorian.cpp</sources>
+    <sources>$(LOCAL_SRC)/test/testhybrid.cpp</sources>
     <sources>$(LOCAL_SRC)/test/testj325.cpp</sources>
     <sources>$(LOCAL_SRC)/test/testjulian.cpp</sources>
     <sources>$(LOCAL_SRC)/test/testmain.cpp</sources>
