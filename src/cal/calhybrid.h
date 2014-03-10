@@ -66,10 +66,12 @@ namespace Cal {
 
         virtual void set_fields( Field* fields, Field jdn ) const;
 
+    protected:
+        virtual XRefVec get_default_xref_order( int count );
+
     private:
         void create_fieldnames( const std::string& names );
         void add_scheme( Schemes* schs, const std::string& def );
-        void add_match( Base* base, const std::string& str );
 
         FieldVec get_xref( const Field* fields, Field sch ) const;
         void set_xref( Field* fields, const Field* mask, Field sch ) const;
@@ -79,6 +81,7 @@ namespace Cal {
 
         // Note: m_bases.size() == m_xref_fields.size() == m_dates.size() - 1 
         std::vector<Base*>   m_bases;
+        // m_xref_fields gives the index into the bases fields that match the m_fieldnames
         std::vector<XRefVec> m_xref_fields;
         FieldVec             m_dates;
         // Note: m_rec_size == m_fieldnames.size() + 1

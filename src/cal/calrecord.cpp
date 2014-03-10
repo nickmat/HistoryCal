@@ -70,19 +70,16 @@ void Record::set_str( const string& str )
         return; // Error parsing date
     }
     XRefVec xref = m_base->get_xref_order( cnt );
-    if( xref.size() ) {
-        for( int i = 0 ; i < cnt ; i++ ) {
-            int x = xref[i];
-            if( x >= 0 && x < (int) m_base->record_size() ) {
-                m_f[x] = f[i];
-            }
+    assert( xref.size() );
+    for( int i = 0 ; i < cnt ; i++ ) {
+        int x = xref[i];
+        if( x >= 0 && x < (int) m_base->record_size() ) {
+            m_f[x] = f[i];
         }
-        // TODO: Test for any extended field values
-        // and ensure they are valid.
-        m_jdn = get_jdn();
-    } else {
-        set_fields( &f[0], cnt );
     }
+    // TODO: Test for any extended field values
+    // and ensure they are valid.
+    m_jdn = get_jdn();
 }
 
 bool Record::complete_fields_as_first()

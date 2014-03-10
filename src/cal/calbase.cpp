@@ -213,21 +213,12 @@ string Base::get_alias_fieldname( const string& alias ) const
 
 StringVec Base::get_orders()
 {
-    StringVec orders;
-    string order;
     if( m_grammar && m_grammar->order_size() ) {
-        for( size_t i = 0 ; i < m_grammar->order_size() ; i++ ) {
-            order = m_grammar->order( i );
-            size_t pos = order.find( " |" );
-            if( pos != string::npos ) {
-                order = order.substr( 0, pos );
-            }
-            orders.push_back( order );
-        }
-    } else {
-        order = create_default_order();
-        orders.push_back( order );
+        return m_grammar->get_orders();
     }
+    StringVec orders;
+    string order = create_default_order();
+    orders.push_back( order );
     return orders;
 }
 
@@ -269,7 +260,7 @@ void Base::set_current_order( int index )
     string order;
     if( m_grammar && m_grammar->order_size() ) {
         m_current_order = index;
-        order = m_grammar->order( index );
+        order = m_grammar->get_order( index );
     } else {
         m_current_order = 0;
         order = create_default_order();
@@ -316,8 +307,7 @@ void Base::set_current_format( int index )
 XRefVec Base::get_xref_order( int cnt )
 {
     if( m_xref_order.count( cnt ) == 0 ) {
-        XRefVec x;
-        return x;
+        return get_default_xref_order( cnt );
     }
     return m_xref_order[cnt];
 }
@@ -382,6 +372,18 @@ string Base::get_extended_fieldname( size_t index ) const
         return "wday";
     }
     return "";
+}
+
+XRefVec Base::get_default_xref_order( int count )
+{
+    XRefVec xref( record_size(), -1 );
+    for( size_t i = 0 ; i < record_size() ; i++ ) {
+        if( i == count ) {
+            break;
+        }
+        xref[i] = i;
+    }
+    return xref;
 }
 
 string Base::create_default_order()

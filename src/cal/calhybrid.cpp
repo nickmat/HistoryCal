@@ -84,16 +84,16 @@ Field Hybrid::get_jdn( const Field* fields ) const
         // We can't be sure there is not several answers
         // but we will return the first (earliest) one found.
         for( size_t i = 0 ; i < m_bases.size() ; i++ ) {
-            FieldVec fs = get_xref( &fields[1], i );
-            Field jdn = m_bases[i]->get_jdn( &fs[0] );
+            FieldVec fs = get_xref( &fields[0], i );
+            Field jdn = m_bases[i]->get_jdn( &fs[1] );
             if( jdn != f_invalid && ( i == m_bases.size() - 1 || jdn < m_dates[i] ) ) {
                 return jdn;
             }
         }
         return f_invalid;
     }
-    FieldVec fs = get_xref( &fields[1], fields[0] );
-    return m_bases[fields[0]]->get_jdn( &fs[0] );
+    FieldVec fs = get_xref( &fields[0], fields[0] );
+    return m_bases[fields[0]]->get_jdn( &fs[1] );
 }
 
 Field Hybrid::get_field_last( const Field* fields, size_t index ) const
@@ -115,8 +115,8 @@ bool Hybrid::set_fields_as_begin_first( Field* fields, const Field* mask )
     Field sch = ( mask[0] == f_invalid ) ? 0 : mask[0]; 
     for( ; sch < (Field) m_bases.size() ; sch++ ) {
         Record rec( m_bases[sch] );
-        FieldVec tmask = get_xref( &mask[1], sch );
-        bool ret = rec.set_fields_as_begin_first( &tmask[0] );
+        FieldVec tmask = get_xref( &mask[0], sch );
+        bool ret = rec.set_fields_as_begin_first( &tmask[1] );
         if( ret == true ) {
             Field jdn = rec.get_jdn();
             if( is_in_scheme( jdn, sch ) ) {
@@ -135,8 +135,8 @@ bool Hybrid::set_fields_as_next_first( Field* fields, const Field* mask )
 {
     for( Field sch = fields[0] ; sch < (Field) m_bases.size() ; sch++ ) {
         Record rec( m_bases[sch], &fields[1], m_bases[sch]->record_size() );
-        FieldVec tmask = get_xref( &mask[1], sch );
-        bool ret = rec.set_fields_as_next_first( &tmask[0] );
+        FieldVec tmask = get_xref( &mask[0], sch );
+        bool ret = rec.set_fields_as_next_first( &tmask[1] );
         if( ret == true ) {
             Field jdn = rec.get_jdn();
             if( is_in_scheme( jdn, sch ) ) {
@@ -150,8 +150,8 @@ bool Hybrid::set_fields_as_next_first( Field* fields, const Field* mask )
     }
     for( Field sch = fields[0]+1 ; sch < (Field) m_bases.size() ; sch++ ) {
         Record rec( m_bases[sch] );
-        FieldVec tmask = get_xref( &mask[1], sch );
-        bool ret = rec.set_fields_as_begin_first( &tmask[0] );
+        FieldVec tmask = get_xref( &mask[0], sch );
+        bool ret = rec.set_fields_as_begin_first( &tmask[1] );
         if( ret == true ) {
             Field jdn = rec.get_jdn();
             if( is_in_scheme( jdn, sch ) ) {
@@ -168,8 +168,8 @@ bool Hybrid::set_fields_as_begin_last( Field* fields, const Field* mask )
     Field sch = ( mask[0] == f_invalid ) ? 0 : mask[0]; 
     for( ; sch < (Field) m_bases.size() ; sch++ ) {
         Record rec( m_bases[sch] );
-        FieldVec tmask = get_xref( &mask[1], sch );
-        bool ret = rec.set_fields_as_begin_last( &tmask[0] );
+        FieldVec tmask = get_xref( &mask[0], sch );
+        bool ret = rec.set_fields_as_begin_last( &tmask[1] );
         if( ret == true ) {
             Field jdn = rec.get_jdn();
             if( is_in_scheme( jdn, sch ) ) {
@@ -188,8 +188,8 @@ bool Hybrid::set_fields_as_next_last( Field* fields, const Field* mask )
 {
     for( Field sch = fields[0] ; sch < (Field) m_bases.size() ; sch++ ) {
         Record rec( m_bases[sch], &fields[1], m_bases[sch]->record_size() );
-        FieldVec tmask = get_xref( &mask[1], sch );
-        bool ret = rec.set_fields_as_next_last( &tmask[0] );
+        FieldVec tmask = get_xref( &mask[0], sch );
+        bool ret = rec.set_fields_as_next_last( &tmask[1] );
         if( ret == true ) {
             Field jdn = rec.get_jdn();
             if( is_in_scheme( jdn, sch ) ) {
@@ -203,8 +203,8 @@ bool Hybrid::set_fields_as_next_last( Field* fields, const Field* mask )
     }
     for( Field sch = fields[0]+1 ; sch < (Field) m_bases.size() ; sch++ ) {
         Record rec( m_bases[sch] );
-        FieldVec tmask = get_xref( &mask[1], sch );
-        bool ret = rec.set_fields_as_begin_last( &tmask[0] );
+        FieldVec tmask = get_xref( &mask[0], sch );
+        bool ret = rec.set_fields_as_begin_last( &tmask[1] );
         if( ret == true ) {
             Field jdn = rec.get_jdn();
             if( is_in_scheme( jdn, sch ) ) {
@@ -222,9 +222,9 @@ void Hybrid::remove_fields_if_first( Field* fields ) const
     if( sch == f_invalid ) {
         return;
     }
-    FieldVec mask = get_xref( &fields[1], sch );
-    m_bases[sch]->remove_fields_if_first( &mask[0] );
-    set_hybrid_fields( &fields[0], &mask[0], sch );
+    FieldVec mask = get_xref( &fields[0], sch );
+    m_bases[sch]->remove_fields_if_first( &mask[1] );
+    set_hybrid_fields( &fields[0], &mask[1], sch );
 }
 
 void Hybrid::remove_fields_if_last( Field* fields ) const
@@ -233,9 +233,9 @@ void Hybrid::remove_fields_if_last( Field* fields ) const
     if( sch == f_invalid ) {
         return;
     }
-    FieldVec mask = get_xref( &fields[1], sch );
-    m_bases[sch]->remove_fields_if_last( &mask[0] );
-    set_hybrid_fields( &fields[0], &mask[0], sch );
+    FieldVec mask = get_xref( &fields[0], sch );
+    m_bases[sch]->remove_fields_if_last( &mask[1] );
+    set_hybrid_fields( &fields[0], &mask[1], sch );
 }
 
 bool Hybrid::balance_fields( Field* firsts, Field* lasts ) const
@@ -244,12 +244,12 @@ bool Hybrid::balance_fields( Field* firsts, Field* lasts ) const
     if( sch == f_invalid || sch != lasts[0] ) {
         return Base::balance_fields( firsts, lasts );
     }
-    FieldVec fmask = get_xref( &firsts[1], sch );
-    FieldVec lmask = get_xref( &lasts[1], sch );
-    bool ret = m_bases[sch]->balance_fields( &fmask[0], &lmask[0] );
+    FieldVec fmask = get_xref( &firsts[0], sch );
+    FieldVec lmask = get_xref( &lasts[0], sch );
+    bool ret = m_bases[sch]->balance_fields( &fmask[1], &lmask[1] );
     if( ret ) {
-        set_hybrid_fields( &firsts[0], &fmask[0], sch );
-        set_hybrid_fields( &lasts[0], &lmask[0], sch );
+        set_hybrid_fields( &firsts[0], &fmask[1], sch );
+        set_hybrid_fields( &lasts[0], &lmask[1], sch );
     }
     return ret;
 }
@@ -260,10 +260,10 @@ bool Hybrid::set_field_first( Field* fields, size_t index ) const
     if( sch == f_invalid ) {
         return false;
     }
-    FieldVec mask = get_xref( &fields[1], sch );
-    bool ret = m_bases[sch]->set_field_first( &mask[0], index - 1 );
+    FieldVec mask = get_xref( &fields[0], sch );
+    bool ret = m_bases[sch]->set_field_first( &mask[1], index - 1 );
     if( ret ) {
-        set_hybrid_fields( &fields[0], &mask[0], sch );
+        set_hybrid_fields( &fields[0], &mask[1], sch );
     }
     return ret;
 }
@@ -274,10 +274,10 @@ bool Hybrid::set_field_last( Field* fields, size_t index ) const
     if( sch == f_invalid ) {
         return false;
     }
-    FieldVec mask = get_xref( &fields[1], sch );
-    bool ret = m_bases[sch]->set_field_last( &mask[0], index - 1 );
+    FieldVec mask = get_xref( &fields[0], sch );
+    bool ret = m_bases[sch]->set_field_last( &mask[1], index - 1 );
     if( ret ) {
-        set_hybrid_fields( &fields[0], &mask[0], sch );
+        set_hybrid_fields( &fields[0], &mask[1], sch );
     }
     return ret;
 }
@@ -295,6 +295,16 @@ void Hybrid::set_fields( Field* fields, Field jdn ) const
             fields[i+1] = f_invalid;
         }
     }
+}
+
+XRefVec Hybrid::get_default_xref_order( int count )
+{
+    XRefVec xref( record_size(), -1 );
+    for( size_t i = 1 ; i < record_size() ; i++ ) {
+        xref[i-1] = i;
+    }
+    xref[record_size()-1] = 0;
+    return xref;
 }
 
 void Hybrid::create_fieldnames( const std::string& names )
@@ -324,30 +334,11 @@ void Hybrid::add_scheme( Schemes* schs, const std::string& def )
         if( word == "begin" ) {
             Field date = str_to_field( body );
             m_dates.push_back( date );
-        } else if( word == "match" ) {
-            add_match( base, body );
         }
     }
-    if( m_bases.size() != m_xref_fields.size() ) {
-        // Add a default xref to indicate a 1 to 1 match 
-        XRefVec xref( m_rec_size - 1 );
-        for( size_t i = 0 ; i < xref.size() ; i++ ) {
-            xref[i] = i;
-        }
-        m_xref_fields.push_back( xref );
-    }
-}
-
-void Hybrid::add_match( Base* base, const std::string& str )
-{
-    XRefVec xref( m_rec_size - 1, -1 );
-    string match;
-    StringVec statements = parse_statements( peel_cbrackets( str ) );
-    for( size_t i = 0 ; i < statements.size() ; i++ ) {
-        string word = get_first_word( statements[i], &match );
-        int hybrid_field = get_fieldname_index( word );
-        int match_field = base->get_fieldname_index( match );
-        xref[hybrid_field-1] = match_field;
+    XRefVec xref( m_fieldnames.size() );
+    for( size_t i = 0 ; i < xref.size() ; i++ ) {
+        xref[i] = base->get_fieldname_index( m_fieldnames[i] );
     }
     m_xref_fields.push_back( xref );
 }
@@ -355,12 +346,15 @@ void Hybrid::add_match( Base* base, const std::string& str )
 FieldVec Hybrid::get_xref( const Field* fields, Field sch ) const
 {
     FieldVec xref = m_xref_fields[sch];
-    FieldVec result(m_rec_size, f_invalid);
+    FieldVec result( m_rec_size, f_invalid );
+    // note, field[0] may or may not match sch 
+    result[0] = sch;
     for( size_t i = 0 ; i < xref.size() ; i++ ) {
-        if( xref[i] < 0 ) {
+        int x = xref[i];
+        if( x < 0 || x+1 >= (int) m_rec_size ) {
             continue;
         }
-        result[xref[i]] = fields[i];
+        result[x+1] = fields[i+1];
     }
     return result;
 }
@@ -368,9 +362,10 @@ FieldVec Hybrid::get_xref( const Field* fields, Field sch ) const
 void Hybrid::set_xref( Field* fields, const Field* mask, Field sch ) const
 {
     FieldVec xref = m_xref_fields[sch];
-    for( size_t i = 0 ; i < xref.size() ; i++ ) {
-        if( xref[i] >= 0 ) {
-            fields[i] = mask[xref[i]];
+    fields[0] = sch;
+    for( size_t i = 1 ; i < xref.size()+1 ; i++ ) {
+        if( xref[i-1] >= 0 ) {
+            fields[i] = mask[xref[i-1]];
         }
     }
 }
@@ -400,7 +395,7 @@ void Hybrid::set_hybrid_fields( Field* fields, const Field* mask, Field sch ) co
 {
     fields[0] = sch;
     FieldVec xref = m_xref_fields[sch];
-    for( size_t i = 0 ; i < xref.size() ; i++ ) {
+    for( size_t i = 0 ; i < m_bases[sch]->record_size() ; i++ ) {
         if( xref[i] < 0 ) {
             continue;
         }

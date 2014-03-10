@@ -30,6 +30,10 @@
 #define TEST_TESTCOMMON_H_GUARD
 
 #include <cal/calendars.h>
+#include "../cal/calschemes.h"
+#include "../cal/calscheme.h"
+#include "../cal/calrecord.h"
+#include "../cal/calbase.h"
 
 const int MaxSample = 33;
 

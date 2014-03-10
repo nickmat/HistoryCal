@@ -115,10 +115,6 @@ namespace Cal {
 
         XRefVec get_xref_order( int count );
 
-        int set_sequence( int seq = 0 ) { int s = m_sequence; m_sequence = seq; return s; }
-        void set_sequence_max( int smax ) { m_sequence_max = smax; }
-        int  get_sequence_max() const { return m_sequence_max; }
-
         FieldVec fields_to_vec( const Field* fields ) const;
         bool is_complete( const Field* fields ) const;
         void copy_fields( Field* to, const Field* from ) const;
@@ -130,6 +126,7 @@ namespace Cal {
     protected:
         int get_extended_fieldname_index( const std::string& fieldname ) const;
         std::string get_extended_fieldname( size_t index ) const;
+        virtual XRefVec get_default_xref_order( int count );
 
     private:
         std::string create_default_order();
@@ -139,9 +136,6 @@ namespace Cal {
         int         m_current_order;
         int         m_current_format;
         std::map<int,XRefVec>  m_xref_order;
-
-        int  m_sequence;
-        int  m_sequence_max;
     };
 
 }

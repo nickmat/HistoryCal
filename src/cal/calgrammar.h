@@ -51,8 +51,8 @@ namespace Cal {
         std::string get_num_code_alias( const std::string& fname ) const;
         Unit get_unit_alias( const std::string& fname ) const;
         size_t order_size() const { return m_orders.size(); }
-        StringVec* get_orders() { return &m_orders; }
-        std::string order( size_t index ) const { return m_orders[index]; }
+        StringVec get_orders() { return m_orders; }
+        std::string get_order( size_t index ) const { return m_orders[index]; }
         int get_pref_order() const { return m_pref_order; }
         size_t format_size() const { return m_formats.size(); }
         StringVec get_formats() const;

@@ -37,7 +37,7 @@ class TestHybrid : public CPPUNIT_NS::TestFixture
 {
     CPPUNIT_TEST_SUITE( TestHybrid );
     CPPUNIT_TEST( testScript );
-//    CPPUNIT_TEST( testOverlap );
+    CPPUNIT_TEST( testOverlap );
     CPPUNIT_TEST_SUITE_END();
 
     Cal::Calendars* m_cal;
@@ -65,14 +65,9 @@ void TestHybrid::setUp()
         "scheme g {name Gregorian; base gregorian;};\n"
         "scheme t1 {name Test Hybrid;" 
         " hybrid {"
-        "  fields scheme year month day;"
-        "  scheme g {"
-        "   match {year year; month month; day day;};"
-        "  };"
-        "  scheme j {"
-        "   begin 2361222;"
-        "   match {year year; month month; day day;};"
-        "  };"
+        "  fields year month day;"
+        "  scheme g;"
+        "  scheme j {begin 2361222;};"
         " };"
         "};\n"
     );
