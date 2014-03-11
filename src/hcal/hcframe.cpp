@@ -54,7 +54,8 @@ using namespace Cal;
  */
 HcFrame::HcFrame(
     const wxString& title, const wxPoint& pos, const wxSize& size, long style )
-    : m_cal(Init_schemes_default), m_from(2), m_to(2),
+    : m_cal(Init_schemes_default), m_from(2), m_to(2), m_show_interm(false),
+    m_show_count(false),
     hcFbFrame( (wxFrame*) NULL, wxID_ANY, title, pos, size, style )
 {
     // Set frames Icon
@@ -75,6 +76,8 @@ HcFrame::HcFrame(
     m_comboBoxOutput->SetSelection( m_to );
     UpdateOutputFormat();
 
+    bSizerIntermeadiate->Show( false );
+
     m_textInput->SetFocus();
 }
 
@@ -84,6 +87,29 @@ void HcFrame::OnExit( wxCommandEvent& event )
 {
     // true is to force the frame to close
     Close( true );
+}
+
+void HcFrame::OnToggleInterm( wxCommandEvent& event )
+{
+    if( m_show_interm ) {
+        bSizerIntermeadiate->Show( false );
+        Layout();
+        m_show_interm = false;
+    } else {
+        bSizerIntermeadiate->Show( true );
+        Layout();
+        m_show_interm = true;
+    }
+}
+
+void HcFrame::OnToggleCount( wxCommandEvent& event )
+{
+    if( m_show_count ) {
+        m_show_count = false;
+    } else {
+        m_show_count = true;
+    }
+    CalculateOutput();
 }
 
 /*! \brief Called on a Help, TFP Website menu option event.
@@ -265,15 +291,18 @@ void HcFrame::CalculateOutput()
         }
 
         inter << m_cal.rangelist_to_str( 0, ranges );
+
         int days = 0;
         for( size_t i = 0 ; i < ranges.size() ; i++ ) {
             days += ranges[i].jdn2 - ranges[i].jdn1 + 1;
         }
-        if( days > 1 ) {
-            inter << "  " << days << "days";
-        }
-
         output << m_cal.rangelist_to_str( m_to, ranges );
+        if( m_show_count && days > 1 ) {
+            output << "  [" << days << " days]";
+        }
+        if( output.empty() ) {
+            output << "Invalid date";
+        }
     }
     m_textIntermediate->SetValue( inter );
     m_textOutput->SetValue( output );

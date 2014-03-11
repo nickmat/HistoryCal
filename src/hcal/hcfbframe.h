@@ -39,29 +39,25 @@ class hcFbFrame : public wxFrame
 	private:
 	
 	protected:
-		wxMenuBar* m_menubar1;
-		wxMenu* m_menuFile;
-		wxMenu* m_menuHelp;
-		wxStaticText* m_staticText1;
+		wxMenuItem* m_menuViewInterm;
+		wxMenuItem* m_menuViewCount;
 		wxComboBox* m_comboBoxInput;
-		wxStaticText* m_staticText4;
 		wxComboBox* m_comboBoxInFormat;
-		wxStaticText* m_staticText6;
 		wxComboBox* m_comboBoxVocab;
 		wxComboBox* m_comboBoxToken;
 		wxCheckBox* m_checkTextFull;
 		wxTextCtrl* m_textInput;
 		wxButton* m_buttonConvert;
-		wxStaticText* m_staticText3;
+		wxBoxSizer* bSizerIntermeadiate;
 		wxTextCtrl* m_textIntermediate;
-		wxStaticText* m_staticText2;
 		wxComboBox* m_comboBoxOutput;
-		wxStaticText* m_staticText41;
 		wxComboBox* m_comboBoxOutFormat;
 		wxTextCtrl* m_textOutput;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnExit( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnToggleInterm( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnToggleCount( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnWebsite( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAbout( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSelectInput( wxCommandEvent& event ) { event.Skip(); }

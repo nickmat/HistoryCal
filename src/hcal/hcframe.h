@@ -45,6 +45,8 @@ public:
 
 private:
 		virtual void OnExit( wxCommandEvent& event );
+		virtual void OnToggleInterm( wxCommandEvent& event );
+		virtual void OnToggleCount( wxCommandEvent& event );
 		virtual void OnWebsite( wxCommandEvent& event );
 		virtual void OnAbout( wxCommandEvent& event );
 
@@ -65,8 +67,10 @@ private:
         void CalculateOutput();
 
         Cal::Calendars m_cal;
-        int            m_from;
-        int            m_to;
+        int   m_from;
+        int   m_to;
+        bool  m_show_interm;
+        bool  m_show_count;
 };
 
 #endif // SRC_HCAL_HCFRAME_H_GUARD

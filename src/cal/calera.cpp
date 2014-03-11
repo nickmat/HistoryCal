@@ -95,7 +95,7 @@ Field Era::get_jdn( const Field* fields ) const
 
 bool Era::set_fields_as_begin_first( Field* fields, const Field* mask )
 {
-    if( mask[0] == f_invalid ) {
+    if( mask[0] == f_invalid || mask[0] < 0 || mask[0] > (int) m_epochs.size() ) {
         return false;
     }
     if( mask[m_offset] == f_invalid ) {
@@ -153,7 +153,7 @@ bool Era::set_fields_as_next_first( Field* fields, const Field* mask )
 
 bool Era::set_fields_as_begin_last( Field* fields, const Field* mask )
 {
-    if( mask[0] == f_invalid ) {
+    if( mask[0] == f_invalid || mask[0] < 0 || mask[0] > (int) m_epochs.size() ) {
         return false;
     }
     if( mask[m_offset] == f_invalid ) {
