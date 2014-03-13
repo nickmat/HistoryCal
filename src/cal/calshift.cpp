@@ -115,8 +115,8 @@ bool Shift::check_usable( const Field* fields ) const
 
 Field Shift::get_field_last( const Field* fields, size_t index ) const
 {
-    assert( false ); // This should not be called - handled by balance_fields.
-    return f_invalid;
+    FieldVec fs = get_vec_adjusted_to_base( fields );
+    return m_base->get_field_last( &fs[0], index );
 }
 
 bool Shift::set_fields_as_begin_first( Field* fields, const Field* mask )

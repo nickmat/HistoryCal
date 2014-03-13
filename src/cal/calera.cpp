@@ -106,7 +106,7 @@ bool Era::set_fields_as_begin_first( Field* fields, const Field* mask )
         m_base->set_fields( &fields[1], m_dates[mask[0]] );
         return make_era_fields( fields );
     }
-    assert( m_offset+3 == m_rec_size ); // assume record ends [year] [month] [day]
+    assert( m_offset+3 <= m_rec_size ); // assume record ends [year] [month] [day]
     fields[0] = mask[0];
     FieldVec tmask(m_rec_size);
     copy_fields( &tmask[0], mask );
@@ -165,7 +165,7 @@ bool Era::set_fields_as_begin_last( Field* fields, const Field* mask )
         return make_era_fields( fields );
     }
 
-    assert( m_offset+3 == m_rec_size ); // assume record ends [year] [month] [day]
+    assert( m_offset+3 <= m_rec_size ); // assume record ends [year] [month] [day]
     fields[0] = mask[0];
     FieldVec tmask(m_rec_size);
     copy_fields( &tmask[0], mask );
