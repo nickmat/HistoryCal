@@ -202,15 +202,17 @@ string Scheme::range_to_str( Range range )
         return jdn_to_str( range.jdn1 );
     }
     Record rec1( m_base, range.jdn1 );
-    rec1.remove_fields_if_first();
+//    rec1.remove_fields_if_first();
 
     Record rec2( m_base, range.jdn2 );
-    rec2.remove_fields_if_last();
+//    rec2.remove_fields_if_last();
 
-    if( rec1.balance_fields( &rec2 ) == false ) {
-        rec1.set_jdn( range.jdn1 );
-        rec2.set_jdn( range.jdn2 );
-    }
+    rec1.remove_balanced_fields( &rec2 );
+
+//    if( rec1.remove_balanced_fields( &rec2 ) == false ) {
+//        rec1.set_jdn( range.jdn1 );
+//        rec2.set_jdn( range.jdn2 );
+//    }
 
     string str1 = rec1.get_str();
     string str2 = rec2.get_str();

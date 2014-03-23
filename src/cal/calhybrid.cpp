@@ -151,8 +151,7 @@ bool Hybrid::set_fields_as_next_first( Field* fields, const Field* mask )
     for( Field sch = fields[0]+1 ; sch < (Field) m_bases.size() ; sch++ ) {
         Record rec( m_bases[sch] );
         FieldVec tmask = get_xref( &mask[0], sch );
-        bool ret = rec.set_fields_as_begin_first( &tmask[1] );
-        if( ret == true ) {
+        if( rec.set_fields_as_begin_first( &tmask[1] ) ) {
             Field jdn = rec.get_jdn();
             if( is_in_scheme( jdn, sch ) ) {
                 set_hybrid_fields( fields, rec.get_field_ptr(), sch );
@@ -169,8 +168,7 @@ bool Hybrid::set_fields_as_begin_last( Field* fields, const Field* mask )
     for( ; sch < (Field) m_bases.size() ; sch++ ) {
         Record rec( m_bases[sch] );
         FieldVec tmask = get_xref( &mask[0], sch );
-        bool ret = rec.set_fields_as_begin_last( &tmask[1] );
-        if( ret == true ) {
+        if( rec.set_fields_as_begin_last( &tmask[1] ) ) {
             Field jdn = rec.get_jdn();
             if( is_in_scheme( jdn, sch ) ) {
                 set_hybrid_fields( fields, rec.get_field_ptr(), sch );
@@ -215,7 +213,7 @@ bool Hybrid::set_fields_as_next_last( Field* fields, const Field* mask )
     }
     return false;
 }
-
+#if 0
 void Hybrid::remove_fields_if_first( Field* fields ) const
 {
     Field sch = fields[0];
@@ -252,6 +250,40 @@ bool Hybrid::balance_fields( Field* firsts, Field* lasts ) const
         set_hybrid_fields( &lasts[0], &lmask[1], sch );
     }
     return ret;
+}
+#endif
+
+void Hybrid::remove_balanced_fields( Field* left, Field* right ) const
+{
+    Base* lbase = m_bases[left[0]];
+    if( left[0] == right[0] ) {
+        lbase->remove_balanced_fields( &left[1], &right[1] );
+        return;
+    }
+    Base* rbase = m_bases[right[0]];
+    size_t size = lbase->record_size();
+    if( size != rbase->record_size() ) {
+        return;
+    }
+    FieldVec ls = get_xref( &left[0], left[0] );
+    FieldVec rs = get_xref( &right[0], right[0] );
+    size_t i;
+    for( i = size -1 ; i > 1 ; --i ) {
+        if( ls[i] == f_invalid || rs[i] == f_invalid ) {
+            return; // Must be fully qualified
+        }
+        Field l = lbase->get_field_first( &ls[1], i-1 );
+        Field r = f_invalid;
+        if( l == ls[i] ) {
+            r = rbase->get_field_last( &rs[1], i-1 );
+        }
+        if( r != rs[i] ) {
+            break;
+        }
+    }
+    for( i++ ; i < size ; i++ ) {
+        left[i] = right[i] = f_invalid;
+    }
 }
 
 bool Hybrid::set_field_first( Field* fields, size_t index ) const

@@ -89,6 +89,29 @@ bool Base::check_usable( const Field* fields ) const
     return true;
 }
 
+void Base::remove_fields_if_first( Field* fields ) const
+{
+    for( size_t i = record_size() - 1 ; i < 1  ; --i ) {
+        if( get_field_first( fields, i ) == fields[i] ) {
+            fields[i] = f_invalid;
+        } else {
+            return;
+        }
+    }
+}
+
+void Base::remove_fields_if_last( Field* fields ) const
+{
+    for( size_t i = record_size() - 1 ; i < 1  ; --i ) {
+        if( get_field_last( fields, i ) == fields[i] ) {
+            fields[i] = f_invalid;
+        } else {
+            return;
+        }
+    }
+}
+
+#if 0
 bool Base::balance_fields( Field* firsts, Field* lasts ) const
 {
     for( size_t i = 1 ; i < record_size() ; i++ ) {
@@ -116,6 +139,28 @@ bool Base::balance_fields( Field* firsts, Field* lasts ) const
         }
     }
     return true;
+}
+#endif
+
+void Base::remove_balanced_fields( Field* left, Field* right ) const
+{
+    size_t i;
+    for( i = record_size() - 1 ; i > 0 ; --i ) {
+        if( left[i] == f_invalid || right[i] == f_invalid ) {
+            return; // Must be fully qualified
+        }
+        Field l = get_field_first( left, i );
+        Field r = f_invalid;
+        if( l == left[i] ) {
+            r = get_field_last( right, i );
+        }
+        if( r != right[i] ) {
+            break;
+        }
+    }
+    for( i++ ; i < record_size() ; i++ ) {
+        left[i] = right[i] = f_invalid;
+    }
 }
 
 bool Base::set_field_first( Field* fields, size_t index ) const

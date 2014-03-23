@@ -215,12 +215,13 @@ void Shift::remove_fields_if_first( Field* fields ) const
         fields[1] = fields[2] = f_invalid;
         return;
     }
-    // We will assume all field start values are 1
-    if( fields[1] == m_start_era[1] && m_start_era[2] != 1 ) {
+    FieldVec fs = get_vec_adjusted_to_base( fields );
+    Field f = m_base->get_field_first( &fs[0], 2 );
+    if( fields[1] == m_start_era[1] && m_start_era[2] != f ) {
         // don't mess with the new year month
         return;
     }
-    if( fields[2] == 1 ) {
+    if( fields[2] == f ) {
         fields[2] = f_invalid;
     }
 }
@@ -234,7 +235,6 @@ void Shift::remove_fields_if_last( Field* fields ) const
     }
     FieldVec fs = get_vec_adjusted_to_base( fields );
     Field f = m_base->get_field_last( &fs[0], 2 );
-
     if( fields[1] == m_before_era[1] && m_before_era[2] != f ) {
         // don't mess with the new year month
         return;
@@ -244,6 +244,7 @@ void Shift::remove_fields_if_last( Field* fields ) const
     }
 }
 
+#if 0
 bool Shift::balance_fields( Field* firsts, Field* lasts ) const
 {
     // assume first field values = 1
@@ -268,6 +269,27 @@ bool Shift::balance_fields( Field* firsts, Field* lasts ) const
         lasts[2] = f;
     }
     return true;
+}
+#endif
+
+void Shift::remove_balanced_fields( Field* left, Field* right ) const
+{
+    // This is designed for 'year month day' calendars
+    assert( record_size() >= 3 );
+    if( left[1] == m_start_era[1] && left[2] == m_start_era[2] &&
+        right[1] == m_before_era[1] && right[2] == m_before_era[2]
+    ) {
+        left[1] = left[2] = right[1] = right[2] = f_invalid;
+    } else {
+        FieldVec l = get_vec_adjusted_to_base( left );
+        FieldVec r = get_vec_adjusted_to_base( right );
+        m_base->remove_balanced_fields( &l[0], &r[0] );
+        for( size_t i = 1 ; i < record_size() ; i++ ) {
+            if( l[i] == f_invalid && r[i] == f_invalid ) {
+                left[i] = right[i] = f_invalid;
+            }
+        }
+    }
 }
 
 bool Shift::set_field_first( Field* fields, size_t index ) const 

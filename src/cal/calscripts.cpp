@@ -100,7 +100,7 @@ const char* Cal::cal_default_script =
     " hybrid {"
     "  fields year month day unshift;"
     "  scheme j325;"
-    "  scheme j {begin 2360975;};"
+    "  scheme j {begin 2360976;};"
     "  scheme g {begin 2361222;};"
     " };"
     " grammar hy;"
