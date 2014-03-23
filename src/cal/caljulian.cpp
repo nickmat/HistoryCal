@@ -153,33 +153,7 @@ bool Julian::set_fields_as_next_last( Field* fields, const Field* mask )
 {
     return false;
 }
-#if 0
-void Julian::remove_fields_if_first( Field* fields ) const
-{
-    if( fields[2] == 1 ) {
-        fields[2] = f_invalid;
-    }
-    if( fields[2] != f_invalid ) {
-        return;
-    }
-    if( fields[1] == 1 ) {
-        fields[1] = f_invalid;
-    }
-}
 
-void Julian::remove_fields_if_last( Field* fields ) const
-{
-    if( fields[2] == julian_last_day_in_month( fields[0], fields[1] ) ) {
-        fields[2] = f_invalid;
-    }
-    if( fields[2] != f_invalid ) {
-        return;
-    }
-    if( fields[1] == 12 ) {
-        fields[1] = f_invalid;
-    }
-}
-#endif
 void Julian::set_fields( Field* fields, Field jdn ) const
 {
     julian_from_jdn( &fields[0], &fields[1], &fields[2], jdn );

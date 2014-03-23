@@ -215,46 +215,6 @@ bool Era::set_fields_as_next_last( Field* fields, const Field* mask )
     fields[m_offset+2] = eend[m_offset+2-1];
     return true;
 }
-#if 0
-void Era::remove_fields_if_first( Field* fields ) const
-{
-    FieldVec mask = get_base_fields( fields );
-    m_base->remove_fields_if_first( &mask[1] );
-    if( make_era_fields( &mask[0] ) ) {
-        copy_fields( fields, &mask[0] );
-    }
-}
-
-void Era::remove_fields_if_last( Field* fields ) const
-{
-    FieldVec mask = get_base_fields( fields );
-    m_base->remove_fields_if_last( &mask[1] );
-    if( make_era_fields( &mask[0] ) ) {
-        copy_fields( fields, &mask[0] );
-    }
-}
-
-bool Era::balance_fields( Field* firsts, Field* lasts ) const
-{
-    if( firsts[0] != lasts[0] ) {
-        return false;
-    }
-    FieldVec fs = get_base_fields( firsts );
-    FieldVec ls = get_base_fields( lasts );
-    bool ret = m_base->balance_fields( &fs[1], &ls[1] );
-    if( ret ) {
-        ret = make_era_fields( &fs[0] );
-    }
-    if( ret ) {
-        ret = make_era_fields( &ls[0] );
-    }
-    if( ret ) {
-        copy_fields( &firsts[0], &fs[0] );
-        copy_fields( &lasts[0], &ls[0] );
-    }
-    return ret;
-}
-#endif
 
 void Era::set_fields( Field* fields, Field jdn ) const
 {

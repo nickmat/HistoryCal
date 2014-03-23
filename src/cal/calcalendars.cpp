@@ -154,10 +154,10 @@ string Calendars::jdn_to_str( int scheme_id, Field jdn )
     return sch->jdn_to_str( jdn );
 }
 
-Range Calendars::str_to_range( int scheme_id, const string& str/*, int i*/ )
+Range Calendars::str_to_range( int scheme_id, const string& str )
 {
     Scheme* sch = m_schemes->get_scheme( scheme_id );
-    return sch->str_to_range( str/*, i*/ );
+    return sch->str_to_range( str );
 }
 
 string Calendars::range_to_str( int scheme_id, Range range )

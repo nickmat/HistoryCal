@@ -111,37 +111,6 @@ void Base::remove_fields_if_last( Field* fields ) const
     }
 }
 
-#if 0
-bool Base::balance_fields( Field* firsts, Field* lasts ) const
-{
-    for( size_t i = 1 ; i < record_size() ; i++ ) {
-        if( firsts[i] == f_invalid && lasts[i] == f_invalid ) {
-            return true; // Balanced
-        }
-        if( ( firsts[i] == f_invalid && lasts[i] != f_invalid ) ||
-            ( firsts[i] != f_invalid && lasts[i] == f_invalid )
-        ) {
-            break; // Unbalanced
-        }
-    }
-    bool ret = true;
-    for( size_t i = 1 ; i < record_size() ; i++ ) {
-        if( firsts[i] == f_invalid && lasts[i] == f_invalid ) {
-            break; // Now balanced
-        }
-        if( firsts[i] == f_invalid && lasts[i] != f_invalid ) {
-            ret = set_field_first( firsts, i );
-        } else if( firsts[i] != f_invalid && lasts[i] == f_invalid ) {
-            ret = set_field_last( lasts, i );
-        }
-        if( ret == false ) {
-            return false;
-        }
-    }
-    return true;
-}
-#endif
-
 void Base::remove_balanced_fields( Field* left, Field* right ) const
 {
     size_t i;
@@ -161,18 +130,6 @@ void Base::remove_balanced_fields( Field* left, Field* right ) const
     for( i++ ; i < record_size() ; i++ ) {
         left[i] = right[i] = f_invalid;
     }
-}
-
-bool Base::set_field_first( Field* fields, size_t index ) const
-{
-    fields[index] = 1;
-    return true;
-}
-
-bool Base::set_field_last( Field* fields, size_t index ) const
-{
-    fields[index] = get_field_last( fields, index );
-    return ( fields[index] != f_invalid );
 }
 
 Field Base::get_field_first( const Field* fields, size_t index ) const

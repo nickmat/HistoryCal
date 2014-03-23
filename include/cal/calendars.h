@@ -60,7 +60,7 @@ namespace Cal {
 
         DLLIMPEXP_CAL Field str_to_jdn( int scheme_id, const std::string& str );
         DLLIMPEXP_CAL std::string jdn_to_str( int scheme_id, Field jdn );
-        DLLIMPEXP_CAL Range str_to_range( int scheme_id, const std::string& str/*, int i*/ );
+        DLLIMPEXP_CAL Range str_to_range( int scheme_id, const std::string& str );
         DLLIMPEXP_CAL std::string range_to_str( int scheme_id, Range range );
         DLLIMPEXP_CAL RangeList str_to_rangelist( int scheme_id, const std::string& str );
         DLLIMPEXP_CAL std::string rangelist_to_str( int scheme_id, const RangeList& ranges );

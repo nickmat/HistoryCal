@@ -244,34 +244,6 @@ void Shift::remove_fields_if_last( Field* fields ) const
     }
 }
 
-#if 0
-bool Shift::balance_fields( Field* firsts, Field* lasts ) const
-{
-    // assume first field values = 1
-    if( firsts[0] == f_invalid || lasts[0] == f_invalid ) {
-        // both need the major count
-        return false;
-    }
-    if( firsts[1] == f_invalid && lasts[1] != f_invalid ||
-        firsts[1] != f_invalid && lasts[1] == f_invalid 
-    ) {
-        return false;
-    }
-    if( firsts[1] == m_start_era[1] || lasts[1] == m_before_era[1] ) {
-        // Don't mess if either field is start/end of year
-        return false;
-    }
-    if( firsts[2] == f_invalid && lasts[2] != f_invalid ) {
-        firsts[2] = 1;
-    } else if( firsts[2] != f_invalid && lasts[2] == f_invalid ) {
-        FieldVec fs = get_vec_adjusted_to_base( lasts );
-        Field f = m_base->get_field_last( &fs[0], 2 );
-        lasts[2] = f;
-    }
-    return true;
-}
-#endif
-
 void Shift::remove_balanced_fields( Field* left, Field* right ) const
 {
     // This is designed for 'year month day' calendars
@@ -290,18 +262,6 @@ void Shift::remove_balanced_fields( Field* left, Field* right ) const
             }
         }
     }
-}
-
-bool Shift::set_field_first( Field* fields, size_t index ) const 
-{
-    assert( false ); // This should not be called - handled by balance_fields.
-    return false;
-}
-
-bool Shift::set_field_last( Field* fields, size_t index ) const 
-{
-    assert( false ); // This should not be called - handled by balance_fields.
-    return false;
 }
 
 void Shift::set_fields( Field* fields, Field jdn ) const

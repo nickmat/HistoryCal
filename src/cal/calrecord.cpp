@@ -127,27 +127,6 @@ bool Record::set_fields_as_next_last( const Field* mask  )
     }
     return ret;
 }
-#if 0
-void Record::remove_fields_if_first()
-{
-    m_base->remove_fields_if_first( &m_f[0] );
-}
-
-void Record::remove_fields_if_last()
-{
-    m_base->remove_fields_if_last( &m_f[0] );
-}
-
-// Balance by making this Record replace invalid regs with firsts
-// or the rec Record with lasts
-bool Record::balance_fields( Record* rec )
-{
-    if( m_base != rec->m_base ) {
-        return false; // Can't balance different bases
-    }
-    return m_base->balance_fields( &m_f[0], rec->get_field_ptr() );
-}
-#endif
 
 void Record::remove_balanced_fields( Record* rec )
 {

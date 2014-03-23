@@ -58,9 +58,6 @@ namespace Cal {
         bool set_fields_as_begin_last( const Field* mask );
         bool set_fields_as_next_last( const Field* mask );
 
-//        void remove_fields_if_first();
-//        void remove_fields_if_last();
-//        bool balance_fields( Record* record );
         void remove_balanced_fields( Record* record );
 
         Field get_jdn() const;
@@ -76,7 +73,6 @@ namespace Cal {
         bool normalise( Norm norm );
         double get_average_days( Unit unit ) const;
 
-//        Field get_field( size_t index ) const { return m_f[index]; }
         Field get_field( int index ) const;
         void set_field( Field value, size_t index ) { m_f[index] = value; }
 

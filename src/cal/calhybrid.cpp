@@ -168,7 +168,8 @@ bool Hybrid::set_fields_as_begin_last( Field* fields, const Field* mask )
     for( ; sch < (Field) m_bases.size() ; sch++ ) {
         Record rec( m_bases[sch] );
         FieldVec tmask = get_xref( &mask[0], sch );
-        if( rec.set_fields_as_begin_last( &tmask[1] ) ) {
+        bool success = rec.set_fields_as_begin_last( &tmask[1] );
+        if( success ) {
             Field jdn = rec.get_jdn();
             if( is_in_scheme( jdn, sch ) ) {
                 set_hybrid_fields( fields, rec.get_field_ptr(), sch );
@@ -213,45 +214,6 @@ bool Hybrid::set_fields_as_next_last( Field* fields, const Field* mask )
     }
     return false;
 }
-#if 0
-void Hybrid::remove_fields_if_first( Field* fields ) const
-{
-    Field sch = fields[0];
-    if( sch == f_invalid ) {
-        return;
-    }
-    FieldVec mask = get_xref( &fields[0], sch );
-    m_bases[sch]->remove_fields_if_first( &mask[1] );
-    set_hybrid_fields( &fields[0], &mask[1], sch );
-}
-
-void Hybrid::remove_fields_if_last( Field* fields ) const
-{
-    Field sch = fields[0];
-    if( sch == f_invalid ) {
-        return;
-    }
-    FieldVec mask = get_xref( &fields[0], sch );
-    m_bases[sch]->remove_fields_if_last( &mask[1] );
-    set_hybrid_fields( &fields[0], &mask[1], sch );
-}
-
-bool Hybrid::balance_fields( Field* firsts, Field* lasts ) const
-{
-    Field sch = firsts[0];
-    if( sch == f_invalid || sch != lasts[0] ) {
-        return Base::balance_fields( firsts, lasts );
-    }
-    FieldVec fmask = get_xref( &firsts[0], sch );
-    FieldVec lmask = get_xref( &lasts[0], sch );
-    bool ret = m_bases[sch]->balance_fields( &fmask[1], &lmask[1] );
-    if( ret ) {
-        set_hybrid_fields( &firsts[0], &fmask[1], sch );
-        set_hybrid_fields( &lasts[0], &lmask[1], sch );
-    }
-    return ret;
-}
-#endif
 
 void Hybrid::remove_balanced_fields( Field* left, Field* right ) const
 {
@@ -284,34 +246,6 @@ void Hybrid::remove_balanced_fields( Field* left, Field* right ) const
     for( i++ ; i < size ; i++ ) {
         left[i] = right[i] = f_invalid;
     }
-}
-
-bool Hybrid::set_field_first( Field* fields, size_t index ) const
-{
-    Field sch = fields[0];
-    if( sch == f_invalid ) {
-        return false;
-    }
-    FieldVec mask = get_xref( &fields[0], sch );
-    bool ret = m_bases[sch]->set_field_first( &mask[1], index - 1 );
-    if( ret ) {
-        set_hybrid_fields( &fields[0], &mask[1], sch );
-    }
-    return ret;
-}
-
-bool Hybrid::set_field_last( Field* fields, size_t index ) const
-{
-    Field sch = fields[0];
-    if( sch == f_invalid ) {
-        return false;
-    }
-    FieldVec mask = get_xref( &fields[0], sch );
-    bool ret = m_bases[sch]->set_field_last( &mask[1], index - 1 );
-    if( ret ) {
-        set_hybrid_fields( &fields[0], &mask[1], sch );
-    }
-    return ret;
 }
 
 void Hybrid::set_fields( Field* fields, Field jdn ) const

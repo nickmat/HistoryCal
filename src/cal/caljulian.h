@@ -43,9 +43,6 @@ namespace Cal {
         virtual bool set_fields_as_begin_last( Field* fields, const Field* mask );
         virtual bool set_fields_as_next_last( Field* fields, const Field* mask );
 
-//        virtual void remove_fields_if_first( Field* fields ) const;
-//        virtual void remove_fields_if_last( Field* fields ) const;
-
         virtual void set_fields( Field* fields, Field jdn ) const;
 
         virtual Field get_field_last( const Field* fields, size_t index ) const;

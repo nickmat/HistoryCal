@@ -64,10 +64,7 @@ namespace Cal {
         virtual void remove_fields_if_first( Field* fields ) const;
         virtual void remove_fields_if_last( Field* fields ) const;
 
-//        virtual bool balance_fields( Field* firsts, Field* lasts ) const;
         virtual void remove_balanced_fields( Field* left, Field* right ) const;
-        virtual bool set_field_first( Field* fields, size_t index ) const;
-        virtual bool set_field_last( Field* fields, size_t index ) const;
 
         virtual void set_fields( Field* fields, Field jdn ) const;
 
