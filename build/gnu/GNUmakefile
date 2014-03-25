@@ -78,6 +78,7 @@ TESTS_OBJECTS =  \
 	tests_def_j325.o \
 	tests_testcal.o \
 	tests_testcommon.o \
+	tests_testera.o \
 	tests_testgrammar.o \
 	tests_testgregorian.o \
 	tests_testhybrid.o \
@@ -209,6 +210,9 @@ tests_testcal.o: ./../../src/test/testcal.cpp
 	$(CXX) -c -o $@ $(TESTS_CXXFLAGS) $(CPPDEPS) $<
 
 tests_testcommon.o: ./../../src/test/testcommon.cpp
+	$(CXX) -c -o $@ $(TESTS_CXXFLAGS) $(CPPDEPS) $<
+
+tests_testera.o: ./../../src/test/testera.cpp
 	$(CXX) -c -o $@ $(TESTS_CXXFLAGS) $(CPPDEPS) $<
 
 tests_testgrammar.o: ./../../src/test/testgrammar.cpp
