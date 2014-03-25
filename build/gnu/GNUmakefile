@@ -91,6 +91,7 @@ SOAK_CXXFLAGS = $(VAR) $(VAR_7) -I../../include -I$(CPPUNIT)/include $(CPPFLAGS)
 SOAK_OBJECTS =  \
 	soak_soak_g.o \
 	soak_soak_j.o \
+	soak_soak_j325.o \
 	soak_soakcommon.o \
 	soak_soakmain.o
 CAL_CXXFLAGS = $(VAR) $(VAR_7) -DMAKINGLIB_CAL -I../../include -fPIC -DPIC \
@@ -251,6 +252,9 @@ soak_soak_g.o: ./../../test/soak/soak_g.cpp
 	$(CXX) -c -o $@ $(SOAK_CXXFLAGS) $(CPPDEPS) $<
 
 soak_soak_j.o: ./../../test/soak/soak_j.cpp
+	$(CXX) -c -o $@ $(SOAK_CXXFLAGS) $(CPPDEPS) $<
+
+soak_soak_j325.o: ./../../test/soak/soak_j325.cpp
 	$(CXX) -c -o $@ $(SOAK_CXXFLAGS) $(CPPDEPS) $<
 
 soak_soakcommon.o: ./../../test/soak/soakcommon.cpp

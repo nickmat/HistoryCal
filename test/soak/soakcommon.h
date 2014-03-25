@@ -31,9 +31,10 @@
 
 #include <cal/calendars.h>
 
-#define CALTEST_SHORT
+// Only one of these should defined at any one time.
+//#define CALTEST_SHORT
 //#define CALTEST_LONG
-//#define CALTEST_SOAK
+#define CALTEST_SOAK
 
 extern std::string xymdToStr( Cal::Field extra, Cal::Field year, Cal::Field month, Cal::Field day );
 extern std::string ymdToStr( Cal::Field year, Cal::Field month, Cal::Field day );

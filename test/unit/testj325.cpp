@@ -39,7 +39,6 @@ class TestJ325 : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST( testScript );
     CPPUNIT_TEST( testValues );
     CPPUNIT_TEST( testRanges );
-    CPPUNIT_TEST( testJ325Calendar );
     CPPUNIT_TEST( testRangeShorthand );
     CPPUNIT_TEST_SUITE_END();
 
@@ -53,7 +52,6 @@ public:
     void testScript();
     void testValues();
     void testRanges();
-    void testJ325Calendar();
     void testRangeShorthand();
 };
 
@@ -160,52 +158,6 @@ void TestJ325::testRanges()
         string rngstr = m_cal->range_to_str( m_sid, rng );
         value = testJ325Values[i].str + " ~ " + testJ325Values[i+1].str;
         CPPUNIT_ASSERT_EQUAL( value, rngstr );
-    }
-}
-
-#define J325_START_YEAR     1495     // div by 4 minus 1 (a leap year)
-#define J325_START_JDN      2267472
-#define J325_END_YEAR       1506
-
-void TestJ325::testJ325Calendar()
-{
-    Field LengthOfMonth[2][12] = {
-        { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 },
-        { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }
-    };
-
-    CPPUNIT_ASSERT( m_sid >= 0 );
-    string date = ymdToStr( J325_START_YEAR, 1, 1 );
-    Field daycount = m_cal->str_to_jdn( m_sid, date );
-    CPPUNIT_ASSERT_EQUAL( daycount, J325_START_JDN );
-
-    Field j325_year = J325_START_YEAR;
-    Field year = j325_year;
-    int leap_count = 0;
-    size_t leap_year = 1;
-    for( Field year = J325_START_YEAR ; year < J325_END_YEAR ;  ) {
-        year++;
-        for( Field month = 1 ; month <= 12 ; month++ ) {
-            Field month_length = LengthOfMonth[leap_year][month-1];
-            for( Field day = 1 ; day <= month_length ; day++ ) {
-                if( month == 3 && day == 25 ) {
-                    j325_year++;
-                    leap_count++;
-                    if( leap_count == 4 ) {
-                        leap_count = 0;
-                        leap_year = 1;
-                    } else {
-                        leap_year = 0;
-                    }
-                }
-                date = ymdToStr( j325_year, month, day );
-                Field jdn = m_cal->str_to_jdn( m_sid, date );
-                CPPUNIT_ASSERT_EQUAL( daycount, jdn );
-                string cvtdate = m_cal->jdn_to_str( m_sid, jdn );
-                CPPUNIT_ASSERT_EQUAL( date, cvtdate );
-                daycount++;
-            }
-        }
     }
 }
 

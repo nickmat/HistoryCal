@@ -62,6 +62,7 @@ int main( int argc, char* argv[] )
         // Print test in a compiler compatible format.
         CppUnit::CompilerOutputter outputter( &result, std::cerr );
         outputter.write();
+        std::cout << "All done" << std::endl;
     }
     catch( std::invalid_argument &e ) { // Test path not resolved
         std::cerr << std::endl << "ERROR: " << e.what() << std::endl;
