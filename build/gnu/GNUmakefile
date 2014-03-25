@@ -62,7 +62,7 @@ WX_VERSION_MAJOR = $(shell echo $(WX_VERSION) | cut -c1,1)
 WX_VERSION_MINOR = $(shell echo $(WX_VERSION) | cut -c2,2)
 WX_CONFIG_FLAGS = $(WX_CONFIG_UNICODE_FLAG) $(WX_CONFIG_SHARED_FLAG) \
 	--toolkit=$(WX_PORT) --version=$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR)
-HCAL_CXXFLAGS = $(VAR) $(VAR_7) -I../../include -I../../src `$(WX_CONFIG) \
+HCAL_CXXFLAGS = $(VAR) $(VAR_9) -I../../include -I../../src `$(WX_CONFIG) \
 	--cxxflags $(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
 HCAL_OBJECTS =  \
 	hcal_hcapp.o \
@@ -70,7 +70,7 @@ HCAL_OBJECTS =  \
 	hcal_hcframe.o \
 	hcal_hcversion.o \
 	hcal_dummy.o
-TESTS_CXXFLAGS = $(VAR) $(VAR_7) -I../../include -I$(CPPUNIT)/include \
+TESTS_CXXFLAGS = $(VAR) $(VAR_9) -I../../include -I$(CPPUNIT)/include \
 	$(CPPFLAGS) $(CXXFLAGS)
 TESTS_OBJECTS =  \
 	tests_def_eng.o \
@@ -86,7 +86,7 @@ TESTS_OBJECTS =  \
 	tests_testjulian.o \
 	tests_testmain.o \
 	tests_testvocab.o
-UNIT_CXXFLAGS = $(VAR) $(VAR_7) -I../../include -I$(CPPUNIT)/include $(CPPFLAGS) \
+UNIT_CXXFLAGS = $(VAR) $(VAR_9) -I../../include -I$(CPPUNIT)/include $(CPPFLAGS) \
 	$(CXXFLAGS)
 UNIT_OBJECTS =  \
 	unit_def_eng.o \
@@ -102,7 +102,14 @@ UNIT_OBJECTS =  \
 	unit_testjulian.o \
 	unit_testmain.o \
 	unit_testvocab.o
-CAL_CXXFLAGS = $(VAR) $(VAR_7) -DMAKINGLIB_CAL -I../../include -fPIC -DPIC \
+SOAK_CXXFLAGS = $(VAR) $(VAR_9) -I../../include -I$(CPPUNIT)/include $(CPPFLAGS) \
+	$(CXXFLAGS)
+SOAK_OBJECTS =  \
+	soak_testgregorian.o \
+	soak_testjulian.o \
+	soak_testcommon.o \
+	soak_testmain.o
+CAL_CXXFLAGS = $(VAR) $(VAR_9) -DMAKINGLIB_CAL -I../../include -fPIC -DPIC \
 	$(CPPFLAGS) $(CXXFLAGS)
 CAL_OBJECTS =  \
 	cal_calbase.o \
@@ -123,9 +130,9 @@ CAL_OBJECTS =  \
 	cal_calshift.o \
 	cal_calversion.o \
 	cal_calvocab.o
-UTF8API_CFLAGS = $(VAR) $(VAR_7) -DMAKINGLIB_UTF8API -I../../include -fPIC -DPIC \
+UTF8API_CFLAGS = $(VAR) $(VAR_9) -DMAKINGLIB_UTF8API -I../../include -fPIC -DPIC \
 	$(CPPFLAGS) $(CFLAGS)
-UTF8API_CXXFLAGS = $(VAR) $(VAR_7) -DMAKINGLIB_UTF8API -I../../include -fPIC \
+UTF8API_CXXFLAGS = $(VAR) $(VAR_9) -DMAKINGLIB_UTF8API -I../../include -fPIC \
 	-DPIC $(CPPFLAGS) $(CXXFLAGS)
 UTF8API_OBJECTS =  \
 	utf8api_utf8proc.o \
@@ -158,16 +165,16 @@ ifeq ($(WX_DEBUG),1)
 VAR = -O0
 endif
 ifeq ($(WX_DEBUG),0)
-VAR_7 = 
+VAR_9 = 
 endif
 ifeq ($(WX_DEBUG),1)
-VAR_7 = -g
+VAR_9 = -g
 endif
 
 
 ### Targets: ###
 
-all: test_for_selected_wxbuild hcal tests unit libcal.so libutf8api.so
+all: test_for_selected_wxbuild hcal tests unit soak libcal.so libutf8api.so
 
 install: 
 
@@ -179,6 +186,7 @@ clean:
 	rm -f hcal
 	rm -f tests
 	rm -f unit
+	rm -f soak
 	rm -f libcal.so
 	rm -f libcal.so
 	rm -f libutf8api.so
@@ -188,19 +196,22 @@ test_for_selected_wxbuild:
 	@$(WX_CONFIG) $(WX_CONFIG_FLAGS)
 
 hcal: $(HCAL_OBJECTS) libcal.so libutf8api.so
-	$(CXX) -o $@ $(HCAL_OBJECTS)  $(VAR_7)  $(LDFLAGS)  libcal.so libutf8api.so `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs core,base`
+	$(CXX) -o $@ $(HCAL_OBJECTS)  $(VAR_9)  $(LDFLAGS)  libcal.so libutf8api.so `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs core,base`
 
 tests: $(TESTS_OBJECTS) libcal.so libutf8api.so
-	$(CXX) -o $@ $(TESTS_OBJECTS)  $(VAR_7)  -L$(CPPUNIT)/lib $(LDFLAGS)  libcal.so libutf8api.so $(____WX_DEBUG)
+	$(CXX) -o $@ $(TESTS_OBJECTS)  $(VAR_9)  -L$(CPPUNIT)/lib $(LDFLAGS)  libcal.so libutf8api.so $(____WX_DEBUG)
 
 unit: $(UNIT_OBJECTS) libcal.so libutf8api.so
-	$(CXX) -o $@ $(UNIT_OBJECTS)  $(VAR_7)  -L$(CPPUNIT)/lib $(LDFLAGS)  libcal.so libutf8api.so $(____WX_DEBUG)
+	$(CXX) -o $@ $(UNIT_OBJECTS)  $(VAR_9)  -L$(CPPUNIT)/lib $(LDFLAGS)  libcal.so libutf8api.so $(____WX_DEBUG)
+
+soak: $(SOAK_OBJECTS) libcal.so libutf8api.so
+	$(CXX) -o $@ $(SOAK_OBJECTS)  $(VAR_9)  -L$(CPPUNIT)/lib $(LDFLAGS)  libcal.so libutf8api.so $(____WX_DEBUG)
 
 libcal.so: $(CAL_OBJECTS) libutf8api.so
-	$(CXX) $(LINK_DLL_FLAGS) -fPIC -o $@ $(CAL_OBJECTS)  $(VAR_7) $(LDFLAGS)  libutf8api.so
+	$(CXX) $(LINK_DLL_FLAGS) -fPIC -o $@ $(CAL_OBJECTS)  $(VAR_9) $(LDFLAGS)  libutf8api.so
 
 libutf8api.so: $(UTF8API_OBJECTS)
-	$(CXX) $(LINK_DLL_FLAGS) -fPIC -o $@ $(UTF8API_OBJECTS)  $(VAR_7) $(LDFLAGS)
+	$(CXX) $(LINK_DLL_FLAGS) -fPIC -o $@ $(UTF8API_OBJECTS)  $(VAR_9) $(LDFLAGS)
 
 hcal_hcapp.o: ./../../src/hcal/hcapp.cpp
 	$(CXX) -c -o $@ $(HCAL_CXXFLAGS) $(CPPDEPS) $<
@@ -294,6 +305,18 @@ unit_testmain.o: ./../../test/unit/testmain.cpp
 
 unit_testvocab.o: ./../../test/unit/testvocab.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
+
+soak_testgregorian.o: ./../../test/soak/testgregorian.cpp
+	$(CXX) -c -o $@ $(SOAK_CXXFLAGS) $(CPPDEPS) $<
+
+soak_testjulian.o: ./../../test/soak/testjulian.cpp
+	$(CXX) -c -o $@ $(SOAK_CXXFLAGS) $(CPPDEPS) $<
+
+soak_testcommon.o: ./../../test/soak/testcommon.cpp
+	$(CXX) -c -o $@ $(SOAK_CXXFLAGS) $(CPPDEPS) $<
+
+soak_testmain.o: ./../../test/soak/testmain.cpp
+	$(CXX) -c -o $@ $(SOAK_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calbase.o: ./../../src/cal/calbase.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<

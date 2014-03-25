@@ -142,6 +142,27 @@
   </exe>
 
 
+  <exe id="soak" template="wxlike">
+    <app-type>console</app-type>
+    <runtime-libs>dynamic</runtime-libs>
+
+    <sources>$(LOCAL_TST)/soak/testgregorian.cpp</sources>
+    <sources>$(LOCAL_TST)/soak/testjulian.cpp</sources>
+    <sources>$(LOCAL_TST)/soak/testcommon.cpp</sources>
+    <sources>$(LOCAL_TST)/soak/testmain.cpp</sources>
+
+    <headers>$(LOCAL_TST)/soak/testcommon.h</headers>
+
+    <include>$(LOCAL_INC)</include>
+    <include>$(CPPUNIT_DIR)/include</include>
+
+    <lib-path>$(CPPUNIT_DIR)/lib</lib-path>
+    <library>cal</library>
+    <library>utf8api</library>
+    <sys-lib>$(substituteFromDict(WX_DEBUG,{'0':'cppunit','1':'cppunitd'}))</sys-lib>
+  </exe>
+
+
   <dll id="cal" template="wxlike">
     <dllname>cal</dllname>
     <libname>cal</libname>
