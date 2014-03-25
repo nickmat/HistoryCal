@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        src/test/def_eng.cpp
- * Project:     Cal: Programmable Historical Calendar library.
+ * Name:        test/unit/def_eng.cpp
+ * Project:     Cal Unit test: Unit Tests for Cal library API.
  * Purpose:     CppUnit for default English Hybrid (eng) calendar.
  * Author:      Nick Matthews
  * Website:     http://historycal.org

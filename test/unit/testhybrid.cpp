@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        src/test/testhybrid.cpp
- * Project:     Cal: Programmable Historical Calendar library.
+ * Name:        test/unit/testhybrid.cpp
+ * Project:     Cal Unit test: Unit Tests for Cal library API.
  * Purpose:     CppUnit tests for the hybrid variant calendars.
  * Author:      Nick Matthews
  * Website:     http://historycal.org

@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        src/test/testj325.cpp
- * Project:     Cal: Programmable Historical Calendar library.
+ * Name:        test/unit/testj325.cpp
+ * Project:     Cal Unit test: Unit Tests for Cal library API.
  * Purpose:     CppUnit tests for the Julian Lady Day new year calendar.
  * Author:      Nick Matthews
  * Website:     http://historycal.org

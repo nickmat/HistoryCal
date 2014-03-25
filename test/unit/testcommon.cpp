@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        src/test/testcommon.cpp
- * Project:     Cal: Programmable Historical Calendar library.
+ * Name:        test/unit/testcommon.cpp
+ * Project:     Cal Unit test: Unit Tests for Cal library API.
  * Purpose:     CppUnit test program common source
  * Author:      Nick Matthews
  * Website:     http://pcalcalc.org

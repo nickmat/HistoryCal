@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        src/test/testjulian.cpp
- * Project:     Cal: Programmable Historical Calendar library.
+ * Name:        test/soak/soak_j.cpp
+ * Project:     Cal Soak test: Extended Unit Tests for Cal library API.
  * Purpose:     CppUnit tests for the Julian Base calendar.
  * Author:      Nick Matthews
  * Website:     http://historycal.org
@@ -33,12 +33,10 @@
 using namespace std;
 using namespace Cal;
 
-class TestJulian : public CPPUNIT_NS::TestFixture
+class SoakJulian : public CPPUNIT_NS::TestFixture
 {
-    CPPUNIT_TEST_SUITE( TestJulian );
+    CPPUNIT_TEST_SUITE( SoakJulian );
     CPPUNIT_TEST( testScript );
-    CPPUNIT_TEST( testValues );
-    CPPUNIT_TEST( testRanges );
     CPPUNIT_TEST( testJulianCalendar );
     CPPUNIT_TEST_SUITE_END();
 
@@ -50,16 +48,14 @@ public:
     void tearDown();
 
     void testScript();
-    void testValues();
-    void testRanges();
     void testJulianCalendar();
 };
 
 // Registers the fixture into the 'registry'
-CPPUNIT_TEST_SUITE_REGISTRATION( TestJulian );
+CPPUNIT_TEST_SUITE_REGISTRATION( SoakJulian );
 
 
-void TestJulian::setUp()
+void SoakJulian::setUp()
 {
     m_sid = -1;
     m_cal = new Calendars;
@@ -67,50 +63,12 @@ void TestJulian::setUp()
     m_sid = m_cal->get_scheme_id( "jb" );
 }
 
-void TestJulian::tearDown()
+void SoakJulian::tearDown()
 {
     delete m_cal;
 }
 
-DMYDate testJBValues[MaxSample] = {
-//    day mon year
-    { 30,  7, -586 },
-    {  8, 12, -168 },
-    { 26,  9,   70 },
-    {  3, 10,  135 },
-    {  7,  1,  470 },
-    { 18,  5,  576 },
-    {  7, 11,  694 },
-    { 19,  4, 1013 },
-    { 18,  5, 1096 },
-    { 16,  3, 1190 },
-    {  3,  3, 1240 },
-    { 26,  3, 1288 },
-    { 20,  4, 1298 },
-    {  4,  6, 1391 },
-    { 25,  1, 1436 },
-    { 31,  3, 1492 },
-    {  9,  9, 1553 },
-    { 24,  2, 1560 },
-    { 31,  5, 1648 },
-    { 20,  6, 1680 },
-    { 13,  7, 1716 },
-    {  8,  6, 1768 },
-    { 21,  7, 1819 },
-    { 15,  3, 1839 },
-    {  6,  4, 1903 },
-    { 12,  8, 1929 },
-    { 16,  9, 1941 },
-    {  6,  4, 1943 },
-    { 24,  9, 1943 },
-    {  4,  3, 1992 },
-    { 12,  2, 1996 },
-    { 28, 10, 2038 },
-    {  5,  7, 2094 }
-};
-
-
-void TestJulian::testScript()
+void SoakJulian::testScript()
 {
     CPPUNIT_ASSERT( m_sid >= 0 );
     string code("jb");
@@ -120,43 +78,6 @@ void TestJulian::testScript()
     CPPUNIT_ASSERT_EQUAL( code, info.code );
     CPPUNIT_ASSERT_EQUAL( name, info.name );
 }
-
-void TestJulian::testValues()
-{
-    CPPUNIT_ASSERT( m_sid >= 0 );
-    for( int i = 0 ; i < MaxSample ; i++ ) {
-        stringstream tst; 
-        tst << testJBValues[i].year << " "
-            << testJBValues[i].month << " "
-            << testJBValues[i].day;
-        string value = tst.str();
-        Field jdn = m_cal->str_to_jdn( m_sid, value );
-        CPPUNIT_ASSERT_EQUAL( testJdnValues[i], jdn );
-        string jbstr = m_cal->jdn_to_str( m_sid, testJdnValues[i] );
-        CPPUNIT_ASSERT_EQUAL( value, jbstr );
-    }
-}
-
-void TestJulian::testRanges()
-{
-    CPPUNIT_ASSERT( m_sid >= 0 );
-    for( int i = 0 ; i < MaxSample-1 ; i++ ) {
-        stringstream tst; 
-        tst << testJBValues[i].year << " "
-            << testJBValues[i].month << " "
-            << testJBValues[i].day << " ~ "
-            << testJBValues[i+1].year << " "
-            << testJBValues[i+1].month << " "
-            << testJBValues[i+1].day;
-        string value = tst.str();
-        Range rng = m_cal->str_to_range( m_sid, value/*, 0*/ );
-        CPPUNIT_ASSERT_EQUAL( testJdnValues[i], rng.jdn1 );
-        CPPUNIT_ASSERT_EQUAL( testJdnValues[i+1], rng.jdn2 );
-        string rngstr = m_cal->range_to_str( m_sid, rng );
-        CPPUNIT_ASSERT_EQUAL( value, rngstr );
-    }
-}
-
 
 #ifdef CALTEST_SHORT
 #define CALTEST_JB_START_YEAR     1890
@@ -176,7 +97,7 @@ void TestJulian::testRanges()
 #define CALTEST_JB_END_YEAR       2150
 #endif
 
-void TestJulian::testJulianCalendar()
+void SoakJulian::testJulianCalendar()
 {
     Field LengthOfMonth[2][12] = {
         { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 },
@@ -222,4 +143,4 @@ void TestJulian::testJulianCalendar()
 }
 
 
-// End of src/test/testjulian.cpp file
+// End of test/soak/soak_j.cpp file

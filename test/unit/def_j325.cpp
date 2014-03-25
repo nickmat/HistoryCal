@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        src/test/def_j325.cpp
- * Project:     Cal: Programmable Historical Calendar library.
+ * Name:        test/unit/def_j325.cpp
+ * Project:     Cal Unit test: Unit Tests for Cal library API.
  * Purpose:     CppUnit for default Julian Annunciation (j325) calendar.
  * Author:      Nick Matthews
  * Website:     http://historycal.org

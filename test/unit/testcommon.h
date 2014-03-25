@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        src/test/testcommon.h
- * Project:     Cal: Programmable Historical Calendar library.
+ * Name:        test/unit/testcommon.h
+ * Project:     Cal Unit test: Unit Tests for Cal library API.
  * Purpose:     CppUnit test program common header
  * Author:      Nick Matthews
  * Website:     http://historycal.org
@@ -26,8 +26,8 @@
 */
 
 
-#ifndef TEST_TESTCOMMON_H_GUARD
-#define TEST_TESTCOMMON_H_GUARD
+#ifndef UNIT_TESTCOMMON_H_GUARD
+#define UNIT_TESTCOMMON_H_GUARD
 
 #include <cal/calendars.h>
 
@@ -40,13 +40,9 @@ struct DMYDateStr { Cal::Field day; Cal::Field month; Cal::Field year; std::stri
 
 extern const char* invalid; 
 
-#define CALTEST_SHORT
-//#define CALTEST_LONG
-//#define CALTEST_SOAK
-
 extern std::string xymdToStr( Cal::Field extra, Cal::Field year, Cal::Field month, Cal::Field day );
 extern std::string ymdToStr( Cal::Field year, Cal::Field month, Cal::Field day );
 extern std::string ymToStr( Cal::Field year, Cal::Field month );
 extern std::string yToStr( Cal::Field year );
 
-#endif // TEST_TESTCOMMON_H_GUARD
+#endif // UNIT_TESTCOMMON_H_GUARD

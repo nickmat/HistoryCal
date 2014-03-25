@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        src/test/def_g.cpp
- * Project:     Cal: Programmable Historical Calendar library.
+ * Name:        test/unit/def_g.cpp
+ * Project:     Cal Unit test: Unit Tests for Cal library API.
  * Purpose:     CppUnit tests for the default Gregorian (g) calendar.
  * Author:      Nick Matthews
  * Website:     http://historycal.org

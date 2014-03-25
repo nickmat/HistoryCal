@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        src/test/testmain.cpp
- * Project:     Cal: Programmable Historical Calendar library.
+ * Name:        test/unit/testmain.cpp
+ * Project:     Cal Unit test: Unit Tests for Cal library API.
  * Purpose:     CppUnit test program for the Cal library
  * Author:      Nick Matthews
  * Website:     http://historycal.org
@@ -54,7 +54,7 @@ int main( int argc, char* argv[] )
     CppUnit::TestRunner runner;
     runner.addTest( CppUnit::TestFactoryRegistry::getRegistry().makeTest() );
     try {
-        std::cout << "Running " <<  testPath;
+        std::cout << "Unit running " <<  testPath;
         runner.run( controller, testPath );
 
         std::cerr << std::endl;

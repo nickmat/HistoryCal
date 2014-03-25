@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        src/test/testcommon.h
- * Project:     Cal: Programmable Historical Calendar library.
+ * Name:        test/soak/soakcommon.h
+ * Project:     Cal Soak test: Extended Unit Tests for Cal library API.
  * Purpose:     CppUnit test program common header
  * Author:      Nick Matthews
  * Website:     http://historycal.org
@@ -26,19 +26,10 @@
 */
 
 
-#ifndef TEST_TESTCOMMON_H_GUARD
-#define TEST_TESTCOMMON_H_GUARD
+#ifndef SOAK_SOAKCOMMON_H_GUARD
+#define SOAK_SOAKCOMMON_H_GUARD
 
 #include <cal/calendars.h>
-
-const int MaxSample = 33;
-
-extern Cal::Field testJdnValues[MaxSample];
-
-struct DMYDate { Cal::Field day; Cal::Field month; Cal::Field year; };
-struct DMYDateStr { Cal::Field day; Cal::Field month; Cal::Field year; std::string str; };
-
-extern const char* invalid; 
 
 #define CALTEST_SHORT
 //#define CALTEST_LONG
@@ -49,4 +40,4 @@ extern std::string ymdToStr( Cal::Field year, Cal::Field month, Cal::Field day )
 extern std::string ymToStr( Cal::Field year, Cal::Field month );
 extern std::string yToStr( Cal::Field year );
 
-#endif // TEST_TESTCOMMON_H_GUARD
+#endif // SOAK_SOAKCOMMON_H_GUARD

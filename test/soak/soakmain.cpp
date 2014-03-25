@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        src/test/testmain.cpp
- * Project:     Cal: Programmable Historical Calendar library.
+ * Name:        test/soak/soakmain.cpp
+ * Project:     Cal Soak test: Extended Unit Tests for Cal library API.
  * Purpose:     CppUnit test program for the Cal library
  * Author:      Nick Matthews
  * Website:     http://historycal.org
@@ -54,7 +54,7 @@ int main( int argc, char* argv[] )
     CppUnit::TestRunner runner;
     runner.addTest( CppUnit::TestFactoryRegistry::getRegistry().makeTest() );
     try {
-        std::cout << "Running " <<  testPath;
+        std::cout << "Soak running " <<  testPath;
         runner.run( controller, testPath );
 
         std::cerr << std::endl;
@@ -71,4 +71,4 @@ int main( int argc, char* argv[] )
     return result.wasSuccessful() ? 0 : 1;
 }
 
-// End of src/test/testmain.h file
+// End of test/soak/soakmain.cpp file

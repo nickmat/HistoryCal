@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        src/test/testgrammar.cpp
- * Project:     Cal: Programmable Historical Calendar library.
+ * Name:        test/unit/testgrammar.cpp
+ * Project:     Cal Unit test: Unit Tests for Cal library API.
  * Purpose:     CppUnit tests for the Grammar system.
  * Author:      Nick Matthews
  * Website:     http://historycal.org

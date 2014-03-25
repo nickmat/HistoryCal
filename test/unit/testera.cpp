@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        src/test/testera.cpp
- * Project:     Cal: Programmable Historical Calendar library.
+ * Name:        test/unit/testera.cpp
+ * Project:     Cal Unit test: Unit Tests for Cal library API.
  * Purpose:     CppUnit tests for the era variant calendars.
  * Author:      Nick Matthews
  * Website:     http://historycal.org

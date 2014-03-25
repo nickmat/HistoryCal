@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        src/test/testcal.cpp
- * Project:     Cal: Programmable Historical Calendar library.
+ * Name:        test/unit/testcal.cpp
+ * Project:     Cal Unit test: Unit Tests for Cal library API.
  * Purpose:     CppUnit tests for the Cal library interface
  * Author:      Nick Matthews
  * Website:     http://historycal.org

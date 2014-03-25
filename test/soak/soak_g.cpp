@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        src/test/testgregorian.cpp
- * Project:     Cal: Programmable Historical Calendar library.
+ * Name:        test/soak/soak_g.cpp
+ * Project:     Cal Soak test: Extended Unit Tests for Cal library API.
  * Purpose:     CppUnit tests for the Gregorian calendar.
  * Author:      Nick Matthews
  * Website:     http://historycal.org
@@ -33,12 +33,10 @@
 using namespace std;
 using namespace Cal;
 
-class TestGregorian : public CPPUNIT_NS::TestFixture
+class SoakGregorian : public CPPUNIT_NS::TestFixture
 {
-    CPPUNIT_TEST_SUITE( TestGregorian );
+    CPPUNIT_TEST_SUITE( SoakGregorian );
     CPPUNIT_TEST( testScript );
-    CPPUNIT_TEST( testValues );
-    CPPUNIT_TEST( testRanges );
     CPPUNIT_TEST( testGregorianCalendar );
     CPPUNIT_TEST_SUITE_END();
 
@@ -50,16 +48,14 @@ public:
     void tearDown();
 
     void testScript();
-    void testValues();
-    void testRanges();
     void testGregorianCalendar();
 };
 
 // Registers the fixture into the 'registry'
-CPPUNIT_TEST_SUITE_REGISTRATION( TestGregorian );
+CPPUNIT_TEST_SUITE_REGISTRATION( SoakGregorian );
 
 
-void TestGregorian::setUp()
+void SoakGregorian::setUp()
 {
     m_sid = -1;
     m_cal = new Calendars;
@@ -67,51 +63,12 @@ void TestGregorian::setUp()
     m_sid = m_cal->get_scheme_id( "g" );
 }
 
-void TestGregorian::tearDown()
+void SoakGregorian::tearDown()
 {
     delete m_cal;
 }
 
-
-DMYDate testGValues[MaxSample] = {
-//    day mon year
-    { 24,  7, -586 },
-    {  5, 12, -168 },
-    { 24,  9,   70 },
-    {  2, 10,  135 },
-    {  8,  1,  470 },
-    { 20,  5,  576 },
-    { 10, 11,  694 },
-    { 25,  4, 1013 },
-    { 24,  5, 1096 },
-    { 23,  3, 1190 },
-    { 10,  3, 1240 },
-    {  2,  4, 1288 },
-    { 27,  4, 1298 },
-    { 12,  6, 1391 },
-    {  3,  2, 1436 },
-    {  9,  4, 1492 },
-    { 19,  9, 1553 },
-    {  5,  3, 1560 },
-    { 10,  6, 1648 },
-    { 30,  6, 1680 },
-    { 24,  7, 1716 },
-    { 19,  6, 1768 },
-    {  2,  8, 1819 },
-    { 27,  3, 1839 },
-    { 19,  4, 1903 },
-    { 25,  8, 1929 },
-    { 29,  9, 1941 },
-    { 19,  4, 1943 },
-    {  7, 10, 1943 },
-    { 17,  3, 1992 },
-    { 25,  2, 1996 },
-    { 10, 11, 2038 },
-    { 18,  7, 2094 }
-};
-
-
-void TestGregorian::testScript()
+void SoakGregorian::testScript()
 {
     CPPUNIT_ASSERT( m_sid >= 0 );
     string code("g");
@@ -122,41 +79,6 @@ void TestGregorian::testScript()
     CPPUNIT_ASSERT_EQUAL( name, info.name );
 }
 
-void TestGregorian::testValues()
-{
-    CPPUNIT_ASSERT( m_sid >= 0 );
-    for( int i = 0 ; i < MaxSample ; i++ ) {
-        stringstream tst; 
-        tst << testGValues[i].year << " "
-            << testGValues[i].month << " "
-            << testGValues[i].day;
-        string value = tst.str();
-        Field jdn = m_cal->str_to_jdn( m_sid, value );
-        CPPUNIT_ASSERT_EQUAL( testJdnValues[i], jdn );
-        string jbstr = m_cal->jdn_to_str( m_sid, testJdnValues[i] );
-        CPPUNIT_ASSERT_EQUAL( value, jbstr );
-    }
-}
-
-void TestGregorian::testRanges()
-{
-    CPPUNIT_ASSERT( m_sid >= 0 );
-    for( int i = 0 ; i < MaxSample-1 ; i++ ) {
-        stringstream tst; 
-        tst << testGValues[i].year << " "
-            << testGValues[i].month << " "
-            << testGValues[i].day << " ~ "
-            << testGValues[i+1].year << " "
-            << testGValues[i+1].month << " "
-            << testGValues[i+1].day;
-        string value = tst.str();
-        Range rng = m_cal->str_to_range( m_sid, value/*, 0*/ );
-        CPPUNIT_ASSERT_EQUAL( testJdnValues[i], rng.jdn1 );
-        CPPUNIT_ASSERT_EQUAL( testJdnValues[i+1], rng.jdn2 );
-        string rngstr = m_cal->range_to_str( m_sid, rng );
-        CPPUNIT_ASSERT_EQUAL( value, rngstr );
-    }
-}
 
 #ifdef CALTEST_SHORT
 #define CALTEST_G_START_YEAR     1890
@@ -176,7 +98,7 @@ void TestGregorian::testRanges()
 #define CALTEST_G_END_YEAR       2150
 #endif
 
-void TestGregorian::testGregorianCalendar()
+void SoakGregorian::testGregorianCalendar()
 {
     Field LengthOfMonth[2][12] = {
         { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 },
@@ -223,4 +145,4 @@ void TestGregorian::testGregorianCalendar()
     }
 }
 
-// End of src/test/testgregorian.cpp file
+// End of test/soak/soak_g.cpp file
