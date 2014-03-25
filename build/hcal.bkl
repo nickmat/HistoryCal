@@ -82,36 +82,6 @@
     <wx-lib>base</wx-lib>
   </exe>
 
-  <exe id="tests" template="wxlike">
-    <app-type>console</app-type>
-    <runtime-libs>dynamic</runtime-libs>
-
-    <sources>$(LOCAL_SRC)/test/def_eng.cpp</sources>
-    <sources>$(LOCAL_SRC)/test/def_g.cpp</sources>
-    <sources>$(LOCAL_SRC)/test/def_j325.cpp</sources>
-    <sources>$(LOCAL_SRC)/test/testcal.cpp</sources>
-    <sources>$(LOCAL_SRC)/test/testcommon.cpp</sources>
-    <sources>$(LOCAL_SRC)/test/testera.cpp</sources>
-    <sources>$(LOCAL_SRC)/test/testgrammar.cpp</sources>
-    <sources>$(LOCAL_SRC)/test/testgregorian.cpp</sources>
-    <sources>$(LOCAL_SRC)/test/testhybrid.cpp</sources>
-    <sources>$(LOCAL_SRC)/test/testj325.cpp</sources>
-    <sources>$(LOCAL_SRC)/test/testjulian.cpp</sources>
-    <sources>$(LOCAL_SRC)/test/testmain.cpp</sources>
-    <sources>$(LOCAL_SRC)/test/testvocab.cpp</sources>
-
-    <headers>$(LOCAL_SRC)/test/testcommon.h</headers>
-
-    <include>$(LOCAL_INC)</include>
-    <include>$(CPPUNIT_DIR)/include</include>
-
-    <lib-path>$(CPPUNIT_DIR)/lib</lib-path>
-    <library>cal</library>
-    <library>utf8api</library>
-    <sys-lib>$(substituteFromDict(WX_DEBUG,{'0':'cppunit','1':'cppunitd'}))</sys-lib>
-  </exe>
-
-
   <exe id="unit" template="wxlike">
     <app-type>console</app-type>
     <runtime-libs>dynamic</runtime-libs>
