@@ -116,12 +116,12 @@
     <app-type>console</app-type>
     <runtime-libs>dynamic</runtime-libs>
 
-    <sources>$(LOCAL_TST)/soak/testgregorian.cpp</sources>
-    <sources>$(LOCAL_TST)/soak/testjulian.cpp</sources>
-    <sources>$(LOCAL_TST)/soak/testcommon.cpp</sources>
-    <sources>$(LOCAL_TST)/soak/testmain.cpp</sources>
+    <sources>$(LOCAL_TST)/soak/soak_g.cpp</sources>
+    <sources>$(LOCAL_TST)/soak/soak_j.cpp</sources>
+    <sources>$(LOCAL_TST)/soak/soakcommon.cpp</sources>
+    <sources>$(LOCAL_TST)/soak/soakmain.cpp</sources>
 
-    <headers>$(LOCAL_TST)/soak/testcommon.h</headers>
+    <headers>$(LOCAL_TST)/soak/soakcommon.h</headers>
 
     <include>$(LOCAL_INC)</include>
     <include>$(CPPUNIT_DIR)/include</include>

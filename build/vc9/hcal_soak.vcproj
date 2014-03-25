@@ -213,19 +213,19 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\test\soak\testcommon.cpp"
+				RelativePath="..\..\test\soak\soak_g.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\test\soak\testgregorian.cpp"
+				RelativePath="..\..\test\soak\soak_j.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\test\soak\testjulian.cpp"
+				RelativePath="..\..\test\soak\soakcommon.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\test\soak\testmain.cpp"
+				RelativePath="..\..\test\soak\soakmain.cpp"
 				>
 			</File>
 		</Filter>
@@ -235,7 +235,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\test\soak\testcommon.h"
+				RelativePath="..\..\test\soak\soakcommon.h"
 				>
 			</File>
 		</Filter>

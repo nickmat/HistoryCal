@@ -25,7 +25,7 @@
 
 */
 
-#include "testcommon.h"
+#include "soakcommon.h"
 
 #include <sstream>
 

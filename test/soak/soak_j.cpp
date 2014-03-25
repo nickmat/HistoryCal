@@ -1,10 +1,10 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        src/test/testgregorian.cpp
+ * Name:        src/test/testjulian.cpp
  * Project:     Cal: Programmable Historical Calendar library.
- * Purpose:     CppUnit tests for the Gregorian calendar.
+ * Purpose:     CppUnit tests for the Julian Base calendar.
  * Author:      Nick Matthews
  * Website:     http://historycal.org
- * Created:     8th October 2013
+ * Created:     7th October 2013
  * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
  * Licence:     GNU GPLv3
  *
@@ -25,7 +25,7 @@
 
 */
 
-#include "testcommon.h"
+#include "soakcommon.h"
 
 #include <cppunit/extensions/HelperMacros.h>
 #include <cppunit/config/SourcePrefix.h>
@@ -33,13 +33,13 @@
 using namespace std;
 using namespace Cal;
 
-class TestGregorian : public CPPUNIT_NS::TestFixture
+class TestJulian : public CPPUNIT_NS::TestFixture
 {
-    CPPUNIT_TEST_SUITE( TestGregorian );
+    CPPUNIT_TEST_SUITE( TestJulian );
     CPPUNIT_TEST( testScript );
     CPPUNIT_TEST( testValues );
     CPPUNIT_TEST( testRanges );
-    CPPUNIT_TEST( testGregorianCalendar );
+    CPPUNIT_TEST( testJulianCalendar );
     CPPUNIT_TEST_SUITE_END();
 
     Cal::Calendars* m_cal;
@@ -52,84 +52,83 @@ public:
     void testScript();
     void testValues();
     void testRanges();
-    void testGregorianCalendar();
+    void testJulianCalendar();
 };
 
 // Registers the fixture into the 'registry'
-CPPUNIT_TEST_SUITE_REGISTRATION( TestGregorian );
+CPPUNIT_TEST_SUITE_REGISTRATION( TestJulian );
 
 
-void TestGregorian::setUp()
+void TestJulian::setUp()
 {
     m_sid = -1;
     m_cal = new Calendars;
-    m_cal->read_script( "scheme g {name Gregorian; base gregorian;};" );
-    m_sid = m_cal->get_scheme_id( "g" );
+    m_cal->read_script( "scheme jb {name Julian Base; base julian;};" );
+    m_sid = m_cal->get_scheme_id( "jb" );
 }
 
-void TestGregorian::tearDown()
+void TestJulian::tearDown()
 {
     delete m_cal;
 }
 
-
-DMYDate testGValues[MaxSample] = {
+DMYDate testJBValues[MaxSample] = {
 //    day mon year
-    { 24,  7, -586 },
-    {  5, 12, -168 },
-    { 24,  9,   70 },
-    {  2, 10,  135 },
-    {  8,  1,  470 },
-    { 20,  5,  576 },
-    { 10, 11,  694 },
-    { 25,  4, 1013 },
-    { 24,  5, 1096 },
-    { 23,  3, 1190 },
-    { 10,  3, 1240 },
-    {  2,  4, 1288 },
-    { 27,  4, 1298 },
-    { 12,  6, 1391 },
-    {  3,  2, 1436 },
-    {  9,  4, 1492 },
-    { 19,  9, 1553 },
-    {  5,  3, 1560 },
-    { 10,  6, 1648 },
-    { 30,  6, 1680 },
-    { 24,  7, 1716 },
-    { 19,  6, 1768 },
-    {  2,  8, 1819 },
-    { 27,  3, 1839 },
-    { 19,  4, 1903 },
-    { 25,  8, 1929 },
-    { 29,  9, 1941 },
-    { 19,  4, 1943 },
-    {  7, 10, 1943 },
-    { 17,  3, 1992 },
-    { 25,  2, 1996 },
-    { 10, 11, 2038 },
-    { 18,  7, 2094 }
+    { 30,  7, -586 },
+    {  8, 12, -168 },
+    { 26,  9,   70 },
+    {  3, 10,  135 },
+    {  7,  1,  470 },
+    { 18,  5,  576 },
+    {  7, 11,  694 },
+    { 19,  4, 1013 },
+    { 18,  5, 1096 },
+    { 16,  3, 1190 },
+    {  3,  3, 1240 },
+    { 26,  3, 1288 },
+    { 20,  4, 1298 },
+    {  4,  6, 1391 },
+    { 25,  1, 1436 },
+    { 31,  3, 1492 },
+    {  9,  9, 1553 },
+    { 24,  2, 1560 },
+    { 31,  5, 1648 },
+    { 20,  6, 1680 },
+    { 13,  7, 1716 },
+    {  8,  6, 1768 },
+    { 21,  7, 1819 },
+    { 15,  3, 1839 },
+    {  6,  4, 1903 },
+    { 12,  8, 1929 },
+    { 16,  9, 1941 },
+    {  6,  4, 1943 },
+    { 24,  9, 1943 },
+    {  4,  3, 1992 },
+    { 12,  2, 1996 },
+    { 28, 10, 2038 },
+    {  5,  7, 2094 }
 };
 
 
-void TestGregorian::testScript()
+void TestJulian::testScript()
 {
     CPPUNIT_ASSERT( m_sid >= 0 );
-    string code("g");
-    string name("Gregorian");
+    string code("jb");
+    string name("Julian Base");
     Scheme_info info;
     m_cal->get_scheme_info( &info, m_sid );
     CPPUNIT_ASSERT_EQUAL( code, info.code );
     CPPUNIT_ASSERT_EQUAL( name, info.name );
 }
 
-void TestGregorian::testValues()
+void TestJulian::testValues()
 {
     CPPUNIT_ASSERT( m_sid >= 0 );
     for( int i = 0 ; i < MaxSample ; i++ ) {
         stringstream tst; 
-        tst << testGValues[i].year << " "
-            << testGValues[i].month << " "
-            << testGValues[i].day;
+        tst << testJBValues[i].year << " "
+            << testJBValues[i].month << " "
+            << testJBValues[i].day;
         string value = tst.str();
         Field jdn = m_cal->str_to_jdn( m_sid, value );
         CPPUNIT_ASSERT_EQUAL( testJdnValues[i], jdn );
@@ -138,17 +137,17 @@ void TestGregorian::testValues()
     }
 }
 
-void TestGregorian::testRanges()
+void TestJulian::testRanges()
 {
     CPPUNIT_ASSERT( m_sid >= 0 );
     for( int i = 0 ; i < MaxSample-1 ; i++ ) {
         stringstream tst; 
-        tst << testGValues[i].year << " "
-            << testGValues[i].month << " "
-            << testGValues[i].day << " ~ "
-            << testGValues[i+1].year << " "
-            << testGValues[i+1].month << " "
-            << testGValues[i+1].day;
+        tst << testJBValues[i].year << " "
+            << testJBValues[i].month << " "
+            << testJBValues[i].day << " ~ "
+            << testJBValues[i+1].year << " "
+            << testJBValues[i+1].month << " "
+            << testJBValues[i+1].day;
         string value = tst.str();
         Range rng = m_cal->str_to_range( m_sid, value/*, 0*/ );
         CPPUNIT_ASSERT_EQUAL( testJdnValues[i], rng.jdn1 );
@@ -158,25 +157,26 @@ void TestGregorian::testRanges()
     }
 }
 
+
 #ifdef CALTEST_SHORT
-#define CALTEST_G_START_YEAR     1890
-#define CALTEST_G_START_JDN      2411369
-#define CALTEST_G_END_YEAR       2010
+#define CALTEST_JB_START_YEAR     1890
+#define CALTEST_JB_START_JDN      2411381
+#define CALTEST_JB_END_YEAR       2010
 #endif
 
 #ifdef CALTEST_LONG
-#define CALTEST_G_START_YEAR     1200
-#define CALTEST_G_START_JDN      2159351
-#define CALTEST_G_END_YEAR       2050
+#define CALTEST_JB_START_YEAR     1200
+#define CALTEST_JB_START_JDN      2159358
+#define CALTEST_JB_END_YEAR       2050
 #endif
 
 #ifdef CALTEST_SOAK
-#define CALTEST_G_START_YEAR     -1000
-#define CALTEST_G_START_JDN      1355818
-#define CALTEST_G_END_YEAR       2150
+#define CALTEST_JB_START_YEAR     -1000
+#define CALTEST_JB_START_JDN      1355808
+#define CALTEST_JB_END_YEAR       2150
 #endif
 
-void TestGregorian::testGregorianCalendar()
+void TestJulian::testJulianCalendar()
 {
     Field LengthOfMonth[2][12] = {
         { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 },
@@ -184,18 +184,16 @@ void TestGregorian::testGregorianCalendar()
     };
 
     CPPUNIT_ASSERT( m_sid >= 0 );
-    string date = ymdToStr( CALTEST_G_START_YEAR, 1, 1 );
+    string date = ymdToStr( CALTEST_JB_START_YEAR, 1, 1 );
     Field daycount = m_cal->str_to_jdn( m_sid, date );
-    CPPUNIT_ASSERT_EQUAL( daycount, CALTEST_G_START_JDN );
+    CPPUNIT_ASSERT_EQUAL( daycount, CALTEST_JB_START_JDN );
 
     string cvtdate;
     Range range;
-    for( Field year = CALTEST_G_START_YEAR ; year < CALTEST_G_END_YEAR ; year++ ) {
+    for( Field year = CALTEST_JB_START_YEAR ; year < CALTEST_JB_END_YEAR ; year++ ) {
         Field month1 = daycount;
         size_t leap_year = 0;
         if( year % 4 == 0 ) leap_year = 1;
-        if( year % 100 == 0 ) leap_year = 0;
-        if( year % 400 == 0 ) leap_year = 1;
         for( Field month = 1 ; month <= 12 ; month++ ) {
             int month_length = LengthOfMonth[leap_year][month-1];
             Field day1 = daycount;
@@ -223,4 +221,5 @@ void TestGregorian::testGregorianCalendar()
     }
 }
 
-// End of src/test/testgregorian.cpp file
+
+// End of src/test/testjulian.cpp file

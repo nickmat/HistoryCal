@@ -89,10 +89,10 @@ UNIT_OBJECTS =  \
 SOAK_CXXFLAGS = $(VAR) $(VAR_7) -I../../include -I$(CPPUNIT)/include $(CPPFLAGS) \
 	$(CXXFLAGS)
 SOAK_OBJECTS =  \
-	soak_testgregorian.o \
-	soak_testjulian.o \
-	soak_testcommon.o \
-	soak_testmain.o
+	soak_soak_g.o \
+	soak_soak_j.o \
+	soak_soakcommon.o \
+	soak_soakmain.o
 CAL_CXXFLAGS = $(VAR) $(VAR_7) -DMAKINGLIB_CAL -I../../include -fPIC -DPIC \
 	$(CPPFLAGS) $(CXXFLAGS)
 CAL_OBJECTS =  \
@@ -247,16 +247,16 @@ unit_testmain.o: ./../../test/unit/testmain.cpp
 unit_testvocab.o: ./../../test/unit/testvocab.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
-soak_testgregorian.o: ./../../test/soak/testgregorian.cpp
+soak_soak_g.o: ./../../test/soak/soak_g.cpp
 	$(CXX) -c -o $@ $(SOAK_CXXFLAGS) $(CPPDEPS) $<
 
-soak_testjulian.o: ./../../test/soak/testjulian.cpp
+soak_soak_j.o: ./../../test/soak/soak_j.cpp
 	$(CXX) -c -o $@ $(SOAK_CXXFLAGS) $(CPPDEPS) $<
 
-soak_testcommon.o: ./../../test/soak/testcommon.cpp
+soak_soakcommon.o: ./../../test/soak/soakcommon.cpp
 	$(CXX) -c -o $@ $(SOAK_CXXFLAGS) $(CPPDEPS) $<
 
-soak_testmain.o: ./../../test/soak/testmain.cpp
+soak_soakmain.o: ./../../test/soak/soakmain.cpp
 	$(CXX) -c -o $@ $(SOAK_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calbase.o: ./../../src/cal/calbase.cpp
