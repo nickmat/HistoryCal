@@ -25,7 +25,7 @@
 
 */
 
-#include <cal/calendars.h>
+#include "soakcommon.h"
 
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/CompilerOutputter.h>
@@ -34,6 +34,20 @@
 #include <cppunit/TestRunner.h>
 #include <cppunit/TextTestProgressListener.h>
 
+#include <ctime>
+
+
+#ifdef CALTEST_SHORT
+const char* testtype = "Short";
+#endif
+
+#ifdef CALTEST_LONG
+const char* testtype = "Medium";
+#endif
+
+#ifdef CALTEST_SOAK
+const char* testtype = "Full";
+#endif
 
 int main( int argc, char* argv[] )
 {
@@ -54,7 +68,9 @@ int main( int argc, char* argv[] )
     CppUnit::TestRunner runner;
     runner.addTest( CppUnit::TestFactoryRegistry::getRegistry().makeTest() );
     try {
-        std::cout << "Soak running " <<  testPath;
+        clock_t t = clock();
+
+        std::cout << testtype << " soak running " <<  testPath;
         runner.run( controller, testPath );
 
         std::cerr << std::endl;
@@ -62,7 +78,10 @@ int main( int argc, char* argv[] )
         // Print test in a compiler compatible format.
         CppUnit::CompilerOutputter outputter( &result, std::cerr );
         outputter.write();
-        std::cout << "All done" << std::endl;
+
+        int s = (clock() - t) / CLOCKS_PER_SEC;
+        int m = (int) s / 60;
+        std::cout << "Timed: " << m << "m " << s - (m*60) << "s" << std::endl;
     }
     catch( std::invalid_argument &e ) { // Test path not resolved
         std::cerr << std::endl << "ERROR: " << e.what() << std::endl;

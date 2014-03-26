@@ -34,6 +34,7 @@
 #include <cppunit/TestRunner.h>
 #include <cppunit/TextTestProgressListener.h>
 
+#include <ctime>
 
 int main( int argc, char* argv[] )
 {
@@ -54,6 +55,8 @@ int main( int argc, char* argv[] )
     CppUnit::TestRunner runner;
     runner.addTest( CppUnit::TestFactoryRegistry::getRegistry().makeTest() );
     try {
+        clock_t t = clock();
+        
         std::cout << "Unit running " <<  testPath;
         runner.run( controller, testPath );
 
@@ -62,6 +65,9 @@ int main( int argc, char* argv[] )
         // Print test in a compiler compatible format.
         CppUnit::CompilerOutputter outputter( &result, std::cerr );
         outputter.write();
+
+        double dt = ((double) clock() - t) / CLOCKS_PER_SEC;
+        std::cout << "Timed: " << dt << "s" << std::endl;
     }
     catch( std::invalid_argument &e ) { // Test path not resolved
         std::cerr << std::endl << "ERROR: " << e.what() << std::endl;
