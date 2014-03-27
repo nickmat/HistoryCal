@@ -25,14 +25,33 @@
 
 <div id="content" class="nomenu">
 
-<blockquote>
+<h2>Date Conversions</h2>
+<img class='scrnprnt' src='../sp/sp3.png' alt='Screen Print 3' />
 <p>
- <!-- Quote -->
+ Converting dates is pretty staightforward; select the calendar and format for the date you have to convert and the calendar and format for the date you want to covert to, enter the date and press the Convert button.
 </p>
-<p class="attribute"><!-- Attr --></p>
-</blockquote>
+<p>
+ Normally it really is this simple, but occasionally things get more interesting. For instance, if you want to convert the English Regnal date 15th June in the 26th year of the reign of George II to the Gregorian calendar, you may (or may not) be surprised to get two dates as an answer. This is because King George II started his reign on 11th June 1727 so the regnal year 26 started the 11th June 1752. In September of that year 11 days (3rd to 13th incl.) were removed when the calendar was changed from Julian to Gregorian. In order to keep the number of days at 365, the same as any other common year, 11 day were added to the end of the regnal year, and so the 27th year of his reign started 22nd June 1753.
+</p>
 
-<h2>Manual - Under Construction</h2>
+<h2>Date Ranges</h3>
+<p>
+ It is not always possible to determine exectly when events in the past occured. One way of defining that uncertainty is to give one or more ranges of dates in which you think the event occured. Other ways are to describe the level uncertainty in some way, however, due to the subjective nature of this method, this will not be considered here.
+</p>
+<p>
+ Ranges of consecutive days are shown as "start ~ finish" (note the tilde character). Ranges are inclusive and "finish" is always equal to or later (higher) than "start". A range where "start" is later than "finish" is considered invalid and will be ignored. If "start" equals "finish", this represents one day and, using range shorthand, can be represented by a single value.
+</p>
+<p>
+ A collection of ranges can be shown by separating them with a vertical bar character, as in "range1 | range2". Range sets can be normalised or un-normalised. In a normalised range set, the ranges are in ascending order and there is no overlap (ie. any particular day may occur only once in the set), and adjacent ranges are merged. An un-normalised set of ranges can be any sequence of valid ranges in any order. HistoryCal will accept an un-normalised range set as input, but will always output them normalised.
+</p>
+
+<h3>Range Shorthand</h3>
+<p>
+ We can use a shorthand way of expressing a range simply by omitting one or more of the lesser calendar fields, as in the Gregorian date "Sep 1948" which is shorthand for the range "1 Sep 1948 ~ 30 Sep 1948". The date "1948" is shorthand for "1 Jan 1948 ~ 31 Dec 1948". We can use a combination of of both methods as in "Feb 1948 ~ May 1948" which represents "1 Feb 1948 ~ 31 May 1948" or "1876 ~ 1891" which equals "1 Jan 1876 ~ 31 Dec 1891".
+</p>
+<p>
+ With some of the calendar variants, the range shorthand can sometimes be useful and sometimes confusing. An example of the former, just entering the monarch's name is shorthand for the span of their reign. As an example of the later, consider the Julian Annunciation calendar were the year change occurs on the 25th March. In this calendar the shorthand "1748" expands to "25 Mar 1748 ~ 24 Mar 1748/9". But what of the range "Mar 1748", this range includes the start of the year from 25th March to the end of the year on the 24th March but not the middle. The only interpretation can be two ranges as in "25 Mar 1748 ~ 31 Mar 1748 | 1 Mar 1748/9 ~ 24 Mar 1748/9". As a shortcut thats quite successful but whether it is useful or not, I'm not so sure.
+</p>
 
 </div>
 
