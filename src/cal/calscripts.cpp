@@ -78,7 +78,7 @@ const char* Cal::cal_default_script =
     " format @(Day) @(Month:m.a) @(Year);"
     "};\n"
 
-    "scheme j325 {name Julian Annunciation; shift j 1721142; grammar j.sh;};\n"
+    "scheme j325 {name Julian Annunciation; shift j 1721507; grammar j.sh;};\n"
 
     "vocab sch {"
     " name Scheme names; lang en; style-name Scheme Sch;"
@@ -156,6 +156,18 @@ const char* Cal::cal_default_script =
     " };"
     " grammar hy;"
     "};\n"
+
+    "scheme t2 {name Test Shift 2; shift j 2352006; grammar j.sh;};\n"
+    "scheme t3 {name Test Shift 3; shift g 2352006; grammar j.sh;};\n"
+    "scheme t4 {name Test Hybrid;" 
+    " hybrid {"
+    "  fields year month day;"
+    "  scheme t2;"
+    "  scheme t3 {begin 2361222;};"
+    " };"
+    " grammar hy;"
+    "};\n"
+
 ;
 
 // End of src/cal/calscripts.cpp file

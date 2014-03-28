@@ -135,7 +135,7 @@ bool Shift::set_fields_as_begin_first( Field* fields, const Field* mask )
             fields[2] = m_start_era[2];
             return true;
         }
-        fields[0] += m_start_era[0];
+        fields[0] += m_start_era[0] - 1;
         if( mask[1] < m_start_era[1] ) {
             fields[0] += 1;
         }
@@ -159,7 +159,7 @@ bool Shift::set_fields_as_next_first( Field* fields, const Field* mask )
     if( fields[2] != m_start_era[2] ) {
         return false;
     }
-    fields[0] += m_start_era[0] + 1;
+    fields[0] += m_start_era[0];
     fields[2] = m_base->get_field_first( mask, 2 );
     fields[0] = get_adjusted_to_shift( fields );
     return true;
@@ -177,7 +177,7 @@ bool Shift::set_fields_as_begin_last( Field* fields, const Field* mask )
             fields[2] = m_before_era[2];
             return true;
         }
-        fields[0] += m_before_era[0];
+        fields[0] += m_before_era[0] - 1;
         if( mask[1] < m_start_era[1] ) {
             fields[0] += 1;
         }
@@ -202,7 +202,7 @@ bool Shift::set_fields_as_next_last( Field* fields, const Field* mask )
         // already done
         return false;
     }
-    fields[0] += m_start_era[0] + 1;
+    fields[0] += m_start_era[0];
     fields[2] = m_before_era[2];
     fields[0] = get_adjusted_to_shift( fields );
     return true;
@@ -333,12 +333,12 @@ FieldVec Shift::get_vec_adjusted_to_base( const Field* fields ) const
 
 Field Shift::get_adjusted_to_base( const Field* fields ) const
 {
-    return fields[0] + m_start_era[0] + get_adjustment( fields );
+    return fields[0] + m_start_era[0] - 1 + get_adjustment( fields );
 }
 
 Field Shift::get_adjusted_to_shift( const Field* fields ) const
 {
-    return fields[0] - m_start_era[0] - get_adjustment( fields );
+    return fields[0] - m_start_era[0] + 1 - get_adjustment( fields );
 }
 
 // End of src/cal/calshift.cpp file
