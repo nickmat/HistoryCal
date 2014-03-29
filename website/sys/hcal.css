@@ -292,6 +292,10 @@ table.record td {
  padding: 0.5em 1em;
 }
 
+table.record td.rdonly {
+ background-color: MistyRose;
+}
+
 table.code {
  display: inline-table;
  float: left;

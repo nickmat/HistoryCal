@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>HistoryCal - Julian</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="icon" type="image/png" href="../sys/logo1_32x32x32.png" />
+<link rel='stylesheet' type='text/css' href='../sys/hcal.css' />
+</head>
+<body>
+
+<h1>
+ <a  href="../index.htm"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
+ HistoryCal Calendar<br/>Julian Annunciation (j325)
+</h1>
+
+<div id="page">
+
+<div id="crumbs">
+  <a href="../index.htm" class="m-item">Home</a>
+  <a href="../cal/index.htm" class="m-item level1">Calendars</a>
+  <a href="j325.htm" class="m-item level2 thispage">j325</a>
+  <a href="j.htm" class="m-item prev">&lt;&lt;</a>
+  <a href="g.htm" class="m-item next">&gt;&gt;</a>
+</div>
+
+<div id="content" class="nomenu calendar">
+
+<h2>Calendar Description</h2>
+<p>
+ The Julian Annunciation calendar is a variant of the <a href='j.htm'>Julian</a> calendar obtained
+ by shifting the year change forward from the 1st January to the 25th March.
+ It is also known as the <i>calculus florentinus</i>.
+</p>
+
+<h3>Use Case</h3>
+<p>
+ The Julian Annunciation calendar has been commonly used throughout Europe and the European colonies
+ since the 11th century.
+</p>
+<ul>
+ <li>France from the 11th century until the change to the Gregorian in 1582.</li>
+ <li>England and its overseas territories, from the 12th century to 1st January 1752.</li>
+</ul>
+
+<h3>Definition</h3>
+<table class='record'>
+<tr><th colspan='4'>Record</th></tr>
+<tr><td>year</td><td>month</td><td>day</td><td class='rdonly'>unshift</td></tr>
+</table>
+<p>
+ The Julian Annunciation calendar is based on <a href='j.htm'>Julian</a> calendar and has the same
+ definition with the following exceptions.
+</p>
+<p>
+ The <b>Record</b> consists of three <b>Fields</b> named <code>year,</code>
+ <code>month,</code> and <code>day</code> and a read only Field <code>unshift.</code>
+ The unshifted field holds the historical year as calculated by the underlying
+ Julian calendar.
+</p>
+<p>
+ The <b>Epoch</b> is set at <code>year 1 month 3 day 25 (<b>j325</b>) = day 1721507 (<b>jdn</b>).</code>
+</p>
+
+<h3>Script</h3>
+<table class='code'>
+<tr><th>Default Script</th></tr>
+<tr><td
+><b>grammar</b> j.sh {
+ vocabs m w;
+ format @(Day) @(Month:m.a) @(Year);
+ format pref @(Day) @(Month:m.a) @(Year/Hist-Year);
+ format @(WDay:w.a) @(Day) @(Month:m.a) @(Year/Hist-Year);
+ alias field {
+  WDay wday; Day day; Month month;
+  Year year; Hist-Year unshift;
+ };
+ alias format-number-code {
+  Day dd; Month mm; Year yyyy; Hist-Year y;
+ };
+};
+<b>scheme</b> j325 {
+ name Julian Annunciation;
+ shift j 1721507;
+ grammar j.sh;
+};
+</td></tr>
+</table>
+<p>
+ The script makes use of the globally available read-only field <code>wday</code>
+ to output weekdays.
+</p>
+<p>
+ The j.sh grammar uses the m (Julian months) and w (Weekdays) vocabs as defined for
+ the <a href='j.htm'>Julian</a> calendar.
+</p>
+
+</div>
+
+<hr/>
+<div id='valid'>
+  <p>
+    <a href="http://validator.w3.org/check?uri=referer"><img
+        src="../sys/valid-xhtml10.png"
+        alt="Valid XHTML 1.0 Strict" height="31" width="88" /></a>
+  </p>
+</div>
+
+<div id='create-date'><p>28<sup>th</sup> March 2014</p></div>
+
+</div>
+
+</body>
+</html>
