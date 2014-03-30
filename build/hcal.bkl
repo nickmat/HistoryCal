@@ -116,6 +116,7 @@
     <app-type>console</app-type>
     <runtime-libs>dynamic</runtime-libs>
 
+    <sources>$(LOCAL_TST)/soak/soak_eng.cpp</sources>
     <sources>$(LOCAL_TST)/soak/soak_g.cpp</sources>
     <sources>$(LOCAL_TST)/soak/soak_j.cpp</sources>
     <sources>$(LOCAL_TST)/soak/soak_j325.cpp</sources>
