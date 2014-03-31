@@ -71,11 +71,12 @@ const char* Cal::cal_default_script =
     "scheme g {name Gregorian; base gregorian; grammar j;};\n"
 
     "grammar j.sh {"
-    " alias field { Day day; Month month; Year year; Hist-Year unshift; };"
-    " alias format-number-code { Day dd; Month mm; Year yyyy; Hist-Year y; };"
-    " vocabs m;"
-    " format pref @(Day) @(Month:m.a) @(Year/Hist-Year);"
+    " vocabs m w;"
     " format @(Day) @(Month:m.a) @(Year);"
+    " format pref @(Day) @(Month:m.a) @(Year/Hist-Year);"
+    " format @(WDay:w.a) @(Day) @(Month:m.a) @(Year/Hist-Year);"
+    " alias field {WDay wday; Day day; Month month; Year year; Hist-Year unshift;};"
+    " alias format-number-code {Day dd; Month mm; Year yyyy; Hist-Year y;};"
     "};\n"
 
     "scheme j325 {name Julian Annunciation; shift j 1721507; grammar j.sh;};\n"
@@ -108,7 +109,9 @@ const char* Cal::cal_default_script =
 
     "vocab er {name British Regnal Names; lang en; style-name Reign Rn;"
     " tokens {"
-    "  0 \"Pre Regnal\" Pre;"
+    "  0 \"Base calendar\" Base;"
+    "  1 \"George VI\" \"Geo VI\";"
+#if 0
     "  1 Anne;"
     "  2 \"George I\" \"Geo I\";"
     "  3 \"George II\" \"Geo II\";"
@@ -121,6 +124,7 @@ const char* Cal::cal_default_script =
     "  10 \"Edward VIII\" \"Ed VIII\";"
     "  11 \"George VI\" \"Geo VI\";"
     "  12 \"Elizabeth II\" \"Eliz II\";"
+#endif
     " };"
     "};\n"
 
@@ -133,6 +137,19 @@ const char* Cal::cal_default_script =
 
     "scheme er {"
     " name English Regnal;"
+    " regnal {"
+    "  fields year month day unshift;"
+    "  default eng;"
+    "  schemes {"
+    "   {range 2428514 2434049; scheme 1 {shift g 2428514;};};" // George IV
+    "  };"
+    " };"
+    " grammar er;"
+    "};\n"
+
+#if 0
+    "scheme er2 {"
+    " name English Regnal;"
     " era eng year {"
     "  1721507 -2147483646;"                                // 0
     "  2342780 2342780; 2347309 2347309; 2352006 2352006;"  // 1 2 3
@@ -142,7 +159,7 @@ const char* Cal::cal_default_script =
     " };"
     " grammar er;"
     "};\n"
-#if 0
+
     "scheme test {name Test Julian Annunciation;"
     " era j year {1721507 -2147483646;};"
     " grammar j;"
@@ -168,6 +185,7 @@ const char* Cal::cal_default_script =
     " grammar hy;"
     "};\n"
 
+//    "scheme s1 {name Shift 1; shift g 2428514; grammar j.sh;};\n"
 ;
 
 // End of src/cal/calscripts.cpp file

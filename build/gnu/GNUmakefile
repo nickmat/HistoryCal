@@ -110,6 +110,7 @@ CAL_OBJECTS =  \
 	cal_calmath.o \
 	cal_calparse.o \
 	cal_calrecord.o \
+	cal_calregnal.o \
 	cal_calscheme.o \
 	cal_calschemes.o \
 	cal_calscripts.o \
@@ -301,6 +302,9 @@ cal_calparse.o: ./../../src/cal/calparse.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calrecord.o: ./../../src/cal/calrecord.cpp
+	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
+
+cal_calregnal.o: ./../../src/cal/calregnal.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calscheme.o: ./../../src/cal/calscheme.cpp

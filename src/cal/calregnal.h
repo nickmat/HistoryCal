@@ -1,11 +1,11 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        src/cal/calera.h
+ * Name:        src/cal/calregnal.h
  * Project:     Cal: Programmable Historical Calendar library.
- * Purpose:     Base Era variant calendar header.
+ * Purpose:     Base Regnal variant calendar header.
  * Author:      Nick Matthews
  * Website:     http://historycal.org
- * Created:     24th September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Created:     28th March 2014
+ * Copyright:   Copyright (c) 2014, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -25,22 +25,31 @@
 
 */
 
-#ifndef CAL_CALERA_H_GUARD
-#define CAL_CALERA_H_GUARD
+#ifndef CAL_CALREGNAL_H_GUARD
+#define CAL_CALREGNAL_H_GUARD
 
 #include "calbase.h"
-#include <string>
-#include <vector>
 
 namespace Cal {
 
     class Schemes;
+    class Scheme;
 
-    class Era : public Base
+    struct RegnalEra {
+        RegnalEra() : begin(f_minimum), end(f_maximum), base(NULL), scheme(NULL) {}
+
+        Field   begin;
+        Field   end;
+        XRefVec xref;
+        Base*   base;
+        Scheme* scheme;
+    };
+
+    class Regnal : public Base
     {
     public:
-        Era( Schemes* schemes, const std::string& data );
-        ~Era();
+        Regnal( Schemes* schemes, const std::string& code, const std::string& data );
+        ~Regnal();
 
         virtual size_t record_size() const { return m_rec_size; }
         virtual int get_fieldname_index( const std::string& fieldname ) const;
@@ -53,25 +62,23 @@ namespace Cal {
         virtual bool set_fields_as_begin_last( Field* fields, const Field* mask );
         virtual bool set_fields_as_next_last( Field* fields, const Field* mask );
 
-//        virtual bool set_field_first( Field* fields, size_t index ) const;
-//        virtual bool set_field_last( Field* fields, size_t index ) const;
-
         virtual void set_fields( Field* fields, Field jdn ) const;
 
     private:
+        void create_fieldnames( const std::string& names );
+        void create_default_scheme( Schemes* schs, const std::string& code );
+        void create_schemes( Schemes* schs, const std::string& data );
+        void add_scheme( RegnalEra* era, Schemes* schs, const std::string& data );
         // Adjust and copy Era date fields to base date fields
         FieldVec get_base_fields( const Field* fields ) const;
         // Adjust the given base fields to Era fields
-        bool make_era_fields( Field* fields ) const;
+        bool make_regnal_fields( Field* fields, Field era, const Field* efields ) const;
 
-        size_t      m_offset; // offset of the field used as year count
-        FieldVec    m_epochs;
-        FieldVecVec m_edates;
-        FieldVec    m_dates;
-        Base*       m_base;
+        std::vector<RegnalEra> m_eras;
+        StringVec   m_fieldnames;
         size_t      m_rec_size;
     };
 
 }
 
-#endif // CAL_CALERA_H_GUARD
+#endif // CAL_CALREGNAL_H_GUARD

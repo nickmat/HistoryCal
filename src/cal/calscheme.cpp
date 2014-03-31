@@ -37,6 +37,7 @@
 #include "calmath.h"
 #include "calparse.h"
 #include "calrecord.h"
+#include "calregnal.h"
 #include "calschemes.h"
 #include "calshift.h"
 
@@ -69,6 +70,8 @@ Scheme::Scheme( Schemes* schemes, const string& definition )
             m_base = new Shift( schemes, body );
         } else if( statement == "hybrid" ) {
             m_base = new Hybrid( schemes, body );
+        } else if( statement == "regnal" ) {
+            m_base = new Regnal( schemes, m_code, body );
         } else if( statement == "era" ) {
             m_base = new Era( schemes, body );
         } else if( statement == "grammar" ) {

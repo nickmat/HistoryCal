@@ -229,7 +229,7 @@ void Era::set_fields( Field* fields, Field jdn ) const
     m_base->set_fields( &fields[1], jdn );
     make_era_fields( fields );
 }
-
+#if 0
 bool Era::set_field_first( Field* fields, size_t index ) const
 {
     assert( false );
@@ -241,7 +241,7 @@ bool Era::set_field_last( Field* fields, size_t index ) const
     assert( false );
     return false;
 }
-
+#endif
 FieldVec Era::get_base_fields( const Field* mask ) const
 {
     FieldVec fields( m_rec_size );
