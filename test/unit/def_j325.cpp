@@ -152,6 +152,9 @@ void TestDef_j325::testCreation()
         if( info.vocab_codes[i] == "m" ) {
             str = "Month names";
         }
+        if( info.vocab_codes[i] == "w" ) {
+            str = "Weekday names";
+        }
         CPPUNIT_ASSERT( str != "" );
         CPPUNIT_ASSERT_EQUAL( str, info.vocab_names[i] );
     }
