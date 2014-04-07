@@ -98,6 +98,7 @@
     <sources>$(LOCAL_TST)/unit/testj325.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testjulian.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testmain.cpp</sources>
+    <sources>$(LOCAL_TST)/unit/testregnal.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testvocab.cpp</sources>
 
     <headers>$(LOCAL_TST)/unit/testcommon.h</headers>

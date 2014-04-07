@@ -85,6 +85,7 @@ UNIT_OBJECTS =  \
 	unit_testj325.o \
 	unit_testjulian.o \
 	unit_testmain.o \
+	unit_testregnal.o \
 	unit_testvocab.o
 SOAK_CXXFLAGS = $(VAR) $(VAR_7) -I../../include -I$(CPPUNIT)/include $(CPPFLAGS) \
 	$(CXXFLAGS)
@@ -245,6 +246,9 @@ unit_testjulian.o: ./../../test/unit/testjulian.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
 unit_testmain.o: ./../../test/unit/testmain.cpp
+	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
+
+unit_testregnal.o: ./../../test/unit/testregnal.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
 unit_testvocab.o: ./../../test/unit/testvocab.cpp
