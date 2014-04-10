@@ -91,7 +91,6 @@
     <sources>$(LOCAL_TST)/unit/def_j325.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testcal.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testcommon.cpp</sources>
-    <sources>$(LOCAL_TST)/unit/testera.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testgrammar.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testgregorian.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testhybrid.cpp</sources>
@@ -144,7 +143,6 @@
 
     <sources>$(LOCAL_SRC)/cal/calbase.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calcalendars.cpp</sources>
-    <sources>$(LOCAL_SRC)/cal/calera.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calformat.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calgrammar.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calgregorian.cpp</sources>
@@ -166,7 +164,6 @@
     <headers>$(LOCAL_INC)/cal/calendars.h</headers>
 
     <headers>$(LOCAL_SRC)/cal/calbase.h</headers>
-    <headers>$(LOCAL_SRC)/cal/calera.h</headers>
     <headers>$(LOCAL_SRC)/cal/calformat.h</headers>
     <headers>$(LOCAL_SRC)/cal/calgrammar.h</headers>
     <headers>$(LOCAL_SRC)/cal/calgregorian.h</headers>

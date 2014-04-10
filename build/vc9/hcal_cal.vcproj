@@ -215,10 +215,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\cal\calera.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\cal\calformat.cpp"
 				>
 			</File>
@@ -298,10 +294,6 @@
 			</File>
 			<File
 				RelativePath="..\..\include\cal\calendars.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\cal\calera.h"
 				>
 			</File>
 			<File

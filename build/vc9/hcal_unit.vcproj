@@ -233,10 +233,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\test\unit\testera.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\test\unit\testgrammar.cpp"
 				>
 			</File>

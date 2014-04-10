@@ -78,7 +78,6 @@ UNIT_OBJECTS =  \
 	unit_def_j325.o \
 	unit_testcal.o \
 	unit_testcommon.o \
-	unit_testera.o \
 	unit_testgrammar.o \
 	unit_testgregorian.o \
 	unit_testhybrid.o \
@@ -101,7 +100,6 @@ CAL_CXXFLAGS = $(VAR) $(VAR_7) -DMAKINGLIB_CAL -I../../include -fPIC -DPIC \
 CAL_OBJECTS =  \
 	cal_calbase.o \
 	cal_calcalendars.o \
-	cal_calera.o \
 	cal_calformat.o \
 	cal_calgrammar.o \
 	cal_calgregorian.o \
@@ -227,9 +225,6 @@ unit_testcal.o: ./../../test/unit/testcal.cpp
 unit_testcommon.o: ./../../test/unit/testcommon.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
-unit_testera.o: ./../../test/unit/testera.cpp
-	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
-
 unit_testgrammar.o: ./../../test/unit/testgrammar.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
@@ -276,9 +271,6 @@ cal_calbase.o: ./../../src/cal/calbase.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calcalendars.o: ./../../src/cal/calcalendars.cpp
-	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
-
-cal_calera.o: ./../../src/cal/calera.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calformat.o: ./../../src/cal/calformat.cpp

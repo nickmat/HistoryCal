@@ -28,7 +28,6 @@
 #include "calscheme.h"
 
 #include "calbase.h"
-#include "calera.h"
 #include "calgrammar.h"
 #include "calgregorian.h"
 #include "calhybrid.h"
@@ -72,8 +71,6 @@ Scheme::Scheme( Schemes* schemes, const string& definition )
             m_base = new Hybrid( schemes, body );
         } else if( statement == "regnal" ) {
             m_base = new Regnal( schemes, m_code, body );
-        } else if( statement == "era" ) {
-            m_base = new Era( schemes, body );
         } else if( statement == "grammar" ) {
             if( m_base ) {
                 Grammar* gmr = schemes->get_grammar( body );
