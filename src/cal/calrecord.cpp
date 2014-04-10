@@ -130,9 +130,9 @@ bool Record::set_fields_as_next_last( const Field* mask  )
 
 void Record::remove_balanced_fields( Record* rec )
 {
-    // Both must have the same Base.
-    if( m_base == rec->m_base ) {
-        m_base->remove_balanced_fields( &m_f[0], rec->get_field_ptr() );
+    // Both must have the same Base and not be identical.
+    if( m_base == rec->m_base && m_jdn != rec->get_jdn() ) {
+        m_base->remove_balanced_fields( &m_f[0], m_jdn, rec->get_field_ptr(), rec->get_jdn() );
     }
 }
 

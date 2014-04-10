@@ -93,26 +93,6 @@ Field Shift::get_extended_field( const Field jdn, size_t index ) const
     return m_base->get_extended_field( jdn, index );
 }
 
-bool Shift::check_usable( const Field* fields ) const
-{
-    if( fields[0] == f_invalid ) {
-        return false;
-    }
-    bool found_invalid = false;
-    for( size_t i = 1 ; i < record_size() ; i++ ) {
-        if( found_invalid ) {
-            if( fields[i] != f_invalid ) {
-                return false;
-            }
-        } else {
-            if( fields[i] == f_invalid ) {
-                found_invalid = true;
-            }
-        }
-    }
-    return true;
-}
-
 Field Shift::get_field_last( const Field* fields, size_t index ) const
 {
     FieldVec fs = get_vec_adjusted_to_base( fields );
@@ -244,7 +224,7 @@ void Shift::remove_fields_if_last( Field* fields ) const
     }
 }
 
-void Shift::remove_balanced_fields( Field* left, Field* right ) const
+void Shift::remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const
 {
     // This is designed for 'year month day' calendars
     assert( record_size() >= 3 );
@@ -255,7 +235,7 @@ void Shift::remove_balanced_fields( Field* left, Field* right ) const
     } else {
         FieldVec l = get_vec_adjusted_to_base( left );
         FieldVec r = get_vec_adjusted_to_base( right );
-        m_base->remove_balanced_fields( &l[0], &r[0] );
+        m_base->remove_balanced_fields( &l[0], ljdn, &r[0], rjdn );
         for( size_t i = 1 ; i < record_size() ; i++ ) {
             if( l[i] == f_invalid && r[i] == f_invalid ) {
                 left[i] = right[i] = f_invalid;

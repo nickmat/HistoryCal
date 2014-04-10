@@ -56,8 +56,6 @@ namespace Cal {
         // Get an extended field value
         virtual Field get_extended_field( const Field jdn, size_t index ) const;
 
-        virtual bool check_usable( const Field* fields ) const;
-
         // Note, these members are not const so that they may set state conditions
         // related to the pos (position). This should speed up sucessive calls.
         virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) = 0;
@@ -68,7 +66,7 @@ namespace Cal {
         virtual void remove_fields_if_first( Field* fields ) const;
         virtual void remove_fields_if_last( Field* fields ) const;
 
-        virtual void remove_balanced_fields( Field* left, Field* right ) const;
+        virtual void remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const;
 
         virtual Field get_field_first( const Field* fields, size_t index ) const;
         virtual Field get_field_last( const Field* fields, size_t index ) const;

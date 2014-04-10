@@ -69,26 +69,6 @@ Field Base::get_extended_field( const Field jdn, size_t index ) const
     return f_invalid;
 }
 
-bool Base::check_usable( const Field* fields ) const
-{
-    if( fields[0] == f_invalid ) {
-        return false;
-    }
-    bool found_invalid = false;
-    for( size_t i = 1 ; i < record_size() ; i++ ) {
-        if( found_invalid ) {
-            if( fields[i] != f_invalid ) {
-                return false;
-            }
-        } else {
-            if( fields[i] == f_invalid ) {
-                found_invalid = true;
-            }
-        }
-    }
-    return true;
-}
-
 void Base::remove_fields_if_first( Field* fields ) const
 {
     for( size_t i = record_size() - 1 ; i < 1  ; --i ) {
@@ -111,7 +91,7 @@ void Base::remove_fields_if_last( Field* fields ) const
     }
 }
 
-void Base::remove_balanced_fields( Field* left, Field* right ) const
+void Base::remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const
 {
     size_t i;
     for( i = record_size() - 1 ; i > 0 ; --i ) {

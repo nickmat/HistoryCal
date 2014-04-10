@@ -72,7 +72,7 @@ void TestRegnal::setUp()
         "   {range 2418798 2428188; scheme 3 {shift g 2418798;};};" // George V
         "   {range 2428188 2428514; scheme 4 {shift g 2428188;};};" // Edward VIII
         "   {range 2428514 2434049; scheme 5 {shift g 2428514;};};" // George VI
-        "   {range 2434049 2457024; scheme 6 {shift g 2434049;};};" // Elizabeth II
+        "   {range 2434049 2457023; scheme 6 {shift g 2434049;};};" // Elizabeth II
         "  };"
         " };"
         "};\n"
@@ -99,7 +99,10 @@ void TestRegnal::testScript()
 void TestRegnal::testSamples()
 {
     struct data { string in; string out; } t[] = {
-        { "5 12 9 19", "5 12 9 19" }
+        { "5 12 9 19", "5 12 9 19" },
+        { "5 12 9", "5 12 9" },
+        { "5 12", "5 12" },
+        { "2", "2" }
     };
     size_t count = sizeof(t) / sizeof(data);
 

@@ -28,6 +28,7 @@
 #include "calregnal.h"
 
 #include "calparse.h"
+#include "calrecord.h"
 #include "calscheme.h"
 #include "calschemes.h"
 
@@ -100,6 +101,11 @@ bool Regnal::set_fields_as_begin_first( Field* fields, const Field* mask )
     if( e < 0 || e >= (int) m_eras.size() ) {
         return false;
     }
+    if( mask[1] == f_invalid ) {
+        Record rec( this, m_eras[e].begin );
+        copy_fields( fields, rec.get_field_ptr() );
+        return true;
+    }
     FieldVec m = get_base_fields( mask );
     Base* base = m_eras[e].base;
     FieldVec f( base->record_size(), f_invalid );
@@ -120,6 +126,11 @@ bool Regnal::set_fields_as_begin_last( Field* fields, const Field* mask )
     if( e < 0 || e >= (int) m_eras.size() ) {
         return false;
     }
+    if( mask[1] == f_invalid ) {
+        Record rec( this, m_eras[e].end );
+        copy_fields( fields, rec.get_field_ptr() );
+        return true;
+    }
     FieldVec m = get_base_fields( mask );
     Base* base = m_eras[e].base;
     FieldVec f( base->record_size(), f_invalid );
@@ -134,10 +145,36 @@ bool Regnal::set_fields_as_next_last( Field* fields, const Field* mask )
     return false;
 }
 
+void Regnal::remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const
+{
+    for( size_t i = m_eras.size() - 1 ; i > 0  ; --i ) {
+        if( ljdn > m_eras[i].begin ) {
+            break;
+        }
+        if( ljdn == m_eras[i].begin && rjdn == m_eras[i].end ) {
+            left[0] = right[0] = i;
+            for( size_t j = 1 ; j < m_rec_size ; j++ ) {
+                left[j] = right[j] = f_invalid;
+            }
+            return;
+        }
+    }
+    if( left[0] != right[0] || left[0] == f_invalid ) {
+        return;
+    }
+    size_t e = left[0];
+    Base* base = m_eras[e].base;
+    Record lrec( base, ljdn );
+    Record rrec( base, rjdn );
+    lrec.remove_balanced_fields( &rrec );
+    make_regnal_fields( left, e, lrec.get_field_ptr() );
+    make_regnal_fields( right, e, rrec.get_field_ptr() );
+}
+
 void Regnal::set_fields( Field* fields, Field jdn ) const
 {
     Field e = 0;
-    for( size_t i = 1 ; i < m_eras.size() ; i++ ) {
+    for( size_t i = m_eras.size() - 1 ; i > 0  ; --i ) {
         if( jdn >= m_eras[i].begin && jdn <= m_eras[i].end ) {
             e = i;
             break;
@@ -235,7 +272,8 @@ FieldVec Regnal::get_base_fields( const Field* fields ) const
 bool Regnal::make_regnal_fields( Field* fields, Field era, const Field* mask ) const
 {
     fields[0] = era;
-    for( size_t i = 0 ; i < m_eras[era].base->record_size() ; i++ ) {
+    size_t size = min( m_eras[era].base->record_size(), m_rec_size - 1 );
+    for( size_t i = 0 ; i < size ; i++ ) {
         fields[i+1] = mask[m_eras[era].xref[i]];
     }
     return true;

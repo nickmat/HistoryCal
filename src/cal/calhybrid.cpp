@@ -215,11 +215,11 @@ bool Hybrid::set_fields_as_next_last( Field* fields, const Field* mask )
     return false;
 }
 
-void Hybrid::remove_balanced_fields( Field* left, Field* right ) const
+void Hybrid::remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const
 {
     Base* lbase = m_bases[left[0]];
     if( left[0] == right[0] ) {
-        lbase->remove_balanced_fields( &left[1], &right[1] );
+        lbase->remove_balanced_fields( &left[1], ljdn, &right[1], ljdn );
         return;
     }
     Base* rbase = m_bases[right[0]];

@@ -52,8 +52,6 @@ namespace Cal {
         virtual Field get_jdn( const Field* fields ) const;
         virtual Field get_extended_field( const Field jdn, size_t index ) const;
 
-        virtual bool check_usable( const Field* fields ) const; 
-
         virtual Field get_field_last( const Field* fields, size_t index ) const;
 
         virtual bool set_fields_as_begin_first( Field* fields, const Field* mask );
@@ -64,7 +62,7 @@ namespace Cal {
         virtual void remove_fields_if_first( Field* fields ) const;
         virtual void remove_fields_if_last( Field* fields ) const;
 
-        virtual void remove_balanced_fields( Field* left, Field* right ) const;
+        virtual void remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const;
 
         virtual void set_fields( Field* fields, Field jdn ) const;
 
