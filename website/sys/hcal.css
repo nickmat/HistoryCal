@@ -323,4 +323,8 @@ table.code td.space {
  background-color: transparent;
 }
 
+tr.future {
+ color: red;
+}
+
 /* End of hcal.css file */
