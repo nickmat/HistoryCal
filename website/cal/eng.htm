@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>HistoryCal - Julian</title>
+<title>HistoryCal - English Hybrid</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="icon" type="image/png" href="../sys/logo1_32x32x32.png" />
 <link rel='stylesheet' type='text/css' href='../sys/hcal.css' />
@@ -27,7 +27,76 @@
 
 <h2>Calendar Description</h2>
 <p>
- Under construction.
+ The English Hybrid calendar is a hybrid variant combining the <a href='j325.htm'>Julian Annunciation</a>,
+ the <a href='j.htm'>Julian</a> and the <a href='g.htm'>Gregorian</a> calendars.
+</p>
+
+<h3>Use Case</h3>
+<p>
+</p>
+<ul>
+ <li>England and Wales from the 12th centry.</li>
+ <li>Former English overseas colonies and territories, from the 12th century to the current day.</li>
+</ul>
+
+<h3>Definition</h3>
+<table class='record'>
+<tr><th colspan='5'>Record</th></tr>
+<tr><td>scheme</td><td>year</td><td>month</td><td>day</td><td class='rdonly'>unshift</td></tr>
+</table>
+<p>
+</p>
+<p>
+ The <b>Record</b> consists of four <b>Fields</b> named <code>scheme,</code> <code>year,</code>
+ <code>month,</code> and <code>day</code> and a read only Field <code>unshift.</code>
+ The unshifted field holds the historical year as calculated by the underlying
+ Julian calendar.
+</p>
+<p>
+ As a Hybrid calendar, it has no single epoch.
+</p>
+
+<h3>Script</h3>
+<table class='code'>
+<tr><th>Default Script</th></tr>
+<tr><td
+><b>vocab</b> sch {
+ name Scheme names; lang en; style-name Scheme Sch;
+ tokens {
+  0 "Old Style" OS; 1 Julian; 2 "New Style" NS;
+ };
+};
+<b>grammar</b> hy {
+ alias field {
+  Day day; Month month; Year year;
+  Hist-Year unshift; Scheme scheme;
+ };
+ alias format-number-code {
+  Day dd; Month mm; Year yyyy; Hist-Year y; Scheme s;
+ };
+ vocabs m sch;
+ format pref @(Day) @(Month:m.a) @(Year/Hist-Year);
+ format @(Day) @(Month:m.a) @(Year);
+ format @(Day) @(Month:m.a) @(Year) @(Scheme:sch.a);
+};
+<b>scheme</b> eng {name English Hybrid;
+ hybrid {
+  fields year month day unshift;
+  scheme j325;
+  scheme j {begin 2360975;};
+  scheme g {begin 2361222;};
+ };
+ grammar hy;
+};
+</td></tr>
+</table>
+<p>
+ The script makes use of the globally available read-only field <code>wday</code>
+ to output weekdays.
+</p>
+<p>
+ The hy grammar uses the m (Julian months) and w (Weekdays) vocabs as defined for
+ the <a href='j.htm'>Julian</a> calendar.
 </p>
 
 </div>
