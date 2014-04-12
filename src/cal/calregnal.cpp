@@ -107,16 +107,28 @@ bool Regnal::set_fields_as_begin_first( Field* fields, const Field* mask )
         return true;
     }
     FieldVec m = get_base_fields( mask );
-    Base* base = m_eras[e].base;
-    FieldVec f( base->record_size(), f_invalid );
-    if( base->set_fields_as_begin_first( &f[0], &m[0] ) ) {
-        return make_regnal_fields( fields, e, &f[0] );
+    Record rec( m_eras[e].base );
+    if( rec.set_fields_as_begin_first( &m[0] ) ) {
+        return make_regnal_fields( fields, e, rec );
     }
     return false;
 }
 
 bool Regnal::set_fields_as_next_first( Field* fields, const Field* mask )
 {
+    Field e = mask[0];
+    if( e < 0 || e >= (int) m_eras.size() ) {
+        return false;
+    }
+    if( mask[1] == f_invalid ) {
+        return false;
+    }
+    FieldVec m = get_base_fields( mask );
+    FieldVec f = get_base_fields( fields );
+    Record rec( m_eras[e].base, &f[0], f.size() );
+    if( rec.set_fields_as_next_first( &m[0] ) ) {
+        return make_regnal_fields( fields, e, rec );
+    }
     return false;
 }
 
@@ -132,16 +144,28 @@ bool Regnal::set_fields_as_begin_last( Field* fields, const Field* mask )
         return true;
     }
     FieldVec m = get_base_fields( mask );
-    Base* base = m_eras[e].base;
-    FieldVec f( base->record_size(), f_invalid );
-    if( base->set_fields_as_begin_last( &f[0], &m[0] ) ) {
-        return make_regnal_fields( fields, e, &f[0] );
+    Record rec( m_eras[e].base );
+    if( rec.set_fields_as_begin_last( &m[0] ) ) {
+        return make_regnal_fields( fields, e, rec );
     }
     return false;
 }
 
 bool Regnal::set_fields_as_next_last( Field* fields, const Field* mask )
 {
+    Field e = mask[0];
+    if( e < 0 || e >= (int) m_eras.size() ) {
+        return false;
+    }
+    if( mask[1] == f_invalid ) {
+        return false;
+    }
+    FieldVec m = get_base_fields( mask );
+    FieldVec f = get_base_fields( fields );
+    Record rec( m_eras[e].base, &f[0], f.size() );
+    if( rec.set_fields_as_next_last( &m[0] ) ) {
+        return make_regnal_fields( fields, e, rec );
+    }
     return false;
 }
 
@@ -167,8 +191,8 @@ void Regnal::remove_balanced_fields( Field* left, Field ljdn, Field* right, Fiel
     Record lrec( base, ljdn );
     Record rrec( base, rjdn );
     lrec.remove_balanced_fields( &rrec );
-    make_regnal_fields( left, e, lrec.get_field_ptr() );
-    make_regnal_fields( right, e, rrec.get_field_ptr() );
+    make_regnal_fields( left, e, lrec );
+    make_regnal_fields( right, e, rrec );
 }
 
 void Regnal::set_fields( Field* fields, Field jdn ) const
@@ -180,9 +204,9 @@ void Regnal::set_fields( Field* fields, Field jdn ) const
             break;
         }
     }
-    FieldVec f( m_eras[e].base->record_size(), f_invalid );
-    m_eras[e].base->set_fields( &f[0], jdn );
-    make_regnal_fields( fields, e, &f[0] );
+    Record rec( m_eras[e].base, jdn );
+    make_regnal_fields( fields, e, rec );
+    return;
 }
 
 
@@ -269,12 +293,15 @@ FieldVec Regnal::get_base_fields( const Field* fields ) const
     return fs;
 }
 
-bool Regnal::make_regnal_fields( Field* fields, Field era, const Field* mask ) const
+bool Regnal::make_regnal_fields( Field* fields, Field era, Record& rec ) const
 {
     fields[0] = era;
-    size_t size = min( m_eras[era].base->record_size(), m_rec_size - 1 );
+    size_t size = m_rec_size - 1;
     for( size_t i = 0 ; i < size ; i++ ) {
-        fields[i+1] = mask[m_eras[era].xref[i]];
+        int x = m_eras[era].xref[i];
+        if( x >= 0 ) {
+            fields[i+1] = rec.get_field( x );
+        }
     }
     return true;
 }

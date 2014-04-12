@@ -64,7 +64,7 @@ void TestRegnal::setUp()
         "scheme er1 {"
         " name English Regnal One;"
         " regnal {"
-        "  fields year month day unshift;"
+        "  fields year month day;"
         "  default g;"
         "  schemes {"
         "   {range 2392181 2415407; scheme 1 {shift g 2392181;};};" // Victoria
@@ -99,6 +99,9 @@ void TestRegnal::testScript()
 void TestRegnal::testSamples()
 {
     struct data { string in; string out; } t[] = {
+//        { "5 12 9 19", "5 12 9 19 1948" },
+//        { "5 12 9", "5 12 9 1948" },
+//        { "5 12", "5 12 1947 ~ 5 12 1948" },
         { "5 12 9 19", "5 12 9 19" },
         { "5 12 9", "5 12 9" },
         { "5 12", "5 12" },

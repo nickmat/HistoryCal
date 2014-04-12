@@ -155,7 +155,7 @@ void TestDef_eng::testCreation()
         if( info.vocab_codes[i] == "m" ) {
             str = "Month names";
         }
-        if( info.vocab_codes[i] == "sch" ) {
+        if( info.vocab_codes[i] == "ojn" ) {
             str = "Scheme names";
         }
         CPPUNIT_ASSERT( str != "" );

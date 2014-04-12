@@ -81,20 +81,27 @@ const char* Cal::cal_default_script =
 
     "scheme j325 {name Julian Annunciation; shift j 1721507; grammar j.sh;};\n"
 
-    "vocab sch {"
+    "vocab ojn {"
     " name Scheme names; lang en; style-name Scheme Sch;"
     " tokens {"
     "  0 \"Old Style\" OS; 1 Julian; 2 \"New Style\" NS;"
     " };"
     "};\n"
 
+    "vocab on {"
+    " name Scheme names; lang en; style-name Scheme Sch;"
+    " tokens {"
+    "  0 \"Old Style\" OS; 1 \"New Style\" NS;"
+    " };"
+    "};\n"
+
     "grammar hy {"
     " alias field {Day day; Month month; Year year; Hist-Year unshift; Scheme scheme;};"
     " alias format-number-code {Day dd; Month mm; Year yyyy; Hist-Year y; Scheme s;};"
-    " vocabs m sch;"
+    " vocabs m ojn;"
     " format pref @(Day) @(Month:m.a) @(Year/Hist-Year);"
     " format @(Day) @(Month:m.a) @(Year);"
-    " format @(Day) @(Month:m.a) @(Year) @(Scheme:sch.a);"
+    " format @(Day) @(Month:m.a) @(Year) @(Scheme:ojn.a);"
     "};\n"
 
     "scheme eng {name English Hybrid;"
@@ -110,55 +117,59 @@ const char* Cal::cal_default_script =
     "vocab er {name British Regnal Names; lang en; style-name Reign Rn;"
     " tokens {"
     "  0 \"English calendar\" Eng;"
-    "  1 \"Henry II\" \"Hy II\";"
-    "  2 \"Richard I\" \"Rich I\";"
-    "  3 John Jn;"
-    "  4 \"Henry III\" \"Hy III\";"
-    "  5 \"Edward I\" \"Ed I\";"
-    "  6 \"Edward II\" \"Ed II\";"
-    "  7 \"Edward III\" \"Ed III\";"
-    "  8 \"Richard II\" \"Rich II\";"
-    "  9 \"Henry IV\" \"Hy IV\";"
-    "  10 \"Henry V\" \"Hy V\";"
-    "  11 \"Henry VI\" \"Hy VI\";"
-    "  12 \"Edward IV\" \"Ed IV\";"
-    "  13 \"Henry VI Restoration\" \"Hy VI R\";"
-    "  14 \"Edward V\" \"Ed V\";"
-    "  15 \"Richard III\" \"Rich III\";"
-    "  16 \"Henry VII\" \"Hy VII\";"
-    "  17 \"Henry VIII\" \"Hy VIII\";"
-    "  18 \"Edward VI\" \"Ed VI\";"
-    "  19 Jane;"
-    "  20 \"Mary I\";"
-    "  21 \"Philip and Mary\" \"P & M\";"
-    "  22 \"Elizabeth I\" \"Eliz I\";"
-    "  23 \"James I\" \"Jm I\";"
-    "  24 \"Charles I\" \"Chas I\";"
-    "  25 \"The Commonwealth\" \"Com\";"
-    "  26 \"Charles II\" \"Chas II\";"
-    "  27 \"James II\" \"Jm II\";"
-    "  28 Interregnum Int;"
-    "  29 \"William and Mary\" \"W & M\";"
-    "  30 \"William III\" \"Wm III\";"
-    "  31 Anne;"
-    "  32 \"George I\" \"Geo I\";"
-    "  33 \"George II\" \"Geo II\";"
-    "  34 \"George III\" \"Geo III\";"
-    "  35 \"George IV\" \"Geo IV\";"
-    "  36 \"William IV\" \"Wm IV\";"
-    "  37 Victora Vic;"
-    "  38 \"Edward VII\" \"Ed VII\";"
-    "  39 \"George V\" \"Geo V\";"
-    "  40 \"Edward VIII\" \"Ed VIII\";"
-    "  41 \"George VI\" \"Geo VI\";"
-    "  42 \"Elizabeth II\" \"Eliz II\";"
+    "  1 \"William I\" \"Wm I\";"
+    "  2 \"William II\" \"Wm II\";"
+    "  3 \"Henry I\" \"Hy I\";"
+    "  4 Stephen St;"
+    "  5 \"Henry II\" \"Hy II\";"
+    "  6 \"Richard I\" \"Rich I\";"
+    "  7 John Jn;"
+    "  8 \"Henry III\" \"Hy III\";"
+    "  9 \"Edward I\" \"Ed I\";"
+    "  10 \"Edward II\" \"Ed II\";"
+    "  11 \"Edward III\" \"Ed III\";"
+    "  12 \"Richard II\" \"Rich II\";"
+    "  13 \"Henry IV\" \"Hy IV\";"
+    "  14 \"Henry V\" \"Hy V\";"
+    "  15 \"Henry VI\" \"Hy VI\";"
+    "  16 \"Edward IV\" \"Ed IV\";"
+    "  17 \"Henry VI Restoration\" \"Hy VI R\";"
+    "  18 \"Edward V\" \"Ed V\";"
+    "  19 \"Richard III\" \"Rich III\";"
+    "  20 \"Henry VII\" \"Hy VII\";"
+    "  21 \"Henry VIII\" \"Hy VIII\";"
+    "  22 \"Edward VI\" \"Ed VI\";"
+    "  23 Jane;"
+    "  24 \"Mary I\";"
+    "  25 \"Philip and Mary\" \"P & M\";"
+    "  26 \"Elizabeth I\" \"Eliz I\";"
+    "  27 \"James I\" \"Jm I\";"
+    "  28 \"Charles I\" \"Chas I\";"
+    "  29 \"The Commonwealth\" \"Com\";"
+    "  30 \"Charles II\" \"Chas II\";"
+    "  31 \"James II\" \"Jm II\";"
+    "  32 Interregnum Int;"
+    "  33 \"William and Mary\" \"W & M\";"
+    "  34 \"William III\" \"Wm III\";"
+    "  35 Anne;"
+    "  36 \"George I\" \"Geo I\";"
+    "  37 \"George II\" \"Geo II\";"
+    "  38 \"George III\" \"Geo III\";"
+    "  39 \"George IV\" \"Geo IV\";"
+    "  40 \"William IV\" \"Wm IV\";"
+    "  41 Victora Vic;"
+    "  42 \"Edward VII\" \"Ed VII\";"
+    "  43 \"George V\" \"Geo V\";"
+    "  44 \"Edward VIII\" \"Ed VIII\";"
+    "  45 \"George VI\" \"Geo VI\";"
+    "  46 \"Elizabeth II\" \"Eliz II\";"
     " };"
     "};\n"
 
     "grammar er {"
-    " alias field {Monarch era; Day day; Month month; Year year;};"
-    " vocabs er m;"
-    " format pref @(Day) @(Month:m.a) @(Year) @(Monarch:er);"
+    " alias field {Monarch era; Day day; Month month; Year year; Scheme scheme;};"
+    " vocabs er m sch;"
+    " format pref @(Day) @(Month:m.a) @(Year) @(Monarch:er) @,(Scheme:sch);"
     " format @(Year) @(Monarch:er) @(Day) @(Month:m.a);"
     "};\n"
 
@@ -176,51 +187,55 @@ const char* Cal::cal_default_script =
     "scheme er {"
     " name English Regnal;"
     " regnal {"
-    "  fields year month day unshift;"
+    "  fields year month day unshift scheme;"
     "  default eng;"
     "  schemes {"
-    "   {range 2142909 2155527; scheme 1 {shift j 2142909;};};"   // Henry II
-    "   {range 2155586 2159088; scheme 2 {shift j 2155586;};};"   // Richard I
-    "   {range 2159139 2165494; scheme 3 {shift j 2159139;};};"   // John
-    "   {range 2165503 2185976; scheme 4 {shift j 2165503;};};"   // Henry III
-    "   {range 2185980 2198627; scheme 5 {shift j 2185980;};};"   // Edward I
-    "   {range 2198628 2205764; scheme 6 {shift j 2198628;};};"   // Edward II
-    "   {range 2205769 2224179; scheme 7 {shift j 2205769;};};"   // Edward III
-    "   {range 2224180 2232314; scheme 8 {shift j 2224180;};};"   // Richard II
-    "   {range 2232315 2237235; scheme 9 {shift j 2232315;};};"   // Henry IV
-    "   {range 2237236 2240686; scheme 10 {shift j 2237236;};};"  // Henry V
-    "   {range 2240687 2254751; scheme 11 {shift j 2240687;};};"  // Henry VI
-    "   {range 2254751 2262822; scheme 12 {shift j 2254751;};};"  // Edward IV
-    "   {range 2258251 2258441; scheme 13 {shift j 2240687;};};"  // Henry VI Restoration
-    "   {range 2262822 2262899; scheme 14 {shift j 2262822;};};"  // Edward V
-    "   {range 2262900 2263688; scheme 15 {shift j 2262900;};};"  // Richard III
-    "   {range 2263688 2272331; scheme 16 {shift j 2263688;};};"  // Henry VII
-    "   {range 2272332 2286127; scheme 17 {shift j 2272332;};};"  // Henry VIII
-    "   {range 2286127 2288478; scheme 18 {shift j 2286127;};};"  // Edward VI
-    "   {range 2288478 2288491; scheme 19 {shift j 2288478;};};"  // Jane
-    "   {range 2288491 2288861; scheme 20 {shift j 2288478;};};"  // Mary I
-    "   {range 2288862 2290438; scheme 21 {shift j 2288862;};};"  // Philip and Mary
-    "   {range 2290438 2306636; scheme 22 {shift j 2290438;};};"  // Elizabeth I
-    "   {range 2306636 2314675; scheme 23 {shift j 2306636;};};"  // James I
-    "   {range 2314675 2323385; scheme 24 {shift j 2314675;};};"  // Charles I
+    "   {range 2110773 2118336; scheme 1 {shift j 2110773;};};"   // William I
+    "   {range 2118353 2123047; scheme 2 {shift j 2118353;};};"   // William II
+    "   {range 2123050 2135951; scheme 3 {shift j 2123050;};};"   // Henry I
+    "   {range 2135972 2142854; scheme 4 {shift j 2135972;};};"   // Stephen
+    "   {range 2142909 2155527; scheme 5 {shift j 2142909;};};"   // Henry II
+    "   {range 2155586 2159088; scheme 6 {shift j 2155586;};};"   // Richard I
+    "   {range 2159139 2165494; scheme 7 {shift j 2159139;};};"   // John
+    "   {range 2165503 2185976; scheme 8 {shift j 2165503;};};"   // Henry III
+    "   {range 2185980 2198627; scheme 9 {shift j 2185980;};};"   // Edward I
+    "   {range 2198628 2205764; scheme 10 {shift j 2198628;};};"  // Edward II
+    "   {range 2205769 2224179; scheme 11 {shift j 2205769;};};"  // Edward III
+    "   {range 2224180 2232314; scheme 12 {shift j 2224180;};};"  // Richard II
+    "   {range 2232315 2237235; scheme 13 {shift j 2232315;};};"  // Henry IV
+    "   {range 2237236 2240686; scheme 14 {shift j 2237236;};};"  // Henry V
+    "   {range 2240687 2254751; scheme 15 {shift j 2240687;};};"  // Henry VI
+    "   {range 2254751 2262822; scheme 16 {shift j 2254751;};};"  // Edward IV
+    "   {range 2258251 2258441; scheme 17 {shift j 2240687;};};"  // Henry VI Restoration
+    "   {range 2262822 2262899; scheme 18 {shift j 2262822;};};"  // Edward V
+    "   {range 2262900 2263688; scheme 19 {shift j 2262900;};};"  // Richard III
+    "   {range 2263688 2272331; scheme 20 {shift j 2263688;};};"  // Henry VII
+    "   {range 2272332 2286127; scheme 21 {shift j 2272332;};};"  // Henry VIII
+    "   {range 2286127 2288478; scheme 22 {shift j 2286127;};};"  // Edward VI
+    "   {range 2288478 2288491; scheme 23 {shift j 2288478;};};"  // Jane
+    "   {range 2288491 2288861; scheme 24 {shift j 2288478;};};"  // Mary I
+    "   {range 2288862 2290438; scheme 25 {shift j 2288862;};};"  // Philip and Mary
+    "   {range 2290438 2306636; scheme 26 {shift j 2290438;};};"  // Elizabeth I
+    "   {range 2306636 2314675; scheme 27 {shift j 2306636;};};"  // James I
+    "   {range 2314675 2323385; scheme 28 {shift j 2314675;};};"  // Charles I
     "   {range 2323386 2327521; scheme j;};"                      // The Commonwealth
-    "   {range 2327522 2336541; scheme 26 {shift j 2323385;};};"  // Charles II
-    "   {range 2336541 2337945; scheme 27 {shift j 2336541;};};"  // James II
+    "   {range 2327522 2336541; scheme 30 {shift j 2323385;};};"  // Charles II
+    "   {range 2336541 2337945; scheme 31 {shift j 2336541;};};"  // James II
     "   {range 2337946 2338008; scheme j;};"                      // Interregnum
-    "   {range 2338009 2340152; scheme 29 {shift j 2338009;};};"  // William and Mary
-    "   {range 2340153 2342780; scheme 30 {shift j 2338009;};};"  // William III
-    "   {range 2342780 2347309; scheme 31 {shift j 2342780;};};"  // Anne
-    "   {range 2347309 2352006; scheme 32 {shift j 2347309;};};"  // George I
+    "   {range 2338009 2340152; scheme 33 {shift j 2338009;};};"  // William and Mary
+    "   {range 2340153 2342780; scheme 34 {shift j 2338009;};};"  // William III
+    "   {range 2342780 2347309; scheme 35 {shift j 2342780;};};"  // Anne
+    "   {range 2347309 2352006; scheme 36 {shift j 2347309;};};"  // George I
     "   {range 2352006 2364185; scheme t4;};"                     // George II
-    "   {range 2364185 2385829; scheme 34 {shift g 2364185;};};"  // George III
-    "   {range 2385829 2389630; scheme 35 {shift g 2385829;};};"  // George IV
-    "   {range 2389630 2392181; scheme 36 {shift g 2389630;};};"  // William IV
-    "   {range 2392181 2415407; scheme 37 {shift g 2392181;};};"  // Victoria
-    "   {range 2415407 2418798; scheme 38 {shift g 2415407;};};"  // Edward VII
-    "   {range 2418798 2428188; scheme 39 {shift g 2418798;};};"  // George V
-    "   {range 2428188 2428514; scheme 40 {shift g 2428188;};};"  // Edward VIII
-    "   {range 2428514 2434049; scheme 41 {shift g 2428514;};};"  // George VI
-    "   {range 2434049 2457023; scheme 42 {shift g 2434049;};};"  // Elizabeth II
+    "   {range 2364185 2385829; scheme 38 {shift g 2364185;};};"  // George III
+    "   {range 2385829 2389630; scheme 39 {shift g 2385829;};};"  // George IV
+    "   {range 2389630 2392181; scheme 40 {shift g 2389630;};};"  // William IV
+    "   {range 2392181 2415407; scheme 41 {shift g 2392181;};};"  // Victoria
+    "   {range 2415407 2418798; scheme 42 {shift g 2415407;};};"  // Edward VII
+    "   {range 2418798 2428188; scheme 43 {shift g 2418798;};};"  // George V
+    "   {range 2428188 2428514; scheme 44 {shift g 2428188;};};"  // Edward VIII
+    "   {range 2428514 2434049; scheme 45 {shift g 2428514;};};"  // George VI
+    "   {range 2434049 2457023; scheme 46 {shift g 2434049;};};"  // Elizabeth II
     "  };"
     " };"
     " grammar er;"

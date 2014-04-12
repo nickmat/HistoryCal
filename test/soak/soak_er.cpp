@@ -96,15 +96,29 @@ void Soak_er::testScript()
 #endif
 
 
-static string fieldsToStr( Field d, Field m, Field y, Field e )
+static string fieldsToStr( Field d, Field m, Field y, Field e, Field s )
 {
     stringstream tst;
     tst << d << " " << m << " " << y << " " << e;
+    if( s >= 0 ) {
+        tst << " " << s;
+    }
     return tst.str();
 }
 
-#define ER_START_JDN 2434379 // 1 Jan 1953
-#define ER_END_JDN   2456659 // 1 Jan 2014
+static int is_leap_year( Field year )
+{
+    int leap = 0;
+    if( year % 4 == 0 ) leap = 1;
+    if( year > 1752 ) { // for England changover
+        if( year % 100 == 0 ) leap = 0;
+        if( year % 400 == 0 ) leap = 1;
+    }
+    return leap;
+}
+
+#define ER_START_JDN 2347462 // 1 Jan 1715 (j)
+#define ER_END_JDN   2456659 // 1 Jan 2014 (g)
 
 void Soak_er::testErCalendar()
 {
@@ -116,13 +130,11 @@ void Soak_er::testErCalendar()
     Field day = 0;
     Field month = 1;
     Field year = 1;
-    Field era = 42;
-    Field hyear = 1953;
-    int leapyear = 0;
+    Field era = 36;
+    Field hyear = 1715;
+    Field scheme = -1;
+    int leapyear = is_leap_year( hyear );
     for( Field daycount = ER_START_JDN ; daycount < ER_END_JDN ; daycount++ ) {
-        if( daycount == 2434407 ) {
-            int dummy = 0;
-        }
         day++;
         if( day > LengthOfMonth[leapyear][month-1] ) {
             day = 1;
@@ -130,57 +142,37 @@ void Soak_er::testErCalendar()
             if( month > 12 ) {
                 month = 1;
                 hyear++;
-                leapyear = 0;
-                if( hyear % 4 == 0 ) leapyear = 1;
-                if( hyear % 100 == 0 ) leapyear = 0;
-                if( hyear % 400 == 0 ) leapyear = 1;
+                leapyear = is_leap_year( hyear );
             }
         }
-        if( era == 42 && day == 6 && month == 2 ) year++;
-        string datestr = fieldsToStr( day, month, year, era );
+        if( era == 36 && day ==  1 && month ==  8 ) year++; // Anne
+        if( era == 36 && day == 11 && month ==  6 && hyear == 1727 ) { era++; year = 0; scheme++; }
+        if( scheme == 0 && era == 37 && day == 11 && month ==  6 ) year++; // Geo II old style
+        // Change from Julian to Gregorian
+        if( scheme == 0 && day == 3 && month == 9 && hyear == 1752 ) { day = 14; scheme++; }
+        if( scheme == 1 && era == 37 && day == 22 && month ==  6 ) year++; // Geo II new style
+        if( era == 37 && day == 25 && month == 10 && hyear == 1760 ) { era++; year = 0; scheme = -1; }
+        if( era == 38 && day == 25 && month == 10 ) year++; // Geo III
+        if( era == 38 && day == 29 && month ==  1 && hyear == 1820 ) { era++; year = 0; }
+        if( era == 39 && day == 29 && month ==  1 ) year++; // Geo IV
+        if( era == 39 && day == 26 && month ==  6 && hyear == 1830 ) { era++; year = 0; }
+        if( era == 40 && day == 26 && month ==  6 ) year++; // Wm IV
+        if( era == 40 && day == 20 && month ==  6 && hyear == 1837 ) { era++; year = 0; }
+        if( era == 41 && day == 20 && month ==  6 ) year++; // Vic
+        if( era == 41 && day == 22 && month ==  1 && hyear == 1901 ) { era++; year = 0; }
+        if( era == 42 && day == 22 && month ==  1 ) year++; // Ed VII
+        if( era == 42 && day ==  6 && month ==  5 && hyear == 1910 ) { era++; year = 0; }
+        if( era == 43 && day ==  6 && month ==  5 ) year++; // Geo V
+        if( era == 43 && day == 20 && month ==  1 && hyear == 1936 ) { era++; year = 0; }
+        if( era == 44 && day == 20 && month ==  1 ) year++; // Ed VIII
+        if( era == 44 && day == 11 && month == 12 && hyear == 1936 ) { era++; year = 0; }
+        if( era == 45 && day == 11 && month == 12 ) year++; // Geo VI
+        if( era == 45 && day ==  6 && month ==  2 && hyear == 1936 ) { era++; year = 0; }
+        if( era == 46 && day ==  6 && month ==  2 ) year++; // Eliz II
+        string datestr = fieldsToStr( day, month, year, era, scheme );
         Field jdn = m_cal->str_to_jdn( m_sid, datestr );
         CPPUNIT_ASSERT_EQUAL( daycount, jdn );
     }
-#if 0
-    CPPUNIT_ASSERT( m_sid >= 0 );
-    Field eng_year = HIS_START_YEAR-1;
-    string date_in = fieldsToStr( f_invalid, eng_year, 1, 1, f_invalid );
-    Field daycount = m_cal->str_to_jdn( m_sid, date_in );
-    CPPUNIT_ASSERT_EQUAL( ENG_START_JDN, daycount );
-    Field sch = 0;
-    for( Field year = HIS_START_YEAR ; year < HIS_END_YEAR ; year++ ) {
-        size_t leap_year = 0;
-        if( year % 4 == 0 ) leap_year = 1;
-        if( sch == 2 && year % 100 == 0 ) leap_year = 0;
-        if( sch == 2 && year % 400 == 0 ) leap_year = 1;
-        for( Field month = 1 ; month <= 12 ; month++ ) {
-            Field month_length = LengthOfMonth[leap_year][month-1];
-            for( Field day = 1 ; day <= month_length ; day++ ) {
-                if( sch == 0 && month == 3 && day == 25 ) {
-                    eng_year++;
-                }
-                if( sch > 0 && month == 1 && day == 1 ) {
-                    eng_year++;
-                }
-                if( eng_year == 1751 && month == 12 && day == 31 ) {
-                    sch++;
-                }
-                if( eng_year == 1752 && month == 9 && day == 3 ) {
-                    sch++;
-                    day = 14;
-                }
-                date_in = fieldsToStr( f_invalid, eng_year, month, day, f_invalid );
-                Field jdn = m_cal->str_to_jdn( m_sid, date_in );
-                CPPUNIT_ASSERT_EQUAL( daycount, jdn );
-                Field hyear = ( sch == 0 ) ? year : f_invalid;
-                string date_out = fieldsToStr( sch, eng_year, month, day, hyear );
-                string cvtdate = m_cal->jdn_to_str( m_sid, jdn );
-                CPPUNIT_ASSERT_EQUAL( date_out, cvtdate );
-                daycount++;
-            }
-        }
-    }
-#endif
 }
 
 // End of test/soak/soak_er.cpp file

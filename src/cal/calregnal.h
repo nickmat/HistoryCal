@@ -34,6 +34,7 @@ namespace Cal {
 
     class Schemes;
     class Scheme;
+    class Record;
 
     struct RegnalEra {
         RegnalEra() : begin(f_minimum), end(f_maximum), base(NULL), scheme(NULL) {}
@@ -73,8 +74,8 @@ namespace Cal {
         void add_scheme( RegnalEra* era, Schemes* schs, const std::string& data );
         // Adjust and copy Era date fields to base date fields
         FieldVec get_base_fields( const Field* fields ) const;
-        // Adjust the given base fields to Era fields
-        bool make_regnal_fields( Field* fields, Field era, const Field* efields ) const;
+        // Adjust the given Record to Era fields
+        bool make_regnal_fields( Field* fields, Field era, Record& rec ) const;
 
         std::vector<RegnalEra> m_eras;
         StringVec   m_fieldnames;
