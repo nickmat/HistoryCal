@@ -40,14 +40,16 @@ using namespace std;
 Regnal::Regnal( Schemes* schs, const std::string& code, const std::string& data )
     : m_rec_size(0), Base()
 {
-    StringVec statements = parse_statements( peel_cbrackets( data ) );
+    string body;
+    string def = get_first_word( data, &body );
+    StringVec statements = parse_statements( peel_cbrackets( body ) );
     for( size_t i = 0 ; i < statements.size() ; i++ ) {
-        string body;
         string word = get_first_word( statements[i], &body );
         if( word == "fields" ) {
             create_fieldnames( body );
-        } else if( word == "default" ) {
-            create_default_scheme( schs, body );
+            create_default_scheme( schs, def );
+        } else if( word == "local" ) {
+            create_local_schemes( schs, body );
         } else if( word == "schemes" ) {
             create_schemes( schs, body );
         }
@@ -233,6 +235,10 @@ void Regnal::create_default_scheme( Schemes* schs, const string& code )
         }
         m_eras.push_back(era);
     }
+}
+
+void Regnal::create_local_schemes( Schemes* schs, const std::string& data )
+{
 }
 
 void Regnal::create_schemes( Schemes* schs, const std::string& statement )

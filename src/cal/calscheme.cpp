@@ -46,7 +46,7 @@ using namespace Cal;
 using namespace std;
 
 Scheme::Scheme( Schemes* schemes, const string& definition ) 
-    : m_base(NULL)
+    : m_style(SCH_STYLE_Default), m_base(NULL)
 {
     string body;
     m_code = get_first_word( definition, &body );
@@ -76,6 +76,10 @@ Scheme::Scheme( Schemes* schemes, const string& definition )
                 Grammar* gmr = schemes->get_grammar( body );
                 m_base->set_grammar( gmr );
             }
+        } else if( statement == "style" ) {
+            if( body == "hide" ) {
+                m_style = SCH_STYLE_Hide;
+            }
         }
     }
 }
@@ -94,6 +98,7 @@ void Scheme::get_info( Scheme_info* info ) const
 {
     info->name = m_name;
     info->code = m_code;
+    info->style = m_style;
     Grammar* gmr = m_base->get_grammar();
     if( gmr ) {
         info->grammar_code = gmr->code();

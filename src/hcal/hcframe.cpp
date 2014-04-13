@@ -54,17 +54,22 @@ using namespace Cal;
  */
 HcFrame::HcFrame(
     const wxString& title, const wxPoint& pos, const wxSize& size, long style )
-    : m_cal(Init_schemes_default), m_from(2), m_to(2), m_show_interm(false),
+    : m_cal(Init_schemes_default), m_show_interm(false),
     m_show_count(false),
     hcFbFrame( (wxFrame*) NULL, wxID_ANY, title, pos, size, style )
 {
     // Set frames Icon
     SetIcon( wxICON( hcal ) );
 
+    m_from = m_to = m_cal.get_scheme_id( "g" );
     Scheme_info info;
     wxString entry;
     for( int i = 0 ; i < m_cal.get_scheme_count() ; i++ ) {
         m_cal.get_scheme_info( &info, i );
+        if( info.style == SCH_STYLE_Hide ) {
+            continue;
+        }
+        m_schemes.push_back( i );
         entry.clear();
         entry << info.name.c_str() << "  (" << info.code.c_str() << ")";
         m_comboBoxInput->Append( entry );
@@ -152,7 +157,8 @@ void HcFrame::OnAbout( wxCommandEvent& event )
 
 void HcFrame::OnSelectInput( wxCommandEvent& event )
 {
-    m_from = m_comboBoxInput->GetSelection();
+    int ip = m_comboBoxInput->GetSelection();
+    m_from = m_schemes[ip];
     UpdateInputFormat();
     UpdateTextVocabs();
     CalculateOutput();
@@ -194,7 +200,8 @@ void HcFrame::OnButtonConvert( wxCommandEvent& event )
 
 void HcFrame::OnSelectOutput( wxCommandEvent& event )
 {
-    m_to = m_comboBoxOutput->GetSelection();
+    int op = m_comboBoxOutput->GetSelection();
+    m_to = m_schemes[op];
     UpdateOutputFormat();
     CalculateOutput();
 }

@@ -173,22 +173,22 @@ const char* Cal::cal_default_script =
     " format @(Year) @(Monarch:er) @(Day) @(Month:m.a);"
     "};\n"
 
-    "scheme t2 {name Test Shift 2; shift j 2352006; grammar j.sh;};\n"
-    "scheme t3 {name Test Shift 3; shift g 2352006; grammar j.sh;};\n"
-    "scheme t4 {name Test Hybrid;"
+    "scheme er.t1 {name George II Julian; shift j 2352006; style hide;};\n"
+    "scheme er.t2 {name George II Gregorian; shift g 2352006; style hide;};\n"
+    "scheme er.t3 {"
+    " name George II Hybrid;"
     " hybrid {"
     "  fields year month day;"
-    "  scheme t2;"
-    "  scheme t3 {begin 2361222;};"
+    "  scheme er.t1;"
+    "  scheme er.t2 {begin 2361222;};"
     " };"
-    " grammar hy;"
+    " style hide;"
     "};\n"
 
     "scheme er {"
     " name English Regnal;"
-    " regnal {"
+    " regnal eng {"
     "  fields year month day unshift scheme;"
-    "  default eng;"
     "  schemes {"
     "   {range 2110773 2118336; scheme 1 {shift j 2110773;};};"   // William I
     "   {range 2118353 2123047; scheme 2 {shift j 2118353;};};"   // William II
@@ -226,7 +226,7 @@ const char* Cal::cal_default_script =
     "   {range 2340153 2342780; scheme 34 {shift j 2338009;};};"  // William III
     "   {range 2342780 2347309; scheme 35 {shift j 2342780;};};"  // Anne
     "   {range 2347309 2352006; scheme 36 {shift j 2347309;};};"  // George I
-    "   {range 2352006 2364185; scheme t4;};"                     // George II
+    "   {range 2352006 2364185; scheme er.t3;};"                  // George II
     "   {range 2364185 2385829; scheme 38 {shift g 2364185;};};"  // George III
     "   {range 2385829 2389630; scheme 39 {shift g 2385829;};};"  // George IV
     "   {range 2389630 2392181; scheme 40 {shift g 2389630;};};"  // William IV
@@ -240,28 +240,6 @@ const char* Cal::cal_default_script =
     " };"
     " grammar er;"
     "};\n"
-
-    "scheme t1 {name Test Hybrid;"
-    " hybrid {"
-    "  fields year month day;"
-    "  scheme g;"
-    "  scheme j {begin 2361222;};"
-    " };"
-    " grammar hy;"
-    "};\n"
-#if 0
-    "scheme t2 {name Test Shift 2; shift j 2352006; grammar j.sh;};\n"
-    "scheme t3 {name Test Shift 3; shift g 2352006; grammar j.sh;};\n"
-    "scheme t4 {name Test Hybrid;"
-    " hybrid {"
-    "  fields year month day;"
-    "  scheme t2;"
-    "  scheme t3 {begin 2361222;};"
-    " };"
-    " grammar hy;"
-    "};\n"
-#endif
-//    "scheme s1 {name Shift 1; shift g 2428514; grammar j.sh;};\n"
 ;
 
 // End of src/cal/calscripts.cpp file

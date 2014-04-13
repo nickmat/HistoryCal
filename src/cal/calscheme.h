@@ -71,9 +71,10 @@ namespace Cal {
     private:
         Unit str_to_unit( const std::string& str ) const;
 
-        std::string m_name;
-        std::string m_code;
-        Base*       m_base;
+        std::string   m_name;
+        std::string   m_code;
+        Scheme_style  m_style;
+        Base*         m_base;
     };
 
 }

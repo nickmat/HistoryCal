@@ -63,9 +63,8 @@ void TestRegnal::setUp()
         "scheme g {name Gregorian; base gregorian;};\n"
         "scheme er1 {"
         " name English Regnal One;"
-        " regnal {"
+        " regnal g {"
         "  fields year month day;"
-        "  default g;"
         "  schemes {"
         "   {range 2392181 2415407; scheme 1 {shift g 2392181;};};" // Victoria
         "   {range 2415407 2418798; scheme 2 {shift g 2415407;};};" // Edward VII

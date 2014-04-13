@@ -66,7 +66,8 @@ private:
         void UpdateOutputFormat();
         void CalculateOutput();
 
-        Cal::Calendars m_cal;
+        Cal::Calendars   m_cal;
+        std::vector<int> m_schemes;
         int   m_from;
         int   m_to;
         bool  m_show_interm;

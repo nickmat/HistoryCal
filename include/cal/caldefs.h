@@ -60,10 +60,13 @@ namespace Cal {
     const char range_div = '|';    // Used to separate ranges in range list.
     const char unknown_val = '?';  // Place holder for unknown or invalid value.
 
+    enum Scheme_style { SCH_STYLE_Default, SCH_STYLE_Hide };
+
     struct Scheme_info
     {
         std::string name;
         std::string code;
+        Scheme_style style;
         std::string grammar_code;
         StringVec vocab_codes;
         StringVec vocab_names;
