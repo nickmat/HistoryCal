@@ -29,8 +29,6 @@
 
 #include "calparse.h"
 
-#include <utf8/utf8api.h>
-
 using namespace std;
 using namespace Cal;
 
@@ -59,10 +57,10 @@ Vocab::Vocab( const std::string& definition )
                 word = get_next_phrase( body, &body );
                 string abbrev = get_next_phrase( body, &body );
                 Token token( field, word, abbrev );
-                string key = Utf8api::normal( word );
+                string key = make_key( word );
                 m_words[key] = token;
                 if( abbrev.size() ) {
-                    key = Utf8api::normal( abbrev );
+                    key = make_key( abbrev );
                     m_words[key] = token;
                 }
                 m_fields[field] = token;
@@ -99,7 +97,7 @@ void Vocab::get_info( Vocab_info* info ) const
 
 Field Vocab::find( const string& word ) const
 {
-    string key = Utf8api::normal( word );
+    string key = make_key( word );
     if( m_words.count( key ) > 0 ) {
         Token token = m_words.find( key )->second;
         return token.get_field();

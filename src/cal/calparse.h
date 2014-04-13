@@ -30,9 +30,6 @@
 
 #include "cal/caldefs.h"
 
-#include <string>
-#include <vector>
-
 namespace Cal {
 
     StringVec parse_statements( const std::string& str );
@@ -44,6 +41,7 @@ namespace Cal {
     std::string peel_cbrackets( const std::string& str );
     std::string field_to_str( Field field );
     Field str_to_field( const std::string& str );
+    std::string make_key( const std::string& str );
 
 }
 

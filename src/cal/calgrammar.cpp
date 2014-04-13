@@ -32,8 +32,6 @@
 #include "calschemes.h"
 #include "calvocab.h"
 
-#include <utf8/utf8api.h>
-
 using namespace std;
 using namespace Cal;
 
@@ -92,7 +90,7 @@ void Grammar::add_alias( const std::string& alias_def )
             } else {
                 continue;
             }
-            string key = Utf8api::normal( alias );
+            string key = make_key( alias );
             m_unit_alias[key] = unit;
         }
     }
@@ -155,7 +153,7 @@ string Grammar::get_num_code_alias( const string& fname ) const
 
 Unit Grammar::get_unit_alias( const string& str ) const
 {
-    string key = Utf8api::normal( str );
+    string key = make_key( str );
     if( m_unit_alias.count( key ) > 0 ) {
         return m_unit_alias.find( key )->second;
     }

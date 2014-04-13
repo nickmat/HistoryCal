@@ -27,6 +27,8 @@
 
 #include "calparse.h"
 
+#include <utf8/utf8api.h>
+
 #include <sstream>
 
 using namespace Cal;
@@ -153,6 +155,17 @@ string Cal::field_to_str( Field field )
 Field Cal::str_to_field( const std::string& str )
 {
     return strtol( str.c_str(), NULL, 10 );
+}
+
+string Cal::make_key( const string& str )
+{
+    string key;
+    for( string::const_iterator it = str.begin() ; it != str.end() ; it++ ) {
+        if( *it != ' ' ) {
+            key += *it;
+        }
+    }
+    return Utf8api::normal( key );
 }
 
 // End of src/cal/calparse.cpp file
