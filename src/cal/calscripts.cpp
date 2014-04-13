@@ -84,14 +84,14 @@ const char* Cal::cal_default_script =
     "vocab ojn {"
     " name Scheme names; lang en; style-name Scheme Sch;"
     " tokens {"
-    "  0 \"Old Style\" OS; 1 Julian; 2 \"New Style\" NS;"
+    "  0 \"Old Style\" os; 1 Julian; 2 \"New Style\" ns;"
     " };"
     "};\n"
 
     "vocab on {"
     " name Scheme names; lang en; style-name Scheme Sch;"
     " tokens {"
-    "  0 \"Old Style\" OS; 1 \"New Style\" NS;"
+    "  0 \"Old Style\" os; 1 \"New Style\" ns;"
     " };"
     "};\n"
 
@@ -114,7 +114,7 @@ const char* Cal::cal_default_script =
     " grammar hy;"
     "};\n"
 
-    "vocab er {name British Regnal Names; lang en; style-name Reign Rn;"
+    "vocab er {name English Monarchs; lang en; style-name Reign Rn;"
     " tokens {"
     "  0 \"English calendar\" Eng;"
     "  1 \"William I\" \"Wm I\";"
@@ -168,7 +168,7 @@ const char* Cal::cal_default_script =
 
     "grammar er {"
     " alias field {Monarch era; Day day; Month month; Year year; Scheme scheme;};"
-    " vocabs er m sch;"
+    " vocabs er m on;"
     " format pref @(Day) @(Month:m.a) @(Year) @(Monarch:er) @,(Scheme:sch);"
     " format @(Year) @(Monarch:er) @(Day) @(Month:m.a);"
     "};\n"
