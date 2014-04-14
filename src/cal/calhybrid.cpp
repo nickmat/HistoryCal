@@ -133,6 +133,9 @@ bool Hybrid::set_fields_as_begin_first( Field* fields, const Field* mask )
 
 bool Hybrid::set_fields_as_next_first( Field* fields, const Field* mask )
 {
+    if( fields[0] == f_invalid ) {
+        return false;
+    }
     for( Field sch = fields[0] ; sch < (Field) m_bases.size() ; sch++ ) {
         Record rec( m_bases[sch], &fields[1], m_bases[sch]->record_size() );
         FieldVec tmask = get_xref( &mask[0], sch );
@@ -185,6 +188,9 @@ bool Hybrid::set_fields_as_begin_last( Field* fields, const Field* mask )
 
 bool Hybrid::set_fields_as_next_last( Field* fields, const Field* mask )
 {
+    if( fields[0] == f_invalid ) {
+        return false;
+    }
     for( Field sch = fields[0] ; sch < (Field) m_bases.size() ; sch++ ) {
         Record rec( m_bases[sch], &fields[1], m_bases[sch]->record_size() );
         FieldVec tmask = get_xref( &mask[0], sch );

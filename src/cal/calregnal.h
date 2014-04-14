@@ -70,9 +70,9 @@ namespace Cal {
     private:
         void create_fieldnames( const std::string& names );
         void create_default_scheme( Schemes* schs, const std::string& code );
-        void create_local_schemes( Schemes* schs, const std::string& data );
         void create_schemes( Schemes* schs, const std::string& data );
-        void add_scheme( RegnalEra* era, Schemes* schs, const std::string& data );
+        void map_matched_fields( StringMap& matched, const std::string data );
+        void add_scheme( RegnalEra& era, Schemes* schs, const std::string& data, const StringMap& matched );
         // Adjust and copy Era date fields to base date fields
         FieldVec get_base_fields( const Field* fields ) const;
         // Adjust the given Record to Era fields

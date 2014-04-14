@@ -117,8 +117,10 @@ static int is_leap_year( Field year )
     return leap;
 }
 
-#define ER_START_JDN 2347462 // 1 Jan 1715 (j)
-#define ER_END_JDN   2456659 // 1 Jan 2014 (g)
+#define ER_START_JDN    2336870 // (j) 1 Jan 1686
+#define ER_START_ERA    31
+#define ER_START_HYEAR  1686
+#define ER_END_JDN      2456659 // (g) 1 Jan 2014
 
 void Soak_er::testErCalendar()
 {
@@ -130,8 +132,8 @@ void Soak_er::testErCalendar()
     Field day = 0;
     Field month = 1;
     Field year = 1;
-    Field era = 36;
-    Field hyear = 1715;
+    Field era = ER_START_ERA;
+    Field hyear = ER_START_HYEAR;
     Field scheme = -1;
     int leapyear = is_leap_year( hyear );
     for( Field daycount = ER_START_JDN ; daycount < ER_END_JDN ; daycount++ ) {
@@ -145,7 +147,17 @@ void Soak_er::testErCalendar()
                 leapyear = is_leap_year( hyear );
             }
         }
-        if( era == 36 && day ==  1 && month ==  8 ) year++; // Anne
+        if( era == 31 && day ==  6 && month ==  2 ) year++; // James II
+        if( era == 31 && day == 12 && month == 12 && hyear == 1688 ) { era++; year = 1688; }
+        //if( era == 32 && day == 25 && month ==  3 ) year++; // Interregnum
+        if( era == 32 && day == 13 && month ==  2 && hyear == 1689 ) { era++; year = 0; }
+        if( era == 33 && day == 13 && month ==  2 ) year++; // William and Mary
+        if( era == 33 && day == 27 && month == 12 && hyear == 1694 ) { era++; } // Don't reset the year
+        if( era == 34 && day == 13 && month ==  2 ) year++; // William III
+        if( era == 34 && day ==  8 && month ==  3 && hyear == 1702 ) { era++; year = 0; }
+        if( era == 35 && day ==  8 && month ==  3 ) year++; // Anne
+        if( era == 35 && day ==  1 && month ==  8 && hyear == 1714 ) { era++; year = 0; }
+        if( era == 36 && day ==  1 && month ==  8 ) year++; // George I
         if( era == 36 && day == 11 && month ==  6 && hyear == 1727 ) { era++; year = 0; scheme++; }
         if( scheme == 0 && era == 37 && day == 11 && month ==  6 ) year++; // Geo II old style
         // Change from Julian to Gregorian

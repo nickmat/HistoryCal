@@ -167,10 +167,14 @@ const char* Cal::cal_default_script =
     "};\n"
 
     "grammar er {"
-    " alias field {Monarch era; Day day; Month month; Year year; Scheme scheme;};"
+    " alias field {"
+    "  Reign era; Day day; Month month; Year year;"
+    "  Hist-Year er.hyear; Def-Scheme er.defsch; Scheme er.scheme;"
+    " };"
+    " alias format-number-code {Day dd; Month mm; Year yyyy; Hist-Year y; Scheme s;};"
     " vocabs er m on;"
-    " format pref @(Day) @(Month:m.a) @(Year) @(Monarch:er) @,(Scheme:sch);"
-    " format @(Year) @(Monarch:er) @(Day) @(Month:m.a);"
+    " format pref @(Day) @(Month:m.a) @(Year/Hist-Year) @(Reign:er)@, (Scheme:on.a);"
+    " format @(Year) @(Reign:er) @(Day) @(Month:m.a);"
     "};\n"
 
     "scheme er.t1 {name George II Julian; shift j 2352006; style hide;};\n"
@@ -187,9 +191,10 @@ const char* Cal::cal_default_script =
 
     "scheme er {"
     " name English Regnal;"
-    " regnal eng {"
-    "  fields year month day unshift scheme;"
+    " regnal {"
+    "  fields year month day er.hyear er.defsch er.scheme;"
     "  schemes {"
+    "   {scheme eng; match unshift er.hyear scheme er.defsch;};"  // Default English Hybrid
     "   {range 2110773 2118336; scheme 1 {shift j 2110773;};};"   // William I
     "   {range 2118353 2123047; scheme 2 {shift j 2118353;};};"   // William II
     "   {range 2123050 2135951; scheme 3 {shift j 2123050;};};"   // Henry I
@@ -218,15 +223,15 @@ const char* Cal::cal_default_script =
     "   {range 2290438 2306636; scheme 26 {shift j 2290438;};};"  // Elizabeth I
     "   {range 2306636 2314675; scheme 27 {shift j 2306636;};};"  // James I
     "   {range 2314675 2323385; scheme 28 {shift j 2314675;};};"  // Charles I
-    "   {range 2323386 2327521; scheme j;};"                      // The Commonwealth
+    "   {range 2323386 2327521; scheme eng; match unshift er.hyear scheme er.defsch;};" // The Commonwealth
     "   {range 2327522 2336541; scheme 30 {shift j 2323385;};};"  // Charles II
     "   {range 2336541 2337945; scheme 31 {shift j 2336541;};};"  // James II
-    "   {range 2337946 2338008; scheme j;};"                      // Interregnum
+    "   {range 2337946 2338008; scheme eng; match unshift er.hyear scheme er.defsch;};" // Interregnum
     "   {range 2338009 2340152; scheme 33 {shift j 2338009;};};"  // William and Mary
     "   {range 2340153 2342780; scheme 34 {shift j 2338009;};};"  // William III
     "   {range 2342780 2347309; scheme 35 {shift j 2342780;};};"  // Anne
     "   {range 2347309 2352006; scheme 36 {shift j 2347309;};};"  // George I
-    "   {range 2352006 2364185; scheme er.t3;};"                  // George II
+    "   {range 2352006 2364185; scheme er.t3; match scheme er.scheme;};" // George II
     "   {range 2364185 2385829; scheme 38 {shift g 2364185;};};"  // George III
     "   {range 2385829 2389630; scheme 39 {shift g 2385829;};};"  // George IV
     "   {range 2389630 2392181; scheme 40 {shift g 2389630;};};"  // William IV
