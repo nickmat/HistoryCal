@@ -40,6 +40,7 @@ class TestDef_g : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST( testStrTableInput );
     CPPUNIT_TEST( testStrTableOutput );
     CPPUNIT_TEST( testRangeShorthand );
+    CPPUNIT_TEST( testMasking );
     CPPUNIT_TEST_SUITE_END();
 
     Cal::Calendars* m_cal;
@@ -56,6 +57,7 @@ public:
     void testStrTableInput();
     void testStrTableOutput();
     void testRangeShorthand();
+    void testMasking();
 };
 
 // Registers the fixture into the 'registry'
@@ -211,6 +213,24 @@ void TestDef_g::testRangeShorthand()
     size_t count = sizeof(t) / sizeof(data);
 
     bool set = setInputOrder( "Day Month Year" );
+    CPPUNIT_ASSERT( set == true );
+    set = setOutputFormat( "dd Mon yyyy" );
+    CPPUNIT_ASSERT( set == true );
+    for( size_t i = 0 ; i < count ; i++ ) {
+        RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in );
+        string str = m_cal->rangelist_to_str( m_sid, rl );
+        CPPUNIT_ASSERT_EQUAL( t[i].out, str );
+    }
+}
+
+void TestDef_g::testMasking()
+{
+    struct data { string in; string out; } t[] = {
+        { "Sun ? Sep 1948", "5 Sep 1948 | 12 Sep 1948 | 19 Sep 1948 | 26 Sep 1948" }
+    };
+    size_t count = sizeof(t) / sizeof(data);
+
+    bool set = setInputOrder( "WDay Day Month Year" );
     CPPUNIT_ASSERT( set == true );
     set = setOutputFormat( "dd Mon yyyy" );
     CPPUNIT_ASSERT( set == true );
