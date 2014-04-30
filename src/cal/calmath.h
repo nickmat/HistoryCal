@@ -60,6 +60,29 @@ namespace Cal {
 
     double inline rad_to_deg( double rad ) { return rad * 180 / cal_pi; }
 
+    enum Weekday { 
+        WDAY_Monday, WDAY_Tuesday, WDAY_Wednesday,
+        WDAY_Thursday, WDAY_Friday, WDAY_Saturday, WDAY_Sunday
+    };
+
+    Field inline day_of_week( Field jdn ) { 
+        return ( jdn % 7 );
+    }
+    Field inline kday_on_or_before( Weekday wday, Field jdn ) { 
+        return jdn - day_of_week( jdn - wday );
+    }
+    Field inline kday_on_or_after( Weekday wday, Field jdn ) { 
+        return kday_on_or_before( wday, jdn + 6 );
+    }
+    Field inline kday_nearest( Weekday wday, Field jdn ) { 
+        return kday_on_or_before( wday, jdn + 3 );
+    }
+    Field inline kday_before( Weekday wday, Field jdn ) { 
+        return kday_on_or_before( wday, jdn - 1 );
+    }
+    Field inline kday_after( Weekday wday, Field jdn ) { 
+        return kday_on_or_before( wday, jdn + 7 );
+    }
 }
 
 #endif // CAL_CALMATH_H_GUARD
