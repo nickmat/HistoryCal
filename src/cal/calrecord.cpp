@@ -37,25 +37,25 @@ using namespace Cal;
 using namespace std;
 
 Record::Record( Base* base )
-    : m_base(base), m_jdn(f_invalid), m_f(base->record_size())
+    : m_base(base), m_jdn(f_invalid), m_f(base->extended_size())
 {
     clear_fields();
 }
 
 Record::Record( Base* base, Field jdn )
-    : m_base(base), m_jdn(jdn), m_f(base->record_size())
+    : m_base(base), m_jdn(jdn), m_f(base->extended_size())
 {
     set_jdn( jdn );
 }
 
 Record::Record( Base* base, const Field* fields, size_t size )
-    : m_base(base), m_jdn(f_invalid), m_f(base->record_size())
+    : m_base(base), m_jdn(f_invalid), m_f(base->extended_size())
 {
     set_fields( fields, size );
 }
 
 Record::Record( Base* base, const string& str )
-    : m_base(base), m_jdn(f_invalid), m_f(base->record_size())
+    : m_base(base), m_jdn(f_invalid), m_f(base->extended_size())
 {
     set_str( str );
 }
@@ -73,7 +73,7 @@ void Record::set_str( const string& str )
     assert( xref.size() );
     for( int i = 0 ; i < cnt ; i++ ) {
         int x = xref[i];
-        if( x >= 0 && x < (int) m_base->record_size() ) {
+        if( x >= 0 && x < (int) m_base->extended_size() ) {
             m_f[x] = f[i];
         }
     }
