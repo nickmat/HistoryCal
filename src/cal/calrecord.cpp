@@ -60,6 +60,10 @@ Record::Record( Base* base, const string& str )
     set_str( str );
 }
 
+Record::Record( const Record& rec )
+    : m_base(rec.m_base), m_jdn(rec.m_jdn), m_f(rec.m_f)
+{
+}
 
 void Record::set_str( const string& str )
 {

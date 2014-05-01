@@ -44,6 +44,7 @@ namespace Cal {
         Record( Base* base, Field jdn );
         Record( Base* base, const Field* fields, size_t size );
         Record( Base* base, const std::string& str );
+        Record( const Record& rec );
         virtual ~Record() {}
 
         void set_jdn( Field jdn );
