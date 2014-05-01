@@ -249,7 +249,7 @@ RangeList Scheme::r_str_to_rangelist( const string& str )
     if( pos == string::npos ) {
         // Short form range string
         mask1.set_str( str );
-        mask2.set_fields( mask1.get_field_ptr(), m_base->record_size() );
+        mask2.set_fields( mask1.get_field_ptr(), m_base->extended_size() );
     } else {
         // two date strings
         string str1 = str.substr( 0, pos );
