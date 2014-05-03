@@ -63,7 +63,7 @@ string Base::get_fieldname( size_t index ) const
 
 Field Base::get_extended_field( const Field jdn, size_t index ) const
 {
-    if( index == record_size() + EFN_wday && jdn != f_invalid ) {
+    if( index == record_size() + BEFN_wday && jdn != f_invalid ) {
         return ( jdn % 7 ) + 1;
     }
     return f_invalid;
@@ -343,14 +343,14 @@ Field Base::compare_except( const Field* first, const Field* second, size_t exce
 int Base::get_extended_fieldname_index( const string& fieldname ) const
 {
     if( fieldname == "wday" ) {
-        return record_size() + EFN_wday;
+        return record_size() + BEFN_wday;
     }
     return -1;
 }
 
 string Base::get_extended_fieldname( size_t index ) const
 {
-    if( index == record_size() + EFN_wday ) {
+    if( index == record_size() + BEFN_wday ) {
         return "wday";
     }
     return "";

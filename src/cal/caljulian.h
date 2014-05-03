@@ -33,10 +33,16 @@
 namespace Cal {
     class Julian : public Base
     {
+        enum JulianExtendedFieldNumber { JEFN_litweek, JEFN_COUNT };
     public:
         virtual size_t record_size() const { return 3; }
+        virtual size_t extended_size() const { return record_size() + JEFN_COUNT; }
+
+        virtual int get_fieldname_index( const std::string& fieldname ) const;
+        virtual std::string get_fieldname( size_t index ) const;
 
         virtual Field get_jdn( const Field* fields ) const;
+        virtual Field get_extended_field( const Field jdn, size_t index ) const;
 
         virtual bool set_fields_as_begin_first( Field* fields, const Field* mask );
         virtual bool set_fields_as_next_first( Field* fields, const Field* mask );

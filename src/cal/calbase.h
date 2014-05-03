@@ -36,15 +36,15 @@ namespace Cal {
 
     class Base
     {
+        enum BaseExtendedFieldNumber { BEFN_wday, BEFN_COUNT };
     public:
-        enum ExtendedFieldNumber { EFN_wday, EFN_COUNT };
         Base();
         virtual ~Base() {}
 
         // Return the maximum number of Fields required by the Record.
         virtual size_t record_size() const = 0;
         // Return the number of extended (read-only) Fields available.
-        virtual size_t extended_size() const { return record_size() + EFN_COUNT; }
+        virtual size_t extended_size() const { return record_size() + BEFN_COUNT; }
 
         // Returns the index to the named Record field, or -1 if not found.
         virtual int get_fieldname_index( const std::string& fieldname ) const;

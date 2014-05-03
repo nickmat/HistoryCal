@@ -107,6 +107,7 @@ CAL_OBJECTS =  \
 	cal_calhybrid.o \
 	cal_caljdn.o \
 	cal_caljulian.o \
+	cal_calliturgical.o \
 	cal_calmath.o \
 	cal_calparse.o \
 	cal_calrecord.o \
@@ -293,6 +294,9 @@ cal_caljdn.o: ./../../src/cal/caljdn.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_caljulian.o: ./../../src/cal/caljulian.cpp
+	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
+
+cal_calliturgical.o: ./../../src/cal/calliturgical.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calmath.o: ./../../src/cal/calmath.cpp

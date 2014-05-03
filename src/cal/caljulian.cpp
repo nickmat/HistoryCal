@@ -27,9 +27,11 @@
 
 #include "caljulian.h"
 
+#include "calliturgical.h"
 #include "calmath.h"
 
 using namespace Cal;
+using namespace std;
 
 #define BASEDATE_Julian    1721058L
 
@@ -83,12 +85,36 @@ namespace {
 
 }
 
+int Julian::get_fieldname_index( const string& fieldname ) const
+{
+    if( fieldname == "litweek" ) { // Liturgical week number value
+        return extended_size() - JEFN_COUNT + JEFN_litweek;
+    }
+    return Base::get_fieldname_index( fieldname );
+}
+
+string Julian::get_fieldname( size_t index ) const
+{
+    if( index == extended_size() - JEFN_COUNT + JEFN_litweek ) {
+        return "litweek";
+    }
+    return Base::get_fieldname( index );
+}
+
 Field Julian::get_jdn( const Field* fields ) const
 {
     if( fields[0] == f_invalid || fields[1] == f_invalid || fields[2] == f_invalid ) {
         return f_invalid;
     }
     return julian_to_jdn( fields[0], fields[1], fields[2] );
+}
+
+Field Julian::get_extended_field( const Field jdn, size_t index ) const
+{
+    if( index == extended_size() - JEFN_COUNT + JEFN_litweek ) {
+        return liturgical_get_week( this, jdn );
+    }
+    return Base::get_extended_field( jdn, index );
 }
 
 bool Julian::set_fields_as_begin_first( Field* fields, const Field* mask )
