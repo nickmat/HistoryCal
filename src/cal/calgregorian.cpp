@@ -124,30 +124,6 @@ namespace {
         return;
     }
 
-    /*! Returns true if the year is a leap year in the Gregorian Calendar.
-     */
-    bool gregorian_is_leap_year( Field year )
-    {
-        return ( year%4 == 0 && year%100 != 0 ) || year%400 == 0;
-    }
-
-    /*! Returns the last day of the month for the given month and year
-     *  in the Gregorian Calendar.
-     */
-    Field gregorian_last_day_in_month( Field year, Field month )
-    {
-        switch( month )
-        {
-        case 1: case 3: case 5: case 7: case 8: case 10: case 12:
-            return 31;
-        case 4: case 6: case 9: case 11:
-            return 30;
-        case 2:
-            return gregorian_is_leap_year( year ) ? 29 : 28;
-        }
-        return f_invalid;
-    }
-
 }
 
 Field Gregorian::get_jdn( const Field* fields ) const
@@ -158,60 +134,9 @@ Field Gregorian::get_jdn( const Field* fields ) const
     return gregorian_to_jdn( fields[0], fields[1], fields[2] );
 }
 
-bool Gregorian::set_fields_as_begin_first( Field* fields, const Field* mask )
-{
-    if( mask[0] == f_invalid ) {
-        return false; // Must have at least year
-    }
-    if( mask[1] == f_invalid && mask[2] != f_invalid ) {
-        return false; // Can't handle date lists
-    }
-    fields[0] = mask[0];
-    fields[1] = ( mask[1] == f_invalid ) ? 1 : mask[1];
-    fields[2] = ( mask[2] == f_invalid ) ? 1 : mask[2];
-    return true;
-}
-
-bool Gregorian::set_fields_as_next_first( Field* fields, const Field* mask )
-{
-    return false;
-}
-
-bool Gregorian::set_fields_as_begin_last( Field* fields, const Field* mask )
-{
-    if( mask[0] == f_invalid ) {
-        return false; // Must have at least year
-    }
-    if( mask[1] == f_invalid && mask[2] != f_invalid ) {
-        return false; // Can't handle date lists
-    }
-    fields[0] = mask[0];
-    fields[1] = ( mask[1] == f_invalid ) ? 12 : mask[1];
-    fields[2] = ( mask[2] == f_invalid ) ? 
-        gregorian_last_day_in_month( fields[0], fields[1] ) : mask[2];
-    return true;
-}
-
-bool Gregorian::set_fields_as_next_last( Field* fields, const Field* mask )
-{
-    return false;
-}
-
 void Gregorian::set_fields( Field* fields, Field jdn ) const
 {
     gregorian_from_jdn( &fields[0], &fields[1], &fields[2], jdn );
-}
-
-Field Gregorian::get_field_last( const Field* fields, size_t index ) const
-{
-    switch( index )
-    {
-    case 1: // Last month of year
-        return 12;
-    case 2: // Last day of month
-        return gregorian_last_day_in_month( fields[0], fields[1] );
-    }
-    return f_invalid;
 }
 
 double Gregorian::get_average_days( const Field* fields, Unit unit ) const
@@ -229,55 +154,11 @@ double Gregorian::get_average_days( const Field* fields, Unit unit ) const
     return 0.0;
 }
 
-bool Gregorian::add_to_fields( Field* fields, Field value, Unit unit ) const
+/*! Returns true if the year is a leap year in the Gregorian Calendar.
+ */
+bool Gregorian::is_leap_year( Field year ) const
 {
-    switch( unit )
-    {
-    case unit_year:
-        fields[0] += value;
-        return true;
-    case unit_month:
-        fields[0] += value / 12;
-        fields[1] += value % 12;
-        while( fields[1] > 12 ) {
-            fields[0]++;
-            fields[1] -= 12;
-        }
-        while( fields[1] < 1 ) {
-            --fields[0];
-            fields[1] += 12;
-        }
-        return true;
-    }
-    return false;
-}
-
-bool Gregorian::normalise( Field* fields, Norm norm ) const
-{
-    // Normalises for days in month, assumes months >= 1 and <= 12
-    Field ldim = gregorian_last_day_in_month( fields[0], fields[1] );
-    if( fields[2] > ldim ) {
-        switch( norm )
-        {
-        case norm_expand:
-            fields[1]++;
-            fields[2] = ldim - fields[2];
-            break;
-        case norm_expand_min:
-            fields[1]++;
-            fields[2] = 1;
-            break;
-        case norm_truncate:
-            fields[2] = ldim;
-            break;
-        }
-        if( fields[1] > 12 ) {
-            fields[0]++;
-            fields[1] -= 12;
-        }
-        return true;
-    }
-    return false;
+    return ( year%4 == 0 && year%100 != 0 ) || year%400 == 0;
 }
 
 // End of src/cal/calgregorian.cpp file

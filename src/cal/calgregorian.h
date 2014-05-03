@@ -28,29 +28,21 @@
 #ifndef CAL_CALGREGORIAN_H_GUARD
 #define CAL_CALGREGORIAN_H_GUARD
 
-#include "calbase.h"
+#include "caljulian.h"
 
 namespace Cal {
 
-    class Gregorian : public Base
+    class Gregorian : public Julian
     {
     public:
-        virtual size_t record_size() const { return 3; }
-
         virtual Field get_jdn( const Field* fields ) const;
-
-        virtual bool set_fields_as_begin_first( Field* fields, const Field* mask );
-        virtual bool set_fields_as_next_first( Field* fields, const Field* mask );
-        virtual bool set_fields_as_begin_last( Field* fields, const Field* mask );
-        virtual bool set_fields_as_next_last( Field* fields, const Field* mask );
 
         virtual void set_fields( Field* fields, Field jdn ) const;
 
-        virtual Field get_field_last( const Field* fields, size_t index ) const;
-
         virtual double get_average_days( const Field* fields, Unit unit ) const;
-        virtual bool add_to_fields( Field* fields, Field value, Unit unit ) const;
-        virtual bool normalise( Field* fields, Norm norm ) const;
+
+    protected:
+        virtual bool is_leap_year( Field year ) const;
     };
 
 }

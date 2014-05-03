@@ -81,30 +81,6 @@ namespace {
         return;
     }
 
-    /*! Returns true if the year is a leap year in the Julian Calendar.
-     */
-    bool julian_is_leap_year( Field year )
-    {
-        return ( year % 4 ) == 0;
-    }
-
-    /*! Returns the last day of the month for the given month and year
-     *  in the Julian Calendar.
-     */
-    Field julian_last_day_in_month( Field year, Field month )
-    {
-        switch( month )
-        {
-        case 1: case 3: case 5: case 7: case 8: case 10: case 12:
-            return 31;
-        case 4: case 6: case 9: case 11:
-            return 30;
-        case 2:
-            return julian_is_leap_year( year ) ? 29 : 28;
-        }
-        return f_invalid;
-    }
-
 }
 
 Field Julian::get_jdn( const Field* fields ) const
@@ -145,7 +121,7 @@ bool Julian::set_fields_as_begin_last( Field* fields, const Field* mask )
     fields[0] = mask[0];
     fields[1] = ( mask[1] == f_invalid ) ? 12 : mask[1];
     fields[2] = ( mask[2] == f_invalid ) ? 
-        julian_last_day_in_month( fields[0], fields[1] ) : mask[2];
+        last_day_in_month( fields[0], fields[1] ) : mask[2];
     return true;
 }
 
@@ -166,7 +142,7 @@ Field Julian::get_field_last( const Field* fields, size_t index ) const
     case 1: // Last month of year
         return 12;
     case 2: // Last day of month
-        return julian_last_day_in_month( fields[0], fields[1] );
+        return last_day_in_month( fields[0], fields[1] );
     }
     return f_invalid;
 }
@@ -212,7 +188,7 @@ bool Julian::add_to_fields( Field* fields, Field value, Unit unit ) const
 bool Julian::normalise( Field* fields, Norm norm ) const
 {
     // Normalises for days in month, assumes months >= 1 and <= 12
-    Field ldim = julian_last_day_in_month( fields[0], fields[1] );
+    Field ldim = last_day_in_month( fields[0], fields[1] );
     if( fields[2] > ldim ) {
         switch( norm )
         {
@@ -235,6 +211,29 @@ bool Julian::normalise( Field* fields, Norm norm ) const
         return true;
     }
     return false;
+}
+
+/*! Returns true if the year is a leap year in the Julian Calendar.
+ */
+bool Julian::is_leap_year( Field year ) const
+{
+    return ( year % 4 ) == 0;
+}
+
+/*! Returns the last day of the month for the given month and year.
+ */
+Field Julian::last_day_in_month( Field year, Field month ) const
+{
+    switch( month )
+    {
+    case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+        return 31;
+    case 4: case 6: case 9: case 11:
+        return 30;
+    case 2:
+        return is_leap_year( year ) ? 29 : 28;
+    }
+    return f_invalid;
 }
 
 // End of src/cal/caljulian.cpp file

@@ -50,6 +50,10 @@ namespace Cal {
         virtual double get_average_days( const Field* fields, Unit unit ) const;
         virtual bool add_to_fields( Field* fields, Field value, Unit unit ) const;
         virtual bool normalise( Field* fields, Norm norm ) const;
+
+    protected:
+        virtual bool is_leap_year( Field year ) const;
+        Field last_day_in_month( Field year, Field month ) const;
     };
 
 }
