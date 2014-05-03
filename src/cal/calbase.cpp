@@ -222,7 +222,7 @@ StringVec Base::get_formats()
     return formats;
 }
 
-string Base::get_format()
+string Base::get_format() const
 {
     if( m_grammar && m_grammar->format_size() ) {
         return m_grammar->format( m_current_format );
@@ -286,12 +286,12 @@ void Base::set_current_format( int index )
     }
 }
 
-XRefVec Base::get_xref_order( int cnt )
+XRefVec Base::get_xref_order( int cnt ) const
 {
     if( m_xref_order.count( cnt ) == 0 ) {
         return get_default_xref_order( cnt );
     }
-    return m_xref_order[cnt];
+    return m_xref_order.find( cnt )->second;
 }
 
 FieldVec Base::fields_to_vec( const Field* fields ) const
@@ -356,7 +356,7 @@ string Base::get_extended_fieldname( size_t index ) const
     return "";
 }
 
-XRefVec Base::get_default_xref_order( int count )
+XRefVec Base::get_default_xref_order( int count ) const
 {
     XRefVec xref( record_size(), -1 );
     for( size_t i = 0 ; i < record_size() ; i++ ) {
@@ -368,7 +368,7 @@ XRefVec Base::get_default_xref_order( int count )
     return xref;
 }
 
-string Base::create_default_order()
+string Base::create_default_order() const
 {
     string order;
     for( size_t i = 0 ; i < record_size() ; i++ ) {
@@ -380,7 +380,7 @@ string Base::create_default_order()
     return order;
 }
 
-string Base::create_default_format()
+string Base::create_default_format() const
 {
     string format;
     for( size_t i = 0 ; i < record_size() ; i++ ) {

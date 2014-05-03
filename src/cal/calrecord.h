@@ -40,10 +40,10 @@ namespace Cal {
     class Record
     {
     public:
-        Record( Base* base );
-        Record( Base* base, Field jdn );
-        Record( Base* base, const Field* fields, size_t size );
-        Record( Base* base, const std::string& str );
+        Record( const Base* base );
+        Record( const Base* base, Field jdn );
+        Record( const Base* base, const Field* fields, size_t size );
+        Record( const Base* base, const std::string& str );
         Record( const Record& rec );
         virtual ~Record() {}
 
@@ -95,9 +95,9 @@ namespace Cal {
             int index, int dual, const std::string& vcode, const std::string& abbrev ) const;
         std::string get_output( const std::string& format ) const;
 
-        Base*     m_base;
-        FieldVec  m_f;
-        Field     m_jdn;
+        const Base* m_base;
+        FieldVec    m_f;
+        Field       m_jdn;
     };
 
 }

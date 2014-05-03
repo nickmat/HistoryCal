@@ -110,7 +110,7 @@ Field Hybrid::get_field_last( const Field* fields, size_t index ) const
     return f_invalid;
 }
 
-bool Hybrid::set_fields_as_begin_first( Field* fields, const Field* mask )
+bool Hybrid::set_fields_as_begin_first( Field* fields, const Field* mask ) const
 {
     Field sch = ( mask[0] == f_invalid ) ? 0 : mask[0]; 
     for( ; sch < (Field) m_bases.size() ; sch++ ) {
@@ -131,7 +131,7 @@ bool Hybrid::set_fields_as_begin_first( Field* fields, const Field* mask )
     return false;
 }
 
-bool Hybrid::set_fields_as_next_first( Field* fields, const Field* mask )
+bool Hybrid::set_fields_as_next_first( Field* fields, const Field* mask ) const
 {
     if( fields[0] == f_invalid ) {
         return false;
@@ -165,7 +165,7 @@ bool Hybrid::set_fields_as_next_first( Field* fields, const Field* mask )
     return false;
 }
 
-bool Hybrid::set_fields_as_begin_last( Field* fields, const Field* mask )
+bool Hybrid::set_fields_as_begin_last( Field* fields, const Field* mask ) const
 {
     Field sch = ( mask[0] == f_invalid ) ? 0 : mask[0]; 
     for( ; sch < (Field) m_bases.size() ; sch++ ) {
@@ -186,7 +186,7 @@ bool Hybrid::set_fields_as_begin_last( Field* fields, const Field* mask )
     return false;
 }
 
-bool Hybrid::set_fields_as_next_last( Field* fields, const Field* mask )
+bool Hybrid::set_fields_as_next_last( Field* fields, const Field* mask ) const
 {
     if( fields[0] == f_invalid ) {
         return false;
@@ -269,7 +269,7 @@ void Hybrid::set_fields( Field* fields, Field jdn ) const
     }
 }
 
-XRefVec Hybrid::get_default_xref_order( int count )
+XRefVec Hybrid::get_default_xref_order( int count ) const
 {
     XRefVec xref( record_size(), -1 );
     for( size_t i = 1 ; i < record_size() ; i++ ) {

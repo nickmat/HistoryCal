@@ -95,7 +95,7 @@ Field Regnal::get_jdn( const Field* fields ) const
     return m_eras[fields[0]].base->get_jdn( &fs[0] );
 }
 
-bool Regnal::set_fields_as_begin_first( Field* fields, const Field* mask )
+bool Regnal::set_fields_as_begin_first( Field* fields, const Field* mask ) const
 {
     Field e = mask[0];
     if( e < 0 || e >= (int) m_eras.size() ) {
@@ -114,7 +114,7 @@ bool Regnal::set_fields_as_begin_first( Field* fields, const Field* mask )
     return false;
 }
 
-bool Regnal::set_fields_as_next_first( Field* fields, const Field* mask )
+bool Regnal::set_fields_as_next_first( Field* fields, const Field* mask ) const
 {
     Field e = mask[0];
     if( e < 0 || e >= (int) m_eras.size() ) {
@@ -132,7 +132,7 @@ bool Regnal::set_fields_as_next_first( Field* fields, const Field* mask )
     return false;
 }
 
-bool Regnal::set_fields_as_begin_last( Field* fields, const Field* mask )
+bool Regnal::set_fields_as_begin_last( Field* fields, const Field* mask ) const
 {
     Field e = mask[0];
     if( e < 0 || e >= (int) m_eras.size() ) {
@@ -151,7 +151,7 @@ bool Regnal::set_fields_as_begin_last( Field* fields, const Field* mask )
     return false;
 }
 
-bool Regnal::set_fields_as_next_last( Field* fields, const Field* mask )
+bool Regnal::set_fields_as_next_last( Field* fields, const Field* mask ) const
 {
     Field e = mask[0];
     if( e < 0 || e >= (int) m_eras.size() ) {

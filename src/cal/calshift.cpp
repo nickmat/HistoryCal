@@ -99,7 +99,7 @@ Field Shift::get_field_last( const Field* fields, size_t index ) const
     return m_base->get_field_last( &fs[0], index );
 }
 
-bool Shift::set_fields_as_begin_first( Field* fields, const Field* mask )
+bool Shift::set_fields_as_begin_first( Field* fields, const Field* mask ) const
 {
     copy_fields( fields, mask );
     if( mask[0] == f_invalid ) {
@@ -129,7 +129,7 @@ bool Shift::set_fields_as_begin_first( Field* fields, const Field* mask )
     return true;
 }
 
-bool Shift::set_fields_as_next_first( Field* fields, const Field* mask )
+bool Shift::set_fields_as_next_first( Field* fields, const Field* mask ) const
 {
     // There is a second range only when
     // mask month == m_start_era month and mask day == f_invalid
@@ -145,7 +145,7 @@ bool Shift::set_fields_as_next_first( Field* fields, const Field* mask )
     return true;
 }
 
-bool Shift::set_fields_as_begin_last( Field* fields, const Field* mask )
+bool Shift::set_fields_as_begin_last( Field* fields, const Field* mask ) const
 {
     copy_fields( fields, mask );
     if( mask[0] == f_invalid ) {
@@ -171,7 +171,7 @@ bool Shift::set_fields_as_begin_last( Field* fields, const Field* mask )
     return true;
 }
 
-bool Shift::set_fields_as_next_last( Field* fields, const Field* mask )
+bool Shift::set_fields_as_next_last( Field* fields, const Field* mask ) const
 {
     // There is a second range only when
     // mask month == m_before_era month and mask day == f_invalid

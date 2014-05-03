@@ -117,7 +117,7 @@ Field Julian::get_extended_field( const Field jdn, size_t index ) const
     return Base::get_extended_field( jdn, index );
 }
 
-bool Julian::set_fields_as_begin_first( Field* fields, const Field* mask )
+bool Julian::set_fields_as_begin_first( Field* fields, const Field* mask ) const
 {
     if( mask[0] == f_invalid ) {
         return false; // Must have at least year
@@ -131,12 +131,12 @@ bool Julian::set_fields_as_begin_first( Field* fields, const Field* mask )
     return true;
 }
 
-bool Julian::set_fields_as_next_first( Field* fields, const Field* mask )
+bool Julian::set_fields_as_next_first( Field* fields, const Field* mask ) const
 {
     return false;
 }
 
-bool Julian::set_fields_as_begin_last( Field* fields, const Field* mask )
+bool Julian::set_fields_as_begin_last( Field* fields, const Field* mask ) const
 {
     if( mask[0] == f_invalid ) {
         return false; // Must have at least year
@@ -151,7 +151,7 @@ bool Julian::set_fields_as_begin_last( Field* fields, const Field* mask )
     return true;
 }
 
-bool Julian::set_fields_as_next_last( Field* fields, const Field* mask )
+bool Julian::set_fields_as_next_last( Field* fields, const Field* mask ) const
 {
     return false;
 }

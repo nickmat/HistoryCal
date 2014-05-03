@@ -52,17 +52,17 @@ namespace Cal {
 
         virtual Field get_field_last( const Field* fields, size_t index ) const;
 
-        virtual bool set_fields_as_begin_first( Field* fields, const Field* mask );
-        virtual bool set_fields_as_next_first( Field* fields, const Field* mask );
-        virtual bool set_fields_as_begin_last( Field* fields, const Field* mask );
-        virtual bool set_fields_as_next_last( Field* fields, const Field* mask );
+        virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) const;
+        virtual bool set_fields_as_next_first( Field* fields, const Field* mask ) const;
+        virtual bool set_fields_as_begin_last( Field* fields, const Field* mask ) const;
+        virtual bool set_fields_as_next_last( Field* fields, const Field* mask ) const;
 
         virtual void remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const;
 
         virtual void set_fields( Field* fields, Field jdn ) const;
 
     protected:
-        virtual XRefVec get_default_xref_order( int count );
+        virtual XRefVec get_default_xref_order( int count ) const;
 
     private:
         void create_fieldnames( const std::string& names );

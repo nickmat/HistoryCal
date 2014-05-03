@@ -36,25 +36,25 @@
 using namespace Cal;
 using namespace std;
 
-Record::Record( Base* base )
+Record::Record( const Base* base )
     : m_base(base), m_jdn(f_invalid), m_f(base->extended_size())
 {
     clear_fields();
 }
 
-Record::Record( Base* base, Field jdn )
+Record::Record( const Base* base, Field jdn )
     : m_base(base), m_jdn(jdn), m_f(base->extended_size())
 {
     set_jdn( jdn );
 }
 
-Record::Record( Base* base, const Field* fields, size_t size )
+Record::Record( const Base* base, const Field* fields, size_t size )
     : m_base(base), m_jdn(f_invalid), m_f(base->extended_size())
 {
     set_fields( fields, size );
 }
 
-Record::Record( Base* base, const string& str )
+Record::Record( const Base* base, const string& str )
     : m_base(base), m_jdn(f_invalid), m_f(base->extended_size())
 {
     set_str( str );

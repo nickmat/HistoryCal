@@ -46,24 +46,24 @@ string Jdn::get_fieldname( size_t index ) const
     return get_extended_fieldname( index );
 }
 
-bool Jdn::set_fields_as_begin_first( Field* fields, const Field* mask )
+bool Jdn::set_fields_as_begin_first( Field* fields, const Field* mask ) const
 {
     fields[0] = mask[0];
     return fields[0] != f_invalid;
 }
 
-bool Jdn::set_fields_as_next_first( Field* fields, const Field* mask )
+bool Jdn::set_fields_as_next_first( Field* fields, const Field* mask ) const
 {
     return false;
 }
 
-bool Jdn::set_fields_as_begin_last( Field* fields, const Field* mask )
+bool Jdn::set_fields_as_begin_last( Field* fields, const Field* mask ) const
 {
     fields[0] = mask[0];
     return fields[0] != f_invalid;
 }
 
-bool Jdn::set_fields_as_next_last( Field* fields, const Field* mask )
+bool Jdn::set_fields_as_next_last( Field* fields, const Field* mask ) const
 {
     return false;
 }

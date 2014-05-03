@@ -58,10 +58,10 @@ namespace Cal {
 
         // Note, these members are not const so that they may set state conditions
         // related to the pos (position). This should speed up sucessive calls.
-        virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) = 0;
-        virtual bool set_fields_as_next_first( Field* fields, const Field* mask ) = 0;
-        virtual bool set_fields_as_begin_last( Field* fields, const Field* mask ) = 0;
-        virtual bool set_fields_as_next_last( Field* fields, const Field* mask ) = 0;
+        virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) const = 0;
+        virtual bool set_fields_as_next_first( Field* fields, const Field* mask ) const = 0;
+        virtual bool set_fields_as_begin_last( Field* fields, const Field* mask ) const = 0;
+        virtual bool set_fields_as_next_last( Field* fields, const Field* mask ) const = 0;
 
         virtual void remove_fields_if_first( Field* fields ) const;
         virtual void remove_fields_if_last( Field* fields ) const;
@@ -101,7 +101,7 @@ namespace Cal {
         StringVec get_orders();
         int get_current_order() const { return m_current_order; }
         StringVec get_formats();
-        std::string get_format();
+        std::string get_format() const;
         int get_current_format() const { return m_current_format; }
         Grammar* get_grammar() const { return m_grammar; }
 
@@ -109,7 +109,7 @@ namespace Cal {
         void set_current_order( int index );
         void set_current_format( int index );
 
-        XRefVec get_xref_order( int count );
+        XRefVec get_xref_order( int count ) const;
 
         FieldVec fields_to_vec( const Field* fields ) const;
         bool is_complete( const Field* fields ) const;
@@ -122,11 +122,11 @@ namespace Cal {
     protected:
         int get_extended_fieldname_index( const std::string& fieldname ) const;
         std::string get_extended_fieldname( size_t index ) const;
-        virtual XRefVec get_default_xref_order( int count );
+        virtual XRefVec get_default_xref_order( int count ) const;
 
     private:
-        std::string create_default_order();
-        std::string create_default_format();
+        std::string create_default_order() const;
+        std::string create_default_format() const;
 
         Grammar*    m_grammar;
         int         m_current_order;

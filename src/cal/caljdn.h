@@ -39,10 +39,10 @@ namespace Cal {
         virtual int get_fieldname_index( const std::string& fieldname ) const;
         virtual std::string get_fieldname( size_t index ) const;
 
-        virtual bool set_fields_as_begin_first( Field* fields, const Field* mask );
-        virtual bool set_fields_as_next_first( Field* fields, const Field* mask );
-        virtual bool set_fields_as_begin_last( Field* fields, const Field* mask );
-        virtual bool set_fields_as_next_last( Field* fields, const Field* mask );
+        virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) const;
+        virtual bool set_fields_as_next_first( Field* fields, const Field* mask ) const;
+        virtual bool set_fields_as_begin_last( Field* fields, const Field* mask ) const;
+        virtual bool set_fields_as_next_last( Field* fields, const Field* mask ) const;
 
         virtual Field get_jdn( const Field* fields ) const { return fields[0]; }
 
