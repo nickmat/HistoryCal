@@ -37,21 +37,6 @@ using namespace std;
 
 namespace {
 
-    /*! Sets jdn to the Julian Day Number for the given day, month and year
-     *  in the Julian Calendar. Always returns true.
-     */
-    Field julian_to_jdn( Field year, Field month, Field day )
-    {
-        Field jdn =
-            floor_div( year, 4 ) * 1461 + pos_mod( year, 4 ) * 365
-            + latin_diy[month] + day + BASEDATE_Julian;
-
-        // Adjust if in the 1st 2 months of 4 year cycle
-        if( month < 3 && (year % 4) == 0 ) --(jdn);
-
-        return jdn;
-    }
-
     /*! Splits the given Julian Day Number date into the day, month and year
      *  for the Julian Calendar.
      */
@@ -106,13 +91,13 @@ Field Julian::get_jdn( const Field* fields ) const
     if( fields[0] == f_invalid || fields[1] == f_invalid || fields[2] == f_invalid ) {
         return f_invalid;
     }
-    return julian_to_jdn( fields[0], fields[1], fields[2] );
+    return jdn( fields[0], fields[1], fields[2] );
 }
 
 Field Julian::get_extended_field( const Field jdn, size_t index ) const
 {
     if( index == extended_size() - JEFN_COUNT + JEFN_litweek ) {
-        return liturgical_get_week( this, jdn );
+        return liturgical_get_litweek( this, jdn );
     }
     return Base::get_extended_field( jdn, index );
 }
@@ -237,6 +222,28 @@ bool Julian::normalise( Field* fields, Norm norm ) const
         return true;
     }
     return false;
+}
+
+/*! Sets jdn to the Julian Day Number for the given day, month and year
+ *  in the Julian Calendar. Always returns true.
+ */
+Field Julian::jdn( Field year, Field month, Field day ) const
+{
+    Field jdn =
+        floor_div( year, 4 ) * 1461 + pos_mod( year, 4 ) * 365
+        + latin_diy[month] + day + BASEDATE_Julian;
+
+    // Adjust if in the 1st 2 months of 4 year cycle
+    if( month < 3 && (year % 4) == 0 ) --(jdn);
+
+    return jdn;
+}
+
+/*! Return the jdn for Easter Sunday in the given year.
+ */
+Field Julian::easter( Field year ) const
+{
+    return jdn( year, 4, 19 ) - ( 14 + 11 * ( year % 19 ) ) % 30;
 }
 
 /*! Returns true if the year is a leap year in the Julian Calendar.

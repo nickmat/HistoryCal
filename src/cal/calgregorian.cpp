@@ -38,31 +38,6 @@ using namespace Cal;
 
 namespace {
 
-    /*! Returns the Julian Day Number for the given day, month and year
-     *  in the Gregorian Calendar.
-     */
-    Field gregorian_to_jdn( Field year, Field month, Field day )
-    {
-        Field jdn =
-            floor_div( year, 400 )*146097         //     days in 400 year cycles
-            + (pos_mod( year, 400 )/100)*36524    // - 1 days in 100 year cycles
-            + (pos_mod( year, 100 )/4)*1461       // + 1 days in 4 year cycles
-            + pos_mod( year, 4 )*365              // + 1 days in year
-            + latin_diy[month] + day              // - 1 days numbered from 1 not 0
-            + BASEDATE_Gregorian;
-
-        // Adjust if in the 1st 2 months of 4 year cycle
-        if( month < 3 && year%4 == 0 ) --jdn;
-
-        // Adjust if in the 1st 2 months of 100 year cycle
-        if( year%100 == 0 && month < 3 ) ++jdn;
-
-        // Adjust if in the 1st 2 months of 400 year cycle
-        if( year%400 == 0 && month < 3 ) --jdn;
-
-        return jdn;
-    }
-
     void gregorian_from_jdn( Field* year, Field* month, Field* day, Field jdn )
     {
         Field date = jdn - BASEDATE_Gregorian;
@@ -131,7 +106,7 @@ Field Gregorian::get_jdn( const Field* fields ) const
     if( fields[0] == f_invalid || fields[1] == f_invalid || fields[2] == f_invalid ) {
         return f_invalid;
     }
-    return gregorian_to_jdn( fields[0], fields[1], fields[2] );
+    return jdn( fields[0], fields[1], fields[2] );
 }
 
 void Gregorian::set_fields( Field* fields, Field jdn ) const
@@ -152,6 +127,45 @@ double Gregorian::get_average_days( const Field* fields, Unit unit ) const
     }
     // We only deal with non-integer units
     return 0.0;
+}
+
+/*! Returns the Julian Day Number for the given day, month and year
+ *  in the Gregorian Calendar.
+ */
+Field Gregorian::jdn( Field year, Field month, Field day ) const
+{
+    Field jdn =
+        floor_div( year, 400 )*146097         //     days in 400 year cycles
+        + (pos_mod( year, 400 )/100)*36524    // - 1 days in 100 year cycles
+        + (pos_mod( year, 100 )/4)*1461       // + 1 days in 4 year cycles
+        + pos_mod( year, 4 )*365              // + 1 days in year
+        + latin_diy[month] + day              // - 1 days numbered from 1 not 0
+        + BASEDATE_Gregorian;
+
+    // Adjust if in the 1st 2 months of 4 year cycle
+    if( month < 3 && year%4 == 0 ) --jdn;
+
+    // Adjust if in the 1st 2 months of 100 year cycle
+    if( year%100 == 0 && month < 3 ) ++jdn;
+
+    // Adjust if in the 1st 2 months of 400 year cycle
+    if( year%400 == 0 && month < 3 ) --jdn;
+
+    return jdn;
+}
+
+/*! Return the jdn for Easter Sunday in the given year.
+ */
+Field Gregorian::easter( Field year ) const
+{
+    Field century = year / 100 + 1;
+    Field epact =
+        (14 + 11*(year%19) - (3*century)/4 + (5+8*century)/25) % 30;
+    if( epact == 0 || ( epact == 1 && 10 < (year%19) ) ) {
+        epact++;
+    }
+    Field paschal_moon = jdn( year, 4, 19 ) - epact;
+    return kday_after( WDAY_Sunday, paschal_moon );
 }
 
 /*! Returns true if the year is a leap year in the Gregorian Calendar.

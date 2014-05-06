@@ -109,37 +109,62 @@
 
 #include "calliturgical.h"
 
-#include "calgregorian.h"
 #include "calmath.h"
-//#include "calparse.h"
 #include "calrecord.h"
-//#include "calscheme.h"
-//#include "calschemes.h"
-
-//#include <cassert>
 
 using namespace Cal;
 using namespace std;
 
-enum WeekBlockNumber {
-    WEEK_Blk1 = 2, WEEK_Blk2 = 3, WEEK_Blk3 = 9,
-    WEEK_Blk4a = 54, WEEK_Blk4 = 58, WEEK_Blk5 = 62 
-};
+namespace {
 
+    enum WeekBlockNumber {
+        WEEK_Blk1 = 2, WEEK_Blk2 = 3, WEEK_Blk3 = 9,
+        WEEK_Blk4a = 54, WEEK_Blk4 = 58, WEEK_Blk5 = 62 
+    };
 
-Field Cal::liturgical_get_week( const Base* base, Field jdn )
+    Field xmas1( const Julian* base, Field year )
+    {
+        return kday_on_or_after( WDAY_Sunday, base->jdn( year, 12, 25 ) );
+    }
+
+    Field xmas2( const Julian* base, Field year )
+    {
+        return kday_on_or_after( WDAY_Sunday, base->jdn( year, 1, 1 ) );
+    }
+
+    Field epiph( const Julian* base, Field year )
+    {
+        return kday_on_or_after( WDAY_Sunday, base->jdn( year, 1, 6 ) );
+    }
+
+    Field epiph1( const Julian* base, Field year )
+    {
+        return kday_after( WDAY_Sunday, base->jdn( year, 1, 6 ) );
+    }
+
+    Field septuag( const Julian* base, Field year )
+    {
+        return base->easter( year ) - 63;
+    }
+
+    Field advent( const Julian* base, Field year )
+    {
+        return kday_nearest( WDAY_Sunday, base->jdn( year, 11, 30 ) );
+    }
+
+}
+
+Field Cal::liturgical_get_litweek( const Julian* base, Field jdn )
 {
-    Field sunday_jdn = kday_on_or_before( WDAY_Sunday, jdn );
-//    Record rec( base, sunday_jdn );
-    return f_invalid;
-#if 0
-    Field year = rec.get_field( m_year_index );
+    const int year_index = 0;
     Field sunday = kday_on_or_before( WDAY_Sunday, jdn );
-    Field b0 = xmas1( year-1 );
-    Field b1 = epiph( year );
-    Field b2 = epiph1( year );
-    Field b3 = septuag( year );
-    Field b4 = advent( year );
+    Record rec( base, sunday );
+    Field year = rec.get_field( year_index );
+    Field b0 = xmas1( base, year-1 );
+    Field b1 = epiph( base, year );
+    Field b2 = epiph1( base, year );
+    Field b3 = septuag( base, year );
+    Field b4 = advent( base, year );
     Field week;
     if( sunday < b1 ) {
         week = 1 + ( sunday - b0 ) / 7;
@@ -152,320 +177,35 @@ Field Cal::liturgical_get_week( const Base* base, Field jdn )
     } else {
         week = WEEK_Blk4 + ( sunday - b4 ) / 7;
     }
-
-
-#if 0
-    Field b2 = xmas1( year-1 );
-    Field b3 = epiph( year );
-    Field b4 = epiph1( year );
-    Field b5 = septuag( year );
-    Field b1 = advent( year );
-    Field week;
-    if( sunday < b3 ) {
-        week = WEEK_B2 + ( sunday - b2 ) / 7;
-    } else if( sunday < b4 ) {
-        week = WEEK_B3 + ( sunday - b3 ) / 7;
-    } else if( sunday < b5 ) {
-        week = WEEK_B4 + ( sunday - b4 ) / 7;
-    } else if( sunday < b1 ) {
-        week = WEEK_B5 + ( sunday - b5 ) / 7;
-    } else { //if( sunday < b2 ) {
-        week = WEEK_B1 + ( sunday - b1 ) / 7;
-    }
-#endif
-    fields[0] = year;
-    fields[1] = week;
-    fields[2] = day_of_week( jdn ) + 1;
-    fields[3] = rec.get_field( m_month_index );
-#endif
+    return week;
 }
 
 
-
-
-#if 0
-
-Liturgical::Liturgical( Schemes* schs, const string& data )
-    : m_base(NULL), Base()
+Field liturgical_get_jdn(
+    const Julian* base, Field year, Field month, Field litweek )
 {
-    string body;
-    string word = get_first_word( data, &body );
-    Scheme* sch = schs->get_scheme( word );
-    assert( sch != NULL );
-    m_base = sch->get_base();
-    assert( m_base != NULL );
-    m_year_index = m_base->get_fieldname_index( "unshift" );
-    if( m_year_index < 0 ) {
-        m_year_index = m_base->get_fieldname_index( "year" );
-    }
-    m_month_index = m_base->get_fieldname_index( "month" );
-}
-
-Liturgical::~Liturgical()
-{
-}
-
-int Liturgical::get_fieldname_index( const string& fieldname ) const
-{
-    if( fieldname == "year" ) {
-        return 0;
-    } else if( fieldname == "week" ) {
-        return 1;
-    } else if( fieldname == "wday" ) {
-        return 2;
-    } else if( fieldname == "month" ) {
-        return 3;
-    }
-    return get_extended_fieldname_index( fieldname );
-}
-
-string Liturgical::get_fieldname( size_t index ) const
-{
-    const char* fnames[] = { "year", "week", "wday", "month" };
-    if( index < 4 ) {
-        return fnames[index];
-    }
-    return get_extended_fieldname( index );
-}
-
-bool Liturgical::set_fields_as_begin_first( Field* fields, const Field* mask )
-{
-    if( mask[0] == f_invalid ) {
-        return false; // Must have at least year
-    }
-    if( mask[1] == f_invalid && mask[2] == f_invalid ) {
-        Field yearstart[3] = { mask[0], 1, 1 };
-        Record rec( m_base, &yearstart[0], 3 );
-        Record rec2( this, rec.get_jdn() );
-        copy_fields( fields, rec2.get_field_ptr() );
-        return true;
-    }
-    if( mask[2] == f_invalid ) {
-        fields[0] = mask[0];
-        fields[1] = mask[1];
-        fields[2] = 7; // Sunday
-        return true;
-    }
-    if( mask[1] == f_invalid ) {
-        return false; // "x ? x" pattern not supported yet
-    }
-    copy_fields( fields, mask );
-    return true;
-}
-
-bool Liturgical::set_fields_as_next_first( Field* fields, const Field* mask )
-{
-    return false;
-}
-
-bool Liturgical::set_fields_as_begin_last( Field* fields, const Field* mask )
-{
-    if( mask[0] == f_invalid ) {
-        return false; // Must have at least year
-    }
-    if( mask[1] == f_invalid && mask[2] == f_invalid ) {
-        Field yearstart[3] = { mask[0], 12, 31 };
-        Record rec( m_base, &yearstart[0], 3 );
-        Record rec2( this, rec.get_jdn() );
-        copy_fields( fields, rec2.get_field_ptr() );
-        return true;
-    }
-    if( mask[2] == f_invalid ) {
-        fields[0] = mask[0];
-        fields[1] = mask[1];
-        fields[2] = 6; // Satarday
-        return true;
-    }
-    if( mask[1] == f_invalid ) {
-        return false; // "x ? x" pattern not supported yet
-    }
-    copy_fields( fields, mask );
-    return true;
-}
-
-bool Liturgical::set_fields_as_next_last( Field* fields, const Field* mask )
-{
-    return false;
-}
-
-Field Liturgical::get_jdn( const Field* fields ) const
-{
-    Field year = fields[0];
-    Field week = fields[1];
-    Field day = fields[2];
     Field jdn;
     // First check the week starting the end of the previous year
     // and deal with it if necessary.
-    if( week == WEEK_Blk5 ) {
-        Field yearstart = base_get_jdn( year, 1, 1 );
-        jdn = xmas1( year-1 ) + (day%7);
+    if( litweek == WEEK_Blk5 ) {
+        Field yearstart = base->jdn( year, 1, 1 );
+        jdn = xmas1( base, year-1 );
         if( jdn >= yearstart ) {
             return jdn;
         }
     }
-    if( week < WEEK_Blk1 ) {
-        jdn = xmas2( year ) + ( week - 1 ) * 7;
-    } else if( week < WEEK_Blk2 ) {
-        jdn = epiph( year ) + ( week - WEEK_Blk1 ) * 7;
-    } else if( week < WEEK_Blk3 ) {
-        jdn = epiph1( year ) + ( week - WEEK_Blk2 ) * 7;
-    } else if( week < WEEK_Blk4 ) {
-        jdn = septuag( year ) + ( week - WEEK_Blk3 ) * 7;
+    if( litweek < WEEK_Blk1 ) {
+        jdn = xmas2( base, year ) + ( litweek - 1 ) * 7;
+    } else if( litweek < WEEK_Blk2 ) {
+        jdn = epiph( base, year ) + ( litweek - WEEK_Blk1 ) * 7;
+    } else if( litweek < WEEK_Blk3 ) {
+        jdn = epiph1( base, year ) + ( litweek - WEEK_Blk2 ) * 7;
+    } else if( litweek < WEEK_Blk4 ) {
+        jdn = septuag( base, year ) + ( litweek - WEEK_Blk3 ) * 7;
     } else { // must be block 4 or 5
-        jdn = advent( year ) + ( week - WEEK_Blk4 ) * 7;
+        jdn = advent( base, year ) + ( litweek - WEEK_Blk4 ) * 7;
     }
-    return jdn + (day%7);
+    return jdn;
 }
-
-void Liturgical::set_fields( Field* fields, Field jdn ) const
-{
-    Record rec( m_base, jdn );
-    Field year = rec.get_field( m_year_index );
-    Field sunday = kday_on_or_before( WDAY_Sunday, jdn );
-    Field b0 = xmas1( year-1 );
-    Field b1 = epiph( year );
-    Field b2 = epiph1( year );
-    Field b3 = septuag( year );
-    Field b4 = advent( year );
-    Field week;
-    if( sunday < b1 ) {
-        week = 1 + ( sunday - b0 ) / 7;
-    } else if( sunday < b2 ) {
-        week = WEEK_Blk1 + ( sunday - b1 ) / 7;
-    } else if( sunday < b3 ) {
-        week = WEEK_Blk2 + ( sunday - b2 ) / 7;
-    } else if( sunday < b4 ) {
-        week = WEEK_Blk3 + ( sunday - b3 ) / 7;
-    } else {
-        week = WEEK_Blk4 + ( sunday - b4 ) / 7;
-    }
-
-
-#if 0
-    Field b2 = xmas1( year-1 );
-    Field b3 = epiph( year );
-    Field b4 = epiph1( year );
-    Field b5 = septuag( year );
-    Field b1 = advent( year );
-    Field week;
-    if( sunday < b3 ) {
-        week = WEEK_B2 + ( sunday - b2 ) / 7;
-    } else if( sunday < b4 ) {
-        week = WEEK_B3 + ( sunday - b3 ) / 7;
-    } else if( sunday < b5 ) {
-        week = WEEK_B4 + ( sunday - b4 ) / 7;
-    } else if( sunday < b1 ) {
-        week = WEEK_B5 + ( sunday - b5 ) / 7;
-    } else { //if( sunday < b2 ) {
-        week = WEEK_B1 + ( sunday - b1 ) / 7;
-    }
-#endif
-    fields[0] = year;
-    fields[1] = week;
-    fields[2] = day_of_week( jdn ) + 1;
-    fields[3] = rec.get_field( m_month_index );
-}
-
-Field Liturgical::base_get_jdn( Field year, Field month, Field day ) const
-{
-    Field fields[3] = { year, month, day };
-    return m_base->get_jdn( &fields[0] );
-}
-
-Field Liturgical::julian_easter( Field year ) const
-{
-    return f_invalid;
-}
-
-Field Liturgical::gregorian_easter( Field year ) const
-{
-    Field century = year / 100 + 1;
-    Field epact =
-        (14 + 11*(year%19) - (3*century)/4 + (5+8*century)/25) % 30;
-    if( epact == 0 || ( epact == 1 && 10 < (year%19) ) ) {
-        epact++;
-    }
-    Field paschal_moon = gregorian_to_jdn( year, 4, 19 ) - epact;
-    return kday_after( WDAY_Sunday, paschal_moon );
-}
-
-Field Liturgical::xmas1( Field year ) const
-{
-    switch( m_base->get_fundamental_base() )
-    {
-    case FUNDBASE_G:
-        return kday_on_or_after( WDAY_Sunday, gregorian_to_jdn( year, 12, 25 ) );
-    case FUNDBASE_J:
-        return f_invalid;
-    }
-    return f_invalid;
-}
-
-Field Liturgical::xmas2( Field year ) const
-{
-    switch( m_base->get_fundamental_base() )
-    {
-    case FUNDBASE_G:
-        return kday_on_or_after( WDAY_Sunday, gregorian_to_jdn( year, 1, 1 ) );
-    case FUNDBASE_J:
-        return f_invalid;
-    }
-    return f_invalid;
-}
-
-Field Liturgical::epiph( Field year ) const
-{
-    switch( m_base->get_fundamental_base() )
-    {
-    case FUNDBASE_G:
-        return kday_on_or_after( WDAY_Sunday, gregorian_to_jdn( year, 1, 6 ) );
-    case FUNDBASE_J:
-        return f_invalid;
-    }
-    return f_invalid;
-}
-
-Field Liturgical::epiph1( Field year ) const
-{
-    switch( m_base->get_fundamental_base() )
-    {
-    case FUNDBASE_G:
-        return kday_after( WDAY_Sunday, gregorian_to_jdn( year, 1, 6 ) );
-    case FUNDBASE_J:
-        return f_invalid;
-    }
-    return f_invalid;
-}
-
-Field Liturgical::septuag( Field year ) const
-{
-    Field easter;
-    switch( m_base->get_fundamental_base() )
-    {
-    case FUNDBASE_G:
-        easter = gregorian_easter( year );
-        break;
-    case FUNDBASE_J:
-        easter = julian_easter( year );
-        break;
-    default:
-        return f_invalid;
-    }
-    return easter - 63;
-}
-
-Field Liturgical::advent( Field year ) const
-{
-    switch( m_base->get_fundamental_base() )
-    {
-    case FUNDBASE_G:
-        return kday_nearest( WDAY_Sunday, gregorian_to_jdn( year, 11, 30 ) );
-    case FUNDBASE_J:
-        return f_invalid;
-    }
-    return f_invalid;
-}
-
-#endif
 
 // End of src/cal/calliturgical.cpp file

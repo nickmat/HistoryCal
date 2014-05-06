@@ -36,7 +36,7 @@ namespace Cal {
         enum JulianExtendedFieldNumber { JEFN_litweek, JEFN_COUNT };
     public:
         virtual size_t record_size() const { return 3; }
-        virtual size_t extended_size() const { return record_size() + JEFN_COUNT; }
+        virtual size_t extended_size() const { return Base::extended_size() + JEFN_COUNT; }
 
         virtual int get_fieldname_index( const std::string& fieldname ) const;
         virtual std::string get_fieldname( size_t index ) const;
@@ -56,6 +56,10 @@ namespace Cal {
         virtual double get_average_days( const Field* fields, Unit unit ) const;
         virtual bool add_to_fields( Field* fields, Field value, Unit unit ) const;
         virtual bool normalise( Field* fields, Norm norm ) const;
+
+        // Virtual members shared with Gregorian class.
+        virtual Field jdn( Field year, Field month, Field day ) const;
+        virtual Field easter( Field year ) const;
 
     protected:
         virtual bool is_leap_year( Field year ) const;

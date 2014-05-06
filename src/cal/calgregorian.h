@@ -41,8 +41,12 @@ namespace Cal {
 
         virtual double get_average_days( const Field* fields, Unit unit ) const;
 
+        virtual Field jdn( Field year, Field month, Field day ) const;
+        virtual Field easter( Field year ) const;
+
     protected:
         virtual bool is_leap_year( Field year ) const;
+        Field last_day_in_month( Field year, Field month ) const;
     };
 
 }

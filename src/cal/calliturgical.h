@@ -28,11 +28,13 @@
 #ifndef CAL_CALLITURGICAL_H_GUARD
 #define CAL_CALLITURGICAL_H_GUARD
 
-#include "calbase.h"
+#include "caljulian.h"
 
 namespace Cal {
 
-    extern Field liturgical_get_week( const Base* base, Field jdn );
+    extern Field liturgical_get_litweek( const Julian* base, Field jdn );
+    extern Field liturgical_get_jdn(
+        const Julian* base, Field year, Field month, Field litweek );
 
 }
 
