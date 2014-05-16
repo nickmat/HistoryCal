@@ -215,6 +215,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\cal\caldefscripts.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\cal\calformat.cpp"
 				>
 			</File>
@@ -267,10 +271,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\cal\calscripts.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\cal\calshift.cpp"
 				>
 			</File>
@@ -294,6 +294,10 @@
 			</File>
 			<File
 				RelativePath="..\..\include\cal\caldefs.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\cal\caldefscripts.h"
 				>
 			</File>
 			<File
@@ -350,10 +354,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\cal\calschemes.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\cal\calscripts.h"
 				>
 			</File>
 			<File

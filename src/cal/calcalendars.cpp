@@ -30,7 +30,7 @@
 #include "calparse.h"
 #include "calscheme.h"
 #include "calschemes.h"
-#include "calscripts.h"
+#include "caldefscripts.h"
 #include "calversion.h"
 #include "calvocab.h"
 

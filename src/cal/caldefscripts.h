@@ -1,5 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        src/cal/calscripts.h
+ * Name:        src/cal/caldefscripts.h
  * Project:     Cal: Programmable Historical Calendar library.
  * Purpose:     Default scripts.
  * Author:      Nick Matthews
@@ -25,8 +25,8 @@
 
 */
 
-#ifndef CAL_CALSCRIPTS_H_GUARD
-#define CAL_CALSCRIPTS_H_GUARD
+#ifndef CAL_CALDEFSCRIPTS_H_GUARD
+#define CAL_CALDEFSCRIPTS_H_GUARD
 
 namespace Cal {
 
@@ -34,4 +34,4 @@ namespace Cal {
 
 }
 
-#endif // CAL_CALSCRIPTS_H_GUARD
+#endif // CAL_CALDEFSCRIPTS_H_GUARD

@@ -101,6 +101,7 @@ CAL_CXXFLAGS = $(VAR) $(VAR_7) -DMAKINGLIB_CAL -I../../include -fPIC -DPIC \
 CAL_OBJECTS =  \
 	cal_calbase.o \
 	cal_calcalendars.o \
+	cal_caldefscripts.o \
 	cal_calformat.o \
 	cal_calgrammar.o \
 	cal_calgregorian.o \
@@ -114,7 +115,6 @@ CAL_OBJECTS =  \
 	cal_calregnal.o \
 	cal_calscheme.o \
 	cal_calschemes.o \
-	cal_calscripts.o \
 	cal_calshift.o \
 	cal_calversion.o \
 	cal_calvocab.o
@@ -278,6 +278,9 @@ cal_calbase.o: ./../../src/cal/calbase.cpp
 cal_calcalendars.o: ./../../src/cal/calcalendars.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
+cal_caldefscripts.o: ./../../src/cal/caldefscripts.cpp
+	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
+
 cal_calformat.o: ./../../src/cal/calformat.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
@@ -315,9 +318,6 @@ cal_calscheme.o: ./../../src/cal/calscheme.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calschemes.o: ./../../src/cal/calschemes.cpp
-	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
-
-cal_calscripts.o: ./../../src/cal/calscripts.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calshift.o: ./../../src/cal/calshift.cpp

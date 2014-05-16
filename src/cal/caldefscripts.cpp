@@ -1,5 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        src/cal/calscripts.cpp
+ * Name:        src/cal/caldefscripts.cpp
  * Project:     Cal: Programmable Historical Calendar library.
  * Purpose:     Default scripts.
  * Author:      Nick Matthews
@@ -25,7 +25,7 @@
 
 */
 
-#include "calscripts.h"
+#include "caldefscripts.h"
 
 const char* Cal::cal_default_script =
     "vocab w {name Weekday names; lang en; style-name Weekday WDay;"
@@ -327,4 +327,4 @@ const char* Cal::cal_default_script =
     "scheme glit {name Gregorian Liturgical; base gregorian; grammar lit;};\n"
 ;
 
-// End of src/cal/calscripts.cpp file
+// End of src/cal/caldefscripts.cpp file
