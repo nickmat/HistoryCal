@@ -39,7 +39,7 @@ namespace Cal {
         Schemes() {}
         ~Schemes();
 
-        //std::string read_script( const std::string& script );
+        std::string read_script( const std::string& script );
         //RangeList expr_str_to_rangelist( int scheme_id, const std::string& str );
         void add_scheme( const std::string& definition );
         void add_vocab( const std::string& definition );

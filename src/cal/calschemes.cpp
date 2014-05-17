@@ -30,6 +30,7 @@
 #include "calgrammar.h"
 #include "calparse.h"
 #include "calscheme.h"
+#include "calscript.h"
 #include "calvocab.h"
 
 
@@ -47,6 +48,15 @@ Schemes::~Schemes()
     for( VocabMap::iterator it = m_vocabs.begin() ; it != m_vocabs.end() ; it++ ) {
         delete it->second;
     }
+}
+
+string Schemes::read_script( const string& script )
+{
+    Script scr( this );
+    if( scr.run( script ) ) {
+        return scr.get_output();
+    }
+    return "";
 }
 
 void Schemes::add_scheme( const string& definition )

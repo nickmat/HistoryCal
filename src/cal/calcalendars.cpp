@@ -57,6 +57,11 @@ Calendars::~Calendars()
     delete m_schemes;
 }
 
+string Calendars::read_script( const string& script )
+{
+    return m_schemes->read_script( script );
+}
+
 const char* Calendars::version()
 {
     return cal_version;
@@ -110,24 +115,6 @@ void Calendars::set_scheme_format( int scheme_id, int format )
 {
     Scheme* sch = m_schemes->get_scheme( scheme_id );
     sch->set_format( format );
-}
-
-void Calendars::read_script( const string& script )
-{
-    vector<string> statements = parse_statements( script );
-    for( size_t i = 0 ; i < statements.size() ; i++ ) {
-        string body;
-        string rule = get_first_word( statements[i], &body );
-        if( rule == "scheme" ) {
-            m_schemes->add_scheme( body );
-        } else if( rule == "vocab" ) {
-            m_schemes->add_vocab( body );
-        } else if( rule == "grammar" ) {
-            m_schemes->add_grammar( body );
-        } else {
-            assert( false );
-        }
-    }
 }
 
 Field Calendars::fieldvec_to_jdn( int scheme_id, const FieldVec& fieldv )

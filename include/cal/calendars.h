@@ -42,8 +42,7 @@ namespace Cal {
         DLLIMPEXP_CAL Calendars( Init_schemes = Init_schemes_none );
         DLLIMPEXP_CAL ~Calendars();
 
-        DLLIMPEXP_CAL void read_script( const std::string& script );
-
+        DLLIMPEXP_CAL std::string read_script( const std::string& script );
         DLLIMPEXP_CAL static const char* version();
         DLLIMPEXP_CAL int get_scheme_count() const;
         DLLIMPEXP_CAL int get_scheme_id( const std::string& code ) const;
