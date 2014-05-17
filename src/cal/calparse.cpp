@@ -144,11 +144,17 @@ string Cal::peel_cbrackets( const string& str )
 
 string Cal::field_to_str( Field field )
 {
-    if( field == f_invalid ) {
+    if( field== f_invalid ) {
         return "";
     }
-    ostringstream ss;
-    ss << field;
+    if( field == f_maximum ) {
+        return "future.";
+    }
+    if( field == f_minimum ) {
+        return "past.";
+    }
+    ostringstream ss; 
+    ss << field; 
     return ss.str();
 }
 

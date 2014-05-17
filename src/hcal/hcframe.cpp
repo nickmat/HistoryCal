@@ -299,13 +299,20 @@ void HcFrame::CalculateOutput()
 
         inter << m_cal.rangelist_to_str( 0, ranges );
 
-        int days = 0;
-        for( size_t i = 0 ; i < ranges.size() ; i++ ) {
-            days += ranges[i].jdn2 - ranges[i].jdn1 + 1;
-        }
         output << m_cal.rangelist_to_str( m_to, ranges );
-        if( m_show_count && days > 1 ) {
-            output << "  [" << days << " days]";
+        size_t rsize = ranges.size();
+        if( m_show_count && rsize ) {
+            if( ranges[0].jdn1 == f_minimum || ranges[rsize-1].jdn2 == f_maximum ) {
+                output << "  [Infinite]";
+            } else {
+                int days = 0;
+                for( size_t i = 0 ; i < rsize ; i++ ) {
+                    days += ranges[i].jdn2 - ranges[i].jdn1 + 1;
+                }
+                if( days ) {
+                    output << "  [" << days << " days]";
+                }
+            }
         }
         if( output.empty() ) {
             output << "Invalid date";

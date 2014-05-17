@@ -159,6 +159,12 @@ Field Scheme::str_to_jdn( const string& str )
 
 string Scheme::jdn_to_str( Field jdn )
 {
+    if( jdn == f_minimum ) {
+        return "past.";
+    }
+    if( jdn == f_maximum ) {
+        return "future.";
+    }
     Record rec( m_base, jdn );
     return rec.get_str();
 }
@@ -206,14 +212,20 @@ string Scheme::range_to_str( Range range )
     if( range.jdn1 == range.jdn2 ) {
         return jdn_to_str( range.jdn1 );
     }
-    Record rec1( m_base, range.jdn1 );
-    Record rec2( m_base, range.jdn2 );
+    string str1, str2;
+    if( range.jdn1 == f_minimum || range.jdn2 == f_maximum ) {
+        str1 = jdn_to_str( range.jdn1 );
+        str2 = jdn_to_str( range.jdn2 );
+    } else {
+        Record rec1( m_base, range.jdn1 );
+        Record rec2( m_base, range.jdn2 );
 
-    rec1.remove_balanced_fields( &rec2 );
-    string str1 = rec1.get_str();
-    string str2 = rec2.get_str();
-    if( str1 == str2 ) {
-        return str1;
+        rec1.remove_balanced_fields( &rec2 );
+        str1 = rec1.get_str();
+        str2 = rec2.get_str();
+        if( str1 == str2 ) {
+            return str1;
+        }
     }
     return str1 + " ~ " + str2;
 }
@@ -244,8 +256,11 @@ RangeList Scheme::rlist_str_to_rangelist( const string& input )
 RangeList Scheme::r_str_to_rangelist( const string& str )
 {
     RangeList ranges;
-    size_t pos = str.find( range_sep );
+    Range range;
+    bool ret1 = false, ret2 = false;
     Record mask1(m_base), mask2(m_base);
+    Record rec1(m_base), rec2(m_base);
+    size_t pos = str.find( range_sep );
     if( pos == string::npos ) {
         // Short form range string
         mask1.set_str( str );
@@ -253,14 +268,36 @@ RangeList Scheme::r_str_to_rangelist( const string& str )
     } else {
         // two date strings
         string str1 = str.substr( 0, pos );
-        mask1.set_str( str1 );
         string str2 = str.substr( pos + 1 );
-        mask2.set_str( str2 );
+        pos = str1.find( "past." );
+        if( pos != string::npos ) {
+            range.jdn1 = f_minimum;
+            ret1 = true;
+        } else {
+            mask1.set_str( str1 );
+        }
+        pos = str2.find( "future." );
+        if( pos != string::npos ) {
+            range.jdn2 = f_maximum;
+            ret2 = true;
+        } else {
+            mask2.set_str( str2 );
+        }
+        if( ret1 || ret2 ) {
+            if( ret1 == false ) {
+                rec1.set_fields_as_begin_first( mask1.get_field_ptr() );
+                range.jdn1 = rec1.get_jdn();
+            }
+            if( ret2 == false ) {
+                rec2.set_fields_as_begin_last( mask2.get_field_ptr() );
+                range.jdn2 = rec2.get_jdn();
+            }
+            ranges.push_back( range );
+            return ranges;
+        }
     }
-    Record rec1(m_base), rec2(m_base);
-    Range range;
-    bool ret1 = rec1.set_fields_as_begin_first( mask1.get_field_ptr() );
-    bool ret2 = rec2.set_fields_as_begin_last( mask2.get_field_ptr() );
+    ret1 = rec1.set_fields_as_begin_first( mask1.get_field_ptr() );
+    ret2 = rec2.set_fields_as_begin_last( mask2.get_field_ptr() );
     while( ret1 && ret2 ) {
         range.jdn1 = rec1.get_jdn();
         range.jdn2 = rec2.get_jdn();
