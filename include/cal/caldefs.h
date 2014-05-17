@@ -44,21 +44,33 @@
 
 namespace Cal {
 
-    // Field must be at least 32 bit (int_fast32_t), use int for now.
-    // Change to long if neccessary
+    // Field must be at least 32 bit, use int for now.
+    // Change to int_fast32_t if possible
     typedef int Field;
+
     typedef std::vector<Field> FieldVec;
     typedef std::vector<FieldVec> FieldVecVec;
     typedef std::vector<std::string> StringVec;
     typedef std::map<std::string,std::string> StringMap;
     typedef std::vector<int> XRefVec;
 
-    const Field f_invalid  = -2147483647;
-    const Field f_minimum  = -2147483646;
-    const Field f_maximum  = 2147483647;
+    const Field f_invalid  = INT_MIN;     // -2147483648;
+    const Field f_minimum  = INT_MIN + 1; // -2147483647;
+    const Field f_maximum  = INT_MAX - 2; //  2147483645;
+    const Field f_end      = INT_MAX - 1; //  2147483646;
+    const Field f_invalid2 = INT_MAX;     //  2147483647;
     const char range_sep = '~';    // Separates the two range values.
     const char range_div = '|';    // Used to separate ranges in range list.
     const char unknown_val = '?';  // Place holder for unknown or invalid value.
+
+    struct Range
+    {
+        // Maintain jdn1 <= jdn2
+        Field jdn1;
+        Field jdn2;
+    };
+
+    typedef std::vector<Range> RangeList;
 
     enum Scheme_style { SCH_STYLE_Default, SCH_STYLE_Hide };
 
@@ -94,14 +106,6 @@ namespace Cal {
         StringVec abbrevs;
     };
 
-    struct Range
-    {
-        // Maintain jdn1 <= jdn2
-        Field jdn1;
-        Field jdn2;
-    };
-
-    typedef std::vector<Range> RangeList;
 
     enum Unit {
         unit_null,
