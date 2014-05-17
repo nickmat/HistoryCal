@@ -303,7 +303,7 @@ void HcFrame::CalculateOutput()
         size_t rsize = ranges.size();
         if( m_show_count && rsize ) {
             if( ranges[0].jdn1 == f_minimum || ranges[rsize-1].jdn2 == f_maximum ) {
-                output << "  [Infinite]";
+                output << "  [Infinite days]";
             } else {
                 int days = 0;
                 for( size_t i = 0 ; i < rsize ; i++ ) {
