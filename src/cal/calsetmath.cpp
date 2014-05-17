@@ -59,7 +59,7 @@ namespace {
         
         RangeList answer;
         Range range;
-        while( apos != f_end ) {
+        while( apos != f_end && apos != f_invalid2 ) {
             apos = min( lpos, rpos ); // Next position.
             // We want to know if the left, right ranges are on or off
             // at the current answer position. If the left or right position
