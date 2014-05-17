@@ -289,7 +289,7 @@ void HcFrame::CalculateOutput()
             age = input.substr( pos+1 );
             input = input.substr( 0, pos );
         }
-        RangeList ranges = m_cal.str_to_rangelist( m_from, input );
+        RangeList ranges = m_cal.expr_str_to_rangelist( m_from, input );
         if( age.size() ) {
             Rel_info info;
             if( m_cal.str_to_rel_info( m_from, age, &info ) ) {
