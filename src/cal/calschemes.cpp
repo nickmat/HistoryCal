@@ -59,6 +59,23 @@ string Schemes::read_script( const string& script )
     return "";
 }
 
+RangeList Schemes::expr_str_to_rangelist( int scheme_id, const std::string& str )
+{
+    RangeList rlist;
+    Scheme* sch = get_scheme( scheme_id );
+    if( sch == NULL ) {
+        return rlist;
+    }
+    string script = "set input \"" + sch->get_code() + "\";\n"
+        + "write date " + parse_date_expr( str ) + ";";
+
+    Script scr( this );
+    if( scr.run( script ) ) {
+        return scr.get_date();
+    }
+    return rlist;
+}
+
 void Schemes::add_scheme( const string& definition )
 {
     Scheme* sch = new Scheme( this, definition );

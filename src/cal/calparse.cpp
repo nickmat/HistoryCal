@@ -174,4 +174,54 @@ string Cal::make_key( const string& str )
     return Utf8api::normal( key );
 }
 
+// Convert a date expression string to a script string.
+string Cal::parse_date_expr( const string& str )
+{
+    string script, date;
+    string::const_iterator it, nit;
+    for( it = str.begin() ; it != str.end() ; it++ ) {
+        switch( *it )
+        {
+        case '[':  // Ignore comments in square brackets.
+            for( int cnt = 1 ; it != str.end() && cnt != 0 ; it++ ) {
+                if( *it == ']' ) {
+                    --cnt;
+                } else if( *it == '[' ) {
+                    cnt++;
+                }
+            }
+        case '&':
+            nit = it+1;
+            if( nit != str.end() && ( *nit == '.' ) ) {
+                if( date.size() ) {
+                    script += " \"" + date + "\" ";
+                    date.clear();
+                }
+                script += *it;
+                it++;       // Step over dot, next char is treated as operator.
+            } else {
+                date += *it; // Treat dot as part of date string.
+            }
+            break;
+        case '|': case '\\': case '^': case '!': case '(': case ')':
+            if( date.size() ) {
+                script += " \"" + date + "\" ";
+                date.clear();
+            }
+            script += *it;
+            break;
+        default:
+            date += *it;
+            break;
+        }
+        if( it == str.end() ) {
+            break;
+        }
+    }
+    if( date.size() ) {
+        script += " \"" + date + "\" ";
+    }
+    return script;
+}
+
 // End of src/cal/calparse.cpp file

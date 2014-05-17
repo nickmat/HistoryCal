@@ -42,7 +42,7 @@ namespace Cal {
     std::string field_to_str( Field field );
     Field str_to_field( const std::string& str );
     std::string make_key( const std::string& str );
-
+    std::string parse_date_expr( const std::string& str );
 }
 
 #endif // CAL_CALPARSE_H_GUARD

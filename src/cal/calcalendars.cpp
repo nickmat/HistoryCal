@@ -159,6 +159,11 @@ RangeList Calendars::str_to_rangelist( int scheme_id, const string& str )
     return sch->rlist_str_to_rangelist( str );
 }
 
+RangeList Calendars::expr_str_to_rangelist( int scheme_id, const string& str )
+{
+    return m_schemes->expr_str_to_rangelist( scheme_id, str );
+}
+
 string Calendars::rangelist_to_str( int scheme_id, const RangeList& ranges )
 {
     Scheme* sch = m_schemes->get_scheme( scheme_id );
