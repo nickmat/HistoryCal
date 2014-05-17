@@ -115,6 +115,7 @@ CAL_OBJECTS =  \
 	cal_calregnal.o \
 	cal_calscheme.o \
 	cal_calschemes.o \
+	cal_calsetmath.o \
 	cal_calshift.o \
 	cal_calversion.o \
 	cal_calvocab.o
@@ -318,6 +319,9 @@ cal_calscheme.o: ./../../src/cal/calscheme.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calschemes.o: ./../../src/cal/calschemes.cpp
+	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
+
+cal_calsetmath.o: ./../../src/cal/calsetmath.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calshift.o: ./../../src/cal/calshift.cpp

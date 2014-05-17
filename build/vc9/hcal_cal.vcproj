@@ -271,6 +271,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\cal\calsetmath.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\cal\calshift.cpp"
 				>
 			</File>
@@ -354,6 +358,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\cal\calschemes.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\cal\calsetmath.h"
 				>
 			</File>
 			<File
