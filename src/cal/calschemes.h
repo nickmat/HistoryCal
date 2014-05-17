@@ -29,15 +29,9 @@
 #define CAL_CALSCHEMES_H_GUARD
 
 #include "cal/caldefs.h"
+#include "calscriptstore.h"
 
 namespace Cal {
-
-    class Scheme;
-    class Grammar;
-    class Vocab;
-
-    typedef std::map<std::string,Grammar*> GrammarMap;
-    typedef std::map<std::string,Vocab*> VocabMap;
 
     class Schemes
     {
@@ -45,6 +39,8 @@ namespace Cal {
         Schemes() {}
         ~Schemes();
 
+        //std::string read_script( const std::string& script );
+        //RangeList expr_str_to_rangelist( int scheme_id, const std::string& str );
         void add_scheme( const std::string& definition );
         void add_vocab( const std::string& definition );
         void add_grammar( const std::string& definition );
@@ -57,6 +53,8 @@ namespace Cal {
         Grammar* get_grammar( const std::string& code ) const;
         Vocab* get_vocab( const std::string& code ) const;
 
+        ScriptStore* store() { return &m_store; }
+
     private:
         bool grammar_exist( const std::string& code ) const;
         bool vocab_exist( const std::string& code ) const;
@@ -65,6 +63,7 @@ namespace Cal {
         std::map<std::string,int> m_scheme_ids;
         GrammarMap                m_grammars;
         VocabMap                  m_vocabs;
+        ScriptStore               m_store;
     };
 }
 

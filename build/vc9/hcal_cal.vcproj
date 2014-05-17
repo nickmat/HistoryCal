@@ -361,6 +361,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\cal\calscriptstore.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\cal\calsetmath.h"
 				>
 			</File>

@@ -181,6 +181,7 @@
     <headers>$(LOCAL_SRC)/cal/calregnal.h</headers>
     <headers>$(LOCAL_SRC)/cal/calscheme.h</headers>
     <headers>$(LOCAL_SRC)/cal/calschemes.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calscriptstore.h</headers>
     <headers>$(LOCAL_SRC)/cal/calsetmath.h</headers>
     <headers>$(LOCAL_SRC)/cal/calshift.h</headers>
     <headers>$(LOCAL_SRC)/cal/calversion.h</headers>
