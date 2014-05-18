@@ -161,7 +161,6 @@ RangeList Script::date_value()
             // TODO: error ')' expected
             break;
         }
-        get_token(); // Lose ')' token
         break;
     case ST_COMPLEMENT:
         rlist = op_set_complement( date_value() );
