@@ -193,8 +193,9 @@ string Cal::parse_date_expr( const string& str )
         case '&':
             nit = it+1;
             if( nit != str.end() && ( *nit == '.' ) ) {
+                date = full_trim( date );
                 if( date.size() ) {
-                    script += " \"" + date + "\" ";
+                    script += "\"" + date + "\"";
                     date.clear();
                 }
                 script += *it;
@@ -204,8 +205,9 @@ string Cal::parse_date_expr( const string& str )
             }
             break;
         case '|': case '\\': case '^': case '!': case '(': case ')':
+            date = full_trim( date );
             if( date.size() ) {
-                script += " \"" + date + "\" ";
+                script += "\"" + date + "\"";
                 date.clear();
             }
             script += *it;
@@ -218,6 +220,7 @@ string Cal::parse_date_expr( const string& str )
             break;
         }
     }
+    date = full_trim( date );
     if( date.size() ) {
         script += " \"" + date + "\" ";
     }
