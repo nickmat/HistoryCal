@@ -73,6 +73,7 @@ HCAL_OBJECTS =  \
 UNIT_CXXFLAGS = $(VAR) $(VAR_7) -I../../include -I$(CPPUNIT)/include $(CPPFLAGS) \
 	$(CXXFLAGS)
 UNIT_OBJECTS =  \
+	unit_api_expr_str.o \
 	unit_def_eng.o \
 	unit_def_g.o \
 	unit_def_j325.o \
@@ -213,6 +214,9 @@ hcal_hcversion.o: ./../../src/hcal/hcversion.cpp
 
 hcal_dummy.o: ./../../src/dummy.cpp
 	$(CXX) -c -o $@ $(HCAL_CXXFLAGS) $(CPPDEPS) $<
+
+unit_api_expr_str.o: ./../../test/unit/api_expr_str.cpp
+	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
 unit_def_eng.o: ./../../test/unit/def_eng.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
