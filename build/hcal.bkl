@@ -82,6 +82,16 @@
     <wx-lib>base</wx-lib>
   </exe>
 
+  <exe id="hcs" template="wxlike">
+    <app-type>console</app-type>
+    <runtime-libs>dynamic</runtime-libs>
+
+    <sources>$(LOCAL_TST)/hcs/hcs.cpp</sources>
+    <include>$(LOCAL_INC)</include>
+    <library>cal</library>
+    <library>utf8api</library>
+  </exe>
+
   <exe id="unit" template="wxlike">
     <app-type>console</app-type>
     <runtime-libs>dynamic</runtime-libs>

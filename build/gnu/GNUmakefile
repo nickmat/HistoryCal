@@ -70,6 +70,9 @@ HCAL_OBJECTS =  \
 	hcal_hcframe.o \
 	hcal_hcversion.o \
 	hcal_dummy.o
+HCS_CXXFLAGS =  $(VAR) $(VAR_7) -I../../include  $(CPPFLAGS) $(CXXFLAGS)
+HCS_OBJECTS =  \
+	hcs_hcs.o
 UNIT_CXXFLAGS = $(VAR) $(VAR_7) -I../../include -I$(CPPUNIT)/include $(CPPFLAGS) \
 	$(CXXFLAGS)
 UNIT_OBJECTS =  \
@@ -144,10 +147,10 @@ ifeq ($(WX_SHARED),1)
 WX_CONFIG_SHARED_FLAG = --static=no
 endif
 ifeq ($(WX_DEBUG),0)
-____WX_DEBUG = -lcppunit
+____WX_DEBUG_1 = -lcppunit
 endif
 ifeq ($(WX_DEBUG),1)
-____WX_DEBUG = -lcppunitd
+____WX_DEBUG_1 = -lcppunitd
 endif
 ifeq ($(WX_DEBUG),0)
 VAR = -O2
@@ -165,7 +168,7 @@ endif
 
 ### Targets: ###
 
-all: test_for_selected_wxbuild hcal unit soak libcal.so libutf8api.so
+all: test_for_selected_wxbuild hcal hcs unit soak libcal.so libutf8api.so
 
 install: 
 
@@ -175,6 +178,7 @@ clean:
 	rm -f ./*.o
 	rm -f ./*.d
 	rm -f hcal
+	rm -f hcs
 	rm -f unit
 	rm -f soak
 	rm -f libcal.so
@@ -188,11 +192,14 @@ test_for_selected_wxbuild:
 hcal: $(HCAL_OBJECTS) libcal.so libutf8api.so
 	$(CXX) -o $@ $(HCAL_OBJECTS)  $(VAR_7)  $(LDFLAGS)  libcal.so libutf8api.so `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs core,base`
 
+hcs: $(HCS_OBJECTS) libcal.so libutf8api.so
+	$(CXX) -o $@ $(HCS_OBJECTS)  $(VAR_7)  $(LDFLAGS)  libcal.so libutf8api.so
+
 unit: $(UNIT_OBJECTS) libcal.so libutf8api.so
-	$(CXX) -o $@ $(UNIT_OBJECTS)  $(VAR_7)  -L$(CPPUNIT)/lib $(LDFLAGS)  libcal.so libutf8api.so $(____WX_DEBUG)
+	$(CXX) -o $@ $(UNIT_OBJECTS)  $(VAR_7)  -L$(CPPUNIT)/lib $(LDFLAGS)  libcal.so libutf8api.so $(____WX_DEBUG_1)
 
 soak: $(SOAK_OBJECTS) libcal.so libutf8api.so
-	$(CXX) -o $@ $(SOAK_OBJECTS)  $(VAR_7)  -L$(CPPUNIT)/lib $(LDFLAGS)  libcal.so libutf8api.so $(____WX_DEBUG)
+	$(CXX) -o $@ $(SOAK_OBJECTS)  $(VAR_7)  -L$(CPPUNIT)/lib $(LDFLAGS)  libcal.so libutf8api.so $(____WX_DEBUG_1)
 
 libcal.so: $(CAL_OBJECTS) libutf8api.so
 	$(CXX) $(LINK_DLL_FLAGS) -fPIC -o $@ $(CAL_OBJECTS)  $(VAR_7) $(LDFLAGS)  libutf8api.so
@@ -214,6 +221,9 @@ hcal_hcversion.o: ./../../src/hcal/hcversion.cpp
 
 hcal_dummy.o: ./../../src/dummy.cpp
 	$(CXX) -c -o $@ $(HCAL_CXXFLAGS) $(CPPDEPS) $<
+
+hcs_hcs.o: ./../../test/hcs/hcs.cpp
+	$(CXX) -c -o $@ $(HCS_CXXFLAGS) $(CPPDEPS) $<
 
 unit_api_expr_str.o: ./../../test/unit/api_expr_str.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
