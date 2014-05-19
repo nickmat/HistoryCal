@@ -63,15 +63,14 @@ bool Script::run( const string& script )
         case ST_set:
             do_set();
             break;
-        case ST_output:
-            do_output();
+        case ST_evaluate:
+            do_evaluate();
             break;
         case ST_write:
-            do_write();
+            m_output += string_expr();
             break;
         case ST_writeln:
-            do_write();
-            m_output += '\n';
+            m_output += string_expr() + '\n';
             break;
         case ST_vocab:
             m_schemes->add_vocab( read_function() );
@@ -193,12 +192,7 @@ void Script::do_set()
     get_token(); // TODO: error if this is not ST_Semicolon
 }
 
-void Script::do_output()
-{
-    m_output += string_expr();
-}
-
-void Script::do_write()
+void Script::do_evaluate()
 {
     switch( look_next_token() )
     {
@@ -207,7 +201,6 @@ void Script::do_write()
         m_date_out = date_expr();
         break;
     default:
-        m_output += string_expr();
         break;
     }
 }
@@ -245,6 +238,14 @@ string Script::string_value()
         break;
     case ST_Name:
         rlist = get_rlist_name( m_cur_name );
+        sch = m_schemes->store()->oscheme;
+        if( sch ) {
+            str = sch->rangelist_to_str( rlist );
+        }
+        break;
+    case ST_date:
+        get_token();
+        rlist = date_expr();
         sch = m_schemes->store()->oscheme;
         if( sch ) {
             str = sch->rangelist_to_str( rlist );
@@ -307,6 +308,8 @@ Script::SToken Script::get_token()
                 token = ST_input;
             } else if( text == "set" ) {
                 token = ST_set;
+            } else if( text == "evaluate" ) {
+                token = ST_evaluate;
             } else if( text == "write" ) {
                 token = ST_write;
             } else if( text == "writeln" ) {

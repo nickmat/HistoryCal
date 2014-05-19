@@ -52,7 +52,7 @@ namespace Cal {
             ST_Lbracket, ST_Rbracket, ST_LCbracket, ST_RCbracket, ST_LSbracket, ST_RSbracket, 
             ST_Semicolon, ST_Vline, ST_Ampersand, ST_Exclamation, ST_Carrot,
             ST_date, ST_range, ST_dlist, ST_output,
-            ST_set, ST_input, ST_write, ST_writeln,
+            ST_set, ST_input, ST_evaluate, ST_write, ST_writeln,
             ST_vocab, ST_scheme, ST_grammar,
             // Alternative token names
             ST_UNION = ST_Vline,
@@ -69,8 +69,7 @@ namespace Cal {
         string string_expr();
         string string_value();
         void do_set();
-        void do_output();
-        void do_write();
+        void do_evaluate();
         SToken get_token();
         SToken look_next_token();
         RangeList get_rlist_name( const string& name ) const;

@@ -67,7 +67,7 @@ RangeList Schemes::expr_str_to_rangelist( int scheme_id, const std::string& str 
         return rlist;
     }
     string script = "set input \"" + sch->get_code() + "\";\n"
-        + "write date " + parse_date_expr( str ) + ";";
+        + "evaluate date " + parse_date_expr( str ) + ";";
 
     Script scr( this );
     if( scr.run( script ) ) {
