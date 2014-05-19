@@ -47,12 +47,15 @@ namespace Cal {
 
     private:
         enum SToken {
-            ST_Null, ST_End, ST_Number, ST_String, ST_Name,
-            ST_Equals, ST_Plus, ST_Minus, ST_Divide, ST_Star, ST_Percent, ST_Backslash,
-            ST_Lbracket, ST_Rbracket, ST_LCbracket, ST_RCbracket, ST_LSbracket, ST_RSbracket, 
-            ST_Semicolon, ST_Vline, ST_Ampersand, ST_Exclamation, ST_Carrot,
-            ST_date, ST_range, ST_dlist, ST_output,
-            ST_set, ST_input, ST_evaluate, ST_write, ST_writeln,
+            ST_Null, ST_End,
+            ST_Number, ST_String, ST_Name,
+            ST_Equals, ST_Plus, ST_Minus, ST_Divide, ST_Star, ST_Percent, 
+            ST_Backslash, ST_Semicolon, ST_Vline, ST_Ampersand, ST_Exclamation,
+            ST_Carrot,
+            ST_Lbracket, ST_Rbracket, ST_LCbracket, ST_RCbracket,
+            ST_LSbracket, ST_RSbracket, 
+            ST_date,
+            ST_set, ST_evaluate, ST_write, ST_writeln,
             ST_vocab, ST_scheme, ST_grammar,
             // Alternative token names
             ST_UNION = ST_Vline,

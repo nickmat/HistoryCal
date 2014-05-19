@@ -174,18 +174,19 @@ RangeList Script::date_value()
 void Script::do_set()
 {
     SToken prop = get_token();
-    if( prop == ST_Semicolon ) {
+    if( prop != ST_Name ) {
         return;
     }
+    string prop_str = m_cur_name;
     SToken tvalue = get_token();
     if( tvalue != ST_String ) {
         return;
     }
     Scheme* sch = m_schemes->get_scheme( m_cur_text );
     if( sch ) {
-        if( prop == ST_input ) {
+        if( prop_str == "input" ) {
             m_schemes->store()->ischeme = sch;
-        } else if( prop == ST_output ) {
+        } else if( prop_str == "output" ) {
             m_schemes->store()->oscheme = sch;
         }
     }
@@ -265,7 +266,6 @@ Script::SToken Script::get_token()
         return m_cur_token = ST_End;
     }
     SToken token = ST_Null;
-    string text;
     string::const_iterator it = m_it;
     for( ; it != m_end ; it++ ) {
         if( *it == ' ' || *it == '\t' ) {
@@ -276,6 +276,7 @@ Script::SToken Script::get_token()
             continue;
         }
         if( isdigit( *it ) ) {
+            string text;
             token = ST_Number;
             do {
                 text += *it++;
@@ -297,32 +298,26 @@ Script::SToken Script::get_token()
         }
         if( isalpha( *it ) ) {
             token = ST_Name;
+            m_cur_name.clear();
             do {
-              text += *it++;
+              m_cur_name += *it++;
             } while( it != m_end && isalnum( *it ) );
-            if( text == "date" ) {
+            if( m_cur_name == "date" ) {
                 token = ST_date;
-            } else if( text == "output" ) {
-                token = ST_output;
-            } else if( text == "input" ) {
-                token = ST_input;
-            } else if( text == "set" ) {
+            } else if( m_cur_name == "set" ) {
                 token = ST_set;
-            } else if( text == "evaluate" ) {
+            } else if( m_cur_name == "evaluate" ) {
                 token = ST_evaluate;
-            } else if( text == "write" ) {
+            } else if( m_cur_name == "write" ) {
                 token = ST_write;
-            } else if( text == "writeln" ) {
+            } else if( m_cur_name == "writeln" ) {
                 token = ST_writeln;
-            } else if( text == "vocab" ) {
+            } else if( m_cur_name == "vocab" ) {
                 token = ST_vocab;
-            } else if( text == "scheme" ) {
+            } else if( m_cur_name == "scheme" ) {
                 token = ST_scheme;
-            } else if( text == "grammar" ) {
+            } else if( m_cur_name == "grammar" ) {
                 token = ST_grammar;
-            }
-            if( token == ST_Name ) {
-                m_cur_name = text;
             }
             break;
         }
