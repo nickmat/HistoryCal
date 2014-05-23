@@ -262,19 +262,31 @@ string Script::string_value()
 Script::SToken Script::get_token()
 {
     // TODO: handle utf-8 unicode
-    if( m_it == m_end ) {
-        return m_cur_token = ST_End;
+    string::const_iterator it = m_it;
+    // Ignore whitespace and comments
+    for(;;) {
+        if( it == m_end ) {
+            m_it = it;
+            return m_cur_token = ST_End;
+        }
+        if( *it == ' ' || *it == '\t' || *it == '\n' ) {
+            if( *it == '\n' ) {
+                m_line++;
+            }
+            it++;
+            continue;
+        }
+        if( *it == '/' && (it+1) != m_end && *(it+1) == '/' ) {
+            it += 2;
+            while( it != m_end && *it != '\n' ) {
+                it++;
+            }
+            continue;
+        }
+        break;
     }
     SToken token = ST_Null;
-    string::const_iterator it = m_it;
     for( ; it != m_end ; it++ ) {
-        if( *it == ' ' || *it == '\t' ) {
-            continue;
-        }
-        if( *it == '\n' ) {
-            m_line++;
-            continue;
-        }
         if( isdigit( *it ) ) {
             string text;
             token = ST_Number;
