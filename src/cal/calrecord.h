@@ -78,17 +78,23 @@ namespace Cal {
         void set_field( Field value, size_t index ) { m_f[index] = value; }
 
     private:
+        enum InputFieldType { 
+            IFT_null, IFT_quest, IFT_number, IFT_dual1, IFT_dual2, IFT_vocab
+        };
+        typedef std::vector<InputFieldType> IftVec;
+
         void clear_fields();
 
         int get_field_index( const std::string& fieldname ) const;
 
         enum CP_Group {
-            GRP_Hyphen, GRP_Digit, GRP_Quest, GRP_Ignore,
+            GRP_Hyphen, GRP_Digit, GRP_Quest, GRP_Dual,
             GRP_Sep, GRP_Other
         };
         CP_Group get_cp_group( std::string::const_iterator it );
         Field get_token_value( const std::string& str );
-        int parse_date( Field* nums, size_t size, const std::string& str );
+        Field get_dual2_value( Field dual1, const std::string& str2 ) const;
+        int parse_date( Field* nums, InputFieldType* ifts, size_t size, const std::string& str );
 
         std::string value_from_field( int index ) const;
         std::string lookup_token(

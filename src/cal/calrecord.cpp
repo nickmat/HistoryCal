@@ -68,8 +68,22 @@ Record::Record( const Record& rec )
 void Record::set_str( const string& str )
 {
     clear_fields();
+    FieldVec f1(m_base->extended_size());
+    IftVec t(m_base->extended_size());
+    int cnt = parse_date( &f1[0], &t[0], f1.size(), str );
+
+    // TODO: remove following temp code
+    cnt = 0;
     FieldVec f(m_base->extended_size());
-    int cnt = parse_date( &f[0], f.size(), str );
+    for( size_t i = 0 ; i < f1.size() ; i++ ) {
+        if( t[i] == IFT_null || t[i] == IFT_dual2 ) {
+            continue;
+        }
+        f[cnt] = f1[i];
+        cnt++;
+    }
+    // --------------
+
     if( cnt < 1 ) {
         return; // Error parsing date
     }
@@ -226,7 +240,7 @@ Record::CP_Group Record::get_cp_group( string::const_iterator it )
 //        return GRP_Hyphen;
     }
     if( *it == '/' ) {
-        return GRP_Ignore;
+        return GRP_Dual;
     }
     if( *it == unknown_val ) {
         return GRP_Quest;
@@ -254,7 +268,28 @@ Field Record::get_token_value( const string& str )
     return f_invalid;
 }
 
-int Record::parse_date( Field* fields, size_t size, const string& str )
+Field Record::get_dual2_value( Field dual1, const string& str2 ) const
+{
+    string str1 = field_to_str( dual1 );
+    if( str1.size() <= str2.size() ) {
+        return str_to_field( str2 );
+    }
+    string result;
+    string::const_iterator it1 = str1.end(), it2 = str2.end();
+    while( it1 != str1.begin() ) {
+        --it1;
+        if( it2 != str2.begin() ) {
+            --it2;
+            result = *it2 + result;
+        } else {
+            result = *it1 + result;
+        }
+    }
+    return str_to_field( result );
+}
+
+int Record::parse_date( 
+    Field* fields, InputFieldType* ifts, size_t size, const string& str )
 {
     size_t i = 0;
 
@@ -267,29 +302,49 @@ int Record::parse_date( Field* fields, size_t size, const string& str )
     CP_Group grp, prev_grp, token_grp;
     string::const_iterator it = str.begin();
     grp = prev_grp = token_grp = get_cp_group( it );
-    bool done = false, ignore = false;
+    bool done = false, ignore = false, dual = false;
     for(;;) {
         if( grp != prev_grp ) {
             token = full_trim( token );
             if( token.size() ) {
-                if( token_grp == GRP_Digit && ! ignore ) {
-                    fields[i++] = strtol( token.c_str(), NULL, 0 );
+                if( token_grp == GRP_Digit ) {
+                    if( grp == GRP_Dual ) {
+                        fields[i] = str_to_field( token );
+                        ifts[i] = IFT_dual1;
+                        i++;
+                        // Default is dual dates are the same.
+                        fields[i] = fields[i-1];
+                        ifts[i] = IFT_dual2;
+                        i++;
+                        dual = true;
+                    } else if( dual ) {
+                        assert( i >= 2 );
+                        fields[i-1] = get_dual2_value( fields[i-2], token );
+                        dual = false;
+                    } else {
+                        fields[i] = str_to_field( token );
+                        ifts[i] = IFT_number;
+                        i++;
+                    }
                 }
                 if( token_grp == GRP_Other ) {
                     Field f = get_token_value( token );
                     if( f == f_invalid ) {
                         return -1; // Unrecognised token
                     }
-                    fields[i++] = get_token_value( token );
+                    fields[i] = f;
+                    ifts[i] = IFT_vocab;
+                    i++;
                 }
                 if( i == size ) {
                     break;
                 }
-                ignore = ( grp == GRP_Ignore ) ? true : false;
             }
             token.clear();
             if( grp == GRP_Quest ) {
-                fields[i++] = f_invalid;
+                fields[i] = f_invalid;
+                ifts[i] = IFT_quest;
+                i++;
                 if( i == size ) {
                     break;
                 }
@@ -306,6 +361,7 @@ int Record::parse_date( Field* fields, size_t size, const string& str )
             token += *it;
         }
         it++;
+        if( grp != GRP_Digit && grp != GRP_Dual ) dual = false; 
         if( it == str.end() ) {
             grp = GRP_Sep;
             done = true;
