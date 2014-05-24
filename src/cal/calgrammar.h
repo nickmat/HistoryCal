@@ -39,7 +39,7 @@ namespace Cal {
     class Grammar
     {
     public:
-        Grammar( Schemes* schemes, const std::string& definition );
+        Grammar( const std::string& code );
         ~Grammar();
 
         void add_alias( const std::string& alias_def );

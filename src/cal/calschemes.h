@@ -43,7 +43,7 @@ namespace Cal {
         RangeList expr_str_to_rangelist( int scheme_id, const std::string& str );
         void add_scheme( const std::string& definition );
         void add_vocab( const std::string& definition );
-        void add_grammar( const std::string& definition );
+        Grammar* add_grammar( const std::string& code );
 
         int get_scheme_count() const { return m_scheme_vec.size(); }
 

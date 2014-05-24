@@ -35,22 +35,9 @@
 using namespace std;
 using namespace Cal;
 
-Grammar::Grammar( Schemes* schemes, const string& definition )
-    : m_pref_order(-1), m_pref_format(-1)
+Grammar::Grammar( const string& code )
+    : m_code(code), m_pref_order(-1), m_pref_format(-1)
 {
-    string body;
-    m_code = get_first_word( definition, &body );
-    vector<string> statements = parse_statements( peel_cbrackets( body ) );
-    for( size_t i = 0 ; i < statements.size() ; i++ ) {
-        string statement = get_first_word( statements[i], &body );
-        if( statement == "alias" ) {
-            add_alias( body );
-        } else if( statement == "vocabs" ) {
-            add_vocabs( schemes, body );
-        } else if( statement == "format" ) {
-            add_format( body );
-        }
-    }
 }
 
 Grammar::~Grammar()

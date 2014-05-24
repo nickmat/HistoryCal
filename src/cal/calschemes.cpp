@@ -96,11 +96,11 @@ void Schemes::add_vocab( const string& definition )
     m_vocabs[code] = voc;
 }
 
-void Schemes::add_grammar( const string& definition )
+Grammar* Schemes::add_grammar( const string& code )
 {
-    Grammar* gmr = new Grammar( this, definition );
-    string code = gmr->code();
+    Grammar* gmr = new Grammar( code );
     m_grammars[code] = gmr;
+    return gmr;
 }
 
 Scheme* Schemes::get_scheme( int scheme_id ) const

@@ -70,7 +70,7 @@ const char* Cal::cal_default_script =
     "scheme j {name Julian; base julian; grammar j;};\n"
     "scheme g {name Gregorian; base gregorian; grammar j;};\n"
 
-    "grammar j.sh {"
+    "grammar \"j.sh\" {"
     " vocabs m w;"
     " format @(Day) @(Month:m.a) @(Year);"
     " format pref @(Day) @(Month:m.a) @(Year/Hist-Year);"

@@ -27,6 +27,7 @@
 
 #include "calscript.h"
 
+#include "calgrammar.h"
 #include "calparse.h"
 #include "calscheme.h"
 #include "calschemes.h"
@@ -48,13 +49,11 @@ bool Script::run( const string& script )
     m_end = script.end();
     m_line = 1;
     m_output.clear();
-    get_token();
     for(;;) {
-        switch( m_cur_token )
+        switch( get_token() )
         {
         case ST_Semicolon:
-            get_token();  // Ignore empty statements
-            break;
+            break;  // Ignore empty statements
         case ST_End:
             return true;
         case ST_date:
@@ -79,11 +78,11 @@ bool Script::run( const string& script )
             m_schemes->add_scheme( read_function() );
             break;
         case ST_grammar:
-            m_schemes->add_grammar( read_function() );
+//            m_schemes->add_grammar( read_function() );
+            do_grammar();
             break;
         default:
-            get_token(); // TODO: error, but we need to move on
-            break;
+            break; // TODO: error, but we need to move on
         }
     }
     return true;
@@ -203,6 +202,47 @@ void Script::do_evaluate()
         break;
     default:
         break;
+    }
+}
+
+void Script::do_grammar()
+{
+    string code;
+    switch( get_token() )
+    {
+    case ST_Name:
+        code = m_cur_name;
+        break;
+    case ST_String:
+        code = m_cur_text;
+        break;
+    default:
+        // ERROR:
+        return;
+    }
+    Grammar* gmr = m_schemes->add_grammar( code );
+    if( get_token() != ST_LCbracket ) {
+        // ERROR: expecting '{'
+        return;
+    }
+    for(;;) {
+        SToken token = get_token();
+        if( m_cur_token == ST_RCbracket ) {
+            break; // All done.
+        } else if( m_cur_name == "vocabs" ) {
+            gmr->add_vocabs( m_schemes, read_to_semicolon() );
+        } else if( m_cur_name == "format" ) {
+            gmr->add_format( read_to_semicolon() );
+        } else if( m_cur_name == "alias" ) {
+            gmr->add_alias( read_function() );
+        } else {
+            // ERROR:
+            read_to_semicolon();
+        }
+        if( get_token() != ST_Semicolon ) {
+            // ERROR:
+            return;
+        }
     }
 }
 
@@ -403,9 +443,20 @@ string Script::read_function()
         }
         m_it++;
     }
-    get_token();
     return def;
 }
 
+string Script::read_to_semicolon()
+{
+    string str;
+    while( m_it != m_end && isspace( *m_it ) ) {
+        m_it++; // remove leading whitespace
+    }
+    while( m_it != m_end && *m_it != ';' ) {
+        str += *m_it;
+        m_it++;
+    }
+    return str;
+}
 
 // End of src/cal/calscript.cpp file

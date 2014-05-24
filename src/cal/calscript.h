@@ -73,10 +73,12 @@ namespace Cal {
         string string_value();
         void do_set();
         void do_evaluate();
+        void do_grammar();
         SToken get_token();
         SToken look_next_token();
         RangeList get_rlist_name( const string& name ) const;
         string read_function();
+        string read_to_semicolon();
 
         string      m_output;
         RangeList   m_date_out;
