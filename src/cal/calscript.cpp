@@ -78,7 +78,6 @@ bool Script::run( const string& script )
             m_schemes->add_scheme( read_function() );
             break;
         case ST_grammar:
-//            m_schemes->add_grammar( read_function() );
             do_grammar();
             break;
         default:
@@ -235,6 +234,8 @@ void Script::do_grammar()
             gmr->add_format( read_to_semicolon() );
         } else if( m_cur_name == "alias" ) {
             gmr->add_alias( read_function() );
+        } else if( m_cur_name == "grammar" ) {
+            gmr->set_inherit( m_schemes, read_to_semicolon() );
         } else {
             // ERROR:
             read_to_semicolon();

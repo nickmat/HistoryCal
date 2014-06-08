@@ -36,7 +36,7 @@ using namespace std;
 using namespace Cal;
 
 Grammar::Grammar( const string& code )
-    : m_code(code), m_pref_order(-1), m_pref_format(-1)
+    : m_code(code), m_inherit(NULL), m_pref_order(-1), m_pref_format(-1)
 {
 }
 
@@ -122,10 +122,18 @@ void Grammar::add_format( const std::string& format )
     m_orders.push_back( order );
 }
 
+void Grammar::set_inherit( Schemes* schemes, const std::string& code )
+{
+    m_inherit = schemes->get_grammar( code );
+}
+
 string Grammar::get_field_alias( const string& fname ) const
 {
     if( m_field_alias.count( fname ) > 0 ) {
         return m_field_alias.find( fname )->second;
+    }
+    if( m_inherit ) {
+        return m_inherit->get_field_alias( fname );
     }
     return fname;
 }
@@ -134,6 +142,9 @@ string Grammar::get_num_code_alias( const string& fname ) const
 {
     if( m_num_code_alias.count( fname ) > 0 ) {
         return m_num_code_alias.find( fname )->second;
+    }
+    if( m_inherit ) {
+        return m_inherit->get_num_code_alias( fname );
     }
     return fname;
 }
@@ -144,26 +155,91 @@ Unit Grammar::get_unit_alias( const string& str ) const
     if( m_unit_alias.count( key ) > 0 ) {
         return m_unit_alias.find( key )->second;
     }
+    if( m_inherit ) {
+        return m_inherit->get_unit_alias( str );
+    }
     return unit_null;
+}
+
+size_t Grammar::order_size() const
+{
+    size_t size = 0;
+    if( m_inherit ) {
+        size = m_inherit->order_size();
+    }
+    return m_orders.size() + size;
+}
+
+StringVec Grammar::get_orders() const
+{
+    StringVec vec;
+    if( m_inherit ) {
+        vec = m_inherit->get_orders();
+    }
+    vec.insert( vec.end(), m_orders.begin(), m_orders.end() );
+    return vec;
+}
+
+std::string Grammar::get_order( size_t index ) const
+{
+    if( index >= m_orders.size() ) {
+        if( m_inherit ) {
+            return m_inherit->get_order( index - m_orders.size() );
+        }
+        return "";
+    }   
+    return m_orders[index];
+}
+
+size_t Grammar::format_size() const
+{
+    size_t size = 0;
+    if( m_inherit ) {
+        size = m_inherit->format_size();
+    }
+    return m_formats.size() + size;
 }
 
 StringVec Grammar::get_formats() const
 {
     StringVec vec;
+    if( m_inherit ) {
+        vec = m_inherit->get_formats();
+    }
     for( size_t i = 0 ; i < m_formats.size() ; i++ ) {
         vec.push_back( m_formats[i]->get_format() );
     }
     return vec;
 }
 
+Format* Grammar::get_format( size_t index ) const
+{
+    if( index >= m_formats.size() ) {
+        if( m_inherit ) {
+            return m_inherit->get_format( index - m_formats.size() );
+        }
+        return NULL;
+    }   
+    return m_formats[index];
+}
+
 string Grammar::format( size_t index ) const
 {
+    if( index >= m_formats.size() ) {
+        if( m_inherit ) {
+            return m_inherit->format( index - m_formats.size() );
+        }
+        return "";
+    }   
     return m_formats[index]->get_format();
 }
 
 StringVec Grammar::get_vocab_codes() const
 {
     StringVec vec;
+    if( m_inherit ) {
+        vec = m_inherit->get_vocab_codes();
+    }
     for( size_t i = 0 ; i < m_vocabs.size() ; i++ ) {
         vec.push_back( m_vocabs[i]->get_code() );
     }
@@ -173,6 +249,9 @@ StringVec Grammar::get_vocab_codes() const
 StringVec Grammar::get_vocab_names() const
 {
     StringVec vec;
+    if( m_inherit ) {
+        vec = m_inherit->get_vocab_names();
+    }
     for( size_t i = 0 ; i < m_vocabs.size() ; i++ ) {
         vec.push_back( m_vocabs[i]->get_name() );
     }
@@ -181,8 +260,15 @@ StringVec Grammar::get_vocab_names() const
 
 Field Grammar::find_token( const std::string& word ) const
 {
+    Field field = f_invalid;
     for( size_t i = 0 ; i < m_vocabs.size() ; i++ ) {
-        Field field = m_vocabs[i]->find( word );
+        field = m_vocabs[i]->find( word );
+        if( field != f_invalid ) {
+            return field;
+        }
+    }
+    if( m_inherit ) {
+        field = m_inherit->find_token( word );
         if( field != f_invalid ) {
             return field;
         }
@@ -192,16 +278,20 @@ Field Grammar::find_token( const std::string& word ) const
 
 string Grammar::lookup_token( Field field, const std::string& vcode, bool abbrev ) const
 {
+    string word;
     for( size_t i = 0 ; i < m_vocabs.size() ; i++ ) {
         if( m_vocabs[i]->get_code() == vcode ) {
             Vocab::Style style = abbrev ? Vocab::style_abbrev : Vocab::style_full;
-            string word = m_vocabs[i]->lookup( field, style );
+            word = m_vocabs[i]->lookup( field, style );
             if( word != "" ) {
                 return word;
             }
         }
     }
-    return "";
+    if( m_inherit ) {
+        word = m_inherit->lookup_token( field, vcode, abbrev );
+    }
+    return word;
 }
 
 Vocab* Grammar::find_vocab( const std::string& code ) const
@@ -210,6 +300,9 @@ Vocab* Grammar::find_vocab( const std::string& code ) const
         if( m_vocabs[i]->get_code() == code ) {
             return m_vocabs[i];
         }
+    }
+    if( m_inherit ) {
+        return m_inherit->find_vocab( code );
     }
     return NULL;
 }
