@@ -214,13 +214,13 @@ void HcFrame::OnSelectOutputFormat( wxCommandEvent& event )
 void HcFrame::UpdateInputFormat()
 {
     m_comboBoxInFormat->Clear();
-    Scheme_input input;
-    m_cal.get_scheme_input( &input, m_from );
-    if( input.orders.size() ) {
-        for( size_t i = 0 ; i < input.orders.size() ; i++ ) {
-            m_comboBoxInFormat->Append( input.orders[i] );
-        }
-        m_comboBoxInFormat->SetSelection( input.current );
+    m_cal.get_scheme_input( &m_input_info, m_from );
+    for( size_t i = 0 ; i < m_input_info.code.size() ; i++ ) {
+        string fmt = m_input_info.descrip[i] + "  (" + m_input_info.code[i] + ")";
+        m_comboBoxInFormat->Append( fmt );
+    }
+    if( m_input_info.code.size() ) {
+        m_comboBoxInFormat->SetSelection( m_input_info.current );
     }
 }
 
@@ -264,13 +264,13 @@ void HcFrame::UpdateTextTokens( Scheme_info* sinfo )
 void HcFrame::UpdateOutputFormat()
 {
     m_comboBoxOutFormat->Clear();
-    Scheme_output output;
-    m_cal.get_scheme_output( &output, m_to );
-    for( size_t i = 0 ; i < output.formats.size() ; i++ ) {
-        m_comboBoxOutFormat->Append( output.formats[i] );
+    m_cal.get_scheme_output( &m_output_info, m_to );
+    for( size_t i = 0 ; i < m_output_info.code.size() ; i++ ) {
+        string fmt = m_output_info.descrip[i] + "  (" + m_output_info.code[i] + ")";
+        m_comboBoxOutFormat->Append( fmt );
     }
-    if( output.formats.size() ) {
-        m_comboBoxOutFormat->SetSelection( output.current );
+    if( m_output_info.code.size() ) {
+        m_comboBoxOutFormat->SetSelection( m_output_info.current );
     }
 }
 
@@ -278,10 +278,10 @@ void HcFrame::CalculateOutput()
 {
     wxString inter, output;
     int order = m_comboBoxInFormat->GetSelection();
-    m_cal.set_scheme_order( m_from, order );
-    string input = m_textInput->GetValue().ToStdString();
+    m_cal.set_input_format( m_from, m_input_info.code[order] );
     int format = m_comboBoxOutFormat->GetSelection();
-    m_cal.set_scheme_format( m_to, format );
+    m_cal.set_output_format( m_to, m_output_info.code[format] );
+    string input = m_textInput->GetValue().ToStdString();
     if( input.size() ) {
         string age;
         size_t pos = input.find( " age " );

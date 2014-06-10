@@ -83,13 +83,13 @@ void Calendars::get_scheme_info( Scheme_info* info, int scheme_id ) const
     sch->get_info( info );
 }
 
-void Calendars::get_scheme_input( Scheme_input* info, int scheme_id ) const
+void Calendars::get_scheme_input( SchemeFormats* info, int scheme_id ) const
 {
     Scheme* sch = m_schemes->get_scheme( scheme_id );
     sch->get_input( info );
 }
 
-void Calendars::get_scheme_output( Scheme_output* info, int scheme_id ) const
+void Calendars::get_scheme_output( SchemeFormats* info, int scheme_id ) const
 {
     Scheme* sch = m_schemes->get_scheme( scheme_id );
     sch->get_output( info );
@@ -105,16 +105,16 @@ bool Calendars::get_vocab_info( Vocab_info* info, const string& code ) const
     return true;
 }
 
-void Calendars::set_scheme_order( int scheme_id, int order )
+void Calendars::set_input_format( int scheme_id, const std::string& code )
 {
     Scheme* sch = m_schemes->get_scheme( scheme_id );
-    sch->set_order( order );
+    sch->set_input_format( code );
 }
 
-void Calendars::set_scheme_format( int scheme_id, int format )
+void Calendars::set_output_format( int scheme_id, const std::string& code )
 {
     Scheme* sch = m_schemes->get_scheme( scheme_id );
-    sch->set_format( format );
+    sch->set_output_format( code );
 }
 
 Field Calendars::fieldvec_to_jdn( int scheme_id, const FieldVec& fieldv )

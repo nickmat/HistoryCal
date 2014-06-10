@@ -70,6 +70,8 @@ private:
         std::vector<int> m_schemes;
         int   m_from;
         int   m_to;
+        Cal::SchemeFormats m_input_info;
+        Cal::SchemeFormats m_output_info;
         bool  m_show_interm;
         bool  m_show_count;
 };

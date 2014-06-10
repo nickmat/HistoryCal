@@ -40,7 +40,7 @@ namespace Cal {
 
         std::string get_format() const { return m_format; }
         // Get a user friendly format string for user selection
-        std::string get_user_format( Grammar* gmr ) const;
+        std::string get_user_format( const Grammar* gmr ) const;
         std::string get_order_str() const;
 
     private:

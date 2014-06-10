@@ -109,16 +109,14 @@ void Scheme::get_info( Scheme_info* info ) const
     }
 }
 
-void Scheme::get_input( Scheme_input* info ) const
+void Scheme::get_input( SchemeFormats* info ) const
 {
-    info->orders = m_base->get_orders();
-    info->current = m_base->get_current_order();
+    m_base->get_input_formats( info );
 }
 
-void Scheme::get_output( Scheme_output* info ) const
+void Scheme::get_output( SchemeFormats* info ) const
 {
-    info->formats = m_base->get_formats();
-    info->current = m_base->get_current_format();
+    m_base->get_output_formats( info );
 }
 
 void Scheme::set_grammar( Grammar* grammar )
@@ -126,14 +124,14 @@ void Scheme::set_grammar( Grammar* grammar )
     m_base->set_grammar( grammar );
 }
 
-void Scheme::set_order( int order )
+void Scheme::set_input_format( const std::string& code )
 {
-    m_base->set_current_order( order );
+    m_base->set_input_format( code );
 }
 
-void Scheme::set_format( int format )
+void Scheme::set_output_format( const std::string& code )
 {
-    m_base->set_current_format( format );
+    m_base->set_output_format( code );
 }
 
 Field Scheme::fieldvec_to_jdn( const FieldVec& fieldv )

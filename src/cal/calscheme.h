@@ -45,13 +45,13 @@ namespace Cal {
         bool is_ok() const;
         std::string get_code() const { return m_code; }
         void get_info( Scheme_info* info ) const; 
-        void get_input( Scheme_input* info ) const; 
-        void get_output( Scheme_output* info ) const; 
+        void get_input( SchemeFormats* info ) const; 
+        void get_output( SchemeFormats* info ) const; 
         Base* get_base() const { return m_base; }
 
         void set_grammar( Grammar* grammar );
-        void set_order( int order );
-        void set_format( int format );
+        void set_input_format( const std::string& code );
+        void set_output_format( const std::string& code );
 
         Field fieldvec_to_jdn( const FieldVec& fieldv );
         FieldVec jdn_to_fieldvec( Field jdn );

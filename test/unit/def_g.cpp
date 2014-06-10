@@ -102,11 +102,11 @@ static const char* test_strs[MaxSample][2] = {
 
 bool TestDef_g::setInputOrder( const string& order )
 {
-    Scheme_input input;
+    SchemeFormats input;
     m_cal->get_scheme_input( &input, m_sid );
-    for( size_t i = 0 ; i < input.orders.size() ; i++ ) {
-        if( input.orders[i] == order ) {
-            m_cal->set_scheme_order( m_sid, i );
+    for( size_t i = 0 ; i < input.code.size() ; i++ ) {
+        if( input.descrip[i] == order ) {
+            m_cal->set_input_format( m_sid, input.code[i] );
             return true;
         }
     }
@@ -115,11 +115,11 @@ bool TestDef_g::setInputOrder( const string& order )
 
 bool TestDef_g::setOutputFormat( const string& format )
 {
-    Scheme_output output;
+    SchemeFormats output;
     m_cal->get_scheme_output( &output, m_sid );
-    for( size_t i = 0 ; i < output.formats.size() ; i++ ) {
-        if( output.formats[i] == format ) {
-            m_cal->set_scheme_format( m_sid, i );
+    for( size_t i = 0 ; i < output.descrip.size() ; i++ ) {
+        if( output.descrip[i] == format ) {
+            m_cal->set_output_format( m_sid, output.code[i] );
             return true;
         }
     }

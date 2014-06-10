@@ -35,7 +35,7 @@ using namespace Cal;
 using namespace std;
 
 Base::Base()
-    : m_grammar(NULL), m_current_order(0), m_current_format(0)
+    : m_grammar(NULL)
 {
 }
 
@@ -193,39 +193,48 @@ string Base::get_alias_fieldname( const string& alias ) const
     return alias;
 }
 
-StringVec Base::get_orders()
+
+void Base::get_input_formats( SchemeFormats* input ) const
 {
-    if( m_grammar && m_grammar->order_size() ) {
-        return m_grammar->get_orders();
+    input->descrip.clear();
+    input->code.clear();
+    input->current = 0;
+    if( m_grammar ) {
+        m_grammar->get_input_formats( input );
+        if( input->code.size() ) {
+            return;
+        }
     }
-    StringVec orders;
-    string order = create_default_order();
-    orders.push_back( order );
-    return orders;
+    Format deffmt( create_default_format() );
+    string format = deffmt.get_order_str();
+    input->descrip.push_back( format );
+    input->code.push_back( "def" );
 }
 
-StringVec Base::get_formats()
+void Base::get_output_formats( SchemeFormats* output ) const
 {
-    StringVec formats;
-    Format* fmt;
-    if( m_grammar && m_grammar->format_size() ) {
-        for( size_t i = 0 ; i < m_grammar->format_size() ; i++ ) {
-            fmt = m_grammar->get_format( i );
-            string format = fmt->get_user_format( m_grammar );
-            formats.push_back( format );
+    output->descrip.clear();
+    output->code.clear();
+    output->current = 0;
+    if( m_grammar ) {
+        m_grammar->get_output_formats( output );
+        if( output->code.size() ) {
+            return;
         }
-    } else {
-        Format deffmt( create_default_format() );
-        string format = deffmt.get_user_format( m_grammar );
-        formats.push_back( format );
     }
-    return formats;
+    Format deffmt( create_default_format() );
+    string format = deffmt.get_user_format( m_grammar ) + "  (def)";
+    output->descrip.push_back( format );
+    output->code.push_back( "def" );
 }
 
 string Base::get_format() const
 {
-    if( m_grammar && m_grammar->format_size() ) {
-        return m_grammar->format( m_current_format );
+    if( m_grammar ) {
+        Format* fmt = m_grammar->get_format( m_output_format );
+        if( fmt ) {
+            return fmt->get_format();
+        }
     }
     return create_default_format();
 }
@@ -233,18 +242,17 @@ string Base::get_format() const
 void Base::set_grammar( Grammar* grammar )
 {
     m_grammar = grammar;
-    set_current_order( grammar->get_pref_order() );
-    m_current_format = grammar->get_pref_format();
+    set_input_format( grammar->get_pref_input_format() );
+    set_output_format( grammar->get_pref_output_format() );
 }
 
-void Base::set_current_order( int index )
+void Base::set_input_format( const std::string& code )
 {
     string order;
-    if( m_grammar && m_grammar->order_size() ) {
-        m_current_order = index;
-        order = m_grammar->get_order( index );
+    if( m_grammar ) {
+        m_input_format = code;
+        order = m_grammar->get_input_format( code );
     } else {
-        m_current_order = 0;
         order = create_default_order();
     }
     m_xref_order.clear();
@@ -274,15 +282,6 @@ void Base::set_current_order( int index )
             }
         }
         xref = x;
-    }
-}
-
-void Base::set_current_format( int index )
-{
-    if( index < 1 || m_grammar == NULL || index > (int) m_grammar->format_size() ) {
-        m_current_format = 0;
-    } else {
-        m_current_format = index;
     }
 }
 

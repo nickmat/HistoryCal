@@ -98,16 +98,15 @@ namespace Cal {
 
         std::string lookup_token( Field field, const std::string& vcode, bool abbrev ) const;
         std::string get_alias_fieldname( const std::string& alias ) const;
-        StringVec get_orders();
-        int get_current_order() const { return m_current_order; }
-        StringVec get_formats();
+
+        void get_input_formats( SchemeFormats* input ) const;
+        void get_output_formats( SchemeFormats* output ) const;
         std::string get_format() const;
-        int get_current_format() const { return m_current_format; }
         Grammar* get_grammar() const { return m_grammar; }
 
         void set_grammar( Grammar* grammar );
-        void set_current_order( int index );
-        void set_current_format( int index );
+        void set_input_format( const std::string& code ); // { m_input_format = code; }
+        void set_output_format( const std::string& code ) { m_output_format = code; }
 
         XRefVec get_xref_order( int count ) const;
 
@@ -129,8 +128,8 @@ namespace Cal {
         std::string create_default_format() const;
 
         Grammar*    m_grammar;
-        int         m_current_order;
-        int         m_current_format;
+        std::string m_input_format;
+        std::string m_output_format;
         std::map<int,XRefVec>  m_xref_order;
     };
 

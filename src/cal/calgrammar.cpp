@@ -36,14 +36,14 @@ using namespace std;
 using namespace Cal;
 
 Grammar::Grammar( const string& code )
-    : m_code(code), m_inherit(NULL), m_pref_order(-1), m_pref_format(-1)
+    : m_code(code), m_inherit(NULL)
 {
 }
 
 Grammar::~Grammar()
 {
-    for( size_t i = 0 ; i < m_formats.size() ; i++ ) {
-        delete m_formats[i];
+    for( FormatMap::iterator it = m_formats.begin() ; it != m_formats.end() ; it++ ) {
+        delete it->second;
     }
 }
 
@@ -102,24 +102,27 @@ void Grammar::add_format( const std::string& format )
     if( format.compare( 0, 5, "pref " ) == 0 ) {
         get_first_word( format, &str );
         pref = true;
-        m_pref_format = m_formats.size();
+    }
+    string code = get_first_word( str, &str );
+    if( pref ) {
+        m_pref_output_fmt = code;
+        m_pref_input_fmt = code;
     }
     Format* fmt = new Format(str);
-    m_formats.push_back( fmt );
+    m_formats[code] = fmt;
     string order = fmt->get_order_str();
-    for( size_t i = 0 ; i < m_orders.size() ; i++ ) {
-        if( order == m_orders[i] ) {
+    for( StringMap::iterator it = m_input_formats.begin() ;
+        it != m_input_formats.end() ; it++
+    ) {
+        if( it->second == order ) {
             // Already there
             if( pref ) {
-                m_pref_order = i;
+                m_pref_input_fmt = it->first;
             }
             return;
         }
     }
-    if( pref ) {
-        m_pref_order = m_orders.size();
-    }
-    m_orders.push_back( order );
+    m_input_formats[code] = order;
 }
 
 void Grammar::set_inherit( Schemes* schemes, const std::string& code )
@@ -161,77 +164,63 @@ Unit Grammar::get_unit_alias( const string& str ) const
     return unit_null;
 }
 
-size_t Grammar::order_size() const
+string Grammar::get_input_format( const string& code ) const
 {
-    size_t size = 0;
-    if( m_inherit ) {
-        size = m_inherit->order_size();
+    StringMap::const_iterator it = m_input_formats.find( code );
+    if( it != m_input_formats.end() ) {
+        return it->second;
     }
-    return m_orders.size() + size;
+    FormatMap::const_iterator it2 = m_formats.find( code );
+    if( it2 != m_formats.end() ) {
+        return it2->second->get_order_str();
+    }
+    if( m_inherit ) {
+        return m_inherit->get_input_format( code );
+    }
+    return "";
 }
 
-StringVec Grammar::get_orders() const
+void Grammar::get_input_formats( SchemeFormats* input ) const
 {
-    StringVec vec;
-    if( m_inherit ) {
-        vec = m_inherit->get_orders();
-    }
-    vec.insert( vec.end(), m_orders.begin(), m_orders.end() );
-    return vec;
-}
-
-std::string Grammar::get_order( size_t index ) const
-{
-    if( index >= m_orders.size() ) {
-        if( m_inherit ) {
-            return m_inherit->get_order( index - m_orders.size() );
+    int cur = 0;
+    for( StringMap::const_iterator it = m_input_formats.begin() ; 
+        it != m_input_formats.end() ; it++
+    ) {
+        input->code.push_back( it->first );
+        input->descrip.push_back( it->second );
+        if( it->first == m_pref_input_fmt ) {
+            input->current = cur;
         }
-        return "";
-    }   
-    return m_orders[index];
+        cur++;
+    }
 }
 
-size_t Grammar::format_size() const
+void Grammar::get_output_formats( SchemeFormats* output ) const
 {
-    size_t size = 0;
-    if( m_inherit ) {
-        size = m_inherit->format_size();
-    }
-    return m_formats.size() + size;
-}
-
-StringVec Grammar::get_formats() const
-{
-    StringVec vec;
-    if( m_inherit ) {
-        vec = m_inherit->get_formats();
-    }
-    for( size_t i = 0 ; i < m_formats.size() ; i++ ) {
-        vec.push_back( m_formats[i]->get_format() );
-    }
-    return vec;
-}
-
-Format* Grammar::get_format( size_t index ) const
-{
-    if( index >= m_formats.size() ) {
-        if( m_inherit ) {
-            return m_inherit->get_format( index - m_formats.size() );
+    int cur = 0;
+    for( FormatMap::const_iterator it = m_formats.begin() ; 
+        it != m_formats.end() ; it++
+    ) {
+        output->code.push_back( it->first );
+        output->descrip.push_back( it->second->get_user_format( this ) );
+        if( it->first == m_pref_output_fmt ) {
+            output->current = cur;
         }
+        cur++;
+    }
+}
+
+Format* Grammar::get_format( const string& code ) const
+{
+    FormatMap::const_iterator it = m_formats.find( code );
+    if( it == m_formats.end() ) {
+        if( m_inherit ) {
+            return m_inherit->get_format( code );
+        }
+        // No options left.
         return NULL;
-    }   
-    return m_formats[index];
-}
-
-string Grammar::format( size_t index ) const
-{
-    if( index >= m_formats.size() ) {
-        if( m_inherit ) {
-            return m_inherit->format( index - m_formats.size() );
-        }
-        return "";
-    }   
-    return m_formats[index]->get_format();
+    }
+    return it->second;
 }
 
 StringVec Grammar::get_vocab_codes() const

@@ -85,12 +85,12 @@ void TestGrammar::setUp()
         " alias format-number-code { WDay w; Day dd; Month mm; Year yyyy; };"
         " alias unit { d day; m month; y year; w week; };"
         " vocabs m w;"
-        " format pref @(Day) @(Month:m.a) @(Year);"
-        " format @(WDay:w.a) @(Day) @(Month:m.a) @(Year);"
-        " format @(Day) @(Month:m) @(Year);"
-        " format @(WDay:w) @(Day) @(Month:m) @(Year);"
-        " format @(Month:m.a) @(Day), @(Year);"
-        " format @(Year)@:(Month)@:(Day);"
+        " format pref dmy @(Day) @(Month:m.a) @(Year);"
+        " format wdmy @(WDay:w.a) @(Day) @(Month:m.a) @(Year);"
+        " format dmy+ @(Day) @(Month:m) @(Year);"
+        " format wdmy+ @(WDay:w) @(Day) @(Month:m) @(Year);"
+        " format mdy @(Month:m.a) @(Day), @(Year);"
+        " format ymd @(Year)@:(Month)@:(Day);"
         "};\n"
 
         "scheme jb {name Julian Base; base julian; grammar j;};\n"
@@ -127,35 +127,61 @@ void TestGrammar::testScript()
 
 void TestGrammar::testSchemeInput()
 {
-    Scheme_input input;
+    SchemeFormats input;
     m_cal->get_scheme_input( &input, m_sid );
-    string str = "Day Month Year";
-    CPPUNIT_ASSERT_EQUAL( str, input.orders[0] );
-    str = "WDay Day Month Year";
-    CPPUNIT_ASSERT_EQUAL( str, input.orders[1] );
-    str = "Month Day Year";
-    CPPUNIT_ASSERT_EQUAL( str, input.orders[2] );
-    str = "Year Month Day";
-    CPPUNIT_ASSERT_EQUAL( str, input.orders[3] );
+    size_t size = input.descrip.size();
+    CPPUNIT_ASSERT_EQUAL( 4U, size );
+    for( size_t i = 0 ; i < size ; i++ ) {
+        string str;
+        if( input.code[i] == "dmy" ) {
+            str = "Day Month Year";
+            CPPUNIT_ASSERT_EQUAL( str, input.descrip[i] );
+        } else if( input.code[i] == "wdmy" ) {
+            str = "WDay Day Month Year";
+            CPPUNIT_ASSERT_EQUAL( str, input.descrip[i] );
+        } else if( input.code[i] == "mdy" ) {
+            str = "Month Day Year";
+            CPPUNIT_ASSERT_EQUAL( str, input.descrip[i] );
+        } else if( input.code[i] == "ymd" ) {
+            str = "Year Month Day";
+            CPPUNIT_ASSERT_EQUAL( str, input.descrip[i] );
+        } else {
+            CPPUNIT_ASSERT( false ); // Shouldn't be here.
+        }
+    }
     CPPUNIT_ASSERT_EQUAL( 0, input.current );
 }
 
 void TestGrammar::testSchemeOutput()
 {
-    Scheme_output output;
+    SchemeFormats output;
     m_cal->get_scheme_output( &output, m_sid );
-    string str = "dd Mon yyyy";
-    CPPUNIT_ASSERT_EQUAL( str, output.formats[0] );
-    str = "WDay dd Mon yyyy";
-    CPPUNIT_ASSERT_EQUAL( str, output.formats[1] );
-    str = "dd Month yyyy";
-    CPPUNIT_ASSERT_EQUAL( str, output.formats[2] );
-    str = "Weekday dd Month yyyy";
-    CPPUNIT_ASSERT_EQUAL( str, output.formats[3] );
-    str = "Mon dd, yyyy";
-    CPPUNIT_ASSERT_EQUAL( str, output.formats[4] );
-    str = "yyyy:mm:dd";
-    CPPUNIT_ASSERT_EQUAL( str, output.formats[5] );
+    size_t size = output.descrip.size();
+    CPPUNIT_ASSERT_EQUAL( 6U, size );
+    for( size_t i = 0 ; i < size ; i++ ) {
+        string str;
+        if( output.code[i] == "dmy" ) {
+            str = "dd Mon yyyy";
+            CPPUNIT_ASSERT_EQUAL( str, output.descrip[i] );
+        } else if( output.code[i] == "wdmy" ) {
+            str = "WDay dd Mon yyyy";
+            CPPUNIT_ASSERT_EQUAL( str, output.descrip[i] );
+        } else if( output.code[i] == "dmy+" ) {
+            str = "dd Month yyyy";
+            CPPUNIT_ASSERT_EQUAL( str, output.descrip[i] );
+        } else if( output.code[i] == "wdmy+" ) {
+            str = "Weekday dd Month yyyy";
+            CPPUNIT_ASSERT_EQUAL( str, output.descrip[i] );
+        } else if( output.code[i] == "mdy" ) {
+            str = "Mon dd, yyyy";
+            CPPUNIT_ASSERT_EQUAL( str, output.descrip[i] );
+        } else if( output.code[i] == "ymd" ) {
+            str = "yyyy:mm:dd";
+            CPPUNIT_ASSERT_EQUAL( str, output.descrip[i] );
+        } else {
+            CPPUNIT_ASSERT( false ); // Shouldn't be here.
+        }
+    }
     CPPUNIT_ASSERT_EQUAL( 0, output.current );
 }
 

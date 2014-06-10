@@ -84,15 +84,10 @@ namespace Cal {
         StringVec vocab_names;
     };
 
-    struct Scheme_input
+    struct SchemeFormats
     {
-        StringVec orders;
-        int       current;
-    };
-
-    struct Scheme_output
-    {
-        StringVec formats;
+        StringVec code;
+        StringVec descrip;
         int       current;
     };
 

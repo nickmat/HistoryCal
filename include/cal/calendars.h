@@ -47,12 +47,12 @@ namespace Cal {
         DLLIMPEXP_CAL int get_scheme_count() const;
         DLLIMPEXP_CAL int get_scheme_id( const std::string& code ) const;
         DLLIMPEXP_CAL void get_scheme_info( Scheme_info* info, int scheme_id ) const; 
-        DLLIMPEXP_CAL void get_scheme_input( Scheme_input* info, int scheme_id ) const; 
-        DLLIMPEXP_CAL void get_scheme_output( Scheme_output* info, int scheme_id ) const;
+        DLLIMPEXP_CAL void get_scheme_input( SchemeFormats* info, int scheme_id ) const; 
+        DLLIMPEXP_CAL void get_scheme_output( SchemeFormats* info, int scheme_id ) const;
         DLLIMPEXP_CAL bool get_vocab_info( Vocab_info* info, const std::string& code ) const; 
 
-        DLLIMPEXP_CAL void set_scheme_order( int scheme_id, int index );
-        DLLIMPEXP_CAL void set_scheme_format( int scheme_id, int index );
+        DLLIMPEXP_CAL void set_input_format( int scheme_id, const std::string& code );
+        DLLIMPEXP_CAL void set_output_format( int scheme_id, const std::string& code );
 
         DLLIMPEXP_CAL Field fieldvec_to_jdn( int scheme_id, const FieldVec& fieldv );
         DLLIMPEXP_CAL FieldVec jdn_to_fieldvec( int scheme_id, Field jdn );

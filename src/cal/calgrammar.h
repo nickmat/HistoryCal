@@ -35,6 +35,7 @@ namespace Cal {
     class Vocab;
     class Schemes;
     class Format;
+    typedef std::map<std::string,Format*> FormatMap;
 
     class Grammar
     {
@@ -51,15 +52,12 @@ namespace Cal {
         std::string get_field_alias( const std::string& fname ) const;
         std::string get_num_code_alias( const std::string& fname ) const;
         Unit get_unit_alias( const std::string& fname ) const;
-        size_t order_size() const;
-        StringVec get_orders() const;
-        std::string get_order( size_t index ) const;
-        int get_pref_order() const { return m_pref_order; }
-        size_t format_size() const;
-        StringVec get_formats() const;
-        Format* get_format( size_t index ) const;
-        std::string format( size_t index ) const;
-        int get_pref_format() const { return m_pref_format; }
+        std::string get_input_format( const std::string& code ) const;
+        void get_input_formats( SchemeFormats* input ) const;
+        void get_output_formats( SchemeFormats* output ) const;
+        Format* get_format( const std::string& code ) const;
+        std::string get_pref_input_format() const { return m_pref_input_fmt; }
+        std::string get_pref_output_format() const { return m_pref_output_fmt; }
         StringVec get_vocab_codes() const;
         StringVec get_vocab_names() const;
 
@@ -75,10 +73,10 @@ namespace Cal {
         StringMap                  m_num_code_alias;
         std::map<std::string,Unit> m_unit_alias;
         std::vector<Vocab*>        m_vocabs;
-        std::vector<Format*>       m_formats;
-        StringVec                  m_orders;
-        int                        m_pref_format;
-        int                        m_pref_order;
+        FormatMap                  m_formats;
+        StringMap                  m_input_formats;
+        std::string                m_pref_input_fmt;
+        std::string                m_pref_output_fmt;
     };
 
 }

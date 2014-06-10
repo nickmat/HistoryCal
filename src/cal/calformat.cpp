@@ -35,7 +35,7 @@ using namespace std;
 using namespace Cal;
 
 // Get a user friendly format string for user selection
-string Format::get_user_format( Grammar* gmr ) const
+string Format::get_user_format( const Grammar* gmr ) const
 {
     string output, fname, dname, vocab, abbrev;
     enum State { dooutput, doprolog, dofname, dodname, dovocab, doabbrev };
