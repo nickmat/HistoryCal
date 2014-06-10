@@ -65,7 +65,7 @@ void TestCal::tearDown()
 
 void TestCal::testVersion()
 {
-#ifdef NDEBUG
+#if defined(NDEBUG) || !defined(_DEBUG)
 #define VERSION_CONFIG   ""
 #else
 #define VERSION_CONFIG   " debug"
