@@ -309,7 +309,7 @@ void HcFrame::CalculateOutput()
                 for( size_t i = 0 ; i < rsize ; i++ ) {
                     days += ranges[i].jdn2 - ranges[i].jdn1 + 1;
                 }
-                if( days ) {
+                if( days > 1 ) {
                     output << "  [" << days << " days]";
                 }
             }
