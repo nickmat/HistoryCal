@@ -44,8 +44,18 @@
 
 namespace Cal {
 
+
     class Scheme;
     typedef Scheme* SHandle;
+
+    struct SchemeData
+    {
+        std::string code;
+        std::string name;
+        SHandle     handle;
+    };
+
+    typedef std::vector<SchemeData> SchemeList;
 
     // Field must be at least 32 bit, use int for now.
     // Change to int_fast32_t if possible
