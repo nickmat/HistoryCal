@@ -86,6 +86,110 @@ string Calendars::run_script( const string& script )
     return "";
 }
 
+SHandle Calendars::get_scheme( const string& code ) const
+{
+    if( m_shandles.count( code ) > 0 ) {
+        return m_shandles.find( code )->second;
+    }
+    return NULL;
+}
+
+void Calendars::get_scheme_info( Scheme_info* info, SHandle scheme ) const
+{
+    scheme->get_info( info );
+}
+
+void Calendars::get_scheme_input( SchemeFormats* info, SHandle scheme ) const
+{
+    scheme->get_input( info );
+}
+
+void Calendars::get_scheme_output( SchemeFormats* info, SHandle scheme ) const
+{
+    scheme->get_output( info );
+}
+
+bool Calendars::get_vocab_info( Vocab_info* info, const string& code ) const
+{
+    Vocab* voc = get_vocab( code );
+    if( voc == NULL ) {
+        voc = m_schemes->get_vocab( code );
+    }
+    if( voc == NULL ) {
+        return false;
+    }
+    voc->get_info( info );
+    return true;
+}
+
+void Calendars::set_input_format( SHandle scheme, const std::string& code )
+{
+    scheme->set_input_format( code );
+}
+
+void Calendars::set_output_format( SHandle scheme, const std::string& code )
+{
+    scheme->set_output_format( code );
+}
+
+Field Calendars::fieldvec_to_jdn( SHandle scheme, const FieldVec& fieldv )
+{
+    return scheme->fieldvec_to_jdn( fieldv );
+}
+
+FieldVec Calendars::jdn_to_fieldvec( SHandle scheme, Field jdn )
+{
+    return scheme->jdn_to_fieldvec( jdn );
+}
+
+Field Calendars::str_to_jdn( SHandle scheme, const string& str )
+{
+    return scheme->str_to_jdn( str );
+}
+
+string Calendars::jdn_to_str( SHandle scheme, Field jdn )
+{
+    return scheme->jdn_to_str( jdn );
+}
+
+Range Calendars::str_to_range( SHandle scheme, const string& str )
+{
+    return scheme->str_to_range( str );
+}
+
+string Calendars::range_to_str( SHandle scheme, Range range )
+{
+    return scheme->range_to_str( range );
+}
+
+RangeList Calendars::str_to_rangelist( SHandle scheme, const string& str )
+{
+    return scheme->rlist_str_to_rangelist( str );
+}
+
+RangeList Calendars::expr_str_to_rangelist( SHandle scheme, const string& str )
+{
+    RangeList rlist;
+    if( scheme == NULL ) {
+        return rlist;
+    }
+    string script = "set input \"" + scheme->get_code() + "\";\n"
+        + "evaluate date " + parse_date_expr( str ) + ";";
+
+    Script scr( this );
+    if( scr.run( script ) ) {
+        return scr.get_date();
+    }
+    return rlist;
+}
+
+string Calendars::rangelist_to_str( SHandle scheme, const RangeList& ranges )
+{
+    return scheme->rangelist_to_str( ranges );
+}
+
+//#############################################################
+
 string Calendars::read_script( const string& script )
 {
     return m_schemes->read_script( script );
@@ -117,16 +221,6 @@ void Calendars::get_scheme_output( SchemeFormats* info, int scheme_id ) const
 {
     Scheme* sch = m_schemes->get_scheme( scheme_id );
     sch->get_output( info );
-}
-
-bool Calendars::get_vocab_info( Vocab_info* info, const string& code ) const
-{
-    Vocab* voc = m_schemes->get_vocab( code );
-    if( voc == NULL ) {
-        return false;
-    }
-    voc->get_info( info );
-    return true;
 }
 
 void Calendars::set_input_format( int scheme_id, const std::string& code )
@@ -210,14 +304,6 @@ RangeList Calendars::rel_rangelist( int scheme_id, const RangeList& ranges, Rel_
 {
     Scheme* sch = m_schemes->get_scheme( scheme_id );
     return sch->rel_rangelist( ranges, info );
-}
-
-SHandle Calendars::get_scheme( const string& code ) const
-{
-    if( m_shandles.count( code ) > 0 ) {
-        return m_shandles.find( code )->second;
-    }
-    return NULL;
 }
 
 Grammar* Calendars::get_grammar( const string& code ) const

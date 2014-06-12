@@ -46,6 +46,30 @@ namespace Cal {
         DLLIMPEXP_CAL static const char* version();
         DLLIMPEXP_CAL std::string run_script( const std::string& script );
         DLLIMPEXP_CAL SHandle get_scheme( const std::string& code ) const;
+        DLLIMPEXP_CAL void get_scheme_info( Scheme_info* info, SHandle scheme ) const; 
+        DLLIMPEXP_CAL void get_scheme_input( SchemeFormats* info, SHandle scheme ) const; 
+        DLLIMPEXP_CAL void get_scheme_output( SchemeFormats* info, SHandle scheme ) const;
+        DLLIMPEXP_CAL bool get_vocab_info( Vocab_info* info, const std::string& code ) const; 
+
+        DLLIMPEXP_CAL void set_input_format( SHandle scheme, const std::string& code );
+        DLLIMPEXP_CAL void set_output_format( SHandle scheme, const std::string& code );
+
+        DLLIMPEXP_CAL Field fieldvec_to_jdn( SHandle scheme, const FieldVec& fieldv );
+        DLLIMPEXP_CAL FieldVec jdn_to_fieldvec( SHandle scheme, Field jdn );
+
+        DLLIMPEXP_CAL Field str_to_jdn( SHandle scheme, const std::string& str );
+        DLLIMPEXP_CAL std::string jdn_to_str( SHandle scheme, Field jdn );
+        DLLIMPEXP_CAL Range str_to_range( SHandle scheme, const std::string& str );
+        DLLIMPEXP_CAL std::string range_to_str( SHandle scheme, Range range );
+        DLLIMPEXP_CAL RangeList str_to_rangelist( SHandle scheme, const std::string& str );
+        DLLIMPEXP_CAL RangeList expr_str_to_rangelist( SHandle scheme, const std::string& str );
+        DLLIMPEXP_CAL std::string rangelist_to_str( SHandle scheme, const RangeList& ranges );
+
+        DLLIMPEXP_CAL Field add_to_jdn( SHandle scheme, Field jdn, Field value, Unit unit, Norm norm );
+
+        DLLIMPEXP_CAL bool str_to_rel_info( SHandle scheme, const std::string& str, Rel_info* info ) const;
+        DLLIMPEXP_CAL RangeList rel_rangelist( SHandle scheme, const RangeList& ranges, Rel_info* info );
+
 
         DLLIMPEXP_CAL std::string read_script( const std::string& script );
         DLLIMPEXP_CAL int get_scheme_count() const;
@@ -53,7 +77,6 @@ namespace Cal {
         DLLIMPEXP_CAL void get_scheme_info( Scheme_info* info, int scheme_id ) const; 
         DLLIMPEXP_CAL void get_scheme_input( SchemeFormats* info, int scheme_id ) const; 
         DLLIMPEXP_CAL void get_scheme_output( SchemeFormats* info, int scheme_id ) const;
-        DLLIMPEXP_CAL bool get_vocab_info( Vocab_info* info, const std::string& code ) const; 
 
         DLLIMPEXP_CAL void set_input_format( int scheme_id, const std::string& code );
         DLLIMPEXP_CAL void set_output_format( int scheme_id, const std::string& code );
