@@ -35,12 +35,12 @@ namespace Cal {
     class Schemes;
     class ScriptStore;
 
-    enum Init_schemes { Init_schemes_none, Init_schemes_default };
+    enum Init_schemes { Init_script_none, Init_schemes_default, Init_script_default };
 
     class Calendars
     {
     public:
-        DLLIMPEXP_CAL Calendars( Init_schemes = Init_schemes_none );
+        DLLIMPEXP_CAL Calendars( Init_schemes = Init_script_none );
         DLLIMPEXP_CAL ~Calendars();
 
         DLLIMPEXP_CAL static const char* version();

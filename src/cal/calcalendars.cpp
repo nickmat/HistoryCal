@@ -49,8 +49,11 @@ Calendars::Calendars( Init_schemes init )
     m_store = new ScriptStore;
     switch( init )
     {
-    case Init_schemes_none:
+    case Init_script_none:
         break;
+    case Init_script_default:
+        run_script( cal_default_script );
+            break;
     case Init_schemes_default:
         read_script( cal_default_script );
             break;
@@ -100,6 +103,9 @@ SchemeList Calendars::get_scheme_list() const
     SchemeData sdata;
     SHandleMap::const_iterator it;
     for( it = m_shandles.begin() ; it != m_shandles.end() ; it++ ) {
+        if( it->second->get_style() == SCH_STYLE_Hide ) {
+            continue;
+        }
         sdata.code = it->first;
         sdata.handle = it->second;
         sdata.name = sdata.handle->get_name();
@@ -200,6 +206,21 @@ RangeList Calendars::expr_str_to_rangelist( SHandle scheme, const string& str )
 string Calendars::rangelist_to_str( SHandle scheme, const RangeList& ranges )
 {
     return scheme->rangelist_to_str( ranges );
+}
+
+Field Calendars::add_to_jdn( SHandle scheme, Field jdn, Field value, Unit unit, Norm norm )
+{
+    return scheme->add_to_jdn( jdn, value, unit, norm );
+}
+
+bool Calendars::str_to_rel_info( SHandle scheme, const string& str, Rel_info* info ) const
+{
+    return scheme->str_to_rel_info( str, info );
+}
+
+RangeList Calendars::rel_rangelist( SHandle scheme, const RangeList& ranges, Rel_info* info )
+{
+    return scheme->rel_rangelist( ranges, info );
 }
 
 //#############################################################

@@ -66,10 +66,14 @@ private:
         void UpdateOutputFormat();
         void CalculateOutput();
 
-        Cal::Calendars   m_cal;
-        std::vector<int> m_schemes;
-        int   m_from;
-        int   m_to;
+        Cal::Calendars     m_cal;
+//        std::vector<int> m_schemes;
+//        int   m_from;
+//        int   m_to;
+        Cal::SHandle       m_from;
+        Cal::SHandle       m_to;
+        Cal::SHandle       m_scheme_jdn;
+        Cal::SchemeList    m_schemes;
         Cal::SchemeFormats m_input_info;
         Cal::SchemeFormats m_output_info;
         bool  m_show_interm;

@@ -54,31 +54,41 @@ using namespace Cal;
  */
 HcFrame::HcFrame(
     const wxString& title, const wxPoint& pos, const wxSize& size, long style )
-    : m_cal(Init_schemes_default), m_show_interm(false),
-    m_show_count(false),
+    : m_cal(Init_script_default), m_from(NULL), m_to(NULL), m_scheme_jdn(NULL),
+    m_show_interm(false), m_show_count(false),
     hcFbFrame( (wxFrame*) NULL, wxID_ANY, title, pos, size, style )
 {
     // Set frames Icon
     SetIcon( wxICON( hcal ) );
 
-    m_from = m_to = m_cal.get_scheme_id( "g" );
-    Scheme_info info;
-    wxString entry;
-    for( int i = 0 ; i < m_cal.get_scheme_count() ; i++ ) {
-        m_cal.get_scheme_info( &info, i );
-        if( info.style == SCH_STYLE_Hide ) {
-            continue;
-        }
-        m_schemes.push_back( i );
-        entry.clear();
-        entry << info.name.c_str() << "  (" << info.code.c_str() << ")";
-        m_comboBoxInput->Append( entry );
-        m_comboBoxOutput->Append( entry );
+    m_schemes = m_cal.get_scheme_list();
+    m_from = m_to = m_cal.get_scheme( "g" );
+    m_scheme_jdn = m_cal.get_scheme( "jdn" );
+    if( m_from == NULL && m_schemes.size() ) {
+        m_from = m_to = m_schemes[0].handle;
     }
-    m_comboBoxInput->SetSelection( m_from );
+//    Scheme_info info;
+    for( size_t i = 0 ; i < m_schemes.size() ; i++ ) {
+        wxString entry;
+//        m_cal.get_scheme_info( &info, i );
+//        if( info.style == SCH_STYLE_Hide ) {
+//            continue;
+//        }
+//        m_schemes.push_back( i );
+//        entry.clear();
+        entry << m_schemes[i].name.c_str() 
+            << "  (" << m_schemes[i].code.c_str() << ")";
+        m_comboBoxInput->Append( entry );
+        if( m_schemes[i].handle == m_from ) {
+            m_comboBoxInput->SetSelection( i );
+        }
+        m_comboBoxOutput->Append( entry );
+        if( m_schemes[i].handle == m_to ) {
+            m_comboBoxOutput->SetSelection( i );
+        }
+    }
     UpdateInputFormat();
     UpdateTextVocabs();
-    m_comboBoxOutput->SetSelection( m_to );
     UpdateOutputFormat();
 
     bSizerIntermeadiate->Show( false );
@@ -158,7 +168,7 @@ void HcFrame::OnAbout( wxCommandEvent& event )
 void HcFrame::OnSelectInput( wxCommandEvent& event )
 {
     int ip = m_comboBoxInput->GetSelection();
-    m_from = m_schemes[ip];
+    m_from = m_schemes[ip].handle;
     UpdateInputFormat();
     UpdateTextVocabs();
     CalculateOutput();
@@ -201,7 +211,7 @@ void HcFrame::OnButtonConvert( wxCommandEvent& event )
 void HcFrame::OnSelectOutput( wxCommandEvent& event )
 {
     int op = m_comboBoxOutput->GetSelection();
-    m_to = m_schemes[op];
+    m_to = m_schemes[op].handle;
     UpdateOutputFormat();
     CalculateOutput();
 }
@@ -297,7 +307,7 @@ void HcFrame::CalculateOutput()
             }
         }
 
-        inter << m_cal.rangelist_to_str( 0, ranges );
+        inter << m_cal.rangelist_to_str( m_scheme_jdn, ranges );
 
         output << m_cal.rangelist_to_str( m_to, ranges );
         size_t rsize = ranges.size();
