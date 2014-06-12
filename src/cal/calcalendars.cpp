@@ -27,6 +27,7 @@
 
 #include "cal/calendars.h"
 
+#include "calgrammar.h"
 #include "calparse.h"
 #include "calscheme.h"
 #include "calschemes.h"
@@ -39,9 +40,12 @@
 using namespace std;
 using namespace Cal;
 
+
 Calendars::Calendars( Init_schemes init )
 {
     m_schemes = new Schemes;
+
+    m_store = new ScriptStore;
     switch( init )
     {
     case Init_schemes_none:
@@ -55,6 +59,16 @@ Calendars::Calendars( Init_schemes init )
 Calendars::~Calendars()
 {
     delete m_schemes;
+    for( SHandleMap::iterator it = m_shandles.begin() ; it != m_shandles.end() ; it++ ) {
+        delete it->second;
+    }
+    for( GrammarMap::iterator it = m_grammars.begin() ; it != m_grammars.end() ; it++ ) {
+        delete it->second;
+    }
+    for( VocabMap::iterator it = m_vocabs.begin() ; it != m_vocabs.end() ; it++ ) {
+        delete it->second;
+    }
+    delete m_store;
 }
 
 string Calendars::read_script( const string& script )

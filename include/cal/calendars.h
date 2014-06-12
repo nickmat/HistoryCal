@@ -33,6 +33,7 @@
 namespace Cal {
 
     class Schemes;
+    class ScriptStore;
 
     enum Init_schemes { Init_schemes_none, Init_schemes_default };
 
@@ -71,7 +72,11 @@ namespace Cal {
         DLLIMPEXP_CAL RangeList rel_rangelist( int sch_id, const RangeList& ranges, Rel_info* info );
 
     private:
-        Schemes* m_schemes;
+        Schemes*     m_schemes;
+        SHandleMap   m_shandles;
+        GrammarMap   m_grammars;
+        VocabMap     m_vocabs;
+        ScriptStore* m_store;
     };
 
 }
