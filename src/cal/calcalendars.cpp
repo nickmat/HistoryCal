@@ -94,6 +94,20 @@ SHandle Calendars::get_scheme( const string& code ) const
     return NULL;
 }
 
+SchemeList Calendars::get_scheme_list() const
+{
+    SchemeList slist;
+    SchemeData sdata;
+    SHandleMap::const_iterator it;
+    for( it = m_shandles.begin() ; it != m_shandles.end() ; it++ ) {
+        sdata.code = it->first;
+        sdata.handle = it->second;
+        sdata.name = sdata.handle->get_name();
+        slist.push_back( sdata );
+    }
+    return slist;
+}
+
 void Calendars::get_scheme_info( Scheme_info* info, SHandle scheme ) const
 {
     scheme->get_info( info );

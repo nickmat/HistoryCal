@@ -46,6 +46,7 @@ namespace Cal {
 
         bool is_ok() const;
         std::string get_code() const { return m_code; }
+        std::string get_name() const { return m_name; }
         void get_info( Scheme_info* info ) const; 
         void get_input( SchemeFormats* info ) const; 
         void get_output( SchemeFormats* info ) const; 
