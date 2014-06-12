@@ -250,7 +250,8 @@ RangeList Scheme::rlist_str_to_rangelist( const string& input )
     return rlist;
 }
 
-// Convert a string written as a shorthand or longhand range to a rangelist
+// Convert a string written as a shorthand or single longhand range
+// to a rangelist.
 RangeList Scheme::r_str_to_rangelist( const string& str )
 {
     RangeList ranges;
