@@ -44,6 +44,9 @@
 
 namespace Cal {
 
+    class Scheme;
+    typedef Scheme* SHandle;
+
     // Field must be at least 32 bit, use int for now.
     // Change to int_fast32_t if possible
     typedef int Field;
