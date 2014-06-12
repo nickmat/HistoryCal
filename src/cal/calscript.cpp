@@ -27,6 +27,7 @@
 
 #include "calscript.h"
 
+#include "cal/calendars.h"
 #include "calgrammar.h"
 #include "calparse.h"
 #include "calscheme.h"
@@ -38,8 +39,13 @@
 using namespace std;
 using namespace Cal;
 
+Script::Script( Calendars* cals )
+    : m_calendars(cals), m_schemes(NULL), m_line(0), m_mode(MODE_Normal)
+{
+}
+
 Script::Script( Schemes* schs )
-    : m_schemes(schs), m_line(0), m_mode(MODE_Normal)
+    : m_calendars(NULL), m_schemes(schs), m_line(0), m_mode(MODE_Normal)
 {
 }
 
@@ -72,10 +78,10 @@ bool Script::run( const string& script )
             m_output += string_expr() + '\n';
             break;
         case ST_vocab:
-            m_schemes->add_vocab( read_function() );
+            do_vocab( read_function() );
             break;
         case ST_scheme:
-            m_schemes->add_scheme( read_function() );
+            do_scheme( read_function() );
             break;
         case ST_grammar:
             do_grammar();
@@ -87,6 +93,25 @@ bool Script::run( const string& script )
     return true;
 }
 
+ScriptStore* Script::get_store() const
+{
+    if( m_calendars ) {
+        return m_calendars->get_store();
+    } else if( m_schemes ) {
+        return m_schemes->store();
+    }
+    return NULL;
+}
+
+Scheme* Script::get_scheme( const string& code ) const
+{
+    if( m_calendars ) {
+        return m_calendars->get_scheme( code );
+    } else if( m_schemes ) {
+        return m_schemes->get_scheme( code );
+    }
+    return NULL;
+}
 
 void Script::do_date()
 {
@@ -98,7 +123,7 @@ void Script::do_date()
         return; // TODO: syntax error
     }
     RangeList rlist = date_expr();
-    m_schemes->store()->rlisttable[name] = rlist;
+    get_store()->rlisttable[name] = rlist;
 }
 
 RangeList Script::date_expr()
@@ -144,7 +169,7 @@ RangeList Script::date_value()
         rlist.push_back( range );
         break;
     case ST_String:
-        sch = m_schemes->store()->ischeme;
+        sch = get_store()->ischeme;
         if( sch ) {
             rlist = sch->r_str_to_rangelist( m_cur_text );
         }
@@ -180,12 +205,12 @@ void Script::do_set()
     if( tvalue != ST_String ) {
         return;
     }
-    Scheme* sch = m_schemes->get_scheme( m_cur_text );
+    Scheme* sch = get_scheme( m_cur_text );
     if( sch ) {
         if( prop_str == "input" ) {
-            m_schemes->store()->ischeme = sch;
+            get_store()->ischeme = sch;
         } else if( prop_str == "output" ) {
-            m_schemes->store()->oscheme = sch;
+            get_store()->oscheme = sch;
         }
     }
     get_token(); // TODO: error if this is not ST_Semicolon
@@ -204,6 +229,15 @@ void Script::do_evaluate()
     }
 }
 
+void Script::do_vocab( const string& code )
+{
+    if( m_calendars ) {
+        m_calendars->add_vocab( code );
+    } else if( m_schemes ) {
+        m_schemes->add_vocab( code );
+    }
+}
+
 void Script::do_grammar()
 {
     string code;
@@ -219,7 +253,12 @@ void Script::do_grammar()
         // ERROR:
         return;
     }
-    Grammar* gmr = m_schemes->add_grammar( code );
+    Grammar* gmr = NULL;
+    if( m_calendars ) {
+        gmr = m_calendars->add_grammar( code );
+    } else {
+        gmr = m_schemes->add_grammar( code );
+    }
     if( get_token() != ST_LCbracket ) {
         // ERROR: expecting '{'
         return;
@@ -229,13 +268,21 @@ void Script::do_grammar()
         if( m_cur_token == ST_RCbracket ) {
             break; // All done.
         } else if( m_cur_name == "vocabs" ) {
-            gmr->add_vocabs( m_schemes, read_to_semicolon() );
+            if( m_schemes ) {
+                gmr->add_vocabs( m_schemes, read_to_semicolon() );
+            } else {
+                gmr->add_vocabs( m_calendars, read_to_semicolon() );
+            }
         } else if( m_cur_name == "format" ) {
             gmr->add_format( read_to_semicolon() );
         } else if( m_cur_name == "alias" ) {
             gmr->add_alias( read_function() );
         } else if( m_cur_name == "grammar" ) {
-            gmr->set_inherit( m_schemes, read_to_semicolon() );
+            if( m_schemes ) {
+                gmr->set_inherit( m_schemes, read_to_semicolon() );
+            } else {
+                gmr->set_inherit( m_calendars, read_to_semicolon() );
+            }
         } else {
             // ERROR:
             read_to_semicolon();
@@ -246,6 +293,16 @@ void Script::do_grammar()
         }
     }
 }
+
+void Script::do_scheme( const string& code )
+{
+    if( m_calendars ) {
+        m_calendars->add_scheme( code );
+    } else if( m_schemes ) {
+        m_schemes->add_scheme( code );
+    }
+}
+
 
 string Script::string_expr()
 {
@@ -280,7 +337,7 @@ string Script::string_value()
         break;
     case ST_Name:
         rlist = get_rlist_name( m_cur_name );
-        sch = m_schemes->store()->oscheme;
+        sch = get_store()->oscheme;
         if( sch ) {
             str = sch->rangelist_to_str( rlist );
         }
@@ -288,7 +345,7 @@ string Script::string_value()
     case ST_date:
         get_token();
         rlist = date_expr();
-        sch = m_schemes->store()->oscheme;
+        sch = get_store()->oscheme;
         if( sch ) {
             str = sch->rangelist_to_str( rlist );
         }
@@ -416,8 +473,8 @@ Script::SToken Script::look_next_token()
 RangeList Script::get_rlist_name( const string& name ) const
 {
     RangeList rlist;
-    if( m_schemes->store()->rlisttable.count( name ) ) {
-        rlist = m_schemes->store()->rlisttable.find( name )->second;
+    if( get_store()->rlisttable.count( name ) ) {
+        rlist = get_store()->rlisttable.find( name )->second;
     } else {
         // TODO: error name not found
     }

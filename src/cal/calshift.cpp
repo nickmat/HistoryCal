@@ -27,6 +27,7 @@
 
 #include "calshift.h"
 
+#include "cal/calendars.h"
 #include "calparse.h"
 #include "calrecord.h"
 #include "calscheme.h"
@@ -43,6 +44,23 @@ Shift::Shift( Schemes* schs, const string& data )
     string body;
     string word = get_first_word( data, &body );
     Scheme* sch = schs->get_scheme( word );
+    assert( sch != NULL );
+    m_base = sch->get_base();
+    assert( m_base != NULL );
+    assert( record_size() == 3 );
+    Field jdn = str_to_field( body );
+    Record rec( m_base, jdn );
+    m_start_era = rec.get_fieldvec();
+    rec.set_jdn( jdn-1 );
+    m_before_era = rec.get_fieldvec();
+}
+
+Shift::Shift( Calendars* cals, const string& data )
+    : m_base(NULL), Base()
+{
+    string body;
+    string word = get_first_word( data, &body );
+    Scheme* sch = cals->get_scheme( word );
     assert( sch != NULL );
     m_base = sch->get_base();
     assert( m_base != NULL );

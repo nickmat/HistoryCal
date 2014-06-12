@@ -36,11 +36,13 @@
 namespace Cal {
 
     class Schemes;
+    class Calendars;
 
     class Hybrid : public Base
     {
     public:
         Hybrid( Schemes* schemes, const std::string& data );
+        Hybrid( Calendars* cals, const std::string& data );
         ~Hybrid();
 
         virtual size_t record_size() const { return m_rec_size; }
@@ -67,6 +69,7 @@ namespace Cal {
     private:
         void create_fieldnames( const std::string& names );
         void add_scheme( Schemes* schs, const std::string& def );
+        void add_scheme( Calendars* cals, const std::string& def );
 
         FieldVec get_xref( const Field* fields, Field sch ) const;
         void set_xref( Field* fields, const Field* mask, Field sch ) const;

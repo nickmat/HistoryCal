@@ -31,6 +31,7 @@
 #include "calparse.h"
 #include "calscheme.h"
 #include "calschemes.h"
+#include "calscript.h"
 #include "caldefscripts.h"
 #include "calversion.h"
 #include "calvocab.h"
@@ -71,14 +72,23 @@ Calendars::~Calendars()
     delete m_store;
 }
 
-string Calendars::read_script( const string& script )
-{
-    return m_schemes->read_script( script );
-}
-
 const char* Calendars::version()
 {
     return cal_version;
+}
+
+string Calendars::run_script( const string& script )
+{
+    Script scr( this );
+    if( scr.run( script ) ) {
+        return scr.get_output();
+    }
+    return "";
+}
+
+string Calendars::read_script( const string& script )
+{
+    return m_schemes->read_script( script );
 }
 
 int Calendars::get_scheme_count() const
@@ -200,6 +210,55 @@ RangeList Calendars::rel_rangelist( int scheme_id, const RangeList& ranges, Rel_
 {
     Scheme* sch = m_schemes->get_scheme( scheme_id );
     return sch->rel_rangelist( ranges, info );
+}
+
+SHandle Calendars::get_scheme( const string& code ) const
+{
+    if( m_shandles.count( code ) > 0 ) {
+        return m_shandles.find( code )->second;
+    }
+    return NULL;
+}
+
+Grammar* Calendars::get_grammar( const string& code ) const
+{
+    if( m_grammars.count( code ) > 0 ) {
+        return m_grammars.find( code )->second;
+    }
+    return NULL;
+}
+
+Vocab* Calendars::get_vocab( const string& code ) const
+{
+    if( m_vocabs.count( code ) > 0 ) {
+        return m_vocabs.find( code )->second;
+    }
+    return NULL;
+}
+
+void Calendars::add_scheme( const string& definition )
+{
+    SHandle sch = new Scheme( this, definition );
+    if( sch->is_ok() == false ) {
+        delete sch;
+        return;
+    }
+    string code = sch->get_code();
+    m_shandles[code] = sch;
+}
+
+void Calendars::add_vocab( const string& definition )
+{
+    Vocab* voc = new Vocab( definition );
+    string code = voc->get_code();
+    m_vocabs[code] = voc;
+}
+
+Grammar* Calendars::add_grammar( const string& code )
+{
+    Grammar* gmr = new Grammar( code );
+    m_grammars[code] = gmr;
+    return gmr;
 }
 
 // End of src/cal/calcalendars.cpp file

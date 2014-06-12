@@ -43,8 +43,11 @@ namespace Cal {
         DLLIMPEXP_CAL Calendars( Init_schemes = Init_schemes_none );
         DLLIMPEXP_CAL ~Calendars();
 
-        DLLIMPEXP_CAL std::string read_script( const std::string& script );
         DLLIMPEXP_CAL static const char* version();
+        DLLIMPEXP_CAL std::string run_script( const std::string& script );
+        DLLIMPEXP_CAL SHandle get_scheme( const std::string& code ) const;
+
+        DLLIMPEXP_CAL std::string read_script( const std::string& script );
         DLLIMPEXP_CAL int get_scheme_count() const;
         DLLIMPEXP_CAL int get_scheme_id( const std::string& code ) const;
         DLLIMPEXP_CAL void get_scheme_info( Scheme_info* info, int scheme_id ) const; 
@@ -70,6 +73,14 @@ namespace Cal {
 
         DLLIMPEXP_CAL bool str_to_rel_info( int sch_id, const std::string& str, Rel_info* info ) const;
         DLLIMPEXP_CAL RangeList rel_rangelist( int sch_id, const RangeList& ranges, Rel_info* info );
+
+        // The following members are not part of the Cal library public api.
+        Grammar* get_grammar( const std::string& code ) const;
+        Vocab* get_vocab( const std::string& code ) const;
+        ScriptStore* get_store() const { return m_store; }
+        void add_scheme( const std::string& definition );
+        void add_vocab( const std::string& definition );
+        Grammar* add_grammar( const std::string& code );
 
     private:
         Schemes*     m_schemes;

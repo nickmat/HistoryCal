@@ -34,11 +34,14 @@ namespace Cal {
 
     using std::string;
 
+    class Calendars;
     class Schemes;
+    class ScriptStore;
 
     class Script
     {
     public:
+        Script( Calendars* cals );
         Script( Schemes* schs );
 
         bool run( const string& script );
@@ -66,6 +69,9 @@ namespace Cal {
         };
         enum Mode { MODE_Normal, MODE_Date };
 
+        ScriptStore* get_store() const;
+        Scheme* get_scheme( const std::string& code ) const;
+
         void do_date();
         RangeList date_expr();
         RangeList date_value();
@@ -73,13 +79,16 @@ namespace Cal {
         string string_value();
         void do_set();
         void do_evaluate();
+        void do_vocab( const string& code );
         void do_grammar();
+        void do_scheme( const string& code );
         SToken get_token();
         SToken look_next_token();
         RangeList get_rlist_name( const string& name ) const;
         string read_function();
         string read_to_semicolon();
 
+        Calendars*  m_calendars;
         string      m_output;
         RangeList   m_date_out;
         Schemes*    m_schemes;

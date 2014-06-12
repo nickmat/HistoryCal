@@ -33,6 +33,7 @@
 namespace Cal {
 
     class Schemes;
+    class Calendars;
     class Scheme;
     class Record;
 
@@ -50,6 +51,7 @@ namespace Cal {
     {
     public:
         Regnal( Schemes* schemes, const std::string& code, const std::string& data );
+        Regnal( Calendars* cals, const std::string& code, const std::string& data );
         ~Regnal();
 
         virtual size_t record_size() const { return m_rec_size; }
@@ -71,8 +73,10 @@ namespace Cal {
         void create_fieldnames( const std::string& names );
         void create_default_scheme( Schemes* schs, const std::string& code );
         void create_schemes( Schemes* schs, const std::string& data );
+        void create_schemes( Calendars* cals, const std::string& data );
         void map_matched_fields( StringMap& matched, const std::string data );
         void add_scheme( RegnalEra& era, Schemes* schs, const std::string& data, const StringMap& matched );
+        void add_scheme( RegnalEra& era, Calendars* cals, const std::string& data, const StringMap& matched );
         // Adjust and copy Era date fields to base date fields
         FieldVec get_base_fields( const Field* fields ) const;
         // Adjust the given Record to Era fields
