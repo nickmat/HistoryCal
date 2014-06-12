@@ -33,11 +33,7 @@
 namespace Cal {
 
     class Scheme;
-    class Grammar;
-    class Vocab;
 
-    typedef std::map<std::string,Grammar*> GrammarMap;
-    typedef std::map<std::string,Vocab*> VocabMap;
     typedef std::map<std::string,RangeList> RListMap;
 
     class ScriptStore {

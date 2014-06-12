@@ -47,6 +47,7 @@ namespace Cal {
 
     class Scheme;
     typedef Scheme* SHandle;
+    typedef std::map<std::string,SHandle> SHandleMap;
 
     struct SchemeData
     {
@@ -54,8 +55,12 @@ namespace Cal {
         std::string name;
         SHandle     handle;
     };
-
     typedef std::vector<SchemeData> SchemeList;
+
+    class Grammar;
+    typedef std::map<std::string,Grammar*> GrammarMap;
+    class Vocab;
+    typedef std::map<std::string,Vocab*> VocabMap;
 
     // Field must be at least 32 bit, use int for now.
     // Change to int_fast32_t if possible
