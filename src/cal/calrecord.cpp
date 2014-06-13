@@ -100,16 +100,6 @@ void Record::set_str( const string& str )
     m_jdn = get_jdn();
 }
 
-bool Record::complete_fields_as_first()
-{
-    return set_fields_as_begin_first( &m_f[0] );
-}
-
-bool Record::complete_fields_as_last()
-{
-    return set_fields_as_begin_last( &m_f[0] );
-}
-
 bool Record::set_fields_as_begin_first( const Field* mask  )
 {
     bool ret = m_base->set_fields_as_begin_first( &m_f[0], mask );

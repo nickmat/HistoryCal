@@ -51,9 +51,6 @@ namespace Cal {
         void set_fields( const Field* fields, size_t size );
         void set_str( const std::string& str );
 
-        bool complete_fields_as_first();
-        bool complete_fields_as_last();
-
         bool set_fields_as_begin_first( const Field* mask );
         bool set_fields_as_next_first( const Field* mask );
         bool set_fields_as_begin_last( const Field* mask );

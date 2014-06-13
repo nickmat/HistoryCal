@@ -167,44 +167,6 @@ string Scheme::jdn_to_str( Field jdn )
     return rec.get_str();
 }
 
-Range Scheme::str_to_range( const string& str )
-{
-    Range range;
-    size_t pos = str.find( range_sep );
-    if( pos == string::npos ) {
-        // Short form range string
-        Record rec1( m_base, str );
-        Record rec2( rec1 );
-        if( rec1.complete_fields_as_first() ) {
-            range.jdn1 = rec1.get_jdn();
-        } else {
-            range.jdn1 = f_invalid;
-        }
-        if( rec2.complete_fields_as_last() ) {
-            range.jdn2 = rec2.get_jdn();
-        } else {
-            range.jdn1 = range.jdn2 = f_invalid;
-        }
-    } else {
-        // two date strings
-        string str1 = str.substr( 0, pos );
-        string str2 = str.substr( pos + 1 );
-        Record rec1( m_base, str1 );
-        Record rec2( m_base, str2 );
-        if( rec1.complete_fields_as_first() ) {
-            range.jdn1 = rec1.get_jdn();
-        } else {
-            range.jdn1 = f_invalid;
-        }
-        if( rec2.complete_fields_as_last() ) {
-            range.jdn2 = rec2.get_jdn();
-        } else {
-            range.jdn1 = range.jdn2 = f_invalid;
-        }
-    }
-    return range;
-}
-
 string Scheme::range_to_str( Range range )
 {
     if( range.jdn1 == range.jdn2 ) {
