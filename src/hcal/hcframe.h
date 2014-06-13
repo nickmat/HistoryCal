@@ -67,9 +67,6 @@ private:
         void CalculateOutput();
 
         Cal::Calendars     m_cal;
-//        std::vector<int> m_schemes;
-//        int   m_from;
-//        int   m_to;
         Cal::SHandle       m_from;
         Cal::SHandle       m_to;
         Cal::SHandle       m_scheme_jdn;

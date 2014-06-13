@@ -67,15 +67,8 @@ HcFrame::HcFrame(
     if( m_from == NULL && m_schemes.size() ) {
         m_from = m_to = m_schemes[0].handle;
     }
-//    Scheme_info info;
     for( size_t i = 0 ; i < m_schemes.size() ; i++ ) {
         wxString entry;
-//        m_cal.get_scheme_info( &info, i );
-//        if( info.style == SCH_STYLE_Hide ) {
-//            continue;
-//        }
-//        m_schemes.push_back( i );
-//        entry.clear();
         entry << m_schemes[i].name.c_str() 
             << "  (" << m_schemes[i].code.c_str() << ")";
         m_comboBoxInput->Append( entry );
