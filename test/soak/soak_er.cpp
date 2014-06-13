@@ -41,7 +41,7 @@ class Soak_er : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE_END();
 
     Cal::Calendars* m_cal;
-    int             m_sid; // Scheme id
+    Cal::SHandle    m_sid; // Scheme handle
 
 public:
     void setUp();
@@ -57,8 +57,8 @@ CPPUNIT_TEST_SUITE_REGISTRATION( Soak_er );
 
 void Soak_er::setUp()
 {
-    m_cal = new Calendars(Init_schemes_default);
-    m_sid = m_cal->get_scheme_id( "er" );
+    m_cal = new Calendars(Init_script_default);
+    m_sid = m_cal->get_scheme( "er" );
 }
 
 void Soak_er::tearDown()
@@ -69,7 +69,7 @@ void Soak_er::tearDown()
 
 void Soak_er::testScript()
 {
-    CPPUNIT_ASSERT( m_sid >= 0 );
+    CPPUNIT_ASSERT( m_sid != NULL );
     string code("er");
     string name("English Regnal");
     Scheme_info info;

@@ -41,7 +41,7 @@ class Soak_j325 : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE_END();
 
     Cal::Calendars* m_cal;
-    int             m_sid; // Scheme id
+    Cal::SHandle    m_sid; // Scheme handle
 
 public:
     void setUp();
@@ -57,13 +57,13 @@ CPPUNIT_TEST_SUITE_REGISTRATION( Soak_j325 );
 
 void Soak_j325::setUp()
 {
-    m_sid = -1;
+    m_sid = NULL;
     m_cal = new Calendars;
-    m_cal->read_script(
+    m_cal->run_script(
         "scheme jb {name Julian Base; base julian;};"
         "scheme j325 {name Julian Lady Day; shift jb 1721507;};"
     );
-    m_sid = m_cal->get_scheme_id( "j325" );
+    m_sid = m_cal->get_scheme( "j325" );
 }
 
 void Soak_j325::tearDown()
@@ -74,7 +74,7 @@ void Soak_j325::tearDown()
 
 void Soak_j325::testScript()
 {
-    CPPUNIT_ASSERT( m_sid >= 0 );
+    CPPUNIT_ASSERT( m_sid != NULL );
     string code("j325");
     string name("Julian Lady Day");
     Scheme_info info;

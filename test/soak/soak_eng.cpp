@@ -41,7 +41,7 @@ class Soak_eng : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE_END();
 
     Cal::Calendars* m_cal;
-    int             m_sid; // Scheme id
+    Cal::SHandle    m_sid; // Scheme handle
 
 public:
     void setUp();
@@ -57,9 +57,9 @@ CPPUNIT_TEST_SUITE_REGISTRATION( Soak_eng );
 
 void Soak_eng::setUp()
 {
-    m_sid = -1;
+    m_sid = NULL;
     m_cal = new Calendars;
-    m_cal->read_script(
+    m_cal->run_script(
         "scheme j {name Julian; base julian;};"
         "scheme ja {name Julian Annunciation; shift j 1721507;};"
         "scheme g {name Gregorian; base gregorian;};"
@@ -69,7 +69,7 @@ void Soak_eng::setUp()
         "  scheme j {begin 2360975;};"
         "  scheme g {begin 2361222;};};};"
     );
-    m_sid = m_cal->get_scheme_id( "eng" );
+    m_sid = m_cal->get_scheme( "eng" );
 }
 
 void Soak_eng::tearDown()
@@ -80,7 +80,7 @@ void Soak_eng::tearDown()
 
 void Soak_eng::testScript()
 {
-    CPPUNIT_ASSERT( m_sid >= 0 );
+    CPPUNIT_ASSERT( m_sid != NULL );
     string code("eng");
     string name("English Hybrid");
     Scheme_info info;

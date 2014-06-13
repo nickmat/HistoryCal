@@ -41,7 +41,7 @@ class SoakJulian : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE_END();
 
     Cal::Calendars* m_cal;
-    int             m_sid; // Scheme id
+    Cal::SHandle    m_sid; // Scheme handle
 
 public:
     void setUp();
@@ -57,10 +57,10 @@ CPPUNIT_TEST_SUITE_REGISTRATION( SoakJulian );
 
 void SoakJulian::setUp()
 {
-    m_sid = -1;
+    m_sid = NULL;
     m_cal = new Calendars;
-    m_cal->read_script( "scheme jb {name Julian Base; base julian;};" );
-    m_sid = m_cal->get_scheme_id( "jb" );
+    m_cal->run_script( "scheme jb {name Julian Base; base julian;};" );
+    m_sid = m_cal->get_scheme( "jb" );
 }
 
 void SoakJulian::tearDown()
@@ -70,7 +70,7 @@ void SoakJulian::tearDown()
 
 void SoakJulian::testScript()
 {
-    CPPUNIT_ASSERT( m_sid >= 0 );
+    CPPUNIT_ASSERT( m_sid != NULL );
     string code("jb");
     string name("Julian Base");
     Scheme_info info;
