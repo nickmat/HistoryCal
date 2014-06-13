@@ -83,6 +83,8 @@ namespace Cal {
 
     struct Range
     {
+        Range() {}
+        Range( Field f1, Field f2 ) : jdn1(f1), jdn2(f2) {}
         // Maintain jdn1 <= jdn2
         Field jdn1;
         Field jdn2;
