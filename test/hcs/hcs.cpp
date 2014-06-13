@@ -82,7 +82,7 @@ string read_file( const string& name )
 
 int main()
 {
-    Calendars cal( Init_schemes_default );
+    Calendars cal( Init_script_default );
 
     cout << g_title << "\n";
 
@@ -100,7 +100,7 @@ int main()
         } else if( word == "run" ) {
             cmnd = read_file( tail );
         }
-        string output = cal.read_script( cmnd );
+        string output = cal.run_script( cmnd );
         if( output.size() ) {
             cout << output << "\n";
         }
