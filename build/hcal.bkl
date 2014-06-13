@@ -168,7 +168,6 @@
     <sources>$(LOCAL_SRC)/cal/calrecord.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calregnal.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calscheme.cpp</sources>
-    <sources>$(LOCAL_SRC)/cal/calschemes.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calscript.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calsetmath.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calshift.cpp</sources>
@@ -192,7 +191,6 @@
     <headers>$(LOCAL_SRC)/cal/calrecord.h</headers>
     <headers>$(LOCAL_SRC)/cal/calregnal.h</headers>
     <headers>$(LOCAL_SRC)/cal/calscheme.h</headers>
-    <headers>$(LOCAL_SRC)/cal/calschemes.h</headers>
     <headers>$(LOCAL_SRC)/cal/calscript.h</headers>
     <headers>$(LOCAL_SRC)/cal/calscriptstore.h</headers>
     <headers>$(LOCAL_SRC)/cal/calsetmath.h</headers>

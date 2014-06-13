@@ -27,12 +27,12 @@
 
 #include "cal/calendars.h"
 
+#include "caldefscripts.h"
 #include "calgrammar.h"
 #include "calparse.h"
 #include "calscheme.h"
-#include "calschemes.h"
 #include "calscript.h"
-#include "caldefscripts.h"
+#include "calscriptstore.h"
 #include "calversion.h"
 #include "calvocab.h"
 
@@ -44,8 +44,6 @@ using namespace Cal;
 
 Calendars::Calendars( Init_schemes init )
 {
-    m_schemes = new Schemes;
-
     m_store = new ScriptStore;
     switch( init )
     {
@@ -53,16 +51,12 @@ Calendars::Calendars( Init_schemes init )
         break;
     case Init_script_default:
         run_script( cal_default_script );
-            break;
-    case Init_schemes_default:
-        read_script( cal_default_script );
-            break;
+        break;
     }
 }
 
 Calendars::~Calendars()
 {
-    delete m_schemes;
     for( SHandleMap::iterator it = m_shandles.begin() ; it != m_shandles.end() ; it++ ) {
         delete it->second;
     }
@@ -132,9 +126,6 @@ void Calendars::get_scheme_output( SchemeFormats* info, SHandle scheme ) const
 bool Calendars::get_vocab_info( Vocab_info* info, const string& code ) const
 {
     Vocab* voc = get_vocab( code );
-    if( voc == NULL ) {
-        voc = m_schemes->get_vocab( code );
-    }
     if( voc == NULL ) {
         return false;
     }
@@ -221,124 +212,6 @@ bool Calendars::str_to_rel_info( SHandle scheme, const string& str, Rel_info* in
 RangeList Calendars::rel_rangelist( SHandle scheme, const RangeList& ranges, Rel_info* info )
 {
     return scheme->rel_rangelist( ranges, info );
-}
-
-//#############################################################
-
-string Calendars::read_script( const string& script )
-{
-    return m_schemes->read_script( script );
-}
-
-int Calendars::get_scheme_count() const
-{
-    return m_schemes->get_scheme_count();
-}
-
-int Calendars::get_scheme_id( const string& code ) const
-{
-    return m_schemes->get_scheme_id( code );
-}
-
-void Calendars::get_scheme_info( Scheme_info* info, int scheme_id ) const
-{
-    Scheme* sch = m_schemes->get_scheme( scheme_id );
-    sch->get_info( info );
-}
-
-void Calendars::get_scheme_input( SchemeFormats* info, int scheme_id ) const
-{
-    Scheme* sch = m_schemes->get_scheme( scheme_id );
-    sch->get_input( info );
-}
-
-void Calendars::get_scheme_output( SchemeFormats* info, int scheme_id ) const
-{
-    Scheme* sch = m_schemes->get_scheme( scheme_id );
-    sch->get_output( info );
-}
-
-void Calendars::set_input_format( int scheme_id, const std::string& code )
-{
-    Scheme* sch = m_schemes->get_scheme( scheme_id );
-    sch->set_input_format( code );
-}
-
-void Calendars::set_output_format( int scheme_id, const std::string& code )
-{
-    Scheme* sch = m_schemes->get_scheme( scheme_id );
-    sch->set_output_format( code );
-}
-
-Field Calendars::fieldvec_to_jdn( int scheme_id, const FieldVec& fieldv )
-{
-    Scheme* sch = m_schemes->get_scheme( scheme_id );
-    return sch->fieldvec_to_jdn( fieldv );
-}
-
-FieldVec Calendars::jdn_to_fieldvec( int scheme_id, Field jdn )
-{
-    Scheme* sch = m_schemes->get_scheme( scheme_id );
-    return sch->jdn_to_fieldvec( jdn );
-}
-
-Field Calendars::str_to_jdn( int scheme_id, const string& str )
-{
-    Scheme* sch = m_schemes->get_scheme( scheme_id );
-    return sch->str_to_jdn( str );
-}
-
-string Calendars::jdn_to_str( int scheme_id, Field jdn )
-{
-    Scheme* sch = m_schemes->get_scheme( scheme_id );
-    return sch->jdn_to_str( jdn );
-}
-
-Range Calendars::str_to_range( int scheme_id, const string& str )
-{
-    Scheme* sch = m_schemes->get_scheme( scheme_id );
-    return sch->str_to_range( str );
-}
-
-string Calendars::range_to_str( int scheme_id, Range range )
-{
-    Scheme* sch = m_schemes->get_scheme( scheme_id );
-    return sch->range_to_str( range );
-}
-
-RangeList Calendars::str_to_rangelist( int scheme_id, const string& str )
-{
-    Scheme* sch = m_schemes->get_scheme( scheme_id );
-    return sch->rlist_str_to_rangelist( str );
-}
-
-RangeList Calendars::expr_str_to_rangelist( int scheme_id, const string& str )
-{
-    return m_schemes->expr_str_to_rangelist( scheme_id, str );
-}
-
-string Calendars::rangelist_to_str( int scheme_id, const RangeList& ranges )
-{
-    Scheme* sch = m_schemes->get_scheme( scheme_id );
-    return sch->rangelist_to_str( ranges );
-}
-
-Field Calendars::add_to_jdn( int scheme_id, Field jdn, Field value, Unit unit, Norm norm )
-{
-    Scheme* sch = m_schemes->get_scheme( scheme_id );
-    return sch->add_to_jdn( jdn, value, unit, norm );
-}
-
-bool Calendars::str_to_rel_info( int scheme_id, const string& str, Rel_info* info ) const
-{
-    Scheme* sch = m_schemes->get_scheme( scheme_id );
-    return sch->str_to_rel_info( str, info );
-}
-
-RangeList Calendars::rel_rangelist( int scheme_id, const RangeList& ranges, Rel_info* info )
-{
-    Scheme* sch = m_schemes->get_scheme( scheme_id );
-    return sch->rel_rangelist( ranges, info );
 }
 
 Grammar* Calendars::get_grammar( const string& code ) const

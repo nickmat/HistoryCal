@@ -78,11 +78,13 @@ void TestCal::testVersion()
 void TestCal::testConstructor()
 {
     Cal::Calendars cal;  // Default constructor with no Schemes.
-    CPPUNIT_ASSERT_EQUAL( 0, cal.get_scheme_count() );
-    CPPUNIT_ASSERT_EQUAL( -1, cal.get_scheme_id( "jdn" ) );
-    cal.read_script( "scheme jdn {name Julian Day Number; base jdn;};" );
-    CPPUNIT_ASSERT_EQUAL( 1, cal.get_scheme_count() );
-    CPPUNIT_ASSERT_EQUAL( 0, cal.get_scheme_id( "jdn" ) );
+    Cal::SchemeList slist = cal.get_scheme_list();
+    CPPUNIT_ASSERT_EQUAL( 0U, slist.size() );
+    CPPUNIT_ASSERT_EQUAL( (Cal::SHandle) NULL, cal.get_scheme( "jdn" ) );
+    cal.run_script( "scheme jdn {name Julian Day Number; base jdn;};" );
+    slist = cal.get_scheme_list();
+    CPPUNIT_ASSERT_EQUAL( 1U, slist.size() );
+    CPPUNIT_ASSERT_EQUAL( slist[0].handle, cal.get_scheme( "jdn" ) );
 }
 
 // End of src/test/testcal.cpp file

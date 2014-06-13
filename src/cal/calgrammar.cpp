@@ -30,7 +30,6 @@
 #include "cal/calendars.h"
 #include "calformat.h"
 #include "calparse.h"
-#include "calschemes.h"
 #include "calvocab.h"
 
 using namespace std;
@@ -84,18 +83,6 @@ void Grammar::add_alias( const std::string& alias_def )
     }
 }
 
-void Grammar::add_vocabs( Schemes* schemes, const std::string& str )
-{
-    string body = str;
-    while( body.size() ) {
-        string code = get_first_word( body, &body );
-        Vocab* voc = schemes->get_vocab( code );
-        if( voc != NULL ) {
-            m_vocabs.push_back( voc );
-        }
-    };
-}
-
 void Grammar::add_vocabs( Calendars* cals, const std::string& str )
 {
     string body = str;
@@ -136,11 +123,6 @@ void Grammar::add_format( const std::string& format )
         }
     }
     m_input_formats[code] = order;
-}
-
-void Grammar::set_inherit( Schemes* schemes, const std::string& code )
-{
-    m_inherit = schemes->get_grammar( code );
 }
 
 void Grammar::set_inherit( Calendars* cals, const std::string& code )

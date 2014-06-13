@@ -31,28 +31,12 @@
 #include "calparse.h"
 #include "calrecord.h"
 #include "calscheme.h"
-#include "calschemes.h"
 
 #include <cassert>
 
 using namespace Cal;
 using namespace std;
 
-Regnal::Regnal( Schemes* schs, const std::string& code, const std::string& data )
-    : m_rec_size(0), Base()
-{
-    string body;
-    StringVec statements = parse_statements( peel_cbrackets( data ) );
-    for( size_t i = 0 ; i < statements.size() ; i++ ) {
-        string word = get_first_word( statements[i], &body );
-        if( word == "fields" ) {
-            create_fieldnames( body );
-        } else if( word == "schemes" ) {
-            create_schemes( schs, body );
-        }
-    }
-    assert( m_eras.size() > 1 );
-}
 
 Regnal::Regnal( Calendars* cals, const std::string& code, const std::string& data )
     : m_rec_size(0), Base()
@@ -236,9 +220,9 @@ void Regnal::create_fieldnames( const string& names )
     m_rec_size = m_fieldnames.size() + 1;
 }
 
-void Regnal::create_default_scheme( Schemes* schs, const string& code )
+void Regnal::create_default_scheme( Calendars* cals, const string& code )
 {
-    Scheme* sch = schs->get_scheme( code );
+    SHandle sch = cals->get_scheme( code );
     if( sch ) {
         RegnalEra era;
         era.base = sch->get_base();
@@ -247,32 +231,6 @@ void Regnal::create_default_scheme( Schemes* schs, const string& code )
             era.xref.push_back( index );
         }
         m_eras.push_back(era);
-    }
-}
-
-void Regnal::create_schemes( Schemes* schs, const std::string& statement )
-{
-    StringVec eras = parse_statements( peel_cbrackets( statement ) );
-    for( size_t i = 0 ; i < eras.size() ; i++ ) {
-        StringVec erastr = parse_statements( peel_cbrackets( eras[i] ) );
-        RegnalEra era;
-        string sch_def;
-        StringMap matched;
-        for( size_t j = 0 ; j < erastr.size() ; j++ ) {
-            string body;
-            string word = get_first_word( erastr[j], &body );
-            if( word == "range" ) {
-                word = get_first_word( body, &body );
-                era.begin = str_to_field( word );
-                era.end = str_to_field( body );
-            } else if( word == "scheme" ) {
-                sch_def = body;
-            } else if( word == "match" ) {
-                map_matched_fields( matched, body );
-            }
-        }
-        add_scheme( era, schs, sch_def, matched );
-        assert( era.base != NULL );
     }
 }
 
@@ -314,29 +272,6 @@ void Regnal::map_matched_fields( StringMap& matched, const std::string data )
         matched[reg_field] = sch_field;
         sch_field = get_first_word( body, &body );
     };
-}
-
-void Regnal::add_scheme(
-    RegnalEra& era, Schemes* schs, const string& data, const StringMap& matched )
-{
-    string body;
-    string word = get_first_word( data, &body );
-    Scheme* sch = schs->get_scheme( word );
-    if( sch ) {
-        era.base = sch->get_base();
-    } else {
-        era.scheme = new Scheme( schs, data );
-        era.base = era.scheme->get_base();
-    }
-    for( size_t i = 0 ; i < m_fieldnames.size() ; i++ ) {
-        string fieldname = m_fieldnames[i];
-        if( matched.count( m_fieldnames[i] ) > 0 ) {
-            fieldname = matched.find( m_fieldnames[i] )->second;
-        }
-        int index = era.base->get_fieldname_index( fieldname );
-        era.xref.push_back( index );
-    }
-    m_eras.push_back( era );
 }
 
 void Regnal::add_scheme(

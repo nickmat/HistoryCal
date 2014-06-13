@@ -34,14 +34,12 @@
 
 namespace Cal {
 
-    class Schemes;
     class Calendars;
     class Record;
 
     class Shift : public Base
     {
     public:
-        Shift( Schemes* schemes, const std::string& data );
         Shift( Calendars* cals, const std::string& data );
         ~Shift();
 

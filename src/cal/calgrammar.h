@@ -33,7 +33,6 @@
 namespace Cal {
 
     class Vocab;
-    class Schemes;
     class Calendars;
     class Format;
     typedef std::map<std::string,Format*> FormatMap;
@@ -45,10 +44,8 @@ namespace Cal {
         ~Grammar();
 
         void add_alias( const std::string& alias_def );
-        void add_vocabs( Schemes* schemes, const std::string& str );
         void add_vocabs( Calendars* cals, const std::string& str );
         void add_format( const std::string& format );
-        void set_inherit( Schemes* schemes, const std::string& code );
         void set_inherit( Calendars* cals, const std::string& code );
 
         std::string code() const { return m_code; }

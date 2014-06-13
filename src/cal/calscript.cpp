@@ -31,7 +31,7 @@
 #include "calgrammar.h"
 #include "calparse.h"
 #include "calscheme.h"
-#include "calschemes.h"
+#include "calscriptstore.h"
 #include "calsetmath.h"
 
 #include <cassert>
@@ -40,12 +40,7 @@ using namespace std;
 using namespace Cal;
 
 Script::Script( Calendars* cals )
-    : m_calendars(cals), m_schemes(NULL), m_line(0), m_mode(MODE_Normal)
-{
-}
-
-Script::Script( Schemes* schs )
-    : m_calendars(NULL), m_schemes(schs), m_line(0), m_mode(MODE_Normal)
+    : m_calendars(cals), m_line(0), m_mode(MODE_Normal)
 {
 }
 
@@ -97,8 +92,6 @@ ScriptStore* Script::get_store() const
 {
     if( m_calendars ) {
         return m_calendars->get_store();
-    } else if( m_schemes ) {
-        return m_schemes->store();
     }
     return NULL;
 }
@@ -107,8 +100,6 @@ Scheme* Script::get_scheme( const string& code ) const
 {
     if( m_calendars ) {
         return m_calendars->get_scheme( code );
-    } else if( m_schemes ) {
-        return m_schemes->get_scheme( code );
     }
     return NULL;
 }
@@ -233,8 +224,6 @@ void Script::do_vocab( const string& code )
 {
     if( m_calendars ) {
         m_calendars->add_vocab( code );
-    } else if( m_schemes ) {
-        m_schemes->add_vocab( code );
     }
 }
 
@@ -253,12 +242,7 @@ void Script::do_grammar()
         // ERROR:
         return;
     }
-    Grammar* gmr = NULL;
-    if( m_calendars ) {
-        gmr = m_calendars->add_grammar( code );
-    } else {
-        gmr = m_schemes->add_grammar( code );
-    }
+    Grammar* gmr = m_calendars->add_grammar( code );
     if( get_token() != ST_LCbracket ) {
         // ERROR: expecting '{'
         return;
@@ -268,21 +252,13 @@ void Script::do_grammar()
         if( m_cur_token == ST_RCbracket ) {
             break; // All done.
         } else if( m_cur_name == "vocabs" ) {
-            if( m_schemes ) {
-                gmr->add_vocabs( m_schemes, read_to_semicolon() );
-            } else {
-                gmr->add_vocabs( m_calendars, read_to_semicolon() );
-            }
+            gmr->add_vocabs( m_calendars, read_to_semicolon() );
         } else if( m_cur_name == "format" ) {
             gmr->add_format( read_to_semicolon() );
         } else if( m_cur_name == "alias" ) {
             gmr->add_alias( read_function() );
         } else if( m_cur_name == "grammar" ) {
-            if( m_schemes ) {
-                gmr->set_inherit( m_schemes, read_to_semicolon() );
-            } else {
-                gmr->set_inherit( m_calendars, read_to_semicolon() );
-            }
+            gmr->set_inherit( m_calendars, read_to_semicolon() );
         } else {
             // ERROR:
             read_to_semicolon();
@@ -298,8 +274,6 @@ void Script::do_scheme( const string& code )
 {
     if( m_calendars ) {
         m_calendars->add_scheme( code );
-    } else if( m_schemes ) {
-        m_schemes->add_scheme( code );
     }
 }
 

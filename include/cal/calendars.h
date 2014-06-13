@@ -32,10 +32,9 @@
 
 namespace Cal {
 
-    class Schemes;
     class ScriptStore;
 
-    enum Init_schemes { Init_script_none, Init_schemes_default, Init_script_default };
+    enum Init_schemes { Init_script_none, Init_script_default };
 
     class Calendars
     {
@@ -71,33 +70,6 @@ namespace Cal {
         DLLIMPEXP_CAL bool str_to_rel_info( SHandle scheme, const std::string& str, Rel_info* info ) const;
         DLLIMPEXP_CAL RangeList rel_rangelist( SHandle scheme, const RangeList& ranges, Rel_info* info );
 
-
-        DLLIMPEXP_CAL std::string read_script( const std::string& script );
-        DLLIMPEXP_CAL int get_scheme_count() const;
-        DLLIMPEXP_CAL int get_scheme_id( const std::string& code ) const;
-        DLLIMPEXP_CAL void get_scheme_info( Scheme_info* info, int scheme_id ) const; 
-        DLLIMPEXP_CAL void get_scheme_input( SchemeFormats* info, int scheme_id ) const; 
-        DLLIMPEXP_CAL void get_scheme_output( SchemeFormats* info, int scheme_id ) const;
-
-        DLLIMPEXP_CAL void set_input_format( int scheme_id, const std::string& code );
-        DLLIMPEXP_CAL void set_output_format( int scheme_id, const std::string& code );
-
-        DLLIMPEXP_CAL Field fieldvec_to_jdn( int scheme_id, const FieldVec& fieldv );
-        DLLIMPEXP_CAL FieldVec jdn_to_fieldvec( int scheme_id, Field jdn );
-
-        DLLIMPEXP_CAL Field str_to_jdn( int scheme_id, const std::string& str );
-        DLLIMPEXP_CAL std::string jdn_to_str( int scheme_id, Field jdn );
-        DLLIMPEXP_CAL Range str_to_range( int scheme_id, const std::string& str );
-        DLLIMPEXP_CAL std::string range_to_str( int scheme_id, Range range );
-        DLLIMPEXP_CAL RangeList str_to_rangelist( int scheme_id, const std::string& str );
-        DLLIMPEXP_CAL RangeList expr_str_to_rangelist( int scheme_id, const std::string& str );
-        DLLIMPEXP_CAL std::string rangelist_to_str( int scheme_id, const RangeList& ranges );
-
-        DLLIMPEXP_CAL Field add_to_jdn( int sch_id, Field jdn, Field value, Unit unit, Norm norm );
-
-        DLLIMPEXP_CAL bool str_to_rel_info( int sch_id, const std::string& str, Rel_info* info ) const;
-        DLLIMPEXP_CAL RangeList rel_rangelist( int sch_id, const RangeList& ranges, Rel_info* info );
-
         // The following members are not part of the Cal library public api.
         Grammar* get_grammar( const std::string& code ) const;
         Vocab* get_vocab( const std::string& code ) const;
@@ -107,7 +79,6 @@ namespace Cal {
         Grammar* add_grammar( const std::string& code );
 
     private:
-        Schemes*     m_schemes;
         SHandleMap   m_shandles;
         GrammarMap   m_grammars;
         VocabMap     m_vocabs;

@@ -267,10 +267,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\cal\calschemes.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\cal\calscript.cpp"
 				>
 			</File>
@@ -358,10 +354,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\cal\calscheme.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\cal\calschemes.h"
 				>
 			</File>
 			<File

@@ -35,14 +35,12 @@ namespace Cal {
     using std::string;
 
     class Calendars;
-    class Schemes;
     class ScriptStore;
 
     class Script
     {
     public:
         Script( Calendars* cals );
-        Script( Schemes* schs );
 
         bool run( const string& script );
         string get_output() const { return m_output; }
@@ -91,7 +89,6 @@ namespace Cal {
         Calendars*  m_calendars;
         string      m_output;
         RangeList   m_date_out;
-        Schemes*    m_schemes;
         Mode        m_mode;
         string::const_iterator m_it;
         string::const_iterator m_end;

@@ -30,26 +30,10 @@
 #include "cal/calendars.h"
 #include "calparse.h"
 #include "calscheme.h"
-#include "calschemes.h"
 #include "calrecord.h"
 
 using namespace Cal;
 using namespace std;
-
-Hybrid::Hybrid( Schemes* schs, const string& data )
-    : m_rec_size(0), m_max_child_size(0), Base()
-{
-    string body;
-    vector<string> statements = parse_statements( peel_cbrackets( data ) );
-    for( size_t i = 0 ; i < statements.size() ; i++ ) {
-        string statement = get_first_word( statements[i], &body );
-        if( statement == "fields" ) {
-            create_fieldnames( body );
-        } else if( statement == "scheme" ) {
-            add_scheme( schs, body );
-        }
-    }
-}
 
 Hybrid::Hybrid( Calendars* cals, const string& data )
     : m_rec_size(0), m_max_child_size(0), Base()
@@ -304,31 +288,6 @@ void Hybrid::create_fieldnames( const std::string& names )
         word = get_first_word( body, &body );
     }
     m_rec_size = m_fieldnames.size() + 1;
-}
-
-void Hybrid::add_scheme( Schemes* schs, const std::string& def )
-{
-    string body;
-    string word = get_first_word( def, &body );
-    Scheme* sch = schs->get_scheme( word );
-    if( sch == NULL ) return;
-    Base* base = sch->get_base();
-    if( base == NULL ) return;
-    m_bases.push_back( base );
-    m_max_child_size = max( m_max_child_size, base->record_size() );
-    StringVec statements = parse_statements( peel_cbrackets( body ) );
-    for( size_t i = 0 ; i < statements.size() ; i++ ) {
-        word = get_first_word( statements[i], &body );
-        if( word == "begin" ) {
-            Field date = str_to_field( body );
-            m_dates.push_back( date );
-        }
-    }
-    XRefVec xref( m_fieldnames.size() );
-    for( size_t i = 0 ; i < xref.size() ; i++ ) {
-        xref[i] = base->get_fieldname_index( m_fieldnames[i] );
-    }
-    m_xref_fields.push_back( xref );
 }
 
 void Hybrid::add_scheme( Calendars* cals, const std::string& def )

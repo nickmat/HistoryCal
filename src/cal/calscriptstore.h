@@ -1,11 +1,11 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        src/cal/calschemes.h
+ * Name:        src/cal/calscriptstore.h
  * Project:     Cal: Programmable Historical Calendar library.
- * Purpose:     Schemes (scheme list) class header.
+ * Purpose:     ScriptStore class definition header.
  * Author:      Nick Matthews
  * Website:     http://historycal.org
- * Created:     20th September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Created:     17th May 2014
+ * Copyright:   Copyright (c) 2014, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify

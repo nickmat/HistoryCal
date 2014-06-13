@@ -32,7 +32,6 @@
 
 namespace Cal {
 
-    class Schemes;
     class Calendars;
     class Grammar;
     class Base;
@@ -40,7 +39,6 @@ namespace Cal {
     class Scheme
     {
     public:
-        Scheme( Schemes* schemes, const std::string& definition );
         Scheme( Calendars* cals, const std::string& definition );
         ~Scheme();
 
