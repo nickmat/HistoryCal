@@ -42,7 +42,7 @@ class TestGrammar : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE_END();
 
     Cal::Calendars* m_cal;
-    int             m_sid; // Scheme id
+    Cal::SHandle    m_sid; // Scheme handle
 
 public:
     void setUp();
@@ -59,9 +59,9 @@ CPPUNIT_TEST_SUITE_REGISTRATION( TestGrammar );
 
 void TestGrammar::setUp()
 {
-    m_sid = -1;
+    m_sid = NULL;
     m_cal = new Calendars;
-    m_cal->read_script(
+    m_cal->run_script(
         "vocab m {"
         " name Month names; lang en; style-name Month Mon;"
         " tokens {"
@@ -95,7 +95,7 @@ void TestGrammar::setUp()
 
         "scheme jb {name Julian Base; base julian; grammar j;};\n"
     );
-    m_sid = m_cal->get_scheme_id( "jb" );
+    m_sid = m_cal->get_scheme( "jb" );
 }
 
 void TestGrammar::tearDown()
@@ -105,7 +105,7 @@ void TestGrammar::tearDown()
 
 void TestGrammar::testScript()
 {
-    CPPUNIT_ASSERT( m_sid >= 0 );
+    CPPUNIT_ASSERT( m_sid != NULL );
     Scheme_info info;
     m_cal->get_scheme_info( &info, m_sid );
     string str = "Julian Base";

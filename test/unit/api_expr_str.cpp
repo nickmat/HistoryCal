@@ -40,7 +40,7 @@ class ApiExprStr : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE_END();
 
     Cal::Calendars* m_cal;
-    int             m_sid; // Scheme id
+    Cal::SHandle    m_sid; // Scheme handle
     string num( int n );
 
 public:
@@ -56,12 +56,12 @@ CPPUNIT_TEST_SUITE_REGISTRATION( ApiExprStr );
 
 void ApiExprStr::setUp()
 {
-    m_sid = -1;
+    m_sid = NULL;
     m_cal = new Calendars;
-    m_cal->read_script(
+    m_cal->run_script(
         "scheme g {name Gregorian; base gregorian;};\n"
     );
-    m_sid = m_cal->get_scheme_id( "g" );
+    m_sid = m_cal->get_scheme( "g" );
 }
 
 void ApiExprStr::tearDown()
@@ -79,7 +79,6 @@ string ApiExprStr::num( int n )
 
 void ApiExprStr::testScript()
 {
-    CPPUNIT_ASSERT( m_sid >= 0 );
     struct data { string in; string out; } t[] = {
         { "1940~1950 | 1945~1955", "1940 ~ 1955" },   // 0
         { "1940~1950 &. 1945~1955", "1945 ~ 1950" },
@@ -91,7 +90,7 @@ void ApiExprStr::testScript()
     };
     size_t count = sizeof(t) / sizeof(data);
 
-    CPPUNIT_ASSERT( m_sid >= 0 );
+    CPPUNIT_ASSERT( m_sid != NULL );
     for( size_t i = 0 ; i < count ; i++ ) {
         RangeList rl = m_cal->expr_str_to_rangelist( m_sid, t[i].in );
         string str = m_cal->rangelist_to_str( m_sid, rl ) + num(i);

@@ -43,7 +43,7 @@ class TestJ325 : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE_END();
 
     Cal::Calendars* m_cal;
-    int             m_sid; // Scheme id
+    Cal::SHandle    m_sid; // Scheme handle
 
 public:
     void setUp();
@@ -61,13 +61,13 @@ CPPUNIT_TEST_SUITE_REGISTRATION( TestJ325 );
 
 void TestJ325::setUp()
 {
-    m_sid = -1;
+    m_sid = NULL;
     m_cal = new Calendars;
-    m_cal->read_script(
+    m_cal->run_script(
         "scheme jb {name Julian Base; base julian;};"
         "scheme j325 {name Julian Lady Day; shift jb 1721507;};"
     );
-    m_sid = m_cal->get_scheme_id( "j325" );
+    m_sid = m_cal->get_scheme( "j325" );
 }
 
 void TestJ325::tearDown()
@@ -115,7 +115,7 @@ DMYDateStr testJ325Values[MaxSample] = {
 
 void TestJ325::testScript()
 {
-    CPPUNIT_ASSERT( m_sid >= 0 );
+    CPPUNIT_ASSERT( m_sid != NULL );
     string code("j325");
     string name("Julian Lady Day");
     Scheme_info info;
@@ -126,7 +126,6 @@ void TestJ325::testScript()
 
 void TestJ325::testValues()
 {
-    CPPUNIT_ASSERT( m_sid >= 0 );
     for( int i = 0 ; i < MaxSample ; i++ ) {
         stringstream tst;
         tst << testJ325Values[i].year << " "
@@ -142,7 +141,6 @@ void TestJ325::testValues()
 
 void TestJ325::testRanges()
 {
-    CPPUNIT_ASSERT( m_sid >= 0 );
     for( int i = 0 ; i < MaxSample-1 ; i++ ) {
         stringstream tst;
         tst << testJ325Values[i].year << " "
@@ -178,7 +176,6 @@ void TestJ325::testRangeShorthand()
     };
     size_t count = sizeof(t) / sizeof(data);
 
-    CPPUNIT_ASSERT( m_sid >= 0 );
     for( size_t i = 0 ; i < count ; i++ ) {
         RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in );
         string str = m_cal->rangelist_to_str( m_sid, rl );

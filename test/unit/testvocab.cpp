@@ -55,7 +55,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( TestVocab );
 void TestVocab::setUp()
 {
     m_cal = new Calendars;
-    m_cal->read_script(
+    m_cal->run_script(
         "vocab m {"
         " name Month names; lang en; style-name Month Mon;"
         " tokens {"

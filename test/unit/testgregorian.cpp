@@ -42,7 +42,7 @@ class TestGregorian : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE_END();
 
     Cal::Calendars* m_cal;
-    int             m_sid; // Scheme id
+    Cal::SHandle    m_sid; // Scheme handle
 
 public:
     void setUp();
@@ -59,10 +59,10 @@ CPPUNIT_TEST_SUITE_REGISTRATION( TestGregorian );
 
 void TestGregorian::setUp()
 {
-    m_sid = -1;
+    m_sid = NULL;
     m_cal = new Calendars;
-    m_cal->read_script( "scheme g {name Gregorian; base gregorian;};" );
-    m_sid = m_cal->get_scheme_id( "g" );
+    m_cal->run_script( "scheme g {name Gregorian; base gregorian;};" );
+    m_sid = m_cal->get_scheme( "g" );
 }
 
 void TestGregorian::tearDown()
@@ -111,7 +111,7 @@ DMYDate testGValues[MaxSample] = {
 
 void TestGregorian::testScript()
 {
-    CPPUNIT_ASSERT( m_sid >= 0 );
+    CPPUNIT_ASSERT( m_sid != NULL );
     string code("g");
     string name("Gregorian");
     Scheme_info info;
@@ -122,7 +122,6 @@ void TestGregorian::testScript()
 
 void TestGregorian::testValues()
 {
-    CPPUNIT_ASSERT( m_sid >= 0 );
     for( int i = 0 ; i < MaxSample ; i++ ) {
         stringstream tst; 
         tst << testGValues[i].year << " "
@@ -138,7 +137,6 @@ void TestGregorian::testValues()
 
 void TestGregorian::testRanges()
 {
-    CPPUNIT_ASSERT( m_sid >= 0 );
     for( int i = 0 ; i < MaxSample-1 ; i++ ) {
         stringstream tst; 
         tst << testGValues[i].year << " "

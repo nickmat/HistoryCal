@@ -41,7 +41,7 @@ class TestRegnal : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE_END();
 
     Calendars* m_cal;
-    int        m_sid; // Scheme id
+    Cal::SHandle    m_sid; // Scheme handle
 
 public:
     void setUp();
@@ -57,9 +57,9 @@ CPPUNIT_TEST_SUITE_REGISTRATION( TestRegnal );
 
 void TestRegnal::setUp()
 {
-    m_sid = -1;
+    m_sid = NULL;
     m_cal = new Calendars;
-    m_cal->read_script(
+    m_cal->run_script(
         "scheme g {name Gregorian; base gregorian;};\n"
         "scheme er1 {"
         " name English Regnal One;"
@@ -76,7 +76,7 @@ void TestRegnal::setUp()
         " };"
         "};\n"
     );
-    m_sid = m_cal->get_scheme_id( "er1" );
+    m_sid = m_cal->get_scheme( "er1" );
 }
 
 void TestRegnal::tearDown()
@@ -86,7 +86,7 @@ void TestRegnal::tearDown()
 
 void TestRegnal::testScript()
 {
-    CPPUNIT_ASSERT( m_sid >= 0 );
+    CPPUNIT_ASSERT( m_sid != NULL );
     string code("er1");
     string name("English Regnal One");
     Scheme_info info;
@@ -108,7 +108,6 @@ void TestRegnal::testSamples()
     };
     size_t count = sizeof(t) / sizeof(data);
 
-    CPPUNIT_ASSERT( m_sid >= 0 );
     for( size_t i = 0 ; i < count ; i++ ) {
         RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in );
         string str = m_cal->rangelist_to_str( m_sid, rl );

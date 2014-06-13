@@ -41,7 +41,7 @@ class TestHybrid : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE_END();
 
     Cal::Calendars* m_cal;
-    int             m_sid; // Scheme id
+    Cal::SHandle    m_sid; // Scheme handle
 
 public:
     void setUp();
@@ -57,10 +57,10 @@ CPPUNIT_TEST_SUITE_REGISTRATION( TestHybrid );
 
 void TestHybrid::setUp()
 {
-    m_sid = -1;
+    m_sid = NULL;
     m_cal = new Calendars;
     // the script creates an overlap between the 3 and 13 incl. of sep 1752
-    m_cal->read_script(
+    m_cal->run_script(
         "scheme j {name Julian; base julian;};\n"
         "scheme g {name Gregorian; base gregorian;};\n"
         "scheme t1 {name Test Hybrid;" 
@@ -71,7 +71,7 @@ void TestHybrid::setUp()
         " };"
         "};\n"
     );
-    m_sid = m_cal->get_scheme_id( "t1" );
+    m_sid = m_cal->get_scheme( "t1" );
 }
 
 void TestHybrid::tearDown()
@@ -81,7 +81,7 @@ void TestHybrid::tearDown()
 
 void TestHybrid::testScript()
 {
-    CPPUNIT_ASSERT( m_sid >= 0 );
+    CPPUNIT_ASSERT( m_sid != NULL );
     string code("t1");
     string name("Test Hybrid");
     Scheme_info info;

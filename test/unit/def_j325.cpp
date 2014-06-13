@@ -43,7 +43,7 @@ class TestDef_j325 : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE_END();
 
     Cal::Calendars* m_cal;
-    int             m_sid; // Scheme id
+    Cal::SHandle    m_sid; // Scheme handle
 
 public:
     bool setInputOrder( const string& order );
@@ -126,8 +126,8 @@ bool TestDef_j325::setOutputFormat( const string& format )
 
 void TestDef_j325::setUp()
 {
-    m_cal = new Calendars(Init_schemes_default);
-    m_sid = m_cal->get_scheme_id( "j325" );
+    m_cal = new Calendars(Init_script_default);
+    m_sid = m_cal->get_scheme( "j325" );
 }
 
 void TestDef_j325::tearDown()
@@ -137,7 +137,7 @@ void TestDef_j325::tearDown()
 
 void TestDef_j325::testCreation()
 {
-    CPPUNIT_ASSERT( m_sid >= 0 );
+    CPPUNIT_ASSERT( m_sid != NULL );
     Scheme_info info;
     m_cal->get_scheme_info( &info, m_sid );
     string str = "Julian Annunciation";

@@ -42,7 +42,7 @@ class TestJulian : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE_END();
 
     Cal::Calendars* m_cal;
-    int             m_sid; // Scheme id
+    Cal::SHandle    m_sid; // Scheme handle
 
 public:
     void setUp();
@@ -59,10 +59,10 @@ CPPUNIT_TEST_SUITE_REGISTRATION( TestJulian );
 
 void TestJulian::setUp()
 {
-    m_sid = -1;
+    m_sid = NULL;
     m_cal = new Calendars;
-    m_cal->read_script( "scheme jb {name Julian Base; base julian;};" );
-    m_sid = m_cal->get_scheme_id( "jb" );
+    m_cal->run_script( "scheme jb {name Julian Base; base julian;};" );
+    m_sid = m_cal->get_scheme( "jb" );
 }
 
 void TestJulian::tearDown()
@@ -110,7 +110,7 @@ DMYDate testJBValues[MaxSample] = {
 
 void TestJulian::testScript()
 {
-    CPPUNIT_ASSERT( m_sid >= 0 );
+    CPPUNIT_ASSERT( m_sid != NULL );
     string code("jb");
     string name("Julian Base");
     Scheme_info info;
@@ -121,7 +121,6 @@ void TestJulian::testScript()
 
 void TestJulian::testValues()
 {
-    CPPUNIT_ASSERT( m_sid >= 0 );
     for( int i = 0 ; i < MaxSample ; i++ ) {
         stringstream tst; 
         tst << testJBValues[i].year << " "
@@ -137,7 +136,6 @@ void TestJulian::testValues()
 
 void TestJulian::testRanges()
 {
-    CPPUNIT_ASSERT( m_sid >= 0 );
     for( int i = 0 ; i < MaxSample-1 ; i++ ) {
         stringstream tst; 
         tst << testJBValues[i].year << " "
