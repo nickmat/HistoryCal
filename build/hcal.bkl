@@ -156,6 +156,7 @@
     <sources>$(LOCAL_SRC)/cal/calbase.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calcalendars.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/caldefscripts.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/caldlist.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calformat.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calgrammar.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calgregorian.cpp</sources>
@@ -165,6 +166,7 @@
     <sources>$(LOCAL_SRC)/cal/calliturgical.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calmath.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calparse.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calpattern.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calrecord.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calregnal.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calscheme.cpp</sources>
@@ -179,6 +181,7 @@
 
     <headers>$(LOCAL_SRC)/cal/calbase.h</headers>
     <headers>$(LOCAL_SRC)/cal/caldefscripts.h</headers>
+    <headers>$(LOCAL_SRC)/cal/caldlist.h</headers>
     <headers>$(LOCAL_SRC)/cal/calformat.h</headers>
     <headers>$(LOCAL_SRC)/cal/calgrammar.h</headers>
     <headers>$(LOCAL_SRC)/cal/calgregorian.h</headers>
@@ -188,6 +191,7 @@
     <headers>$(LOCAL_SRC)/cal/calliturgical.h</headers>
     <headers>$(LOCAL_SRC)/cal/calmath.h</headers>
     <headers>$(LOCAL_SRC)/cal/calparse.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calpattern.h</headers>
     <headers>$(LOCAL_SRC)/cal/calrecord.h</headers>
     <headers>$(LOCAL_SRC)/cal/calregnal.h</headers>
     <headers>$(LOCAL_SRC)/cal/calscheme.h</headers>

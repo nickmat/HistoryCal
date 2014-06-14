@@ -106,6 +106,7 @@ CAL_OBJECTS =  \
 	cal_calbase.o \
 	cal_calcalendars.o \
 	cal_caldefscripts.o \
+	cal_caldlist.o \
 	cal_calformat.o \
 	cal_calgrammar.o \
 	cal_calgregorian.o \
@@ -115,6 +116,7 @@ CAL_OBJECTS =  \
 	cal_calliturgical.o \
 	cal_calmath.o \
 	cal_calparse.o \
+	cal_calpattern.o \
 	cal_calrecord.o \
 	cal_calregnal.o \
 	cal_calscheme.o \
@@ -296,6 +298,9 @@ cal_calcalendars.o: ./../../src/cal/calcalendars.cpp
 cal_caldefscripts.o: ./../../src/cal/caldefscripts.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
+cal_caldlist.o: ./../../src/cal/caldlist.cpp
+	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
+
 cal_calformat.o: ./../../src/cal/calformat.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
@@ -321,6 +326,9 @@ cal_calmath.o: ./../../src/cal/calmath.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calparse.o: ./../../src/cal/calparse.cpp
+	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
+
+cal_calpattern.o: ./../../src/cal/calpattern.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calrecord.o: ./../../src/cal/calrecord.cpp
