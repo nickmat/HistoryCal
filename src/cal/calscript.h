@@ -37,10 +37,10 @@ namespace Cal {
     class Calendars;
     class ScriptStore;
 
-    class Script
+    class Script_
     {
     public:
-        Script( Calendars* cals );
+        Script_( Calendars* cals );
 
         bool run( const string& script );
         string get_output() const { return m_output; }
@@ -49,7 +49,8 @@ namespace Cal {
     private:
         enum SToken {
             ST_Null, ST_End,
-            ST_Number, ST_String, ST_Name,
+            ST_Name, ST_Number,
+            ST_String, ST_DString, ST_RString, ST_LString, ST_MString,
             ST_Equals, ST_Plus, ST_Minus, ST_Divide, ST_Star, ST_Percent, 
             ST_Backslash, ST_Semicolon, ST_Vline, ST_Ampersand, ST_Exclamation,
             ST_Carrot,

@@ -39,12 +39,12 @@
 using namespace std;
 using namespace Cal;
 
-Script::Script( Calendars* cals )
+Script_::Script_( Calendars* cals )
     : m_calendars(cals), m_line(0), m_mode(MODE_Normal)
 {
 }
 
-bool Script::run( const string& script )
+bool Script_::run( const string& script )
 {
     m_it = script.begin();
     m_end = script.end();
@@ -88,7 +88,7 @@ bool Script::run( const string& script )
     return true;
 }
 
-ScriptStore* Script::get_store() const
+ScriptStore* Script_::get_store() const
 {
     if( m_calendars ) {
         return m_calendars->get_store();
@@ -96,7 +96,7 @@ ScriptStore* Script::get_store() const
     return NULL;
 }
 
-Scheme* Script::get_scheme( const string& code ) const
+Scheme* Script_::get_scheme( const string& code ) const
 {
     if( m_calendars ) {
         return m_calendars->get_scheme( code );
@@ -104,7 +104,7 @@ Scheme* Script::get_scheme( const string& code ) const
     return NULL;
 }
 
-void Script::do_date()
+void Script_::do_date()
 {
     if( get_token() != ST_Name ) {
         return; // TODO: syntax error
@@ -117,7 +117,7 @@ void Script::do_date()
     get_store()->rlisttable[name] = rlist;
 }
 
-RangeList Script::date_expr()
+RangeList Script_::date_expr()
 {
     RangeList left = date_value();
     get_token();
@@ -147,7 +147,7 @@ RangeList Script::date_expr()
     return left;
 }
 
-RangeList Script::date_value()
+RangeList Script_::date_value()
 {
     RangeList rlist;
     Range range;
@@ -185,7 +185,7 @@ RangeList Script::date_value()
     return rlist;
 }
 
-void Script::do_set()
+void Script_::do_set()
 {
     SToken prop = get_token();
     if( prop != ST_Name ) {
@@ -207,7 +207,7 @@ void Script::do_set()
     get_token(); // TODO: error if this is not ST_Semicolon
 }
 
-void Script::do_evaluate()
+void Script_::do_evaluate()
 {
     switch( look_next_token() )
     {
@@ -220,14 +220,14 @@ void Script::do_evaluate()
     }
 }
 
-void Script::do_vocab( const string& code )
+void Script_::do_vocab( const string& code )
 {
     if( m_calendars ) {
         m_calendars->add_vocab( code );
     }
 }
 
-void Script::do_grammar()
+void Script_::do_grammar()
 {
     string code;
     switch( get_token() )
@@ -270,7 +270,7 @@ void Script::do_grammar()
     }
 }
 
-void Script::do_scheme( const string& code )
+void Script_::do_scheme( const string& code )
 {
     if( m_calendars ) {
         m_calendars->add_scheme( code );
@@ -278,7 +278,7 @@ void Script::do_scheme( const string& code )
 }
 
 
-string Script::string_expr()
+string Script_::string_expr()
 {
     string left = string_value();
     get_token();
@@ -295,7 +295,7 @@ string Script::string_expr()
     }
 }
 
-string Script::string_value()
+string Script_::string_value()
 {
     string str;
     RangeList rlist;
@@ -331,7 +331,7 @@ string Script::string_value()
     return str;
 }
 
-Script::SToken Script::get_token()
+Script_::SToken Script_::get_token()
 {
     // TODO: handle utf-8 unicode
     string::const_iterator it = m_it;
@@ -377,6 +377,13 @@ Script::SToken Script::get_token()
             }
             if( *it == '"' ) {
                 it++; // step over trailing quote
+                switch( *it )
+                {
+                case 'D': case 'd': token = ST_DString; it++; break;
+                case 'R': case 'r': token = ST_RString; it++; break;
+                case 'L': case 'l': token = ST_LString; it++; break;
+                case 'M': case 'm': token = ST_MString; it++; break;
+                }
             }
             break;
         }
@@ -436,7 +443,7 @@ Script::SToken Script::get_token()
     return token;
 }
 
-Script::SToken Script::look_next_token()
+Script_::SToken Script_::look_next_token()
 {
     string::const_iterator position = m_it;
     SToken token = get_token();
@@ -444,7 +451,7 @@ Script::SToken Script::look_next_token()
     return token;
 }
 
-RangeList Script::get_rlist_name( const string& name ) const
+RangeList Script_::get_rlist_name( const string& name ) const
 {
     RangeList rlist;
     if( get_store()->rlisttable.count( name ) ) {
@@ -455,7 +462,7 @@ RangeList Script::get_rlist_name( const string& name ) const
     return rlist;
 }
 
-string Script::read_function()
+string Script_::read_function()
 {
     string def;
     int bcount = 0;
@@ -478,7 +485,7 @@ string Script::read_function()
     return def;
 }
 
-string Script::read_to_semicolon()
+string Script_::read_to_semicolon()
 {
     string str;
     while( m_it != m_end && isspace( *m_it ) ) {

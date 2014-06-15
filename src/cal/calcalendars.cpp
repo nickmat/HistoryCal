@@ -76,7 +76,7 @@ const char* Calendars::version()
 
 string Calendars::run_script( const string& script )
 {
-    Script scr( this );
+    Script_ scr( this );
     if( scr.run( script ) ) {
         return scr.get_output();
     }
@@ -195,7 +195,7 @@ RangeList Calendars::expr_str_to_rangelist( SHandle scheme, const string& str )
     string script = "set input \"" + scheme->get_code() + "\";\n"
         + "evaluate date " + parse_date_expr( str ) + ";";
 
-    Script scr( this );
+    Script_ scr( this );
     if( scr.run( script ) ) {
         return scr.get_date();
     }
