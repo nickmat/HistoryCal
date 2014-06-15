@@ -32,6 +32,23 @@
 
 namespace Cal {
 
+    class Base;
+
+    class Pattern
+    {
+    public:
+        enum Rule { PR_Match, PR_Before, PR_After };
+
+        Pattern( Base* base );
+
+        void set_mask( const std::string& mask );
+        void set_rule( Rule rule ) { m_rule = rule; }
+
+    private:
+        Base*     m_base;
+        FieldVec  m_mask;
+        Rule      m_rule;
+    };
 
 }
 

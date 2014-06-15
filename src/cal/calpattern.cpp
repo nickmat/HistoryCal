@@ -28,10 +28,21 @@
 #include "calpattern.h"
 
 #include "calrecord.h"
-#include "calscheme.h"
+#include "calbase.h"
 
 using namespace Cal;
 using namespace std;
 
+
+Pattern::Pattern( Base* base )
+    : m_base(base), m_rule(PR_Match)
+{
+}
+
+void Pattern::set_mask( const std::string& mask )
+{
+    Record rec( m_base, mask );
+    m_mask = rec.get_fieldvec();
+}
 
 // End of src/cal/calpattern.cpp file
