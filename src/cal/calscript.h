@@ -29,76 +29,114 @@
 #define CAL_CALSCRIPT_H_GUARD
 
 #include "cal/caldefs.h"
+#include "calscriptstore.h"
+
+#include <iostream>
 
 namespace Cal {
 
-    using std::string;
-
-    class Calendars;
-    class ScriptStore;
-
-    class Script_
+    class SToken
     {
     public:
-        Script_( Calendars* cals );
+        enum Type {
+            STT_Null, STT_End, 
+            STT_String, STT_DString, STT_RString, STT_LString, STT_MString,
+            STT_Name, STT_Number, STT_Date, STT_Range, STT_RList,
+            STT_Equal, STT_Plus, STT_Minus, STT_Divide, STT_Star,
+            STT_Percent, STT_Backslash, STT_Semicolon, STT_Vline,
+            STT_Ampersand, STT_Exclamation, STT_Carrot,
+            STT_Lbracket, STT_Rbracket, STT_LCbracket, STT_RCbracket,
+            STT_LSbracket, STT_RSbracket, 
+            STT_and, STT_or, STT_not,
+            STT_NotEqual/*<>*/,
+            STT_GtThan, STT_GtThanEq, STT_LessThan, STT_LessThanEq, 
+            // Alternative token names
+            STT_UNION = STT_Vline,
+            STT_INTERSECTION = STT_Ampersand,
+            STT_REL_COMPLEMENT = STT_Backslash,
+            STT_SYM_DIFFERENCE = STT_Carrot,
+            STT_COMPLEMENT = STT_Exclamation
+        };
+        SToken() : m_type(STT_End) {}
 
-        bool run( const string& script );
-        string get_output() const { return m_output; }
-        RangeList get_date() const { return m_date_out; }
+        void set_type( Type type ) { m_type = type; }
+        void set_value( const std::string& str ) { m_value.set_str( str ); }
+        void set_value( Field field ) { m_value.set_field( field ); }
+
+        Type type() const { return m_type; }
+        SValue value() const { return m_value; }
+        std::string get_str() const { return m_value.get_str(); }
+        bool get_bool() const { return m_value.get_bool(); }
+        Field get_field() const { return m_value.get_field(); }
+        Range get_range() const { return m_value.get_range(); }
+        RangeList get_rlist() const { return m_value.get_rlist(); }
 
     private:
-        enum SToken {
-            ST_Null, ST_End,
-            ST_Name, ST_Number,
-            ST_String, ST_DString, ST_RString, ST_LString, ST_MString,
-            ST_Equals, ST_Plus, ST_Minus, ST_Divide, ST_Star, ST_Percent, 
-            ST_Backslash, ST_Semicolon, ST_Vline, ST_Ampersand, ST_Exclamation,
-            ST_Carrot,
-            ST_Lbracket, ST_Rbracket, ST_LCbracket, ST_RCbracket,
-            ST_LSbracket, ST_RSbracket, 
-            ST_date,
-            ST_set, ST_evaluate, ST_write, ST_writeln,
-            ST_vocab, ST_scheme, ST_grammar,
-            // Alternative token names
-            ST_UNION = ST_Vline,
-            ST_INTERSECTION = ST_Ampersand,
-            ST_REL_COMPLEMENT = ST_Backslash,
-            ST_SYM_DIFFERENCE = ST_Carrot,
-            ST_COMPLEMENT = ST_Exclamation
-        };
-        enum Mode { MODE_Normal, MODE_Date };
+        Type   m_type;
+        SValue m_value;
+    };
 
-        ScriptStore* get_store() const;
-        Scheme* get_scheme( const std::string& code ) const;
+    class STokenStream {
+    public:
+        STokenStream( std::istream& in, std::ostream& err ) 
+            : m_in(&in), m_err(&err), m_line(1), m_errors(0) {}
 
-        void do_date();
-        RangeList date_expr();
-        RangeList date_value();
-        string string_expr();
-        string string_value();
-        void do_set();
-        void do_evaluate();
-        void do_vocab( const string& code );
-        void do_grammar();
-        void do_scheme( const string& code );
-        SToken get_token();
-        SToken look_next_token();
-        RangeList get_rlist_name( const string& name ) const;
-        string read_function();
-        string read_to_semicolon();
+        void reset();
 
-        Calendars*  m_calendars;
-        string      m_output;
-        RangeList   m_date_out;
-        Mode        m_mode;
-        string::const_iterator m_it;
-        string::const_iterator m_end;
-        int         m_line;
-        SToken      m_cur_token;
-        string      m_cur_text;
-        Field       m_cur_number;
-        string      m_cur_name;
-        RangeList   m_cur_rlist;
+        SToken next();
+        SToken& current() { return m_cur_token; }
+        std::string read_function();
+
+        bool error( const std::string& mess );
+        int errors() const { return m_errors; }
+
+    private:
+        void set_type( SToken::Type type ) { m_cur_token.set_type( type ); } 
+        void set_current( SToken::Type type, const std::string& str );
+        void set_current( SToken::Type type, Field num );
+
+        std::istream* m_in;
+        std::ostream* m_err;
+        SToken   m_cur_token;
+        int      m_line;
+        int      m_errors;
+    };
+
+    class Calendars;
+
+    class Script
+    {
+    public:
+        Script( Calendars* cals, std::istream& in, std::ostream& out );
+
+        bool run();
+
+    private:
+        bool error( const std::string& mess ) { return m_ts.error( mess ); }
+        ScriptStore* store() const;
+        bool statement();
+        bool do_set();
+        bool do_rlist();
+        bool do_let();
+        bool do_write();
+        bool do_writeln();
+        bool do_scheme();
+        bool do_vocab();
+        bool do_grammar();
+
+        SValue expr( bool get );
+        SValue compare( bool get );
+        SValue sum( bool get );
+        SValue term( bool get );
+        SValue combine( bool get );
+        SValue primary( bool get );
+
+        SValue get_value_var( const std::string& name );
+
+        Calendars*    m_cals;
+        STokenStream  m_ts;
+        std::ostream* m_out;
+        std::ostream* m_err;
     };
 
 }

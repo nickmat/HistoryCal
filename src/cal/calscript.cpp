@@ -39,255 +39,746 @@
 using namespace std;
 using namespace Cal;
 
-Script_::Script_( Calendars* cals )
-    : m_calendars(cals), m_line(0), m_mode(MODE_Normal)
+string SValue::get_str() const
 {
+    assert( m_type == SVT_Str || m_type == SVT_Error );
+    return m_str;
 }
 
-bool Script_::run( const string& script )
+bool SValue::get_bool() const
 {
-    m_it = script.begin();
-    m_end = script.end();
-    m_line = 1;
-    m_output.clear();
-    for(;;) {
-        switch( get_token() )
+    assert( m_type == SVT_Bool );
+    return m_range.jdn1 == 0 ? false : true;
+}
+
+Field SValue::get_field() const
+{
+    assert( m_type == SVT_Field );
+    return m_range.jdn1;
+}
+
+Range SValue::get_range() const
+{
+    assert( m_type == SVT_Range );
+    return m_range;
+}
+
+RangeList SValue::get_rlist() const
+{
+    assert( m_type == SVT_RList );
+    return m_rlist;
+}
+
+bool SValue::get_rlist( RangeList& rlist ) const
+{
+    switch( m_type )
+    {
+    case SVT_RList:
+        rlist = m_rlist;
+        return true;
+    case SVT_Null:
+        rlist.clear();
+        return true;
+    case SVT_Range:
+        rlist.clear();
+        if( m_range.jdn1 != f_invalid ) {
+            rlist.push_back( m_range );
+        }
+        return true;
+    case SVT_Field:
+        rlist.clear();
+        if( m_range.jdn1 != f_invalid ) {
+            Range range( m_range.jdn1, m_range.jdn1 );
+            rlist.push_back( range );
+        }
+        return true;
+    }
+    return false;
+}
+
+bool SValue::propagate_error( const SValue& value )
+{
+    if( is_error() ) {
+        return true;
+    }
+    if( value.is_error() ) {
+        set_error( value.get_str() );
+        return true;
+    }
+    return false;
+}
+
+bool SValue::obtain_rlists( RangeList& left, RangeList& right, const SValue& value )
+{
+    if( propagate_error( value ) ) {
+        return false;
+    }
+    if( !get_rlist( left ) ) {
+        set_error( "Cannot convert left hand to RList." );
+        return false;
+    }
+    if( !value.get_rlist( right ) ) {
+        set_error( "Cannot convert right hand to RList." );
+        return false;
+    }
+    return true;
+}
+
+void SValue::logical_or( const SValue& value )
+{
+    if( propagate_error( value ) ) {
+        return;
+    }
+    set_bool( get_bool() || value.get_bool() );
+}
+
+void SValue::logical_and( const SValue& value )
+{
+    if( propagate_error( value ) ) {
+        return;
+    }
+    set_bool( get_bool() && value.get_bool() );
+}
+
+void SValue::equal( const SValue& value )
+{
+    if( propagate_error( value ) ) {
+        return;
+    }
+    if( m_type == value.type() ) {
+        bool result = false;
+        switch( m_type )
         {
-        case ST_Semicolon:
-            break;  // Ignore empty statements
-        case ST_End:
-            return true;
-        case ST_date:
-            do_date();
+        case SVT_Str:
+            result = ( get_str() == value.get_str() );
             break;
-        case ST_set:
-            do_set();
+        case SVT_Bool:
+        case SVT_Field:
+            result = ( get_field() == value.get_field() );
             break;
-        case ST_evaluate:
-            do_evaluate();
+        case SVT_Range:
+            {
+                Range vr = value.get_range();
+                Range tr = get_range();
+                result =
+                    ( tr.jdn1 == vr.jdn1 ) &&
+                    ( tr.jdn2 == vr.jdn2 )
+                ;
+            }
             break;
-        case ST_write:
-            m_output += string_expr();
-            break;
-        case ST_writeln:
-            m_output += string_expr() + '\n';
-            break;
-        case ST_vocab:
-            do_vocab( read_function() );
-            break;
-        case ST_scheme:
-            do_scheme( read_function() );
-            break;
-        case ST_grammar:
-            do_grammar();
+        case SVT_RList:
+            {
+                RangeList vrl = value.get_rlist();
+                RangeList trl = get_rlist();
+                if( trl.size() == vrl.size() ) { 
+                    result = true;
+                    for( size_t i = 0 ; i < trl.size() ; i++ ) {
+                        if( ( trl[i].jdn1 != vrl[i].jdn1 ) ||
+                            ( trl[i].jdn2 != vrl[i].jdn2 )
+                        ) {
+                            result = false;
+                            break;
+                        }
+                    }
+                }
+            }
             break;
         default:
-            break; // TODO: error, but we need to move on
+            result = true;
+        }
+        set_bool( result );
+        return;
+    }
+    set_error( "Must compare same types." );
+}
+    
+void SValue::greater_than( const SValue& value )
+{
+    if( propagate_error( value ) ) {
+        return;
+    }
+    if( m_type == value.type() ) {
+        bool result = false;
+        switch( m_type )
+        {
+        case SVT_Str:
+            result = ( get_str().compare( value.get_str() ) > 0 );
+            break;
+        case SVT_Bool:
+            set_error( "Can only compare bool for equal or not equal." );
+            return;
+        case SVT_Field:
+            result = ( get_field() > value.get_field() );
+            break;
+        case SVT_Range:
+        case SVT_RList:
+            set_error( "Can only compare a Range for equal or not equal." );
+            return;
+        default:
+            result = true;
+        }
+        set_bool( result );
+        return;
+    }
+    set_error( "Must compare same types." );
+}
+
+void SValue::less_than( const SValue& value )
+{
+    if( propagate_error( value ) ) {
+        return;
+    }
+    if( m_type == value.type() ) {
+        bool result = false;
+        switch( m_type )
+        {
+        case SVT_Str:
+            result = ( get_str().compare( value.get_str() ) < 0 );
+            break;
+        case SVT_Bool:
+            set_error( "Can only compare bool for equal or not equal." );
+            return;
+        case SVT_Field:
+            result = ( get_field() < value.get_field() );
+            break;
+        case SVT_Range:
+        case SVT_RList:
+            set_error( "Can only compare a Range for equal or not equal." );
+            return;
+        default:
+            result = true;
+        }
+        set_bool( result );
+        return;
+    }
+    set_error( "Must compare same types." );
+}
+
+void SValue::plus( const SValue& value )
+{
+    if( propagate_error( value ) ) {
+        return;
+    }
+    // TODO: check for f_invalid etc and for overflow.
+    if( m_type == value.type() ) {
+        switch( m_type )
+        {
+        case SVT_Str:
+            set_str( get_str() + value.get_str() );
+            return;
+        case SVT_Field:
+            set_field( get_field() + value.get_field() );
+            return;
+        default:
+           set_error( "Can only add numbers and strings." );
+           return;
+        }
+    }
+    set_error( "Must add the same types." );
+}
+
+void SValue::minus( const SValue& value )
+{
+    if( propagate_error( value ) ) {
+        return;
+    }
+    // TODO: check for f_invalid etc and for overflow.
+    if( m_type == value.type() ) {
+        switch( m_type )
+        {
+        case SVT_Field:
+            set_field( get_field() - value.get_field() );
+            return;
+        default:
+           set_error( "Can only subtract numbers." );
+           return;
+        }
+    }
+    set_error( "Must subtract the same types." );
+}
+
+void SValue::multiply( const SValue& value )
+{
+    if( propagate_error( value ) ) {
+        return;
+    }
+    // TODO: check for f_invalid etc and for overflow.
+    if( m_type == value.type() ) {
+        switch( m_type )
+        {
+        case SVT_Field:
+            set_field( get_field() * value.get_field() );
+            return;
+        default:
+           set_error( "Can only multiply numbers." );
+           return;
+        }
+    }
+    set_error( "Must subtract the same types." );
+}
+
+void SValue::divide( const SValue& value )
+{
+    if( propagate_error( value ) ) {
+        return;
+    }
+    // TODO: check for f_invalid etc and for overflow.
+    if( m_type == value.type() ) {
+        switch( m_type )
+        {
+        case SVT_Field:
+            {
+                Field right = value.get_field();
+                if( right == 0 ) {
+                    set_error( "Division by zero." );
+                    return;
+                }
+                set_field( get_field() / value.get_field() );
+            }
+            return;
+        default:
+           set_error( "Can only divide numbers." );
+           return;
+        }
+    }
+    set_error( "Must divide the same types." );
+}
+
+void SValue::rlist_union( const SValue& value )
+{
+    RangeList left, right;
+    if( obtain_rlists( left, right, value ) ) {
+        set_rlist( op_set_union( left, right ) );
+    }
+}
+
+void SValue::intersection( const SValue& value )
+{
+    RangeList left, right;
+    if( obtain_rlists( left, right, value ) ) {
+        set_rlist( op_set_intersection( left, right ) );
+    }
+}
+
+void SValue::rel_complement( const SValue& value )
+{
+    RangeList left, right;
+    if( obtain_rlists( left, right, value ) ) {
+        set_rlist( op_set_rel_complement( left, right ) );
+    }
+}
+
+void SValue::sym_difference( const SValue& value )
+{
+    RangeList left, right;
+    if( obtain_rlists( left, right, value ) ) {
+        set_rlist( op_set_sym_difference( left, right ) );
+    }
+}
+
+void SValue::negate()
+{
+    if( is_error() ) {
+        return;
+    }
+    if( m_type == SVT_Field ) {
+        set_field( -get_field() );
+        return;
+    }
+    set_error( "Can only negate numbers." );
+}
+
+void SValue::logical_not()
+{
+    if( is_error() ) {
+        return;
+    }
+    set_bool( !get_bool() );
+}
+
+void SValue::compliment()
+{
+    if( is_error() ) {
+        return;
+    }
+    RangeList rlist;
+    if( get_rlist( rlist ) ) {
+        set_rlist( op_set_complement( rlist ) );
+        return;
+    }
+    set_error( "Cannot convert to RList." );
+}
+
+
+// ----------------------------------------------
+
+#define MAX_ALLOWED_ERRORS 5
+
+SToken STokenStream::next()
+{
+    char ch;
+    SToken::Type str_token = SToken::STT_String;
+
+    do { // Skip whitespace.
+        if( !m_in->get( ch ) ) {
+            set_type( SToken::STT_End );
+            return m_cur_token;
+        }
+        if( ch == '\n' ) {
+            m_line++;
+        }
+    } while( isspace( ch ) );
+
+    if( isdigit( ch ) ) {
+        string text;
+        do {
+            text += ch;
+        } while( m_in->get( ch ) && isdigit( ch ) );
+        set_current( SToken::STT_Number, str_to_field( text ) );
+        return m_cur_token;
+    }
+
+    // TODO: This should recognise a utf-8 alpha codepoint
+    string str;
+    if( isalpha( ch ) ) {
+        if( m_in->peek() == '"' ) {
+            switch( ch )
+            {
+            case 'D': case 'd': str_token = SToken::STT_DString; break;
+            case 'R': case 'r': str_token = SToken::STT_RString; break;
+            case 'L': case 'l': str_token = SToken::STT_LString; break;
+            case 'M': case 'm': str_token = SToken::STT_MString; break;
+            }
+            m_in->get( ch ); // Step over letter (even if not used).
+        } else {
+            str += ch;
+            while( m_in->get( ch ) && isalnum( ch ) ) {
+                str += ch;
+            }
+            m_in->putback( ch );
+            if( str == "or" ) {
+                set_type( SToken::STT_or );
+            } else if( str == "and" ) {
+                set_type( SToken::STT_and );
+            } else if( str == "not" ) {
+                set_type( SToken::STT_not );
+            } else {
+                set_current( SToken::STT_Name, str );
+            }
+            return m_cur_token;
+        }
+    }
+
+    if( ch == '"' ) {
+        string text;
+        while( m_in->get( ch ) && ch != '"' ) {
+            text += ch;
+        }
+        set_current( str_token, text );
+        return m_cur_token;
+    }
+
+    switch( ch )
+    {
+    case '=': set_type( SToken::STT_Equal ); break;
+    case '+': set_type( SToken::STT_Plus ); break;
+    case '-': set_type( SToken::STT_Minus ); break;
+    case '/': set_type( SToken::STT_Divide ); break;
+    case '*': set_type( SToken::STT_Star ); break;
+    case '%': set_type( SToken::STT_Percent ); break;
+    case '(': set_type( SToken::STT_Lbracket ); break;
+    case ')': set_type( SToken::STT_Rbracket ); break;
+    case '{': set_type( SToken::STT_LCbracket ); break;
+    case '}': set_type( SToken::STT_RCbracket ); break;
+    case '[': set_type( SToken::STT_LSbracket ); break;
+    case ']': set_type( SToken::STT_RSbracket ); break;
+    case ';': set_type( SToken::STT_Semicolon ); break;
+    case '|': set_type( SToken::STT_Vline ); break;
+    case '&': set_type( SToken::STT_Ampersand ); break;
+    case '!': set_type( SToken::STT_Exclamation ); break;
+    case '^': set_type( SToken::STT_Carrot ); break;
+    case '\\': set_type( SToken::STT_Backslash ); break;
+    default:
+        error( "Unrecognised token." );
+        set_type( SToken::STT_End );
+        break; // Error
+    }
+    return m_cur_token;
+}
+
+string STokenStream::read_function()
+{
+    char ch;
+    string def;
+
+    do { // Skip whitespace.
+        if( !m_in->get( ch ) ) {
+            return "";
+        }
+        if( ch == '\n' ) {
+            m_line++;
+        }
+    } while( isspace( ch ) );
+
+    def += ch;
+    while( m_in->get( ch ) && ch != '{' && ch != ';' ) {
+        def += ch;
+    }
+    if( ch == '{' ) {
+        int bcount = 0;
+        def += ch;
+        while( m_in->get( ch ) ) {
+            def += ch;
+            if( ch == '{' ) {
+                bcount++;
+            } else if( ch == '}' ) {
+                if( bcount == 0 ) break;
+                --bcount;
+            }
+        }
+    }
+    return def;
+}
+
+bool STokenStream::error( const string& mess )
+{
+    *m_err << "Error (" << m_line << "): " << mess << "\n";
+    return ( ++m_errors > MAX_ALLOWED_ERRORS );
+}
+
+void STokenStream::set_current( SToken::Type type, const std::string& str )
+{
+    m_cur_token.set_type( type );
+    m_cur_token.set_value( str );
+}
+
+void STokenStream::set_current( SToken::Type type, Field num )
+{
+    m_cur_token.set_type( type );
+    m_cur_token.set_value( num );
+}
+
+// ----------------------------------------------
+
+Script::Script( Calendars* cals, istream& in, ostream& out ) 
+    : m_cals(cals), m_ts(in,out), m_out(&out), m_err(&out)
+{
+    assert( cals != NULL );
+}
+
+bool Script::run()
+{
+    for(;;) {
+        m_ts.next();
+        if( m_ts.current().type() == SToken::STT_End ) {
+            return true;
+        }
+        if( statement() == false ) {
+            return m_ts.errors() == 0; 
+        }
+    }
+    return false;
+}
+
+ScriptStore* Script::store() const
+{
+    return m_cals->get_store();
+}
+
+bool Script::statement()
+{
+    SToken token = m_ts.current();
+
+    if( token.type() == SToken::STT_Name ) {
+        string name = token.get_str();
+        if( name == "end" ) return false;
+        if( name == "set" ) return do_set();
+        if( name == "let" ) return do_let();
+        if( name == "write" ) return do_write();
+        if( name == "writeln" ) return do_writeln();
+        if( name == "scheme" ) return do_scheme();
+        if( name == "vocab" ) return do_vocab();
+        if( name == "grammar" ) return do_grammar();
+    } else if( token.type() == SToken::STT_Semicolon ) {
+        return true; // Empty statement
+    }
+    // Assume error
+    return error( "Unrecognised statement." ); 
+}
+
+bool Script::do_set()
+{
+    string prop;
+    SToken token = m_ts.next();
+    if( token.type() == SToken::STT_Name ) {
+        prop = token.get_str();
+        token = m_ts.next();
+    }
+    string value;
+    if( token.type() == SToken::STT_Name || token.type() == SToken::STT_String ) {
+        value = token.get_str();
+        token = m_ts.next();
+    }
+    if( token.type() != SToken::STT_Semicolon ) {
+        error( "set statement is \"set propery value;\"." );
+        return false;
+    }
+    SHandle sch = m_cals->get_scheme( value );
+    if( sch ) {
+        if( prop == "input" ) {
+            store()->ischeme = sch;
+        } else if( prop == "output" ) {
+            store()->oscheme = sch;
+        } else {
+            error( "Set property \"" + prop + "\" not recognised." );
+        }
+    } else {
+        error( "Set value \"" + value + "\" not recognised." );
+    }
+    return true;
+}
+
+bool Script::do_let()
+{
+    string var;
+    SToken token = m_ts.next();
+    if( token.type() == SToken::STT_Name ) {
+        var = token.get_str();
+        token = m_ts.next();
+    }
+    if( token.type() != SToken::STT_Equal ) {
+        error( "'=' expected." );
+        return false;
+    }
+    SValue value = expr( true );
+    store()->table[var] = value;
+    token = m_ts.current();
+    if( token.type() != SToken::STT_Semicolon ) {
+        error( "';' expected." );
+        return false;
+    }
+    return true;
+}
+
+bool Script::do_write()
+{
+    SValue value = expr( true );
+    *m_out << value.get_str();
+    if( m_ts.current().type() != SToken::STT_Semicolon ) {
+        error( "';' expected." );
+        return false;
+    }
+    return true;
+}
+
+bool Script::do_writeln()
+{
+    bool ret = do_write();
+    *m_out << "\n";
+    return ret;
+}
+
+bool Script::do_scheme()
+{
+    string code = m_ts.read_function();
+    if( code.size() ) {
+        m_cals->add_scheme( code );
+        return true;
+    }
+    return false;
+}
+
+bool Script::do_vocab()
+{
+    string code = m_ts.read_function();
+    if( code.size() ) {
+        m_cals->add_vocab( code );
+        return true;
+    }
+    return false;
+}
+
+bool Script::do_grammar()
+{
+    string code;
+    SToken token = m_ts.next();
+    if( token.type() == SToken::STT_Name || token.type() == SToken::STT_String ) {
+        code = token.get_str();
+    } else {
+        error( "Grammar code missing." );
+        return false;
+    }
+    Grammar* gmr = m_cals->add_grammar( code );
+    for(;;) {
+        token = m_ts.next();
+        if( token.type() == SToken::STT_LCbracket ) {
+            continue; 
+        } else if( token.type() == SToken::STT_RCbracket ) {
+            break; // All done.
+        } else if( token.type() == SToken::STT_Name ) {
+            string name = token.get_str();
+            if( name == "vocabs" ) {
+                gmr->add_vocabs( m_cals, m_ts.read_function() );
+            } else if( name == "format" ) {
+                gmr->add_format( m_ts.read_function() );
+            } else if( name == "alias" ) {
+                gmr->add_alias( m_ts.read_function() );
+            } else if( name == "grammar" ) {
+                gmr->set_inherit( m_cals, m_ts.read_function() );
+            } else {
+                error( "Unknown grammar subcommand." );
+                m_ts.read_function();
+            }
         }
     }
     return true;
 }
 
-ScriptStore* Script_::get_store() const
+SValue Script::expr( bool get )
 {
-    if( m_calendars ) {
-        return m_calendars->get_store();
-    }
-    return NULL;
-}
-
-Scheme* Script_::get_scheme( const string& code ) const
-{
-    if( m_calendars ) {
-        return m_calendars->get_scheme( code );
-    }
-    return NULL;
-}
-
-void Script_::do_date()
-{
-    if( get_token() != ST_Name ) {
-        return; // TODO: syntax error
-    }
-    string name = m_cur_name;
-    if( get_token() != ST_Equals ) {
-        return; // TODO: syntax error
-    }
-    RangeList rlist = date_expr();
-    get_store()->rlisttable[name] = rlist;
-}
-
-RangeList Script_::date_expr()
-{
-    RangeList left = date_value();
-    get_token();
+    SValue left = compare( get );
     for(;;) {
-        switch( m_cur_token )
+        SToken token = m_ts.current();
+        switch( token.type() )
         {
-        case ST_UNION:
-            left = op_set_union( left, date_value() );
-            get_token();
+        case SToken::STT_or:
+            left.logical_or( compare( true ) );
             break;
-        case ST_INTERSECTION:
-            left = op_set_intersection( left, date_value() );
-            get_token();
-            break;
-        case ST_REL_COMPLEMENT:
-            left = op_set_rel_complement( left, date_value() );
-            get_token();
-            break;
-        case ST_SYM_DIFFERENCE:
-            left = op_set_sim_difference( left, date_value() );
-            get_token();
-            break;
+        case SToken::STT_and:
+            left.logical_and( compare( true ) );
         default:
             return left;
         }
     }
-    return left;
 }
 
-RangeList Script_::date_value()
+SValue Script::compare( bool get )
 {
-    RangeList rlist;
-    Range range;
-    Scheme* sch;
-    get_token();
-    switch( m_cur_token )
-    {
-    case ST_Number:
-        range.jdn1 = range.jdn2 = m_cur_number;
-        rlist.push_back( range );
-        break;
-    case ST_String:
-        sch = get_store()->ischeme;
-        if( sch ) {
-            rlist = sch->r_str_to_rangelist( m_cur_text );
-        }
-        break;
-    case ST_Name:
-        rlist = get_rlist_name( m_cur_name );
-        break;
-    case ST_Lbracket:
-        rlist = date_expr();
-        if( m_cur_token != ST_Rbracket ) {
-            // TODO: error ')' expected
-            break;
-        }
-        break;
-    case ST_COMPLEMENT:
-        rlist = op_set_complement( date_value() );
-        break;
-    default:
-        // TODO: error RangeList expected
-        break;
-    }
-    return rlist;
-}
-
-void Script_::do_set()
-{
-    SToken prop = get_token();
-    if( prop != ST_Name ) {
-        return;
-    }
-    string prop_str = m_cur_name;
-    SToken tvalue = get_token();
-    if( tvalue != ST_String ) {
-        return;
-    }
-    Scheme* sch = get_scheme( m_cur_text );
-    if( sch ) {
-        if( prop_str == "input" ) {
-            get_store()->ischeme = sch;
-        } else if( prop_str == "output" ) {
-            get_store()->oscheme = sch;
-        }
-    }
-    get_token(); // TODO: error if this is not ST_Semicolon
-}
-
-void Script_::do_evaluate()
-{
-    switch( look_next_token() )
-    {
-    case ST_date:
-        get_token();
-        m_date_out = date_expr();
-        break;
-    default:
-        break;
-    }
-}
-
-void Script_::do_vocab( const string& code )
-{
-    if( m_calendars ) {
-        m_calendars->add_vocab( code );
-    }
-}
-
-void Script_::do_grammar()
-{
-    string code;
-    switch( get_token() )
-    {
-    case ST_Name:
-        code = m_cur_name;
-        break;
-    case ST_String:
-        code = m_cur_text;
-        break;
-    default:
-        // ERROR:
-        return;
-    }
-    Grammar* gmr = m_calendars->add_grammar( code );
-    if( get_token() != ST_LCbracket ) {
-        // ERROR: expecting '{'
-        return;
-    }
+    SValue left = sum( get );
     for(;;) {
-        SToken token = get_token();
-        if( m_cur_token == ST_RCbracket ) {
-            break; // All done.
-        } else if( m_cur_name == "vocabs" ) {
-            gmr->add_vocabs( m_calendars, read_to_semicolon() );
-        } else if( m_cur_name == "format" ) {
-            gmr->add_format( read_to_semicolon() );
-        } else if( m_cur_name == "alias" ) {
-            gmr->add_alias( read_function() );
-        } else if( m_cur_name == "grammar" ) {
-            gmr->set_inherit( m_calendars, read_to_semicolon() );
-        } else {
-            // ERROR:
-            read_to_semicolon();
-        }
-        if( get_token() != ST_Semicolon ) {
-            // ERROR:
-            return;
-        }
-    }
-}
-
-void Script_::do_scheme( const string& code )
-{
-    if( m_calendars ) {
-        m_calendars->add_scheme( code );
-    }
-}
-
-
-string Script_::string_expr()
-{
-    string left = string_value();
-    get_token();
-    for(;;) {
-        switch( m_cur_token )
+        SToken token = m_ts.current();
+        switch( token.type() )
         {
-        case ST_Plus:
-            left += string_value();
-            get_token();
+        case SToken::STT_Equal:
+            left.equal( sum( true ) );
+            break;
+        case SToken::STT_NotEqual:
+            left.equal( sum( true ) );
+            left.logical_not();
+            break;
+        case SToken::STT_GtThan:
+            left.greater_than( sum( true ) );
+            break;
+        case SToken::STT_GtThanEq:
+            left.less_than( sum( true ) );
+            left.logical_not();
+            break;
+        case SToken::STT_LessThan:
+            left.less_than( sum( true ) );
+            break;
+        case SToken::STT_LessThanEq:
+            left.greater_than( sum( true ) );
+            left.logical_not();
             break;
         default:
             return left;
@@ -295,207 +786,135 @@ string Script_::string_expr()
     }
 }
 
-string Script_::string_value()
+SValue Script::sum( bool get )
 {
-    string str;
-    RangeList rlist;
-    Scheme* sch;
-    get_token();
-    switch( m_cur_token )
+    SValue left = term( get );
+
+    for(;;) {
+        SToken token = m_ts.current();
+        switch( token.type() )
+        {
+        case SToken::STT_Plus:
+            left.plus( term( true ) );
+            break;
+        case SToken::STT_Minus:
+            left.minus( term( true ) );
+            break;
+        default:
+            return left;
+        }
+    }
+}
+
+SValue Script::term( bool get )
+{
+    SValue left = combine( get );
+
+    for(;;) {
+        SToken token = m_ts.current();
+        switch( token.type() )
+        {
+        case SToken::STT_Star:
+            left.multiply( combine( true ) );
+            break;
+        case SToken::STT_Divide:
+            left.divide( combine( true ) );
+            break;
+        default:
+            return left;
+        }
+    }
+}
+
+SValue Script::combine( bool get )
+{
+    SValue left = primary( get );
+
+    for(;;) {
+        SToken token = m_ts.current();
+        switch( token.type() )
+        {
+        case SToken::STT_UNION:
+            left.rlist_union( primary( true ) );
+            break;
+        case SToken::STT_INTERSECTION:
+            left.intersection( primary( true ) );
+            break;
+        case SToken::STT_REL_COMPLEMENT:
+            left.rel_complement( primary( true ) );
+            break;
+        case SToken::STT_SYM_DIFFERENCE:
+            left.sym_difference( primary( true ) );
+            break;
+        default:
+            return left;
+        }
+    }
+}
+
+SValue Script::primary( bool get )
+{
+    SValue value;
+    SToken token = get ? m_ts.next() : m_ts.current();
+    switch( token.type() )
     {
-    case ST_Number:
-        str = field_to_str( m_cur_number );
+    case SToken::STT_Number:
+        value.set_field( token.get_field() );
+        m_ts.next();
         break;
-    case ST_String:
-        str = m_cur_text;
+    case SToken::STT_String:
+        value.set_str( token.get_str() );
+        m_ts.next();
         break;
-    case ST_Name:
-        rlist = get_rlist_name( m_cur_name );
-        sch = get_store()->oscheme;
-        if( sch ) {
-            str = sch->rangelist_to_str( rlist );
+    case SToken::STT_LString:
+        {
+            SHandle sch = store()->ischeme;
+            if( sch ) {
+                value.set_rlist( sch->r_str_to_rangelist( token.get_str() ) );
+            } else {
+                error( "Valid scheme not set." );
+            }
         }
+        m_ts.next();
         break;
-    case ST_date:
-        get_token();
-        rlist = date_expr();
-        sch = get_store()->oscheme;
-        if( sch ) {
-            str = sch->rangelist_to_str( rlist );
+    case SToken::STT_Name:
+        value = get_value_var( token.get_str() );
+        m_ts.next();
+        break;
+    case SToken::STT_Lbracket:
+        value = expr( true );
+        if( m_ts.current().type() != SToken::STT_Rbracket ) {
+            error( "')' expected." );
+            break;
         }
+        m_ts.next();
+        break;
+    case SToken::STT_Minus:
+        value = primary( true );
+        value.negate();
+        break;
+    case SToken::STT_not:
+        value = primary( true );
+        value.logical_not();
+        break;
+    case SToken::STT_COMPLEMENT:
+        value = primary( true );
+        value.compliment();
         break;
     default:
-        // TODO: error ? expected
-        break;
+        error( "Primary value expected." );
     }
-    return str;
+    return value;
 }
 
-Script_::SToken Script_::get_token()
+SValue Script::get_value_var( const string& name )
 {
-    // TODO: handle utf-8 unicode
-    string::const_iterator it = m_it;
-    // Ignore whitespace and comments
-    for(;;) {
-        if( it == m_end ) {
-            m_it = it;
-            return m_cur_token = ST_End;
-        }
-        if( *it == ' ' || *it == '\t' || *it == '\n' ) {
-            if( *it == '\n' ) {
-                m_line++;
-            }
-            it++;
-            continue;
-        }
-        if( *it == '/' && (it+1) != m_end && *(it+1) == '/' ) {
-            it += 2;
-            while( it != m_end && *it != '\n' ) {
-                it++;
-            }
-            continue;
-        }
-        break;
+    if( store()->table.count( name ) ) {
+        return store()->table.find( name )->second;
     }
-    SToken token = ST_Null;
-    for( ; it != m_end ; it++ ) {
-        if( isdigit( *it ) ) {
-            string text;
-            token = ST_Number;
-            do {
-                text += *it++;
-            } while( it != m_end && isdigit( *it ) );
-            m_cur_number = str_to_field( text );
-            break;
-        }
-        if( *it == '"' ) {
-            m_cur_text.clear();
-            token = ST_String;
-            it++;
-            while( it != m_end && *it != '"' ) {
-                m_cur_text += *it++;
-            }
-            if( *it == '"' ) {
-                it++; // step over trailing quote
-                switch( *it )
-                {
-                case 'D': case 'd': token = ST_DString; it++; break;
-                case 'R': case 'r': token = ST_RString; it++; break;
-                case 'L': case 'l': token = ST_LString; it++; break;
-                case 'M': case 'm': token = ST_MString; it++; break;
-                }
-            }
-            break;
-        }
-        if( isalpha( *it ) ) {
-            token = ST_Name;
-            m_cur_name.clear();
-            do {
-              m_cur_name += *it++;
-            } while( it != m_end && isalnum( *it ) );
-            if( m_cur_name == "date" ) {
-                token = ST_date;
-            } else if( m_cur_name == "set" ) {
-                token = ST_set;
-            } else if( m_cur_name == "evaluate" ) {
-                token = ST_evaluate;
-            } else if( m_cur_name == "write" ) {
-                token = ST_write;
-            } else if( m_cur_name == "writeln" ) {
-                token = ST_writeln;
-            } else if( m_cur_name == "vocab" ) {
-                token = ST_vocab;
-            } else if( m_cur_name == "scheme" ) {
-                token = ST_scheme;
-            } else if( m_cur_name == "grammar" ) {
-                token = ST_grammar;
-            }
-            break;
-        }
-        switch( *it )
-        {
-        case '=': token = ST_Equals; break;
-        case '+': token = ST_Plus; break;
-        case '-': token = ST_Minus; break;
-        case '/': token = ST_Divide; break;
-        case '*': token = ST_Star; break;
-        case '%': token = ST_Percent; break;
-        case '(': token = ST_Lbracket; break;
-        case ')': token = ST_Rbracket; break;
-        case '{': token = ST_LCbracket; break;
-        case '}': token = ST_RCbracket; break;
-        case '[': token = ST_LSbracket; break;
-        case ']': token = ST_RSbracket; break;
-        case ';': token = ST_Semicolon; break;
-        case '|': token = ST_Vline; break;
-        case '&': token = ST_Ampersand; break;
-        case '!': token = ST_Exclamation; break;
-        case '^': token = ST_Carrot; break;
-        case '\\': token = ST_Backslash; break;
-        }
-        if( token != ST_Null ) {
-            it++;
-            break;
-        }
-    }
-    m_it = it;
-    m_cur_token = token;
-    return token;
-}
-
-Script_::SToken Script_::look_next_token()
-{
-    string::const_iterator position = m_it;
-    SToken token = get_token();
-    m_it = position;
-    return token;
-}
-
-RangeList Script_::get_rlist_name( const string& name ) const
-{
-    RangeList rlist;
-    if( get_store()->rlisttable.count( name ) ) {
-        rlist = get_store()->rlisttable.find( name )->second;
-    } else {
-        // TODO: error name not found
-    }
-    return rlist;
-}
-
-string Script_::read_function()
-{
-    string def;
-    int bcount = 0;
-    while( m_it != m_end && isspace( *m_it ) ) {
-        m_it++; // remove leading whitespace
-    }
-    while( m_it != m_end ) {
-        def += *m_it;
-        if( *m_it == '{' ) {
-            bcount++;
-        } else if( *m_it == '}' ) {
-            if( bcount == 1 ) {
-                m_it++;
-                break;
-            }
-            --bcount;
-        }
-        m_it++;
-    }
-    return def;
-}
-
-string Script_::read_to_semicolon()
-{
-    string str;
-    while( m_it != m_end && isspace( *m_it ) ) {
-        m_it++; // remove leading whitespace
-    }
-    while( m_it != m_end && *m_it != ';' ) {
-        str += *m_it;
-        m_it++;
-    }
-    return str;
+    SValue value;
+    value.set_error( "Variable \"" + name + "\" not found." );
+    return value;
 }
 
 // End of src/cal/calscript.cpp file

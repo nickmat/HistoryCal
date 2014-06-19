@@ -32,15 +32,75 @@
 
 namespace Cal {
 
+    class SValue
+    {
+    public:
+        enum Type { SVT_Error, SVT_Null, 
+            SVT_Str, SVT_Bool, SVT_Field, SVT_Range, SVT_RList };
+        SValue() : m_type(SVT_Null) {}
+        SValue( const std::string& str ) : m_type(SVT_Str), m_str(str) {}
+        SValue( bool b ) : m_type(SVT_Bool) { m_range.jdn1 = b ? 1 : 0; }
+        SValue( Field field ) : m_type(SVT_Field) { m_range.jdn1 = field; }
+        SValue( Range range ) : m_type(SVT_Range), m_range(range) {}
+        SValue( const RangeList& rlist ) : m_type(SVT_RList), m_rlist(rlist) {}
+
+        void set_str( const std::string& str ) { m_type = SVT_Str; m_str = str; }
+        void set_bool( bool b ) { m_type = SVT_Bool; m_range.jdn1 = b ? 1 : 0; }
+        void set_field( Field field ) { m_type = SVT_Field; m_range.jdn1 = field; }
+        void set_range( Range range ) { m_type = SVT_Range; m_range = range; }
+        void set_rlist( RangeList rlist ) { m_type = SVT_RList; m_rlist = rlist; }
+        void set_error( const std::string& str ) { m_type = SVT_Error; m_str = str; }
+
+        std::string get_str() const;
+        bool get_bool() const;
+        Field get_field() const;
+        Range get_range() const;
+        RangeList get_rlist() const;
+
+        bool get_rlist( RangeList& rlist ) const;
+
+        bool is_error() const { return m_type == SVT_Error; }
+        bool propagate_error( const SValue& value );
+        bool obtain_rlists( RangeList& left, RangeList& right, const SValue& value );
+
+        void logical_or( const SValue& value );
+        void logical_and( const SValue& value );
+        void equal( const SValue& value );
+        void greater_than( const SValue& value );
+        void less_than( const SValue& value );
+        void plus( const SValue& value );
+        void minus( const SValue& value );
+        void multiply( const SValue& value );
+        void divide( const SValue& value );
+
+        void rlist_union( const SValue& value );
+        void intersection( const SValue& value );
+        void rel_complement( const SValue& value );
+        void sym_difference( const SValue& value );
+
+        void negate(); // Unitary minus
+        void logical_not();
+        void compliment();
+
+    private:
+        Type type() const { return m_type; }
+
+        Type        m_type;
+        std::string m_str;
+        Range       m_range;
+        RangeList   m_rlist;
+    };
+
+
     class Scheme;
 
-    typedef std::map<std::string,RangeList> RListMap;
+    typedef std::map<std::string,SValue> SValueMap;
 
     class ScriptStore {
     public:
         ScriptStore() : ischeme(NULL), oscheme(NULL) {}
 
-        RListMap  rlisttable;
+        SValueMap table;
         Scheme*   ischeme;
         Scheme*   oscheme;
     };

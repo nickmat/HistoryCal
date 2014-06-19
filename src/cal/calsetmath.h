@@ -35,7 +35,7 @@ namespace Cal {
     RangeList op_set_union( const RangeList& left, const RangeList& right );
     RangeList op_set_intersection( const RangeList& left, const RangeList& right );
     RangeList op_set_rel_complement( const RangeList& left, const RangeList& right );
-    RangeList op_set_sim_difference( const RangeList& left, const RangeList& right );
+    RangeList op_set_sym_difference( const RangeList& left, const RangeList& right );
     RangeList op_set_complement( const RangeList& rlist );
 
 }

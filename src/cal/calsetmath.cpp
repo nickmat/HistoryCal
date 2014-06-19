@@ -38,7 +38,7 @@ namespace {
         SO_union,      // Union                 L | R
         SO_inter,      // Intersection          L & R
         SO_rel_comp,   // Relative complement   L \ R
-        SO_sim_dif     // Symmetric difference  L ^ R
+        SO_sym_dif     // Symmetric difference  L ^ R
     };
 
     RangeList op_set( SetOp op, const RangeList& left, const RangeList& right )
@@ -79,7 +79,7 @@ namespace {
             case SO_rel_comp:
                 aon = (lval && !rval); 
                 break;
-            case SO_sim_dif:
+            case SO_sym_dif:
                 aon = (lval != rval); 
                 break;
             default:
@@ -147,9 +147,9 @@ RangeList Cal::op_set_rel_complement( const RangeList& left, const RangeList& ri
     return op_set( SO_rel_comp, left, right );
 }
 
-RangeList Cal::op_set_sim_difference( const RangeList& left, const RangeList& right )
+RangeList Cal::op_set_sym_difference( const RangeList& left, const RangeList& right )
 {
-    return op_set( SO_sim_dif, left, right );
+    return op_set( SO_sym_dif, left, right );
 }
 
 RangeList Cal::op_set_complement( const RangeList& input )

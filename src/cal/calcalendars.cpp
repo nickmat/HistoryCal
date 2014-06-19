@@ -37,6 +37,7 @@
 #include "calvocab.h"
 
 #include <cassert>
+#include <sstream>
 
 using namespace std;
 using namespace Cal;
@@ -76,11 +77,11 @@ const char* Calendars::version()
 
 string Calendars::run_script( const string& script )
 {
-    Script_ scr( this );
-    if( scr.run( script ) ) {
-        return scr.get_output();
-    }
-    return "";
+    istringstream iss( script );
+    ostringstream oss;
+    Script scr( this, iss, oss );
+    scr.run();
+    return oss.str();
 }
 
 SHandle Calendars::get_scheme( const string& code ) const
@@ -193,11 +194,16 @@ RangeList Calendars::expr_str_to_rangelist( SHandle scheme, const string& str )
         return rlist;
     }
     string script = "set input \"" + scheme->get_code() + "\";\n"
-        + "evaluate date " + parse_date_expr( str ) + ";";
+        + "let result = " + parse_date_expr( str ) + ";";
 
-    Script_ scr( this );
-    if( scr.run( script ) ) {
-        return scr.get_date();
+    istringstream iss( script );
+    ostringstream oss;
+    Script scr( this, iss, oss );
+    scr.run();
+
+    SValueMap table = get_store()->table;
+    if( table.count( "result" ) > 0 ) {
+        return table.find( "result" )->second.get_rlist();
     }
     return rlist;
 }
