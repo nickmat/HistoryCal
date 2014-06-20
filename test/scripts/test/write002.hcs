@@ -1,0 +1,6 @@
+// write01.hcs Test string expression, addition.
+
+write "Hello " + "world!";
+
+/*[OUTPUT]
+Hello world![OUTPUT]*/
