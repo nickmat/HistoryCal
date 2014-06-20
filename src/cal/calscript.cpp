@@ -418,16 +418,34 @@ SToken STokenStream::next()
 {
     char ch;
     SToken::Type str_token = SToken::STT_String;
+    bool lcomment = false, mcomment = false, inquote = false;
 
     do { // Skip whitespace.
         if( !m_in->get( ch ) ) {
             set_type( SToken::STT_End );
             return m_cur_token;
         }
+        if( ch == '"' ) {
+            inquote = !inquote;
+        }
+        if( !inquote ) {
+            if( ch == '/' && m_in->peek() == '*' ) {
+                mcomment = true;
+            }
+            if( ch == '*' && m_in->peek() == '/' ) {
+                m_in->get( ch );
+                m_in->get( ch ); 
+                mcomment = false;
+            }
+            if( ch == '/' && m_in->peek() == '/' ) {
+                lcomment = true;
+            }
+        }
         if( ch == '\n' ) {
             m_line++;
+            lcomment = false;
         }
-    } while( isspace( ch ) );
+    } while( isspace( ch ) || lcomment || mcomment );
 
     if( isdigit( ch ) ) {
         string text;
