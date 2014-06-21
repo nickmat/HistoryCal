@@ -67,6 +67,9 @@ bool SValue::get_str( string& str ) const
         return true;
     case SVT_RList:
         for( size_t i = 0 ; i < m_rlist.size() ; i++ ) {
+            if( i > 0 ) {
+                str += " | ";
+            }
             str += field_to_str( m_rlist[i].jdn1 );
             if( m_rlist[i].jdn1 != m_rlist[i].jdn2 ) {
                 str += " ~ " + field_to_str( m_rlist[i].jdn2 );
@@ -408,6 +411,19 @@ void SValue::sym_difference( const SValue& value )
     }
 }
 
+void SValue::range_op( const SValue& value )
+{
+    if( propagate_error( value ) ) {
+        return;
+    }
+    if( m_type == SVT_Field || m_type == SVT_Range ) {
+        Range range( get_field(), value.get_field() );
+        set_range( range );
+        return;
+    }
+    set_error( "Can only set range with numbers." );
+}
+
 void SValue::negate()
 {
     if( is_error() ) {
@@ -544,6 +560,7 @@ SToken STokenStream::next()
     case '[': set_type( SToken::STT_LSbracket ); break;
     case ']': set_type( SToken::STT_RSbracket ); break;
     case ';': set_type( SToken::STT_Semicolon ); break;
+    case '~': set_type( SToken::STT_Tilde ); break;
     case '|': set_type( SToken::STT_Vline ); break;
     case '&': set_type( SToken::STT_Ampersand ); break;
     case '!': set_type( SToken::STT_Exclamation ); break;
@@ -811,31 +828,74 @@ SValue Script::expr( bool get )
 
 SValue Script::compare( bool get )
 {
-    SValue left = sum( get );
+    SValue left = combine( get );
     for(;;) {
         SToken token = m_ts.current();
         switch( token.type() )
         {
         case SToken::STT_Equal:
-            left.equal( sum( true ) );
+            left.equal( combine( true ) );
             break;
         case SToken::STT_NotEqual:
-            left.equal( sum( true ) );
+            left.equal( combine( true ) );
             left.logical_not();
             break;
         case SToken::STT_GtThan:
-            left.greater_than( sum( true ) );
+            left.greater_than( combine( true ) );
             break;
         case SToken::STT_GtThanEq:
-            left.less_than( sum( true ) );
+            left.less_than( combine( true ) );
             left.logical_not();
             break;
         case SToken::STT_LessThan:
-            left.less_than( sum( true ) );
+            left.less_than( combine( true ) );
             break;
         case SToken::STT_LessThanEq:
-            left.greater_than( sum( true ) );
+            left.greater_than( combine( true ) );
             left.logical_not();
+            break;
+        default:
+            return left;
+        }
+    }
+}
+
+SValue Script::combine( bool get )
+{
+    SValue left = range( get );
+
+    for(;;) {
+        SToken token = m_ts.current();
+        switch( token.type() )
+        {
+        case SToken::STT_UNION:
+            left.rlist_union( range( true ) );
+            break;
+        case SToken::STT_INTERSECTION:
+            left.intersection( range( true ) );
+            break;
+        case SToken::STT_REL_COMPLEMENT:
+            left.rel_complement( range( true ) );
+            break;
+        case SToken::STT_SYM_DIFFERENCE:
+            left.sym_difference( range( true ) );
+            break;
+        default:
+            return left;
+        }
+    }
+}
+
+SValue Script::range( bool get )
+{
+    SValue left = sum( get );
+
+    for(;;) {
+        SToken token = m_ts.current();
+        switch( token.type() )
+        {
+        case SToken::STT_Tilde:
+            left.range_op( sum( true ) );
             break;
         default:
             return left;
@@ -865,43 +925,17 @@ SValue Script::sum( bool get )
 
 SValue Script::term( bool get )
 {
-    SValue left = combine( get );
-
-    for(;;) {
-        SToken token = m_ts.current();
-        switch( token.type() )
-        {
-        case SToken::STT_Star:
-            left.multiply( combine( true ) );
-            break;
-        case SToken::STT_Divide:
-            left.divide( combine( true ) );
-            break;
-        default:
-            return left;
-        }
-    }
-}
-
-SValue Script::combine( bool get )
-{
     SValue left = primary( get );
 
     for(;;) {
         SToken token = m_ts.current();
         switch( token.type() )
         {
-        case SToken::STT_UNION:
-            left.rlist_union( primary( true ) );
+        case SToken::STT_Star:
+            left.multiply( primary( true ) );
             break;
-        case SToken::STT_INTERSECTION:
-            left.intersection( primary( true ) );
-            break;
-        case SToken::STT_REL_COMPLEMENT:
-            left.rel_complement( primary( true ) );
-            break;
-        case SToken::STT_SYM_DIFFERENCE:
-            left.sym_difference( primary( true ) );
+        case SToken::STT_Divide:
+            left.divide( primary( true ) );
             break;
         default:
             return left;
@@ -923,11 +957,33 @@ SValue Script::primary( bool get )
         value.set_str( token.get_str() );
         m_ts.next();
         break;
+    case SToken::STT_DString:
+        {
+            SHandle sch = store()->ischeme;
+            if( sch ) {
+                value.set_field( sch->str_to_jdn( token.get_str() ) );
+            } else {
+                error( "Valid scheme not set." );
+            }
+        }
+        m_ts.next();
+        break;
+    case SToken::STT_RString:
+        {
+            SHandle sch = store()->ischeme;
+            if( sch ) {
+                value.set_range( sch->str_to_range( token.get_str() ) );
+            } else {
+                error( "Valid scheme not set." );
+            }
+        }
+        m_ts.next();
+        break;
     case SToken::STT_LString:
         {
             SHandle sch = store()->ischeme;
             if( sch ) {
-                value.set_rlist( sch->r_str_to_rangelist( token.get_str() ) );
+                value.set_rlist( sch->rlist_str_to_rangelist( token.get_str() ) );
             } else {
                 error( "Valid scheme not set." );
             }

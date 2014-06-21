@@ -166,15 +166,7 @@ string Calendars::jdn_to_str( SHandle scheme, Field jdn )
 
 Range Calendars::str_to_range( SHandle scheme, const string& str )
 {
-    RangeList rlist = scheme->r_str_to_rangelist( str );
-    switch( rlist.size() )
-    {
-    case 0:
-        return Range( f_invalid, f_invalid );
-    case 1:
-        return rlist[0];
-    }
-    return Range( rlist[0].jdn1, rlist[rlist.size()-1].jdn2 );
+    return scheme->str_to_range( str );
 }
 
 string Calendars::range_to_str( SHandle scheme, Range range )

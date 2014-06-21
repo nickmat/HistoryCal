@@ -167,6 +167,19 @@ string Scheme::jdn_to_str( Field jdn )
     return rec.get_str();
 }
 
+Range Scheme::str_to_range( const string& str )
+{
+    RangeList rlist = r_str_to_rangelist( str );
+    switch( rlist.size() )
+    {
+    case 0:
+        return Range( f_invalid, f_invalid );
+    case 1:
+        return rlist[0];
+    }
+    return Range( rlist[0].jdn1, rlist[rlist.size()-1].jdn2 );
+}
+
 string Scheme::range_to_str( Range range )
 {
     if( range.jdn1 == range.jdn2 ) {

@@ -43,8 +43,8 @@ namespace Cal {
             STT_String, STT_DString, STT_RString, STT_LString, STT_MString,
             STT_Name, STT_Number, STT_Date, STT_Range, STT_RList,
             STT_Equal, STT_Plus, STT_Minus, STT_Divide, STT_Star,
-            STT_Percent, STT_Backslash, STT_Semicolon, STT_Vline,
-            STT_Ampersand, STT_Exclamation, STT_Carrot,
+            STT_Percent, STT_Backslash, STT_Semicolon, STT_Tilde,
+            STT_Vline, STT_Ampersand, STT_Exclamation, STT_Carrot,
             STT_Lbracket, STT_Rbracket, STT_LCbracket, STT_RCbracket,
             STT_LSbracket, STT_RSbracket, 
             STT_and, STT_or, STT_not,
@@ -129,6 +129,7 @@ namespace Cal {
         SValue sum( bool get );
         SValue term( bool get );
         SValue combine( bool get );
+        SValue range( bool get );
         SValue primary( bool get );
 
         SValue get_value_var( const std::string& name );

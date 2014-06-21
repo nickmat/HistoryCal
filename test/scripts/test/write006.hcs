@@ -1,0 +1,7 @@
+// write006.hcs Test date range literal.
+
+set input g;
+write r"sep1948";
+
+/*[OUTPUT]
+2432796 ~ 2432825[OUTPUT]*/

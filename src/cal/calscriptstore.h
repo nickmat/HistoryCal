@@ -79,6 +79,8 @@ namespace Cal {
         void rel_complement( const SValue& value );
         void sym_difference( const SValue& value );
 
+        void range_op( const SValue& value );
+
         void negate(); // Unitary minus
         void logical_not();
         void compliment();
