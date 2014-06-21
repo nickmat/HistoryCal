@@ -57,6 +57,7 @@ namespace Cal {
         Range get_range() const;
         RangeList get_rlist() const;
 
+        bool get_str( std::string& str ) const;
         bool get_rlist( RangeList& rlist ) const;
 
         bool is_error() const { return m_type == SVT_Error; }

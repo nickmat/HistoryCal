@@ -58,4 +58,4 @@ void get_filenames( vector<string>& vec, const string& path )
     closedir( dir );
 }
 
-// End of test/hcs/hcsreaddir.cpp
+// End of test/hcs/hcsgetfns.cpp

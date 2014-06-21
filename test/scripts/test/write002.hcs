@@ -1,4 +1,4 @@
-// write01.hcs Test string expression, addition.
+// write02.hcs Test string expression, addition.
 
 write "Hello " + "world!";
 

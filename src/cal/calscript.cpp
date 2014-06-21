@@ -45,6 +45,38 @@ string SValue::get_str() const
     return m_str;
 }
 
+bool SValue::get_str( string& str ) const
+{
+    str.clear();
+    switch( m_type )
+    {
+    case SVT_Str:
+        str = m_str;
+        return true;
+    case SVT_Bool:
+        str = get_bool() ? "true" : "false";
+        return true;
+    case SVT_Field:
+        str = field_to_str( m_range.jdn1 );
+        return true;
+    case SVT_Range:
+        str = field_to_str( m_range.jdn1 );
+        if( m_range.jdn1 != m_range.jdn2 ) {
+            str += " ~ " + field_to_str( m_range.jdn2 );
+        }
+        return true;
+    case SVT_RList:
+        for( size_t i = 0 ; i < m_rlist.size() ; i++ ) {
+            str += field_to_str( m_rlist[i].jdn1 );
+            if( m_rlist[i].jdn1 != m_rlist[i].jdn2 ) {
+                str += " ~ " + field_to_str( m_rlist[i].jdn2 );
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
 bool SValue::get_bool() const
 {
     assert( m_type == SVT_Bool );
@@ -452,6 +484,7 @@ SToken STokenStream::next()
         do {
             text += ch;
         } while( m_in->get( ch ) && isdigit( ch ) );
+        m_in->putback( ch );
         set_current( SToken::STT_Number, str_to_field( text ) );
         return m_cur_token;
     }
@@ -681,7 +714,13 @@ bool Script::do_let()
 bool Script::do_write()
 {
     SValue value = expr( true );
-    *m_out << value.get_str();
+    string str;
+    if( value.get_str( str ) ) {
+        *m_out << str;
+    } else {
+        error( "Unable to output string" );
+        return false;
+    }
     if( m_ts.current().type() != SToken::STT_Semicolon ) {
         error( "';' expected." );
         return false;

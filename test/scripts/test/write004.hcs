@@ -1,0 +1,6 @@
+// write04.hcs Test number output, addition.
+
+write 1234 + 6 * 5 / 2 - 49;
+
+/*[OUTPUT]
+1200[OUTPUT]*/
