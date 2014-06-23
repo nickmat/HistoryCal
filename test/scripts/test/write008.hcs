@@ -1,7 +1,6 @@
 // write008.hcs Test dlist (date range list) numerical.
 
-set input g;
-write 2429630 ~ 2433647 + 3 & 2431457 - 7 ~ 2435473;
+write 2429630 ~ ( 2433647 + 3 ) & ( 2431457 - 7 ) ~ 2435473;
 
 /*[OUTPUT]
 2431450 ~ 2433650[OUTPUT]*/

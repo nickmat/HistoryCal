@@ -38,6 +38,7 @@ namespace Cal {
         enum Type { SVT_Error, SVT_Null, 
             SVT_Str, SVT_Bool, SVT_Field, SVT_Range, SVT_RList };
         SValue() : m_type(SVT_Null) {}
+        SValue( const SValue& value );
         SValue( const std::string& str ) : m_type(SVT_Str), m_str(str) {}
         SValue( bool b ) : m_type(SVT_Bool) { m_range.jdn1 = b ? 1 : 0; }
         SValue( Field field ) : m_type(SVT_Field) { m_range.jdn1 = field; }
@@ -51,13 +52,15 @@ namespace Cal {
         void set_rlist( RangeList rlist ) { m_type = SVT_RList; m_rlist = rlist; }
         void set_error( const std::string& str ) { m_type = SVT_Error; m_str = str; }
 
+        void set( RangeList& rlist ); 
+
         std::string get_str() const;
         bool get_bool() const;
         Field get_field() const;
         Range get_range() const;
         RangeList get_rlist() const;
 
-        bool get_str( std::string& str ) const;
+        bool get( std::string& str ) const;
         bool get_rlist( RangeList& rlist ) const;
 
         bool is_error() const { return m_type == SVT_Error; }
@@ -87,6 +90,11 @@ namespace Cal {
 
     private:
         Type type() const { return m_type; }
+        Field add( Field left, Field right ) const; 
+        Range add( Range range, Field field ) const; 
+        Range add( Range left, Range right ) const; 
+        RangeList add( RangeList rlist, Field field ) const; 
+        RangeList add( RangeList rlist, Range range ) const; 
 
         Type        m_type;
         std::string m_str;

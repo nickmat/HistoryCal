@@ -195,7 +195,8 @@ RangeList Calendars::expr_str_to_rangelist( SHandle scheme, const string& str )
 
     SValueMap table = get_store()->table;
     if( table.count( "result" ) > 0 ) {
-        return table.find( "result" )->second.get_rlist();
+//        return table.find( "result" )->second.get_rlist();
+        table.find( "result" )->second.get_rlist( rlist );
     }
     return rlist;
 }

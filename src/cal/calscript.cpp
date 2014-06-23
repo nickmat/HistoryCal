@@ -39,13 +39,51 @@
 using namespace std;
 using namespace Cal;
 
+SValue::SValue( const SValue& value )
+{
+    m_type = value.type();
+    switch( m_type )
+    {
+    case SVT_Error:
+    case SVT_Str:
+        m_str = value.get_str();
+        break;
+    case SVT_Bool:
+    case SVT_Field:
+        m_range.jdn1 = value.get_field();
+        break;
+    case SVT_Range:
+        m_range = value.get_range();
+        break;
+    case SVT_RList:
+        m_rlist = value.get_rlist();
+        break;
+    }
+}
+
+void SValue::set( RangeList& rlist )
+{
+    if( rlist.size() == 0 ) {
+        set_field( f_invalid );
+    } else if( rlist.size() == 1 ) {
+        Range range = rlist[0];
+        if( range.jdn1 == range.jdn2 ) {
+            set_field( range.jdn1 );
+        } else {
+            set_range( range );
+        }
+    } else {
+        set_rlist( rlist );
+    }
+}
+
 string SValue::get_str() const
 {
     assert( m_type == SVT_Str || m_type == SVT_Error );
     return m_str;
 }
 
-bool SValue::get_str( string& str ) const
+bool SValue::get( string& str ) const
 {
     str.clear();
     switch( m_type )
@@ -294,22 +332,48 @@ void SValue::plus( const SValue& value )
     if( propagate_error( value ) ) {
         return;
     }
-    // TODO: check for f_invalid etc and for overflow.
-    if( m_type == value.type() ) {
-        switch( m_type )
-        {
-        case SVT_Str:
-            set_str( get_str() + value.get_str() );
-            return;
-        case SVT_Field:
-            set_field( get_field() + value.get_field() );
-            return;
-        default:
-           set_error( "Can only add numbers and strings." );
-           return;
+    if( type() == SVT_Str || value.type() == SVT_Str ) {
+        string str1, str2;
+        bool success = get( str1 );
+        if( success ) {
+            success = value.get( str2 );
         }
+        if( success ) {
+            set_str( str1 + str2 );
+            return;
+        }
+        set_error( "Unable to add string." );
+        return;
     }
-    set_error( "Must add the same types." );
+    if( type() == SVT_Field || value.type() == SVT_Field ) {
+        if( type() == value.type() ) {
+            set_field( add( get_field(), value.get_field() ) );
+        } else if( type() == SVT_Range ) {
+            set_range( add( get_range(), value.get_field() ) );
+        } else if( value.type() == SVT_Range ) {
+            set_range( add( value.get_range(), get_field() ) );
+        } else if( type() == SVT_RList ) {
+            set_rlist( add( get_rlist(), value.get_field() ) );
+        } else if( value.type() == SVT_RList ) {
+            set_rlist( add( value.get_rlist(), get_field() ) );
+        } else {
+            set_error( "Unable to add number." );
+        }
+        return;
+    }
+    if( type() == SVT_Range || value.type() == SVT_Range ) {
+        if( type() == value.type() ) {
+            set_range( add( get_range(), value.get_range() ) );
+        } else if( type() == SVT_RList ) {
+            set_rlist( add( get_rlist(), value.get_range() ) );
+        } else if( value.type() == SVT_RList ) {
+            set_rlist( add( value.get_rlist(), get_range() ) );
+        } else {
+            set_error( "Unable to add range." );
+        }
+        return;
+    }
+    set_error( "Not able to add types." );
 }
 
 void SValue::minus( const SValue& value )
@@ -317,19 +381,15 @@ void SValue::minus( const SValue& value )
     if( propagate_error( value ) ) {
         return;
     }
-    // TODO: check for f_invalid etc and for overflow.
-    if( m_type == value.type() ) {
-        switch( m_type )
-        {
-        case SVT_Field:
-            set_field( get_field() - value.get_field() );
-            return;
-        default:
-           set_error( "Can only subtract numbers." );
-           return;
-        }
+    if( type() == SVT_Field || value.type() == SVT_Field || 
+        type() == SVT_Range || value.type() == SVT_Range
+    ) {
+        SValue v( value );
+        v.negate();
+        plus( v );
+        return;
     }
-    set_error( "Must subtract the same types." );
+    set_error( "Not able to subtract types." );
 }
 
 void SValue::multiply( const SValue& value )
@@ -429,8 +489,13 @@ void SValue::negate()
     if( is_error() ) {
         return;
     }
-    if( m_type == SVT_Field ) {
-        set_field( -get_field() );
+    switch( m_type )
+    {
+    case SVT_Range:
+        m_range.jdn2 = m_range.jdn2;
+        // fall thru
+    case SVT_Field:
+        m_range.jdn1 = -m_range.jdn1;
         return;
     }
     set_error( "Can only negate numbers." );
@@ -457,6 +522,44 @@ void SValue::compliment()
     set_error( "Cannot convert to RList." );
 }
 
+Field SValue::add( Field left, Field right ) const
+{
+    // TODO: check for f_invalid etc and for overflow.
+    return left + right;
+}
+
+Range SValue::add( Range range, Field field ) const
+{
+    return Range( add( range.jdn1, field ), add( range.jdn2, field ) );
+}
+
+Range SValue::add( Range left, Range right ) const
+{
+    return Range( 
+        add( left.jdn1, right.jdn1 ),
+        add( left.jdn2, right.jdn2 )
+    );
+}
+
+RangeList SValue::add( RangeList rlist, Field field ) const
+{
+    RangeList rl;
+    for( size_t i = 0 ; i < rlist.size() ; i++ ) {
+        Range range = add( rlist[i], field );
+        rl.push_back( range );
+    }
+    return rl;
+}
+
+RangeList SValue::add( RangeList rlist, Range range ) const
+{
+    RangeList rl;
+    for( size_t i = 0 ; i < rlist.size() ; i++ ) {
+        Range r = add( rlist[i], range );
+        rl.push_back( r );
+    }
+    return rl;
+}
 
 // ----------------------------------------------
 
@@ -508,32 +611,25 @@ SToken STokenStream::next()
     // TODO: This should recognise a utf-8 alpha codepoint
     string str;
     if( isalpha( ch ) ) {
-        if( m_in->peek() == '"' ) {
-            switch( ch )
-            {
-            case 'D': case 'd': str_token = SToken::STT_DString; break;
-            case 'R': case 'r': str_token = SToken::STT_RString; break;
-            case 'L': case 'l': str_token = SToken::STT_LString; break;
-            case 'M': case 'm': str_token = SToken::STT_MString; break;
-            }
-            m_in->get( ch ); // Step over letter (even if not used).
-        } else {
+        str += ch;
+        while( m_in->get( ch ) && isalnum( ch ) ) {
             str += ch;
-            while( m_in->get( ch ) && isalnum( ch ) ) {
-                str += ch;
-            }
-            m_in->putback( ch );
-            if( str == "or" ) {
-                set_type( SToken::STT_or );
-            } else if( str == "and" ) {
-                set_type( SToken::STT_and );
-            } else if( str == "not" ) {
-                set_type( SToken::STT_not );
-            } else {
-                set_current( SToken::STT_Name, str );
-            }
-            return m_cur_token;
         }
+        m_in->putback( ch );
+        if( str == "or" ) {
+            set_type( SToken::STT_or );
+        } else if( str == "and" ) {
+            set_type( SToken::STT_and );
+        } else if( str == "not" ) {
+            set_type( SToken::STT_not );
+        } else if( str == "str" ) {
+            set_type( SToken::STT_str_cast );
+        } else if( str == "date" ) {
+            set_type( SToken::STT_date );
+        } else {
+            set_current( SToken::STT_Name, str );
+        }
+        return m_cur_token;
     }
 
     if( ch == '"' ) {
@@ -732,7 +828,7 @@ bool Script::do_write()
 {
     SValue value = expr( true );
     string str;
-    if( value.get_str( str ) ) {
+    if( value.get( str ) ) {
         *m_out << str;
     } else {
         error( "Unable to output string" );
@@ -828,31 +924,71 @@ SValue Script::expr( bool get )
 
 SValue Script::compare( bool get )
 {
-    SValue left = combine( get );
+    SValue left = sum( get );
     for(;;) {
         SToken token = m_ts.current();
         switch( token.type() )
         {
         case SToken::STT_Equal:
-            left.equal( combine( true ) );
+            left.equal( sum( true ) );
             break;
         case SToken::STT_NotEqual:
-            left.equal( combine( true ) );
+            left.equal( sum( true ) );
             left.logical_not();
             break;
         case SToken::STT_GtThan:
-            left.greater_than( combine( true ) );
+            left.greater_than( sum( true ) );
             break;
         case SToken::STT_GtThanEq:
-            left.less_than( combine( true ) );
+            left.less_than( sum( true ) );
             left.logical_not();
             break;
         case SToken::STT_LessThan:
-            left.less_than( combine( true ) );
+            left.less_than( sum( true ) );
             break;
         case SToken::STT_LessThanEq:
-            left.greater_than( combine( true ) );
+            left.greater_than( sum( true ) );
             left.logical_not();
+            break;
+        default:
+            return left;
+        }
+    }
+}
+
+SValue Script::sum( bool get )
+{
+    SValue left = term( get );
+
+    for(;;) {
+        SToken token = m_ts.current();
+        switch( token.type() )
+        {
+        case SToken::STT_Plus:
+            left.plus( term( true ) );
+            break;
+        case SToken::STT_Minus:
+            left.minus( term( true ) );
+            break;
+        default:
+            return left;
+        }
+    }
+}
+
+SValue Script::term( bool get )
+{
+    SValue left = combine( get );
+
+    for(;;) {
+        SToken token = m_ts.current();
+        switch( token.type() )
+        {
+        case SToken::STT_Star:
+            left.multiply( combine( true ) );
+            break;
+        case SToken::STT_Divide:
+            left.divide( combine( true ) );
             break;
         default:
             return left;
@@ -888,54 +1024,14 @@ SValue Script::combine( bool get )
 
 SValue Script::range( bool get )
 {
-    SValue left = sum( get );
-
-    for(;;) {
-        SToken token = m_ts.current();
-        switch( token.type() )
-        {
-        case SToken::STT_Tilde:
-            left.range_op( sum( true ) );
-            break;
-        default:
-            return left;
-        }
-    }
-}
-
-SValue Script::sum( bool get )
-{
-    SValue left = term( get );
-
-    for(;;) {
-        SToken token = m_ts.current();
-        switch( token.type() )
-        {
-        case SToken::STT_Plus:
-            left.plus( term( true ) );
-            break;
-        case SToken::STT_Minus:
-            left.minus( term( true ) );
-            break;
-        default:
-            return left;
-        }
-    }
-}
-
-SValue Script::term( bool get )
-{
     SValue left = primary( get );
 
     for(;;) {
         SToken token = m_ts.current();
         switch( token.type() )
         {
-        case SToken::STT_Star:
-            left.multiply( primary( true ) );
-            break;
-        case SToken::STT_Divide:
-            left.divide( primary( true ) );
+        case SToken::STT_Tilde:
+            left.range_op( primary( true ) );
             break;
         default:
             return left;
@@ -957,39 +1053,6 @@ SValue Script::primary( bool get )
         value.set_str( token.get_str() );
         m_ts.next();
         break;
-    case SToken::STT_DString:
-        {
-            SHandle sch = store()->ischeme;
-            if( sch ) {
-                value.set_field( sch->str_to_jdn( token.get_str() ) );
-            } else {
-                error( "Valid scheme not set." );
-            }
-        }
-        m_ts.next();
-        break;
-    case SToken::STT_RString:
-        {
-            SHandle sch = store()->ischeme;
-            if( sch ) {
-                value.set_range( sch->str_to_range( token.get_str() ) );
-            } else {
-                error( "Valid scheme not set." );
-            }
-        }
-        m_ts.next();
-        break;
-    case SToken::STT_LString:
-        {
-            SHandle sch = store()->ischeme;
-            if( sch ) {
-                value.set_rlist( sch->rlist_str_to_rangelist( token.get_str() ) );
-            } else {
-                error( "Valid scheme not set." );
-            }
-        }
-        m_ts.next();
-        break;
     case SToken::STT_Name:
         value = get_value_var( token.get_str() );
         m_ts.next();
@@ -1001,6 +1064,30 @@ SValue Script::primary( bool get )
             break;
         }
         m_ts.next();
+        break;
+    case SToken::STT_date:
+        value = primary( true );
+        {
+            SHandle sch = store()->ischeme;
+            if( sch ) {
+                value.set( sch->rlist_str_to_rangelist( value.get_str() ) );
+            } else {
+                error( "Valid scheme not set." );
+            }
+        }
+        break;
+    case SToken::STT_str_cast:
+        value = primary( true );
+        {
+            SHandle sch = store()->oscheme;
+            if( sch ) {
+                RangeList rlist;
+                value.get_rlist( rlist );
+                value.set_str( sch->rangelist_to_str( rlist ) );
+            } else {
+                error( "Valid scheme not set." );
+            }
+        }
         break;
     case SToken::STT_Minus:
         value = primary( true );
