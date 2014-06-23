@@ -148,10 +148,10 @@ string Cal::field_to_str( Field field )
         return "";
     }
     if( field == f_maximum ) {
-        return "future.";
+        return "future";
     }
     if( field == f_minimum ) {
-        return "past.";
+        return "past";
     }
     ostringstream ss; 
     ss << field; 

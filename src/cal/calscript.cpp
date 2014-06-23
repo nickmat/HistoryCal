@@ -402,7 +402,7 @@ void SValue::multiply( const SValue& value )
         switch( m_type )
         {
         case SVT_Field:
-            set_field( get_field() * value.get_field() );
+            set_field( multiply( get_field(), value.get_field() ) );
             return;
         default:
            set_error( "Can only multiply numbers." );
@@ -428,7 +428,7 @@ void SValue::divide( const SValue& value )
                     set_error( "Division by zero." );
                     return;
                 }
-                set_field( get_field() / value.get_field() );
+                set_field( divide( get_field(), value.get_field() ) );
             }
             return;
         default:
@@ -491,11 +491,10 @@ void SValue::negate()
     }
     switch( m_type )
     {
-    case SVT_Range:
-        m_range.jdn2 = m_range.jdn2;
-        // fall thru
     case SVT_Field:
-        m_range.jdn1 = -m_range.jdn1;
+        if( m_range.jdn1 != f_invalid ) {
+            m_range.jdn1 = add( -m_range.jdn1, 0 );
+        }
         return;
     }
     set_error( "Can only negate numbers." );
@@ -524,8 +523,28 @@ void SValue::compliment()
 
 Field SValue::add( Field left, Field right ) const
 {
-    // TODO: check for f_invalid etc and for overflow.
-    return left + right;
+    // Checks for f_invalid and for overflow.
+    if( left == f_invalid || right == f_invalid ) {
+        return f_invalid;
+    }
+    if( left == f_minimum || right == f_minimum ) {
+        if( left == f_maximum || right == f_maximum ) {
+            return f_invalid; // past + future = invalid
+        }
+        return f_minimum;
+    }
+    if( left == f_maximum || right == f_maximum ) {
+        return f_maximum;
+    }
+
+    LongField lf = (LongField) left + (LongField) right;
+    if( lf < (LongField) f_minimum ) {
+        return f_minimum;
+    }
+    if( lf > (LongField) f_maximum ) {
+        return f_maximum;
+    }
+    return (Field) lf;
 }
 
 Range SValue::add( Range range, Field field ) const
@@ -559,6 +578,54 @@ RangeList SValue::add( RangeList rlist, Range range ) const
         rl.push_back( r );
     }
     return rl;
+}
+
+Field SValue::multiply( Field left, Field right ) const
+{
+    // Checks for f_invalid and for overflow.
+    if( left == f_invalid || right == f_invalid ) {
+        return f_invalid;
+    }
+    if( left == f_minimum || right == f_minimum ) {
+        if( left == f_maximum || right == f_maximum ) {
+            return f_invalid; // past * future = invalid
+        }
+        return f_minimum;
+    }
+    if( left == f_maximum || right == f_maximum ) {
+        return f_maximum;
+    }
+
+    LongField lf = (LongField) left * (LongField) right;
+    if( lf < (LongField) f_minimum ) {
+        return f_minimum;
+    }
+    if( lf > (LongField) f_maximum ) {
+        return f_maximum;
+    }
+    return (Field) lf;
+}
+
+Field SValue::divide( Field left, Field right ) const
+{
+    // Checks for f_invalid and for overflow.
+    if( left == f_invalid || right == f_invalid ) {
+        return f_invalid;
+    }
+    if( left == f_minimum || right == f_minimum ) {
+        if( left == f_maximum || right == f_maximum ) {
+            return f_invalid; // past / future = invalid
+        }
+        return f_minimum;
+    }
+    if( left == f_maximum || right == f_maximum ) {
+        return f_maximum;
+    }
+    if( right == 0 ) {
+        // This should really be checked before reaching this far.
+        return f_invalid;
+    }
+    return left / right; // Can't overflow
 }
 
 // ----------------------------------------------
@@ -1109,6 +1176,21 @@ SValue Script::primary( bool get )
 
 SValue Script::get_value_var( const string& name )
 {
+    if( name == "true" ) {
+        return SValue( true );
+    }
+    if( name == "false" ) {
+        return SValue( false );
+    }
+    if( name == "invalid" ) {
+        return SValue( f_invalid );
+    }
+    if( name == "past" ) {
+        return SValue( f_minimum );
+    }
+    if( name == "future" ) {
+        return SValue( f_maximum );
+    }
     if( store()->table.count( name ) ) {
         return store()->table.find( name )->second;
     }

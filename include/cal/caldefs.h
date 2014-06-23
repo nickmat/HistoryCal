@@ -65,6 +65,9 @@ namespace Cal {
     // Field must be at least 32 bit, use int for now.
     // Change to int_fast32_t if possible
     typedef int Field;
+    // Used for intermediate values during calculations.
+    // Change to int_fast64_t if possible
+    typedef long long LongField;
 
     typedef std::vector<Field> FieldVec;
     typedef std::vector<FieldVec> FieldVecVec;

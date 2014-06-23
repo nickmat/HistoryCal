@@ -158,10 +158,10 @@ Field Scheme::str_to_jdn( const string& str )
 string Scheme::jdn_to_str( Field jdn )
 {
     if( jdn == f_minimum ) {
-        return "past.";
+        return "past";
     }
     if( jdn == f_maximum ) {
-        return "future.";
+        return "future";
     }
     Record rec( m_base, jdn );
     return rec.get_str();
@@ -243,14 +243,14 @@ RangeList Scheme::r_str_to_rangelist( const string& str )
         // two date strings
         string str1 = str.substr( 0, pos );
         string str2 = str.substr( pos + 1 );
-        pos = str1.find( "past." );
+        pos = str1.find( "past" );
         if( pos != string::npos ) {
             range.jdn1 = f_minimum;
             ret1 = true;
         } else {
             mask1.set_str( str1 );
         }
-        pos = str2.find( "future." );
+        pos = str2.find( "future" );
         if( pos != string::npos ) {
             range.jdn2 = f_maximum;
             ret2 = true;

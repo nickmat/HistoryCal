@@ -1,0 +1,7 @@
+// write014.hcs Test use of constants 'past' and 'future'
+
+set output g;
+write str ( past ~ 2431090 | 2432552 ~ future );
+
+/*[OUTPUT]
+past ~ 31 Dec 1943 | 1 Jan 1948 ~ future[OUTPUT]*/
