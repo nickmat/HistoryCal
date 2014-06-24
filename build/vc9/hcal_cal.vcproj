@@ -287,6 +287,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\cal\calstokenstream.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\cal\calsvalue.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\cal\calversion.cpp"
 				>
 			</File>
@@ -386,6 +394,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\cal\calshift.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\cal\calstokenstream.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\cal\calsvalue.h"
 				>
 			</File>
 			<File

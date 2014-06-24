@@ -124,6 +124,8 @@ CAL_OBJECTS =  \
 	cal_calscript.o \
 	cal_calsetmath.o \
 	cal_calshift.o \
+	cal_calstokenstream.o \
+	cal_calsvalue.o \
 	cal_calversion.o \
 	cal_calvocab.o
 UTF8API_CFLAGS = $(VAR) $(VAR_7) -DMAKINGLIB_UTF8API -I../../include -fPIC -DPIC \
@@ -351,6 +353,12 @@ cal_calsetmath.o: ./../../src/cal/calsetmath.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calshift.o: ./../../src/cal/calshift.cpp
+	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
+
+cal_calstokenstream.o: ./../../src/cal/calstokenstream.cpp
+	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
+
+cal_calsvalue.o: ./../../src/cal/calsvalue.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calversion.o: ./../../src/cal/calversion.cpp

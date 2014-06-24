@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Name:        src/cal/calscript.h
  * Project:     Cal: Programmable Historical Calendar library.
- * Purpose:     Evaluate script.
+ * Purpose:     Run script.
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     7th May 2014
@@ -29,78 +29,12 @@
 #define CAL_CALSCRIPT_H_GUARD
 
 #include "cal/caldefs.h"
+#include "calstokenstream.h"
 #include "calscriptstore.h"
 
 #include <iostream>
 
 namespace Cal {
-
-    class SToken
-    {
-    public:
-        enum Type {
-            STT_Null, STT_End, 
-            STT_String,
-            STT_Name, STT_Number, STT_Range, STT_RList,
-            STT_Equal, STT_Plus, STT_Minus, STT_Divide, STT_Star,
-            STT_Percent, STT_Backslash, STT_Semicolon, STT_Tilde,
-            STT_Vline, STT_Ampersand, STT_Exclamation, STT_Carrot,
-            STT_Lbracket, STT_Rbracket, STT_LCbracket, STT_RCbracket,
-            STT_LSbracket, STT_RSbracket, 
-            STT_and, STT_or, STT_not, STT_str_cast, STT_date,
-            STT_NotEqual/*<>*/,
-            STT_GtThan, STT_GtThanEq, STT_LessThan, STT_LessThanEq, 
-            // Alternative token names
-            STT_UNION = STT_Vline,
-            STT_INTERSECTION = STT_Ampersand,
-            STT_REL_COMPLEMENT = STT_Backslash,
-            STT_SYM_DIFFERENCE = STT_Carrot,
-            STT_COMPLEMENT = STT_Exclamation
-        };
-        SToken() : m_type(STT_End) {}
-
-        void set_type( Type type ) { m_type = type; }
-        void set_value( const std::string& str ) { m_value.set_str( str ); }
-        void set_value( Field field ) { m_value.set_field( field ); }
-
-        Type type() const { return m_type; }
-        SValue value() const { return m_value; }
-        std::string get_str() const { return m_value.get_str(); }
-        bool get_bool() const { return m_value.get_bool(); }
-        Field get_field() const { return m_value.get_field(); }
-        Range get_range() const { return m_value.get_range(); }
-        RangeList get_rlist() const { return m_value.get_rlist(); }
-
-    private:
-        Type   m_type;
-        SValue m_value;
-    };
-
-    class STokenStream {
-    public:
-        STokenStream( std::istream& in, std::ostream& err ) 
-            : m_in(&in), m_err(&err), m_line(1), m_errors(0) {}
-
-        void reset();
-
-        SToken next();
-        SToken& current() { return m_cur_token; }
-        std::string read_function();
-
-        bool error( const std::string& mess );
-        int errors() const { return m_errors; }
-
-    private:
-        void set_type( SToken::Type type ) { m_cur_token.set_type( type ); } 
-        void set_current( SToken::Type type, const std::string& str );
-        void set_current( SToken::Type type, Field num );
-
-        std::istream* m_in;
-        std::ostream* m_err;
-        SToken   m_cur_token;
-        int      m_line;
-        int      m_errors;
-    };
 
     class Calendars;
 
