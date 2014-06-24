@@ -32,6 +32,8 @@
 
 namespace Cal {
 
+    class STokenStream;
+
     class SValue
     {
     public:
@@ -50,7 +52,8 @@ namespace Cal {
         void set_field( Field field ) { m_type = SVT_Field; m_range.jdn1 = field; }
         void set_range( Range range ) { m_type = SVT_Range; m_range = range; }
         void set_rlist( RangeList rlist ) { m_type = SVT_RList; m_rlist = rlist; }
-        void set_error( const std::string& str ) { m_type = SVT_Error; m_str = str; }
+
+        void set_error( const std::string& str );
 
         void set( RangeList& rlist ); 
 
@@ -88,6 +91,8 @@ namespace Cal {
         void logical_not();
         void compliment();
 
+        static STokenStream* set_token_stream( STokenStream* ts );
+
     private:
         Type type() const { return m_type; }
         Field add( Field left, Field right ) const; 
@@ -102,6 +107,7 @@ namespace Cal {
         std::string m_str;
         Range       m_range;
         RangeList   m_rlist;
+        static STokenStream* m_ts;
     };
 
 

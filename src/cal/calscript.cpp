@@ -39,6 +39,8 @@
 using namespace std;
 using namespace Cal;
 
+STokenStream* SValue::m_ts = NULL;
+
 SValue::SValue( const SValue& value )
 {
     m_type = value.type();
@@ -58,6 +60,15 @@ SValue::SValue( const SValue& value )
     case SVT_RList:
         m_rlist = value.get_rlist();
         break;
+    }
+}
+
+void SValue::set_error( const string& str )
+{
+    m_type = SVT_Error;
+    m_str = str;
+    if( m_ts ) {
+        m_ts->error( str );
     }
 }
 
@@ -521,6 +532,14 @@ void SValue::compliment()
     set_error( "Cannot convert to RList." );
 }
 
+STokenStream* SValue::set_token_stream( STokenStream* ts )
+{
+    STokenStream* old = m_ts;
+    m_ts = ts;
+    return old;
+}
+
+
 Field SValue::add( Field left, Field right ) const
 {
     // Checks for f_invalid and for overflow.
@@ -799,16 +818,21 @@ Script::Script( Calendars* cals, istream& in, ostream& out )
 
 bool Script::run()
 {
+    bool ret = false;
+    STokenStream* prev_ts = SValue::set_token_stream( &m_ts );
     for(;;) {
         m_ts.next();
         if( m_ts.current().type() == SToken::STT_End ) {
-            return true;
+            ret = true;
+            break;
         }
         if( statement() == false ) {
-            return m_ts.errors() == 0; 
+            ret = ( m_ts.errors() == 0 );
+            break;
         }
     }
-    return false;
+    SValue::set_token_stream( prev_ts );
+    return ret;
 }
 
 ScriptStore* Script::store() const
