@@ -68,9 +68,18 @@ Record::Record( const Record& rec )
 void Record::set_str( const string& str )
 {
     clear_fields();
+    string in = full_trim( str );
+    if( in == "past" ) {
+        m_jdn = m_f[0] = f_minimum;
+        return;
+    }
+    if( in == "future" ) {
+        m_jdn = m_f[0] = f_maximum;
+        return;
+    }
     FieldVec f1(m_base->extended_size());
     IftVec t(m_base->extended_size());
-    int cnt = parse_date( &f1[0], &t[0], f1.size(), str );
+    int cnt = parse_date( &f1[0], &t[0], f1.size(), in );
 
     // TODO: remove following temp code
     cnt = 0;
@@ -102,7 +111,10 @@ void Record::set_str( const string& str )
 
 bool Record::set_fields_as_begin_first( const Field* mask  )
 {
-    bool ret = m_base->set_fields_as_begin_first( &m_f[0], mask );
+    bool ret = true;
+    if( m_f[0] != f_minimum ) {         
+        ret = m_base->set_fields_as_begin_first( &m_f[0], mask );
+    }
     if( ret ) {
         m_jdn = get_jdn();
     }
@@ -120,7 +132,10 @@ bool Record::set_fields_as_next_first( const Field* mask  )
 
 bool Record::set_fields_as_begin_last(  const Field* mask  )
 {
-    bool ret = m_base->set_fields_as_begin_last( &m_f[0], mask );
+    bool ret = true;
+    if( m_f[0] != f_maximum ) {         
+        ret = m_base->set_fields_as_begin_last( &m_f[0], mask );
+    }
     if( ret ) {
         m_jdn = get_jdn();
     }
@@ -146,6 +161,9 @@ void Record::remove_balanced_fields( Record* rec )
 
 Field Record::get_jdn() const
 {
+    if( m_f[0] == f_minimum || m_f[0] == f_maximum ) {
+        return m_f[0];
+    }
     // Base should check or correct for valid content
     return m_base->get_jdn( &m_f[0] );
 }
