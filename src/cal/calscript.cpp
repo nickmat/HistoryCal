@@ -385,14 +385,10 @@ SValue Script::primary( bool get )
         m_ts.next();
         break;
     case SToken::STT_date:
-        value = primary( true );
         {
+            value = primary( true );
             SHandle sch = store()->ischeme;
-            if( sch ) {
-                value.set( sch->rlist_str_to_rangelist( value.get_str() ) );
-            } else {
-                error( "Valid scheme not set." );
-            }
+            value.set( m_cals->str_to_rangelist( sch, value.get_str() ) );
         }
         break;
     case SToken::STT_str_cast:

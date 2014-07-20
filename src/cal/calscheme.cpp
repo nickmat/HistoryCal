@@ -167,19 +167,6 @@ string Scheme::jdn_to_str( Field jdn )
     return rec.get_str();
 }
 
-Range Scheme::str_to_range( const string& str )
-{
-    RangeList rlist = r_str_to_rangelist( str );
-    switch( rlist.size() )
-    {
-    case 0:
-        return Range( f_invalid, f_invalid );
-    case 1:
-        return rlist[0];
-    }
-    return Range( rlist[0].jdn1, rlist[rlist.size()-1].jdn2 );
-}
-
 string Scheme::range_to_str( Range range )
 {
     if( range.jdn1 == range.jdn2 ) {
@@ -201,88 +188,6 @@ string Scheme::range_to_str( Range range )
         }
     }
     return str1 + " ~ " + str2;
-}
-
-// Convert a string which contains a list of ranges to a rangelist.
-RangeList Scheme::rlist_str_to_rangelist( const string& input )
-{
-    RangeList rlist;
-    string str;
-    size_t pos, cpos = 0;
-    do {
-        pos = input.find( range_div, cpos );
-        if( pos != string::npos ) {
-            str = input.substr( cpos, pos - cpos );
-            cpos = pos + 1;
-        } else {
-            str = input.substr( cpos );
-        }
-        RangeList rl = r_str_to_rangelist( str );
-        if( rl.size() ) {
-            rlist.insert( rlist.end(), rl.begin(), rl.end() );
-        }
-    } while( pos != string::npos );
-    return rlist;
-}
-
-// Convert a string written as a shorthand or single longhand range
-// to a rangelist.
-RangeList Scheme::r_str_to_rangelist( const string& str )
-{
-    RangeList ranges;
-    Range range;
-    bool ret1 = false, ret2 = false;
-    Record mask1(m_base), mask2(m_base);
-    Record rec1(m_base), rec2(m_base);
-    size_t pos = str.find( range_sep );
-    if( pos == string::npos ) {
-        // Short form range string
-        mask1.set_str( str );
-        mask2.set_fields( mask1.get_field_ptr(), m_base->extended_size() );
-    } else {
-        // two date strings
-        string str1 = str.substr( 0, pos );
-        string str2 = str.substr( pos + 1 );
-        pos = str1.find( "past" );
-        if( pos != string::npos ) {
-            range.jdn1 = f_minimum;
-            ret1 = true;
-        } else {
-            mask1.set_str( str1 );
-        }
-        pos = str2.find( "future" );
-        if( pos != string::npos ) {
-            range.jdn2 = f_maximum;
-            ret2 = true;
-        } else {
-            mask2.set_str( str2 );
-        }
-        if( ret1 || ret2 ) {
-            if( ret1 == false ) {
-                rec1.set_fields_as_begin_first( mask1.get_field_ptr() );
-                range.jdn1 = rec1.get_jdn();
-            }
-            if( ret2 == false ) {
-                rec2.set_fields_as_begin_last( mask2.get_field_ptr() );
-                range.jdn2 = rec2.get_jdn();
-            }
-            ranges.push_back( range );
-            return ranges;
-        }
-    }
-    ret1 = rec1.set_fields_as_begin_first( mask1.get_field_ptr() );
-    ret2 = rec2.set_fields_as_begin_last( mask2.get_field_ptr() );
-    while( ret1 && ret2 ) {
-        range.jdn1 = rec1.get_jdn();
-        range.jdn2 = rec2.get_jdn();
-        if( range.jdn1 > range.jdn2 ) {
-            break;
-        }
-        ranges.push_back( range );
-        ret1 = rec1.set_fields_as_next_first( mask1.get_field_ptr() );
-        ret2 = rec2.set_fields_as_next_last( mask2.get_field_ptr() );
-    }
-    return ranges;
 }
 
 string Scheme::rangelist_to_str( const RangeList& ranges )

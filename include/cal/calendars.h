@@ -79,7 +79,7 @@ namespace Cal {
         Grammar* add_grammar( const std::string& code );
 
     private:
-        RangeList r_str_to_rangelist( SHandle scheme, const std::string& str );
+        RangeList range_str_to_rangelist( SHandle scheme, const std::string& str );
 
         SHandleMap   m_shandles;
         GrammarMap   m_grammars;
