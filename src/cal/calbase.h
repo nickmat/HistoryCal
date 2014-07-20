@@ -34,6 +34,9 @@ namespace Cal {
 
     class Grammar;
 
+    typedef std::map<int,XRefVec> XRefSet;
+    typedef std::map<std::string,XRefSet> XRefMap;
+
     class Base
     {
         enum BaseExtendedFieldNumber { BEFN_wday, BEFN_COUNT };
@@ -105,7 +108,7 @@ namespace Cal {
         Grammar* get_grammar() const { return m_grammar; }
 
         void set_grammar( Grammar* grammar );
-        void set_input_format( const std::string& code ); // { m_input_format = code; }
+        void set_input_format( const std::string& code ) { m_input_format = code; }
         void set_output_format( const std::string& code ) { m_output_format = code; }
 
         XRefVec get_xref_order( int count ) const;
@@ -126,11 +129,12 @@ namespace Cal {
     private:
         std::string create_default_order() const;
         std::string create_default_format() const;
+        void add_xref_input( const std::string& code );
 
         Grammar*    m_grammar;
         std::string m_input_format;
         std::string m_output_format;
-        std::map<int,XRefVec>  m_xref_order;
+        XRefMap     m_xref_inputs;
     };
 
 }

@@ -242,55 +242,25 @@ string Base::get_format() const
 void Base::set_grammar( Grammar* grammar )
 {
     m_grammar = grammar;
-    set_input_format( grammar->get_pref_input_format() );
     set_output_format( grammar->get_pref_output_format() );
-}
+    set_input_format( grammar->get_pref_input_format() );
 
-void Base::set_input_format( const std::string& code )
-{
-    string order;
-    if( m_grammar ) {
-        m_input_format = code;
-        order = m_grammar->get_input_format( code );
-    } else {
-        order = create_default_order();
-    }
-    m_xref_order.clear();
-    XRefVec xref;
-    int i, max_j = -1;
-    for( i = 0 ; order.size() ; i++ ) {
-        string fname = get_first_word( order, &order );
-        int j = get_fieldname_index( get_alias_fieldname( fname ) );
-        xref.push_back( j );
-        if( j > max_j ) {
-            max_j = j;
-        }
-    }
-    while( max_j > -1 ) {
-        m_xref_order[xref.size()] = xref;
-        int prev_max_j = max_j;
-        max_j = -1;
-        XRefVec x;
-        for( i = 0 ; i < (int) xref.size() ; i++ ) {
-            int j = xref[i];
-            if( j == prev_max_j ) {
-                continue;
-            }
-            x.push_back( j );
-            if( j > max_j ) {
-                max_j = j;
-            }
-        }
-        xref = x;
+    SchemeFormats inputs;
+    m_grammar->get_input_formats( &inputs );
+    for( size_t i = 0 ; i < inputs.code.size() ; i++ ) {
+        add_xref_input( inputs.code[i] );
     }
 }
 
 XRefVec Base::get_xref_order( int cnt ) const
 {
-    if( m_xref_order.count( cnt ) == 0 ) {
-        return get_default_xref_order( cnt );
+    if( m_xref_inputs.count( m_input_format ) > 0 ) {
+        XRefSet xref_set = m_xref_inputs.find( m_input_format )->second;
+        if( xref_set.count( cnt ) > 0 ) {
+            return xref_set.find( cnt )->second;
+        }
     }
-    return m_xref_order.find( cnt )->second;
+    return get_default_xref_order( cnt );
 }
 
 FieldVec Base::fields_to_vec( const Field* fields ) const
@@ -391,5 +361,43 @@ string Base::create_default_format() const
     }
     return format;
 }
+
+void Base::add_xref_input( const std::string& code )
+{
+    if( m_grammar == NULL ) {
+        return;
+    }
+    string order = m_grammar->get_input_format( code );
+    XRefVec xref;
+    XRefSet xref_set;
+    int i, max_j = -1;
+    for( i = 0 ; order.size() ; i++ ) {
+        string fname = get_first_word( order, &order );
+        int j = get_fieldname_index( get_alias_fieldname( fname ) );
+        xref.push_back( j );
+        if( j > max_j ) {
+            max_j = j;
+        }
+    }
+    while( max_j > -1 ) {
+        xref_set[xref.size()] = xref;
+        int prev_max_j = max_j;
+        max_j = -1;
+        XRefVec x;
+        for( i = 0 ; i < (int) xref.size() ; i++ ) {
+            int j = xref[i];
+            if( j == prev_max_j ) {
+                continue;
+            }
+            x.push_back( j );
+            if( j > max_j ) {
+                max_j = j;
+            }
+        }
+        xref = x;
+    }
+    m_xref_inputs[code] = xref_set;
+}
+
 
 // End of src/cal/calbase.cpp file
