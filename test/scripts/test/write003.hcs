@@ -1,4 +1,4 @@
-// write03.hcs Test number output, addition.
+// write03.hcs Test number input and output.
 
 write 1234;
 

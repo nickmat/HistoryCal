@@ -1,4 +1,4 @@
-// write04.hcs Test number output, addition.
+// write04.hcs Test standard numeric arithmatic.
 
 write 1234 + 6 * 5 / 2 - 49;
 
