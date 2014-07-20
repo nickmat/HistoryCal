@@ -1,7 +1,7 @@
 // write016.hcs Test use of constants 'past' and 'future' with addition
 
 set output g;
-write str ( past ~ 2431090 | 2432552 ~ future + 7 );
+write str ( ( past ~ 2431090 | 2432552 ~ future ) + ( 7 ~ 7 ) );
 
 /*[OUTPUT]
 past ~ 7 Jan 1944 | 8 Jan 1948 ~ future[OUTPUT]*/

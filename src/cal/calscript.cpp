@@ -243,71 +243,31 @@ SValue Script::expr( bool get )
 
 SValue Script::compare( bool get )
 {
-    SValue left = sum( get );
+    SValue left = combine( get );
     for(;;) {
         SToken token = m_ts.current();
         switch( token.type() )
         {
         case SToken::STT_Equal:
-            left.equal( sum( true ) );
+            left.equal( combine( true ) );
             break;
         case SToken::STT_NotEqual:
-            left.equal( sum( true ) );
+            left.equal( combine( true ) );
             left.logical_not();
             break;
         case SToken::STT_GtThan:
-            left.greater_than( sum( true ) );
+            left.greater_than( combine( true ) );
             break;
         case SToken::STT_GtThanEq:
-            left.less_than( sum( true ) );
+            left.less_than( combine( true ) );
             left.logical_not();
             break;
         case SToken::STT_LessThan:
-            left.less_than( sum( true ) );
+            left.less_than( combine( true ) );
             break;
         case SToken::STT_LessThanEq:
-            left.greater_than( sum( true ) );
+            left.greater_than( combine( true ) );
             left.logical_not();
-            break;
-        default:
-            return left;
-        }
-    }
-}
-
-SValue Script::sum( bool get )
-{
-    SValue left = term( get );
-
-    for(;;) {
-        SToken token = m_ts.current();
-        switch( token.type() )
-        {
-        case SToken::STT_Plus:
-            left.plus( term( true ) );
-            break;
-        case SToken::STT_Minus:
-            left.minus( term( true ) );
-            break;
-        default:
-            return left;
-        }
-    }
-}
-
-SValue Script::term( bool get )
-{
-    SValue left = combine( get );
-
-    for(;;) {
-        SToken token = m_ts.current();
-        switch( token.type() )
-        {
-        case SToken::STT_Star:
-            left.multiply( combine( true ) );
-            break;
-        case SToken::STT_Divide:
-            left.divide( combine( true ) );
             break;
         default:
             return left;
@@ -343,14 +303,54 @@ SValue Script::combine( bool get )
 
 SValue Script::range( bool get )
 {
-    SValue left = primary( get );
+    SValue left = sum( get );
 
     for(;;) {
         SToken token = m_ts.current();
         switch( token.type() )
         {
         case SToken::STT_Tilde:
-            left.range_op( primary( true ) );
+            left.range_op( sum( true ) );
+            break;
+        default:
+            return left;
+        }
+    }
+}
+
+SValue Script::sum( bool get )
+{
+    SValue left = term( get );
+
+    for(;;) {
+        SToken token = m_ts.current();
+        switch( token.type() )
+        {
+        case SToken::STT_Plus:
+            left.plus( term( true ) );
+            break;
+        case SToken::STT_Minus:
+            left.minus( term( true ) );
+            break;
+        default:
+            return left;
+        }
+    }
+}
+
+SValue Script::term( bool get )
+{
+    SValue left = primary( get );
+
+    for(;;) {
+        SToken token = m_ts.current();
+        switch( token.type() )
+        {
+        case SToken::STT_Star:
+            left.multiply( primary( true ) );
+            break;
+        case SToken::STT_Divide:
+            left.divide( primary( true ) );
             break;
         default:
             return left;
