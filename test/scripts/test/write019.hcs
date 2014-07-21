@@ -1,4 +1,4 @@
-// write018.hcs Test use of date scheme prefixes with range list.
+// write019.hcs Test use of date scheme and format prefixes.
 
 write date "g:mdy#mar8,1943|j:ymd#1948sep|g:ymd#1958mar~j:mdy#sep1958";
 
