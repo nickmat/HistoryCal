@@ -149,9 +149,9 @@ FieldVec Scheme::jdn_to_fieldvec( Field jdn )
     return rec.get_fieldvec();
 }
 
-Field Scheme::str_to_jdn( const string& str )
+Field Scheme::str_to_jdn( const string& str, const string& fmt )
 {
-    Record rec( m_base, str );
+    Record rec( m_base, str, fmt );
     return rec.get_jdn();
 }
 

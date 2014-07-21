@@ -41,7 +41,7 @@ Pattern::Pattern( Base* base )
 
 void Pattern::set_mask( const std::string& mask )
 {
-    Record rec( m_base, mask );
+    Record rec( m_base, mask, "" );
     m_mask = rec.get_fieldvec();
 }
 

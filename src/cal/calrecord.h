@@ -43,13 +43,13 @@ namespace Cal {
         Record( const Base* base );
         Record( const Base* base, Field jdn );
         Record( const Base* base, const Field* fields, size_t size );
-        Record( const Base* base, const std::string& str );
+        Record( const Base* base, const std::string& str, const std::string& fmt );
         Record( const Record& rec );
         virtual ~Record() {}
 
         void set_jdn( Field jdn );
         void set_fields( const Field* fields, size_t size );
-        void set_str( const std::string& str );
+        void set_str( const std::string& str, const std::string& fmt );
 
         bool set_fields_as_begin_first( const Field* mask );
         bool set_fields_as_next_first( const Field* mask );

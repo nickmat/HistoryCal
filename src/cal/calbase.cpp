@@ -252,15 +252,23 @@ void Base::set_grammar( Grammar* grammar )
     }
 }
 
-XRefVec Base::get_xref_order( int cnt ) const
+XRefVec Base::get_xref_order( int cnt, const string& fmt ) const
 {
-    if( m_xref_inputs.count( m_input_format ) > 0 ) {
-        XRefSet xref_set = m_xref_inputs.find( m_input_format )->second;
-        if( xref_set.count( cnt ) > 0 ) {
-            return xref_set.find( cnt )->second;
+    XRefSet xref_set;
+    size_t fmtcount = m_xref_inputs.count( fmt );
+    if( fmtcount == 0 ) {
+        fmtcount = m_xref_inputs.count( m_input_format );
+        if( fmtcount == 0 ) {
+            return get_default_xref_order( cnt );
         }
+        xref_set = m_xref_inputs.find( m_input_format )->second;
+    } else {
+        xref_set = m_xref_inputs.find( fmt )->second;
     }
-    return get_default_xref_order( cnt );
+    if( xref_set.count( cnt ) == 0 ) {
+        return get_default_xref_order( cnt );
+    }
+    return xref_set.find( cnt )->second;
 }
 
 FieldVec Base::fields_to_vec( const Field* fields ) const

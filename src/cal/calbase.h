@@ -111,7 +111,7 @@ namespace Cal {
         void set_input_format( const std::string& code ) { m_input_format = code; }
         void set_output_format( const std::string& code ) { m_output_format = code; }
 
-        XRefVec get_xref_order( int count ) const;
+        XRefVec get_xref_order( int count, const std::string& format ) const;
 
         FieldVec fields_to_vec( const Field* fields ) const;
         bool is_complete( const Field* fields ) const;

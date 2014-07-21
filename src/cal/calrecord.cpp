@@ -54,10 +54,10 @@ Record::Record( const Base* base, const Field* fields, size_t size )
     set_fields( fields, size );
 }
 
-Record::Record( const Base* base, const string& str )
+Record::Record( const Base* base, const string& str, const string& fmt )
     : m_base(base), m_jdn(f_invalid), m_f(base->extended_size())
 {
-    set_str( str );
+    set_str( str, fmt );
 }
 
 Record::Record( const Record& rec )
@@ -65,7 +65,7 @@ Record::Record( const Record& rec )
 {
 }
 
-void Record::set_str( const string& str )
+void Record::set_str( const string& str, const string& fmt )
 {
     clear_fields();
     string in = full_trim( str );
@@ -96,7 +96,7 @@ void Record::set_str( const string& str )
     if( cnt < 1 ) {
         return; // Error parsing date
     }
-    XRefVec xref = m_base->get_xref_order( cnt );
+    XRefVec xref = m_base->get_xref_order( cnt, fmt );
     assert( xref.size() );
     for( int i = 0 ; i < cnt ; i++ ) {
         int x = xref[i];

@@ -58,7 +58,7 @@ namespace Cal {
         Field fieldvec_to_jdn( const FieldVec& fieldv );
         FieldVec jdn_to_fieldvec( Field jdn );
 
-        Field str_to_jdn( const std::string& str );
+        Field str_to_jdn( const std::string& str, const std::string& fmt );
         std::string jdn_to_str( Field jdn );
         std::string range_to_str( Range range );
         RangeList rlist_str_to_rangelist( const std::string& str );

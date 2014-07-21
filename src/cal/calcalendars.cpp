@@ -157,7 +157,15 @@ FieldVec Calendars::jdn_to_fieldvec( SHandle scheme, Field jdn )
 
 Field Calendars::str_to_jdn( SHandle scheme, const string& str )
 {
-    return scheme->str_to_jdn( str );
+    string sch, fmt, date;
+    split_code_date( &sch, &fmt, &date, str );
+    if( sch.size() ) {
+        scheme = get_scheme( sch );
+    }
+    if( scheme == NULL ) {
+        return f_invalid;
+    }
+    return scheme->str_to_jdn( date, fmt );
 }
 
 string Calendars::jdn_to_str( SHandle scheme, Field jdn )
@@ -291,46 +299,39 @@ Grammar* Calendars::add_grammar( const string& code )
 }
 
 // Convert a string written as a shorthand or single longhand range
-// to a rangelist.
+// to a rangelist. Handles scheme:format# prefix. Scheme may be NULL;
 RangeList Calendars::range_str_to_rangelist( SHandle scheme, const string& str )
 {
-    string str1 = str, str2;
     Base* base1 = NULL;
     Base* base2 = NULL;
     if( scheme ) {
         base1 = base2 = scheme->get_base();
     }
+    string str1, str2, scode, fcode1, fcode2;
     size_t pos = str.find( range_sep );
     if( pos == string::npos ) {
-        // Short form range string
-        pos = str.find( '#' );
-        // Check  for scheme prefix
-        if( pos != string::npos ) {
-            string scode = str.substr( 0, pos );
+        // Single, poss shorthand, date string.
+        split_code_date( &scode, &fcode1, &str1, str );
+        if( scode.size() ) {
             SHandle sch = get_scheme( scode );
             base2 = base1 = sch->get_base();
-            str1 = str.substr( pos + 1 );
         }
+        fcode2 = fcode1;
         str2 = str1;
     } else {
-        // Two date strings
-        str1 = str.substr( 0, pos );
-        str2 = str.substr( pos + 1 );
-        // Check range start date for scheme prefix
-        pos = str1.find( '#' );
-        if( pos != string::npos ) {
-            string scode = str1.substr( 0, pos );
+        // Two date strings.
+        string temp = str.substr( 0, pos );
+        split_code_date( &scode, &fcode1, &str1, temp );
+        if( scode.size() ) {
             SHandle sch = get_scheme( scode );
             base1 = sch->get_base();
-            str1 = str1.substr( pos + 1 );
         }
-        // Check range finish date for scheme prefix
-        pos = str2.find( '#' );
-        if( pos != string::npos ) {
-            string scode = str2.substr( 0, pos );
+        temp = str.substr( pos + 1 );
+        scode.clear();
+        split_code_date( &scode, &fcode2, &str2, temp );
+        if( scode.size() ) {
             SHandle sch = get_scheme( scode );
             base2 = sch->get_base();
-            str2 = str2.substr( pos + 1 );
         }
     }
     RangeList ranges;
@@ -338,10 +339,7 @@ RangeList Calendars::range_str_to_rangelist( SHandle scheme, const string& str )
         return ranges;
     }
 
-    str1 = full_trim( str1 );
-    str2 = full_trim( str2 );
-
-    Record mask1(base1, str1), mask2(base2, str2);
+    Record mask1( base1, str1, fcode1 ), mask2( base2, str2, fcode2 );
     Record rec1(base1), rec2(base2);
     bool ret1 = rec1.set_fields_as_begin_first( mask1.get_field_ptr() );
     bool ret2 = rec2.set_fields_as_begin_last( mask2.get_field_ptr() );

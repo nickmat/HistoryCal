@@ -29,6 +29,7 @@
 
 #include <utf8/utf8api.h>
 
+#include <cassert>
 #include <sstream>
 
 using namespace Cal;
@@ -172,6 +173,34 @@ string Cal::make_key( const string& str )
         }
     }
     return Utf8api::normal( key );
+}
+
+// Parse a string formated as 'scheme:format#date' into its components.
+// Alt formats, 'scheme#date', ':format#date' and 'date'.
+// Note, 'date' may contain ':' characters, but not 'scheme' or 'format'.
+// If 'scheme' or 'format' are missing their values are not changed.
+bool Cal::split_code_date(
+    string* scheme, string* format, string* date, const string& str )
+{
+    assert( scheme != NULL );
+    assert( format != NULL );
+    assert( date != NULL );
+
+    size_t pos = str.find( '#' );
+    if( pos != string::npos ) {
+        string codes = str.substr( 0, pos );
+        *date = str.substr( pos + 1 );
+        pos = codes.find( ':' );
+        if( pos != string::npos ) {
+            *scheme = codes.substr( 0, pos );
+            *format = codes.substr( pos + 1 );
+        } else {
+            *scheme = codes;
+        }
+    } else {
+        *date = str;
+    }
+    return true;
 }
 
 // Convert a date expression string to a script string.
