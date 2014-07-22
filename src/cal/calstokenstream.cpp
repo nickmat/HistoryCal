@@ -92,10 +92,14 @@ SToken STokenStream::next()
             set_type( SToken::STT_and );
         } else if( str == "not" ) {
             set_type( SToken::STT_not );
+        } else if( str == "match" ) {
+            set_type( SToken::STT_match );
         } else if( str == "str" ) {
             set_type( SToken::STT_str_cast );
         } else if( str == "date" ) {
             set_type( SToken::STT_date );
+        } else if( str == "mask" ) {
+            set_type( SToken::STT_mask );
         } else {
             set_current( SToken::STT_Name, str );
         }
@@ -125,13 +129,16 @@ SToken STokenStream::next()
     case '}': set_type( SToken::STT_RCbracket ); break;
     case '[': set_type( SToken::STT_LSbracket ); break;
     case ']': set_type( SToken::STT_RSbracket ); break;
+    case ':': set_type( SToken::STT_Colon ); break;
     case ';': set_type( SToken::STT_Semicolon ); break;
+    case ',': set_type( SToken::STT_Comma ); break;
     case '~': set_type( SToken::STT_Tilde ); break;
     case '|': set_type( SToken::STT_Vline ); break;
     case '&': set_type( SToken::STT_Ampersand ); break;
     case '!': set_type( SToken::STT_Exclamation ); break;
     case '^': set_type( SToken::STT_Carrot ); break;
     case '\\': set_type( SToken::STT_Backslash ); break;
+    case '?': set_type( SToken::STT_Qmark ); break;
     default:
         error( "Unrecognised token." );
         set_type( SToken::STT_End );

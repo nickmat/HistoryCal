@@ -65,6 +65,7 @@ namespace Cal {
         SValue combine( bool get );
         SValue range( bool get );
         SValue primary( bool get );
+        SValue fields_expr( bool get );
 
         SValue get_value_var( const std::string& name );
 

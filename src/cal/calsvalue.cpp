@@ -40,23 +40,31 @@ STokenStream* SValue::m_ts = NULL;
 
 SValue::SValue( const SValue& value )
 {
-    m_type = value.type();
+    m_type = value.m_type;
     switch( m_type )
     {
     case SVT_Error:
     case SVT_Str:
-        m_str = value.get_str();
+        m_str = value.m_str;
         break;
     case SVT_Bool:
     case SVT_Field:
-        m_range.jdn1 = value.get_field();
-        break;
     case SVT_Range:
-        m_range = value.get_range();
+        m_range = value.m_range;
         break;
+    case SVT_Fields:
     case SVT_RList:
-        m_rlist = value.get_rlist();
+        m_rlist = value.m_rlist;
         break;
+    }
+}
+
+void SValue::set_fields( const FieldVec& fields )
+{
+    m_type = SVT_Fields;
+    for( size_t i = 0 ; i < fields.size() ; i++ ) {
+        Range range( fields[i], f_invalid );
+        m_rlist.push_back( range );
     }
 }
 
@@ -122,6 +130,20 @@ bool SValue::get( string& str ) const
             }
         }
         return true;
+    case SVT_Fields:
+        str += "[";
+        for( size_t i = 0 ; i < m_rlist.size() ; i++ ) {
+            if( i > 0 ) {
+                str += ", ";
+            }
+            if( m_rlist[i].jdn1 == f_invalid ) {
+                str += "?";
+            } else {
+                str += field_to_str( m_rlist[i].jdn1 );
+            }
+        }
+        str += "]";
+        return true;
     }
     return false;
 }
@@ -148,6 +170,16 @@ RangeList SValue::get_rlist() const
 {
     assert( m_type == SVT_RList );
     return m_rlist;
+}
+
+FieldVec SValue::get_fields() const
+{
+    assert( m_type == SVT_Fields );
+    FieldVec fields;
+    for( size_t i = 0 ; i < m_rlist.size() ; i++ ) {
+        fields[i] = m_rlist[i].jdn1;
+    }
+    return fields;
 }
 
 bool SValue::get_rlist( RangeList& rlist ) const

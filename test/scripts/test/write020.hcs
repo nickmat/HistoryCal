@@ -1,0 +1,7 @@
+// write020.hcs Test mask input and output.
+
+set input g;
+write [?,?,21];
+
+/*[OUTPUT]
+[?, ?, 21][OUTPUT]*/

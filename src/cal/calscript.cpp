@@ -368,6 +368,10 @@ SValue Script::primary( bool get )
         value.set_field( token.get_field() );
         m_ts.next();
         break;
+    case SToken::STT_Qmark:
+        value.set_field( f_invalid );
+        m_ts.next();
+        break;
     case SToken::STT_String:
         value.set_str( token.get_str() );
         m_ts.next();
@@ -382,6 +386,10 @@ SValue Script::primary( bool get )
             error( "')' expected." );
             break;
         }
+        m_ts.next();
+        break;
+    case SToken::STT_LSbracket:
+        value = fields_expr( true );
         m_ts.next();
         break;
     case SToken::STT_date:
@@ -420,6 +428,36 @@ SValue Script::primary( bool get )
         error( "Primary value expected." );
     }
     return value;
+}
+
+SValue Script::fields_expr( bool get )
+{
+    FieldVec fields;
+    SToken token = get ? m_ts.next() : m_ts.current();
+
+    for(;;) {
+        switch( token.type() )
+        {
+        case SToken::STT_End:
+        case SToken::STT_RSbracket:
+            return SValue( fields );
+        case SToken::STT_Comma:
+            break;
+        default:
+            {
+                SValue value = expr( false );
+                Field field = value.get_field();
+                if( value.is_error() ) {
+                    error( "Field value expected." );
+                } else {
+                    fields.push_back( field );
+                }
+            }
+            token = m_ts.current();
+            continue;
+        }
+        token = m_ts.next();
+    }
 }
 
 SValue Script::get_value_var( const string& name )
