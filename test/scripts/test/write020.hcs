@@ -1,7 +1,7 @@
-// write020.hcs Test mask input and output.
+// write020.hcs Test field input and output.
 
 set input g;
-write [?,?,21];
+write {?,?,21};
 
 /*[OUTPUT]
-[?, ?, 21][OUTPUT]*/
+{?, ?, 21}[OUTPUT]*/

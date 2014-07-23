@@ -131,7 +131,7 @@ bool SValue::get( string& str ) const
         }
         return true;
     case SVT_Fields:
-        str += "[";
+        str += "{";
         for( size_t i = 0 ; i < m_rlist.size() ; i++ ) {
             if( i > 0 ) {
                 str += ", ";
@@ -142,7 +142,7 @@ bool SValue::get( string& str ) const
                 str += field_to_str( m_rlist[i].jdn1 );
             }
         }
-        str += "]";
+        str += "}";
         return true;
     }
     return false;

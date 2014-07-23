@@ -388,7 +388,7 @@ SValue Script::primary( bool get )
         }
         m_ts.next();
         break;
-    case SToken::STT_LSbracket:
+    case SToken::STT_LCbracket:
         value = fields_expr( true );
         m_ts.next();
         break;
@@ -439,7 +439,7 @@ SValue Script::fields_expr( bool get )
         switch( token.type() )
         {
         case SToken::STT_End:
-        case SToken::STT_RSbracket:
+        case SToken::STT_RCbracket:
             return SValue( fields );
         case SToken::STT_Comma:
             break;
