@@ -56,9 +56,6 @@ namespace Cal {
         bool set_fields_as_begin_last( const Field* mask );
         bool set_fields_as_next_last( const Field* mask );
 
-        bool set_fields_as_next( const Fields* mask, Field maxjdn );
-        bool set_fields_as_prev( const Fields* mask, Field minjdn );
-
         void remove_balanced_fields( Record* record );
 
         Field get_jdn() const;
