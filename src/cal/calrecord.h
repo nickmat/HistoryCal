@@ -30,9 +30,6 @@
 
 #include "cal/caldefs.h"
 
-#include <string>
-#include <vector>
-
 namespace Cal {
 
     class Base;
@@ -55,6 +52,9 @@ namespace Cal {
         bool set_fields_as_next_first( const Field* mask );
         bool set_fields_as_begin_last( const Field* mask );
         bool set_fields_as_next_last( const Field* mask );
+
+        bool set_fields_as_next( const Field* mask, Field maxjdn );
+        bool set_fields_as_prev( const Field* mask, Field minjdn );
 
         void remove_balanced_fields( Record* record );
 

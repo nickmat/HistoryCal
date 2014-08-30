@@ -79,10 +79,9 @@ void Record::set_str( const string& str, const string& fmt )
     }
     FieldVec f1(m_base->extended_size());
     IftVec t(m_base->extended_size());
-    int cnt = parse_date( &f1[0], &t[0], f1.size(), in );
+    parse_date( &f1[0], &t[0], f1.size(), in );
 
-    // TODO: remove following temp code
-    cnt = 0;
+    int cnt = 0;
     FieldVec f(m_base->extended_size());
     for( size_t i = 0 ; i < f1.size() ; i++ ) {
         if( t[i] == IFT_null || t[i] == IFT_dual2 ) {
@@ -91,37 +90,54 @@ void Record::set_str( const string& str, const string& fmt )
         f[cnt] = f1[i];
         cnt++;
     }
-    // --------------
-
     if( cnt < 1 ) {
         return; // Error parsing date
     }
     XRefVec xref = m_base->get_xref_order( cnt, fmt );
-    assert( xref.size() );
+    if( xref.empty() ) {
+        return; // Error parsing date
+    }
     for( int i = 0 ; i < cnt ; i++ ) {
         int x = xref[i];
         if( x >= 0 && x < (int) m_base->extended_size() ) {
             m_f[x] = f[i];
         }
     }
-    // TODO: Test for any extended field values
-    // and ensure they are valid.
     m_jdn = get_jdn();
 }
 
-bool Record::set_fields_as_begin_first( const Field* mask  )
+bool Record::set_fields_as_begin_first( const Field* mask )
 {
-    bool ret = true;
-    if( m_f[0] != f_minimum ) {         
-        ret = m_base->set_fields_as_begin_first( &m_f[0], mask );
+    if( m_f[0] == f_minimum ) {
+        m_jdn = f_minimum;
+        return true;
     }
+    bool ret = m_base->set_fields_as_begin_first( &m_f[0], mask );
     if( ret ) {
         m_jdn = get_jdn();
+        int attempt = 0;
+        for( size_t i = m_base->record_size() ; i < m_base->extended_size() ; i++ ) {
+            if( mask[i] == f_invalid ) {
+                continue;
+            }
+            Field field = m_base->get_extended_field( m_jdn, i );
+            if( field != m_f[i] ) {
+                // Adjust to match extended field
+                if( m_base->set_fields_as_next_extended( &m_f[0], m_jdn, mask ) ) {
+                    m_jdn = get_jdn();
+                    if( attempt >= 3 ) {
+                        return false; // Give up.
+                    }
+                    attempt++;
+                    i = m_base->record_size() - 1; // Start again.
+                }
+            }
+        }
     }
     return ret;
 }
 
-bool Record::set_fields_as_next_first( const Field* mask  )
+bool Record::set_fields_as_next_first( const Field* mask )
 {
     bool ret = m_base->set_fields_as_next_first( &m_f[0], mask );
     if( ret ) {
@@ -130,23 +146,65 @@ bool Record::set_fields_as_next_first( const Field* mask  )
     return ret;
 }
 
-bool Record::set_fields_as_begin_last(  const Field* mask  )
+bool Record::set_fields_as_begin_last(  const Field* mask )
 {
-    bool ret = true;
-    if( m_f[0] != f_maximum ) {         
-        ret = m_base->set_fields_as_begin_last( &m_f[0], mask );
+    if( m_f[0] == f_maximum ) {
+        m_jdn = f_maximum;
+        return true;
     }
+    bool ret = m_base->set_fields_as_begin_last( &m_f[0], mask );
+    if( ret ) {
+        m_jdn = get_jdn();
+        int attempt = 0;
+        for( size_t i = m_base->record_size() ; i < m_base->extended_size() ; i++ ) {
+            if( mask[i] == f_invalid ) {
+                continue;
+            }
+            Field field = m_base->get_extended_field( m_jdn, i );
+            if( field != m_f[i] ) {
+                // Adjust to match extended field
+                if( m_base->set_fields_as_prev_extended( &m_f[0], m_jdn, mask ) ) {
+                    m_jdn = get_jdn();
+                    if( attempt >= 3 ) {
+                        return false; // Give up.
+                    }
+                    attempt++;
+                    i = m_base->record_size() - 1; // Start again.
+                }
+            }
+        }
+    }
+    return ret;
+}
+
+bool Record::set_fields_as_next_last( const Field* mask )
+{
+    bool ret = m_base->set_fields_as_next_last( &m_f[0], mask );
     if( ret ) {
         m_jdn = get_jdn();
     }
     return ret;
 }
 
-bool Record::set_fields_as_next_last( const Field* mask  )
+bool Record::set_fields_as_next( const Field* mask, Field maxjdn )
 {
-    bool ret = m_base->set_fields_as_next_last( &m_f[0], mask );
+    if( m_f[0] == f_minimum ) {
+        m_jdn = f_minimum;
+        return true;
+    }
+    bool ret = m_base->set_fields_as_begin_first( &m_f[0], mask );
     if( ret ) {
         m_jdn = get_jdn();
+        for( size_t i = m_base->record_size() ; i < m_base->extended_size() ; i++ ) {
+            if( mask[i] == f_invalid ) {
+                continue;
+            }
+            Field field = m_base->get_extended_field( m_jdn, i );
+            if( field != m_f[i] ) {
+                // Adjust to match extended field
+                // <<======<<<<
+            }
+        }
     }
     return ret;
 }

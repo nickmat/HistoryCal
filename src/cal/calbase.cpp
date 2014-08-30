@@ -29,6 +29,7 @@
 
 #include "calformat.h"
 #include "calgrammar.h"
+#include "calmath.h"
 #include "calparse.h"
 
 using namespace Cal;
@@ -69,6 +70,34 @@ Field Base::get_extended_field( const Field jdn, size_t index ) const
     return f_invalid;
 }
 
+bool Base::set_fields_as_next_extended( Field* fields, Field jdn, const Field* mask ) const
+{
+    // Weekday is the only extended field checked by default
+    size_t kindex = record_size() + BEFN_wday;
+    if( mask[kindex] >= 1 && mask[kindex] <= 7 && jdn != f_invalid ) {
+        Field knext = kday_on_or_after( Weekday( mask[kindex] - 1 ), jdn );
+        if( knext != jdn ) {
+            set_fields( fields, knext );
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Base::set_fields_as_prev_extended( Field* fields, Field jdn, const Field* mask ) const
+{
+    // Weekday is the only extended field checked by default
+    size_t kindex = record_size() + BEFN_wday;
+    if( mask[kindex] >= 1 && mask[kindex] <= 7 && jdn != f_invalid ) {
+        Field knext = kday_on_or_before( Weekday( mask[kindex] - 1 ), jdn );
+        if( knext != jdn ) {
+            set_fields( fields, knext );
+            return true;
+        }
+    }
+    return false;
+}
+
 void Base::remove_fields_if_first( Field* fields ) const
 {
     for( size_t i = record_size() - 1 ; i < 1  ; --i ) {
@@ -82,7 +111,7 @@ void Base::remove_fields_if_first( Field* fields ) const
 
 void Base::remove_fields_if_last( Field* fields ) const
 {
-    for( size_t i = record_size() - 1 ; i < 1  ; --i ) {
+    for( size_t i = record_size() - 1 ; i < 1 ; --i ) {
         if( get_field_last( fields, i ) == fields[i] ) {
             fields[i] = f_invalid;
         } else {
@@ -266,7 +295,7 @@ XRefVec Base::get_xref_order( int cnt, const string& fmt ) const
         xref_set = m_xref_inputs.find( fmt )->second;
     }
     if( xref_set.count( cnt ) == 0 ) {
-        return get_default_xref_order( cnt );
+        return XRefVec(0);
     }
     return xref_set.find( cnt )->second;
 }

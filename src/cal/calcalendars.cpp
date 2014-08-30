@@ -27,6 +27,7 @@
 
 #include "cal/calendars.h"
 
+#include "calbase.h"
 #include "caldefscripts.h"
 #include "calgrammar.h"
 #include "calparse.h"
@@ -314,7 +315,10 @@ RangeList Calendars::range_str_to_rangelist( SHandle scheme, const string& str )
         split_code_date( &scode, &fcode1, &str1, str );
         if( scode.size() ) {
             SHandle sch = get_scheme( scode );
-            base2 = base1 = sch->get_base();
+            base1 = base2 = sch->get_base();
+        }
+        if( fcode1.empty() && base1 != NULL ) {
+            fcode1 = base1->get_input_format();
         }
         fcode2 = fcode1;
         str2 = str1;
@@ -326,12 +330,18 @@ RangeList Calendars::range_str_to_rangelist( SHandle scheme, const string& str )
             SHandle sch = get_scheme( scode );
             base1 = sch->get_base();
         }
+        if( fcode1.empty() && base1 != NULL ) {
+            fcode1 = base1->get_input_format();
+        }
         temp = str.substr( pos + 1 );
         scode.clear();
         split_code_date( &scode, &fcode2, &str2, temp );
         if( scode.size() ) {
             SHandle sch = get_scheme( scode );
             base2 = sch->get_base();
+        }
+        if( fcode2.empty() && base2 != NULL ) {
+            fcode2 = base2->get_input_format();
         }
     }
     RangeList ranges;
