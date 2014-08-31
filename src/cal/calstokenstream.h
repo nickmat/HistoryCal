@@ -31,8 +31,6 @@
 #include "cal/caldefs.h"
 #include "calscriptstore.h"
 
-#include <iostream>
-
 namespace Cal {
 
     class SToken

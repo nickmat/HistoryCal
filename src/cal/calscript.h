@@ -30,9 +30,6 @@
 
 #include "cal/caldefs.h"
 #include "calstokenstream.h"
-#include "calscriptstore.h"
-
-#include <iostream>
 
 namespace Cal {
 

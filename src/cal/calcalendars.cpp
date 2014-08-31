@@ -156,6 +156,26 @@ FieldVec Calendars::jdn_to_fieldvec( SHandle scheme, Field jdn )
     return scheme->jdn_to_fieldvec( jdn );
 }
 
+string Calendars::fieldvec_to_str( SHandle scheme, const FieldVec& fieldv )
+{
+    Record rec( scheme->get_base(), &fieldv[0], fieldv.size() );
+    return rec.get_str();
+}
+
+FieldVec Calendars::str_to_fieldvec( SHandle scheme, const string& str )
+{
+    string scode, fcode, mstr;
+    split_code_date( &scode, &fcode, &mstr, str );
+    if( scode.size() ) {
+        scheme = get_scheme( scode );
+    }
+    if( scheme == NULL ) {
+        return FieldVec(0);
+    }
+    Record rec( scheme->get_base(), mstr, fcode );
+    return rec.get_fieldvec();
+}
+
 Field Calendars::str_to_jdn( SHandle scheme, const string& str )
 {
     string sch, fmt, date;

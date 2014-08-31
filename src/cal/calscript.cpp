@@ -399,6 +399,13 @@ SValue Script::primary( bool get )
             value.set( m_cals->str_to_rangelist( sch, value.get_str() ) );
         }
         break;
+    case SToken::STT_mask:
+        {
+            value = primary( true );
+            SHandle sch = store()->ischeme;
+            value.set_fields( m_cals->str_to_fieldvec( sch, value.get_str() ) );
+        }
+        break;
     case SToken::STT_str_cast:
         value = primary( true );
         {
