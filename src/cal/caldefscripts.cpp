@@ -240,7 +240,7 @@ const char* Cal::cal_default_script =
     " }"
     " grammar \"er\";"
     "}\n"
-#if 0
+
     "vocab lit {"
     " name Liturgy Weeks; lang en; style-name Week Wk;"
     " tokens {"
@@ -318,9 +318,9 @@ const char* Cal::cal_default_script =
     " alias unit { d day; m month; y year; w week; };"
     "};\n"
 
-    "scheme jlit {name \"Julian Liturgical\"; base julian; grammar lit;};\n"
-    "scheme glit {name \"Gregorian Liturgical\"; base gregorian; grammar lit;};\n"
-#endif
+    "scheme \"jlit\" {name \"Julian Liturgical\"; base julian; grammar \"lit\";}\n"
+    "scheme \"glit\" {name \"Gregorian Liturgical\"; base gregorian; grammar \"lit\";}\n"
+
 ;
 
 // End of src/cal/caldefscripts.cpp file
