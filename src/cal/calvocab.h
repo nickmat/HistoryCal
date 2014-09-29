@@ -54,7 +54,13 @@ namespace Cal {
     public:
         enum Style { style_full, style_abbrev };
 
-        Vocab( const std::string& definition );
+        Vocab( const std::string& code );
+
+        void set_name(const std::string& name ) { m_name = name; }
+        void set_lang(const std::string& lang ) { m_lang = lang; }
+        void set_full_style_name(const std::string& fname ) { m_full_name = fname; }
+        void set_abbrev_style_name(const std::string& aname ) { m_abbrev_name = aname; }
+        void add_token( Field value, const std::string& name, const std::string& abbrev );
 
         std::string get_code() const { return m_code; }
         std::string get_name() const { return m_name; }

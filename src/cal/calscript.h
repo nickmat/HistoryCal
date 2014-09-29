@@ -35,6 +35,7 @@ namespace Cal {
 
     class Calendars;
     class Base;
+    class Vocab;
     struct RegnalEra;
 
     class Script
@@ -61,6 +62,7 @@ namespace Cal {
         Base* do_base_regnal();
         bool do_regnal_era( RegnalEra& era, const StringVec& fieldnames );
         bool do_vocab();
+        bool do_vocab_tokens( Vocab* voc );
         bool do_grammar();
         StringVec do_string_list();
         bool do_base_date_list( std::vector<Base*>& bases, FieldVec& dates );

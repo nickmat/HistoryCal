@@ -98,8 +98,8 @@ namespace Cal {
 
         static STokenStream* set_token_stream( STokenStream* ts );
 
-    private:
         Type type() const { return m_type; }
+    private:
         Field add( Field left, Field right ) const; 
         Range add( Range range, Field field ) const; 
         Range add( Range left, Range right ) const; 

@@ -32,6 +32,7 @@
 #include "calparse.h"
 #include "calregnal.h"
 #include "calscheme.h"
+#include "calvocab.h"
 
 #include <cassert>
 
@@ -389,12 +390,79 @@ bool Script::do_regnal_era( RegnalEra& era, const StringVec& fieldnames )
 
 bool Script::do_vocab()
 {
-    string code = m_ts.read_function();
-    if( code.size() ) {
-        m_cals->add_vocab( code );
-        return true;
+    string code;
+    expr( true ).get( code );
+    if( code.empty() ) {
+        error( "Vocab code missing." );
+        return false;
     }
-    return false;
+    Vocab* voc = m_cals->add_vocab( code );
+    string str;
+    for(;;) {
+        SToken token = m_ts.next();
+        if( token.type() == SToken::STT_LCbracket ) {
+            continue; 
+        } else if( token.type() == SToken::STT_RCbracket ) {
+            break; // All done.
+        } else if( token.type() == SToken::STT_Name ) {
+            string name = token.get_str();
+            if( name == "name" ) {
+                str = expr( true ).get_str();
+                voc->set_name( str );
+            } else if( name == "lang" ) {
+                str = expr( true ).get_str();
+                voc->set_lang( str );
+            } else if( name == "stylename" ) {
+                str = expr( true ).get_str();
+                voc->set_full_style_name( str );
+                if( m_ts.current().type() == SToken::STT_Comma ) {
+                    str = expr( true ).get_str();
+                }
+                voc->set_abbrev_style_name( str );
+            } else if( name == "tokens" ) {
+                do_vocab_tokens( voc );
+            } else {
+                error( "Unknown vocab subcommand." );
+            }
+        }
+    }
+    return true;
+}
+
+bool Script::do_vocab_tokens( Vocab* voc )
+{
+    SToken token = m_ts.next();
+    if( token.type() != SToken::STT_LCbracket ) {
+        error( "'{' expected." );
+        return false;
+    }
+    for(;;) {
+        SValue value = expr( true );
+        if( m_ts.current().type() == SToken::STT_RCbracket ) {
+            break; // All done.
+        }
+        if( value.type() != SValue::SVT_Field ) {
+            error( "Number expected." );
+            return false;
+        }
+        Field number = value.get_field();
+        if( m_ts.current().type() != SToken::STT_Comma ) {
+            error( "',' expected." );
+            return false;
+        }
+        string name;
+        expr( true ).get( name );
+        string abbrev;
+        if( m_ts.current().type() == SToken::STT_Comma ) {
+            expr( true ).get( abbrev );
+        }
+        if( m_ts.current().type() != SToken::STT_Semicolon ) {
+            error( "';' expected." );
+            return false;
+        }
+        voc->add_token( number, name, abbrev );
+    }
+    return true;
 }
 
 bool Script::do_grammar()

@@ -33,6 +33,7 @@
 namespace Cal {
 
     class ScriptStore;
+    class Vocab;
 
     enum Init_schemes { Init_script_none, Init_script_default };
 
@@ -77,7 +78,8 @@ namespace Cal {
         Vocab* get_vocab( const std::string& code ) const;
         ScriptStore* get_store() const { return m_store; }
         bool add_scheme( SHandle sch, const std::string& code );
-        void add_vocab( const std::string& definition );
+//        void add_vocab( const std::string& definition );
+        Vocab* add_vocab( const std::string& code );
         Grammar* add_grammar( const std::string& code );
 
     private:

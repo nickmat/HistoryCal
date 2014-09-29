@@ -32,6 +32,7 @@
 using namespace std;
 using namespace Cal;
 
+#if 0
 Vocab::Vocab( const std::string& definition )
 {
     string body;
@@ -67,6 +68,26 @@ Vocab::Vocab( const std::string& definition )
             }
         }
     }
+}
+#endif
+
+Vocab::Vocab( const std::string& code ) : m_code(code)
+{
+}
+
+void Vocab::add_token( Field value, const string& name, const string& abbrev )
+{
+    if( name.empty() ) {
+        return;
+    }
+    Token token( value, name, abbrev );
+    string key = make_key( name );
+    m_words[key] = token;
+    if( abbrev.size() && abbrev != name ) {
+        key = make_key( abbrev );
+        m_words[key] = token;
+    }
+    m_fields[value] = token;
 }
 
 string Vocab::get_style_name( Style style ) const

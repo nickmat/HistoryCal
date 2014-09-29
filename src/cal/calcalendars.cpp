@@ -303,12 +303,19 @@ bool Calendars::add_scheme( SHandle sch, const string& code )
     m_shandles[code] = sch;
     return true;
 }
-
+#if 0
 void Calendars::add_vocab( const string& definition )
 {
     Vocab* voc = new Vocab( definition );
     string code = voc->get_code();
     m_vocabs[code] = voc;
+}
+#endif
+Vocab* Calendars::add_vocab( const string& code )
+{
+    Vocab* voc = new Vocab( code );
+    m_vocabs[code] = voc;
+    return voc;
 }
 
 Grammar* Calendars::add_grammar( const string& code )
