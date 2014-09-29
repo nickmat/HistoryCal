@@ -59,7 +59,7 @@ void SoakJulian::setUp()
 {
     m_sid = NULL;
     m_cal = new Calendars;
-    m_cal->run_script( "scheme jb {name Julian Base; base julian;};" );
+    m_cal->run_script( "scheme \"jb\" {name \"Julian Base\"; base julian;}" );
     m_sid = m_cal->get_scheme( "jb" );
 }
 

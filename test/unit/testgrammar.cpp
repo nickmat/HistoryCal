@@ -93,7 +93,7 @@ void TestGrammar::setUp()
         " format ymd @(Year)@:(Month)@:(Day);"
         "};\n"
 
-        "scheme jb {name Julian Base; base julian; grammar j;};\n"
+        "scheme \"jb\" {name \"Julian Base\"; base julian; grammar \"j\";}\n"
     );
     m_sid = m_cal->get_scheme( "jb" );
 }

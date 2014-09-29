@@ -41,7 +41,10 @@ namespace Cal {
     {
     public:
         Shift( Calendars* cals, const std::string& data );
+        Shift( Base* base, Field era );
         ~Shift();
+
+        virtual bool is_ok() const { return m_base != NULL; }
 
         virtual size_t record_size() const { return m_base->record_size(); }
         virtual size_t extended_size() const { return m_base->extended_size() + 1; }

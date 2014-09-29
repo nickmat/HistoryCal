@@ -30,9 +30,6 @@
 
 #include "calbase.h"
 
-#include <string>
-#include <vector>
-
 namespace Cal {
 
     class Calendars;
@@ -41,8 +38,10 @@ namespace Cal {
     {
     public:
         Hybrid( Calendars* cals, const std::string& data );
+        Hybrid( const StringVec& fields, const std::vector<Base*>& bases, const FieldVec& dates );
         ~Hybrid();
 
+        virtual bool is_ok() const;
         virtual size_t record_size() const { return m_rec_size; }
 
         virtual int get_fieldname_index( const std::string& fieldname ) const;

@@ -54,6 +54,16 @@ Shift::Shift( Calendars* cals, const string& data )
     m_before_era = rec.get_fieldvec();
 }
 
+Shift::Shift( Base* base, Field era ) : m_base(base), Base()
+{
+    if( base ) {
+        Record rec( base, era );
+        m_start_era = rec.get_fieldvec();
+        rec.set_jdn( era-1 );
+        m_before_era = rec.get_fieldvec();
+    }
+}
+
 Shift::~Shift()
 {
 }

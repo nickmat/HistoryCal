@@ -54,11 +54,23 @@ Regnal::Regnal( Calendars* cals, const std::string& code, const std::string& dat
     assert( m_eras.size() > 1 );
 }
 
+Regnal::Regnal( const StringVec& fieldnames, const vector<RegnalEra>& eras )
+    : m_eras(eras), m_fieldnames(fieldnames), m_rec_size(fieldnames.size()+1), Base()
+{
+}
+
 Regnal::~Regnal()
 {
     for( size_t i = 1 ; i < m_eras.size() ; i++ ) {
-        delete m_eras[i].scheme;
+        if( m_eras[i].local ) {
+            delete m_eras[i].scheme;
+        }
     }
+}
+
+bool Regnal::is_ok() const
+{
+    return m_rec_size > 1 && m_eras.size() > 1; 
 }
 
 int Regnal::get_fieldname_index( const string& fieldname ) const
@@ -218,20 +230,6 @@ void Regnal::create_fieldnames( const string& names )
         word = get_first_word( body, &body );
     }
     m_rec_size = m_fieldnames.size() + 1;
-}
-
-void Regnal::create_default_scheme( Calendars* cals, const string& code )
-{
-    SHandle sch = cals->get_scheme( code );
-    if( sch ) {
-        RegnalEra era;
-        era.base = sch->get_base();
-        for( size_t i = 0 ; i < m_fieldnames.size() ; i++ ) {
-            int index = era.base->get_fieldname_index( m_fieldnames[i] );
-            era.xref.push_back( index );
-        }
-        m_eras.push_back(era);
-    }
 }
 
 void Regnal::create_schemes( Calendars* cals, const std::string& statement )

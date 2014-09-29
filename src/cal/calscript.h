@@ -34,6 +34,8 @@
 namespace Cal {
 
     class Calendars;
+    class Base;
+    struct RegnalEra;
 
     class Script
     {
@@ -52,8 +54,16 @@ namespace Cal {
         bool do_write();
         bool do_writeln();
         bool do_scheme();
+        SHandle do_create_scheme( const std::string& code );
+        Base* do_base();
+        Base* do_base_shift();
+        Base* do_base_hybrid();
+        Base* do_base_regnal();
+        bool do_regnal_era( RegnalEra& era, const StringVec& fieldnames );
         bool do_vocab();
         bool do_grammar();
+        StringVec do_string_list();
+        bool do_base_date_list( std::vector<Base*>& bases, FieldVec& dates );
 
         SValue expr( bool get );
         SValue compare( bool get );
@@ -65,6 +75,7 @@ namespace Cal {
         SValue fields_expr( bool get );
 
         SValue get_value_var( const std::string& name );
+        std::string get_name_or_string( const SToken& token ) const;
 
         Calendars*    m_cals;
         STokenStream  m_ts;

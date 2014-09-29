@@ -37,21 +37,28 @@ namespace Cal {
     class Record;
 
     struct RegnalEra {
-        RegnalEra() : begin(f_minimum), end(f_maximum), base(NULL), scheme(NULL) {}
+        RegnalEra() 
+            : begin(f_minimum), end(f_maximum), base(NULL), scheme(NULL), local(true)
+//            : range(f_minimum,f_maximum), base(NULL), scheme(NULL), local(true)
+        {}
 
         Field   begin;
         Field   end;
+//        Range   range;
         XRefVec xref;
         Base*   base;
         SHandle scheme;
+        bool    local;
     };
 
     class Regnal : public Base
     {
     public:
         Regnal( Calendars* cals, const std::string& code, const std::string& data );
+        Regnal( const StringVec& fieldnames, const std::vector<RegnalEra>& eras );
         ~Regnal();
 
+        virtual bool is_ok() const;
         virtual size_t record_size() const { return m_rec_size; }
         virtual int get_fieldname_index( const std::string& fieldname ) const;
         virtual std::string get_fieldname( size_t index ) const;
@@ -69,7 +76,6 @@ namespace Cal {
 
     private:
         void create_fieldnames( const std::string& names );
-        void create_default_scheme( Calendars* cals, const std::string& code );
         void create_schemes( Calendars* cals, const std::string& data );
         void map_matched_fields( StringMap& matched, const std::string data );
         void add_scheme( RegnalEra& era, Calendars* cals, const std::string& data, const StringMap& matched );

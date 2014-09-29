@@ -60,21 +60,19 @@ void TestRegnal::setUp()
     m_sid = NULL;
     m_cal = new Calendars;
     m_cal->run_script(
-        "scheme g {name Gregorian; base gregorian;};\n"
-        "scheme er1 {"
-        " name English Regnal One;"
-        " regnal g {"
-        "  fields year month day;"
-        "  schemes {"
-        "   {range 2392181 2415407; scheme 1 {shift g 2392181;};};" // Victoria
-        "   {range 2415407 2418798; scheme 2 {shift g 2415407;};};" // Edward VII
-        "   {range 2418798 2428188; scheme 3 {shift g 2418798;};};" // George V
-        "   {range 2428188 2428514; scheme 4 {shift g 2428188;};};" // Edward VIII
-        "   {range 2428514 2434049; scheme 5 {shift g 2428514;};};" // George VI
-        "   {range 2434049 2457023; scheme 6 {shift g 2434049;};};" // Elizabeth II
-        "  };"
-        " };"
-        "};\n"
+        "scheme \"g\" {name \"Gregorian\"; base gregorian;}\n"
+        "scheme \"er1\" {"
+        " name \"English Regnal One\";"
+        " regnal {"
+        "  fields \"year\", \"month\", \"day\";"
+        "  era {range 2392181~2415407; scheme 1 {shift \"g\", 2392181;}}" // Victoria
+        "  era {range 2415407~2418798; scheme 2 {shift \"g\", 2415407;}}" // Edward VII
+        "  era {range 2418798~2428188; scheme 3 {shift \"g\", 2418798;}}" // George V
+        "  era {range 2428188~2428514; scheme 4 {shift \"g\", 2428188;}}" // Edward VIII
+        "  era {range 2428514~2434049; scheme 5 {shift \"g\", 2428514;}}" // George VI
+        "  era {range 2434049~2457023; scheme 6 {shift \"g\", 2434049;}}" // Elizabeth II
+        " }"
+        "}\n"
     );
     m_sid = m_cal->get_scheme( "er1" );
 }

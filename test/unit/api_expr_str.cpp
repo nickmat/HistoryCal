@@ -59,7 +59,7 @@ void ApiExprStr::setUp()
     m_sid = NULL;
     m_cal = new Calendars;
     m_cal->run_script(
-        "scheme g {name Gregorian; base gregorian;};\n"
+        "scheme \"g\" {name \"Gregorian\"; base gregorian;}\n"
     );
     m_sid = m_cal->get_scheme( "g" );
 }

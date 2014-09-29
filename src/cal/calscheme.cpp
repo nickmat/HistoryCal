@@ -84,6 +84,11 @@ Scheme::Scheme( Calendars* cals, const string& definition )
     }
 }
 
+Scheme::Scheme( const std::string& name, Base* base ) 
+    : m_name(name), m_style(SCH_STYLE_Default), m_base(base)
+{
+}
+
 Scheme::~Scheme()
 {
     delete m_base;
@@ -289,5 +294,52 @@ Unit Scheme::str_to_unit( const std::string& str ) const
     }
     return unit;
 }
+
+Base* Scheme::create_base( BaseScheme bs ) 
+{
+    switch( bs )
+    {
+    case BS_jdn: 
+        return new Jdn;
+    case BS_julian: 
+        return new Julian;
+    case BS_gregorian: 
+        return new Gregorian;
+    }
+    return NULL;
+}
+
+Base* Scheme::create_base_shift( Base* sbase, Field era )
+{
+    Base* base = new Shift( sbase, era );
+    if( base->is_ok() ) {
+        return base;
+    }
+    delete base;
+    return NULL;
+}
+
+Base* Scheme::create_base_hybrid( 
+    const StringVec& fieldnames, const vector<Base*>& bases, const FieldVec& dates )
+{
+    Base* base = new Hybrid( fieldnames, bases, dates );
+    if( base->is_ok() ) {
+        return base;
+    }
+    delete base;
+    return NULL;
+}
+
+Base* Scheme::create_base_regnal( 
+    const StringVec& fieldnames, const vector<RegnalEra>& eras )
+{
+    Base* base = new Regnal( fieldnames, eras );
+    if( base->is_ok() ) {
+        return base;
+    }
+    delete base;
+    return NULL;
+}
+
 
 // End of src/cal/calscheme.cpp file

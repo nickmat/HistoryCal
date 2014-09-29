@@ -50,8 +50,31 @@ Hybrid::Hybrid( Calendars* cals, const string& data )
     }
 }
 
+Hybrid::Hybrid( 
+    const StringVec& fields, const std::vector<Base*>& bases, const FieldVec& dates )
+    : m_fieldnames(fields), m_bases(bases), m_dates(dates),
+    m_max_child_size(0), Base()
+{
+    m_rec_size = m_fieldnames.size() + 1;
+    XRefVec xref( m_fieldnames.size() );
+    for( size_t i = 0 ; i < m_bases.size() ; i++ ) {
+        m_max_child_size = max( m_max_child_size, m_bases[i]->record_size() );
+        for( size_t j = 0 ; j < xref.size() ; j++ ) {
+            xref[j] = bases[i]->get_fieldname_index( m_fieldnames[j] );
+        }
+        m_xref_fields.push_back( xref );
+    }
+}
+
 Hybrid::~Hybrid()
 {
+}
+
+bool Hybrid::is_ok() const
+{
+    return m_fieldnames.size() && 
+        m_bases.size() > 1 && 
+        m_dates.size() == m_bases.size() - 1;
 }
 
 int Hybrid::get_fieldname_index( const string& fieldname ) const

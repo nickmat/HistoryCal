@@ -29,6 +29,7 @@
 #define CAL_CALSCHEME_H_GUARD
 
 #include "cal/caldefs.h"
+#include "calregnal.h"
 
 namespace Cal {
 
@@ -40,6 +41,8 @@ namespace Cal {
     {
     public:
         Scheme( Calendars* cals, const std::string& definition );
+        enum BaseScheme { BS_NULL, BS_jdn, BS_julian, BS_gregorian };
+        Scheme( const std::string& name, Base* base );
         ~Scheme();
 
         bool is_ok() const;
@@ -51,6 +54,8 @@ namespace Cal {
         void get_output( SchemeFormats* info ) const; 
         Base* get_base() const { return m_base; }
 
+        void set_code( const std::string& code ) { m_code = code; }
+        void set_style( Scheme_style style ) { m_style = style; }
         void set_grammar( Grammar* grammar );
         void set_input_format( const std::string& code );
         void set_output_format( const std::string& code );
@@ -68,6 +73,15 @@ namespace Cal {
         bool str_to_rel_info( const std::string& str, Rel_info* info ) const;
         RangeList rel_rangelist( const RangeList& ranges, Rel_info* info );
 
+        static Base* create_base( BaseScheme bs );
+        static Base* create_base_shift( Base* sbase, Field era );
+        static Base* create_base_hybrid( 
+            const StringVec& fieldnames,
+            const std::vector<Base*>& bases, 
+            const FieldVec& dates );
+        static Base* create_base_regnal( 
+            const StringVec& fieldnames,
+            const std::vector<RegnalEra>& eras );
     private:
         Unit str_to_unit( const std::string& str ) const;
 

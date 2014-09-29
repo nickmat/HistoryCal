@@ -44,6 +44,8 @@ namespace Cal {
         Base();
         virtual ~Base() {}
 
+        // Return true if in a usable state.
+        virtual bool is_ok() const { return true; }
         // Return the maximum number of Fields required by the Record.
         virtual size_t record_size() const = 0;
         // Return the number of extended (read-only) Fields available.

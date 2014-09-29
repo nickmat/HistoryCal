@@ -77,6 +77,7 @@ namespace Cal {
         Vocab* get_vocab( const std::string& code ) const;
         ScriptStore* get_store() const { return m_store; }
         void add_scheme( const std::string& definition );
+        bool add_scheme( SHandle sch, const std::string& code );
         void add_vocab( const std::string& definition );
         Grammar* add_grammar( const std::string& code );
 

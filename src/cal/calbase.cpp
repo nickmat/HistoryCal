@@ -270,6 +270,9 @@ string Base::get_format() const
 
 void Base::set_grammar( Grammar* grammar )
 {
+    if( grammar == NULL ) {
+        return;
+    }
     m_grammar = grammar;
     set_output_format( grammar->get_pref_output_format() );
     set_input_format( grammar->get_pref_input_format() );

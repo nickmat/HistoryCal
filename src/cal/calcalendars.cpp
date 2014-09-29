@@ -305,6 +305,17 @@ void Calendars::add_scheme( const string& definition )
     m_shandles[code] = sch;
 }
 
+bool Calendars::add_scheme( SHandle sch, const string& code )
+{
+//    sch->set_code( code );
+    if( sch == NULL || sch->is_ok() == false ) {
+        delete sch;
+        return false;
+    }
+    m_shandles[code] = sch;
+    return true;
+}
+
 void Calendars::add_vocab( const string& definition )
 {
     Vocab* voc = new Vocab( definition );

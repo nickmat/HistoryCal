@@ -61,15 +61,14 @@ void TestHybrid::setUp()
     m_cal = new Calendars;
     // the script creates an overlap between the 3 and 13 incl. of sep 1752
     m_cal->run_script(
-        "scheme j {name Julian; base julian;};\n"
-        "scheme g {name Gregorian; base gregorian;};\n"
-        "scheme t1 {name Test Hybrid;" 
+        "scheme \"j\" {name \"Julian\"; base julian;}\n"
+        "scheme \"g\" {name \"Gregorian\"; base gregorian;}\n"
+        "scheme \"t1\" {name \"Test Hybrid\";" 
         " hybrid {"
-        "  fields year month day;"
-        "  scheme g;"
-        "  scheme j {begin 2361222;};"
-        " };"
-        "};\n"
+        "  fields \"year\", \"month\", \"day\";"
+        "  schemes \"g\", 2361222, \"j\";"
+        " }"
+        "}\n"
     );
     m_sid = m_cal->get_scheme( "t1" );
 }

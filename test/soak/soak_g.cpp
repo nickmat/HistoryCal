@@ -59,7 +59,7 @@ void SoakGregorian::setUp()
 {
     m_sid = NULL;
     m_cal = new Calendars;
-    m_cal->run_script( "scheme g {name Gregorian; base gregorian;};" );
+    m_cal->run_script( "scheme \"g\" {name \"Gregorian\"; base gregorian;}" );
     m_sid = m_cal->get_scheme( "g" );
 }
 

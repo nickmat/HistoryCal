@@ -30,6 +30,7 @@
 #include "cal/calendars.h"
 #include "calgrammar.h"
 #include "calparse.h"
+#include "calregnal.h"
 #include "calscheme.h"
 
 #include <cassert>
@@ -169,12 +170,221 @@ bool Script::do_writeln()
 
 bool Script::do_scheme()
 {
-    string code = m_ts.read_function();
-    if( code.size() ) {
-        m_cals->add_scheme( code );
-        return true;
+    SValue value = expr( true );
+    string code;
+    value.get( code );
+    SHandle sch = do_create_scheme( code );
+    return m_cals->add_scheme( sch, code );
+}
+
+SHandle Script::do_create_scheme( const std::string& code )
+{
+    if( m_ts.current().type() != SToken::STT_LCbracket ) {
+        error( "'{' expected." );
+        return NULL;
     }
-    return false;
+    Base* base = NULL;
+    string name;
+    string gmr_code;
+    Scheme_style style = SCH_STYLE_Default;
+    for(;;) {
+        SToken token = m_ts.next();
+        if( token.type() == SToken::STT_RCbracket || token.type() == SToken::STT_End ) {
+            break;
+        }
+        if( token.type() == SToken::STT_Semicolon ) {
+            continue;
+        }
+        if( token.type() == SToken::STT_Name ) {
+            if( token.get_str() == "name" ) {
+                expr( true ).get( name );
+            } else if( token.get_str() == "base" ) {
+                base = do_base();
+            } else if( token.get_str() == "shift" ) {
+                base = do_base_shift();
+            } else if( token.get_str() == "hybrid" ) {
+                base = do_base_hybrid();
+            } else if( token.get_str() == "regnal" ) {
+                base = do_base_regnal();
+            } else if( token.get_str() == "grammar" ) {
+                expr( true ).get( gmr_code );
+            } else if( token.get_str() == "style" ) {
+                token = m_ts.next();
+                if( token.type() != SToken::STT_Name ) {
+                    error( "Style name expected." );
+                    continue;
+                }
+                if( token.get_str() == "hide" ) {
+                    style = SCH_STYLE_Hide;
+                }
+            }
+        }
+    }
+    if( base == NULL ) {
+        return NULL;
+    }
+    SHandle sch = new Scheme( name, base );
+    sch->set_style( style );
+    sch->set_grammar( m_cals->get_grammar( gmr_code ) );
+    sch->set_code( code );
+    return sch;
+}
+
+Base* Script::do_base()
+{
+    Scheme::BaseScheme bs = Scheme::BS_NULL;
+    SToken token = m_ts.next();
+    if( token.type() == SToken::STT_Name ) {
+        if( token.get_str() == "jdn" ) {
+            bs = Scheme::BS_jdn;
+        } else if( token.get_str() == "julian" ) {
+            bs = Scheme::BS_julian;
+        } else if( token.get_str() == "gregorian" ) {
+            bs = Scheme::BS_gregorian;
+        }
+    } else {
+        error( "Base name expected." );
+    }
+    return Scheme::create_base( bs );
+}
+
+Base* Script::do_base_shift()
+{
+    string scode;
+    expr( true ).get( scode );
+    SHandle sch = m_cals->get_scheme( scode );
+    Field era = f_invalid;
+    if( sch && m_ts.current().type() == SToken::STT_Comma ) {
+        era = expr( true ).get_field();
+    }
+    Base* sbase = NULL;
+    if( sch ) {
+        sbase = sch->get_base();
+    }
+    return Scheme::create_base_shift( sbase, era );
+}
+
+Base* Script::do_base_hybrid()
+{
+    SToken token = m_ts.next();
+    if( token.type() != SToken::STT_LCbracket ) {
+        error( "'{' expected." );
+        return NULL;
+    }
+    StringVec fieldnames;
+    vector<Base*> bases;
+    FieldVec dates;
+    for(;;) {
+        SToken token = m_ts.next();
+        if( token.type() == SToken::STT_RCbracket || token.type() == SToken::STT_End ) {
+            break;
+        }
+        if( token.type() == SToken::STT_Semicolon ) {
+            continue;
+        }
+        SValue value;
+        if( token.type() == SToken::STT_Name ) {
+            if( token.get_str() == "fields" ) {
+                fieldnames = do_string_list();
+            } else if( token.get_str() == "schemes" ) {
+                do_base_date_list( bases, dates );
+            }
+        }
+    }
+    return Scheme::create_base_hybrid( fieldnames, bases, dates );
+}
+
+Base* Script::do_base_regnal()
+{
+    SToken token = m_ts.next();
+    if( token.type() != SToken::STT_LCbracket ) {
+        error( "'{' expected." );
+        return NULL;
+    }
+    StringVec fieldnames;
+    vector<RegnalEra> eras;
+    for(;;) {
+        SToken token = m_ts.next();
+        if( token.type() == SToken::STT_RCbracket || token.type() == SToken::STT_End ) {
+            break;
+        }
+        if( token.type() == SToken::STT_Semicolon ) {
+            continue;
+        }
+        SValue value;
+        if( token.type() == SToken::STT_Name ) {
+            if( token.get_str() == "fields" ) {
+                fieldnames = do_string_list();
+            } else if( token.get_str() == "era" ) {
+                RegnalEra era;
+                if( do_regnal_era( era, fieldnames ) ) {
+                    eras.push_back( era );
+                }
+            }
+        }
+    }
+    return Scheme::create_base_regnal( fieldnames, eras );
+}
+
+bool Script::do_regnal_era( RegnalEra& era, const StringVec& fieldnames )
+{
+    SToken token = m_ts.next();
+    if( token.type() != SToken::STT_LCbracket ) {
+        error( "'{' expected." );
+        return NULL;
+    }
+    Range range( f_minimum, f_maximum );
+    StringVec matchs;
+    SHandle sch;
+    bool local = true;
+    for(;;) {
+        SToken token = m_ts.next();
+        if( token.type() == SToken::STT_RCbracket || token.type() == SToken::STT_End ) {
+            break;
+        }
+        if( token.type() == SToken::STT_Semicolon ) {
+            continue;
+        }
+        SValue value;
+        if( token.type() == SToken::STT_Name ) {
+            if( token.get_str() == "range" ) {
+                SValue value = expr( true );
+                range = value.get_range();
+            } else if( token.get_str() == "scheme" ) {
+                SValue value = expr( true );
+                string scode;
+                value.get( scode );
+                if( m_ts.current().type() == SToken::STT_Semicolon ) {
+                    sch = m_cals->get_scheme( scode );
+                    local = false;
+                } else {
+                    // Create new scheme 
+                    sch = do_create_scheme( scode );
+                }
+            }
+        } else if( token.type() == SToken::STT_match ) { // "match" is a keyword
+            matchs = do_string_list();
+            assert( matchs.size() % 2 == 0 ); // must be even number
+        }
+    }
+    era.begin = range.jdn1;
+    era.end = range.jdn2;
+    era.base = sch->get_base();
+    era.scheme = sch;
+    era.local = local;
+    era.xref.clear();
+    for( size_t i = 0 ; i < fieldnames.size() ; i++ ) {
+        string fieldname = fieldnames[i];
+        for( size_t j = 0 ; j < matchs.size() ; j += 2 ) {
+            if( fieldname == matchs[j+1] ) {
+                fieldname = matchs[j];
+                break;
+            }
+        }
+        int index = era.base->get_fieldname_index( fieldname );
+        era.xref.push_back( index );
+    }
+    return true;
 }
 
 bool Script::do_vocab()
@@ -221,6 +431,50 @@ bool Script::do_grammar()
         }
     }
     return true;
+}
+
+StringVec Script::do_string_list()
+{
+    StringVec vec;
+    for(;;) {
+        SValue value = expr( true );
+        string str;
+        if( ! value.get( str ) || str.empty() ) {
+            break;
+        }
+        vec.push_back( str );
+        if( m_ts.current().type() != SToken::STT_Comma ) {
+            break;
+        }
+    }
+    return vec;
+}
+
+bool Script::do_base_date_list( vector<Base*>& bases, FieldVec& dates )
+{
+    for(;;) {
+        SValue value = expr( true );
+        string scode;
+        if( ! value.get( scode ) || scode.empty() ) {
+            return false;
+        }
+        Base* base = m_cals->get_scheme( scode )->get_base();
+        if( base == NULL ) {
+            error( "Invalid scheme code." );
+            return false;
+        }
+        bases.push_back( base );
+        if( m_ts.current().type() != SToken::STT_Comma ) {
+            return m_ts.current().type() == SToken::STT_Semicolon;
+        }
+        value = expr( true );
+        Field date = value.get_field();
+        if( date == f_invalid ) {
+            error( "Invalid date." );
+            return false;
+        }
+        dates.push_back( date );
+    }
 }
 
 SValue Script::expr( bool get )
@@ -490,6 +744,15 @@ SValue Script::get_value_var( const string& name )
     SValue value;
     value.set_error( "Variable \"" + name + "\" not found." );
     return value;
+}
+
+string Script::get_name_or_string( const SToken& token ) const
+{
+    string str;
+    if( token.type() == SToken::STT_Name || token.type() == SToken::STT_String ) {
+        str = token.get_str();
+    }
+    return str;
 }
 
 // End of src/cal/calscript.cpp file

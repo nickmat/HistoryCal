@@ -81,7 +81,7 @@ void TestCal::testConstructor()
     Cal::SchemeList slist = cal.get_scheme_list();
     CPPUNIT_ASSERT_EQUAL( 0U, slist.size() );
     CPPUNIT_ASSERT_EQUAL( (Cal::SHandle) NULL, cal.get_scheme( "jdn" ) );
-    cal.run_script( "scheme jdn {name Julian Day Number; base jdn;};" );
+    cal.run_script( "scheme \"jdn\" {name \"Julian Day Number\"; base jdn;}" );
     slist = cal.get_scheme_list();
     CPPUNIT_ASSERT_EQUAL( 1U, slist.size() );
     CPPUNIT_ASSERT_EQUAL( slist[0].handle, cal.get_scheme( "jdn" ) );

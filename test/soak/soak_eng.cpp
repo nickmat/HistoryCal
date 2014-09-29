@@ -60,14 +60,15 @@ void Soak_eng::setUp()
     m_sid = NULL;
     m_cal = new Calendars;
     m_cal->run_script(
-        "scheme j {name Julian; base julian;};"
-        "scheme ja {name Julian Annunciation; shift j 1721507;};"
-        "scheme g {name Gregorian; base gregorian;};"
-        "scheme eng {name English Hybrid;"
-        " hybrid {fields year month day unshift;"
-        "  scheme ja;"
-        "  scheme j {begin 2360975;};"
-        "  scheme g {begin 2361222;};};};"
+        "scheme \"j\" {name \"Julian\"; base julian;}"
+        "scheme \"ja\" {name \"Julian Annunciation\"; shift \"j\", 1721507;}"
+        "scheme \"g\" {name \"Gregorian\"; base gregorian;}"
+        "scheme \"eng\" {name \"English Hybrid\";"
+        " hybrid {"
+        "  fields \"year\", \"month\", \"day\", \"unshift\";"
+        "  schemes \"ja\", 2360975, \"j\", 2361222, \"g\";"
+        " }"
+        "}"
     );
     m_sid = m_cal->get_scheme( "eng" );
 }

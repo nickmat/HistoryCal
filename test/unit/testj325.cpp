@@ -64,8 +64,8 @@ void TestJ325::setUp()
     m_sid = NULL;
     m_cal = new Calendars;
     m_cal->run_script(
-        "scheme jb {name Julian Base; base julian;};"
-        "scheme j325 {name Julian Lady Day; shift jb 1721507;};"
+        "scheme \"jb\" {name \"Julian Base\"; base julian;}"
+        "scheme \"j325\" {name \"Julian Lady Day\"; shift \"jb\", 1721507;}"
     );
     m_sid = m_cal->get_scheme( "j325" );
 }
