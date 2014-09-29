@@ -32,44 +32,6 @@
 using namespace std;
 using namespace Cal;
 
-#if 0
-Vocab::Vocab( const std::string& definition )
-{
-    string body;
-    string word = get_next_phrase( definition, &body );
-    m_code = word;
-    StringVec statements = parse_statements( peel_cbrackets( body ) );
-    for( size_t i = 0 ; i < statements.size() ; i++ ) {
-        string statement = get_next_phrase( statements[i], &body );
-        if( statement == "name" ) {
-            m_name = body;
-        } else if( statement == "lang" ) {
-            m_lang = body;
-        } else if( statement == "lang" ) {
-            m_lang = body;
-        } else if( statement == "style-name" ) {
-            m_full_name = get_next_phrase( body, &body );
-            m_abbrev_name = body;
-        } else if( statement == "tokens" ) {
-            StringVec tokens = parse_statements( peel_cbrackets( body ) );
-            for( size_t j = 0 ; j < tokens.size() ; j++ ) {
-                string word = get_next_phrase( tokens[j], &body );
-                Field field = str_to_field( word );
-                word = get_next_phrase( body, &body );
-                string abbrev = get_next_phrase( body, &body );
-                Token token( field, word, abbrev );
-                string key = make_key( word );
-                m_words[key] = token;
-                if( abbrev.size() ) {
-                    key = make_key( abbrev );
-                    m_words[key] = token;
-                }
-                m_fields[field] = token;
-            }
-        }
-    }
-}
-#endif
 
 Vocab::Vocab( const std::string& code ) : m_code(code)
 {
