@@ -45,44 +45,6 @@
 using namespace Cal;
 using namespace std;
 
-Scheme::Scheme( Calendars* cals, const string& definition ) 
-    : m_style(SCH_STYLE_Default), m_base(NULL)
-{
-    string body;
-    m_code = get_first_word( definition, &body );
-    vector<string> statements = parse_statements( peel_cbrackets( body ) );
-    for( size_t i = 0 ; i < statements.size() ; i++ ) {
-        string statement = get_first_word( statements[i], &body );
-        if( statement == "name" ) {
-            m_name = body;
-        } else if( statement == "base" ) {
-            if( body == "jdn" ) {
-                m_base = new Jdn;
-            } else if( body == "julian" ) {
-                m_base = new Julian;
-            } else if( body == "gregorian" ) {
-                m_base = new Gregorian;
-            } else {
-                assert( false ); // Shouldn't be here
-            }
-        } else if( statement == "shift" ) {
-            m_base = new Shift( cals, body );
-        } else if( statement == "hybrid" ) {
-            m_base = new Hybrid( cals, body );
-        } else if( statement == "regnal" ) {
-            m_base = new Regnal( cals, m_code, body );
-        } else if( statement == "grammar" ) {
-            if( m_base ) {
-                Grammar* gmr = cals->get_grammar( body );
-                m_base->set_grammar( gmr );
-            }
-        } else if( statement == "style" ) {
-            if( body == "hide" ) {
-                m_style = SCH_STYLE_Hide;
-            }
-        }
-    }
-}
 
 Scheme::Scheme( const std::string& name, Base* base ) 
     : m_name(name), m_style(SCH_STYLE_Default), m_base(base)

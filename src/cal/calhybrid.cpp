@@ -35,20 +35,6 @@
 using namespace Cal;
 using namespace std;
 
-Hybrid::Hybrid( Calendars* cals, const string& data )
-    : m_rec_size(0), m_max_child_size(0), Base()
-{
-    string body;
-    vector<string> statements = parse_statements( peel_cbrackets( data ) );
-    for( size_t i = 0 ; i < statements.size() ; i++ ) {
-        string statement = get_first_word( statements[i], &body );
-        if( statement == "fields" ) {
-            create_fieldnames( body );
-        } else if( statement == "scheme" ) {
-            add_scheme( cals, body );
-        }
-    }
-}
 
 Hybrid::Hybrid( 
     const StringVec& fields, const std::vector<Base*>& bases, const FieldVec& dates )
@@ -302,42 +288,6 @@ XRefVec Hybrid::get_default_xref_order( int count ) const
     return xref;
 }
 
-void Hybrid::create_fieldnames( const std::string& names )
-{
-    string body;
-    string word = get_first_word( names + " ;", &body );
-    while( word != ";" ) {
-        m_fieldnames.push_back( word );
-        word = get_first_word( body, &body );
-    }
-    m_rec_size = m_fieldnames.size() + 1;
-}
-
-void Hybrid::add_scheme( Calendars* cals, const std::string& def )
-{
-    string body;
-    string word = get_first_word( def, &body );
-    Scheme* sch = cals->get_scheme( word );
-    if( sch == NULL ) return;
-    Base* base = sch->get_base();
-    if( base == NULL ) return;
-    m_bases.push_back( base );
-    m_max_child_size = max( m_max_child_size, base->record_size() );
-    StringVec statements = parse_statements( peel_cbrackets( body ) );
-    for( size_t i = 0 ; i < statements.size() ; i++ ) {
-        word = get_first_word( statements[i], &body );
-        if( word == "begin" ) {
-            Field date = str_to_field( body );
-            m_dates.push_back( date );
-        }
-    }
-    XRefVec xref( m_fieldnames.size() );
-    for( size_t i = 0 ; i < xref.size() ; i++ ) {
-        xref[i] = base->get_fieldname_index( m_fieldnames[i] );
-    }
-    m_xref_fields.push_back( xref );
-}
-
 FieldVec Hybrid::get_xref( const Field* fields, Field sch ) const
 {
     FieldVec xref = m_xref_fields[sch];
@@ -353,18 +303,6 @@ FieldVec Hybrid::get_xref( const Field* fields, Field sch ) const
     }
     return result;
 }
-
-void Hybrid::set_xref( Field* fields, const Field* mask, Field sch ) const
-{
-    FieldVec xref = m_xref_fields[sch];
-    fields[0] = sch;
-    for( size_t i = 1 ; i < xref.size()+1 ; i++ ) {
-        if( xref[i-1] >= 0 ) {
-            fields[i] = mask[xref[i-1]];
-        }
-    }
-}
-
 
 bool Hybrid::is_in_scheme( Field jdn, Field scheme ) const
 {

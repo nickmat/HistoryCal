@@ -40,7 +40,6 @@ namespace Cal {
     class Scheme
     {
     public:
-        Scheme( Calendars* cals, const std::string& definition );
         enum BaseScheme { BS_NULL, BS_jdn, BS_julian, BS_gregorian };
         Scheme( const std::string& name, Base* base );
         ~Scheme();

@@ -40,7 +40,6 @@ namespace Cal {
     class Shift : public Base
     {
     public:
-        Shift( Calendars* cals, const std::string& data );
         Shift( Base* base, Field era );
         ~Shift();
 

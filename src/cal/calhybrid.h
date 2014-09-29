@@ -37,7 +37,6 @@ namespace Cal {
     class Hybrid : public Base
     {
     public:
-        Hybrid( Calendars* cals, const std::string& data );
         Hybrid( const StringVec& fields, const std::vector<Base*>& bases, const FieldVec& dates );
         ~Hybrid();
 
@@ -64,11 +63,7 @@ namespace Cal {
         virtual XRefVec get_default_xref_order( int count ) const;
 
     private:
-        void create_fieldnames( const std::string& names );
-        void add_scheme( Calendars* cals, const std::string& def );
-
         FieldVec get_xref( const Field* fields, Field sch ) const;
-        void set_xref( Field* fields, const Field* mask, Field sch ) const;
         bool is_in_scheme( Field jdn, Field scheme ) const;
         Field find_scheme( Field jdn ) const;
         void set_hybrid_fields( Field* fields, const Field* mask, Field scheme ) const;

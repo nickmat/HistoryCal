@@ -54,7 +54,6 @@ namespace Cal {
     class Regnal : public Base
     {
     public:
-        Regnal( Calendars* cals, const std::string& code, const std::string& data );
         Regnal( const StringVec& fieldnames, const std::vector<RegnalEra>& eras );
         ~Regnal();
 
@@ -75,10 +74,6 @@ namespace Cal {
         virtual void set_fields( Field* fields, Field jdn ) const;
 
     private:
-        void create_fieldnames( const std::string& names );
-        void create_schemes( Calendars* cals, const std::string& data );
-        void map_matched_fields( StringMap& matched, const std::string data );
-        void add_scheme( RegnalEra& era, Calendars* cals, const std::string& data, const StringMap& matched );
         // Adjust and copy Era date fields to base date fields
         FieldVec get_base_fields( const Field* fields ) const;
         // Adjust the given Record to Era fields

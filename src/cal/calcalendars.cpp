@@ -294,20 +294,8 @@ Vocab* Calendars::get_vocab( const string& code ) const
     return NULL;
 }
 
-void Calendars::add_scheme( const string& definition )
-{
-    SHandle sch = new Scheme( this, definition );
-    if( sch->is_ok() == false ) {
-        delete sch;
-        return;
-    }
-    string code = sch->get_code();
-    m_shandles[code] = sch;
-}
-
 bool Calendars::add_scheme( SHandle sch, const string& code )
 {
-//    sch->set_code( code );
     if( sch == NULL || sch->is_ok() == false ) {
         delete sch;
         return false;
