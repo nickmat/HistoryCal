@@ -43,10 +43,11 @@ namespace Cal {
         Grammar( const std::string& code );
         ~Grammar();
 
-        void add_alias( const std::string& alias_def );
-        void add_vocabs( Calendars* cals, const std::string& str );
-        void add_format( const std::string& format );
         void set_inherit( Calendars* cals, const std::string& code );
+        void set_pref( const std::string& fcode );
+        void add_vocab( Vocab* vocab );
+        void add_format( const std::string& code, const std::string& format );
+        void add_alias( const std::string& alias, const StringVec& pairs );
 
         std::string code() const { return m_code; }
         std::string get_field_alias( const std::string& fname ) const;

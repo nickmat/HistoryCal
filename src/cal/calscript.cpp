@@ -190,7 +190,8 @@ SHandle Script::do_create_scheme( const std::string& code )
     Scheme_style style = SCH_STYLE_Default;
     for(;;) {
         SToken token = m_ts.next();
-        if( token.type() == SToken::STT_RCbracket || token.type() == SToken::STT_End ) {
+        if( token.type() == SToken::STT_RCbracket ||
+            token.type() == SToken::STT_End ) {
             break;
         }
         if( token.type() == SToken::STT_Semicolon ) {
@@ -277,7 +278,8 @@ Base* Script::do_base_hybrid()
     FieldVec dates;
     for(;;) {
         SToken token = m_ts.next();
-        if( token.type() == SToken::STT_RCbracket || token.type() == SToken::STT_End ) {
+        if( token.type() == SToken::STT_RCbracket ||
+            token.type() == SToken::STT_End ) {
             break;
         }
         if( token.type() == SToken::STT_Semicolon ) {
@@ -306,7 +308,8 @@ Base* Script::do_base_regnal()
     vector<RegnalEra> eras;
     for(;;) {
         SToken token = m_ts.next();
-        if( token.type() == SToken::STT_RCbracket || token.type() == SToken::STT_End ) {
+        if( token.type() == SToken::STT_RCbracket ||
+            token.type() == SToken::STT_End ) {
             break;
         }
         if( token.type() == SToken::STT_Semicolon ) {
@@ -340,7 +343,8 @@ bool Script::do_regnal_era( RegnalEra& era, const StringVec& fieldnames )
     bool local = true;
     for(;;) {
         SToken token = m_ts.next();
-        if( token.type() == SToken::STT_RCbracket || token.type() == SToken::STT_End ) {
+        if( token.type() == SToken::STT_RCbracket ||
+            token.type() == SToken::STT_End ) {
             break;
         }
         if( token.type() == SToken::STT_Semicolon ) {
@@ -396,13 +400,14 @@ bool Script::do_vocab()
         error( "Vocab code missing." );
         return false;
     }
-    Vocab* voc = m_cals->add_vocab( code );
+    Vocab* voc = m_cals->create_vocab( code );
     string str;
     for(;;) {
         SToken token = m_ts.next();
         if( token.type() == SToken::STT_LCbracket ) {
             continue; 
-        } else if( token.type() == SToken::STT_RCbracket ) {
+        } else if( token.type() == SToken::STT_RCbracket ||
+            token.type() == SToken::STT_End ) {
             break; // All done.
         } else if( token.type() == SToken::STT_Name ) {
             string name = token.get_str();
@@ -438,7 +443,8 @@ bool Script::do_vocab_tokens( Vocab* voc )
     }
     for(;;) {
         SValue value = expr( true );
-        if( m_ts.current().type() == SToken::STT_RCbracket ) {
+        if( m_ts.current().type() == SToken::STT_RCbracket ||
+            m_ts.current().type() == SToken::STT_End ) {
             break; // All done.
         }
         if( value.type() != SValue::SVT_Field ) {
@@ -468,36 +474,103 @@ bool Script::do_vocab_tokens( Vocab* voc )
 bool Script::do_grammar()
 {
     string code;
-    SToken token = m_ts.next();
-    if( token.type() == SToken::STT_Name || token.type() == SToken::STT_String ) {
-        code = token.get_str();
-    } else {
+    expr( true ).get( code );
+    if( code.empty() ) {
         error( "Grammar code missing." );
         return false;
     }
-    Grammar* gmr = m_cals->add_grammar( code );
+    Grammar* gmr = m_cals->create_grammar( code );
+    string str;
     for(;;) {
-        token = m_ts.next();
+        SToken token = m_ts.next();
         if( token.type() == SToken::STT_LCbracket ) {
             continue; 
-        } else if( token.type() == SToken::STT_RCbracket ) {
+        } else if( token.type() == SToken::STT_RCbracket ||
+            token.type() == SToken::STT_End ) {
             break; // All done.
         } else if( token.type() == SToken::STT_Name ) {
             string name = token.get_str();
             if( name == "vocabs" ) {
-                gmr->add_vocabs( m_cals, m_ts.read_function() );
+                do_grammar_vocabs( gmr );
             } else if( name == "format" ) {
-                gmr->add_format( m_ts.read_function() );
+                do_grammar_format( gmr );
+            } else if( name == "pref" ) {
+                expr( true ).get( str );
+                gmr->set_pref( str );
             } else if( name == "alias" ) {
-                gmr->add_alias( m_ts.read_function() );
-            } else if( name == "grammar" ) {
-                gmr->set_inherit( m_cals, m_ts.read_function() );
-            } else {
-                error( "Unknown grammar subcommand." );
-                m_ts.read_function();
+                do_grammar_alias( gmr );
             }
         }
     }
+    return true;
+}
+
+bool Script::do_grammar_vocabs( Grammar* gmr )
+{
+    StringVec vocabs = do_string_list();
+    for( size_t i = 0 ; i < vocabs.size() ; i++ ) {
+        Vocab* voc = m_cals->get_vocab( vocabs[i] );
+        gmr->add_vocab( voc );
+    }
+    return true;
+}
+
+bool Script::do_grammar_format( Grammar* gmr )
+{
+    string code;
+    expr( true ).get( code );
+    if( m_ts.current().type() != SToken::STT_Comma ) {
+        error( "',' expected." );
+        return false;
+    }
+    string format;
+    expr( true ).get( format );
+    if( m_ts.current().type() != SToken::STT_Semicolon ) {
+        error( "';' expected." );
+        return false;
+    }
+    gmr->add_format( code, format );
+    return true;
+}
+
+bool Script::do_grammar_alias( Grammar* gmr )
+{
+    SToken token = m_ts.next();
+    if( token.type() != SToken::STT_Name ) {
+        error( "Alias type name expected." );
+        return false;
+    }
+    string alias = token.get_str();
+    token = m_ts.next();
+    if( token.type() != SToken::STT_LCbracket ) {
+        error( "'{' expected." );
+        return false;
+    }
+    string str1, str2;
+    StringVec pairs;
+    for(;;) {
+        SValue value = expr( true );
+        if( m_ts.current().type() == SToken::STT_RCbracket ||
+            m_ts.current().type() == SToken::STT_End ) {
+            break; // All done.
+        }
+        if( m_ts.current().type() != SToken::STT_Comma ) {
+            error( "',' expected." );
+            return false;
+        }
+        value.get( str1 );
+        value = expr( true );
+        if( m_ts.current().type() != SToken::STT_Semicolon ) {
+            error( "';' expected." );
+            return false;
+        }
+        value.get( str2 );
+        if( str1.size() && str2.size() ) {
+            pairs.push_back( str1 );
+            pairs.push_back( str2 );
+        }
+    }
+    gmr->add_alias( alias, pairs );
     return true;
 }
 

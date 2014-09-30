@@ -113,17 +113,23 @@ SchemeList Calendars::get_scheme_list() const
 
 void Calendars::get_scheme_info( Scheme_info* info, SHandle scheme ) const
 {
-    scheme->get_info( info );
+    if( scheme ) {
+        scheme->get_info( info );
+    }
 }
 
 void Calendars::get_scheme_input( SchemeFormats* info, SHandle scheme ) const
 {
-    scheme->get_input( info );
+    if( scheme ) {
+        scheme->get_input( info );
+    }
 }
 
 void Calendars::get_scheme_output( SchemeFormats* info, SHandle scheme ) const
 {
-    scheme->get_output( info );
+    if( scheme ) {
+        scheme->get_output( info );
+    }
 }
 
 bool Calendars::get_vocab_info( Vocab_info* info, const string& code ) const
@@ -138,32 +144,48 @@ bool Calendars::get_vocab_info( Vocab_info* info, const string& code ) const
 
 void Calendars::set_input_format( SHandle scheme, const std::string& code )
 {
-    scheme->set_input_format( code );
+    if( scheme ) {
+        scheme->set_input_format( code );
+    }
 }
 
 void Calendars::set_output_format( SHandle scheme, const std::string& code )
 {
-    scheme->set_output_format( code );
+    if( scheme ) {
+        scheme->set_output_format( code );
+    }
 }
 
 Field Calendars::fieldvec_to_jdn( SHandle scheme, const FieldVec& fieldv )
 {
-    return scheme->fieldvec_to_jdn( fieldv );
+    if( scheme ) {
+        return scheme->fieldvec_to_jdn( fieldv );
+    }
+    return f_invalid;
 }
 
 FieldVec Calendars::jdn_to_fieldvec( SHandle scheme, Field jdn )
 {
-    return scheme->jdn_to_fieldvec( jdn );
+    if( scheme ) {
+        return scheme->jdn_to_fieldvec( jdn );
+    }
+    return FieldVec();
 }
 
 string Calendars::fieldvec_to_str( SHandle scheme, const FieldVec& fieldv )
 {
-    Record rec( scheme->get_base(), &fieldv[0], fieldv.size() );
-    return rec.get_str();
+    if( scheme ) {
+        Record rec( scheme->get_base(), &fieldv[0], fieldv.size() );
+        return rec.get_str();
+    }
+    return "";
 }
 
 FieldVec Calendars::str_to_fieldvec( SHandle scheme, const string& str )
 {
+    if( ! scheme ) {
+        return FieldVec();
+    }
     string scode, fcode, mstr;
     split_code_date( &scode, &fcode, &mstr, str );
     if( scode.size() ) {
@@ -191,7 +213,10 @@ Field Calendars::str_to_jdn( SHandle scheme, const string& str )
 
 string Calendars::jdn_to_str( SHandle scheme, Field jdn )
 {
-    return scheme->jdn_to_str( jdn );
+    if( scheme ) {
+        return scheme->jdn_to_str( jdn );
+    }
+    return "";
 }
 
 Range Calendars::str_to_range( SHandle scheme, const string& str )
@@ -209,7 +234,10 @@ Range Calendars::str_to_range( SHandle scheme, const string& str )
 
 string Calendars::range_to_str( SHandle scheme, Range range )
 {
-    return scheme->range_to_str( range );
+    if( scheme ) {
+        return scheme->range_to_str( range );
+    }
+    return "";
 }
 
 RangeList Calendars::str_to_rangelist( SHandle scheme, const string& input )
@@ -265,17 +293,26 @@ string Calendars::rangelist_to_str( SHandle scheme, const RangeList& ranges )
 
 Field Calendars::add_to_jdn( SHandle scheme, Field jdn, Field value, Unit unit, Norm norm )
 {
-    return scheme->add_to_jdn( jdn, value, unit, norm );
+    if( scheme ) {
+        return scheme->add_to_jdn( jdn, value, unit, norm );
+    }
+    return f_invalid;
 }
 
 bool Calendars::str_to_rel_info( SHandle scheme, const string& str, Rel_info* info ) const
 {
-    return scheme->str_to_rel_info( str, info );
+    if( scheme ) {
+        return scheme->str_to_rel_info( str, info );
+    }
+    return false;
 }
 
 RangeList Calendars::rel_rangelist( SHandle scheme, const RangeList& ranges, Rel_info* info )
 {
-    return scheme->rel_rangelist( ranges, info );
+    if( scheme ) {
+        return scheme->rel_rangelist( ranges, info );
+    }
+    return RangeList();
 }
 
 Grammar* Calendars::get_grammar( const string& code ) const
@@ -303,22 +340,15 @@ bool Calendars::add_scheme( SHandle sch, const string& code )
     m_shandles[code] = sch;
     return true;
 }
-#if 0
-void Calendars::add_vocab( const string& definition )
-{
-    Vocab* voc = new Vocab( definition );
-    string code = voc->get_code();
-    m_vocabs[code] = voc;
-}
-#endif
-Vocab* Calendars::add_vocab( const string& code )
+
+Vocab* Calendars::create_vocab( const string& code )
 {
     Vocab* voc = new Vocab( code );
     m_vocabs[code] = voc;
     return voc;
 }
 
-Grammar* Calendars::add_grammar( const string& code )
+Grammar* Calendars::create_grammar( const string& code )
 {
     Grammar* gmr = new Grammar( code );
     m_grammars[code] = gmr;

@@ -78,27 +78,37 @@ void Scheme::get_info( Scheme_info* info ) const
 
 void Scheme::get_input( SchemeFormats* info ) const
 {
-    m_base->get_input_formats( info );
+    if( m_base ) {
+        m_base->get_input_formats( info );
+    }
 }
 
 void Scheme::get_output( SchemeFormats* info ) const
 {
-    m_base->get_output_formats( info );
+    if( m_base ) {
+        m_base->get_output_formats( info );
+    }
 }
 
 void Scheme::set_grammar( Grammar* grammar )
 {
-    m_base->set_grammar( grammar );
+    if( m_base ) {
+        m_base->set_grammar( grammar );
+    }
 }
 
 void Scheme::set_input_format( const std::string& code )
 {
-    m_base->set_input_format( code );
+    if( m_base ) {
+       m_base->set_input_format( code );
+    }
 }
 
 void Scheme::set_output_format( const std::string& code )
 {
-    m_base->set_output_format( code );
+    if( m_base ) {
+       m_base->set_output_format( code );
+    }
 }
 
 Field Scheme::fieldvec_to_jdn( const FieldVec& fieldv )

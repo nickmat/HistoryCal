@@ -78,9 +78,8 @@ namespace Cal {
         Vocab* get_vocab( const std::string& code ) const;
         ScriptStore* get_store() const { return m_store; }
         bool add_scheme( SHandle sch, const std::string& code );
-//        void add_vocab( const std::string& definition );
-        Vocab* add_vocab( const std::string& code );
-        Grammar* add_grammar( const std::string& code );
+        Vocab* create_vocab( const std::string& code );
+        Grammar* create_grammar( const std::string& code );
 
     private:
         RangeList range_str_to_rangelist( SHandle scheme, const std::string& str );

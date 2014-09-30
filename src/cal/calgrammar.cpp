@@ -32,6 +32,8 @@
 #include "calparse.h"
 #include "calvocab.h"
 
+#include <cassert>
+
 using namespace std;
 using namespace Cal;
 
@@ -47,87 +49,72 @@ Grammar::~Grammar()
     }
 }
 
-void Grammar::add_alias( const std::string& alias_def )
+void Grammar::set_inherit( Calendars* cals, const std::string& code )
 {
-    string body;
-    string alias = get_first_word( alias_def, &body );
-    vector<string> statements = parse_statements( peel_cbrackets( body ) );
-    if( alias == "field" ) {
-        for( size_t i = 0 ; i < statements.size() ; i++ ) {
-            alias = get_first_word( statements[i], &body );
-            m_field_alias[alias] = body;
-        }
-    } else if( alias == "format-number-code" ) {
-        for( size_t i = 0 ; i < statements.size() ; i++ ) {
-            alias = get_first_word( statements[i], &body );
-            m_num_code_alias[alias] = body;
-        }
-    } else if( alias == "unit" ) {
-        for( size_t i = 0 ; i < statements.size() ; i++ ) {
-            alias = get_first_word( statements[i], &body );
-            Unit unit = unit_null;
-            if( body == "year" ) {
-                unit = unit_year;
-            } else if( body == "month" ) {
-                unit = unit_month;
-            } else if( body == "week" ) {
-                unit = unit_week;
-            } else if( body == "day" ) {
-                unit = unit_day;
-            } else {
-                continue;
-            }
-            string key = make_key( alias );
-            m_unit_alias[key] = unit;
-        }
+    m_inherit = cals->get_grammar( code );
+}
+
+void Grammar::set_pref( const std::string& fcode )
+{
+    Format* fmt = get_format( fcode );
+    if( fmt ) {
+        m_pref_output_fmt = fcode;
+        m_pref_input_fmt = fcode;
     }
 }
 
-void Grammar::add_vocabs( Calendars* cals, const std::string& str )
+void Grammar::add_vocab( Vocab* vocab )
 {
-    string body = str;
-    while( body.size() ) {
-        string code = get_first_word( body, &body );
-        Vocab* voc = cals->get_vocab( code );
-        if( voc != NULL ) {
-            m_vocabs.push_back( voc );
-        }
-    };
+    if( vocab ) {
+        m_vocabs.push_back( vocab );
+    }
 }
 
-void Grammar::add_format( const std::string& format )
+void Grammar::add_format( const string& code, const string& format )
 {
-    string str = format;
-    bool pref = false;
-    if( format.compare( 0, 5, "pref " ) == 0 ) {
-        get_first_word( format, &str );
-        pref = true;
-    }
-    string code = get_first_word( str, &str );
-    if( pref ) {
-        m_pref_output_fmt = code;
-        m_pref_input_fmt = code;
-    }
-    Format* fmt = new Format(str);
+    Format* fmt = new Format( format );
     m_formats[code] = fmt;
     string order = fmt->get_order_str();
     for( StringMap::iterator it = m_input_formats.begin() ;
         it != m_input_formats.end() ; it++
     ) {
         if( it->second == order ) {
-            // Already there
-            if( pref ) {
-                m_pref_input_fmt = it->first;
-            }
             return;
         }
     }
     m_input_formats[code] = order;
 }
 
-void Grammar::set_inherit( Calendars* cals, const std::string& code )
+void Grammar::add_alias( const string& alias, const StringVec& pairs )
 {
-    m_inherit = cals->get_grammar( code );
+    assert( pairs.size() % 2 == 0 ); // pairs must be even.
+    if( alias == "field" ) {
+        for( size_t i = 0 ; i < pairs.size() ; i += 2 ) {
+            m_field_alias[pairs[i]] = pairs[i+1];
+        }
+    } else if( alias == "stylename" ) {
+        for( size_t i = 0 ; i < pairs.size() ; i += 2 ) {
+            m_num_code_alias[pairs[i]] = pairs[i+1];
+        }
+    } else if( alias == "unit" ) {
+        for( size_t i = 0 ; i < pairs.size() ; i += 2 ) {
+            string name = pairs[i+1];
+            Unit unit = unit_null;
+            if( name == "year" ) {
+                unit = unit_year;
+            } else if( name == "month" ) {
+                unit = unit_month;
+            } else if( name == "week" ) {
+                unit = unit_week;
+            } else if( name == "day" ) {
+                unit = unit_day;
+            } else {
+                continue;
+            }
+            string key = make_key( pairs[i] );
+            m_unit_alias[key] = unit;
+        }
+    }
 }
 
 string Grammar::get_field_alias( const string& fname ) const

@@ -56,15 +56,15 @@ void TestVocab::setUp()
 {
     m_cal = new Calendars;
     m_cal->run_script(
-        "vocab m {"
-        " name Month names; lang en; style-name Month Mon;"
+        "vocab \"m\" {"
+        " name \"Month names\"; lang \"en\"; stylename \"Month\", \"Mon\";"
         " tokens {"
-        "  1 January Jan; 2 Febuary Feb; 3 March Mar;"
-        "  4 April Apr; 5 May; 6 June Jun;"
-        "  7 July Jul; 8 August Aug; 9 September Sep;"
-        "  10 October Oct; 11 November Nov; 12 December Dec;"
-        " };"
-        "};\n"
+        "  1, \"January\", \"Jan\"; 2, \"Febuary\", \"Feb\"; 3, \"March\", \"Mar\";"
+        "  4, \"April\", \"Apr\"; 5, \"May\"; 6, \"June\", \"Jun\";"
+        "  7, \"July\", \"Jul\"; 8, \"August\", \"Aug\"; 9, \"September\", \"Sep\";"
+        "  10, \"October\", \"Oct\"; 11, \"November\", \"Nov\"; 12, \"December\", \"Dec\";"
+        " }"
+        "}\n"
     );
 }
 
