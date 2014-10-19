@@ -404,9 +404,7 @@ bool Script::do_vocab()
     string str;
     for(;;) {
         SToken token = m_ts.next();
-        if( token.type() == SToken::STT_LCbracket ) {
-            continue; 
-        } else if( token.type() == SToken::STT_RCbracket ||
+        if( token.type() == SToken::STT_RCbracket ||
             token.type() == SToken::STT_End ) {
             break; // All done.
         } else if( token.type() == SToken::STT_Name ) {
@@ -442,11 +440,12 @@ bool Script::do_vocab_tokens( Vocab* voc )
         return false;
     }
     for(;;) {
-        SValue value = expr( true );
-        if( m_ts.current().type() == SToken::STT_RCbracket ||
+        // Look ahead for '}'
+        if( m_ts.next().type() == SToken::STT_RCbracket ||
             m_ts.current().type() == SToken::STT_End ) {
             break; // All done.
         }
+        SValue value = expr( false );
         if( value.type() != SValue::SVT_Field ) {
             error( "Number expected." );
             return false;
@@ -549,11 +548,12 @@ bool Script::do_grammar_alias( Grammar* gmr )
     string str1, str2;
     StringVec pairs;
     for(;;) {
-        SValue value = expr( true );
-        if( m_ts.current().type() == SToken::STT_RCbracket ||
+        // Look ahead for '}'
+        if( m_ts.next().type() == SToken::STT_RCbracket ||
             m_ts.current().type() == SToken::STT_End ) {
             break; // All done.
         }
+        SValue value = expr( false );
         if( m_ts.current().type() != SToken::STT_Comma ) {
             error( "',' expected." );
             return false;
