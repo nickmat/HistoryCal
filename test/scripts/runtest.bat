@@ -1,4 +1,4 @@
 @echo off
-..\..\build\vc9\debug\hcs.exe -t test
+..\..\build\vc9\debug\hctest.exe -t test
 
 pause
