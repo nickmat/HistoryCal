@@ -213,11 +213,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\test\hcs\hcs.cpp"
+				RelativePath="..\..\src\hcs\hcs.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\test\hcs\hcsgetfns.cpp"
+				RelativePath="..\..\src\hcs\hcsgetfns.cpp"
 				>
 			</File>
 		</Filter>
@@ -231,7 +231,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\test\hcs\hcsmain.h"
+				RelativePath="..\..\src\hcs\hcsmain.h"
 				>
 			</File>
 		</Filter>

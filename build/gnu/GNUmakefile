@@ -226,10 +226,10 @@ hcal_hcversion.o: ./../../src/hcal/hcversion.cpp
 hcal_dummy.o: ./../../src/dummy.cpp
 	$(CXX) -c -o $@ $(HCAL_CXXFLAGS) $(CPPDEPS) $<
 
-hcs_hcs.o: ./../../test/hcs/hcs.cpp
+hcs_hcs.o: ./../../src/hcs/hcs.cpp
 	$(CXX) -c -o $@ $(HCS_CXXFLAGS) $(CPPDEPS) $<
 
-hcs_hcsgetfns.o: ./../../test/hcs/hcsgetfns.cpp
+hcs_hcsgetfns.o: ./../../src/hcs/hcsgetfns.cpp
 	$(CXX) -c -o $@ $(HCS_CXXFLAGS) $(CPPDEPS) $<
 
 unit_api_expr_str.o: ./../../test/unit/api_expr_str.cpp
