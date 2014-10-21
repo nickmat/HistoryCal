@@ -1,5 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        test/hcs/hcs.cpp
+ * Name:        src/hcs/hcs.cpp
  * Project:     HistoryCalScript: Command line HistoryCal Calculator.
  * Purpose:     Command line test program for Cal Calendar library.
  * Author:      Nick Matthews
@@ -25,17 +25,14 @@
 
 */
 
-#include "hcsmain.h"
-
 #include <cal/calendars.h>
 #include <utf8/utf8api.h>
 
-#include <cstdlib>
 #include <iostream>
 #include <fstream>
 #include <sstream>
 
-#define VERSION   "0.7.0"
+#define VERSION   "0.8.0"
 #define PROGNAME  "HistoryCalScript"
 #define COPYRIGHT  "2014 Nick Matthews"
 
@@ -82,85 +79,98 @@ string read_file( const string& name )
     return ss.str();
 }
 
-void run_test( Calendars* cal, const string& filename )
+void do_usage()
 {
-    string script = read_file( filename );
-    string output = cal->run_script( script );
-    string expected;
-    size_t pos1 = script.find( "/*[OUTPUT]\n" );
-    if( pos1 != string::npos ) {
-        pos1 += 11;
-        size_t pos2 = script.find( "[OUTPUT]*/", pos1 );
-        if( pos2 != string::npos ) {
-            expected = script.substr( pos1, pos2 - pos1 );
-        }
-    }
-    cout << filename << "  ";
-    if( output.empty() ) {
-        cout << "No output\n";
-    } else if( output == expected ) {
-        cout << "Pass: " << output << "\n";
-    } else {
-        cout << "Expected: " << expected << "\n"
-            << "Output: " << output << "\n";
-    }
-}
-
-void run_full_test( Calendars* cal, const string& path )
-{
-    vector<string> filenames;
-    get_filenames( filenames, path );
-    for( size_t i = 0 ; i < filenames.size() ; i++ ) {
-        run_test( cal, filenames[i] );
-    }
+    cout << g_title << g_copyright << "\n";
+    cout << 
+        "Usage:\n"
+        "  hcs [options]\n"
+        "\n"
+        "Options:\n"
+        "  -h    Show this help message and exit.\n"
+        "  -n    Do not run the default script on start up.\n"
+        "  -e    Exit the program without running the command line.\n"
+        "  name  Run the file 'name' as a script.\n"
+        "        Multiple files are run in the order that they appear.\n" 
+        "\n"
+        "Commandl line:\n"
+        "  run filename   Run the script in filename.\n"
+        //"  info           Get info on available calendars.\n"
+        "  bye            Exit the program.\n"
+        "  Anything else is passed directly to the script interpreter.\n"
+        "\n"
+    ;
 }
 
 int main( int argc, char* argv[] )
 {
-    Calendars cal( Init_script_default );
-    cout << g_title << "\n";
+    vector<string> filenames;
+    bool run_default = true;
+    bool do_cmd_line = true;
 
-    string argv1;
-    switch( argc )
-    {
-    case 1:
-        break;
-    case 2:
-        argv1 = string(argv[1]);
-        run_test( &cal, argv1 );
-        return 0;
-    case 3:
-        argv1 = string(argv[1]);
-        run_full_test( &cal, string(argv[2]) );
-        return 0;
-    default:
-        cout << "Too many arguments.\n";
-        return 1;
-    }
-
-    for(;;) {
-        cout << "hcc: ";
-        string cmnd;
-        getline( cin, cmnd );
-        string word, tail;
-        word = get_first_word( cmnd, &tail, ' ' );
-
-        if( word == "exit" || word == "bye" || word == "quit" ) {
-            break;
-        } else if( word == "info" ) {
-            continue;
-        } else if( word == "run" ) {
-            cmnd = read_file( tail );
-        } else if( word == "test" ) {
-            run_test( &cal, tail );
-            continue;
-        }
-        string output = cal.run_script( cmnd );
-        if( output.size() ) {
-            cout << output << "\n";
+    for( int i = 1 ; i < argc ; i++ ) {
+        if( argv[i][0] == '-' ) {
+            switch( argv[i][1] )
+            {
+            case 'h': // Help
+                do_usage();
+                return 0;
+            case 'n': // No default script.
+                run_default = false;
+                break;
+            case 'e': // Exit without running command line.
+                do_cmd_line = false;
+                break;
+            default:
+                cout << "Command line flag not recognised.\n";
+            }
+        } else {
+            filenames.push_back( string( argv[i] ) );
         }
     }
+
+    cout << g_title << g_copyright << "\n";
+
+    Calendars* cal;
+    if( run_default ) {
+        cal = new Calendars( Init_script_default );
+    } else {
+        cal = new Calendars;
+    }
+
+    // Run script files if given.
+    for( size_t i = 0 ; i < filenames.size() ; i++ ) {
+        string script = read_file( filenames[i] );
+        string response = cal->run_script( script );
+        if( response.size() ) {
+            cout << response << "\n";
+        }
+    }
+
+    if( do_cmd_line ) {
+        for(;;) {
+            cout << "hcs: ";
+            string cmnd;
+            getline( cin, cmnd );
+            string word, tail;
+            word = get_first_word( cmnd, &tail, ' ' );
+
+            if( word == "bye" ) {
+                break;
+            } else if( word == "info" ) {
+                // TODO: Add info command.
+                continue;
+            } else if( word == "run" ) {
+                cmnd = read_file( tail );
+            }
+            string output = cal->run_script( cmnd );
+            if( output.size() ) {
+                cout << output << "\n";
+            }
+        }
+    }
+    delete cal;
     return 0;
 }
 
-// End of test/hcs/hcs.cpp
+// End of src/hcs/hcs.cpp

@@ -72,8 +72,7 @@ HCAL_OBJECTS =  \
 	hcal_dummy.o
 HCS_CXXFLAGS =  $(VAR) $(VAR_7) -I../../include  $(CPPFLAGS) $(CXXFLAGS)
 HCS_OBJECTS =  \
-	hcs_hcs.o \
-	hcs_hcsgetfns.o
+	hcs_hcs.o
 HCTEST_CXXFLAGS =  $(VAR) $(VAR_7) -I../../include  $(CPPFLAGS) $(CXXFLAGS)
 HCTEST_OBJECTS =  \
 	hctest_hctest.o \
@@ -235,9 +234,6 @@ hcal_dummy.o: ./../../src/dummy.cpp
 	$(CXX) -c -o $@ $(HCAL_CXXFLAGS) $(CPPDEPS) $<
 
 hcs_hcs.o: ./../../src/hcs/hcs.cpp
-	$(CXX) -c -o $@ $(HCS_CXXFLAGS) $(CPPDEPS) $<
-
-hcs_hcsgetfns.o: ./../../src/hcs/hcsgetfns.cpp
 	$(CXX) -c -o $@ $(HCS_CXXFLAGS) $(CPPDEPS) $<
 
 hctest_hctest.o: ./../../test/hctest/hctest.cpp
