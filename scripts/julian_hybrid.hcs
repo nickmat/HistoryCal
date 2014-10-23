@@ -1,0 +1,80 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Name:        scripts/julian_hybrid.hcs
+ * Project:     Cal: Programmable Historical Calendar library.
+ * Purpose:     Default script.
+ * Author:      Nick Matthews
+ * Website:     http://historycal.org
+ * Created:     30th September 2014
+ * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Licence:     GNU GPLv3
+ *
+ *  The Cal library is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The Cal library is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with the Cal library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*/
+
+vocab "ojn" {
+    name "Scheme names";
+    lang "en";
+    stylename "Scheme", "Sch";
+    tokens {
+        0, "Old Style", "os";
+        1, "Julian";
+        2, "New Style", "ns";
+    }
+}
+
+vocab "on" {
+    name "Scheme names";
+    lang "en";
+    stylename "Scheme", "Sch";
+    tokens {
+        0, "Old Style", "os";
+        1, "New Style", "ns";
+    }
+}
+
+grammar "hy" {
+    vocabs "m", "ojn";
+    alias field {
+        "Day",       "day";
+        "Month",     "month";
+        "Year",      "year";
+        "Hist-Year", "unshift";
+        "Scheme",    "scheme";
+    }
+    alias stylename {
+        "Day",       "dd";
+        "Month",     "mm";
+        "Year",      "yyyy";
+        "Hist-Year", "y";
+        "Scheme",    "s";
+    }
+    format "dmyh", "@(Day) @(Month:m.a) @(Year/Hist-Year)";
+    format "dmy",  "@(Day) @(Month:m.a) @(Year)";
+    format "dmys", "@(Day) @(Month:m.a) @(Year) @(Scheme:ojn.a)";
+    pref "dmyh";
+}
+
+scheme "eng" {
+    name "English Hybrid";
+    hybrid {
+        fields "year", "month", "day", "unshift";
+        schemes "j325", 2360975, "j", 2361222, "g";
+    }
+    grammar "hy";
+}
+
+// End of scripts/julian_hybrid.hcs file
+

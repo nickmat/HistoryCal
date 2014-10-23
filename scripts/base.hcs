@@ -1,11 +1,11 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        src/cal/caldefscripts.h
+ * Name:        scripts/base.hcs
  * Project:     Cal: Programmable Historical Calendar library.
- * Purpose:     Default scripts.
+ * Purpose:     Default script.
  * Author:      Nick Matthews
  * Website:     http://historycal.org
- * Created:     20th September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Created:     30th September 2014
+ * Copyright:   Copyright (c) 2014, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -22,17 +22,34 @@
  *  along with the Cal library.  If not, see <http://www.gnu.org/licenses/>.
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-
 */
 
-#ifndef CAL_CALDEFSCRIPTS_H_GUARD
-#define CAL_CALDEFSCRIPTS_H_GUARD
 
-namespace Cal {
-
-    extern const char* cal_default_scripts[];
-    extern size_t cal_default_scripts_size;
-
+vocab "w" {
+    name "Weekday names";
+    lang "en";
+    stylename "Weekday", "WDay";
+    tokens {
+        1, "Monday",    "Mon";
+        2, "Tuesday",   "Tue";
+        3, "Wednesday", "Wed";
+        4, "Thursday",  "Thur";
+        5, "Friday",    "Fri";
+        6, "Saturday",  "Sat";
+        7, "Sunday",    "Sun";
+    }
 }
 
-#endif // CAL_CALDEFSCRIPTS_H_GUARD
+grammar "d" {
+    alias field {
+        "Day", "day";
+    }
+    alias stylename {
+        "Day", "ddddd";
+    }
+    format "d", "@(Day)";
+    pref "d";
+}
+
+// End of scripts/base.hcs file
+

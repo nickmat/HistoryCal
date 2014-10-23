@@ -53,7 +53,9 @@ Calendars::Calendars( Init_schemes init )
     case Init_script_none:
         break;
     case Init_script_default:
-        run_script( cal_default_script );
+        for( size_t i = 0 ; i < cal_default_scripts_size ; i++ ) {
+            run_script( cal_default_scripts[i] );
+        }
         break;
     }
 }

@@ -1,0 +1,116 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Name:        scripts/julian.hcs
+ * Project:     Cal: Programmable Historical Calendar library.
+ * Purpose:     Default script.
+ * Author:      Nick Matthews
+ * Website:     http://historycal.org
+ * Created:     30th September 2014
+ * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Licence:     GNU GPLv3
+ *
+ *  The Cal library is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The Cal library is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with the Cal library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*/
+
+
+vocab "m" {
+    name "Month names";
+    lang "en";
+    stylename "Month",  "Mon";
+    tokens {
+        1, "January",   "Jan";
+        2, "Febuary",   "Feb";
+        3, "March",     "Mar";
+        4, "April",     "Apr";
+        5, "May";
+        6, "June",      "Jun";
+        7, "July",      "Jul";
+        8, "August",    "Aug";
+        9, "September", "Sep";
+        10, "October",  "Oct";
+        11, "November", "Nov";
+        12, "December", "Dec";
+    }
+}
+
+grammar "j" {
+    vocabs "m", "w";
+    alias field {
+        "WDay",  "wday";
+        "Day",   "day";
+        "Month", "month";
+        "Year",  "year";
+    }
+    alias stylename {
+        "WDay",  "w";
+        "Day",   "dd";
+        "Month", "mm";
+        "Year",  "yyyy";
+    }
+    alias unit {
+        "d", "day";
+        "m", "month";
+        "y", "year";
+        "w", "week";
+    }
+    format "dmy",   "@(Day) @(Month:m.a) @(Year)";
+    format "wdmy",  "@(WDay:w.a) @(Day) @(Month:m.a) @(Year)";
+    format "dmy+",  "@(Day) @(Month:m) @(Year)";
+    format "wdmy+", "@(WDay:w) @(Day) @(Month:m) @(Year)";
+    format "mdy",   "@(Month:m.a) @(Day), @(Year)";
+    format "ymd",   "@(Year)@:(Month)@:(Day)";
+    pref "dmy";
+}
+
+scheme "j" {
+    name "Julian";
+    base julian;
+    grammar "j";
+}
+
+scheme "g" {
+    name "Gregorian";
+    base gregorian;
+    grammar "j";
+}
+
+grammar "j.sh" {
+    vocabs "m", "w";
+    alias field {
+        "WDay",      "wday";
+        "Day",       "day";
+        "Month",     "month";
+        "Year",      "year";
+        "Hist-Year", "unshift";
+    }
+    alias stylename {
+        "Day",       "dd";
+        "Month",     "mm";
+        "Year",      "yyyy";
+        "Hist-Year", "y";
+    }
+    format "dmy",   "@(Day) @(Month:m.a) @(Year)";
+    format "dmyh",  "@(Day) @(Month:m.a) @(Year/Hist-Year)";
+    format "wdmyh", "@(WDay:w.a) @(Day) @(Month:m.a) @(Year/Hist-Year)";
+    pref "dmyh";
+}
+
+scheme "j325" {
+    name "Julian Annunciation";
+    shift "j", 1721507;
+    grammar "j.sh";
+}
+
+// End of scripts/julian.hcs file

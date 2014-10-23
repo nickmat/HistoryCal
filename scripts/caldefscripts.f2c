@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        scripts/caldefscripts.template
+ * Name:        scripts/caldefscripts.f2c
  * Project:     Cal: Programmable Historical Calendar library.
- * Purpose:     Default scripts.
+ * Purpose:     file2cpp template file for default scripts.
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2014
@@ -23,10 +23,21 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
+ This template is used to create the src/cal/caldefscripts.cpp file.
+
 */
 
 #include "caldefscripts.h"
 
-const char* Cal::cal_default_script = @(crl.cpp)"default.hcs";
+const char* Cal::cal_default_scripts[] = {
+    @(crl.cpp)"base.hcs",
+    @(crl.cpp)"jdn.hcs",
+    @(crl.cpp)"julian.hcs",
+    @(crl.cpp)"julian_hybrid.hcs",
+    @(crl.cpp)"liturgical.hcs",
+    @(crl.cpp)"english_reg.hcs"
+};
 
-// End of src/cal/caldefscripts.cpp file
+size_t Cal::cal_default_scripts_size = sizeof(Cal::cal_default_scripts) / sizeof(char*);
+
+// End of scripts/caldefscripts.f2c file
