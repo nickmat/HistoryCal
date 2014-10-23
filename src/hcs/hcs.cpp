@@ -94,10 +94,11 @@ void do_usage()
         "        Multiple files are run in the order that they appear.\n" 
         "\n"
         "Commandl line:\n"
+        "  help           Show this help message.\n"
         "  run filename   Run the script in filename.\n"
         //"  info           Get info on available calendars.\n"
         "  bye            Exit the program.\n"
-        "  Anything else is passed directly to the script interpreter.\n"
+        "Anything else is passed directly to the script interpreter.\n"
         "\n"
     ;
 }
@@ -159,6 +160,9 @@ int main( int argc, char* argv[] )
                 break;
             } else if( word == "info" ) {
                 // TODO: Add info command.
+                continue;
+            } else if( word == "help" ) {
+                do_usage();
                 continue;
             } else if( word == "run" ) {
                 cmnd = read_file( tail );
