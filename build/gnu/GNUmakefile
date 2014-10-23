@@ -62,7 +62,7 @@ WX_VERSION_MAJOR = $(shell echo $(WX_VERSION) | cut -c1,1)
 WX_VERSION_MINOR = $(shell echo $(WX_VERSION) | cut -c2,2)
 WX_CONFIG_FLAGS = $(WX_CONFIG_UNICODE_FLAG) $(WX_CONFIG_SHARED_FLAG) \
 	--toolkit=$(WX_PORT) --version=$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR)
-HCAL_CXXFLAGS = $(VAR) $(VAR_7) -I../../include -I../../src `$(WX_CONFIG) \
+HCAL_CXXFLAGS = $(VAR) $(VAR_9) -I../../include -I../../src `$(WX_CONFIG) \
 	--cxxflags $(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
 HCAL_OBJECTS =  \
 	hcal_hcapp.o \
@@ -70,14 +70,14 @@ HCAL_OBJECTS =  \
 	hcal_hcframe.o \
 	hcal_hcversion.o \
 	hcal_dummy.o
-HCS_CXXFLAGS =  $(VAR) $(VAR_7) -I../../include  $(CPPFLAGS) $(CXXFLAGS)
+HCS_CXXFLAGS =  $(VAR) $(VAR_9) -I../../include  $(CPPFLAGS) $(CXXFLAGS)
 HCS_OBJECTS =  \
 	hcs_hcs.o
-HCTEST_CXXFLAGS =  $(VAR) $(VAR_7) -I../../include  $(CPPFLAGS) $(CXXFLAGS)
+HCTEST_CXXFLAGS =  $(VAR) $(VAR_9) -I../../include  $(CPPFLAGS) $(CXXFLAGS)
 HCTEST_OBJECTS =  \
 	hctest_hctest.o \
 	hctest_hcsgetfns.o
-UNIT_CXXFLAGS = $(VAR) $(VAR_7) -I../../include -I$(CPPUNIT)/include $(CPPFLAGS) \
+UNIT_CXXFLAGS = $(VAR) $(VAR_9) -I../../include -I$(CPPUNIT)/include $(CPPFLAGS) \
 	$(CXXFLAGS)
 UNIT_OBJECTS =  \
 	unit_api_expr_str.o \
@@ -94,7 +94,7 @@ UNIT_OBJECTS =  \
 	unit_testmain.o \
 	unit_testregnal.o \
 	unit_testvocab.o
-SOAK_CXXFLAGS = $(VAR) $(VAR_7) -I../../include -I$(CPPUNIT)/include $(CPPFLAGS) \
+SOAK_CXXFLAGS = $(VAR) $(VAR_9) -I../../include -I$(CPPUNIT)/include $(CPPFLAGS) \
 	$(CXXFLAGS)
 SOAK_OBJECTS =  \
 	soak_soak_eng.o \
@@ -104,7 +104,7 @@ SOAK_OBJECTS =  \
 	soak_soak_j325.o \
 	soak_soakcommon.o \
 	soak_soakmain.o
-CAL_CXXFLAGS = $(VAR) $(VAR_7) -DMAKINGLIB_CAL -I../../include -fPIC -DPIC \
+CAL_CXXFLAGS = $(VAR) $(VAR_9) -DMAKINGLIB_CAL -I../../include -fPIC -DPIC \
 	$(CPPFLAGS) $(CXXFLAGS)
 CAL_OBJECTS =  \
 	cal_calbase.o \
@@ -131,13 +131,17 @@ CAL_OBJECTS =  \
 	cal_calsvalue.o \
 	cal_calversion.o \
 	cal_calvocab.o
-UTF8API_CFLAGS = $(VAR) $(VAR_7) -DMAKINGLIB_UTF8API -I../../include -fPIC -DPIC \
+UTF8API_CFLAGS = $(VAR) $(VAR_9) -DMAKINGLIB_UTF8API -I../../include -fPIC -DPIC \
 	$(CPPFLAGS) $(CFLAGS)
-UTF8API_CXXFLAGS = $(VAR) $(VAR_7) -DMAKINGLIB_UTF8API -I../../include -fPIC \
+UTF8API_CXXFLAGS = $(VAR) $(VAR_9) -DMAKINGLIB_UTF8API -I../../include -fPIC \
 	-DPIC $(CPPFLAGS) $(CXXFLAGS)
 UTF8API_OBJECTS =  \
 	utf8api_utf8proc.o \
 	utf8api_utf8api.o
+FILE2CPP_CXXFLAGS = $(VAR) $(VAR_9) `$(WX_CONFIG) --cxxflags $(WX_CONFIG_FLAGS)` \
+	$(CPPFLAGS) $(CXXFLAGS)
+FILE2CPP_OBJECTS =  \
+	file2cpp_file2cpp.o
 
 ### Conditionally set variables: ###
 
@@ -166,16 +170,16 @@ ifeq ($(WX_DEBUG),1)
 VAR = -O0
 endif
 ifeq ($(WX_DEBUG),0)
-VAR_7 = 
+VAR_9 = 
 endif
 ifeq ($(WX_DEBUG),1)
-VAR_7 = -g
+VAR_9 = -g
 endif
 
 
 ### Targets: ###
 
-all: test_for_selected_wxbuild hcal hcs hctest unit soak libcal.so libutf8api.so
+all: test_for_selected_wxbuild hcal hcs hctest unit soak libcal.so libutf8api.so file2cpp
 
 install: 
 
@@ -193,30 +197,34 @@ clean:
 	rm -f libcal.so
 	rm -f libutf8api.so
 	rm -f libutf8api.so
+	rm -f file2cpp
 
 test_for_selected_wxbuild: 
 	@$(WX_CONFIG) $(WX_CONFIG_FLAGS)
 
 hcal: $(HCAL_OBJECTS) libcal.so libutf8api.so
-	$(CXX) -o $@ $(HCAL_OBJECTS)  $(VAR_7)  $(LDFLAGS)  libcal.so libutf8api.so `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs core,base`
+	$(CXX) -o $@ $(HCAL_OBJECTS)  $(VAR_9)  $(LDFLAGS)  libcal.so libutf8api.so `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs core,base`
 
 hcs: $(HCS_OBJECTS) libcal.so libutf8api.so
-	$(CXX) -o $@ $(HCS_OBJECTS)  $(VAR_7)  $(LDFLAGS)  libcal.so libutf8api.so
+	$(CXX) -o $@ $(HCS_OBJECTS)  $(VAR_9)  $(LDFLAGS)  libcal.so libutf8api.so
 
 hctest: $(HCTEST_OBJECTS) libcal.so libutf8api.so
-	$(CXX) -o $@ $(HCTEST_OBJECTS)  $(VAR_7)  $(LDFLAGS)  libcal.so libutf8api.so
+	$(CXX) -o $@ $(HCTEST_OBJECTS)  $(VAR_9)  $(LDFLAGS)  libcal.so libutf8api.so
 
 unit: $(UNIT_OBJECTS) libcal.so libutf8api.so
-	$(CXX) -o $@ $(UNIT_OBJECTS)  $(VAR_7)  -L$(CPPUNIT)/lib $(LDFLAGS)  libcal.so libutf8api.so $(____WX_DEBUG)
+	$(CXX) -o $@ $(UNIT_OBJECTS)  $(VAR_9)  -L$(CPPUNIT)/lib $(LDFLAGS)  libcal.so libutf8api.so $(____WX_DEBUG)
 
 soak: $(SOAK_OBJECTS) libcal.so libutf8api.so
-	$(CXX) -o $@ $(SOAK_OBJECTS)  $(VAR_7)  -L$(CPPUNIT)/lib $(LDFLAGS)  libcal.so libutf8api.so $(____WX_DEBUG)
+	$(CXX) -o $@ $(SOAK_OBJECTS)  $(VAR_9)  -L$(CPPUNIT)/lib $(LDFLAGS)  libcal.so libutf8api.so $(____WX_DEBUG)
 
 libcal.so: $(CAL_OBJECTS) libutf8api.so
-	$(CXX) $(LINK_DLL_FLAGS) -fPIC -o $@ $(CAL_OBJECTS)  $(VAR_7) $(LDFLAGS)  libutf8api.so
+	$(CXX) $(LINK_DLL_FLAGS) -fPIC -o $@ $(CAL_OBJECTS)  $(VAR_9) $(LDFLAGS)  libutf8api.so
 
 libutf8api.so: $(UTF8API_OBJECTS)
-	$(CXX) $(LINK_DLL_FLAGS) -fPIC -o $@ $(UTF8API_OBJECTS)  $(VAR_7) $(LDFLAGS)
+	$(CXX) $(LINK_DLL_FLAGS) -fPIC -o $@ $(UTF8API_OBJECTS)  $(VAR_9) $(LDFLAGS)
+
+file2cpp: $(FILE2CPP_OBJECTS)
+	$(CXX) -o $@ $(FILE2CPP_OBJECTS)  $(VAR_9)  $(LDFLAGS)  `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs base`
 
 hcal_hcapp.o: ./../../src/hcal/hcapp.cpp
 	$(CXX) -c -o $@ $(HCAL_CXXFLAGS) $(CPPDEPS) $<
@@ -382,6 +390,9 @@ utf8api_utf8proc.o: ./../../src/utf8/utf8proc.c
 
 utf8api_utf8api.o: ./../../src/utf8/utf8api.cpp
 	$(CXX) -c -o $@ $(UTF8API_CXXFLAGS) $(CPPDEPS) $<
+
+file2cpp_file2cpp.o: ./../../util/file2cpp/file2cpp.cpp
+	$(CXX) -c -o $@ $(FILE2CPP_CXXFLAGS) $(CPPDEPS) $<
 
 .PHONY: all install uninstall clean
 
