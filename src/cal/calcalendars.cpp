@@ -261,7 +261,6 @@ RangeList Calendars::str_to_rangelist( SHandle scheme, const string& input )
         }
     } while( pos != string::npos );
     return rlist;
-
 }
 
 RangeList Calendars::expr_str_to_rangelist( SHandle scheme, const string& str )
@@ -418,7 +417,11 @@ RangeList Calendars::range_str_to_rangelist( SHandle scheme, const string& str )
         if( range.jdn1 > range.jdn2 ) {
             break;
         }
-        ranges.push_back( range );
+        if( ranges.size() && ranges[ranges.size()-1].jdn2+1 >= range.jdn1 ) {
+            ranges[ranges.size()-1].jdn2 = range.jdn2;
+        } else {
+            ranges.push_back( range );
+        }
         ret1 = rec1.set_fields_as_next_first( mask1.get_field_ptr() );
         ret2 = rec2.set_fields_as_next_last( mask2.get_field_ptr() );
     }

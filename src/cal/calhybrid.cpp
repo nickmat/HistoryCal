@@ -169,7 +169,22 @@ bool Hybrid::set_fields_as_next_first( Field* fields, const Field* mask ) const
                 set_hybrid_fields( fields, rec.get_field_ptr(), sch );
                 return true;
             }
+            // Try next.
+            while( rec.set_fields_as_next_first( &tmask[1] ) ) {
+                jdn = rec.get_jdn();
+                if( is_in_scheme( jdn, sch ) ) {
+                    set_hybrid_fields( fields, rec.get_field_ptr(), sch );
+                    return true;
+                }
+            }
         }
+    }
+    // Finally, try setting to the next block
+    Field sch = fields[0] + 1;
+    if( sch < (Field) m_bases.size() ) {
+        Record rec( m_bases[sch], m_dates[sch-1] );
+        set_hybrid_fields( fields, rec.get_field_ptr(), sch );
+        return true;
     }
     return false;
 }
@@ -186,6 +201,12 @@ bool Hybrid::set_fields_as_begin_last( Field* fields, const Field* mask ) const
             if( is_in_scheme( jdn, sch ) ) {
                 set_hybrid_fields( fields, rec.get_field_ptr(), sch );
                 return true;
+            } else if( sch < (Field) m_dates.size() ) {
+                rec.set_jdn( m_dates[sch] - 1 );
+                if( rec.is_mask_valid( &tmask[1], tmask.size() - 1 ) ) {
+                    set_hybrid_fields( fields, rec.get_field_ptr(), sch );
+                    return true;
+                }
             }
         }
         if( mask[0] != f_invalid ) {
@@ -226,6 +247,13 @@ bool Hybrid::set_fields_as_next_last( Field* fields, const Field* mask ) const
                 return true;
             }
         }
+    }
+    // Finally, try setting to the end of block
+    Field sch = fields[0] + 1;
+    if( sch < (Field) m_bases.size() ) {
+        Record rec( m_bases[sch], m_dates[sch-1] - 1 );
+        set_hybrid_fields( fields, rec.get_field_ptr(), sch );
+        return true;
     }
     return false;
 }

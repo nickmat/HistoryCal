@@ -74,6 +74,8 @@ namespace Cal {
         Field get_field( int index ) const;
         void set_field( Field value, size_t index ) { m_f[index] = value; }
 
+        bool is_mask_valid( Field* mask, size_t mask_size ) const;
+
     private:
         enum InputFieldType { 
             IFT_null, IFT_quest, IFT_number, IFT_dual1, IFT_dual2, IFT_vocab

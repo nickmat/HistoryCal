@@ -191,7 +191,7 @@ const char* Cal::cal_default_scripts[] = {
  "name \"English Hybrid\";\n"
  "hybrid {\n"
  "fields \"year\", \"month\", \"day\", \"unshift\";\n"
- "schemes \"j325\", 2360975, \"j\", 2361222, \"g\";\n"
+ "schemes \"j325\", 2360976, \"j\", 2361222, \"g\";\n"
  "}\n"
  "grammar \"hy\";\n"
  "}\n",

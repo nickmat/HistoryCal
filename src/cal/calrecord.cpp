@@ -451,6 +451,17 @@ Field Record::get_field( int index ) const
     return f_invalid;
 }
 
+bool Record::is_mask_valid( Field* mask, size_t mask_size ) const
+{
+    size_t size = min( mask_size, m_base->extended_size() );
+    for( size_t i = 0 ; i < size ; i++ ) {
+        if( mask[i] != f_invalid && mask[i] != m_f[i] ) {
+            return false;
+        }
+    }
+    return true;
+}
+
 string Record::value_from_field( int index ) const
 {
     Field f = get_field( index );
