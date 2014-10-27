@@ -71,7 +71,7 @@ scheme "eng" {
     name "English Hybrid";
     hybrid {
         fields "year", "month", "day", "unshift";
-        schemes "j325", 2360976, "j", 2361222, "g";
+        schemes "ja", 2360976, "j", 2361222, "g";
     }
     grammar "hy";
 }

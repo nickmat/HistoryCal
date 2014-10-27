@@ -107,9 +107,21 @@ grammar "j.sh" {
     pref "dmyh";
 }
 
-scheme "j325" {
+scheme "ja" {
     name "Julian Annunciation";
-    shift "j", 1721507;
+    shift "j", 1721507;    // j:dmy# 25 Mar 1
+    grammar "j.sh";
+}
+
+scheme "jap" {
+    name "Julian Annunciation Pisa";
+    shift "j", 1721142;    // j:dmy# 25 Mar 0
+    grammar "j.sh";
+}
+
+scheme "jn" {
+    name "Julian Nativity";
+    shift "j", 1721417;    // j:dmy# 25 Dec 0
     grammar "j.sh";
 }
 
