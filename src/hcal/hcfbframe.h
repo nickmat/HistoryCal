@@ -55,6 +55,7 @@ class hcFbFrame : public wxFrame
 		wxTextCtrl* m_textOutput;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void OnRunScript( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnExit( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnToggleInterm( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnToggleCount( wxCommandEvent& event ) { event.Skip(); }

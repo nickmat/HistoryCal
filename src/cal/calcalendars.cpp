@@ -39,6 +39,7 @@
 #include "calvocab.h"
 
 #include <cassert>
+#include <fstream>
 #include <sstream>
 
 using namespace std;
@@ -84,6 +85,15 @@ string Calendars::run_script( const string& script )
     istringstream iss( script );
     ostringstream oss;
     Script scr( this, iss, oss );
+    scr.run();
+    return oss.str();
+}
+
+string Calendars::run_script_file( const string& filename )
+{
+    ifstream ifs( filename.c_str() );
+    ostringstream oss;
+    Script scr( this, ifs, oss );
     scr.run();
     return oss.str();
 }

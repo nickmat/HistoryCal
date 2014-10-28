@@ -44,6 +44,7 @@ public:
         long style = wxDEFAULT_FRAME_STYLE );
 
 private:
+		virtual void OnRunScript( wxCommandEvent& event );
 		virtual void OnExit( wxCommandEvent& event );
 		virtual void OnToggleInterm( wxCommandEvent& event );
 		virtual void OnToggleCount( wxCommandEvent& event );

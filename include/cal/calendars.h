@@ -45,6 +45,7 @@ namespace Cal {
 
         DLLIMPEXP_CAL static const char* version();
         DLLIMPEXP_CAL std::string run_script( const std::string& script );
+        DLLIMPEXP_CAL std::string run_script_file( const std::string& filename );
         DLLIMPEXP_CAL SHandle get_scheme( const std::string& code ) const;
         DLLIMPEXP_CAL SchemeList get_scheme_list() const;
         DLLIMPEXP_CAL void get_scheme_info( Scheme_info* info, SHandle scheme ) const; 

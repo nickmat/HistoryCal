@@ -28,6 +28,12 @@ hcFbFrame::hcFbFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_menubar1 = new wxMenuBar( 0 );
 	wxMenu* m_menuFile;
 	m_menuFile = new wxMenu();
+	wxMenuItem* m_menuRun;
+	m_menuRun = new wxMenuItem( m_menuFile, wxID_ANY, wxString( _("Run &Script ...") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuFile->Append( m_menuRun );
+	
+	m_menuFile->AppendSeparator();
+	
 	wxMenuItem* m_menuExit;
 	m_menuExit = new wxMenuItem( m_menuFile, wxID_EXIT, wxString( _("E&xit") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menuFile->Append( m_menuExit );
@@ -194,6 +200,7 @@ hcFbFrame::hcFbFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	this->Centre( wxBOTH );
 	
 	// Connect Events
+	this->Connect( m_menuRun->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( hcFbFrame::OnRunScript ) );
 	this->Connect( m_menuExit->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( hcFbFrame::OnExit ) );
 	this->Connect( m_menuViewInterm->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( hcFbFrame::OnToggleInterm ) );
 	this->Connect( m_menuViewCount->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( hcFbFrame::OnToggleCount ) );
@@ -213,6 +220,7 @@ hcFbFrame::hcFbFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 hcFbFrame::~hcFbFrame()
 {
 	// Disconnect Events
+	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( hcFbFrame::OnRunScript ) );
 	this->Disconnect( wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( hcFbFrame::OnExit ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( hcFbFrame::OnToggleInterm ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( hcFbFrame::OnToggleCount ) );

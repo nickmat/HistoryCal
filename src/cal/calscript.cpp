@@ -171,9 +171,16 @@ bool Script::do_writeln()
 
 bool Script::do_scheme()
 {
-    SValue value = expr( true );
     string code;
-    value.get( code );
+    expr( true ).get( code );
+    if( code.empty() ) {
+        error( "Scheme code missing." );
+        return false;
+    }
+    if( m_cals->get_scheme( code ) != NULL ) {
+        error( "scheme \"" + code + "\" already exists." );
+        return false;
+    }
     SHandle sch = do_create_scheme( code );
     return m_cals->add_scheme( sch, code );
 }
@@ -400,6 +407,10 @@ bool Script::do_vocab()
         error( "Vocab code missing." );
         return false;
     }
+    if( m_cals->get_vocab( code ) != NULL ) {
+        error( "vocab \"" + code + "\" already exists." );
+        return false;
+    }
     Vocab* voc = m_cals->create_vocab( code );
     string str;
     for(;;) {
@@ -476,6 +487,10 @@ bool Script::do_grammar()
     expr( true ).get( code );
     if( code.empty() ) {
         error( "Grammar code missing." );
+        return false;
+    }
+    if( m_cals->get_grammar( code ) != NULL ) {
+        error( "grammar \"" + code + "\" already exists." );
         return false;
     }
     Grammar* gmr = m_cals->create_grammar( code );

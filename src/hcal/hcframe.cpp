@@ -89,6 +89,25 @@ HcFrame::HcFrame(
     m_textInput->SetFocus();
 }
 
+/*! \brief Called on a Run Script Application menu option event.
+ */
+void HcFrame::OnRunScript( wxCommandEvent& event )
+{
+    wxString caption = _("Select Script");
+    wxString wildcard = _("HistoryCal Script (*.hcs)|*.hcs");
+    wxString defaultDir = ".";
+    wxString defaultFName = wxEmptyString;
+
+    wxFileDialog dialog( this, caption, defaultDir, defaultFName, wildcard, wxFD_OPEN );
+    if( dialog.ShowModal() == wxID_OK ) {
+        wxString path = dialog.GetPath();
+        wxString result( m_cal.run_script_file( path.ToStdString() ).c_str() );
+        if( result.size() ) {
+            wxMessageBox( result );
+        }
+    }
+}
+
 /*! \brief Called on an Exit Application menu option event.
  */
 void HcFrame::OnExit( wxCommandEvent& event )
