@@ -81,6 +81,7 @@ bool Script::statement()
         if( name == "let" ) return do_let();
         if( name == "write" ) return do_write();
         if( name == "writeln" ) return do_writeln();
+        if( name == "mark" ) return do_mark();
         if( name == "scheme" ) return do_scheme();
         if( name == "vocab" ) return do_vocab();
         if( name == "grammar" ) return do_grammar();
@@ -169,6 +170,18 @@ bool Script::do_writeln()
     return ret;
 }
 
+bool Script::do_mark()
+{
+    string mark;
+    expr( true ).get( mark );
+    if( mark.empty() ) {
+        error( "Mark name string expected." );
+        return false;
+    }
+    m_cals->add_or_replace_mark( mark );
+    return true;
+}
+
 bool Script::do_scheme()
 {
     string code;
@@ -178,7 +191,7 @@ bool Script::do_scheme()
         return false;
     }
     if( m_cals->get_scheme( code ) != NULL ) {
-        error( "scheme \"" + code + "\" already exists." );
+        error( "Scheme \"" + code + "\" already exists." );
         return false;
     }
     SHandle sch = do_create_scheme( code );

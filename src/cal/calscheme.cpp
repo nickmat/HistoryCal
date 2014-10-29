@@ -58,7 +58,7 @@ Scheme::~Scheme()
 
 bool Scheme::is_ok() const
 {
-    return m_base && m_code.size() && m_name.size();
+    return m_base && m_code.size();
 }
 
 void Scheme::get_info( Scheme_info* info ) const

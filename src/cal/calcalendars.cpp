@@ -30,6 +30,7 @@
 #include "calbase.h"
 #include "caldefscripts.h"
 #include "calgrammar.h"
+#include "calmark.h"
 #include "calparse.h"
 #include "calrecord.h"
 #include "calscheme.h"
@@ -48,6 +49,9 @@ using namespace Cal;
 
 Calendars::Calendars( Init_schemes init )
 {
+    Mark* mark = new Mark( "" );
+    m_marks.push_back( mark );
+
     m_store = new ScriptStore;
     switch( init )
     {
@@ -63,6 +67,10 @@ Calendars::Calendars( Init_schemes init )
 
 Calendars::~Calendars()
 {
+    for( size_t i = 0 ; i < m_marks.size() ; i++ ) {
+        delete m_marks[i];
+    }
+#if 0
     for( SHandleMap::iterator it = m_shandles.begin() ; it != m_shandles.end() ; it++ ) {
         delete it->second;
     }
@@ -72,6 +80,7 @@ Calendars::~Calendars()
     for( VocabMap::iterator it = m_vocabs.begin() ; it != m_vocabs.end() ; it++ ) {
         delete it->second;
     }
+#endif
     delete m_store;
 }
 
@@ -326,12 +335,44 @@ RangeList Calendars::rel_rangelist( SHandle scheme, const RangeList& ranges, Rel
     return RangeList();
 }
 
+bool Calendars::add_scheme( SHandle sch, const string& code )
+{
+    if( sch == NULL || sch->is_ok() == false  // Only add initialised schemes
+        || m_shandles.count( code )           // that are not aready there. 
+    ) {
+        delete sch;
+        return false;
+    }
+    assert( m_marks.size() > 0 );
+    m_marks[m_marks.size()-1]->add_scheme( sch );
+    m_shandles[code] = sch;
+    return true;
+}
+
+Grammar* Calendars::create_grammar( const string& code )
+{
+    Grammar* gmr = new Grammar( code );
+    assert( m_marks.size() > 0 );
+    m_marks[m_marks.size()-1]->add_grammar( gmr );
+    m_grammars[code] = gmr;
+    return gmr;
+}
+
 Grammar* Calendars::get_grammar( const string& code ) const
 {
     if( m_grammars.count( code ) > 0 ) {
         return m_grammars.find( code )->second;
     }
     return NULL;
+}
+
+Vocab* Calendars::create_vocab( const string& code )
+{
+    Vocab* voc = new Vocab( code );
+    assert( m_marks.size() > 0 );
+    m_marks[m_marks.size()-1]->add_vocab( voc );
+    m_vocabs[code] = voc;
+    return voc;
 }
 
 Vocab* Calendars::get_vocab( const string& code ) const
@@ -342,28 +383,45 @@ Vocab* Calendars::get_vocab( const string& code ) const
     return NULL;
 }
 
-bool Calendars::add_scheme( SHandle sch, const string& code )
+void Calendars::add_or_replace_mark( std::string& name )
 {
-    if( sch == NULL || sch->is_ok() == false ) {
-        delete sch;
-        return false;
+    assert( m_marks.size() > 0 );
+    assert( name.size() > 0 );
+    size_t end, pos;
+    end = pos = m_marks.size() - 1;
+    while( pos != 0 && name != m_marks[pos]->get_name() ) {
+        --pos;
     }
-    m_shandles[code] = sch;
-    return true;
-}
-
-Vocab* Calendars::create_vocab( const string& code )
-{
-    Vocab* voc = new Vocab( code );
-    m_vocabs[code] = voc;
-    return voc;
-}
-
-Grammar* Calendars::create_grammar( const string& code )
-{
-    Grammar* gmr = new Grammar( code );
-    m_grammars[code] = gmr;
-    return gmr;
+    if( pos > 0 ) {
+        for( size_t i = end ; i >= pos ; --i ) {
+            string code;
+            for(;;) { 
+                code = m_marks[i]->remove_next_scheme();                
+                if( code.empty() ) {
+                    break;
+                }
+                m_shandles.erase( code );
+            }
+            for(;;) { 
+                code = m_marks[i]->remove_next_grammar();                
+                if( code.empty() ) {
+                    break;
+                }
+                m_grammars.erase( code );
+            }
+            for(;;) { 
+                code = m_marks[i]->remove_next_vocab();                
+                if( code.empty() ) {
+                    break;
+                }
+                m_vocabs.erase( code );
+            }
+            delete m_marks[i];
+            m_marks.pop_back();
+        }
+    }
+    Mark* mark = new Mark( name );
+    m_marks.push_back( mark );
 }
 
 // Convert a string written as a shorthand or single longhand range
@@ -437,5 +495,6 @@ RangeList Calendars::range_str_to_rangelist( SHandle scheme, const string& str )
     }
     return ranges;
 }
+
 
 // End of src/cal/calcalendars.cpp file

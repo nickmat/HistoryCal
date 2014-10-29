@@ -33,7 +33,6 @@
 namespace Cal {
 
     class ScriptStore;
-    class Vocab;
 
     enum Init_schemes { Init_script_none, Init_script_default };
 
@@ -75,12 +74,13 @@ namespace Cal {
         DLLIMPEXP_CAL RangeList rel_rangelist( SHandle scheme, const RangeList& ranges, Rel_info* info );
 
         // The following members are not part of the Cal library public api.
-        Grammar* get_grammar( const std::string& code ) const;
-        Vocab* get_vocab( const std::string& code ) const;
-        ScriptStore* get_store() const { return m_store; }
         bool add_scheme( SHandle sch, const std::string& code );
-        Vocab* create_vocab( const std::string& code );
         Grammar* create_grammar( const std::string& code );
+        Grammar* get_grammar( const std::string& code ) const;
+        Vocab* create_vocab( const std::string& code );
+        Vocab* get_vocab( const std::string& code ) const;
+        void add_or_replace_mark( std::string& name );
+        ScriptStore* get_store() const { return m_store; }
 
     private:
         RangeList range_str_to_rangelist( SHandle scheme, const std::string& str );
@@ -88,6 +88,7 @@ namespace Cal {
         SHandleMap   m_shandles;
         GrammarMap   m_grammars;
         VocabMap     m_vocabs;
+        MarkVec      m_marks;
         ScriptStore* m_store;
     };
 

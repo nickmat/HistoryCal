@@ -1,0 +1,10 @@
+// mark003.hcs Test file to test repeated mark statement
+
+mark "test";
+scheme "j-test" { base julian; }
+mark "test";
+scheme "j-test" { base julian; }
+write "Ok so far";
+
+/*[OUTPUT]
+Ok so far[OUTPUT]*/

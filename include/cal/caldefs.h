@@ -61,6 +61,8 @@ namespace Cal {
     typedef std::map<std::string,Grammar*> GrammarMap;
     class Vocab;
     typedef std::map<std::string,Vocab*> VocabMap;
+    class Mark;
+    typedef std::vector<Mark*> MarkVec;
 
     // Field must be at least 32 bit, use int for now.
     // Change to int_fast32_t if possible

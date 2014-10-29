@@ -54,6 +54,7 @@ namespace Cal {
         bool do_let();
         bool do_write();
         bool do_writeln();
+        bool do_mark();
         bool do_scheme();
         SHandle do_create_scheme( const std::string& code );
         Base* do_base();

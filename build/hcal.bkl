@@ -181,6 +181,7 @@
     <sources>$(LOCAL_SRC)/cal/caljdn.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/caljulian.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calliturgical.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calmark.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calmath.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calparse.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calpattern.cpp</sources>
@@ -208,6 +209,7 @@
     <headers>$(LOCAL_SRC)/cal/caljdn.h</headers>
     <headers>$(LOCAL_SRC)/cal/caljulian.h</headers>
     <headers>$(LOCAL_SRC)/cal/calliturgical.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calmark.h</headers>
     <headers>$(LOCAL_SRC)/cal/calmath.h</headers>
     <headers>$(LOCAL_SRC)/cal/calparse.h</headers>
     <headers>$(LOCAL_SRC)/cal/calpattern.h</headers>
