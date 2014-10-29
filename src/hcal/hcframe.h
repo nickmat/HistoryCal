@@ -61,6 +61,7 @@ private:
 		virtual void OnSelectOutput( wxCommandEvent& event );
 		virtual void OnSelectOutputFormat( wxCommandEvent& event );
 
+        void UpdateSchemeLists();
         void UpdateInputFormat();
         void UpdateTextVocabs();
         void UpdateTextTokens( Cal::Scheme_info* info );
@@ -68,9 +69,8 @@ private:
         void CalculateOutput();
 
         Cal::Calendars     m_cal;
-        Cal::SHandle       m_from;
-        Cal::SHandle       m_to;
-        Cal::SHandle       m_scheme_jdn;
+        std::string        m_from;
+        std::string        m_to;
         Cal::SchemeList    m_schemes;
         Cal::SchemeFormats m_input_info;
         Cal::SchemeFormats m_output_info;

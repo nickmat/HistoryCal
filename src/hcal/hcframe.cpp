@@ -54,35 +54,14 @@ using namespace Cal;
  */
 HcFrame::HcFrame(
     const wxString& title, const wxPoint& pos, const wxSize& size, long style )
-    : m_cal(Init_script_default), m_from(NULL), m_to(NULL), m_scheme_jdn(NULL),
+    : m_cal(Init_script_default), m_from("g"), m_to("g"),
     m_show_interm(false), m_show_count(false),
     hcFbFrame( (wxFrame*) NULL, wxID_ANY, title, pos, size, style )
 {
     // Set frames Icon
     SetIcon( wxICON( hcal ) );
 
-    m_schemes = m_cal.get_scheme_list();
-    m_from = m_to = m_cal.get_scheme( "g" );
-    m_scheme_jdn = m_cal.get_scheme( "jdn" );
-    if( m_from == NULL && m_schemes.size() ) {
-        m_from = m_to = m_schemes[0].handle;
-    }
-    for( size_t i = 0 ; i < m_schemes.size() ; i++ ) {
-        wxString entry;
-        entry << m_schemes[i].name.c_str() 
-            << "  (" << m_schemes[i].code.c_str() << ")";
-        m_comboBoxInput->Append( entry );
-        if( m_schemes[i].handle == m_from ) {
-            m_comboBoxInput->SetSelection( i );
-        }
-        m_comboBoxOutput->Append( entry );
-        if( m_schemes[i].handle == m_to ) {
-            m_comboBoxOutput->SetSelection( i );
-        }
-    }
-    UpdateInputFormat();
-    UpdateTextVocabs();
-    UpdateOutputFormat();
+    UpdateSchemeLists();
 
     bSizerIntermeadiate->Show( false );
 
@@ -105,6 +84,8 @@ void HcFrame::OnRunScript( wxCommandEvent& event )
         if( result.size() ) {
             wxMessageBox( result );
         }
+        UpdateSchemeLists();
+        CalculateOutput();
     }
 }
 
@@ -180,7 +161,7 @@ void HcFrame::OnAbout( wxCommandEvent& event )
 void HcFrame::OnSelectInput( wxCommandEvent& event )
 {
     int ip = m_comboBoxInput->GetSelection();
-    m_from = m_schemes[ip].handle;
+    m_from = m_schemes[ip].code;
     UpdateInputFormat();
     UpdateTextVocabs();
     CalculateOutput();
@@ -194,7 +175,7 @@ void HcFrame::OnSelectInputFormat( wxCommandEvent& event )
 void HcFrame::OnSelectVocab( wxCommandEvent& event )
 {
     Scheme_info info;
-    m_cal.get_scheme_info( &info, m_from );
+    m_cal.get_scheme_info( &info, m_cal.get_scheme( m_from ) );
     UpdateTextTokens( &info );
 }
 
@@ -206,7 +187,7 @@ void HcFrame::OnSelectToken( wxCommandEvent& event )
 void HcFrame::OnCheckTextFull( wxCommandEvent& event )
 {
     Scheme_info info;
-    m_cal.get_scheme_info( &info, m_from );
+    m_cal.get_scheme_info( &info, m_cal.get_scheme( m_from ) );
     UpdateTextTokens( &info );
 }
 
@@ -223,7 +204,7 @@ void HcFrame::OnButtonConvert( wxCommandEvent& event )
 void HcFrame::OnSelectOutput( wxCommandEvent& event )
 {
     int op = m_comboBoxOutput->GetSelection();
-    m_to = m_schemes[op].handle;
+    m_to = m_schemes[op].code;
     UpdateOutputFormat();
     CalculateOutput();
 }
@@ -233,10 +214,33 @@ void HcFrame::OnSelectOutputFormat( wxCommandEvent& event )
     CalculateOutput();
 }
 
+void HcFrame::UpdateSchemeLists()
+{
+    m_schemes = m_cal.get_scheme_list();
+    m_comboBoxInput->Clear();
+    m_comboBoxOutput->Clear();
+    for( size_t i = 0 ; i < m_schemes.size() ; i++ ) {
+        wxString entry;
+        entry << m_schemes[i].name.c_str() 
+            << "  (" << m_schemes[i].code.c_str() << ")";
+        m_comboBoxInput->Append( entry );
+        if( m_schemes[i].code == m_from ) {
+            m_comboBoxInput->SetSelection( i );
+        }
+        m_comboBoxOutput->Append( entry );
+        if( m_schemes[i].code == m_to ) {
+            m_comboBoxOutput->SetSelection( i );
+        }
+    }
+    UpdateInputFormat();
+    UpdateTextVocabs();
+    UpdateOutputFormat();
+}
+
 void HcFrame::UpdateInputFormat()
 {
     m_comboBoxInFormat->Clear();
-    m_cal.get_scheme_input( &m_input_info, m_from );
+    m_cal.get_scheme_input( &m_input_info, m_cal.get_scheme( m_from ) );
     for( size_t i = 0 ; i < m_input_info.code.size() ; i++ ) {
         string fmt = m_input_info.descrip[i] + "  (" + m_input_info.code[i] + ")";
         m_comboBoxInFormat->Append( fmt );
@@ -250,7 +254,7 @@ void HcFrame::UpdateTextVocabs()
 {
     m_comboBoxVocab->Clear();
     Scheme_info info;
-    m_cal.get_scheme_info( &info, m_from );
+    m_cal.get_scheme_info( &info, m_cal.get_scheme( m_from ) );
     for( size_t i = 0 ; i < info.vocab_names.size() ; i++ ) {
         m_comboBoxVocab->Append( info.vocab_names[i] );
     }
@@ -286,7 +290,7 @@ void HcFrame::UpdateTextTokens( Scheme_info* sinfo )
 void HcFrame::UpdateOutputFormat()
 {
     m_comboBoxOutFormat->Clear();
-    m_cal.get_scheme_output( &m_output_info, m_to );
+    m_cal.get_scheme_output( &m_output_info, m_cal.get_scheme( m_to ) );
     for( size_t i = 0 ; i < m_output_info.code.size() ; i++ ) {
         string fmt = m_output_info.descrip[i] + "  (" + m_output_info.code[i] + ")";
         m_comboBoxOutFormat->Append( fmt );
@@ -299,10 +303,12 @@ void HcFrame::UpdateOutputFormat()
 void HcFrame::CalculateOutput()
 {
     wxString inter, output;
+    SHandle sch_from = m_cal.get_scheme( m_from );
+    SHandle sch_to = m_cal.get_scheme( m_to );
     int order = m_comboBoxInFormat->GetSelection();
-    m_cal.set_input_format( m_from, m_input_info.code[order] );
+    m_cal.set_input_format( sch_from, m_input_info.code[order] );
     int format = m_comboBoxOutFormat->GetSelection();
-    m_cal.set_output_format( m_to, m_output_info.code[format] );
+    m_cal.set_output_format( sch_to, m_output_info.code[format] );
     string input = m_textInput->GetValue().ToStdString();
     if( input.size() ) {
         string age;
@@ -311,17 +317,17 @@ void HcFrame::CalculateOutput()
             age = input.substr( pos+1 );
             input = input.substr( 0, pos );
         }
-        RangeList ranges = m_cal.expr_str_to_rangelist( m_from, input );
+        RangeList ranges = m_cal.expr_str_to_rangelist( sch_from, input );
         if( age.size() ) {
             Rel_info info;
-            if( m_cal.str_to_rel_info( m_from, age, &info ) ) {
-                ranges = m_cal.rel_rangelist( m_from, ranges, &info );
+            if( m_cal.str_to_rel_info( sch_from, age, &info ) ) {
+                ranges = m_cal.rel_rangelist( sch_from, ranges, &info );
             }
         }
 
-        inter << m_cal.rangelist_to_str( m_scheme_jdn, ranges );
+        inter << m_cal.rangelist_to_str( m_cal.get_scheme( "jdn" ), ranges );
 
-        output << m_cal.rangelist_to_str( m_to, ranges );
+        output << m_cal.rangelist_to_str( sch_to, ranges );
         size_t rsize = ranges.size();
         if( m_show_count && rsize ) {
             if( ranges[0].jdn1 == f_minimum || ranges[rsize-1].jdn2 == f_maximum ) {
