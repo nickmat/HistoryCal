@@ -34,10 +34,20 @@ namespace Cal {
 
     class Calendars;
 
+    struct HybridData {
+        HybridData() : start(f_invalid), base(NULL), scheme(NULL) {}
+
+        bool ok() { return ( start != f_invalid && base != NULL ); }
+
+        Field   start;
+        Base*   base;
+        Scheme* scheme; // NULL if not local
+    };
+
     class Hybrid : public Base
     {
     public:
-        Hybrid( const StringVec& fields, const std::vector<Base*>& bases, const FieldVec& dates );
+        Hybrid( const StringVec& fields, const std::vector<HybridData>& data );
         ~Hybrid();
 
         virtual bool is_ok() const;
@@ -68,15 +78,16 @@ namespace Cal {
         Field find_scheme( Field jdn ) const;
         void set_hybrid_fields( Field* fields, const Field* mask, Field scheme ) const;
 
-        // Note: m_bases.size() == m_xref_fields.size() == m_dates.size() - 1 
-        std::vector<Base*>   m_bases;
+//        std::vector<Base*>   m_bases;
+//        FieldVec             m_dates;
+
+        // Note: m_data.size() == m_xref_fields.size()
+        std::vector<HybridData> m_data;
         // m_xref_fields gives the index into the bases fields that match the m_fieldnames
-        std::vector<XRefVec> m_xref_fields;
-        FieldVec             m_dates;
+        std::vector<XRefVec>    m_xref_fields;
+        StringVec               m_fieldnames;
         // Note: m_rec_size == m_fieldnames.size() + 1
-        StringVec            m_fieldnames;
-        size_t               m_rec_size;
-        size_t               m_max_child_size;
+        size_t                  m_rec_size;
     };
 
 }

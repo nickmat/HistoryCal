@@ -69,7 +69,6 @@ namespace Cal {
         bool do_grammar_format( Grammar* gmr );
         bool do_grammar_alias( Grammar* gmr );
         StringVec do_string_list();
-        bool do_base_date_list( std::vector<Base*>& bases, FieldVec& dates );
 
         SValue expr( bool get );
         SValue compare( bool get );

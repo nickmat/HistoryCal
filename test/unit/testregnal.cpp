@@ -95,19 +95,18 @@ void TestRegnal::testScript()
 
 void TestRegnal::testSamples()
 {
-    struct data { string in; string out; } t[] = {
-//        { "5 12 9 19", "5 12 9 19 1948" },
-//        { "5 12 9", "5 12 9 1948" },
-//        { "5 12", "5 12 1947 ~ 5 12 1948" },
-        { "5 12 9 19", "5 12 9 19" },
-        { "5 12 9", "5 12 9" },
-        { "5 12", "5 12" },
-        { "2", "2" }
+    struct data { string in; string out; Field start; } t[] = {
+        { "5 12 9 19", "5 12 9 19", 2432814 },
+        { "5 12 9", "5 12 9", 2432796 },
+        { "5 12", "5 12", 2432531 },
+        { "2", "2", 0 }
     };
     size_t count = sizeof(t) / sizeof(data);
 
     for( size_t i = 0 ; i < count ; i++ ) {
         RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in );
+        CPPUNIT_ASSERT( rl.size() > 0 );
+        CPPUNIT_ASSERT_EQUAL( t[i].start, rl[0].jdn1 );
         string str = m_cal->rangelist_to_str( m_sid, rl );
         CPPUNIT_ASSERT_EQUAL( t[i].out, str );
     }

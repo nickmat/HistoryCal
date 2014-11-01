@@ -294,8 +294,9 @@ Base* Script::do_base_hybrid()
         return NULL;
     }
     StringVec fieldnames;
-    vector<Base*> bases;
-    FieldVec dates;
+    HybridData data;
+    data.start = f_minimum;
+    vector<HybridData> data_vec;
     for(;;) {
         SToken token = m_ts.next();
         if( token.type() == SToken::STT_RCbracket ||
@@ -309,12 +310,35 @@ Base* Script::do_base_hybrid()
         if( token.type() == SToken::STT_Name ) {
             if( token.get_str() == "fields" ) {
                 fieldnames = do_string_list();
-            } else if( token.get_str() == "schemes" ) {
-                do_base_date_list( bases, dates );
+            } else if( token.get_str() == "scheme" ) {
+                string scode;
+                expr( true ).get( scode );
+                Scheme* sch;
+                if( m_ts.current().type() == SToken::STT_Semicolon ) {
+                    sch = m_cals->get_scheme( scode );
+                } else {
+                    // Create new scheme 
+                    sch = do_create_scheme( scode );
+                    data.scheme = sch;
+                }
+                if( sch == NULL ) {
+                    error( "Can not find/create scheme " + scode );
+                    continue;
+                }
+                data.base = sch->get_base();
+                if( data.ok() ) {
+                    data_vec.push_back( data );
+                    data = HybridData();
+                } else {
+                    delete data.scheme;
+                    error( "Hybrid data not complete." );
+                }
+            } else if( token.get_str() == "change" ) {
+                data.start = expr(true).get_field();
             }
         }
     }
-    return Scheme::create_base_hybrid( fieldnames, bases, dates );
+    return Scheme::create_base_hybrid( fieldnames, data_vec );
 }
 
 Base* Script::do_base_regnal()
@@ -617,33 +641,6 @@ StringVec Script::do_string_list()
         }
     }
     return vec;
-}
-
-bool Script::do_base_date_list( vector<Base*>& bases, FieldVec& dates )
-{
-    for(;;) {
-        SValue value = expr( true );
-        string scode;
-        if( ! value.get( scode ) || scode.empty() ) {
-            return false;
-        }
-        Base* base = m_cals->get_scheme( scode )->get_base();
-        if( base == NULL ) {
-            error( "Invalid scheme code." );
-            return false;
-        }
-        bases.push_back( base );
-        if( m_ts.current().type() != SToken::STT_Comma ) {
-            return m_ts.current().type() == SToken::STT_Semicolon;
-        }
-        value = expr( true );
-        Field date = value.get_field();
-        if( date == f_invalid ) {
-            error( "Invalid date." );
-            return false;
-        }
-        dates.push_back( date );
-    }
 }
 
 SValue Script::expr( bool get )

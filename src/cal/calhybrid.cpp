@@ -35,18 +35,13 @@
 using namespace Cal;
 using namespace std;
 
-
-Hybrid::Hybrid( 
-    const StringVec& fields, const std::vector<Base*>& bases, const FieldVec& dates )
-    : m_fieldnames(fields), m_bases(bases), m_dates(dates),
-    m_max_child_size(0), Base()
+Hybrid::Hybrid( const StringVec& fields, const std::vector<HybridData>& data )
+    :  m_fieldnames(fields), m_data(data), m_rec_size(fields.size()+1)
 {
-    m_rec_size = m_fieldnames.size() + 1;
-    XRefVec xref( m_fieldnames.size() );
-    for( size_t i = 0 ; i < m_bases.size() ; i++ ) {
-        m_max_child_size = max( m_max_child_size, m_bases[i]->record_size() );
+    XRefVec xref( fields.size() );
+    for( size_t i = 0 ; i < data.size() ; i++ ) {
         for( size_t j = 0 ; j < xref.size() ; j++ ) {
-            xref[j] = bases[i]->get_fieldname_index( m_fieldnames[j] );
+            xref[j] = data[i].base->get_fieldname_index( fields[j] );
         }
         m_xref_fields.push_back( xref );
     }
@@ -54,13 +49,17 @@ Hybrid::Hybrid(
 
 Hybrid::~Hybrid()
 {
+    for( size_t i = 1 ; i < m_data.size() ; i++ ) {
+        delete m_data[i].scheme;
+    }
 }
 
 bool Hybrid::is_ok() const
 {
-    return m_fieldnames.size() && 
-        m_bases.size() > 1 && 
-        m_dates.size() == m_bases.size() - 1;
+    return
+        m_fieldnames.size() && 
+        m_data.size() > 1 && 
+        m_data.size() == m_xref_fields.size();
 }
 
 int Hybrid::get_fieldname_index( const string& fieldname ) const
@@ -92,27 +91,27 @@ Field Hybrid::get_jdn( const Field* fields ) const
     if( fields[0] == f_invalid ) {
         // We can't be sure there is not several answers
         // but we will return the first (earliest) one found.
-        for( size_t i = 0 ; i < m_bases.size() ; i++ ) {
+        for( size_t i = 0 ; i < m_data.size() ; i++ ) {
             FieldVec fs = get_xref( &fields[0], i );
-            Field jdn = m_bases[i]->get_jdn( &fs[1] );
-            if( jdn != f_invalid && ( i == m_bases.size() - 1 || jdn < m_dates[i] ) ) {
+            Field jdn = m_data[i].base->get_jdn( &fs[1] );
+            if( jdn != f_invalid && ( i == m_data.size() - 1 || jdn < m_data[i+1].start ) ) {
                 return jdn;
             }
         }
         return f_invalid;
     }
     FieldVec fs = get_xref( &fields[0], fields[0] );
-    return m_bases[fields[0]]->get_jdn( &fs[1] );
+    return m_data[fields[0]].base->get_jdn( &fs[1] );
 }
 
 Field Hybrid::get_field_last( const Field* fields, size_t index ) const
 {
     FieldVec fs(m_rec_size);
     copy_fields( &fs[0], fields );
-    for( Field sch = 0 ; sch < (Field) m_bases.size() ; sch++ ) {
-        Field last = m_bases[sch]->get_field_last( &fields[1], index - 1 );
+    for( Field sch = 0 ; sch < (Field) m_data.size() ; sch++ ) {
+        Field last = m_data[sch].base->get_field_last( &fields[1], index - 1 );
         fs[index] = last;
-        if( is_in_scheme( m_bases[sch]->get_jdn( &fs[0] ), sch ) ) {
+        if( is_in_scheme( m_data[sch].base->get_jdn( &fs[0] ), sch ) ) {
             return last;
         }
     }
@@ -122,8 +121,8 @@ Field Hybrid::get_field_last( const Field* fields, size_t index ) const
 bool Hybrid::set_fields_as_begin_first( Field* fields, const Field* mask ) const
 {
     Field sch = ( mask[0] == f_invalid ) ? 0 : mask[0]; 
-    for( ; sch < (Field) m_bases.size() ; sch++ ) {
-        Record rec( m_bases[sch] );
+    for( ; sch < (Field) m_data.size() ; sch++ ) {
+        Record rec( m_data[sch].base );
         FieldVec tmask = get_xref( &mask[0], sch );
         bool ret = rec.set_fields_as_begin_first( &tmask[1] );
         if( ret == true ) {
@@ -145,8 +144,8 @@ bool Hybrid::set_fields_as_next_first( Field* fields, const Field* mask ) const
     if( fields[0] == f_invalid ) {
         return false;
     }
-    for( Field sch = fields[0] ; sch < (Field) m_bases.size() ; sch++ ) {
-        Record rec( m_bases[sch], &fields[1], m_bases[sch]->record_size() );
+    for( Field sch = fields[0] ; sch < (Field) m_data.size() ; sch++ ) {
+        Record rec( m_data[sch].base, &fields[1], m_data[sch].base->record_size() );
         FieldVec tmask = get_xref( &mask[0], sch );
         bool ret = rec.set_fields_as_next_first( &tmask[1] );
         if( ret == true ) {
@@ -160,8 +159,8 @@ bool Hybrid::set_fields_as_next_first( Field* fields, const Field* mask ) const
             return false;
         }
     }
-    for( Field sch = fields[0]+1 ; sch < (Field) m_bases.size() ; sch++ ) {
-        Record rec( m_bases[sch] );
+    for( Field sch = fields[0]+1 ; sch < (Field) m_data.size() ; sch++ ) {
+        Record rec( m_data[sch].base );
         FieldVec tmask = get_xref( &mask[0], sch );
         if( rec.set_fields_as_begin_first( &tmask[1] ) ) {
             Field jdn = rec.get_jdn();
@@ -181,8 +180,8 @@ bool Hybrid::set_fields_as_next_first( Field* fields, const Field* mask ) const
     }
     // Finally, try setting to the next block
     Field sch = fields[0] + 1;
-    if( sch < (Field) m_bases.size() ) {
-        Record rec( m_bases[sch], m_dates[sch-1] );
+    if( sch < (Field) m_data.size() ) {
+        Record rec( m_data[sch].base, m_data[sch].start );
         set_hybrid_fields( fields, rec.get_field_ptr(), sch );
         return true;
     }
@@ -192,8 +191,8 @@ bool Hybrid::set_fields_as_next_first( Field* fields, const Field* mask ) const
 bool Hybrid::set_fields_as_begin_last( Field* fields, const Field* mask ) const
 {
     Field sch = ( mask[0] == f_invalid ) ? 0 : mask[0]; 
-    for( ; sch < (Field) m_bases.size() ; sch++ ) {
-        Record rec( m_bases[sch] );
+    for( ; sch < (Field) m_data.size() ; sch++ ) {
+        Record rec( m_data[sch].base );
         FieldVec tmask = get_xref( &mask[0], sch );
         bool success = rec.set_fields_as_begin_last( &tmask[1] );
         if( success ) {
@@ -201,8 +200,8 @@ bool Hybrid::set_fields_as_begin_last( Field* fields, const Field* mask ) const
             if( is_in_scheme( jdn, sch ) ) {
                 set_hybrid_fields( fields, rec.get_field_ptr(), sch );
                 return true;
-            } else if( sch < (Field) m_dates.size() ) {
-                rec.set_jdn( m_dates[sch] - 1 );
+            } else if( sch < (Field) m_data.size() - 1 ) {
+                rec.set_jdn( m_data[sch+1].start - 1 );
                 if( rec.is_mask_valid( &tmask[1], tmask.size() - 1 ) ) {
                     set_hybrid_fields( fields, rec.get_field_ptr(), sch );
                     return true;
@@ -221,8 +220,8 @@ bool Hybrid::set_fields_as_next_last( Field* fields, const Field* mask ) const
     if( fields[0] == f_invalid ) {
         return false;
     }
-    for( Field sch = fields[0] ; sch < (Field) m_bases.size() ; sch++ ) {
-        Record rec( m_bases[sch], &fields[1], m_bases[sch]->record_size() );
+    for( Field sch = fields[0] ; sch < (Field) m_data.size() ; sch++ ) {
+        Record rec( m_data[sch].base, &fields[1], m_data[sch].base->record_size() );
         FieldVec tmask = get_xref( &mask[0], sch );
         bool ret = rec.set_fields_as_next_last( &tmask[1] );
         if( ret == true ) {
@@ -236,8 +235,8 @@ bool Hybrid::set_fields_as_next_last( Field* fields, const Field* mask ) const
             return false;
         }
     }
-    for( Field sch = fields[0]+1 ; sch < (Field) m_bases.size() ; sch++ ) {
-        Record rec( m_bases[sch] );
+    for( Field sch = fields[0]+1 ; sch < (Field) m_data.size() ; sch++ ) {
+        Record rec( m_data[sch].base );
         FieldVec tmask = get_xref( &mask[0], sch );
         bool ret = rec.set_fields_as_begin_last( &tmask[1] );
         if( ret == true ) {
@@ -250,8 +249,8 @@ bool Hybrid::set_fields_as_next_last( Field* fields, const Field* mask ) const
     }
     // Finally, try setting to the end of block
     Field sch = fields[0] + 1;
-    if( sch < (Field) m_bases.size() ) {
-        Record rec( m_bases[sch], m_dates[sch-1] - 1 );
+    if( sch < (Field) m_data.size() ) {
+        Record rec( m_data[sch].base, m_data[sch].start - 1 );
         set_hybrid_fields( fields, rec.get_field_ptr(), sch );
         return true;
     }
@@ -260,12 +259,12 @@ bool Hybrid::set_fields_as_next_last( Field* fields, const Field* mask ) const
 
 void Hybrid::remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const
 {
-    Base* lbase = m_bases[left[0]];
+    Base* lbase = m_data[left[0]].base;
     if( left[0] == right[0] ) {
         lbase->remove_balanced_fields( &left[1], ljdn, &right[1], ljdn );
         return;
     }
-    Base* rbase = m_bases[right[0]];
+    Base* rbase = m_data[right[0]].base;
     size_t size = lbase->record_size();
     if( size != rbase->record_size() ) {
         return;
@@ -295,7 +294,7 @@ void Hybrid::set_fields( Field* fields, Field jdn ) const
 {
     Field sch = find_scheme( jdn );
     fields[0] = sch;
-    Record rec( m_bases[sch], jdn );
+    Record rec( m_data[sch].base, jdn );
     XRefVec xref = m_xref_fields[sch];
     for( size_t i = 0 ; i < xref.size() ; i++ ) {
         if( xref[i] >= 0 ) {
@@ -334,29 +333,29 @@ FieldVec Hybrid::get_xref( const Field* fields, Field sch ) const
 
 bool Hybrid::is_in_scheme( Field jdn, Field scheme ) const
 {
-    for( size_t i = 0 ; i < m_dates.size() ; i++ ) {
-        if( jdn < m_dates[i] ) {
-            return scheme == (Field) i;
+    for( size_t i = 1 ; i < m_data.size() ; i++ ) {
+        if( jdn < m_data[i].start ) {
+            return scheme == (Field) i - 1;
         }
     }
-    return scheme == m_dates.size();
+    return scheme == ( m_data.size() - 1 );
 }
 
 Field Hybrid::find_scheme( Field jdn ) const
 {
-    for( size_t i = 0 ; i < m_dates.size() ; i++ ) {
-        if( jdn < m_dates[i] ) {
-            return i;
+    for( size_t i = 1 ; i < m_data.size() ; i++ ) {
+        if( jdn < m_data[i].start ) {
+            return i-1;
         }
     }
-    return m_dates.size();
+    return m_data.size() - 1;
 }
 
 void Hybrid::set_hybrid_fields( Field* fields, const Field* mask, Field sch ) const
 {
     fields[0] = sch;
     FieldVec xref = m_xref_fields[sch];
-    for( size_t i = 0 ; i < m_bases[sch]->record_size() ; i++ ) {
+    for( size_t i = 0 ; i < m_data[sch].base->record_size() ; i++ ) {
         if( xref[i] < 0 ) {
             continue;
         }

@@ -127,7 +127,7 @@ bool TestDef_j325::setOutputFormat( const string& format )
 void TestDef_j325::setUp()
 {
     m_cal = new Calendars(Init_script_default);
-    m_sid = m_cal->get_scheme( "j325" );
+    m_sid = m_cal->get_scheme( "ja" );
 }
 
 void TestDef_j325::tearDown()
@@ -142,7 +142,7 @@ void TestDef_j325::testCreation()
     m_cal->get_scheme_info( &info, m_sid );
     string str = "Julian Annunciation";
     CPPUNIT_ASSERT_EQUAL( str, info.name );
-    str = "j325";
+    str = "ja";
     CPPUNIT_ASSERT_EQUAL( str, info.code );
     str = "j.sh";
     CPPUNIT_ASSERT_EQUAL( str, info.grammar_code );

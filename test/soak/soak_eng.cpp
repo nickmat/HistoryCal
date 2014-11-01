@@ -66,7 +66,11 @@ void Soak_eng::setUp()
         "scheme \"eng\" {name \"English Hybrid\";"
         " hybrid {"
         "  fields \"year\", \"month\", \"day\", \"unshift\";"
-        "  schemes \"ja\", 2360975, \"j\", 2361222, \"g\";"
+        "  scheme \"ja\";"
+        "  change 2360975;"
+        "  scheme \"j\";"
+        "  change 2361222;"
+        "  scheme \"g\";"
         " }"
         "}"
     );

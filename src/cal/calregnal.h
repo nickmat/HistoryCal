@@ -39,12 +39,10 @@ namespace Cal {
     struct RegnalEra {
         RegnalEra() 
             : begin(f_minimum), end(f_maximum), base(NULL), scheme(NULL), local(true)
-//            : range(f_minimum,f_maximum), base(NULL), scheme(NULL), local(true)
         {}
 
         Field   begin;
         Field   end;
-//        Range   range;
         XRefVec xref;
         Base*   base;
         SHandle scheme;

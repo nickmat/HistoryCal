@@ -30,6 +30,7 @@
 
 #include "cal/caldefs.h"
 #include "calregnal.h"
+#include "calhybrid.h"
 
 namespace Cal {
 
@@ -76,8 +77,7 @@ namespace Cal {
         static Base* create_base_shift( Base* sbase, Field era );
         static Base* create_base_hybrid( 
             const StringVec& fieldnames,
-            const std::vector<Base*>& bases, 
-            const FieldVec& dates );
+            const std::vector<HybridData>& data );
         static Base* create_base_regnal( 
             const StringVec& fieldnames,
             const std::vector<RegnalEra>& eras );

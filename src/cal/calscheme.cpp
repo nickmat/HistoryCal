@@ -292,9 +292,9 @@ Base* Scheme::create_base_shift( Base* sbase, Field era )
 }
 
 Base* Scheme::create_base_hybrid( 
-    const StringVec& fieldnames, const vector<Base*>& bases, const FieldVec& dates )
+    const StringVec& fieldnames, const vector<HybridData>& data )
 {
-    Base* base = new Hybrid( fieldnames, bases, dates );
+    Base* base = new Hybrid( fieldnames, data );
     if( base->is_ok() ) {
         return base;
     }

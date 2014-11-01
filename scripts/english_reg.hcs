@@ -118,7 +118,9 @@ scheme "er.t3" {
     name "George II Hybrid";
     hybrid {
         fields "year", "month", "day";
-        schemes "er.t1", 2361222, "er.t2";
+        scheme "er.t1";
+        change 2361222;
+        scheme "er.t2";
     }
     style hide;
 }
