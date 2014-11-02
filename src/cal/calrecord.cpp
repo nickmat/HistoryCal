@@ -368,6 +368,9 @@ int Record::parse_date(
     CP_Group grp, prev_grp, token_grp;
     string::const_iterator it = str.begin();
     grp = prev_grp = token_grp = get_cp_group( it );
+    if( grp == GRP_Quest ) {
+        prev_grp = GRP_Sep;
+    }
     bool done = false, ignore = false, dual = false;
     for(;;) {
         if( grp != prev_grp ) {
@@ -414,6 +417,7 @@ int Record::parse_date(
                 if( i == size ) {
                     break;
                 }
+                // Question marks are not grouped
                 prev_grp = GRP_Sep;
             } else {
                 prev_grp = grp;
