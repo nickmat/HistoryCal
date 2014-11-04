@@ -101,6 +101,9 @@ Field Hybrid::get_jdn( const Field* fields ) const
         return f_invalid;
     }
     FieldVec fs = get_xref( &fields[0], fields[0] );
+    if( fields[0] == f_invalid ) {
+        return f_invalid;
+    }
     return m_data[fields[0]].base->get_jdn( &fs[1] );
 }
 
@@ -272,7 +275,7 @@ void Hybrid::remove_balanced_fields( Field* left, Field ljdn, Field* right, Fiel
     FieldVec ls = get_xref( &left[0], left[0] );
     FieldVec rs = get_xref( &right[0], right[0] );
     size_t i;
-    for( i = size -1 ; i > 1 ; --i ) {
+    for( i = size ; i > 1 ; --i ) {
         if( ls[i] == f_invalid || rs[i] == f_invalid ) {
             return; // Must be fully qualified
         }
@@ -285,7 +288,7 @@ void Hybrid::remove_balanced_fields( Field* left, Field ljdn, Field* right, Fiel
             break;
         }
     }
-    for( i++ ; i < size ; i++ ) {
+    for( i++ ; i < size + 1 ; i++ ) {
         left[i] = right[i] = f_invalid;
     }
 }
@@ -305,20 +308,18 @@ void Hybrid::set_fields( Field* fields, Field jdn ) const
     }
 }
 
-XRefVec Hybrid::get_default_xref_order( int count ) const
+bool Hybrid::fields_ok( const Field* fields ) const
 {
-    XRefVec xref( record_size(), -1 );
-    for( size_t i = 1 ; i < record_size() ; i++ ) {
-        xref[i-1] = i;
-    }
-    xref[record_size()-1] = 0;
-    return xref;
+    return fields[0] == f_invalid || (size_t) fields[0] < m_data.size();
 }
 
 FieldVec Hybrid::get_xref( const Field* fields, Field sch ) const
 {
-    FieldVec xref = m_xref_fields[sch];
     FieldVec result( m_rec_size, f_invalid );
+    if( sch >= (Field) m_xref_fields.size() ) {
+        return result;
+    }
+    FieldVec xref = m_xref_fields[sch];
     // note, field[0] may or may not match sch 
     result[0] = sch;
     for( size_t i = 0 ; i < xref.size() ; i++ ) {

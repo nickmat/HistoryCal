@@ -69,17 +69,15 @@ namespace Cal {
 
         virtual void set_fields( Field* fields, Field jdn ) const;
 
+        virtual bool fields_ok( const Field* fields ) const;
+
     protected:
-        virtual XRefVec get_default_xref_order( int count ) const;
 
     private:
         FieldVec get_xref( const Field* fields, Field sch ) const;
         bool is_in_scheme( Field jdn, Field scheme ) const;
         Field find_scheme( Field jdn ) const;
         void set_hybrid_fields( Field* fields, const Field* mask, Field scheme ) const;
-
-//        std::vector<Base*>   m_bases;
-//        FieldVec             m_dates;
 
         // Note: m_data.size() == m_xref_fields.size()
         std::vector<HybridData> m_data;

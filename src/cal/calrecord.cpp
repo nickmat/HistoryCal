@@ -103,7 +103,11 @@ void Record::set_str( const string& str, const string& fmt )
             m_f[x] = f[i];
         }
     }
-    m_jdn = get_jdn();
+    if( m_base->fields_ok( &m_f[0] ) ) {
+        m_jdn = get_jdn();
+    } else {
+        clear_fields();
+    }
 }
 
 bool Record::set_fields_as_begin_first( const Field* mask )

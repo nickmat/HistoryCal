@@ -82,6 +82,10 @@ namespace Cal {
         // Converts the given jdn into the Records' Fields.
         virtual void set_fields( Field* fields, Field jdn ) const = 0;
 
+        // Check for consistant fields. Used when one field is used as an index and
+        // must be within certain bounds.
+        virtual bool fields_ok( const Field* fields ) const { return true; }
+
         // If the unit is a fixed integer (ie week) then return the value,
         // otherwise, if the unit is variable, a double or invalid for Record, return 0.
         virtual Field unit_is_int( const Field* fields, Unit unit ) const;
