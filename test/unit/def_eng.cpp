@@ -216,6 +216,7 @@ void TestDef_eng::testRangeShorthand()
         { "6 sep 1948", "6 Sep 1948", "6 Sep 1948" },
         { "23feb1942", "23 Feb 1942", "23 Feb 1942" },
         { "25 March 1448 ~ 24 3 1448", "1448", "1448 ~ 1448/9" },
+        { "1752", "1752", "1752" },
     };
     size_t count = sizeof(t) / sizeof(data);
 

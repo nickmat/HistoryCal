@@ -65,6 +65,7 @@ void TestRegnal::setUp()
         " name \"English Regnal One\";"
         " regnal {"
         "  fields \"year\", \"month\", \"day\";"
+        "  era {range past~2392181; scheme \"g\";}"
         "  era {range 2392181~2415407; scheme 1 {shift \"g\", 2392181;}}" // Victoria
         "  era {range 2415407~2418798; scheme 2 {shift \"g\", 2415407;}}" // Edward VII
         "  era {range 2418798~2428188; scheme 3 {shift \"g\", 2418798;}}" // George V
@@ -99,7 +100,7 @@ void TestRegnal::testSamples()
         { "5 12 9 19", "5 12 9 19", 2432814 },
         { "5 12 9", "5 12 9", 2432796 },
         { "5 12", "5 12", 2432531 },
-        { "2", "2", 0 }
+        { "5", "5", 2428514 }
     };
     size_t count = sizeof(t) / sizeof(data);
 
