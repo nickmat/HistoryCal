@@ -69,6 +69,7 @@ namespace Cal {
         bool do_grammar_format( Grammar* gmr );
         bool do_grammar_alias( Grammar* gmr );
         StringVec do_string_list();
+        FieldVec do_fixed_fields( const StringVec& fieldnames );
 
         SValue expr( bool get );
         SValue compare( bool get );

@@ -61,6 +61,9 @@ namespace Cal {
         // Get an extended field value
         virtual Field get_extended_field( const Field jdn, size_t index ) const;
 
+        // Give the chance to set a field to a fixed value.
+        virtual void set_fixed_fields( Field* fields ) const {}
+
         // Note, these members are not const so that they may set state conditions
         // related to the pos (position). This should speed up sucessive calls.
         virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) const = 0;

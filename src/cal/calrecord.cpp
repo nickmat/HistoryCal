@@ -103,6 +103,7 @@ void Record::set_str( const string& str, const string& fmt )
             m_f[x] = f[i];
         }
     }
+    m_base->set_fixed_fields( &m_f[0] );
     if( m_base->fields_ok( &m_f[0] ) ) {
         m_jdn = get_jdn();
     } else {

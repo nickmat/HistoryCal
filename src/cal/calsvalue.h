@@ -69,6 +69,7 @@ namespace Cal {
         FieldVec get_fields() const;
 
         bool get( std::string& str ) const;
+        bool get( Field& field ) const;
         bool get_rlist( RangeList& rlist ) const;
 
         bool is_error() const { return m_type == SVT_Error; }

@@ -148,6 +148,28 @@ bool SValue::get( string& str ) const
     return false;
 }
 
+bool SValue::get( Field& field ) const
+{
+    switch( m_type )
+    {
+    case SVT_RList:
+        if( m_rlist.size() == 1 && m_rlist[0].jdn1 == m_rlist[0].jdn2 ) {
+            field = m_rlist[0].jdn1;
+            return true;
+        }
+        return false;
+    case SVT_Range:
+        if( m_range.jdn1 != m_range.jdn2 ) {
+            return false;
+        }
+        // Fall thru
+    case SVT_Field:
+        field = m_range.jdn1;
+        return true;
+    }
+    return false;
+}
+
 bool SValue::get_bool() const
 {
     assert( m_type == SVT_Bool );

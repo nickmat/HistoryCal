@@ -349,6 +349,7 @@ Base* Script::do_base_regnal()
         return NULL;
     }
     StringVec fieldnames;
+    FieldVec fixedfields;
     vector<RegnalEra> eras;
     for(;;) {
         SToken token = m_ts.next();
@@ -363,6 +364,8 @@ Base* Script::do_base_regnal()
         if( token.type() == SToken::STT_Name ) {
             if( token.get_str() == "fields" ) {
                 fieldnames = do_string_list();
+            } else if( token.get_str() == "fixed" ) {
+                fixedfields = do_fixed_fields( fieldnames );
             } else if( token.get_str() == "era" ) {
                 RegnalEra era;
                 if( do_regnal_era( era, fieldnames ) ) {
@@ -371,7 +374,7 @@ Base* Script::do_base_regnal()
             }
         }
     }
-    return Scheme::create_base_regnal( fieldnames, eras );
+    return Scheme::create_base_regnal( fieldnames, fixedfields, eras );
 }
 
 bool Script::do_regnal_era( RegnalEra& era, const StringVec& fieldnames )
@@ -413,6 +416,9 @@ bool Script::do_regnal_era( RegnalEra& era, const StringVec& fieldnames )
             }
         } else if( token.type() == SToken::STT_match ) { // "match" is a keyword
             matchs = do_string_list();
+            if( matchs[1] == "er-scheme" || matchs[1] == "er.scheme" ) {
+                int xxx = 0;
+            }
             assert( matchs.size() % 2 == 0 ); // must be even number
         }
     }
@@ -636,6 +642,39 @@ StringVec Script::do_string_list()
             break;
         }
         vec.push_back( str );
+        if( m_ts.current().type() != SToken::STT_Comma ) {
+            break;
+        }
+    }
+    return vec;
+}
+
+FieldVec Script::do_fixed_fields( const StringVec& fieldnames )
+{
+    FieldVec vec(fieldnames.size()+1,f_invalid);
+    for(;;) {
+        SValue value = expr( true );
+        string name;
+        if( ! value.get( name ) || name.empty() ) {
+            error( "Field name expected." );
+            break;
+        }
+        if( m_ts.current().type() != SToken::STT_Comma ) {
+            error( "Equal sign expected." );
+            break;
+        }
+        value = expr( true );
+        Field field;
+        if( ! value.get( field ) ) {
+            error( "Number expected." );
+            break;
+        }
+        for( size_t i = 0 ; i < fieldnames.size() ; i++ ) {
+            if( name == fieldnames[i] ) {
+                vec[i+1] = field;
+                break;
+            }
+        }
         if( m_ts.current().type() != SToken::STT_Comma ) {
             break;
         }

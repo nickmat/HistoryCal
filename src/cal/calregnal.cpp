@@ -38,8 +38,12 @@ using namespace Cal;
 using namespace std;
 
 
-Regnal::Regnal( const StringVec& fieldnames, const vector<RegnalEra>& eras )
-    : m_eras(eras), m_fieldnames(fieldnames), m_rec_size(fieldnames.size()+1), Base()
+Regnal::Regnal( 
+    const StringVec& fieldnames,
+    const FieldVec& fixedfields,
+    const vector<RegnalEra>& eras
+    ) : m_eras(eras), m_fieldnames(fieldnames), m_fixed_fields(fixedfields),
+    m_rec_size(fieldnames.size()+1), Base()
 {
 }
 
@@ -90,6 +94,17 @@ Field Regnal::get_jdn( const Field* fields ) const
     return m_eras[fields[0]].base->get_jdn( &fs[0] );
 }
 
+void Regnal::set_fixed_fields( Field* fields ) const
+{
+    // Note, the field is only set if its current value is f_invalid.
+    // m_fixed_fields.size() may be zero.
+    for( size_t i = 0 ; i < m_fixed_fields.size() ; i++ ) {
+        if( m_fixed_fields[i] != f_invalid && fields[i] == f_invalid ) {
+            fields[i] = m_fixed_fields[i];
+        }
+    }
+}
+
 bool Regnal::set_fields_as_begin_first( Field* fields, const Field* mask ) const
 {
     Field e = mask[0];
@@ -122,6 +137,9 @@ bool Regnal::set_fields_as_next_first( Field* fields, const Field* mask ) const
     FieldVec f = get_base_fields( fields );
     Record rec( m_eras[e].base, &f[0], f.size() );
     if( rec.set_fields_as_next_first( &m[0] ) ) {
+        if( rec.get_jdn() > m_eras[e].end ) {
+            return false;
+        }
         return make_regnal_fields( fields, e, rec );
     }
     return false;
@@ -159,6 +177,9 @@ bool Regnal::set_fields_as_next_last( Field* fields, const Field* mask ) const
     FieldVec f = get_base_fields( fields );
     Record rec( m_eras[e].base, &f[0], f.size() );
     if( rec.set_fields_as_next_last( &m[0] ) ) {
+        if( rec.get_jdn() > m_eras[e].end ) {
+            return false;
+        }
         return make_regnal_fields( fields, e, rec );
     }
     return false;
@@ -212,7 +233,8 @@ FieldVec Regnal::get_base_fields( const Field* fields ) const
         FieldVec fs;
         return fs;
     }
-    size_t fs_size = m_eras[e].base->record_size();
+    Base* base = m_eras[e].base;
+    size_t fs_size = base->record_size();
     FieldVec fs( fs_size, f_invalid );
     for( size_t i = 1 ; i < m_rec_size ; i++ ) {
         int index = m_eras[e].xref[i-1];
@@ -220,6 +242,7 @@ FieldVec Regnal::get_base_fields( const Field* fields ) const
             fs[index] = fields[i];
         }
     }
+    base->set_fixed_fields( &fs[0] );
     return fs;
 }
 

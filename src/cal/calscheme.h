@@ -80,6 +80,7 @@ namespace Cal {
             const std::vector<HybridData>& data );
         static Base* create_base_regnal( 
             const StringVec& fieldnames,
+            const FieldVec& fixedfields,
             const std::vector<RegnalEra>& eras );
     private:
         Unit str_to_unit( const std::string& str ) const;

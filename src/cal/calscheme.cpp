@@ -303,9 +303,11 @@ Base* Scheme::create_base_hybrid(
 }
 
 Base* Scheme::create_base_regnal( 
-    const StringVec& fieldnames, const vector<RegnalEra>& eras )
+    const StringVec& fieldnames,
+    const FieldVec& fixedfields,
+    const vector<RegnalEra>& eras )
 {
-    Base* base = new Regnal( fieldnames, eras );
+    Base* base = new Regnal( fieldnames, fixedfields, eras );
     if( base->is_ok() ) {
         return base;
     }

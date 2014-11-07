@@ -52,7 +52,10 @@ namespace Cal {
     class Regnal : public Base
     {
     public:
-        Regnal( const StringVec& fieldnames, const std::vector<RegnalEra>& eras );
+        Regnal( 
+            const StringVec& fieldnames,
+            const FieldVec& fixedfields,
+            const std::vector<RegnalEra>& eras );
         ~Regnal();
 
         virtual bool is_ok() const;
@@ -61,6 +64,9 @@ namespace Cal {
         virtual std::string get_fieldname( size_t index ) const;
 
         virtual Field get_jdn( const Field* fields ) const;
+
+        // Give the chance to set a field to a fixed value.
+        virtual void set_fixed_fields( Field* fields ) const;
 
         virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) const;
         virtual bool set_fields_as_next_first( Field* fields, const Field* mask ) const;
@@ -79,6 +85,7 @@ namespace Cal {
 
         std::vector<RegnalEra> m_eras;
         StringVec   m_fieldnames;
+        FieldVec    m_fixed_fields;
         size_t      m_rec_size;
     };
 
