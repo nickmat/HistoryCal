@@ -375,6 +375,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\cal\calprivate.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\cal\calrecord.h"
 				>
 			</File>

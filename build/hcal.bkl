@@ -213,6 +213,7 @@
     <headers>$(LOCAL_SRC)/cal/calmath.h</headers>
     <headers>$(LOCAL_SRC)/cal/calparse.h</headers>
     <headers>$(LOCAL_SRC)/cal/calpattern.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calprivate.h</headers>
     <headers>$(LOCAL_SRC)/cal/calrecord.h</headers>
     <headers>$(LOCAL_SRC)/cal/calregnal.h</headers>
     <headers>$(LOCAL_SRC)/cal/calscheme.h</headers>
