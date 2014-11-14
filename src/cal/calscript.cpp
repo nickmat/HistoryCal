@@ -349,6 +349,7 @@ Base* Script::do_base_regnal()
         return NULL;
     }
     StringVec fieldnames;
+    StringVec ext_fieldnames;
     FieldVec fixedfields;
     vector<RegnalEra> eras;
     for(;;) {
@@ -364,6 +365,8 @@ Base* Script::do_base_regnal()
         if( token.type() == SToken::STT_Name ) {
             if( token.get_str() == "fields" ) {
                 fieldnames = do_string_list();
+            } else if( token.get_str() == "extended" ) {
+                ext_fieldnames = do_string_list();
             } else if( token.get_str() == "fixed" ) {
                 fixedfields = do_fixed_fields( fieldnames );
             } else if( token.get_str() == "era" ) {
@@ -374,7 +377,7 @@ Base* Script::do_base_regnal()
             }
         }
     }
-    return Scheme::create_base_regnal( fieldnames, fixedfields, eras );
+    return Scheme::create_base_regnal( fieldnames, ext_fieldnames, fixedfields, eras );
 }
 
 bool Script::do_regnal_era( RegnalEra& era, const StringVec& fieldnames )

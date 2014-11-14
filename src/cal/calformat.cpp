@@ -34,10 +34,11 @@
 using namespace std;
 using namespace Cal;
 
-// Get a user friendly format string for user selection
-string Format::get_user_format( const Grammar* gmr ) const
+
+Format::Format( const Grammar* gmr, const std::string& format )
+    : m_format(format)
 {
-    string output, fname, dname, vocab, abbrev;
+    string fieldname, fname, dname, vocab, abbrev;
     enum State { dooutput, doprolog, dofname, dodname, dovocab, doabbrev };
     State state = dooutput;
     for( string::const_iterator it = m_format.begin() ; it != m_format.end() ; it++ ) {
@@ -47,14 +48,14 @@ string Format::get_user_format( const Grammar* gmr ) const
             if( *it == '@' ) {
                 state = doprolog;
             } else {
-                output += *it;
+                m_output_str += *it;
             }
             break;
         case doprolog:
             if( *it == '(' ) {
                 state = dofname;
             } else {
-                output += *it;
+                m_output_str += *it;
             }
             break;
         case dofname:
@@ -62,28 +63,38 @@ string Format::get_user_format( const Grammar* gmr ) const
         case dovocab:
         case doabbrev:
             if( *it == ')' ) {
+                if( m_input_str.size() ) {
+                    m_input_str += " ";
+                }
+                m_input_str += fname;
+                fieldname = fname;
+                Vocab* voc = NULL;
                 if( gmr ) {
+                    fieldname = gmr->get_field_alias( fname );
                     if( vocab.size() ) {
-                        Vocab* v = gmr->find_vocab( vocab );
-                        if( v ) {
+                        voc = gmr->find_vocab( vocab );
+                        if( voc ) {
                             if( abbrev == "a" ) {
-                                fname = v->get_style_name( Vocab::style_abbrev );
+                                fname = voc->get_style_name( Vocab::style_abbrev );
                             } else {
-                                fname = v->get_style_name( Vocab::style_full );
+                                fname = voc->get_style_name( Vocab::style_full );
                             }
                         }
                     } else {
                         fname = gmr->get_num_code_alias( fname );
                     }
                 }
-                output += fname;
+                m_output_str += fname;
+                m_output_fields.push_back( fieldname );
+                m_vocabs.push_back( voc );
                 if( dname.size() ) {
                     if( gmr ) {
                         dname = gmr->get_num_code_alias( dname );
                     }
-                    output += "/" + dname;
+                    m_output_str += "/" + dname;
                 }
                 fname.clear();
+                fieldname.clear();
                 dname.clear();
                 vocab.clear();
                 abbrev.clear();
@@ -106,42 +117,10 @@ string Format::get_user_format( const Grammar* gmr ) const
             break;
         }
     }
-    return output;
 }
 
-string Format::get_order_str() const
+Format::~Format()
 {
-    string fname, output;
-    enum State { dooutput, doprolog, dofname, dovocab };
-    State state = dooutput;
-    for( string::const_iterator it = m_format.begin() ; it != m_format.end() ; it++ ) {
-        switch( state )
-        {
-        case dooutput:
-            if( *it == '@' ) {
-                state = doprolog;
-            }
-            break;
-        case doprolog:
-            if( *it == '(' ) {
-                state = dofname;
-            }
-            break;
-        case dofname:
-            if( *it == ')' || *it == ':' || *it == '/' ) {
-                if( output.size() ) {
-                    output += " ";
-                }
-                output += fname;
-                fname.clear();
-                state = dooutput;
-            } else {
-                fname += *it;
-            }
-            break;
-        }
-    }
-    return output;
 }
 
 // End of src/cal/calformat.cpp file

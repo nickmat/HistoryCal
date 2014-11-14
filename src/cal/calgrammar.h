@@ -62,7 +62,7 @@ namespace Cal {
         StringVec get_vocab_codes() const;
         StringVec get_vocab_names() const;
 
-        Field find_token( const std::string& word ) const;
+        Field find_token( Vocab** vocab, const std::string& word ) const;
         std::string lookup_token( Field field, const std::string& vcode, bool abbrev ) const;
 
         Vocab* find_vocab( const std::string& code ) const;

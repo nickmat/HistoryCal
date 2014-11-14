@@ -40,10 +40,11 @@ using namespace std;
 
 Regnal::Regnal( 
     const StringVec& fieldnames,
+    const StringVec& ext_fieldnames,
     const FieldVec& fixedfields,
     const vector<RegnalEra>& eras
-    ) : m_eras(eras), m_fieldnames(fieldnames), m_fixed_fields(fixedfields),
-    m_rec_size(fieldnames.size()+1), Base()
+    ) : m_eras(eras), m_fieldnames(fieldnames), m_ext_fieldnames(ext_fieldnames),
+    m_fixed_fields(fixedfields), m_rec_size(fieldnames.size()+1), Base()
 {
 }
 

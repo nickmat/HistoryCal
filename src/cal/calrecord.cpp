@@ -334,7 +334,7 @@ Field Record::get_token_value( const string& str )
 {
     Grammar* gmr = m_base->get_grammar();
     if( gmr ) {
-        return gmr->find_token( str );
+        return gmr->find_token( NULL, str );
     }
     return f_invalid;
 }

@@ -33,18 +33,27 @@
 namespace Cal {
 
     class Grammar;
+    class Vocab;
 
     class Format {
     public:
-        Format( const std::string& format ) : m_format(format) {}
+        Format( const Grammar* gmr, const std::string& format );
+        ~Format();
 
         std::string get_format() const { return m_format; }
         // Get a user friendly format string for user selection
-        std::string get_user_format( const Grammar* gmr ) const;
-        std::string get_order_str() const;
+        std::string get_user_format() const { return m_output_str; }
+        std::string get_order_str() const { return m_input_str; }
+
+        StringVec get_output_fields() const { return m_output_fields; }
+        std::vector<Vocab*> get_vocabs() const { return m_vocabs; }
 
     private:
         std::string m_format;
+        std::string m_input_str;
+        std::string m_output_str;
+        StringVec   m_output_fields;
+        std::vector<Vocab*> m_vocabs;
     };
 
 }

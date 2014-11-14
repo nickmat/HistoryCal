@@ -234,7 +234,7 @@ void Base::get_input_formats( SchemeFormats* input ) const
             return;
         }
     }
-    Format deffmt( create_default_format() );
+    Format deffmt( m_grammar, create_default_format() );
     string format = deffmt.get_order_str();
     input->descrip.push_back( format );
     input->code.push_back( "def" );
@@ -251,8 +251,8 @@ void Base::get_output_formats( SchemeFormats* output ) const
             return;
         }
     }
-    Format deffmt( create_default_format() );
-    string format = deffmt.get_user_format( m_grammar ) + "  (def)";
+    Format deffmt( m_grammar, create_default_format() );
+    string format = deffmt.get_user_format() + "  (def)";
     output->descrip.push_back( format );
     output->code.push_back( "def" );
 }

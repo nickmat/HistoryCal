@@ -72,7 +72,7 @@ void Grammar::add_vocab( Vocab* vocab )
 
 void Grammar::add_format( const string& code, const string& format )
 {
-    Format* fmt = new Format( format );
+    Format* fmt = new Format( this, format );
     m_formats[code] = fmt;
     string order = fmt->get_order_str();
     for( StringMap::iterator it = m_input_formats.begin() ;
@@ -189,7 +189,7 @@ void Grammar::get_output_formats( SchemeFormats* output ) const
         it != m_formats.end() ; it++
     ) {
         output->code.push_back( it->first );
-        output->descrip.push_back( it->second->get_user_format( this ) );
+        output->descrip.push_back( it->second->get_user_format() );
         if( it->first == m_pref_output_fmt ) {
             output->current = cur;
         }
@@ -234,20 +234,26 @@ StringVec Grammar::get_vocab_names() const
     return vec;
 }
 
-Field Grammar::find_token( const std::string& word ) const
+Field Grammar::find_token( Vocab** vocab, const std::string& word ) const
 {
     Field field = f_invalid;
     for( size_t i = 0 ; i < m_vocabs.size() ; i++ ) {
         field = m_vocabs[i]->find( word );
         if( field != f_invalid ) {
+            if( vocab ) {
+                *vocab = m_vocabs[i];
+            }
             return field;
         }
     }
     if( m_inherit ) {
-        field = m_inherit->find_token( word );
+        field = m_inherit->find_token( vocab, word );
         if( field != f_invalid ) {
             return field;
         }
+    }
+    if( vocab ) {
+        *vocab = NULL;
     }
     return f_invalid;
 }

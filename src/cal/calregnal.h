@@ -54,6 +54,7 @@ namespace Cal {
     public:
         Regnal( 
             const StringVec& fieldnames,
+            const StringVec& ext_fieldnames,
             const FieldVec& fixedfields,
             const std::vector<RegnalEra>& eras );
         ~Regnal();
@@ -85,6 +86,7 @@ namespace Cal {
 
         std::vector<RegnalEra> m_eras;
         StringVec   m_fieldnames;
+        StringVec   m_ext_fieldnames;
         FieldVec    m_fixed_fields;
         size_t      m_rec_size;
     };
