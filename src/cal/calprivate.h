@@ -32,7 +32,22 @@
 
 namespace Cal {
 
+    class Vocab;
 
+    enum InputFieldType { 
+        IFT_null, IFT_quest, IFT_number, IFT_dual1, IFT_dual2, IFT_vocab
+    };
+
+    struct InputField
+    {
+        InputField() : value(f_invalid), type(IFT_null), vocab(NULL) {}
+
+        Field          value;
+        InputFieldType type;
+        Vocab*         vocab;
+    };
+
+    typedef std::vector<InputField> InputFieldVec;
 }
 
 #endif // CAL_CALPRIVATE_H_GUARD

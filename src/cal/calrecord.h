@@ -28,7 +28,7 @@
 #ifndef CAL_CALRECORD_H_GUARD
 #define CAL_CALRECORD_H_GUARD
 
-#include "cal/caldefs.h"
+#include "calprivate.h"
 
 namespace Cal {
 
@@ -77,11 +77,6 @@ namespace Cal {
         bool is_mask_valid( Field* mask, size_t mask_size ) const;
 
     private:
-        enum InputFieldType { 
-            IFT_null, IFT_quest, IFT_number, IFT_dual1, IFT_dual2, IFT_vocab
-        };
-        typedef std::vector<InputFieldType> IftVec;
-
         void clear_fields();
 
         int get_field_index( const std::string& fieldname ) const;
@@ -91,9 +86,9 @@ namespace Cal {
             GRP_Sep, GRP_Other
         };
         CP_Group get_cp_group( std::string::const_iterator it );
-        Field get_token_value( const std::string& str );
+        Field get_token_value( Vocab** vocab, const std::string& str );
         Field get_dual2_value( Field dual1, const std::string& str2 ) const;
-        int parse_date( Field* nums, InputFieldType* ifts, size_t size, const std::string& str );
+        int parse_date( InputField* ifs, size_t size, const std::string& str );
 
         std::string value_from_field( int index ) const;
         std::string lookup_token(
