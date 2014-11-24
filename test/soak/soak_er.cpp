@@ -99,9 +99,10 @@ void Soak_er::testScript()
 static string fieldsToStr( Field d, Field m, Field y, Field e, Field s )
 {
     stringstream tst;
-    tst << d << " " << m << " " << y << " " << e;
     if( s >= 0 ) {
-        tst << " " << s;
+        tst << d << " " << m << " ? " << y << " " << e << " " << s;
+    } else {
+        tst << d << " " << m << " " << y << " " << e;
     }
     return tst.str();
 }
@@ -136,6 +137,7 @@ void Soak_er::testErCalendar()
     Field hyear = ER_START_HYEAR;
     Field scheme = -1;
     int leapyear = is_leap_year( hyear );
+    string datestr;
     for( Field daycount = ER_START_JDN ; daycount < ER_END_JDN ; daycount++ ) {
         day++;
         if( day > LengthOfMonth[leapyear][month-1] ) {
@@ -181,7 +183,7 @@ void Soak_er::testErCalendar()
         if( era == 45 && day == 11 && month == 12 ) year++; // Geo VI
         if( era == 45 && day ==  6 && month ==  2 && hyear == 1936 ) { era++; year = 0; }
         if( era == 46 && day ==  6 && month ==  2 ) year++; // Eliz II
-        string datestr = fieldsToStr( day, month, year, era, scheme );
+        datestr = fieldsToStr( day, month, year, era, scheme );
         Field jdn = m_cal->str_to_jdn( m_sid, datestr );
         CPPUNIT_ASSERT_EQUAL( daycount, jdn );
     }

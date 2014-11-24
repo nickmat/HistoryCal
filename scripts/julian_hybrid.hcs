@@ -70,7 +70,8 @@ grammar "hy" {
 scheme "eng" {
     name "English Hybrid";
     hybrid {
-        fields "year", "month", "day", "unshift";
+        fields "year", "month", "day";
+        extended "wday", "unshift";
         scheme "ja";
         change 2360976;
         scheme "j";

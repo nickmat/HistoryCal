@@ -28,7 +28,7 @@
 #ifndef CAL_CALFORMAT_H_GUARD
 #define CAL_CALFORMAT_H_GUARD
 
-#include "cal/caldefs.h"
+#include "calprivate.h"
 
 namespace Cal {
 
@@ -45,6 +45,9 @@ namespace Cal {
         std::string get_user_format() const { return m_output_str; }
         std::string get_order_str() const { return m_input_str; }
 
+        std::string get_output_field( Vocab* vocab ) const;
+        std::string get_1st_output_field( InputFieldType type ) const;
+
         StringVec get_output_fields() const { return m_output_fields; }
         std::vector<Vocab*> get_vocabs() const { return m_vocabs; }
 
@@ -54,6 +57,7 @@ namespace Cal {
         std::string m_output_str;
         StringVec   m_output_fields;
         std::vector<Vocab*> m_vocabs;
+        std::vector<InputFieldType> m_types;
     };
 
 }

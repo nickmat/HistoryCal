@@ -61,10 +61,14 @@ namespace Cal {
 
         virtual bool is_ok() const;
         virtual size_t record_size() const { return m_rec_size; }
+        virtual size_t extended_size() const { return m_ext_size; }
+
         virtual int get_fieldname_index( const std::string& fieldname ) const;
         virtual std::string get_fieldname( size_t index ) const;
 
         virtual Field get_jdn( const Field* fields ) const;
+
+        virtual Field get_extended_field( const Field jdn, size_t index ) const;
 
         // Give the chance to set a field to a fixed value.
         virtual void set_fixed_fields( Field* fields ) const;
@@ -79,6 +83,8 @@ namespace Cal {
         virtual void set_fields( Field* fields, Field jdn ) const;
 
     private:
+        // Return the era index coresponding to given jdn.
+        size_t get_era_index( Field jdn ) const;
         // Adjust and copy Era date fields to base date fields
         FieldVec get_base_fields( const Field* fields ) const;
         // Adjust the given Record to Era fields
@@ -89,6 +95,7 @@ namespace Cal {
         StringVec   m_ext_fieldnames;
         FieldVec    m_fixed_fields;
         size_t      m_rec_size;
+        size_t      m_ext_size;
     };
 
 }

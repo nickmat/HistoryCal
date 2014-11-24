@@ -77,6 +77,7 @@ namespace Cal {
         static Base* create_base_shift( Base* sbase, Field era );
         static Base* create_base_hybrid( 
             const StringVec& fieldnames,
+            const StringVec& ext_fieldnames,
             const std::vector<HybridData>& data );
         static Base* create_base_regnal( 
             const StringVec& fieldnames,

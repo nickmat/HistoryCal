@@ -31,6 +31,7 @@
 #include "calbase.h"
 
 namespace Cal {
+
     class Julian : public Base
     {
         enum JulianExtendedFieldNumber { JEFN_litweek, JEFN_COUNT };

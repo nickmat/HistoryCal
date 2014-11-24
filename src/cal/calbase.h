@@ -28,7 +28,7 @@
 #ifndef CAL_CALBASE_H_GUARD
 #define CAL_CALBASE_H_GUARD
 
-#include "cal/caldefs.h"
+#include "calprivate.h"
 
 namespace Cal {
 
@@ -116,8 +116,8 @@ namespace Cal {
 
         void get_input_formats( SchemeFormats* input ) const;
         void get_output_formats( SchemeFormats* output ) const;
-        std::string get_input_format() const { return m_input_format; }
-        std::string get_output_format() const { return m_output_format; }
+        std::string get_input_format() const;
+        std::string get_output_format() const;
         std::string get_format() const;
         Grammar* get_grammar() const { return m_grammar; }
 
@@ -126,6 +126,7 @@ namespace Cal {
         void set_output_format( const std::string& code ) { m_output_format = code; }
 
         XRefVec get_xref_order( int count, const std::string& format ) const;
+        bool resolve_input( Field* fields, const InputFieldVec& input, const std::string& fmt_code ) const;
 
         FieldVec fields_to_vec( const Field* fields ) const;
         bool is_complete( const Field* fields ) const;

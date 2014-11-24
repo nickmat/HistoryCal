@@ -69,11 +69,13 @@ Format::Format( const Grammar* gmr, const std::string& format )
                 m_input_str += fname;
                 fieldname = fname;
                 Vocab* voc = NULL;
+                InputFieldType type = IFT_number;
                 if( gmr ) {
                     fieldname = gmr->get_field_alias( fname );
                     if( vocab.size() ) {
                         voc = gmr->find_vocab( vocab );
                         if( voc ) {
+                            type = IFT_vocab;
                             if( abbrev == "a" ) {
                                 fname = voc->get_style_name( Vocab::style_abbrev );
                             } else {
@@ -88,10 +90,18 @@ Format::Format( const Grammar* gmr, const std::string& format )
                 m_output_fields.push_back( fieldname );
                 m_vocabs.push_back( voc );
                 if( dname.size() ) {
+                    m_types.push_back( IFT_dual1 );
+                    fieldname = dname;
                     if( gmr ) {
+                        fieldname = gmr->get_field_alias( dname );
                         dname = gmr->get_num_code_alias( dname );
                     }
                     m_output_str += "/" + dname;
+                    m_output_fields.push_back( fieldname );
+                    m_vocabs.push_back( NULL );
+                    m_types.push_back( IFT_dual2 );
+                } else {
+                    m_types.push_back( type );
                 }
                 fname.clear();
                 fieldname.clear();
@@ -121,6 +131,26 @@ Format::Format( const Grammar* gmr, const std::string& format )
 
 Format::~Format()
 {
+}
+
+string Format::get_output_field( Vocab* vocab ) const
+{
+    for( size_t i = 0 ; i < m_vocabs.size() ; i++ ) {
+        if( vocab == m_vocabs[i] ) {
+            return m_output_fields[i];
+        }
+    }
+    return "";
+}
+
+string Format::get_1st_output_field( InputFieldType type ) const
+{
+    for( size_t i = 0 ; i < m_types.size() ; i++ ) {
+        if( type == m_types[i] ) {
+            return m_output_fields[i];
+        }
+    }
+    return "";
 }
 
 // End of src/cal/calformat.cpp file

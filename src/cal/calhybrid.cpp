@@ -32,16 +32,25 @@
 #include "calscheme.h"
 #include "calrecord.h"
 
+#include <cassert>
+
 using namespace Cal;
 using namespace std;
 
-Hybrid::Hybrid( const StringVec& fields, const std::vector<HybridData>& data )
-    :  m_fieldnames(fields), m_data(data), m_rec_size(fields.size()+1)
+Hybrid::Hybrid( 
+    const StringVec& fields, 
+    const StringVec& ext_fields,
+    const std::vector<HybridData>& data )
+    :  m_fieldnames(fields), m_ext_fieldnames(ext_fields),
+    m_data(data), m_rec_size(1+fields.size()), 
+    m_ext_size(1+fields.size()+ext_fields.size())
 {
-    XRefVec xref( fields.size() );
+    StringVec fns( fields );
+    fns.insert( fns.end(), ext_fields.begin(), ext_fields.end() );
+    XRefVec xref( fns.size() );
     for( size_t i = 0 ; i < data.size() ; i++ ) {
         for( size_t j = 0 ; j < xref.size() ; j++ ) {
-            xref[j] = data[i].base->get_fieldname_index( fields[j] );
+            xref[j] = data[i].base->get_fieldname_index( fns[j] );
         }
         m_xref_fields.push_back( xref );
     }
@@ -67,9 +76,16 @@ int Hybrid::get_fieldname_index( const string& fieldname ) const
     if( fieldname == "scheme" ) {
         return 0;
     }
+    int offset = 1;
     for( size_t i = 0 ; i < m_fieldnames.size() ; i++ ) {
         if( m_fieldnames[i] == fieldname ) {
-            return i + 1;
+            return i + offset;
+        }
+    }
+    offset += m_fieldnames.size();
+    for( size_t i = 0 ; i < m_ext_fieldnames.size() ; i++ ) {
+        if( m_ext_fieldnames[i] == fieldname ) {
+            return i + offset;
         }
     }
     return -1;
@@ -80,10 +96,15 @@ string Hybrid::get_fieldname( size_t index ) const
     if( index == 0 ) {
         return "scheme";
     }
-    if( index >= m_fieldnames.size() + 1 ) {
-        return "";
+    --index;
+    if( index < m_fieldnames.size() ) {
+        return m_fieldnames[index];
     }
-    return m_fieldnames[index-1];
+    index -= m_fieldnames.size();
+    if( index < m_ext_fieldnames.size() ) {
+        return m_ext_fieldnames[index];
+    }
+    return "";
 }
 
 Field Hybrid::get_jdn( const Field* fields ) const
@@ -105,6 +126,30 @@ Field Hybrid::get_jdn( const Field* fields ) const
         return f_invalid;
     }
     return m_data[fields[0]].base->get_jdn( &fs[1] );
+}
+
+Field Hybrid::get_extended_field( const Field jdn, size_t index ) const
+{
+    assert( index > 0 );
+    size_t i = index - 1;
+    size_t s = find_scheme( jdn );
+    if( index > m_xref_fields[s].size() || m_xref_fields[s][i] < 0 ) {
+        return f_invalid;
+    }
+    Record rec( m_data[s].base, jdn );
+    return rec.get_field( m_xref_fields[s][i] );
+#if 0
+    size_t s = find_scheme( jdn );
+    if( index < m_rec_size ) {
+        return f_invalid; // Not an extended field.
+    }
+    size_t e = index - m_rec_size;
+    int i = m_data[s].base->get_fieldname_index( m_ext_fieldnames[e] );
+    if( i <= 0 ) {
+        return f_invalid; // Extended field not found.
+    }
+    return m_data[s].base->get_extended_field( jdn, i );
+#endif
 }
 
 Field Hybrid::get_field_last( const Field* fields, size_t index ) const
@@ -315,7 +360,7 @@ bool Hybrid::fields_ok( const Field* fields ) const
 
 FieldVec Hybrid::get_xref( const Field* fields, Field sch ) const
 {
-    FieldVec result( m_rec_size, f_invalid );
+    FieldVec result( m_ext_size, f_invalid );
     if( sch >= (Field) m_xref_fields.size() ) {
         return result;
     }
@@ -324,7 +369,7 @@ FieldVec Hybrid::get_xref( const Field* fields, Field sch ) const
     result[0] = sch;
     for( size_t i = 0 ; i < xref.size() ; i++ ) {
         int x = xref[i];
-        if( x < 0 || x+1 >= (int) m_rec_size ) {
+        if( x < 0 || x+1 >= (int) m_ext_size ) {
             continue;
         }
         result[x+1] = fields[i+1];
@@ -342,7 +387,7 @@ bool Hybrid::is_in_scheme( Field jdn, Field scheme ) const
     return scheme == ( m_data.size() - 1 );
 }
 
-Field Hybrid::find_scheme( Field jdn ) const
+size_t Hybrid::find_scheme( Field jdn ) const
 {
     for( size_t i = 1 ; i < m_data.size() ; i++ ) {
         if( jdn < m_data[i].start ) {

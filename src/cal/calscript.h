@@ -61,7 +61,7 @@ namespace Cal {
         Base* do_base_shift();
         Base* do_base_hybrid();
         Base* do_base_regnal();
-        bool do_regnal_era( RegnalEra& era, const StringVec& fieldnames );
+        bool do_regnal_era( RegnalEra& era, StringVec& fieldnames );
         bool do_vocab();
         bool do_vocab_tokens( Vocab* voc );
         bool do_grammar();

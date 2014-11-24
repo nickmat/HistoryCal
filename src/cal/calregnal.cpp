@@ -44,7 +44,8 @@ Regnal::Regnal(
     const FieldVec& fixedfields,
     const vector<RegnalEra>& eras
     ) : m_eras(eras), m_fieldnames(fieldnames), m_ext_fieldnames(ext_fieldnames),
-    m_fixed_fields(fixedfields), m_rec_size(fieldnames.size()+1), Base()
+    m_fixed_fields(fixedfields), m_rec_size(fieldnames.size()+1),
+    m_ext_size(fieldnames.size()+ext_fieldnames.size()+1), Base()
 {
 }
 
@@ -67,9 +68,16 @@ int Regnal::get_fieldname_index( const string& fieldname ) const
     if( fieldname == "era" ) {
         return 0;
     }
+    int offset = 1;
     for( size_t i = 0 ; i < m_fieldnames.size() ; i++ ) {
         if( m_fieldnames[i] == fieldname ) {
-            return i + 1;
+            return i + offset;
+        }
+    }
+    offset += m_fieldnames.size();
+    for( size_t i = 0 ; i < m_ext_fieldnames.size() ; i++ ) {
+        if( m_ext_fieldnames[i] == fieldname ) {
+            return i + offset;
         }
     }
     return -1;
@@ -80,11 +88,17 @@ string Regnal::get_fieldname( size_t index ) const
     if( index == 0 ) {
         return "era";
     }
-    if( index >= m_fieldnames.size() + 1 ) {
-        return "";
+    --index;
+    if( index < m_fieldnames.size() ) {
+        return m_fieldnames[index];
     }
-    return m_fieldnames[index-1];
+    index -= m_fieldnames.size();
+    if( index < m_ext_fieldnames.size() ) {
+        return m_ext_fieldnames[index];
+    }
+    return "";
 }
+
 
 Field Regnal::get_jdn( const Field* fields ) const
 {
@@ -93,6 +107,18 @@ Field Regnal::get_jdn( const Field* fields ) const
         return f_invalid;
     }
     return m_eras[fields[0]].base->get_jdn( &fs[0] );
+}
+
+Field Regnal::get_extended_field( const Field jdn, size_t index ) const
+{
+    assert( index > 0 );
+    size_t i = index - 1;
+    Field e = get_era_index( jdn );
+    if( index > m_eras[e].xref.size() || m_eras[e].xref[i] < 0 ) {
+        return f_invalid;
+    }
+    Record rec( m_eras[e].base, jdn );
+    return rec.get_field( m_eras[e].xref[i] );
 }
 
 void Regnal::set_fixed_fields( Field* fields ) const
@@ -214,16 +240,20 @@ void Regnal::remove_balanced_fields( Field* left, Field ljdn, Field* right, Fiel
 
 void Regnal::set_fields( Field* fields, Field jdn ) const
 {
-    Field e = 0;
-    for( size_t i = m_eras.size() - 1 ; i > 0  ; --i ) {
-        if( jdn >= m_eras[i].begin && jdn <= m_eras[i].end ) {
-            e = i;
-            break;
-        }
-    }
+    Field e = get_era_index( jdn );
     Record rec( m_eras[e].base, jdn );
     make_regnal_fields( fields, e, rec );
     return;
+}
+
+size_t Regnal::get_era_index( Field jdn ) const
+{
+    for( size_t i = m_eras.size() - 1 ; i > 0  ; --i ) {
+        if( jdn >= m_eras[i].begin && jdn <= m_eras[i].end ) {
+            return i;
+        }
+    }
+    return 0;
 }
 
 FieldVec Regnal::get_base_fields( const Field* fields ) const
@@ -235,11 +265,10 @@ FieldVec Regnal::get_base_fields( const Field* fields ) const
         return fs;
     }
     Base* base = m_eras[e].base;
-    size_t fs_size = base->record_size();
-    FieldVec fs( fs_size, f_invalid );
-    for( size_t i = 1 ; i < m_rec_size ; i++ ) {
+    FieldVec fs( m_ext_size, f_invalid );
+    for( size_t i = 1 ; i < m_ext_size ; i++ ) {
         int index = m_eras[e].xref[i-1];
-        if( index >= 0 && index < (int) fs_size ) {
+        if( index >= 0 && index < (int) m_ext_size ) {
             fs[index] = fields[i];
         }
     }
@@ -250,7 +279,7 @@ FieldVec Regnal::get_base_fields( const Field* fields ) const
 bool Regnal::make_regnal_fields( Field* fields, Field era, Record& rec ) const
 {
     fields[0] = era;
-    size_t size = m_rec_size - 1;
+    size_t size = m_ext_size - 1;
     for( size_t i = 0 ; i < size ; i++ ) {
         int x = m_eras[era].xref[i];
         if( x >= 0 ) {

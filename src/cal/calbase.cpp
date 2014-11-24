@@ -257,6 +257,16 @@ void Base::get_output_formats( SchemeFormats* output ) const
     output->code.push_back( "def" );
 }
 
+string Base::get_input_format() const
+{
+    return m_input_format.empty() ? "def" : m_input_format;
+}
+
+string Base::get_output_format() const
+{
+    return m_output_format.empty() ? "def" : m_output_format;
+}
+
 string Base::get_format() const
 {
     if( m_grammar ) {
@@ -302,6 +312,69 @@ XRefVec Base::get_xref_order( int cnt, const string& fmt ) const
     }
     return xref_set.find( cnt )->second;
 }
+
+bool Base::resolve_input(
+    Field* fields, const InputFieldVec& input, const string& fmt_code ) const
+{
+    string code;
+    if( fmt_code.empty() ) {
+        code = get_input_format();
+    } else {
+        code = fmt_code;
+    }
+    size_t cnt = 0;
+    if( m_grammar ) {
+        Format* fmt = m_grammar->get_format( code );
+        if( fmt == NULL ) {
+            return false;
+        }
+        for( size_t i = 0 ; i < input.size() ; i++ ) {
+            if( input[i].type == IFT_null ) {
+                continue;
+            }
+            string fname;
+            if( input[i].type == IFT_dual2 ) {
+                fname = fmt->get_1st_output_field( IFT_dual2 );
+                if( fname.empty() ) {
+                    continue; // Ignore if we can't find it.
+                }
+            }
+            if( input[i].vocab ) {
+                fname = fmt->get_output_field( input[i].vocab );
+            }
+            if( fname.size() ) {
+                int index = get_fieldname_index( fname );
+                if( index >= (int) record_size() ) {
+                    // Input an extended field
+                    fields[index] = input[i].value;
+                    continue;
+                }
+            }
+            cnt++;
+        }
+    } else {
+        for( ; cnt < input.size() ; cnt++ ) {
+            if( input[cnt].type == IFT_null ) {
+                break;
+            }
+        }
+    }
+    if( cnt < 1 ) {
+        return false;
+    }
+    XRefVec xref = get_xref_order( cnt, code );
+    if( xref.empty() ) {
+        return false;
+    }
+    for( size_t i = 0 ; i < cnt ; i++ ) {
+        int x = xref[i];
+        if( x >= 0 && x < (int) extended_size() ) {
+            fields[x] = input[i].value;
+        }
+    }
+    return true;
+}
+
 
 FieldVec Base::fields_to_vec( const Field* fields ) const
 {

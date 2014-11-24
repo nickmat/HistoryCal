@@ -81,34 +81,12 @@ void Record::set_str( const string& str, const string& fmt )
     InputFieldVec ifs(m_base->extended_size());
     parse_date( &ifs[0], ifs.size(), in );
 
-    int cnt = 0;
-    FieldVec f(m_base->extended_size());
-    for( size_t i = 0 ; i < ifs.size() ; i++ ) {
-        if( ifs[i].type == IFT_null || ifs[i].type == IFT_dual2 ) {
-            continue;
-        }
-        f[cnt] = ifs[i].value;
-        cnt++;
-    }
-    if( cnt < 1 ) {
-        return; // Error parsing date
-    }
-    XRefVec xref = m_base->get_xref_order( cnt, fmt );
-    if( xref.empty() ) {
-        return; // Error parsing date
-    }
-    for( int i = 0 ; i < cnt ; i++ ) {
-        int x = xref[i];
-        if( x >= 0 && x < (int) m_base->extended_size() ) {
-            m_f[x] = f[i];
-        }
-    }
-    m_base->set_fixed_fields( &m_f[0] );
-    if( m_base->fields_ok( &m_f[0] ) ) {
+    if( m_base->resolve_input( &m_f[0], ifs, fmt ) ) {
         m_jdn = get_jdn();
     } else {
         clear_fields();
     }
+    return;
 }
 
 bool Record::set_fields_as_begin_first( const Field* mask )
@@ -300,7 +278,8 @@ void Record::set_jdn( Field jdn )
 
 int Record::get_field_index( const string& fieldname ) const
 {
-    return m_base->get_fieldname_index( m_base->get_alias_fieldname( fieldname ) );
+    string fn = m_base->get_alias_fieldname( fieldname );
+    return m_base->get_fieldname_index( fn );
 }
 
 Record::CP_Group Record::get_cp_group( string::const_iterator it )

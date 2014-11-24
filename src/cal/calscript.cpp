@@ -293,7 +293,7 @@ Base* Script::do_base_hybrid()
         error( "'{' expected." );
         return NULL;
     }
-    StringVec fieldnames;
+    StringVec fieldnames, ext_fieldnames;
     HybridData data;
     data.start = f_minimum;
     vector<HybridData> data_vec;
@@ -310,6 +310,8 @@ Base* Script::do_base_hybrid()
         if( token.type() == SToken::STT_Name ) {
             if( token.get_str() == "fields" ) {
                 fieldnames = do_string_list();
+            } else if( token.get_str() == "extended" ) {
+                ext_fieldnames = do_string_list();
             } else if( token.get_str() == "scheme" ) {
                 string scode;
                 expr( true ).get( scode );
@@ -338,7 +340,7 @@ Base* Script::do_base_hybrid()
             }
         }
     }
-    return Scheme::create_base_hybrid( fieldnames, data_vec );
+    return Scheme::create_base_hybrid( fieldnames, ext_fieldnames, data_vec );
 }
 
 Base* Script::do_base_regnal()
@@ -371,7 +373,9 @@ Base* Script::do_base_regnal()
                 fixedfields = do_fixed_fields( fieldnames );
             } else if( token.get_str() == "era" ) {
                 RegnalEra era;
-                if( do_regnal_era( era, fieldnames ) ) {
+                StringVec fnames(fieldnames);
+                fnames.insert( fnames.end(), ext_fieldnames.begin(), ext_fieldnames.end() );
+                if( do_regnal_era( era, fnames ) ) {
                     eras.push_back( era );
                 }
             }
@@ -380,7 +384,7 @@ Base* Script::do_base_regnal()
     return Scheme::create_base_regnal( fieldnames, ext_fieldnames, fixedfields, eras );
 }
 
-bool Script::do_regnal_era( RegnalEra& era, const StringVec& fieldnames )
+bool Script::do_regnal_era( RegnalEra& era, StringVec& fieldnames )
 {
     SToken token = m_ts.next();
     if( token.type() != SToken::STT_LCbracket ) {
@@ -419,6 +423,7 @@ bool Script::do_regnal_era( RegnalEra& era, const StringVec& fieldnames )
             }
         } else if( token.type() == SToken::STT_match ) { // "match" is a keyword
             matchs = do_string_list();
+// Used to set breakpoint
             if( matchs[1] == "er-scheme" || matchs[1] == "er.scheme" ) {
                 int xxx = 0;
             }

@@ -91,12 +91,12 @@ vocab "part" {
 
 grammar "er" {
     alias field {
+        "WDay",       "wday";
         "Reign",      "era";
         "Day",        "day";
         "Month",      "month";
         "Year",       "year";
         "Hist-Year",  "er-hyear";
-        "Def-Scheme", "er-defsch";
         "Part",       "er-part";
         "Scheme",     "er-scheme";
     }
@@ -107,8 +107,9 @@ grammar "er" {
         "Hist-Year", "y";
         "Scheme",    "s";
     }
-    vocabs "er", "m", "on", "part";
-    format "dmyr", "@(Day) @(Month:m.a)@, (Part:part)@ (Year/Hist-Year)@ (Reign:er)@, (Scheme:on.a)";
+    vocabs "w", "er", "m", "on", "part";
+    format "dmyr",  "@(Day) @(Month:m.a)@, (Part:part)@ (Year/Hist-Year)@ (Reign:er)@, (Scheme:on.a)";
+//    format "wdmyr", "@(WDay:w.a) @(Day) @(Month:m.a)@ (Year/Hist-Year)@ (Reign:er)@, (Scheme:on.a)";
     pref "dmyr";
 }
 
@@ -116,10 +117,10 @@ scheme "er" {
     name "English Regnal";
     regnal {
         fields "year", "month", "day";
-        extended "er-hyear", "er-defsch", "er-part", "er-scheme";
+        extended "er-hyear", "wday", "er-part", "er-scheme";
         era {
             scheme "eng";
-            match "unshift", "er-hyear", "scheme", "er-defsch";
+            match "unshift", "er-hyear", "scheme", "er-scheme";
         }
         era {  // William I
             range 2110773~2118336;
@@ -283,121 +284,121 @@ scheme "er" {
             range 2165503~2185976;
             scheme 8 { shift "j", 2165503; }
         }
-        era {
+        era {  // Edward I
             range 2185980~2198627;
             scheme 9 { shift "j", 2185980; }
         }
-        era {
+        era {  // Edward II
             range 2198628~2205764;
             scheme 10 { shift "j", 2198628; }
         }
-        era {
+        era {  // Edward III
             range 2205769~2224179;
             scheme 11 { shift "j", 2205769; }
         }
-        era {
+        era {  // Richard II
             range 2224180~2232314;
             scheme 12 { shift "j", 2224180; }
         }
-        era {
+        era {  // Henry IV
             range 2232315~2237235;
             scheme 13 { shift "j", 2232315; }
         }
-        era {
+        era {  // Henry V
             range 2237236~2240686;
             scheme 14 { shift "j", 2237236; }
         }
-        era {
+        era {  // Henry VI
             range 2240687~2254751;
             scheme 15 { shift "j", 2240687; }
         }
-        era {
+        era {  // Edward IV
             range 2254751~2262822;
             scheme 16 { shift "j", 2254751; }
         }
-        era {
+        era {  // Henry VI Restoration
             range 2258251~2258441;
             scheme 17 { shift "j", 2240687; }
         }
-        era {
+        era {  // Edward V
             range 2262822~2262899;
             scheme 18 { shift "j", 2262822; }
         }
-        era {
+        era {  // Richard III
             range 2262900~2263688;
             scheme 19 { shift "j", 2262900; }
         }
-        era {
+        era {  // Henry VII
             range 2263688~2272331;
             scheme 20 { shift "j", 2263688; }
         }
-        era {
+        era {  // Henry VIII
             range 2272332~2286127;
             scheme 21 { shift "j", 2272332; }
         }
-        era {
+        era {  // Edward VI
             range 2286127~2288478;
             scheme 22 { shift "j", 2286127; }
         }
-        era {
+        era {  // Jane
             range 2288478~2288491;
             scheme 23 { shift "j", 2288478; }
         }
-        era {
+        era {  // Mary I
             range 2288491~2288861;
             scheme 24 { shift "j", 2288478; }
         }
-        era {
+        era {  // Philip and Mary
             range 2288862~2290438;
             scheme 25 { shift "j", 2288862; }
         }
-        era {
+        era {  // Elizabeth I
             range 2290438~2306636;
             scheme 26 { shift "j", 2290438; }
         }
-        era {
+        era {  // James I
             range 2306636~2314675;
             scheme 27 { shift "j", 2306636; }
         }
-        era {
+        era {  // Charles I
             range 2314675~2323385;
             scheme 28 { shift "j", 2314675; }
         }
-        era {
+        era {  // The Commonwealth
             range 2323386~2327521;
             scheme "eng";
-            match "unshift", "er-hyear", "scheme", "er-defsch";
+            match "unshift", "er-hyear", "scheme", "er-scheme";
         }
-        era {
+        era {  // Charles II
             range 2327522~2336541;
             scheme 30 { shift "j", 2323385; }
         }
-        era {
+        era {  // James II
             range 2336541~2337945;
             scheme 31 { shift "j", 2336541; }
         }
-        era {
+        era {  // Interregnum
             range 2337946~2338008;
             scheme "eng";
-            match "unshift", "er-hyear", "scheme", "er-defsch";
+            match "unshift", "er-hyear", "scheme", "er-scheme";
         }
-        era {
+        era {  // William and Mary
             range 2338009~2340152;
             scheme 33 { shift "j", 2338009; }
         }
-        era {
+        era {  // William III
             range 2340153~2342780;
             scheme 34 { shift "j", 2338009; }
         }
-        era {
+        era {  // Anne
             range 2342780~2347309;
             scheme 35 { shift "j", 2342780; }
         }
-        era {
+        era {  // George I
             range 2347309~2352006;
             scheme 36 { shift "j", 2347309; }
         }
-        era {
+        era {  // George II
             range 2352006~2364185;
             scheme 37 {
                 hybrid {
@@ -409,39 +410,39 @@ scheme "er" {
             }
             match "scheme", "er-scheme";
         }
-        era {
+        era {  // George III
             range 2364185~2385829;
             scheme 38 { shift "g", 2364185; }
         }
-        era {
+        era {  // George IV
             range 2385829~2389630;
             scheme 39 { shift "g", 2385829; }
         }
-        era {
+        era {  // William IV
             range 2389630~2392181;
             scheme 40 { shift "g", 2389630; }
         }
-        era {
+        era {  // Victoria
             range 2392181~2415407;
             scheme 41 { shift "g", 2392181; }
         }
-        era {
+        era {  // Edward VII
             range 2415407~2418798;
             scheme 42 { shift "g", 2415407; }
         }
-        era {
+        era {  // George V
             range 2418798~2428188;
             scheme 43 { shift "g", 2418798; }
         }
-        era {
+        era {  // Edward VIII
             range 2428188~2428514;
             scheme 44 { shift "g", 2428188; }
         }
-        era {
+        era {  // George VI
             range 2428514~2434049;
             scheme 45 { shift "g", 2428514; }
         }
-        era {
+        era {  // Elizabeth II
             range 2434049~2457023;
             scheme 46 { shift "g", 2434049; }
         }
