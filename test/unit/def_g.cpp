@@ -40,6 +40,7 @@ class TestDef_g : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST( testStrTableInput );
     CPPUNIT_TEST( testStrTableOutput );
     CPPUNIT_TEST( testRangeShorthand );
+    CPPUNIT_TEST( testInputFormats );
     CPPUNIT_TEST( testMasking );
     CPPUNIT_TEST_SUITE_END();
 
@@ -57,6 +58,7 @@ public:
     void testStrTableInput();
     void testStrTableOutput();
     void testRangeShorthand();
+    void testInputFormats();
     void testMasking();
 };
 
@@ -216,6 +218,28 @@ void TestDef_g::testRangeShorthand()
     CPPUNIT_ASSERT( set == true );
     set = setOutputFormat( "dd Mon yyyy" );
     CPPUNIT_ASSERT( set == true );
+    for( size_t i = 0 ; i < count ; i++ ) {
+        RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in );
+        string str = m_cal->rangelist_to_str( m_sid, rl );
+        CPPUNIT_ASSERT_EQUAL( t[i].out, str );
+    }
+}
+
+void TestDef_g::testInputFormats()
+{
+    struct data { string in; string out; } t[] = {
+        { "sun19sep1948", "Sun 19 Sep 1948" },
+    };
+    size_t count = sizeof(t) / sizeof(data);
+
+    m_cal->set_input_format( m_sid, "wdmy" );
+    m_cal->set_output_format( m_sid, "wdmy" );
+    for( size_t i = 0 ; i < count ; i++ ) {
+        RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in );
+        string str = m_cal->rangelist_to_str( m_sid, rl );
+        CPPUNIT_ASSERT_EQUAL( t[i].out, str );
+    }
+    m_cal->set_input_format( m_sid, "dmy" );
     for( size_t i = 0 ; i < count ; i++ ) {
         RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in );
         string str = m_cal->rangelist_to_str( m_sid, rl );
