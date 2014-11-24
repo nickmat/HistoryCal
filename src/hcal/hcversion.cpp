@@ -37,7 +37,7 @@
 
 #include "hcversion.h"
 
-#define VERSION_STATUS   " alpha"
+#define VERSION_STATUS   " alpha RC2"
 
 #if defined(NDEBUG) || !defined(_DEBUG)
 #define VERSION_CONFIG   ""
