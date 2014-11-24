@@ -323,6 +323,7 @@ bool Base::resolve_input(
         code = fmt_code;
     }
     size_t cnt = 0;
+    FieldVec fs( extended_size(), f_invalid );
     if( m_grammar ) {
         Format* fmt = m_grammar->get_format( code );
         if( fmt == NULL ) {
@@ -341,6 +342,9 @@ bool Base::resolve_input(
             }
             if( input[i].vocab ) {
                 fname = fmt->get_output_field( input[i].vocab );
+                if( fname.empty() ) {
+                    continue; // Ignore vocabs not part of format
+                }
             }
             if( fname.size() ) {
                 int index = get_fieldname_index( fname );
@@ -350,10 +354,12 @@ bool Base::resolve_input(
                     continue;
                 }
             }
+            fs[cnt] = input[i].value;
             cnt++;
         }
     } else {
         for( ; cnt < input.size() ; cnt++ ) {
+            fs[cnt] = input[cnt].value;
             if( input[cnt].type == IFT_null ) {
                 break;
             }
@@ -369,7 +375,7 @@ bool Base::resolve_input(
     for( size_t i = 0 ; i < cnt ; i++ ) {
         int x = xref[i];
         if( x >= 0 && x < (int) extended_size() ) {
-            fields[x] = input[i].value;
+            fields[x] = fs[i];
         }
     }
     return true;
