@@ -109,11 +109,11 @@ Format::Format( const Grammar* gmr, const std::string& format )
                 vocab.clear();
                 abbrev.clear();
                 state = dooutput;
-            } else if( *it == '/' ) {
+            } else if( state == dofname && *it == '/' ) {
                 state = dodname;
-            } else if( *it == ':' ) {
+            } else if( state == dofname && *it == ':' ) {
                 state = dovocab;
-            } else if( *it == '.' ) {
+            } else if( state == dovocab && *it == '.' ) {
                 state = doabbrev;
             } else {
                 switch( state )
