@@ -221,6 +221,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\test\unit\def_er.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\test\unit\def_g.cpp"
 				>
 			</File>

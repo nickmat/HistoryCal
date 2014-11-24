@@ -82,6 +82,7 @@ UNIT_CXXFLAGS = $(VAR) $(VAR_9) -I../../include -I$(CPPUNIT)/include $(CPPFLAGS)
 UNIT_OBJECTS =  \
 	unit_api_expr_str.o \
 	unit_def_eng.o \
+	unit_def_er.o \
 	unit_def_g.o \
 	unit_def_j325.o \
 	unit_testcal.o \
@@ -255,6 +256,9 @@ unit_api_expr_str.o: ./../../test/unit/api_expr_str.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
 unit_def_eng.o: ./../../test/unit/def_eng.cpp
+	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
+
+unit_def_er.o: ./../../test/unit/def_er.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
 unit_def_g.o: ./../../test/unit/def_g.cpp
