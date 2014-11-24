@@ -138,18 +138,6 @@ Field Hybrid::get_extended_field( const Field jdn, size_t index ) const
     }
     Record rec( m_data[s].base, jdn );
     return rec.get_field( m_xref_fields[s][i] );
-#if 0
-    size_t s = find_scheme( jdn );
-    if( index < m_rec_size ) {
-        return f_invalid; // Not an extended field.
-    }
-    size_t e = index - m_rec_size;
-    int i = m_data[s].base->get_fieldname_index( m_ext_fieldnames[e] );
-    if( i <= 0 ) {
-        return f_invalid; // Extended field not found.
-    }
-    return m_data[s].base->get_extended_field( jdn, i );
-#endif
 }
 
 Field Hybrid::get_field_last( const Field* fields, size_t index ) const

@@ -423,10 +423,6 @@ bool Script::do_regnal_era( RegnalEra& era, StringVec& fieldnames )
             }
         } else if( token.type() == SToken::STT_match ) { // "match" is a keyword
             matchs = do_string_list();
-// Used to set breakpoint
-            if( matchs[1] == "er-scheme" || matchs[1] == "er.scheme" ) {
-                int xxx = 0;
-            }
             assert( matchs.size() % 2 == 0 ); // must be even number
         }
     }

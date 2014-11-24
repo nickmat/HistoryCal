@@ -70,17 +70,6 @@ Calendars::~Calendars()
     for( size_t i = 0 ; i < m_marks.size() ; i++ ) {
         delete m_marks[i];
     }
-#if 0
-    for( SHandleMap::iterator it = m_shandles.begin() ; it != m_shandles.end() ; it++ ) {
-        delete it->second;
-    }
-    for( GrammarMap::iterator it = m_grammars.begin() ; it != m_grammars.end() ; it++ ) {
-        delete it->second;
-    }
-    for( VocabMap::iterator it = m_vocabs.begin() ; it != m_vocabs.end() ; it++ ) {
-        delete it->second;
-    }
-#endif
     delete m_store;
 }
 
