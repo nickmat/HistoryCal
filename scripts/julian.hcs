@@ -70,7 +70,7 @@ grammar "j" {
     format "dmy+",  "@(Day) @(Month:m) @(Year)";
     format "wdmy+", "@(WDay:w) @(Day) @(Month:m) @(Year)";
     format "mdy",   "@(Month:m.a) @(Day), @(Year)";
-    format "ymd",   "@(Year)@:(Month)@:(Day)";
+    format "ymd",   "@(Year)@:(Month:m.a)@:(Day)";
     pref "dmy";
 }
 
