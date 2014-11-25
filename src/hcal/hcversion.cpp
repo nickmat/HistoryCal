@@ -65,9 +65,10 @@ const char* hcTitle = "HistoryCal - V" VERSION "\n"
 
  Source code revision history
 
- 19sep13  v0.0.0   Work started on pCalCalc and Cal library, adapted from The Family Pack
+ 19sep13  v0.0.0   Work started on pCalCalc and Cal library, adapted from 
+                   The Family Pack
 
- active   v0.0.1   Create initial alpha version. Renamed HistoryCal
+ 25nov14  v0.0.1   Create initial alpha version. Renamed HistoryCal.
 
 
  See also website http://historycal.org

@@ -48,7 +48,7 @@ const char* Cal::cal_version = VERSION_NUM VERSION_CONFIG;
 
  11jan14  v0.2.0  Library modified for Programmable Calendric Calculator.
 
- active   v0.2.1  Library renamed Cal libary. Home project renamed HistoryCal. 
+ 25nov14  v0.2.1  Library renamed Cal libary. Home project renamed HistoryCal. 
 
 *****************************************************************************/
 
