@@ -38,13 +38,13 @@ copy ..\..\build\vc9\*.sln hcal\build\vc9 > nul
 copy ..\..\build\vc9\*.vcproj hcal\build\vc9 > nul
 
 rem ================[ Examples ]====================
-copy ..\..\example\example.hcs hcal\sample > nul
+copy ..\..\example\*.* hcal\example > nul
 
 rem =================[ Source ]=====================
 rem copy ..\..\include\*.* hcal\include > nul
 copy ..\..\include\cal\*.* hcal\include\cal > nul
-copy ..\..\include\utf8\*.* hcal\include\rec > nul
-copy ..\..\include\win\*.* hcal\include\rg > nul
+copy ..\..\include\utf8\*.* hcal\include\utf8 > nul
+copy ..\..\include\win\*.* hcal\include\win > nul
 copy ..\..\src\dummy.cpp hcal\src > nul
 copy ..\..\src\cal\*.* hcal\src\cal > nul
 copy ..\..\src\hcal\*.* hcal\src\hcal > nul
@@ -55,6 +55,9 @@ copy ..\..\test\scripts\*.* hcal\test\scripts > nul
 copy ..\..\test\soak\*.* hcal\test\soak > nul
 copy ..\..\test\unit\*.* hcal\test\unit > nul
 copy ..\..\util\file2cpp\*.* hcal\util\file2cpp > nul
+
+rem =================[ Scripts ]=====================
+copy ..\..\scripts\*.* hcal\scripts > nul
 
 7za a -r hcal.zip hcal > ziplist.txt
 dtou -v -I hcal -E .;c;cpp;css;f2c;fbp;h;hcs;htm;txt;xpm > convert-rpt.txt
