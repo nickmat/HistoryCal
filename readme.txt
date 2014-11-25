@@ -1,5 +1,5 @@
-                    HistoryCal HCAL:0.0.1
-                    =====================
+                    HistoryCal V0.0.1
+                    =================
 
 Welcome to the first alpha release of HistoryCal, an ambitious multi-platform
 historical date and calendar calulator.
