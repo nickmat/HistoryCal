@@ -30,6 +30,7 @@
 #include <utf8/utf8api.h>
 
 #include <cassert>
+#include <cstdlib>
 #include <sstream>
 
 using namespace Cal;

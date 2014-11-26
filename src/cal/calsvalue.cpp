@@ -77,7 +77,7 @@ void SValue::set_error( const string& str )
     }
 }
 
-void SValue::set( RangeList& rlist )
+void SValue::set( const RangeList& rlist )
 {
     if( rlist.size() == 0 ) {
         set_field( f_invalid );

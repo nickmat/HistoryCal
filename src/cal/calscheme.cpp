@@ -41,6 +41,7 @@
 #include "calshift.h"
 
 #include <cassert>
+#include <cstdlib>
 
 using namespace Cal;
 using namespace std;

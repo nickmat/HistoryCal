@@ -28,10 +28,12 @@
 #ifndef CAL_CALDEFSCRIPTS_H_GUARD
 #define CAL_CALDEFSCRIPTS_H_GUARD
 
+#include <cstddef>
+
 namespace Cal {
 
     extern const char* cal_default_scripts[];
-    extern size_t cal_default_scripts_size;
+    extern std::size_t cal_default_scripts_size;
 
 }
 

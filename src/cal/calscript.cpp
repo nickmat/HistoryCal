@@ -166,7 +166,7 @@ bool Script::do_write()
 bool Script::do_writeln()
 {
     bool ret = do_write();
-    *m_out << "\n";
+    *m_out << string("\n");
     return ret;
 }
 

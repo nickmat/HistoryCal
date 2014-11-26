@@ -38,9 +38,10 @@
   #define DLLIMPEXP_CAL
 #endif // _WIN32
 
+#include <climits>
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
 
 namespace Cal {
 
