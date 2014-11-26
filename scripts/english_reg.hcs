@@ -70,7 +70,7 @@ vocab "er" {
         38, "George III",           "Geo III";
         39, "George IV",            "Geo IV";
         40, "William IV",           "Wm IV";
-        41, "Victora",              "Vic";
+        41, "Victoria",             "Vic";
         42, "Edward VII",           "Ed VII";
         43, "George V",             "Geo V";
         44, "Edward VIII",          "Ed VIII";

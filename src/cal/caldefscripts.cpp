@@ -362,7 +362,7 @@ const char* Cal::cal_default_scripts[] = {
  "38, \"George III\",           \"Geo III\";\n"
  "39, \"George IV\",            \"Geo IV\";\n"
  "40, \"William IV\",           \"Wm IV\";\n"
- "41, \"Victora\",              \"Vic\";\n"
+ "41, \"Victoria\",             \"Vic\";\n"
  "42, \"Edward VII\",           \"Ed VII\";\n"
  "43, \"George V\",             \"Geo V\";\n"
  "44, \"Edward VIII\",          \"Ed VIII\";\n"
