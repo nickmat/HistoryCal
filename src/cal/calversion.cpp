@@ -27,7 +27,7 @@
 
 #include "calversion.h"
 
-#define VERSION_NUM      "0.2.1"
+#define VERSION_NUM      "0.2.2"
 
 #if defined(NDEBUG) || !defined(_DEBUG)
 #define VERSION_CONFIG   ""
@@ -49,6 +49,8 @@ const char* Cal::cal_version = VERSION_NUM VERSION_CONFIG;
  11jan14  v0.2.0  Library modified for Programmable Calendric Calculator.
 
  25nov14  v0.2.1  Library renamed Cal libary. Home project renamed HistoryCal. 
+
+ 26nov14  v0.2.2  Minor changes to source for gnu compile.
 
 *****************************************************************************/
 
