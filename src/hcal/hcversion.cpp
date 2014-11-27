@@ -45,7 +45,7 @@
 #define VERSION_CONFIG   " debug"
 #endif
 
-#define VERSION_NUM   "0.0.1"
+#define VERSION_NUM   "0.0.2"
 
 
 #define VERSION   VERSION_NUM VERSION_STATUS VERSION_CONFIG
