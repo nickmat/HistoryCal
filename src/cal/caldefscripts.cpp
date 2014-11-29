@@ -70,7 +70,7 @@ const char* Cal::cal_default_scripts[] = {
  "stylename \"Month\",  \"Mon\";\n"
  "tokens {\n"
  "1, \"January\",   \"Jan\";\n"
- "2, \"Febuary\",   \"Feb\";\n"
+ "2, \"February\",  \"Feb\";\n"
  "3, \"March\",     \"Mar\";\n"
  "4, \"April\",     \"Apr\";\n"
  "5, \"May\";\n"
