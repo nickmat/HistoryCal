@@ -31,7 +31,7 @@ vocab "m" {
     stylename "Month",  "Mon";
     tokens {
         1, "January",   "Jan";
-        2, "Febuary",   "Feb";
+        2, "February",  "Feb";
         3, "March",     "Mar";
         4, "April",     "Apr";
         5, "May";
