@@ -388,7 +388,7 @@ scheme "er" {
         }
         era {  // William III
             range 2340153~2342780;
-            scheme 34 { shift "j", 2338009; }
+            scheme 34 { shift "j", 2337962; }  // j# 28 Dec 1688
         }
         era {  // Anne
             range 2342780~2347309;

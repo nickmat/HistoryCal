@@ -71,7 +71,7 @@
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
-><b>vocab</b> "ja-j-g" {
+><b>vocab</b> "jajg" {
     name "Scheme names";
     lang "en";
     stylename "Scheme", "Sch";
@@ -83,7 +83,7 @@
 }
 
 <b>grammar</b> "hy" {
-    vocabs "w", "m", "ja-j-g";
+    vocabs "w", "m", "jajg";
     alias field {
         "WDay",      "wday";
         "Day",       "day";
@@ -102,9 +102,9 @@
     }
     format "dmyh",  "@(Day) @(Month:m.a) @(Year/Hist-Year)";
     format "dmy",   "@(Day) @(Month:m.a) @(Year)";
-    format "dmys",  "@(Day) @(Month:m.a) @(Year) @(Scheme:ja-j-g.a)";
+    format "dmys",  "@(Day) @(Month:m.a) @(Year) @(Scheme:jajg.a)";
     format "wdmyh", "@(WDay:w.a) @(Day) @(Month:m.a) @(Year/Hist-Year)";
-    format "wdmyhs","@(WDay:w.a) @(Day) @(Month:m.a) @(Year/Hist-Year) @(Scheme:ja-j-g)";
+    format "wdmyhs","@(WDay:w.a) @(Day) @(Month:m.a) @(Year/Hist-Year) @(Scheme:jajg)";
     pref "dmyh";
 }
 
