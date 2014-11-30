@@ -9,7 +9,7 @@
 <body>
 
 <h1>
- <a  href="../index.htm"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
+ <a  href="http://historycal.org/"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
  HistoryCal Calendar<br/>English Hybrid (eng)
 </h1>
 
@@ -27,30 +27,41 @@
 
 <h2>Calendar Description</h2>
 <p>
- The English Hybrid calendar is a hybrid variant combining the <a href='j325.htm'>Julian Annunciation</a>,
+ The English Hybrid calendar is a hybrid variant combining the <a href='ja.htm'>Julian Annunciation</a>,
  the <a href='j.htm'>Julian</a> and the <a href='g.htm'>Gregorian</a> calendars.
 </p>
 
 <h3>Use Case</h3>
-<p>
-</p>
 <ul>
- <li>England and Wales from the 12th centry.</li>
- <li>Former English overseas colonies and territories, from the 12th century to the current day.</li>
+ <li>England and Wales from about the 12th century to the current day.</li>
+ <li>
+  Former English overseas colonies and territories, for the time they were under
+  English or British control to the current day.
+ </li>
 </ul>
 
 <h3>Definition</h3>
 <table class='record'>
-<tr><th colspan='5'>Record</th></tr>
-<tr><td>scheme</td><td>year</td><td>month</td><td>day</td><td class='rdonly'>unshift</td></tr>
+<tr><th colspan='6'>Record</th></tr>
+<tr><td>scheme</td><td>year</td><td>month</td><td>day</td><td class='rdonly'>wday</td><td class='rdonly'>unshift</td></tr>
 </table>
 <p>
 </p>
 <p>
  The <b>Record</b> consists of four <b>Fields</b> named <code>scheme,</code> <code>year,</code>
- <code>month,</code> and <code>day</code> and a read only Field <code>unshift.</code>
+ <code>month,</code> and <code>day</code> and two read only <b>Fields</b> <code>wday,</code> and
+ <code>unshift.</code>
  The unshifted field holds the historical year as calculated by the underlying
  Julian calendar.
+</p>
+<p>
+ The calendar starts by implementing the Julian Annunciation (ja) scheme.
+ On the j:dmy# 1 Jan 1752 the calendar switches to Julian scheme,
+ leaving the year 1751 at only 282 days long.
+ On the g:dmy# 14 Sep 1752 the calendar switches to the Gregorian scheme,
+ the previous day being j:dmy# 2 Sep 1752.
+ This means the length of year 1752 was 355 days.
+ The calendar then remains on the Gregorian scheme for all future dates.
 </p>
 <p>
  As a Hybrid calendar, it has no single epoch.
@@ -60,34 +71,56 @@
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
-><b>vocab</b> sch {
- name Scheme names; lang en; style-name Scheme Sch;
- tokens {
-  0 "Old Style" OS; 1 Julian; 2 "New Style" NS;
- };
-};
-<b>grammar</b> hy {
- alias field {
-  Day day; Month month; Year year;
-  Hist-Year unshift; Scheme scheme;
- };
- alias format-number-code {
-  Day dd; Month mm; Year yyyy; Hist-Year y; Scheme s;
- };
- vocabs m sch;
- format pref @(Day) @(Month:m.a) @(Year/Hist-Year);
- format @(Day) @(Month:m.a) @(Year);
- format @(Day) @(Month:m.a) @(Year) @(Scheme:sch.a);
-};
-<b>scheme</b> eng {name English Hybrid;
- hybrid {
-  fields year month day unshift;
-  scheme j325;
-  scheme j {begin 2360975;};
-  scheme g {begin 2361222;};
- };
- grammar hy;
-};
+><b>vocab</b> "ja-j-g" {
+    name "Scheme names";
+    lang "en";
+    stylename "Scheme", "Sch";
+    tokens {
+        0, "Julian Ann", "ja";
+        1, "Julian",     "j";
+        2, "Gregorian",  "g";
+    }
+}
+
+<b>grammar</b> "hy" {
+    vocabs "w", "m", "ja-j-g";
+    alias field {
+        "WDay",      "wday";
+        "Day",       "day";
+        "Month",     "month";
+        "Year",      "year";
+        "Hist-Year", "unshift";
+        "Scheme",    "scheme";
+    }
+    alias stylename {
+        "WDay",      "w";
+        "Day",       "add";
+        "Month",     "mm";
+        "Year",      "yyyy";
+        "Hist-Year", "y";
+        "Scheme",    "s";
+    }
+    format "dmyh",  "@(Day) @(Month:m.a) @(Year/Hist-Year)";
+    format "dmy",   "@(Day) @(Month:m.a) @(Year)";
+    format "dmys",  "@(Day) @(Month:m.a) @(Year) @(Scheme:ja-j-g.a)";
+    format "wdmyh", "@(WDay:w.a) @(Day) @(Month:m.a) @(Year/Hist-Year)";
+    format "wdmyhs","@(WDay:w.a) @(Day) @(Month:m.a) @(Year/Hist-Year) @(Scheme:ja-j-g)";
+    pref "dmyh";
+}
+
+scheme "eng" {
+    name "English Hybrid";
+    hybrid {
+        fields "year", "month", "day";
+        extended "wday", "unshift";
+        scheme "ja";
+        change 2360976;  // j:dmy# 1 Jan 1752
+        scheme "j";
+        change 2361222;  // g:dmy# 14 Sep 1752
+        scheme "g";
+    }
+    grammar "hy";
+}
 </td></tr>
 </table>
 <p>
@@ -116,6 +149,7 @@
 
 <!-- Start of StatCounter Code for Default Guide -->
 <script type="text/javascript">
+//<![CDATA[
 var sc_project=9849843;
 var sc_invisible=1;
 var sc_security="4988237c";
@@ -123,13 +157,15 @@ var scJsHost = (("https:" == document.location.protocol) ?
 "https://secure." : "http://www.");
 document.write("<sc"+"ript type='text/javascript' src='" +
 scJsHost+
-"statcounter.com/counter/counter.js'></"+"script>");
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
 </script>
-<noscript><div class="statcounter"><a title="web statistics"
-href="http://statcounter.com/" target="_blank"><img
-class="statcounter"
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
 src="http://c.statcounter.com/9849843/0/4988237c/1/"
-alt="web statistics"></a></div></noscript>
+alt="website statistics" /></a></div></noscript>
 <!-- End of StatCounter Code for Default Guide -->
+
 </body>
 </html>

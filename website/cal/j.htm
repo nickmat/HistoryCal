@@ -9,7 +9,7 @@
 <body>
 
 <h1>
- <a  href="../index.htm"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
+ <a  href="http://historycal.org/"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
  HistoryCal Calendar<br/>Julian (j)
 </h1>
 
@@ -20,7 +20,7 @@
   <a href="../cal/index.htm" class="m-item level1">Calendars</a>
   <a href="j.htm" class="m-item level2 thispage">j</a>
   <a href="jdn.htm" class="m-item prev">&lt;&lt;</a>
-  <a href="j325.htm" class="m-item next">&gt;&gt;</a>
+  <a href="jn.htm" class="m-item next">&gt;&gt;</a>
 </div>
 
 <div id="content" class="nomenu calendar">
@@ -33,20 +33,20 @@
  It is also known as Julian Astronomical calendar as it is the version
  generally used by astronomers. The year change is the 1st January, the year
  zero is included, years before year zero are given as negative. There is no
- attempt to allow for the irregular leap years that occured when the calendar
+ attempt to allow for the irregular leap years that occurred when the calendar
  was first introduced.
 </p>
 
 <h3>Use Case</h3>
 <p>
  The Julian calendar has been used throughout Europe and the European colonies
- since its intoduction by Julius Caesar, but in many diferent variants. In this
+ since its introduction by Julius Caesar, but in many different variants. In this
  form, some of its known uses are:
 </p>
 <ul>
  <li>Scotland, from 1 Jan 1600 to 2 Sep 1752.</li>
  <li>England and its overseas territories, from 1 Jan 1752 to 2 Sep 1752.</li>
- <li>Astronomers, for all dates before 31 Dec 1582.</li>
+ <li>Astronomers, for all dates before 31 Dec 1582 (Gregorian).</li>
  <li>In HistoryCal, it is the base calendar for many variants.</li>
 </ul>
 
@@ -68,8 +68,8 @@
 <tr><td>12</td><td>December</td><td>31</td><td>31</td></tr>
 </table>
 <table class='record'>
-<tr><th colspan='3'>Record</th></tr>
-<tr><td>year</td><td>month</td><td>day</td></tr>
+<tr><th colspan='5'>Record</th></tr>
+<tr><td>year</td><td>month</td><td>day</td><td class='rdonly'>wday</td><td class='rdonly'>litweek</td></tr>
 </table>
 <p>
  The Julian calendar is based on a solar year of 365.25 days.
@@ -77,7 +77,8 @@
 </p>
 <p>
  The <b>Record</b> consists of three <b>Fields</b> named <code>year,</code>
- <code>month,</code> and <code>day.</code>  There are two types of years, a common year and a leap year,
+ <code>month,</code> and <code>day</code> and the extended <b>Fields</b> named
+ <code>wday</code> and <code>litweek.</code> There are two types of years, a common year and a leap year,
  which follow the repeating pattern of three common years then one leap year.
  There are twelve <code>months</code> in a <code>year</code> numbered 1 to 12.
  The number of <code>days</code> in a <code>month</code> varies between 28 and 31, and are numbered from 1,
@@ -91,52 +92,68 @@
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
-><b>vocab</b> w {
- name Weekday names;
- lang en;
- style-name Weekday WDay;
- tokens {
-  1 Monday Mon; 2 Tuesday Tue; 3 Wednesday Wed;
-  4 Thursday Thur; 5 Friday Fri; 6 Saturday Sat;
-  7 Sunday Sun;
- };
-};
-<b>vocab</b> m {
- name Full Month names;
- lang en;
- style-name Month Mon;
- tokens {
-  1 January Jan; 2 Febuary Feb; 3 March Mar;
-  4 April Apr; 5 May; 6 June Jun;
-  7 July Jul; 8 August Aug; 9 September Sep;
-  10 October Oct; 11 November Nov; 12 December Dec;
- };
-};
-<b>grammar</b> j {
- vocabs m w;
- format pref @(Day) @(Month:m.a) @(Year);
- format @(WDay:w.a) @(Day) @(Month:m.a) @(Year);
- format @(Day) @(Month:m) @(Year);
- format @(WDay:w) @(Day) @(Month:m) @(Year);
- format @(Month:m.a) @(Day), @(Year);
- format @(Year)@:(Month)@:(Day);
- alias field {WDay wday; Day day; Month month; Year year;};
- alias format-number-code {WDay w; Day dd; Month mm; Year yyyy;};
- alias unit {d day; m month; y year; w week;};
-};
-<b>scheme</b> j {
- name Julian;
- base julian;
- grammar j;
-};
+><b>vocab</b> "m" {
+    name "Month names";
+    lang "en";
+    stylename "Month",  "Mon";
+    tokens {
+        1, "January",   "Jan";
+        2, "February",  "Feb";
+        3, "March",     "Mar";
+        4, "April",     "Apr";
+        5, "May";
+        6, "June",      "Jun";
+        7, "July",      "Jul";
+        8, "August",    "Aug";
+        9, "September", "Sep";
+        10, "October",  "Oct";
+        11, "November", "Nov";
+        12, "December", "Dec";
+    }
+}
+
+<b>grammar</b> "j" {
+    vocabs "m", "w";
+    alias field {
+        "WDay",  "wday";
+        "Day",   "day";
+        "Month", "month";
+        "Year",  "year";
+    }
+    alias stylename {
+        "WDay",  "w";
+        "Day",   "dd";
+        "Month", "mm";
+        "Year",  "yyyy";
+    }
+    alias unit {
+        "d", "day";
+        "m", "month";
+        "y", "year";
+        "w", "week";
+    }
+    format "dmy",   "@(Day) @(Month:m.a) @(Year)";
+    format "wdmy",  "@(WDay:w.a) @(Day) @(Month:m.a) @(Year)";
+    format "dmy+",  "@(Day) @(Month:m) @(Year)";
+    format "wdmy+", "@(WDay:w) @(Day) @(Month:m) @(Year)";
+    format "mdy",   "@(Month:m.a) @(Day), @(Year)";
+    format "ymd",   "@(Year)@:(Month)@:(Day)";
+    pref "dmy";
+}
+
+<b>scheme</b> "j" {
+    name "Julian";
+    base julian;
+    grammar "j";
+}
 </td></tr>
 </table>
 <p>
- The script makes use of the globally available read-only field <code>wday</code>
- to output weekdays.
+ The script makes use of the extended field <code>wday</code>
+ to output weekdays and is thus requires the <a href='7dayweek.htm'>7 Day Week</a> vocab "w".
 </p>
 <p>
- The script is the second calendar defined in the default script.
+ The <code>litweek</code> extended field is used by separate liturgical schemes.
 </p>
 
 </div>
@@ -156,6 +173,7 @@
 
 <!-- Start of StatCounter Code for Default Guide -->
 <script type="text/javascript">
+//<![CDATA[
 var sc_project=9849843;
 var sc_invisible=1;
 var sc_security="4988237c";
@@ -163,13 +181,15 @@ var scJsHost = (("https:" == document.location.protocol) ?
 "https://secure." : "http://www.");
 document.write("<sc"+"ript type='text/javascript' src='" +
 scJsHost+
-"statcounter.com/counter/counter.js'></"+"script>");
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
 </script>
-<noscript><div class="statcounter"><a title="web statistics"
-href="http://statcounter.com/" target="_blank"><img
-class="statcounter"
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
 src="http://c.statcounter.com/9849843/0/4988237c/1/"
-alt="web statistics"></a></div></noscript>
+alt="website statistics" /></a></div></noscript>
 <!-- End of StatCounter Code for Default Guide -->
+
 </body>
 </html>

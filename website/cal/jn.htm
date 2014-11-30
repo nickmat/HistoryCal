@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>HistoryCal - Julian Nativity</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="icon" type="image/png" href="../sys/logo1_32x32x32.png" />
+<link rel='stylesheet' type='text/css' href='../sys/hcal.css' />
+</head>
+<body>
+
+<h1>
+ <a  href="http://historycal.org/"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
+ HistoryCal Calendar<br/>Julian Nativity (jn)
+</h1>
+
+<div id="page">
+
+<div id="crumbs">
+  <a href="../index.htm" class="m-item">Home</a>
+  <a href="../cal/index.htm" class="m-item level1">Calendars</a>
+  <a href="jn.htm" class="m-item level2 thispage">jn</a>
+  <a href="j.htm" class="m-item prev">&lt;&lt;</a>
+  <a href="ja.htm" class="m-item next">&gt;&gt;</a>
+</div>
+
+<div id="content" class="nomenu calendar">
+
+<h2>Calendar Description</h2>
+<p>
+ The Julian Nativity calendar is a variant of the <a href='j.htm'>Julian</a> calendar obtained
+ by shifting the year change back from the 1st January to the 25th December.
+</p>
+
+<h3>Use Case</h3>
+<p>
+ This is the form the <i>Anno Domimi</i> or AD era took when it originated.
+ It was used by the Church and more generally from the 8th century. It was
+ gradually replaced by the Annunciation year change from the 9th century,
+ but was still in use up to the 14th century.
+</p>
+
+<h3>Definition</h3>
+<table class='record'>
+<tr><th colspan='6'>Record</th></tr>
+<tr><td>year</td><td>month</td><td>day</td><td class='rdonly'>wday</td><td class='rdonly'>litweek</td><td class='rdonly'>unshift</td></tr>
+</table>
+<p>
+ The Julian Nativity calendar is based on <a href='j.htm'>Julian</a> calendar and has the same
+ definition with the following exceptions.
+</p>
+<p>
+ An additional extended Field <code>unshift.</code> is included in the Record which
+ holds the historical year as calculated by the underlying Julian calendar.
+</p>
+<p>
+ The <b>Epoch</b> is set at <code>year 0 month 12 day 25 (<b>jn</b>) = day 1721417 (<b>jdn</b>).</code>
+</p>
+
+<h3>Script</h3>
+<table class='code'>
+<tr><th>Default Script</th></tr>
+<tr><td
+><b>grammar</b> "j.sh" {
+    vocabs "m", "w";
+    alias field {
+        "WDay",      "wday";
+        "Day",       "day";
+        "Month",     "month";
+        "Year",      "year";
+        "Hist-Year", "unshift";
+    }
+    alias stylename {
+        "Day",       "dd";
+        "Month",     "mm";
+        "Year",      "yyyy";
+        "Hist-Year", "y";
+    }
+    format "dmy",   "@(Day) @(Month:m.a) @(Year)";
+    format "dmyh",  "@(Day) @(Month:m.a) @(Year/Hist-Year)";
+    format "wdmyh", "@(WDay:w.a) @(Day) @(Month:m.a) @(Year/Hist-Year)";
+    pref "dmyh";
+}
+
+<b>scheme</b> "jn" {
+    name "Julian Nativity";
+    shift "j", 1721417;    // j:dmy# 25 Dec 0
+    grammar "j.sh";
+}
+</td></tr>
+</table>
+<p>
+ The j.sh grammar uses the m (Julian months) vocab as defined for the <a href='j.htm'>Julian</a> calendar
+ and the w (Weekdays) vocab as defined for the <a href='7dayweek.htm'>7 day week</a> cycle.
+</p>
+<p>
+ The <code>litweek</code> extended field is used by separate liturgical schemes.
+</p>
+
+</div>
+
+<hr/>
+<div id='valid'>
+  <p>
+    <a href="http://validator.w3.org/check?uri=referer"><img
+        src="../sys/valid-xhtml10.png"
+        alt="Valid XHTML 1.0 Strict" height="31" width="88" /></a>
+  </p>
+</div>
+
+<div id='create-date'><p>20<sup>th</sup> March 2014</p></div>
+
+</div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

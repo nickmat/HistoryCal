@@ -81,7 +81,7 @@
 <body>
 
 <h1>
- <a  href="../index.htm"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
+ <a  href="http://historycal.org/"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
  HistoryCal<br/>Calendar List
 </h1>
 
@@ -98,14 +98,15 @@
 
   <table class='index'>
    <tr>
+    <td><a href="#Christian">Christian</a></td>
     <td><a href="#Day">Day Count</a></td>
     <td><a href="#FrenchRep">French Republic</a></td>
     <td><a href="#Gregorian">Gregorian</a></td>
     <td><a href="#Hebrew">Hebrew</a></td>
     <td><a href="#Islamic">Islamic</a></td>
-    <td><a href="#Julian">Julian</a></td>
    </tr>
    <tr>
+    <td><a href="#Julian">Julian</a></td>
     <td><a href="#Regional">Regional</a></td>
     <td colspan='0' class="na">&nbsp;</td>
    </tr>
@@ -127,14 +128,39 @@
    </thead>
    <tbody>
 
+    <tr id='Christian' class='head'>
+     <td colspan='3'><b>Christian</b></td>
+    </tr>
+    <tr>
+     <td></td>
+     <td class='link label'><a href='liturgical.htm' class='m-item'>Liturgical</a></td>
+     <td>
+      The Christian Liturgical weeks. Not an independent calendar but often used in conjunction with others.
+     </td>
+    </tr>
+
     <tr id='Day' class='head'>
      <td colspan='3'><b>Day Count</b></td>
     </tr>
     <tr>
-     <td class='link'><a href="jdn.htm" class="m-item">jdn</a></td>
-     <td class='label'>Julian Day Number</td>
+     <td></td>
+     <td class='link label'><a href="7dayweek.htm" class="m-item">7 Day Week</a></td>
+     <td>
+      The cyclic 7 day week. Not an independent calendar but often used in conjunction with others.
+     </td>
+    </tr>
+    <tr>
+     <td>jdn</td>
+     <td class='label link'><a href="jdn.htm" class="m-item">Julian Day Number</a></td>
      <td>
       The internal date representation used by HistoryCal. A minor variation of the "Julian Day".
+     </td>
+    </tr>
+    <tr class='future'>
+     <td>jd</td>
+     <td class='label'>Julian Day</td>
+     <td>
+      The day count used by astronomers, also known as Julian Astronomical Day.
      </td>
     </tr>
 
@@ -142,31 +168,31 @@
      <td colspan='3'><b>Julian</b></td>
     </tr>
     <tr>
-     <td class='link'><a href="j.htm" class="m-item">j</a></td>
-     <td class='label'>Julian</td>
+     <td>j</td>
+     <td class='label link'><a href="j.htm" class="m-item">Julian</a></td>
      <td>
-      The simplest version of the Julian calendar, as used in astronomy.
+      The simplest version of the Julian calendar, includes year zero. As used in astronomy.
      </td>
     </tr>
     <tr>
-     <td class='link'><a href="j325.htm" class="m-item">j325</a></td>
-     <td class='label'>Julian Annunciation</td>
+     <td>jn</td>
+     <td class='label link'><a href="jn.htm" class="m-item">Julian Nativity</a></td>
+     <td>
+      A Julian calendar with the year change on the preceding 25th December.
+     </td>
+    </tr>
+    <tr>
+     <td>ja</td>
+     <td class='label link'><a href="ja.htm" class="m-item">Julian Annunciation</a></td>
      <td>
       A Julian calendar with the year change on the 25th March, <i>calculus florentinus</i>.
      </td>
     </tr>
-    <tr class='future'>
+    <tr>
      <td>jap</td>
-     <td class='label'>Julian Annunciation Pisa</td>
+     <td class='label link'><a href="jap.htm" class="m-item">Julian Annunciation Pisa</a></td>
      <td>
       A Julian calendar with the year change on the preceding 25th March, <i>calculus pisanus</i>.
-     </td>
-    </tr>
-    <tr class='future'>
-     <td>jn</td>
-     <td class='label'>Julian Nativity</td>
-     <td>
-      A Julian calendar with the year change on the preceding 25th December</i>.
      </td>
     </tr>
 
@@ -174,8 +200,8 @@
      <td colspan='3'><b>Gregorian</b></td>
     </tr>
     <tr>
-     <td class='link'><a href="g.htm" class="m-item">g</a></td>
-     <td class='label'>Gregorian</td>
+     <td>g</td>
+     <td class='label link'><a href="g.htm" class="m-item">Gregorian</a></td>
      <td>
       The Gregorian calendar.
      </td>
@@ -225,31 +251,31 @@
      </td>
     </tr>
     <tr>
-     <td class='link'><a href="eng.htm" class="m-item">eng</a></td>
-     <td class='label'>English Hybrid</td>
+     <td>eng</td>
+     <td class='label link'><a href="eng.htm" class="m-item">English Hybrid</a></td>
      <td>
       The calendar as used in England and English colonies.
      </td>
     </tr>
     <tr>
-     <td class='link'><a href="er.htm" class="m-item">er</a></td>
-     <td class='label'>English Regnal</td>
+     <td>er</td>
+     <td class='label link'><a href="er.htm" class="m-item">English Regnal</a></td>
      <td>
       The English and British Regnal calendar from Henry II to present day.
      </td>
     </tr>
     <tr class='future'>
      <td>scot</td>
-     <td class='label'>Scotish Hybrid</td>
+     <td class='label'>Scottish Hybrid</td>
      <td>
       The calendar as used in Scotland.
      </td>
     </tr>
     <tr class='future'>
      <td>sr</td>
-     <td class='label'>Scotish Regnal</td>
+     <td class='label'>Scottish Regnal</td>
      <td>
-      The Scotish and British Regnal calendar to present day.
+      The Scottish and British Regnal calendar to present day.
      </td>
     </tr>
     <tr class='future'>
@@ -259,7 +285,6 @@
       The calendar used by Sweden when changing from Julian to Gregorian..
      </td>
     </tr>
-
 
    </tbody>
   </table>
@@ -281,6 +306,7 @@
 
 <!-- Start of StatCounter Code for Default Guide -->
 <script type="text/javascript">
+//<![CDATA[
 var sc_project=9849843;
 var sc_invisible=1;
 var sc_security="4988237c";
@@ -288,13 +314,15 @@ var scJsHost = (("https:" == document.location.protocol) ?
 "https://secure." : "http://www.");
 document.write("<sc"+"ript type='text/javascript' src='" +
 scJsHost+
-"statcounter.com/counter/counter.js'></"+"script>");
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
 </script>
-<noscript><div class="statcounter"><a title="web statistics"
-href="http://statcounter.com/" target="_blank"><img
-class="statcounter"
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
 src="http://c.statcounter.com/9849843/0/4988237c/1/"
-alt="web statistics"></a></div></noscript>
+alt="website statistics" /></a></div></noscript>
 <!-- End of StatCounter Code for Default Guide -->
+
 </body>
 </html>

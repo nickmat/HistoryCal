@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>HistoryCal - Seven Day Week</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="icon" type="image/png" href="../sys/logo1_32x32x32.png" />
+<link rel='stylesheet' type='text/css' href='../sys/hcal.css' />
+</head>
+<body>
+
+<h1>
+ <a  href="http://historycal.org/"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
+ HistoryCal Calendar<br/>Seven Day Week
+</h1>
+
+<div id="page">
+
+<div id="crumbs">
+  <a href="../index.htm" class="m-item">Home</a>
+  <a href="../cal/index.htm" class="m-item level1">Calendars</a>
+  <a href="7dayweek.htm" class="m-item level2 thispage">7 Day Week</a>
+  <a href="jdn.htm" class="m-item prev">&lt;&lt;</a>
+  <a href="liturgical.htm" class="m-item next">&gt;&gt;</a>
+</div>
+
+<div id="content" class="nomenu calendar">
+
+<h2>Calendar Description</h2>
+<p>
+ The 7 day week is a cyclic calendar with no major count and so can only be
+ used in conjunction with other calendars.
+</p>
+
+<h3>Use Case</h3>
+<p>
+ Thought to have originated in ancient Babylonia around 600 BCE.
+ It is used with the Julian, Gregorian, Hebrew and Islamic and other calendars.
+</p>
+<p>
+ There are more than one way of numbering the week days. For convenience, the
+ library has chosen Monday as the first day. Saturday and Sunday are
+ alternative start days.
+</p>
+
+<h3>Definition</h3>
+<table class='data'>
+<tr><th>Number</th><th>Name</th></tr>
+<tr><td>1</td><td>Monday</td></tr>
+<tr><td>2</td><td>Tuesday</td></tr>
+<tr><td>3</td><td>Wednesday</td></tr>
+<tr><td>4</td><td>Thursday</td></tr>
+<tr><td>5</td><td>Friday</td></tr>
+<tr><td>6</td><td>Saturday</td></tr>
+<tr><td>7</td><td>Sunday</td></tr>
+</table>
+<table class='record'>
+<tr><th>Record</th></tr>
+<tr><td class='rdonly'>wday</td></tr>
+</table>
+<p>
+ The <b>Record</b> consists of a single extended <b>Field</b> named <code>wday.</code>
+ The <b>Epoch</b> is <code>wday 1 = day 1 (jdn)</code> a Monday.
+</p>
+
+<h3>Script</h3>
+<table class='code'>
+<tr><th>Default Script</th></tr>
+<tr><td
+><b>vocab</b> "w" {
+    name "Weekday names";
+    lang "en";
+    stylename "Weekday", "WDay";
+    tokens {
+        1, "Monday",    "Mon";
+        2, "Tuesday",   "Tue";
+        3, "Wednesday", "Wed";
+        4, "Thursday",  "Thur";
+        5, "Friday",    "Fri";
+        6, "Saturday",  "Sat";
+        7, "Sunday",    "Sun";
+    }
+}
+</td></tr>
+</table>
+<p>
+ Since this calendar is only used in conjunction with others, only the
+ <b>vocab</b> associated with it is shown.
+</p>
+<p>
+ The script has no dependencies.
+</p>
+
+</div>
+
+<hr/>
+<div id='valid'>
+  <p>
+    <a href="http://validator.w3.org/check?uri=referer"><img
+        src="../sys/valid-xhtml10.png"
+        alt="Valid XHTML 1.0 Strict" height="31" width="88" /></a>
+  </p>
+</div>
+
+<div id='create-date'><p>27<sup>th</sup> October 2014</p></div>
+
+</div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

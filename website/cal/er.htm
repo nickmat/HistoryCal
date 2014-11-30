@@ -9,7 +9,7 @@
 <body>
 
 <h1>
- <a  href="../index.htm"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
+ <a  href="http://historycal.org/"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
  HistoryCal Calendar<br/>English Regnal (er)
 </h1>
 
@@ -27,33 +27,58 @@
 
 <h2>Calendar Description</h2>
 <p>
- Under construction.
+ This is still a work in progress and is therefore subject to change.
 </p>
+<p>
+ The calendar presented here starts from King William I's coronation on the
+ j:dmy# 25 Dec 1066 to the current day.
+</p>
+
+<h3>Use Case</h3>
+<p>
+ The English Regnal calendar has been used at lest since the reign of Henry II
+ for the dating of government and legal documents.
+ The UK Parliment continued to use Regnal years until 1961.
+</p>
+<ul>
+ <li>England and its overseas territories, from j# 25 Dec 1066 to the act of union j# 1 May 1707.</li>
+ <li>The United Kingdom from the act of union j# 1 May 1707 to the current day.</li>
+</ul>
+
+<h3>Definition</h3>
 <table class='record'>
-<tr><th colspan='6'>Record</th></tr>
-<tr><td>era</td><td>year</td><td>month</td><td>day</td><td class='rdonly'>unshift</td></tr>
+ <tr><th colspan='8'>Record</th></tr>
+ <tr>
+  <td>era</td><td>year</td><td>month</td><td>day</td>
+  <td class='rdonly'>er-hyear</td><td class='rdonly'>wday</td>
+  <td class='rdonly'>er-part</td><td class='rdonly'>er-scheme</td>
+ </tr>
 </table>
 
-<table class='data'>
+<p>
+ The dates given in the following table are Julian up to 2 Sep 1752 and Gregorian thereafter.
+</p>
+
+<table class='data large'>
 <tr><th>Number</th><th>Name</th><th>Range</th><th>Epoch</th><th>Notes</th></tr>
 <tr><td>0</td><td>English Calendar</td><td></td><td></td><td></td></tr>
-<tr><td>1</td><td>William I</td><td>25 Dec 1066 ~ 9 Sep 1087</td><td>25 Dec 1066</td><td></td></tr>
+<tr><td>1</td><td>William I</td><td>25 Dec 1066 ~ 9 Sep 1087</td><td>25 Dec 1066</td><td class='note'>Some sources give 13 Oct 1066 as the start of the regnal year. There are too few examples to provide a definitive date.</td></tr>
 <tr><td>2</td><td>William II</td><td>26 Sep 1087 ~ 2 Aug 1100</td><td>26 Sep 1087</td><td></td></tr>
 <tr><td>3</td><td>Henry I</td><td>5 Aug 1100 ~ 1 Dec 1135</td><td>5 Aug 1100</td><td></td></tr>
 <tr><td>4</td><td>Stephen</td><td>22 Dec 1135 ~ 25 Oct 1154</td><td>22 Dec 1135</td><td></td></tr>
 <tr><td>5</td><td>Henry II</td><td>19 Dec 1154 ~ 6 Jul 1189</td><td>19 Dec 1154</td><td></td></tr>
 <tr><td>6</td><td>Richard I</td><td>3 Sep 1189 ~ 6 Apr 1199</td><td>3 Sep 1189</td><td></td></tr>
-<tr><td>7</td><td>John</td><td>27 May 1199 ~ 19 Oct 1216</td><td>27 May 1199</td><td></td></tr>
+<tr><td>7</td><td>John</td><td>27 May 1199 ~ 19 Oct 1216</td><td>27 May 1199</td><td class='note'>Regnal year starts on Ascension day, a moveable feast. Thus some dates will be ambiguous.</td></tr>
 <tr><td>8</td><td>Henry III</td><td>28 Oct 1216 ~ 16 Nov 1272</td><td>28 Oct 1216</td><td></td></tr>
 <tr><td>9</td><td>Edward I</td><td>20 Nov 1272 ~ 7 Jul 1307</td><td>20 Nov 1272</td><td></td></tr>
 <tr><td>10</td><td>Edward II</td><td>8 Jul 1307 ~ 20 Jan 1327</td><td>8 Jul 1307</td><td></td></tr>
-<tr><td>11</td><td>Edward III</td><td>25 Jan 1327 ~ 21 Jun 1377</td><td>25 Jan 1327</td><td></td></tr>
+<tr><td>11</td><td>Edward III</td><td>25 Jan 1327 ~ 21 Jun 1377</td><td>25 Jan 1327</td><td class='note'>Edward has a separate Regnal year for France.</td></tr>
 <tr><td>12</td><td>Richard II</td><td>22 Jun 1377 ~ 29 Sep 1399</td><td>22 Jun 1377</td><td></td></tr>
 <tr><td>13</td><td>Henry IV</td><td>30 Sep 1399 ~ 20 Mar 1413</td><td>30 Sep 1399</td><td></td></tr>
 <tr><td>14</td><td>Henry V</td><td>21 Mar 1413 ~ 31 Aug 1422</td><td>21 Mar 1413</td><td></td></tr>
 <tr><td>15</td><td>Henry VI</td><td>1 Sep 1422 ~ 4 Mar 1461</td><td>1 Sep 1422</td><td></td></tr>
 <tr><td>16</td><td>Edward IV</td><td>4 Mar 1461 ~ 9 Apr 1483</td><td>4 Mar 1461</td><td></td></tr>
-<tr><td>17</td><td>Henry VI Restoration</td><td>3 Oct 1470 ~ 11 Apr 1471</td><td>1 Sep 1422</td><td></td></tr>
+<tr><td>17</td><td>Henry VI Restoration</td><td>3 Oct 1470 ~ 11 Apr 1471</td><td>1 Sep 1422</td><td class='note'>Overlaps with Edward IV's reign.</td></tr>
 <tr><td>18</td><td>Edward V</td><td>9 Apr 1483 ~ 25 Jun 1483</td><td>9 Apr 1483</td><td></td></tr>
 <tr><td>19</td><td>Richard III</td><td>26 Jun 1483 ~ 22 Aug 1485</td><td>26 Jun 1483</td><td></td></tr>
 <tr><td>20</td><td>Henry VII</td><td>22 Aug 1485 ~ 21 Apr 1509</td><td>22 Aug 1485</td><td></td></tr>
@@ -61,19 +86,19 @@
 <tr><td>22</td><td>Edward VI</td><td>28 Jan 1547 ~ 6 Jul 1553</td><td>28 Jan 1547</td><td></td></tr>
 <tr><td>23</td><td>Jane</td><td>6 Jul 1553 ~ 19 Jul 1553</td><td>6 Jul 1553</td><td></td></tr>
 <tr><td>24</td><td>Mary I</td><td>19 Jul 1553 ~ 24 Jul 1554</td><td>6 Jul 1553</td><td></td></tr>
-<tr><td>25</td><td>Philip and Mary</td><td>25 Jul 1554 ~ 17 Nov 1558</td><td>6 Jul 1553</td><td></td></tr>
+<tr><td>25</td><td>Philip and Mary</td><td>25 Jul 1554 ~ 17 Nov 1558</td><td>6 Jul 1553</td><td class='note'>Philip and Mary retained separate Regnal years which interleaved.</td></tr>
 <tr><td>26</td><td>Elizabeth I</td><td>17 Nov 1558 ~ 24 Mar 1603</td><td>17 Nov 1558</td><td></td></tr>
-<tr><td>27</td><td>James I</td><td>24 Mar 1603 ~ 27 Mar 1625</td><td>24 Mar 1603</td><td></td></tr>
+<tr><td>27</td><td>James I</td><td>24 Mar 1603 ~ 27 Mar 1625</td><td>24 Mar 1603</td><td class='note'>James VI of Scotland</td></tr>
 <tr><td>28</td><td>Charles I</td><td>27 Mar 1625 ~ 30 Jan 1649</td><td>27 Mar 1625</td><td></td></tr>
-<tr><td>29</td><td>The Commonwealth</td><td>31 Jan 1649 ~ 28 May 1660</td><td>25 Mar 1</td><td></td></tr>
+<tr><td>29</td><td>The Commonwealth</td><td>31 Jan 1649 ~ 28 May 1660</td><td>25 Mar 1</td><td class='note'>The Julian Annunciation calendar was used during this period.</td></tr>
 <tr><td>30</td><td>Charles II</td><td>29 May 1660 ~ 6 Feb 1685</td><td>30 Jan 1660</td><td></td></tr>
-<tr><td>31</td><td>James II</td><td>6 Feb 1685 ~ 11 Dec 1688</td><td>6 Feb 1685</td><td></td></tr>
-<tr><td>32</td><td>Interregnum</td><td>12 Dec 1688 ~ 12 Feb 1689</td><td>25 Mar 1</td><td></td></tr>
+<tr><td>31</td><td>James II</td><td>6 Feb 1685 ~ 11 Dec 1688</td><td>6 Feb 1685</td><td class='note'>James VII of Scotland</td></tr>
+<tr><td>32</td><td>Interregnum</td><td>12 Dec 1688 ~ 12 Feb 1689</td><td>25 Mar 1</td><td class='note'>The Julian Annunciation calendar was used during this period.</td></tr>
 <tr><td>33</td><td>William and Mary</td><td>13 Feb 1689 ~ 27 Dec 1694</td><td>13 Feb 1689</td><td></td></tr>
-<tr><td>34</td><td>William III</td><td>28 Dec 1694 ~ 8 Mar 1702</td><td>13 Feb 1689</td><td></td></tr>
+<tr><td>34</td><td>William III</td><td>28 Dec 1694 ~ 8 Mar 1702</td><td>28 Dec 1688</td><td class='note'>After the death of Queen Mary, William started his 7th Regnal year early.</td></tr>
 <tr><td>35</td><td>Anne</td><td>8 Mar 1702 ~ 1 Aug 1714</td><td>8 Mar 1702</td><td></td></tr>
 <tr><td>36</td><td>George I</td><td>1 Aug 1714 ~ 11 Jun 1727</td><td>1 Aug 1714</td><td></td></tr>
-<tr><td>37</td><td>George II</td><td>11 Jun 1727 ~ 25 Oct 1760</td><td>11 Jun 1727</td><td></td></tr>
+<tr><td>37</td><td>George II</td><td>11 Jun 1727 ~ 25 Oct 1760</td><td>11 Jun 1727</td><td class='note'>With the change over to the Gregorian calendar, during George II's 26th Regnal year the start date changes from 11th to 22nd June, creating a short ambiguous period.</td></tr>
 <tr><td>38</td><td>George III</td><td>25 Oct 1760 ~ 29 Jan 1820</td><td>25 Oct 1760</td><td></td></tr>
 <tr><td>39</td><td>George IV</td><td>29 Jan 1820 ~ 26 Jun 1830</td><td>29 Jan 1820</td><td></td></tr>
 <tr><td>40</td><td>William IV</td><td>26 Jun 1830 ~ 20 Jun 1837</td><td>26 Jun 1830</td><td></td></tr>
@@ -83,6 +108,448 @@
 <tr><td>44</td><td>Edward VIII</td><td>20 Jan 1936 ~ 11 Dec 1936</td><td>20 Jan 1936</td><td></td></tr>
 <tr><td>45</td><td>George VI</td><td>11 Dec 1936 ~ 6 Feb 1952</td><td>11 Dec 1936</td><td></td></tr>
 <tr><td>46</td><td>Elizabeth II</td><td>6 Feb 1952 ~ Future</td><td>6 Feb 1952</td><td></td></tr>
+</table>
+
+<h3>Script</h3>
+<table class='code'>
+<tr><th>Default Script</th></tr>
+<tr><td
+><b>vocab</b> "er" {
+    name "English Monarchs";
+    lang "en";
+    stylename "Reign",              "Rn";
+    tokens {
+        0, "English calendar",      "Eng";
+        1, "William I",             "Wm I";
+        2, "William II",            "Wm II";
+        3, "Henry I",               "Hy I";
+        4, "Stephen",               "St";
+        5, "Henry II",              "Hy II";
+        6, "Richard I",             "Rich I";
+        7, "John",                  "Jn";
+        8, "Henry III",             "Hy III";
+        9, "Edward I",              "Ed I";
+        10, "Edward II",            "Ed II";
+        11, "Edward III",           "Ed III";
+        12, "Richard II",           "Rich II";
+        13, "Henry IV",             "Hy IV";
+        14, "Henry V",              "Hy V";
+        15, "Henry VI",             "Hy VI";
+        16, "Edward IV",            "Ed IV";
+        17, "Henry VI Restoration", "Hy VI R";
+        18, "Edward V",             "Ed V";
+        19, "Richard III",          "Rich III";
+        20, "Henry VII",            "Hy VII";
+        21, "Henry VIII",           "Hy VIII";
+        22, "Edward VI",            "Ed VI";
+        23, "Jane";
+        24, "Mary I";
+        25, "Philip and Mary",      "P & M";
+        26, "Elizabeth I",          "Eliz I";
+        27, "James I",              "Jm I";
+        28, "Charles I",            "Chas I";
+        29, "The Commonwealth",     "Com";
+        30, "Charles II",           "Chas II";
+        31, "James II",             "Jm II";
+        32, "Interregnum",          "Int";
+        33, "William and Mary",     "W & M";
+        34, "William III",          "Wm III";
+        35, "Anne";
+        36, "George I",             "Geo I";
+        37, "George II",            "Geo II";
+        38, "George III",           "Geo III";
+        39, "George IV",            "Geo IV";
+        40, "William IV",           "Wm IV";
+        41, "Victoria",             "Vic";
+        42, "Edward VII",           "Ed VII";
+        43, "George V",             "Geo V";
+        44, "Edward VIII",          "Ed VIII";
+        45, "George VI",            "Geo VI";
+        46, "Elizabeth II",         "Eliz II";
+    }
+}
+
+<b>vocab</b> "part" {
+    name "Part of Reign Year";
+    lang "en";
+    stylename "Part", "Part";
+    tokens {
+        0, "First";
+        1, "Second";
+    }
+}
+
+<b>vocab</b> "on" {
+    name "Scheme names";
+    lang "en";
+    stylename "Scheme", "Sch";
+    tokens {
+        0, "Old Style", "os";
+        1, "New Style", "ns";
+    }
+}
+
+<b>grammar</b> "er" {
+    alias field {
+        "WDay",       "wday";
+        "Reign",      "era";
+        "Day",        "day";
+        "Month",      "month";
+        "Year",       "year";
+        "Hist-Year",  "er-hyear";
+        "Part",       "er-part";
+        "Scheme",     "er-scheme";
+    }
+    alias stylename {
+        "Day",       "dd";
+        "Month",     "mm";
+        "Year",      "yyyy";
+        "Hist-Year", "y";
+        "Scheme",    "s";
+    }
+    vocabs "w", "er", "m", "on", "part";
+    format "dmyr",  "@(Day) @(Month:m.a)@, (Part:part)@ (Year/Hist-Year)@ (Reign:er)@, (Scheme:on.a)";
+    format "wdmyr", "@(WDay:w.a) @(Day) @(Month:m.a)@ (Year/Hist-Year)@ (Reign:er)@, (Scheme:on.a)";
+    pref "dmyr";
+}
+
+<b>scheme</b> "er" {
+    name "English Regnal";
+    regnal {
+        fields "year", "month", "day";
+        extended "er-hyear", "wday", "er-part", "er-scheme";
+        era {
+            scheme "eng";
+            match "unshift", "er-hyear", "scheme", "er-scheme";
+        }
+        era {  // William I
+            range 2110773~2118336;
+            scheme 1 { shift "j", 2110773; }
+        }
+        era {  // William II
+            range 2118353~2123047;
+            scheme 2 { shift "j", 2118353; }
+        }
+        era {  // Henry I
+            range 2123050~2135951;
+            scheme 3 { shift "j", 2123050; }
+        }
+        era {  // Stephen
+            range 2135972~2142854;
+            scheme 4 { shift "j", 2135972; }
+        }
+        era {  // Henry II
+            range 2142909~2155527;
+            scheme 5 { shift "j", 2142909; }
+        }
+        era {  // Richard I
+            range 2155586~2159088;
+            scheme 6 { shift "j", 2155586; }
+        }
+        era {  // John
+            range 2159139~2165494;
+            scheme 7 {
+                regnal {
+                    fields "year", "month", "day";
+                    extended "john-part";
+                    fixed "year", 1;
+                    era {  // Default scheme is required even if not used.
+                        scheme "j";
+                    }
+                    era {  // John year 1
+                        range date "j:dmy#27May1199" ~ date "j:dmy#17May1200";
+                        scheme 1 { shift "j", date "j:dmy#27May1199"; }
+                    }
+                    era {  // John year 2
+                        range date "j:dmy#18May1200" ~ date "j:dmy#2May1201";
+                        scheme 2 { shift "j", date "j:dmy#18May1200"; }
+                    }
+                    era {  // John year 3
+                        range date "j:dmy#3May1201" ~ date "j:dmy#22May1202";
+                        scheme 3 {
+                            hybrid {
+                                fields "year", "month", "day";
+                                scheme 0 { shift "j", date "j:dmy#3May1201"; }
+                                change date "j:dmy#3May1202";
+                                scheme 1 { shift "j", date "j:dmy#3May1202"; }
+                            }
+                        }
+                        match "scheme", "john-part";
+                    }
+                    era {  // John year 4
+                        range date "j:dmy#23May1202" ~ date "j:dmy#14May1203";
+                        scheme 4 { shift "j", date "j:dmy#23May1202"; }
+                    }
+                    era {  // John year 5
+                        range date "j:dmy#15May1203" ~ date "j:dmy#2Jun1204";
+                        scheme 5 {
+                            hybrid {
+                                fields "year", "month", "day";
+                                scheme 0 { shift "j", date "j:dmy#15May1203"; }
+                                change date "j:dmy#15May1204";
+                                scheme 1 { shift "j", date "j:dmy#15May1204"; }
+                            }
+                        }
+                        match "scheme", "john-part";
+                    }
+                    era {  // John year 8
+                        range date "j:dmy#3Jun1204" ~ date "j:dmy#18May1205";
+                        scheme 6 { shift "j", date "j:dmy#3Jun1204"; }
+                    }
+                    era {  // John year 7
+                        range date "j:dmy#19May1205" ~ date "j:dmy#10May1206";
+                        scheme 7 { shift "j", date "j:dmy#19May1205"; }
+                    }
+                    era {  // John year 8
+                        range date "j:dmy#11May1206" ~ date "j:dmy#30May1207";
+                        scheme 8 {
+                            hybrid {
+                                fields "year", "month", "day";
+                                scheme 0 { shift "j", date "j:dmy#11May1206"; }
+                                change date "j:dmy#11May1207";
+                                scheme 1 { shift "j", date "j:dmy#11May1207"; }
+                            }
+                        }
+                        match "scheme", "john-part";
+                    }
+                    era {  // John year 9
+                        range date "j:dmy#31May1207" ~ date "j:dmy#14May1208";
+                        scheme 9 { shift "j", date "j:dmy#31May1207"; }
+                    }
+                    era {  // John year 10
+                        range date "j:dmy#15May1208" ~ date "j:dmy#6May1209";
+                        scheme 10 { shift "j", date "j:dmy#15May1208"; }
+                    }
+                    era {  // John year 11
+                        range date "j:dmy#7May1209" ~ date "j:dmy#26May1210";
+                        scheme 11 {
+                            hybrid {
+                                fields "year", "month", "day";
+                                scheme 0 { shift "j", date "j:dmy#7May1209"; }
+                                change date "j:dmy#7May1210";
+                                scheme 1 { shift "j", date "j:dmy#7May1210"; }
+                            }
+                        }
+                        match "scheme", "john-part";
+                    }
+                    era {  // John year 12
+                        range date "j:dmy#27May1210" ~ date "j:dmy#11May1211";
+                        scheme 12 { shift "j", date "j:dmy#27May1210"; }
+                    }
+                    era {  // John year 13
+                        range date "j:dmy#12May1211" ~ date "j:dmy#2May1212";
+                        scheme 13 { shift "j", date "j:dmy#12May1211"; }
+                    }
+                    era {  // John year 14
+                        range date "j:dmy#3May1212" ~ date "j:dmy#22May1213";
+                        scheme 14 {
+                            hybrid {
+                                fields "year", "month", "day";
+                                scheme 0 { shift "j", date "j:dmy#3May1212"; }
+                                change date "j:dmy#3May1213";
+                                scheme 1 { shift "j", date "j:dmy#3May1213"; }
+                            }
+                        }
+                        match "scheme", "john-part";
+                    }
+                    era {  // John year 15
+                        range date "j:dmy#23May1213" ~ date "j:dmy#7May1214";
+                        scheme 15 { shift "j", date "j:dmy#23May1213"; }
+                    }
+                    era {  // John year 16
+                        range date "j:dmy#8May1214" ~ date "j:dmy#27May1215";
+                        scheme 16 {
+                            hybrid {
+                                fields "year", "month", "day";
+                                scheme 0 { shift "j", date "j:dmy#8May1214"; }
+                                change date "j:dmy#8May1215";
+                                scheme 1 { shift "j", date "j:dmy#8May1215"; }
+                            }
+                        }
+                        match "scheme", "john-part";
+                    }
+                    era {  // John year 17
+                        range date "j:dmy#28May1215" ~ date "j:dmy#18May1216";
+                        scheme 17 { shift "j", date "j:dmy#28May1215"; }
+                    }
+                    era {  // John year 18
+                        range date "j:dmy#19May1216" ~ date "j:dmy#19Oct1216";
+                        scheme 18 { shift "j", date "j:dmy#19May1216"; }
+                    }
+                }
+            }
+            match "era", "year",  "john-part", "er-part";
+        }
+        era {  // Henry III
+            range 2165503~2185976;
+            scheme 8 { shift "j", 2165503; }
+        }
+        era {  // Edward I
+            range 2185980~2198627;
+            scheme 9 { shift "j", 2185980; }
+        }
+        era {  // Edward II
+            range 2198628~2205764;
+            scheme 10 { shift "j", 2198628; }
+        }
+        era {  // Edward III
+            range 2205769~2224179;
+            scheme 11 { shift "j", 2205769; }
+        }
+        era {  // Richard II
+            range 2224180~2232314;
+            scheme 12 { shift "j", 2224180; }
+        }
+        era {  // Henry IV
+            range 2232315~2237235;
+            scheme 13 { shift "j", 2232315; }
+        }
+        era {  // Henry V
+            range 2237236~2240686;
+            scheme 14 { shift "j", 2237236; }
+        }
+        era {  // Henry VI
+            range 2240687~2254751;
+            scheme 15 { shift "j", 2240687; }
+        }
+        era {  // Edward IV
+            range 2254751~2262822;
+            scheme 16 { shift "j", 2254751; }
+        }
+        era {  // Henry VI Restoration
+            range 2258251~2258441;
+            scheme 17 { shift "j", 2240687; }
+        }
+        era {  // Edward V
+            range 2262822~2262899;
+            scheme 18 { shift "j", 2262822; }
+        }
+        era {  // Richard III
+            range 2262900~2263688;
+            scheme 19 { shift "j", 2262900; }
+        }
+        era {  // Henry VII
+            range 2263688~2272331;
+            scheme 20 { shift "j", 2263688; }
+        }
+        era {  // Henry VIII
+            range 2272332~2286127;
+            scheme 21 { shift "j", 2272332; }
+        }
+        era {  // Edward VI
+            range 2286127~2288478;
+            scheme 22 { shift "j", 2286127; }
+        }
+        era {  // Jane
+            range 2288478~2288491;
+            scheme 23 { shift "j", 2288478; }
+        }
+        era {  // Mary I
+            range 2288491~2288861;
+            scheme 24 { shift "j", 2288478; }
+        }
+        era {  // Philip and Mary
+            range 2288862~2290438;
+            scheme 25 { shift "j", 2288862; }
+        }
+        era {  // Elizabeth I
+            range 2290438~2306636;
+            scheme 26 { shift "j", 2290438; }
+        }
+        era {  // James I
+            range 2306636~2314675;
+            scheme 27 { shift "j", 2306636; }
+        }
+        era {  // Charles I
+            range 2314675~2323385;
+            scheme 28 { shift "j", 2314675; }
+        }
+        era {  // The Commonwealth
+            range 2323386~2327521;
+            scheme "eng";
+            match "unshift", "er-hyear", "scheme", "er-scheme";
+        }
+        era {  // Charles II
+            range 2327522~2336541;
+            scheme 30 { shift "j", 2323385; }
+        }
+        era {  // James II
+            range 2336541~2337945;
+            scheme 31 { shift "j", 2336541; }
+        }
+        era {  // Interregnum
+            range 2337946~2338008;
+            scheme "eng";
+            match "unshift", "er-hyear", "scheme", "er-scheme";
+        }
+        era {  // William and Mary
+            range 2338009~2340152;
+            scheme 33 { shift "j", 2338009; }
+        }
+        era {  // William III
+            range 2340153~2342780;
+            scheme 34 { shift "j", 2337962; }  // j# 28 Dec 1688
+        }
+        era {  // Anne
+            range 2342780~2347309;
+            scheme 35 { shift "j", 2342780; }
+        }
+        era {  // George I
+            range 2347309~2352006;
+            scheme 36 { shift "j", 2347309; }
+        }
+        era {  // George II
+            range 2352006~2364185;
+            scheme 37 {
+                hybrid {
+                    fields "year", "month", "day";
+                    scheme 0 { shift "j", 2352006; }
+                    change 2361222;
+                    scheme 1 { shift "g", 2352006; }
+                }
+            }
+            match "scheme", "er-scheme";
+        }
+        era {  // George III
+            range 2364185~2385829;
+            scheme 38 { shift "g", 2364185; }
+        }
+        era {  // George IV
+            range 2385829~2389630;
+            scheme 39 { shift "g", 2385829; }
+        }
+        era {  // William IV
+            range 2389630~2392181;
+            scheme 40 { shift "g", 2389630; }
+        }
+        era {  // Victoria
+            range 2392181~2415407;
+            scheme 41 { shift "g", 2392181; }
+        }
+        era {  // Edward VII
+            range 2415407~2418798;
+            scheme 42 { shift "g", 2415407; }
+        }
+        era {  // George V
+            range 2418798~2428188;
+            scheme 43 { shift "g", 2418798; }
+        }
+        era {  // Edward VIII
+            range 2428188~2428514;
+            scheme 44 { shift "g", 2428188; }
+        }
+        era {  // George VI
+            range 2428514~2434049;
+            scheme 45 { shift "g", 2428514; }
+        }
+        era {  // Elizabeth II
+            range 2434049~2457023;
+            scheme 46 { shift "g", 2434049; }
+        }
+    }
+    grammar "er";
+}
+</td></tr>
 </table>
 
 </div>
@@ -99,8 +566,10 @@
 <div id='create-date'><p>28<sup>th</sup> March 2014</p></div>
 
 </div>
+
 <!-- Start of StatCounter Code for Default Guide -->
 <script type="text/javascript">
+//<![CDATA[
 var sc_project=9849843;
 var sc_invisible=1;
 var sc_security="4988237c";
@@ -108,13 +577,15 @@ var scJsHost = (("https:" == document.location.protocol) ?
 "https://secure." : "http://www.");
 document.write("<sc"+"ript type='text/javascript' src='" +
 scJsHost+
-"statcounter.com/counter/counter.js'></"+"script>");
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
 </script>
-<noscript><div class="statcounter"><a title="web statistics"
-href="http://statcounter.com/" target="_blank"><img
-class="statcounter"
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
 src="http://c.statcounter.com/9849843/0/4988237c/1/"
-alt="web statistics"></a></div></noscript>
+alt="website statistics" /></a></div></noscript>
 <!-- End of StatCounter Code for Default Guide -->
+
 </body>
 </html>

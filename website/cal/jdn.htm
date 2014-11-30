@@ -9,7 +9,7 @@
 <body>
 
 <h1>
- <a  href="../index.htm"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
+ <a  href="http://historycal.org/"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
  HistoryCal Calendar<br/>Julian Day Number (jdn)
 </h1>
 
@@ -19,8 +19,8 @@
   <a href="../index.htm" class="m-item">Home</a>
   <a href="../cal/index.htm" class="m-item level1">Calendars</a>
   <a href="jdn.htm" class="m-item level2 thispage">jdn</a>
-  <a href="../cal/index.htm" class="m-item prev">&lt;&lt;</a>
-  <a href="j.htm" class="m-item next">&gt;&gt;</a>
+  <a href="index.htm" class="m-item prev">&lt;&lt;</a>
+  <a href="7dayweek.htm" class="m-item next">&gt;&gt;</a>
 </div>
 
 <div id="content" class="nomenu calendar">
@@ -71,27 +71,31 @@
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
-><b>grammar</b> d {
- format pref @(Day);
- alias field {Day day;};
- alias format-number-code {Day ddddd;};
-};
-<b>scheme</b> jdn {
- name Julian Day Number;
- base jdn;
- grammar d;
-};
+><b>grammar</b> "d" {
+    alias field {
+        "Day", "day";
+    }
+    alias stylename {
+        "Day", "ddddd";
+    }
+    format "d", "@(Day)";
+    pref "d";
+}
+
+<b>scheme</b> "jdn" {
+    name "Julian Day Number";
+    base jdn;
+    grammar "d";
+}
 </td></tr>
 </table>
 <p>
  Although this calendar has no historical uses, it is included in the default
- script because the script itself uses the <b>jdn</b> form for dates included
- in the script for other calendars. This may change in future. It may be used
- to derive other day count calendars.
+ script because it is used as the intermediate form when converting between
+ other calendars. It may also be used to derive other day count calendars.
 </p>
 <p>
- The script has no dependencies and is the first calendar defined in the
- default script.
+ The script has no dependencies.
 </p>
 
 </div>
@@ -111,6 +115,7 @@
 
 <!-- Start of StatCounter Code for Default Guide -->
 <script type="text/javascript">
+//<![CDATA[
 var sc_project=9849843;
 var sc_invisible=1;
 var sc_security="4988237c";
@@ -118,13 +123,15 @@ var scJsHost = (("https:" == document.location.protocol) ?
 "https://secure." : "http://www.");
 document.write("<sc"+"ript type='text/javascript' src='" +
 scJsHost+
-"statcounter.com/counter/counter.js'></"+"script>");
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
 </script>
-<noscript><div class="statcounter"><a title="web statistics"
-href="http://statcounter.com/" target="_blank"><img
-class="statcounter"
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
 src="http://c.statcounter.com/9849843/0/4988237c/1/"
-alt="web statistics"></a></div></noscript>
+alt="website statistics" /></a></div></noscript>
 <!-- End of StatCounter Code for Default Guide -->
+
 </body>
 </html>

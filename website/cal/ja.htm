@@ -9,8 +9,8 @@
 <body>
 
 <h1>
- <a  href="../index.htm"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
- HistoryCal Calendar<br/>Julian Annunciation (j325)
+ <a  href="http://historycal.org/"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
+ HistoryCal Calendar<br/>Julian Annunciation (ja)
 </h1>
 
 <div id="page">
@@ -18,9 +18,9 @@
 <div id="crumbs">
   <a href="../index.htm" class="m-item">Home</a>
   <a href="../cal/index.htm" class="m-item level1">Calendars</a>
-  <a href="j325.htm" class="m-item level2 thispage">j325</a>
-  <a href="j.htm" class="m-item prev">&lt;&lt;</a>
-  <a href="g.htm" class="m-item next">&gt;&gt;</a>
+  <a href="ja.htm" class="m-item level2 thispage">ja</a>
+  <a href="jn.htm" class="m-item prev">&lt;&lt;</a>
+  <a href="jap.htm" class="m-item next">&gt;&gt;</a>
 </div>
 
 <div id="content" class="nomenu calendar">
@@ -29,7 +29,7 @@
 <p>
  The Julian Annunciation calendar is a variant of the <a href='j.htm'>Julian</a> calendar obtained
  by shifting the year change forward from the 1st January to the 25th March.
- It is also known as the <i>calculus florentinus</i>.
+ It is also known as the <i>calculus florentinus</i> since this method was used in Florence.
 </p>
 
 <h3>Use Case</h3>
@@ -44,54 +44,33 @@
 
 <h3>Definition</h3>
 <table class='record'>
-<tr><th colspan='4'>Record</th></tr>
-<tr><td>year</td><td>month</td><td>day</td><td class='rdonly'>unshift</td></tr>
+<tr><th colspan='6'>Record</th></tr>
+<tr><td>year</td><td>month</td><td>day</td><td class='rdonly'>wday</td><td class='rdonly'>litweek</td><td class='rdonly'>unshift</td></tr>
 </table>
 <p>
  The Julian Annunciation calendar is based on <a href='j.htm'>Julian</a> calendar and has the same
- definition with the following exceptions.
+ definition as the <a href='jn.htm'>Julian Nativity</a> calendar except it has a different epoch.
 </p>
 <p>
- The <b>Record</b> consists of three <b>Fields</b> named <code>year,</code>
- <code>month,</code> and <code>day</code> and a read only Field <code>unshift.</code>
- The unshifted field holds the historical year as calculated by the underlying
- Julian calendar.
-</p>
-<p>
- The <b>Epoch</b> is set at <code>year 1 month 3 day 25 (<b>j325</b>) = day 1721507 (<b>jdn</b>).</code>
+ The <b>Epoch</b> is set at <code>year 1 month 3 day 25 (<b>ja</b>) = day 1721507 (<b>jdn</b>).</code>
 </p>
 
 <h3>Script</h3>
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
-><b>grammar</b> j.sh {
- vocabs m w;
- format @(Day) @(Month:m.a) @(Year);
- format pref @(Day) @(Month:m.a) @(Year/Hist-Year);
- format @(WDay:w.a) @(Day) @(Month:m.a) @(Year/Hist-Year);
- alias field {
-  WDay wday; Day day; Month month;
-  Year year; Hist-Year unshift;
- };
- alias format-number-code {
-  Day dd; Month mm; Year yyyy; Hist-Year y;
- };
-};
-<b>scheme</b> j325 {
- name Julian Annunciation;
- shift j 1721507;
- grammar j.sh;
-};
+><b>scheme</b> "ja" {
+    name "Julian Annunciation";
+    shift "j", 1721507;    // j:dmy# 25 Mar 1
+    grammar "j.sh";
+}
 </td></tr>
 </table>
 <p>
- The script makes use of the globally available read-only field <code>wday</code>
- to output weekdays.
+ The scheme uses the j.sh grammar as defined for the <a href='jn.htm'>Julian Nativity</a> calendar.
 </p>
 <p>
- The j.sh grammar uses the m (Julian months) and w (Weekdays) vocabs as defined for
- the <a href='j.htm'>Julian</a> calendar.
+ The <code>litweek</code> extended field is used by separate liturgical schemes.
 </p>
 
 </div>
@@ -111,6 +90,7 @@
 
 <!-- Start of StatCounter Code for Default Guide -->
 <script type="text/javascript">
+//<![CDATA[
 var sc_project=9849843;
 var sc_invisible=1;
 var sc_security="4988237c";
@@ -118,13 +98,15 @@ var scJsHost = (("https:" == document.location.protocol) ?
 "https://secure." : "http://www.");
 document.write("<sc"+"ript type='text/javascript' src='" +
 scJsHost+
-"statcounter.com/counter/counter.js'></"+"script>");
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
 </script>
-<noscript><div class="statcounter"><a title="web statistics"
-href="http://statcounter.com/" target="_blank"><img
-class="statcounter"
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
 src="http://c.statcounter.com/9849843/0/4988237c/1/"
-alt="web statistics"></a></div></noscript>
+alt="website statistics" /></a></div></noscript>
 <!-- End of StatCounter Code for Default Guide -->
+
 </body>
 </html>

@@ -255,6 +255,10 @@ table.data {
  border-collapse: collapse;
 }
 
+table.large {
+ float: none;
+}
+
 table.data th {
  background-color: Cornsilk;
  text-align: center;
@@ -268,6 +272,10 @@ table.data td {
  background-color: #fffefd;
  border: 1px solid black;
  padding: 0.1em 0.5em 0.1em 0.5em;
+}
+
+table.data td.note {
+ white-space: normal;
 }
 
 table.record {

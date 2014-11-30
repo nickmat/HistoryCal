@@ -9,7 +9,7 @@
 <body>
 
 <h1>
- <a  href="../index.htm"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
+ <a  href="http://historycal.org/"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
  HistoryCal Calendar<br/>Gregorian (g)
 </h1>
 
@@ -19,7 +19,7 @@
   <a href="../index.htm" class="m-item">Home</a>
   <a href="../cal/index.htm" class="m-item level1">Calendars</a>
   <a href="g.htm" class="m-item level2 thispage">g</a>
-  <a href="j325.htm" class="m-item prev">&lt;&lt;</a>
+  <a href="jap.htm" class="m-item prev">&lt;&lt;</a>
   <a href="eng.htm" class="m-item next">&gt;&gt;</a>
 </div>
 
@@ -40,30 +40,32 @@
 
 <h3>Use Case</h3>
 <p>
- The Geregorian calendar was first introduced in Catholic
+ The Gregorian calendar was first introduced in Catholic
  countries in 1582 and has since be adopted by most of the world and has
  become the most commonly used calendar today.
 </p>
 
 <h3>Definition</h3>
 <table class='record'>
-<tr><th colspan='3'>Record</th></tr>
-<tr><td>year</td><td>month</td><td>day</td></tr>
+<tr><th colspan='5'>Record</th></tr>
+<tr><td>year</td><td>month</td><td>day</td><td class='rdonly'>wday</td><td class='rdonly'>litweek</td></tr>
 </table>
 <p>
  The Gregorian calendar is based on a solar year of 365.2425 days.
  Days start at midnight.
 </p>
 <p>
- The <b>Record</b> consists of three <b>Fields</b> named <code>year,</code>
- <code>month,</code> and <code>day.</code>  There are two types of years, a
+  The <b>Record</b> consists of three <b>Fields</b> named <code>year,</code>
+ <code>month,</code> and <code>day</code> and the extended <b>Fields</b> named
+ <code>wday</code> and <code>litweek.</code>
+</p>
+<p>
+ There are two types of years, a
  common year and a leap year. Years are leap years when the current era
  year is divisible by 4 but not by 100 unless divisible by 400.
- There are twelve <code>months</code> in a <code>year</code> numbered 1 to 12.
- The number of <code>days</code> in a <code>month</code> varies between 28 and
- 31, and are numbered from 1, as shown in the table for the
- <a href='j.htm'>Julian calendar</a>. This gives a total of 365 days in a
- common year and 366 in a leap year.
+</p>
+<p>
+ In all other respects, the calendar is the same as the <a href='j.htm'>Julian calendar</a>.
 </p>
 <p>
  The <b>Epoch</b> is set at <code>year 1 month 1 day 1 (<b>g</b>) = day 1721426 (<b>jdn</b>).</code>
@@ -73,17 +75,16 @@
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
-><b>scheme</b> g {
- name Gregorian;
- base gregorian;
- grammar j;
-};
+><b>scheme</b> "g" {
+    name "Gregorian";
+    base gregorian;
+    grammar "j";
+}
 </td></tr>
 </table>
 <p>
  The default script that implements the Gregorian calendar uses the same
- grammar as the <a href='j.htm'>Julian calendar</a>. It is the third
- calendar defined in the default script.
+ grammar as the <a href='j.htm'>Julian calendar</a>.
 </p>
 
 </div>
@@ -100,8 +101,10 @@
 <div id='create-date'><p>19<sup>th</sup> January 2014</p></div>
 
 </div>
+
 <!-- Start of StatCounter Code for Default Guide -->
 <script type="text/javascript">
+//<![CDATA[
 var sc_project=9849843;
 var sc_invisible=1;
 var sc_security="4988237c";
@@ -109,13 +112,15 @@ var scJsHost = (("https:" == document.location.protocol) ?
 "https://secure." : "http://www.");
 document.write("<sc"+"ript type='text/javascript' src='" +
 scJsHost+
-"statcounter.com/counter/counter.js'></"+"script>");
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
 </script>
-<noscript><div class="statcounter"><a title="web statistics"
-href="http://statcounter.com/" target="_blank"><img
-class="statcounter"
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
 src="http://c.statcounter.com/9849843/0/4988237c/1/"
-alt="web statistics"></a></div></noscript>
+alt="website statistics" /></a></div></noscript>
 <!-- End of StatCounter Code for Default Guide -->
+
 </body>
 </html>
