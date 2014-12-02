@@ -482,7 +482,7 @@ string Record::lookup_token(
         // dual value
         result = value_from_field( index );
         string dualstr = value_from_field( dual );
-        if( dualstr.size() && dualstr != result ) {
+        if( result.size() && dualstr.size() && dualstr != result ) {
             if( result.size() != dualstr.size() ) {
                 return result + "/" + dualstr;
             }
