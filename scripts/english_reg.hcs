@@ -108,8 +108,8 @@ grammar "er" {
         "Scheme",    "s";
     }
     vocabs "w", "er", "m", "on", "part";
-    format "dmyr",  "@(Day) @(Month:m.a)@, (Part:part)@ (Year/Hist-Year)@ (Reign:er)@, (Scheme:on.a)";
-    format "wdmyr", "@(WDay:w.a) @(Day) @(Month:m.a)@ (Year/Hist-Year)@ (Reign:er)@, (Scheme:on.a)";
+    format "dmyr",  "@(Day) @(Month:m.a)@, (Part:part)@ (Year/Hist-Year) @(Reign:er)@, (Scheme:on.a)";
+    format "wdmyr", "@(WDay:w.a) @(Day) @(Month:m.a)@ (Year/Hist-Year) @(Reign:er)@, (Scheme:on.a)";
     pref "dmyr";
 }
 
@@ -366,8 +366,8 @@ scheme "er" {
         }
         era {  // The Commonwealth
             range 2323386~2327521;
-            scheme "eng";
-            match "unshift", "er-hyear", "scheme", "er-scheme";
+            scheme "ja";
+            match "unshift", "er-hyear";
         }
         era {  // Charles II
             range 2327522~2336541;

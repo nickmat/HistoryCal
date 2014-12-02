@@ -187,8 +187,9 @@ void TestDef_er::testStrTableOutput()
 void TestDef_er::testStringInput()
 {
     struct data { string in; string out; Field beg; Field end; } t[] = {
+        { "com", "The Commonwealth", 2323386, 2327521 },
         { "1jan1000eng", "1 Jan 1000/1 English calendar, os", 2086674, 2086674 },
-//        { "20may6john", "", 0, 0 }, Currently, this is normalised to "20 May 7 John" 
+//        { "20may6john", "", 0, 0 }, // Currently, this is normalised to "20 May 7 John", should be invalid.
         { "8may3john", "8 May, First 3 John | 8 May, Second 3 John",
             2159851, 2160216 },
         { "12jun26geoii", "12 Jun 26 George II, os | 12 Jun 26 George II, ns",
