@@ -1,0 +1,9 @@
+- Added "today" keyword for string input.
+- Correct English Regnal calendar for William II reign.
+
+26 Nov 2014 Version 0.2.2
+- Minor changes to source to enable GCC compile.
+- Correct spelling errors in default script.
+
+25 Nov 2014 Version 0.2.1
+- First release with the HistoryCal project
