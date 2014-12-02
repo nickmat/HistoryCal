@@ -31,6 +31,7 @@
 #include "calmath.h"
 
 #include <cassert>
+#include <ctime>
 
 #define BASEDATE_Gregorian 1721060
 
@@ -99,6 +100,27 @@ namespace {
         return;
     }
 
+    Field gregorian_to_jdn( Field year, Field month, Field day )
+    {
+        Field jdn =
+            floor_div( year, 400 )*146097         //     days in 400 year cycles
+            + (pos_mod( year, 400 )/100)*36524    // - 1 days in 100 year cycles
+            + (pos_mod( year, 100 )/4)*1461       // + 1 days in 4 year cycles
+            + pos_mod( year, 4 )*365              // + 1 days in year
+            + latin_diy[month] + day              // - 1 days numbered from 1 not 0
+            + BASEDATE_Gregorian;
+
+        // Adjust if in the 1st 2 months of 4 year cycle
+        if( month < 3 && year%4 == 0 ) --jdn;
+
+        // Adjust if in the 1st 2 months of 100 year cycle
+        if( year%100 == 0 && month < 3 ) ++jdn;
+
+        // Adjust if in the 1st 2 months of 400 year cycle
+        if( year%400 == 0 && month < 3 ) --jdn;
+
+        return jdn;
+    }
 }
 
 Field Gregorian::get_jdn( const Field* fields ) const
@@ -106,7 +128,7 @@ Field Gregorian::get_jdn( const Field* fields ) const
     if( fields[0] == f_invalid || fields[1] == f_invalid || fields[2] == f_invalid ) {
         return f_invalid;
     }
-    return jdn( fields[0], fields[1], fields[2] );
+    return gregorian_to_jdn( fields[0], fields[1], fields[2] );
 }
 
 void Gregorian::set_fields( Field* fields, Field jdn ) const
@@ -134,24 +156,7 @@ double Gregorian::get_average_days( const Field* fields, Unit unit ) const
  */
 Field Gregorian::jdn( Field year, Field month, Field day ) const
 {
-    Field jdn =
-        floor_div( year, 400 )*146097         //     days in 400 year cycles
-        + (pos_mod( year, 400 )/100)*36524    // - 1 days in 100 year cycles
-        + (pos_mod( year, 100 )/4)*1461       // + 1 days in 4 year cycles
-        + pos_mod( year, 4 )*365              // + 1 days in year
-        + latin_diy[month] + day              // - 1 days numbered from 1 not 0
-        + BASEDATE_Gregorian;
-
-    // Adjust if in the 1st 2 months of 4 year cycle
-    if( month < 3 && year%4 == 0 ) --jdn;
-
-    // Adjust if in the 1st 2 months of 100 year cycle
-    if( year%100 == 0 && month < 3 ) ++jdn;
-
-    // Adjust if in the 1st 2 months of 400 year cycle
-    if( year%400 == 0 && month < 3 ) --jdn;
-
-    return jdn;
+    return gregorian_to_jdn( year, month, day );
 }
 
 /*! Return the jdn for Easter Sunday in the given year.
@@ -167,6 +172,16 @@ Field Gregorian::easter( Field year ) const
     Field paschal_moon = jdn( year, 4, 19 ) - epact;
     return kday_after( WDAY_Sunday, paschal_moon );
 }
+
+Field Gregorian::today()
+{
+    time_t now;
+    time( &now );
+    struct tm* tp = localtime( &now );
+
+    return gregorian_to_jdn( tp->tm_year + 1900, tp->tm_mon + 1, tp->tm_mday );
+}
+
 
 /*! Returns true if the year is a leap year in the Gregorian Calendar.
  */

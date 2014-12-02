@@ -29,6 +29,7 @@
 
 #include "calbase.h"
 #include "calgrammar.h"
+#include "calgregorian.h"
 #include "calparse.h"
 
 #include <cassert>
@@ -75,6 +76,10 @@ void Record::set_str( const string& str, const string& fmt )
     }
     if( in == "future" ) {
         m_jdn = m_f[0] = f_maximum;
+        return;
+    }
+    if( in == "today" ) {
+        set_jdn( Gregorian::today() );
         return;
     }
 

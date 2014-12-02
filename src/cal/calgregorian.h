@@ -44,6 +44,8 @@ namespace Cal {
         virtual Field jdn( Field year, Field month, Field day ) const;
         virtual Field easter( Field year ) const;
 
+        static Field today();
+
     protected:
         virtual bool is_leap_year( Field year ) const;
         Field last_day_in_month( Field year, Field month ) const;
