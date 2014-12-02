@@ -155,7 +155,7 @@ void Soak_er::testErCalendar()
         if( era == 32 && day == 13 && month ==  2 && hyear == 1689 ) { era++; year = 0; }
         if( era == 33 && day == 13 && month ==  2 ) year++; // William and Mary
         if( era == 33 && day == 27 && month == 12 && hyear == 1694 ) { era++; } // Don't reset the year
-        if( era == 34 && day == 13 && month ==  2 ) year++; // William III
+        if( era == 34 && day == 28 && month == 12 ) year++; // William III
         if( era == 34 && day ==  8 && month ==  3 && hyear == 1702 ) { era++; year = 0; }
         if( era == 35 && day ==  8 && month ==  3 ) year++; // Anne
         if( era == 35 && day ==  1 && month ==  8 && hyear == 1714 ) { era++; year = 0; }

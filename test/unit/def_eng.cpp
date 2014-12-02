@@ -155,7 +155,10 @@ void TestDef_eng::testCreation()
         if( info.vocab_codes[i] == "m" ) {
             str = "Month names";
         }
-        if( info.vocab_codes[i] == "ojn" ) {
+        if( info.vocab_codes[i] == "w" ) {
+            str = "Weekday names";
+        }
+        if( info.vocab_codes[i] == "jajg" ) {
             str = "Scheme names";
         }
         CPPUNIT_ASSERT( str != "" );

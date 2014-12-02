@@ -70,7 +70,7 @@ void TestCal::testVersion()
 #else
 #define VERSION_CONFIG   " debug"
 #endif
-    const string version( "0.2.1" VERSION_CONFIG );
+    const string version( "0.2.3" VERSION_CONFIG );
     string calver( Calendars::version() ); 
     CPPUNIT_ASSERT_EQUAL( version, calver );
 }
