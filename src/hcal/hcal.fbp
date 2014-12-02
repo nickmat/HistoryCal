@@ -172,7 +172,7 @@
                         <event name="OnUpdateUI"></event>
                     </object>
                 </object>
-                <object class="wxMenu" expanded="0">
+                <object class="wxMenu" expanded="1">
                     <property name="label">&amp;View</property>
                     <property name="name">m_menuView</property>
                     <property name="permission">none</property>
@@ -183,7 +183,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_CHECK</property>
-                        <property name="label">Show Intermeadiate</property>
+                        <property name="label">Show Intermediate</property>
                         <property name="name">m_menuViewInterm</property>
                         <property name="permission">protected</property>
                         <property name="shortcut"></property>

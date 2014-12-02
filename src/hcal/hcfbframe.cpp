@@ -42,7 +42,7 @@ hcFbFrame::hcFbFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	
 	wxMenu* m_menuView;
 	m_menuView = new wxMenu();
-	m_menuViewInterm = new wxMenuItem( m_menuView, wxID_ANY, wxString( _("Show Intermeadiate") ) , wxEmptyString, wxITEM_CHECK );
+	m_menuViewInterm = new wxMenuItem( m_menuView, wxID_ANY, wxString( _("Show Intermediate") ) , wxEmptyString, wxITEM_CHECK );
 	m_menuView->Append( m_menuViewInterm );
 	
 	m_menuViewCount = new wxMenuItem( m_menuView, wxID_ANY, wxString( _("Add Day Count") ) , wxEmptyString, wxITEM_CHECK );

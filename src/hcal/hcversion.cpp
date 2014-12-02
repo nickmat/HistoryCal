@@ -69,6 +69,9 @@ const char* hcTitle = "HistoryCal - V" VERSION "\n"
                    The Family Pack
 
  25nov14  v0.0.1   Create initial alpha version. Renamed HistoryCal.
+                   Initial alpha release.
+
+ active   v0.0.2
 
 
  See also website http://historycal.org
