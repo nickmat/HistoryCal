@@ -9,7 +9,7 @@
 <body>
 
 <h1>
- <a  href="index.htm"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
+ <a  href="http://historycal.org/"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
  HistoryCal Manual<br/>Date Conversions
 </h1>
 
@@ -20,37 +20,115 @@
   <a href="index.htm" class="m-item level1">Manual</a>
   <a href="convert.htm" class="m-item level2 thispage">Conversions</a>
   <a href="index.htm" class="m-item prev">&lt;&lt;</a>
-  <a href="calculate.htm" class="m-item next">&gt;&gt;</a>
+  <a href="ranges.htm" class="m-item next">&gt;&gt;</a>
 </div>
 
 <div id="content" class="nomenu">
 
 <h2>Date Conversions</h2>
-<img class='scrnprnt' src='../sp/sp3.png' alt='Screen Print 3' />
+<img class='scrnprnt' src='../sp/sp6.png' alt='Screen Print 6' />
 <p>
- Converting dates is pretty staightforward; select the calendar and format for the date you have to convert and the calendar and format for the date you want to covert to, enter the date and press the Convert button.
+ Converting dates between different calendars is one of HistoryCals most important uses.
+ This is because HistoryCal handles (or rather, will handle) so many different calendars and calendar types.
 </p>
 <p>
- Normally it really is this simple, but occasionally things get more interesting. For instance, if you want to convert the English Regnal date 15th June in the 26th year of the reign of George II to the Gregorian calendar, you may (or may not) be surprised to get two dates as an answer. This is because King George II started his reign on 11th June 1727 so the regnal year 26 started the 11th June 1752. In September of that year 11 days (3rd to 13th incl.) were removed when the calendar was changed from Julian to Gregorian. In order to keep the number of days at 365, the same as any other common year, 11 day were added to the end of the regnal year, and so the 27th year of his reign started 22nd June 1753.
-</p>
-
-<h2>Date Ranges</h3>
-<p>
- It is not always possible to determine exectly when events in the past occured. One way of defining that uncertainty is to give one or more ranges of dates in which you think the event occured. Other ways are to describe the level uncertainty in some way, however, due to the subjective nature of this method, this will not be considered here.
-</p>
-<p>
- Ranges of consecutive days are shown as "start ~ finish" (note the tilde character). Ranges are inclusive and "finish" is always equal to or later (higher) than "start". A range where "start" is later than "finish" is considered invalid and will be ignored. If "start" equals "finish", this represents one day and, using range shorthand, can be represented by a single value.
+ Select the input calendar from the Input contol.
+ Select the input format from the next drop-down list.
+ Then type in the the date you want to convert.
+ Select the output calendar from the Output control and
+ the output format format from the drop-down list.
+ The converted date should then be shown in the bottom panel.
 </p>
 <p>
- A collection of ranges can be shown by separating them with a vertical bar character, as in "range1 | range2". Range sets can be normalised or un-normalised. In a normalised range set, the ranges are in ascending order and there is no overlap (ie. any particular day may occur only once in the set), and adjacent ranges are merged. An un-normalised set of ranges can be any sequence of valid ranges in any order. HistoryCal will accept an un-normalised range set as input, but will always output them normalised.
+ If you want to change the input date, edit the input text and press the Convert button.
 </p>
 
-<h3>Range Shorthand</h3>
+<h3>Input Text</h3>
 <p>
- We can use a shorthand way of expressing a range simply by omitting one or more of the lesser calendar fields, as in the Gregorian date "Sep 1948" which is shorthand for the range "1 Sep 1948 ~ 30 Sep 1948". The date "1948" is shorthand for "1 Jan 1948 ~ 31 Dec 1948". We can use a combination of of both methods as in "Feb 1948 ~ May 1948" which represents "1 Feb 1948 ~ 31 May 1948" or "1876 ~ 1891" which equals "1 Jan 1876 ~ 31 Dec 1891".
+ When you select the input format, this will show you which date elements
+ (like the week day as well as the day, month and year) to enter and the expected order.
+ So, for the current Gregorian calendar the choices are:
+</p>
+<ul>
+ <li>Day Month Year (dmy)</li>
+ <li>Month Day Year (mdy)</li>
+ <li>WDay Day Month Year (wdmy)</li>
+ <li>Year Month Day (ymd)</li>
+</ul>
+<p>
+ The letters in brackets are simply shorthand codes we can use to identify the format,
+ we can ignore them for now.
 </p>
 <p>
- With some of the calendar variants, the range shorthand can sometimes be useful and sometimes confusing. An example of the former, just entering the monarch's name is shorthand for the span of their reign. As an example of the later, consider the Julian Annunciation calendar were the year change occurs on the 25th March. In this calendar the shorthand "1748" expands to "25 Mar 1748 ~ 24 Mar 1748/9". But what of the range "Mar 1748", this range includes the start of the year from 25th March to the end of the year on the 24th March but not the middle. The only interpretation can be two ranges as in "25 Mar 1748 ~ 31 Mar 1748 | 1 Mar 1748/9 ~ 24 Mar 1748/9". As a shortcut thats quite successful but whether it is useful or not, I'm not so sure.
+ Some elements of the date are written in numbers and some in text, and some may be written in either.
+ When writing numbers, you can use either a space or a commer (or both) to separate them.
+ You must use a commer to separate two text elements (since the space may be part of the text - as in "Richard III").
+ You do not need anything to separate a number and text.
+ Also for entering text, case is not significant and any spaces may be ommited.
+ Text normally has a full or abbreviated form as well as possible alteratives.
+ Any may be used for input, but it must be one or the other.
+</p>
+<p>
+ A comment may be added to a date by enclosing it between square brackets.
+ For example "18 Jun 1867 [John's birthday]".
+ These comments will be ignored.
+</p>
+
+<h3>Output Text</h3>
+<p>
+ In the current version of HistoryCal,
+ the options are limited to selecting one of the pre-defined output formats.
+ Future versions will allow the user to create their own style.
+</p>
+<p>
+ There are two distinct type of output format, reversable and non-reversable.
+ By reversable we mean that if you feed the output back into the input control
+ (with the correct setting, naturally) then the system will be able to read it
+ and convert it back into its original form. It should do this without any errors.
+ Currently, all the built-in output formats are reversable.
+ If you want to use the date later as part of a calculation then you should
+ always use a reversable output.
+</p>
+<p>
+ In a future version, it will be possible for the user to create or modify
+ the output format and creating a non-reversable format will be possible.
+ This will allow much more flexibility in creating outputs suitable for
+ inserting into reports, say.
+</p>
+
+<img class='scrnprnt' src='../sp/sp4.png' alt='Screen Print "er# 15 Jun 26 George II"' />
+<h3>Some Surprises</h3>
+<p>
+ Normally it really is this simple, but occasionally things get more interesting.
+ For instance, if you want to convert the English Regnal date 15th June in the 26th year of the reign of George II
+ to the Gregorian calendar, you may (or may not) be surprised to get two dates as an answer.
+ This is because King George II started his reign on 11th June 1727 so the regnal year 26 started the 11th June 1752.
+ In September of that year 11 days (3rd to 13th incl.) were removed when the calendar was changed from Julian to Gregorian.
+ In order to keep the number of days at 365, the same as any other common year,
+ 11 day were added to the end of the regnal year, and so the 27th year of his reign started 22nd June 1753.
+</p>
+<p>
+ So in King George II's 26th year, the days 3 Sep to 13 Sep are missing and the days 11 Jun to 21 Jun are repeated.
+ If you enter "15 Jun 26 George II" with the calculator set to English Reginal, the output will be:
+ "15 Jun 26 George II, os | 15 Jun 26 George II, ns".
+ The significance of the '|' (vertical bar) will be detailed later in this manual,
+ but for the moment we can simply read it as "or".
+ Notice that for George II' regnal years the output always adds a "os" or "ns" (for Old Style or New Style).
+ We do not normally need to include this in our input date because the calculater can work it out for its self.
+ On the few occasions the it can't, as in our example,
+ we can add it to input text and it then converts it to a single date.
+</p>
+
+<h3>Intermediate Value</h3>
+<p>
+ HistoryCal works by first converting the input into a standard form - the Julian Day Number or jdn.
+ (see <a href='../cal/jdn.htm'>Julian Day Number</a> for a full description.)
+ This number is then used to convert to the output form.
+</p>
+<p>
+ If you are interested, you can see this intermediate form,
+ select the "Show Intermediate" option from the View menu.
+ An additional output control will appear with the jdn value.
 </p>
 
 </div>
@@ -70,6 +148,7 @@
 
 <!-- Start of StatCounter Code for Default Guide -->
 <script type="text/javascript">
+//<![CDATA[
 var sc_project=9849843;
 var sc_invisible=1;
 var sc_security="4988237c";
@@ -77,13 +156,15 @@ var scJsHost = (("https:" == document.location.protocol) ?
 "https://secure." : "http://www.");
 document.write("<sc"+"ript type='text/javascript' src='" +
 scJsHost+
-"statcounter.com/counter/counter.js'></"+"script>");
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
 </script>
-<noscript><div class="statcounter"><a title="web statistics"
-href="http://statcounter.com/" target="_blank"><img
-class="statcounter"
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
 src="http://c.statcounter.com/9849843/0/4988237c/1/"
-alt="web statistics"></a></div></noscript>
+alt="website statistics" /></a></div></noscript>
 <!-- End of StatCounter Code for Default Guide -->
+
 </body>
 </html>

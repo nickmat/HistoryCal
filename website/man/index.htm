@@ -8,7 +8,10 @@
 </head>
 <body>
 
-<h1><a  href="../index.htm"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>HistoryCal Manual<br/>Introduction</h1>
+<h1>
+ <a  href="http://historycal.org/"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
+ HistoryCal Manual<br/>Introduction
+</h1>
 
 <div id="page">
 
@@ -20,16 +23,21 @@
 </div>
 <div id="menu">
   <a href="convert.htm" class="m-item">Conversions</a>
+  <a href="ranges.htm" class="m-item">Ranges</a>
   <a href="calculate.htm" class="m-item">Calculations</a>
+  <a href="types.htm" class="m-item">Calendar Types</a>
   <a href="script.htm" class="m-item">Script</a>
   <a href="../map.htm" class="m-item">Site Map</a>
   <p style="text-align: center;">
     The project page at<br />
     <a href="http://sourceforge.net/projects/historycal">
-      <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=2075494&amp;type=13"
+      <img src="../sys/sf-logo-13.jpg"
         width="120" height="30"
         alt="Get HistoryCal at SourceForge.net. Fast, secure and Free Open Source software downloads"
       />
+    </a>
+    <a href="http://sourceforge.net/projects/historycal/files">
+      <img src="../sys/download-button.png" alt="Download" />
     </a>
   </p>
 </div>
@@ -39,52 +47,12 @@
 <h2>Introduction</h2>
 <img class='scrnprnt' src='../sp/sp1.png' alt='Screen Print 1' />
 <p>
- HistoryCal is a calendar calculator that can perform a number of tasks. The simplest being the conversion of dates from one calendar scheme to another. It can handle ranges of dates and carry out certain operations, such as returning the starting range given a fixed date and an age in years or months.
-</p>
-<p>
- The calculator can be extended using a built-in script language. This can be used to create variations on the basic calendar schemes, such as shifting the new year to a different point in the calendar, or creating regnal calendars. The same script can be used to describe the grammar, formatting and vocabularies used by the calendars.
-</p>
-
-<h2>Inputting Dates</h2>
-<p>
- To input a date, simply select the calendar scheme you are using and then the format to be used. The format selected will determine the order of the various date elements and (in future) how punctuation is interpreted. Then use the single text box to enter the date. You can enter the date as all numbers separated by spaces. For elements that have names, you may enter the name, in full or abbreviated. You can either type the name or select it from the text lists.
-</p>
-<p>
- The following rules apply to entering dates:-
-</p>
-<ul>
- <li>Numbers may start with a minus sign or hyphen (-). Used for some proleptic calendars.</li>
- <li>Numbers are separated by a space ( ), comer (,) or colon (:).</li>
- <li>Text names (which may contain spaces) are separated by a comer (,) or colon (:).</li>
- <li>Numbers and text do not need separators but may use a space ( ), comer (,) or colon (:).</li>
- <li>Double dating may be used in some circumstances by using a slash (/) between the numbers.</li>
- <li>Future versions may provide custom variations on these rules, for instance, to allow ISO format (with hyphens).</li>
-</ul>
-<h3>Inputting Ranges</h3>
-<p>
- A range is a set of continuous days and described by the inclusive first and last days in the set. A single date may be considered as a range of one day.
-</p>
-<p>
- Ranges can be entered by entering two dates separated by a tilde (~). It is also possible to enter a shorthand range by omitting the lesser significant elements of a date, so, for a day month year type calendar, just entering the month and year or just a year is the equivalent of entering a range. For example, "Sep 1948" is equivalent to "1 Sep 1948 ~ 30 Sep 1948" and "1948" to "1 Jan 1948 ~ 31 Dec 1948".
-</p>
-<p>
- Multiple ranges may be entered by separating them with the vertical bar (|) character.
-</p>
-
-<h2>Setting the Output</h2>
-<p>
- The output is obtained by selecting the calendar scheme and the format to be used. Hopefully the format specification is self explanatory. In general, lower case letters indicate numbers are output, element names with an initial upper case letter indicate that text names are output. If the element name is abbreviated then the text name will be as well.
-</p>
-
-<h3>Output Options</h3>
-<p>
- The View menu may be used to set the following options.
-</p>
-<p>
- Show intermediate values. These are the Julian Day Numbers (jdn) that are used in the conversion. This is useful if you have reason to believe the conversion is wrong. The intermediate values can be checked to see if the error is on the input side or the output side.
-</p>
-<p>
- Include range lengths. When a range, or ranges, are output, the total number of days is appended.
+ On of the design principles of HistoryCal is that simple things should be simple
+ to do and more complex things should be possible. The hope is that dispite the power
+ of HistoryCal to do almost anything to do with dates, the user should find using it
+ comes naturally and without needing to refer to this manual too often.
+ If, on the other hand, you do want to do something complex - like create your own
+ calendar variant - you will find what you need here.
 </p>
 
 </div>
@@ -104,6 +72,7 @@
 
 <!-- Start of StatCounter Code for Default Guide -->
 <script type="text/javascript">
+//<![CDATA[
 var sc_project=9849843;
 var sc_invisible=1;
 var sc_security="4988237c";
@@ -111,13 +80,15 @@ var scJsHost = (("https:" == document.location.protocol) ?
 "https://secure." : "http://www.");
 document.write("<sc"+"ript type='text/javascript' src='" +
 scJsHost+
-"statcounter.com/counter/counter.js'></"+"script>");
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
 </script>
-<noscript><div class="statcounter"><a title="web statistics"
-href="http://statcounter.com/" target="_blank"><img
-class="statcounter"
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
 src="http://c.statcounter.com/9849843/0/4988237c/1/"
-alt="web statistics"></a></div></noscript>
+alt="website statistics" /></a></div></noscript>
 <!-- End of StatCounter Code for Default Guide -->
+
 </body>
 </html>
