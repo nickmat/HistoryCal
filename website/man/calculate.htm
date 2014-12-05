@@ -25,7 +25,112 @@
 
 <div id="content" class="nomenu">
 
-<h2>Manual - Under Construction</h2>
+<img class='scrnprnt' src='../sp/sp5.png' alt='Screen Print 5' />
+<h2>Combining Ranges</h2>
+<p>
+ We have already meet HistoryCal's ability to handle more than one date range at a time
+ in our "Suprising" results in the previous sections.
+ The output ranges (and we can treat a single day as a range of one day) are separated
+ by the '|' (vertical bar) character.
+</p>
+<p>
+ In the following, we describe the operations in terms of both set theory and logic operations.
+ The strict mathematical view is that because we are dealing with many things (days) at once,
+ these are sets and we should be using the set operators.
+ The logical operators can only apply to one thing (day) at a time.
+ However, we can impliment the set operations by applying the logical operators
+ to each day over the full time-continuum.
+</p>
+
+<h3>Union operator <span style='font-size:smaller;'>or</span> Or operator</h3>
+<img src='union.png' alt='Union Operator' style='float:left;margin-right:1em;margin-bottom:1em;' />
+<p>
+ Although we are borrowing from set theory, we use the '|' character as the "Union" operator.
+ This usually has the symbol <img src='union-symbol.png' alt='Union Symbol' />,
+ but '|' is easier to type. It is also the character commonly associated with the
+ logical operator "or" - and this is probably the best way to remember it.
+</p>
+<p>
+ Simply put, it means both ranges are to be included in the output.
+ For example, "1890 ~ 1920 | 1910 ~ 1930" = "1830 ~ 1930".
+ (We will assume input and output is set to Gregorian for all example unless otherwise stated.)
+</p>
+<p>
+ If the two ranges do not overlapp, as in "1910 ~ 1920 | 1890 ~ 1900", the output will be
+ "1890 ~ 1900 | 1910 ~ 1920". But you will note, it has moved the ranges around.
+</p>
+<h3>Well Order List</h3>
+<img src='well-ordered.png' alt='Well ordered list' style='float:left;margin-right:1em;margin-bottom:1em;' />
+<p>
+ The calculator output is always in the form of a well ordered list.
+ By which we mean:
+ ranges are alway shown with the earlier date first,
+ multiple ranges are separated by the "|" character,
+ ranges do not overlapp or abut one another
+ and are in ascending order.
+</p>
+<p>
+ For example: the input "1948 | 1946" will give the output "1946 | 1948".
+ The input "1948 | 1946 | 1949" will give "1946 | 1948 ~ 1949".
+ And the input "1948 | 1946 | 1949 | 1947" gives "1946 ~ 1949".
+</p>
+
+<h3>Intersection operator <span style='font-size:smaller;'>or</span> And operator</h3>
+<img src='inter.png' alt='Intersection Operator' style='float:left;margin-right:1em;margin-bottom:1em;' />
+<p>
+ The '&amp;' character is used as the "Intersection" operator,
+ instead of the more usual symbol <img src='intersection-symbol.png' alt='Union Symbol' />.
+ Also we place a dot after it (&amp;.) to distinguish from the &amp; in an element name
+ (ie "Philip &amp; Mary")
+ It is also the character commonly associated with the
+ logical operator "and" - which is the easiest way to think of it.
+</p>
+<p>
+ Example: "1890~1920 &amp;. 1900~1940" equals "1900 ~ 1920".
+</p>
+
+<h3>Complement operator <span style='font-size:smaller;'>or</span> Not operator</h3>
+<img src='complement.png' alt='Complement Operator' style='float:left;margin-right:1em;margin-bottom:1em;' />
+<p>
+ The '!' character is used to denote to the unitary "Complement" operator.
+ Usually this is indicated by a small 'c' superscript or an overbar,
+ but these methods do not lend themselves standard keyboard  entry.
+ The '!' is commonly used for the logical operator 'not'.
+</p>
+<p>
+ Examples are "!1948" which equals "past ~ 31 Dec 1947 | 1 Jan 1949 ~ future"
+ and "!past~1800" which equals "1 Jan 1801 ~ future";
+</p>
+
+<h3>Symmetric Difference operator <span style='font-size:smaller;'>or</span> Exclusive Or operator</h3>
+<img src='sym-dif.png' alt='Symmetric Difference Operator' style='float:left;margin-right:1em;margin-bottom:1em;' />
+<p>
+ The "Symmetric Difference" operator normally has the symbol
+ <img src='symmetric-dif-symbol.png' alt='Symmetric Difference Symbol' />
+ but we will use the '^' (carrot or hat) character for ease of typing.
+ The '^' is used as the xor (exclusive or) operator in the many computer languages.
+ The output is the range or ranges that is in one or the other input ranges
+ but not both.
+</p>
+<p>
+ Example: "1890~1920 ^ 1900~1940" equals "1890 ~ 1899 | 1921 ~ 1940".
+</p>
+
+<h3>Relative complement operator</h3>
+<img src='rel-comp.png' alt='Relative Complement Operator' style='float:left;margin-right:1em;margin-bottom:1em;' />
+<p>
+ One of the usual symbols for "Relative Complement" is the '\' (back slash) character,
+ which is the one we shall use.
+ (The other character is the '-' (minus or hyphen), but this is already used.)
+ This is the only operation in which the order of the input is significant,
+ "A \ B" is that part of A that is not in B.
+ It could also be written as "A &.! B".
+ The logical equivalent is "a and not b".
+</p>
+<p>
+ This operator can be used to exclude a range of dates from within a larger range.
+ As in "1948 \ Sep 1948" which equals "Jan 1948 ~ Aug 1948 | Oct 1948 ~ Dec 1948".
+</p>
 
 </div>
 

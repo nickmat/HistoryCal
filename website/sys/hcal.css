@@ -24,6 +24,7 @@ h1 {
 
 h2, h3, h4 {
  margin: 20px 2em 0.25em 1em;
+ clear: left;
 }
 
 p {
