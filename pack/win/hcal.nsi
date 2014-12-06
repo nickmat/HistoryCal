@@ -31,8 +31,8 @@
 
 !define HCALNAME      "HistoryCal"
 !define APP_EXE       "hcal.exe"
-!define VERSION_DOT   "0.0.1.3"
-;!define VERSION_UND   "0_0_1_3"
+!define VERSION_DOT   "0.0.2.0"
+;!define VERSION_UND   "0_0_2_0"
 !define VERSION_TXT   "V${VERSION_DOT} alpha"
 !define LICENSE       "license.txt"
 !define DESCRIPTION   "Historical Calendar Application Installer"
@@ -158,6 +158,7 @@ Section "Examples" InstallExamples
   SetOutPath      "${EXAMPLE_PATH}"
 
   File "spanish-era.hcs"
+  File "misc-calc.hcs"
 
 SectionEnd
 

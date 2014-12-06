@@ -1,15 +1,16 @@
+set hcalver=0_0_2
 cd win
 call createpack.bat
 cd ..
-copy win\hcal-setup.exe hcal_0-0-1_setup.exe
+copy win\hcal-setup.exe hcal_%hcalver%_setup.exe
 del win\hcal-setup.exe
 
 cd src
 call createsource.bat
 cd ..
-copy src\hcal.gz hcal_0-0-1_src.gz
+copy src\hcal.gz hcal_%hcalver%_src.gz
 del src\hcal.gz
-copy src\hcal.zip hcal_0-0-1_src.zip
+copy src\hcal.zip hcal_%hcalver%_src.zip
 del src\hcal.zip
 
 pause

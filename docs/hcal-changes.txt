@@ -1,5 +1,7 @@
+6 Dec 2014 Version 0.0.2 alpha
 - Used Cal library to version 0.2.3
 - Correct spelling in menu options.
+- Added misc-calc.hcs example file
 
 26 Nov 2014 Version 0.0.1
 - Initial alpha release

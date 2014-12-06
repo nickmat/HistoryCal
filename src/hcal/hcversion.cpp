@@ -71,7 +71,7 @@ const char* hcTitle = "HistoryCal - V" VERSION "\n"
  25nov14  v0.0.1   Create initial alpha version. Renamed HistoryCal.
                    Initial alpha release.
 
- active   v0.0.2
+  6dec14  v0.0.2   Uses Cal library version 0.2.3. Correct typos.
 
 
  See also website http://historycal.org

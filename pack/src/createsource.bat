@@ -9,6 +9,7 @@ mkdir hcal
 mkdir hcal\build
 mkdir hcal\build\gnu
 mkdir hcal\build\vc9
+mkdir hcal\docs
 mkdir hcal\example
 mkdir hcal\include
 mkdir hcal\include\cal
@@ -36,6 +37,9 @@ copy ..\..\build\build.txt hcal\build > nul
 copy ..\..\build\gnu\*.* hcal\build\gnu > nul
 copy ..\..\build\vc9\*.sln hcal\build\vc9 > nul
 copy ..\..\build\vc9\*.vcproj hcal\build\vc9 > nul
+
+rem ==================[ Docs ]======================
+copy ..\..\docs\*.* hcal\docs > nul
 
 rem ================[ Examples ]====================
 copy ..\..\example\*.* hcal\example > nul
