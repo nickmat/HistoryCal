@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>HistoryCal - Development index</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="icon" type="image/png" href="../sys/logo1_32x32x32.png" />
+<link rel='stylesheet' type='text/css' href='../sys/hcal.css' />
+</head>
+<body>
+
+<h1>
+ <a  href="http://historycal.org/"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
+ HistoryCal Development<br/>Introduction
+</h1>
+
+<div id="page">
+
+<div id="crumbs">
+  <a href="../index.htm" class="m-item">Home</a>
+  <a href="index.htm" class="m-item level1 thispage">Development</a>
+  <a href="../cal/er.htm" class="m-item prev">&lt;&lt;</a>
+  <a href="lib/index.htm" class="m-item next">&gt;&gt;</a>
+</div>
+<div id="menu">
+  <a href="lib/index.htm" class="m-item">Cal Library</a>
+<!--
+  <a href="develop.htm" class="m-item">Utf8api Library</a>
+  <a href="develop.htm" class="m-item">Script Test Suite</a>
+  <a href="develop.htm" class="m-item">Unit Test Suite</a>
+  <a href="develop.htm" class="m-item">Soak Test Suite</a>
+  <a href="develop.htm" class="m-item">HistoryCal App.</a>
+-->
+  <a href="../map.htm" class="m-item">Site Map</a>
+  <p style="text-align: center;">
+    The project page at<br />
+    <a href="http://sourceforge.net/projects/historycal">
+      <img src="../sys/sf-logo-13.jpg"
+        width="120" height="30"
+        alt="Get HistoryCal at SourceForge.net. Fast, secure and Free Open Source software downloads"
+      />
+    </a>
+    <a href="http://sourceforge.net/projects/historycal/files">
+      <img src="../sys/download-button.png" alt="Download" />
+    </a>
+  </p>
+</div>
+
+<div id="content">
+
+<h2>Introduction</h2>
+<p>
+ The project is broken down into the following sub projects.
+</p>
+<h3>1. The Cal library.</h3>
+<p>
+ This is the engine that does all the work.
+ It is written in C++ and has a only a small (included in the project) utf-8 C library as a dependent.
+ Only a small API is needed to use the library
+ and it would be very easy to provide a C API
+ which in turn could be used to make the library available in other languages,
+ such as Basic or Python.
+</p>
+<p>
+ It is also intended that this library can be used in other programs,
+ such as my own genealogy program <a href='http://thefamilypack.org'>The Family Pack</a>.
+</p>
+
+<h3>2. The Calendar Scripts</h3>
+<p>
+ The script language currently fulfills two main functions.
+ It is used to evaluate the date expressions,
+ the Input Expression used by the calculator is converted into a Script expression before being evaluated.
+ And it is also used to define the calendar schemes,
+ as can be seen from the <a href='../cal/index.htm'>Calendar Definitions</a>.
+ These schemes can be developed, and supplied if necessary, quite independantly from the code library.
+</p>
+
+<h3>3. The Test Programs.</h3>
+<p>
+ There are 3 command line test programs written in C++ and are OS independent.
+ Two of these programs use the CppUnit C++ library.
+</p>
+
+<h4>3.1. Unit Test Program</h4>
+<p>
+ Using the CppUnit C++ library, these are a series of tests using the Cal library API.
+ It is a fairly rapid set of tests designed to show regressions when making changes to the library.
+</p>
+
+<h4>3.2. Soak Test Program</h4>
+<p>
+ Also using the CppUnit C++ library, these tests are designed to exercise the calendar schemes by
+ stepping through the entire usage range one day at time.
+ This should give confidence that all corner cases have been checked, and no regressions have occured.
+ By the nature of these tests, the full suit may take some time to run.
+</p>
+
+<h4>3.3. Script Test Program</h4>
+<p>
+ A series of HistoryCal Script files have been created using a standard comment format
+ to indicate the expected output of the script.
+ The test program then runs through each file and compares its output to that expected.
+ This program is still a work in progress.
+</p>
+
+<h3>4. The Reference Program.</h3>
+<p>
+ This is the main HistoryCal calulator.
+ It is a GUI program written in C++ using the wxWigets library,
+ meaning it can be compiled to run on Windows, Mac, Linux and other Unix type OS's.
+ Development is currently carried out on Windows (using Visual Studio 2008 Express)
+ but as you can see from the screen prints in the manual section,
+ it has also been compiled on Linux (Mint) and Max OS X.
+</p>
+<p>
+ Most effort to date has gone into developing the Cal library, so this program is fairly basic.
+ However, a completely independent project has also been set up to create a new enhanced graphic user interface,
+ details are at http://historycalhci.wordpress.com or (spanish version) http://historycalhcies.wordpress.com.
+ You are invited (indeed encouraged) to participate.
+</p>
+<p>
+ In the future, this program could be give several alternative interfaces.
+ Such as more calculator like interface with buttons numbers and months etc.
+ or a more conventional calendar like interface laid out in years and months.
+ There are lots of possibilities.
+</p>
+
+<h3>5. A Web Application</h3>
+<p>
+ This is a possible future project.
+ Tools exist to convert C++ libraries into JavaScript
+ and this would make it possible to create a web app.
+ This would be an attractive tool for anyone with only a passing interest in date conversion and calculations
+ since it would work anywhere (including with tablets and smartphones) without needing any set up.
+</p>
+
+</div>
+<hr/>
+
+<div id='valid'>
+  <p>
+    <a href="http://validator.w3.org/check?uri=referer"><img
+        src="../sys/valid-xhtml10.png"
+        alt="Valid XHTML 1.0 Strict" height="31" width="88" /></a>
+  </p>
+</div>
+
+<div id='create-date'><p>5<sup>th</sup> December 2014</p></div>
+
+</div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="web statistics"
+href="http://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="web statistics"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+</body>
+</html>
