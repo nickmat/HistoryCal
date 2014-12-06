@@ -1,0 +1,8 @@
+// An example calculation
+
+// A Gregorian date in the year 1890 to 1901 during Queen Victoria's reign but not the year 1899
+set input "g";
+let answer = date "er#vic" & date "1890~1910" & ! date "1899";
+
+set output "g";
+write "Answer = " + str answer;
