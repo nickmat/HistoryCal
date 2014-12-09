@@ -108,11 +108,13 @@ SOAK_OBJECTS =  \
 CAL_CXXFLAGS = $(VAR) $(VAR_9) -DMAKINGLIB_CAL -I../../include -fPIC -DPIC \
 	$(CPPFLAGS) $(CXXFLAGS)
 CAL_OBJECTS =  \
+	cal_calastro.o \
 	cal_calbase.o \
 	cal_calcalendars.o \
 	cal_caldefscripts.o \
 	cal_caldlist.o \
 	cal_calformat.o \
+	cal_calfrench.o \
 	cal_calgrammar.o \
 	cal_calgregorian.o \
 	cal_calhybrid.o \
@@ -318,6 +320,9 @@ soak_soakcommon.o: ./../../test/soak/soakcommon.cpp
 soak_soakmain.o: ./../../test/soak/soakmain.cpp
 	$(CXX) -c -o $@ $(SOAK_CXXFLAGS) $(CPPDEPS) $<
 
+cal_calastro.o: ./../../src/cal/calastro.cpp
+	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
+
 cal_calbase.o: ./../../src/cal/calbase.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
@@ -331,6 +336,9 @@ cal_caldlist.o: ./../../src/cal/caldlist.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calformat.o: ./../../src/cal/calformat.cpp
+	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
+
+cal_calfrench.o: ./../../src/cal/calfrench.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calgrammar.o: ./../../src/cal/calgrammar.cpp

@@ -263,6 +263,8 @@ Base* Script::do_base()
             bs = Scheme::BS_julian;
         } else if( token.get_str() == "gregorian" ) {
             bs = Scheme::BS_gregorian;
+        } else if( token.get_str() == "french" ) {
+            bs = Scheme::BS_french;
         }
     } else {
         error( "Base name expected." );

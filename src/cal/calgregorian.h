@@ -44,6 +44,9 @@ namespace Cal {
         virtual Field jdn( Field year, Field month, Field day ) const;
         virtual Field easter( Field year ) const;
 
+
+        static Field to_jdn( Field year, Field month, Field day );
+        static Field year_from_jdn( Field jdn );
         static Field today();
 
     protected:

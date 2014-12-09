@@ -171,11 +171,13 @@
 
     <define>MAKINGLIB_CAL</define>
 
+    <sources>$(LOCAL_SRC)/cal/calastro.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calbase.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calcalendars.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/caldefscripts.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/caldlist.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calformat.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calfrench.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calgrammar.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calgregorian.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calhybrid.cpp</sources>
@@ -200,10 +202,12 @@
     <headers>$(LOCAL_INC)/cal/caldefs.h</headers>
     <headers>$(LOCAL_INC)/cal/calendars.h</headers>
 
+    <headers>$(LOCAL_SRC)/cal/calastro.h</headers>
     <headers>$(LOCAL_SRC)/cal/calbase.h</headers>
     <headers>$(LOCAL_SRC)/cal/caldefscripts.h</headers>
     <headers>$(LOCAL_SRC)/cal/caldlist.h</headers>
     <headers>$(LOCAL_SRC)/cal/calformat.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calfrench.h</headers>
     <headers>$(LOCAL_SRC)/cal/calgrammar.h</headers>
     <headers>$(LOCAL_SRC)/cal/calgregorian.h</headers>
     <headers>$(LOCAL_SRC)/cal/calhybrid.h</headers>

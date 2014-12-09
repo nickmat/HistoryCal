@@ -44,7 +44,7 @@ namespace Cal {
     //! Integer function to return positive value of ( a % b )
     extern Field pos_mod( Field a, Field b );
 
-    typedef bool (*calLongSearchFunc)( long value, long constant );
+    typedef bool (*calLongSearchFunc)( Field value, Field constant );
 
     extern Field min_search( Field start, calLongSearchFunc func, Field constant );
 

@@ -41,7 +41,9 @@ namespace Cal {
     class Scheme
     {
     public:
-        enum BaseScheme { BS_NULL, BS_jdn, BS_julian, BS_gregorian };
+        enum BaseScheme { 
+            BS_NULL, BS_jdn, BS_julian, BS_gregorian, BS_french
+        };
         Scheme( const std::string& name, Base* base );
         ~Scheme();
 

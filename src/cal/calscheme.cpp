@@ -27,8 +27,9 @@
 
 #include "calscheme.h"
 
-#include "calbase.h"
 #include "cal/calendars.h"
+#include "calbase.h"
+#include "calfrench.h"
 #include "calgrammar.h"
 #include "calgregorian.h"
 #include "calhybrid.h"
@@ -278,6 +279,8 @@ Base* Scheme::create_base( BaseScheme bs )
         return new Julian;
     case BS_gregorian: 
         return new Gregorian;
+    case BS_french: 
+        return new French;
     }
     return NULL;
 }

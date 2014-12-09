@@ -207,6 +207,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\..\src\cal\calastro.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\cal\calbase.cpp"
 				>
 			</File>
@@ -224,6 +228,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\cal\calformat.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\cal\calfrench.cpp"
 				>
 			</File>
 			<File
@@ -313,6 +321,10 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath="..\..\src\cal\calastro.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\cal\calbase.h"
 				>
 			</File>
@@ -334,6 +346,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\cal\calformat.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\cal\calfrench.h"
 				>
 			</File>
 			<File

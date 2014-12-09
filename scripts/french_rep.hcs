@@ -1,0 +1,78 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Name:        scripts/french_rep.hcs
+ * Project:     Cal: Programmable Historical Calendar library.
+ * Purpose:     Default script for French Republican calendar.
+ * Author:      Nick Matthews
+ * Website:     http://historycal.org
+ * Created:     30th September 2014
+ * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Licence:     GNU GPLv3
+ *
+ *  The Cal library is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The Cal library is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with the Cal library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*/
+
+vocab "frm" {
+    name "Month names";
+    lang "en";
+    stylename "Month",  "Mon";
+    tokens {
+        1, "Vendémiaire",      "vend";
+        2, "brumaire",         "brum";
+        3, "frimaire",         "frim";
+        4, "nivôse",           "nivo";
+        5, "pluviôse",         "pluv";
+        6, "ventôse",          "vent";
+        7, "germinal",         "germ";
+        8, "floréal",          "flor";
+        9, "prairial",         "prai";
+        10, "messidor",        "mess";
+        11, "thermidor",       "ther";
+        12, "fructidor",       "fruc";
+        13, "complémentaires", "comp";
+    }
+}
+
+grammar "fr" {
+    vocabs "frm";
+    alias field {
+        "Day",   "day";
+        "Month", "month";
+        "Year",  "year";
+    }
+    alias stylename {
+        "Day",   "dd";
+        "Month", "mm";
+        "Year",  "yyyy";
+    }
+    alias unit {
+        "d", "day";
+        "m", "month";
+        "y", "year";
+    }
+    format "dmy",   "@(Day) @(Month:frm.a) @(Year)";
+    format "dmy+",  "@(Day) @(Month:frm) @(Year)";
+    format "mdy",   "@(Month:m.a) @(Day), @(Year)";
+    format "ymd",   "@(Year)@,(Month:frm.a)@,(Day)";
+    pref "dmy";
+}
+
+scheme "fr" {
+    name "French Republic";
+    base french;
+    grammar "fr";
+}
+
+// End of scripts/french_rep.hcs file
