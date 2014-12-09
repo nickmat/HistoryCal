@@ -27,7 +27,7 @@
 
 #include "calversion.h"
 
-#define VERSION_NUM      "0.2.3"
+#define VERSION_NUM      "0.2.4"
 
 #if defined(NDEBUG) || !defined(_DEBUG)
 #define VERSION_CONFIG   ""
@@ -53,6 +53,8 @@ const char* Cal::cal_version = VERSION_NUM VERSION_CONFIG;
  26nov14  v0.2.2  Minor changes to source for gnu compile.
 
   6dec14  v0.2.3  Typos corrected. Keyword "today" added.
+
+  active  v0.2.4  Handling of UTF8 improved. Add French Republician calendar.
 
 *****************************************************************************/
 
