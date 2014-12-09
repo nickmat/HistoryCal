@@ -120,6 +120,7 @@
     <sources>$(LOCAL_TST)/unit/def_j325.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testcal.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testcommon.cpp</sources>
+    <sources>$(LOCAL_TST)/unit/testfrenchrep.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testgrammar.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testgregorian.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testhybrid.cpp</sources>
