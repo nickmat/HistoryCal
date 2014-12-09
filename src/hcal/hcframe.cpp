@@ -191,7 +191,25 @@ void HcFrame::OnSelectVocab( wxCommandEvent& event )
 
 void HcFrame::OnSelectToken( wxCommandEvent& event )
 {
-    (*m_textInput) << m_comboBoxToken->GetValue();
+    // Split the text in the textInput control into 3.
+    // 1) Before insersion point or text selection.
+    // 2) Text selection, if any.
+    // 3) After insersion point or text selection.
+    // Reconstruct it, replacing 2 with the token selected
+    // from comboBokToken. Put it back into textInput.
+
+    long sel1, sel2;
+    m_textInput->GetSelection( &sel1, &sel2 );
+    long end = m_textInput->GetLastPosition();
+    wxString bef, aft;
+    if( sel1 ) {
+        bef = m_textInput->GetRange( 0, sel1 );
+    }
+    aft = m_textInput->GetRange( sel2, end );
+
+    m_textInput->SetValue( bef + m_comboBoxToken->GetValue() + aft );
+
+//    (*m_textInput) << m_comboBoxToken->GetValue();
 }
 
 void HcFrame::OnCheckTextFull( wxCommandEvent& event )
