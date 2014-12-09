@@ -1,3 +1,8 @@
+HistoryCal Calulator Changes History
+
+- Handle UTF8 translations correctly.
+- Use Cal library v0.2.4
+
 6 Dec 2014 Version 0.0.2 alpha
 - Used Cal library to version 0.2.3
 - Correct spelling in menu options.

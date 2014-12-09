@@ -289,24 +289,25 @@ int Record::get_field_index( const string& fieldname ) const
 
 Record::CP_Group Record::get_cp_group( string::const_iterator it )
 {
-    if( *it == '-' ) {
+    int ch = unsigned char( *it );
+    if( ch == '-' ) {
 // For the moment, we'll treat all hyphens as numbers
         return GRP_Digit;
 //        return GRP_Hyphen;
     }
-    if( *it == '/' ) {
+    if( ch == '/' ) {
         return GRP_Dual;
     }
-    if( *it == unknown_val ) {
+    if( ch == unknown_val ) {
         return GRP_Quest;
     }
-    if( isdigit( *it ) ) {
+    if( isdigit( ch ) ) {
         return GRP_Digit;
     }
     const char* seps = ":,";
     size_t i = 0;
     while( seps[i] ) {
-        if( *it == seps[i] ) {
+        if( ch == seps[i] ) {
             return GRP_Sep;
         }
         i++;

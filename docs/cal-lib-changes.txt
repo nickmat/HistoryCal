@@ -1,3 +1,7 @@
+Cal Library Change History
+
+- Record string parser bug with UTF8 characters fixed.
+
 6 Dec 2014 Version 0.2.3
 - Added "today" keyword for string input.
 - Correct English Regnal calendar for William II reign.

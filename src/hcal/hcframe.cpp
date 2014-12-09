@@ -48,6 +48,16 @@ using namespace Cal;
     #include "hcal.xpm"
 #endif
 
+inline wxString Utf8ToWxStr( const std::string& stdstr )
+{
+    return wxString( stdstr.c_str(), wxConvUTF8 );
+}
+
+inline std::string WxStrToUtf8( const wxString& wxstr )
+{
+    return std::string( wxstr.mb_str( wxConvUTF8 ) );
+}
+
 /*! \brief Frame constructor.
  *
  *  Create the window Icon.
@@ -79,8 +89,8 @@ void HcFrame::OnRunScript( wxCommandEvent& event )
 
     wxFileDialog dialog( this, caption, defaultDir, defaultFName, wildcard, wxFD_OPEN );
     if( dialog.ShowModal() == wxID_OK ) {
-        wxString path = dialog.GetPath();
-        wxString result( m_cal.run_script_file( path.ToStdString() ).c_str() );
+        std::string path = WxStrToUtf8( dialog.GetPath() );
+        wxString result = Utf8ToWxStr( m_cal.run_script_file( path ) );
         if( result.size() ) {
             wxMessageBox( result );
         }
@@ -220,9 +230,8 @@ void HcFrame::UpdateSchemeLists()
     m_comboBoxInput->Clear();
     m_comboBoxOutput->Clear();
     for( size_t i = 0 ; i < m_schemes.size() ; i++ ) {
-        wxString entry;
-        entry << m_schemes[i].name.c_str() 
-            << "  (" << m_schemes[i].code.c_str() << ")";
+        wxString entry = Utf8ToWxStr( m_schemes[i].name ) 
+            + "  (" + Utf8ToWxStr( m_schemes[i].code ) + ")";
         m_comboBoxInput->Append( entry );
         if( m_schemes[i].code == m_from ) {
             m_comboBoxInput->SetSelection( i );
@@ -242,7 +251,8 @@ void HcFrame::UpdateInputFormat()
     m_comboBoxInFormat->Clear();
     m_cal.get_scheme_input( &m_input_info, m_cal.get_scheme( m_from ) );
     for( size_t i = 0 ; i < m_input_info.code.size() ; i++ ) {
-        string fmt = m_input_info.descrip[i] + "  (" + m_input_info.code[i] + ")";
+        string fmt = Utf8ToWxStr( m_input_info.descrip[i] )
+            + "  (" + Utf8ToWxStr( m_input_info.code[i] ) + ")";
         m_comboBoxInFormat->Append( fmt );
     }
     if( m_input_info.code.size() ) {
@@ -256,7 +266,7 @@ void HcFrame::UpdateTextVocabs()
     Scheme_info info;
     m_cal.get_scheme_info( &info, m_cal.get_scheme( m_from ) );
     for( size_t i = 0 ; i < info.vocab_names.size() ; i++ ) {
-        m_comboBoxVocab->Append( info.vocab_names[i] );
+        m_comboBoxVocab->Append( Utf8ToWxStr( info.vocab_names[i] ) );
     }
     if( info.vocab_names.empty() ) {
         m_comboBoxVocab->Append( "<None>" );
@@ -276,9 +286,9 @@ void HcFrame::UpdateTextTokens( Scheme_info* sinfo )
     }
     for( size_t i = 0 ; i < vinfo.words.size() ; i++ ) {
         if( m_checkTextFull->GetValue() ) {
-            m_comboBoxToken->Append( vinfo.words[i] );
+            m_comboBoxToken->Append( Utf8ToWxStr( vinfo.words[i] ) );
         } else {
-            m_comboBoxToken->Append( vinfo.abbrevs[i] );
+            m_comboBoxToken->Append( Utf8ToWxStr( vinfo.abbrevs[i] ) );
         }
     }
     if( vinfo.words.empty() ) {
@@ -292,7 +302,8 @@ void HcFrame::UpdateOutputFormat()
     m_comboBoxOutFormat->Clear();
     m_cal.get_scheme_output( &m_output_info, m_cal.get_scheme( m_to ) );
     for( size_t i = 0 ; i < m_output_info.code.size() ; i++ ) {
-        string fmt = m_output_info.descrip[i] + "  (" + m_output_info.code[i] + ")";
+        string fmt = Utf8ToWxStr( m_output_info.descrip[i] )
+            + "  (" + Utf8ToWxStr( m_output_info.code[i] ) + ")";
         m_comboBoxOutFormat->Append( fmt );
     }
     if( m_output_info.code.size() ) {
@@ -305,11 +316,12 @@ void HcFrame::CalculateOutput()
     wxString inter, output;
     SHandle sch_from = m_cal.get_scheme( m_from );
     SHandle sch_to = m_cal.get_scheme( m_to );
+
     int order = m_comboBoxInFormat->GetSelection();
     m_cal.set_input_format( sch_from, m_input_info.code[order] );
     int format = m_comboBoxOutFormat->GetSelection();
     m_cal.set_output_format( sch_to, m_output_info.code[format] );
-    string input = m_textInput->GetValue().ToStdString();
+    string input = WxStrToUtf8( m_textInput->GetValue() );
     if( input.size() ) {
         string age;
         size_t pos = input.find( " age " );
@@ -327,7 +339,7 @@ void HcFrame::CalculateOutput()
 
         inter << m_cal.rangelist_to_str( m_cal.get_scheme( "jdn" ), ranges );
 
-        output << m_cal.rangelist_to_str( sch_to, ranges );
+        output << Utf8ToWxStr( m_cal.rangelist_to_str( sch_to, ranges ) );
         size_t rsize = ranges.size();
         if( m_show_count && rsize ) {
             if( ranges[0].jdn1 == f_minimum || ranges[rsize-1].jdn2 == f_maximum ) {
