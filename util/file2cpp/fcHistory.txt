@@ -25,6 +25,10 @@
 
    Revision History
    ~~~~~~~~~~~~~~~~
+ active  v0.5.0
+    Add 'o' option to text file input which replaces (unsigned) char values
+    above 127 with their octal number.
+
 22oct14  v0.4.1
     Cleared bug whereby format string for text files did not recognise the
     newline as a terminating character.

@@ -40,7 +40,9 @@
 #include <wx/cmdline.h>
 #include <wx/tokenzr.h>
 
-#define VERSION   "0.4.1"
+#include <string>
+
+#define VERSION   "0.5.0 RC3"
 #define PROGNAME  "file2cpp"
 #define COPYRIGHT "Copyright (c) 2009 - 2014 Nick Matthews"
 #ifdef _DEBUG
@@ -66,7 +68,8 @@ enum SkipType {
     SKIP_TEXT_POST
 };
 
-typedef wxString::const_iterator cit_t;
+typedef wxString::const_iterator wxcit_t;
+typedef std::string::const_iterator cit_t;
 
 int ProccessInFile( wxTextFile& inFile, wxFFile& outFile );
 
@@ -83,16 +86,18 @@ struct TextMod {
     bool        trimL;
     bool        mline;
     bool        compact;
+    bool        octal;
     FileComment remove;
     wxString    prefix;
     wxString    postfix;
 };
 
-SkipType DoAtCommand( wxFFile& outFile, cit_t it, cit_t end );
+SkipType DoAtCommand( wxFFile& outFile, wxcit_t it, wxcit_t end );
 void OutputData( wxString& filename, wxFFile& outFile );
 void OutputText( wxString& filename, wxFFile& outFile, TextMod& modify );
 bool IsPostfixTerminator( wxChar ch );
-bool Compare( cit_t it, cit_t end, const wxString& str );
+bool WxCompare( wxcit_t it, wxcit_t end, const wxString& str );
+bool Compare( cit_t it, cit_t end, const std::string& str );
 void AddToIncPaths( wxString& incPath );
 bool FindFile( wxFileName& name );
 void DisableSvnId( wxString* line );
@@ -204,7 +209,7 @@ int ProccessInFile( wxTextFile& inFile, wxFFile& outFile )
     SkipType skip = SKIP_NONE;
     wxString line;
     wxString out;
-    cit_t it, end;
+    wxcit_t it, end;
     for( line = inFile.GetFirstLine() ; !inFile.Eof() ; line = inFile.GetNextLine() ) {
         if( g_svn && line.find( "RCS-ID" ) != wxString::npos ) {
             DisableSvnId( &line );
@@ -317,9 +322,9 @@ int ProccessInFile( wxTextFile& inFile, wxFFile& outFile )
     return EXIT_SUCCESS;
 }
 
-SkipType DoAtCommand( wxFFile& outFile, cit_t it, cit_t end )
+SkipType DoAtCommand( wxFFile& outFile, wxcit_t it, wxcit_t end )
 {
-    TextMod  mod = { false, false, false, false, FCOMMENT_NONE };
+    TextMod  mod = { false, false, false, false, false, FCOMMENT_NONE };
     wxString fname;
     wxString outf;
     wxChar exitch;
@@ -350,17 +355,20 @@ SkipType DoAtCommand( wxFFile& outFile, cit_t it, cit_t end )
                 case 'c':
                     mod.compact = true;
                     break;
+                case 'o':
+                    mod.octal = true;
+                    break;
                 case '.':
-                    if( Compare( it, end, ".c" ) ) {
+                    if( WxCompare( it, end, ".c" ) ) {
                         mod.remove = FCOMMENT_C;
                         it++;
-                    } else if( Compare( it, end, ".cpp" ) ) {
+                    } else if( WxCompare( it, end, ".cpp" ) ) {
                         mod.remove = FCOMMENT_CPP;
                         it += 3;
-                    } else if( Compare( it, end, ".xml" ) ) {
+                    } else if( WxCompare( it, end, ".xml" ) ) {
                         mod.remove = FCOMMENT_XML;
                         it += 3;
-                    } else if( Compare( it, end, ".tcl" ) ) {
+                    } else if( WxCompare( it, end, ".tcl" ) ) {
                         mod.remove = FCOMMENT_TCL;
                         it += 3;
                     }
@@ -427,6 +435,42 @@ void OutputData( wxString& filename, wxFFile& outFile )
     }
 }
 
+std::string left_trim( const std::string& str )
+{
+    size_t pos = str.find_first_not_of( " " );
+    return ( pos == std::string::npos ) ? "" : str.substr( pos );
+}
+
+std::string right_trim( const std::string& str )
+{
+    size_t pos = str.find_last_not_of( " " );
+    return ( pos == std::string::npos ) ? "" : str.substr( 0, pos + 1 );
+}
+
+std::string full_trim( const std::string& str )
+{
+    return right_trim( left_trim( str ) );
+}
+
+bool ReadLine( std::string* line, FILE* infile )
+{
+    line->clear();
+    int ch;
+    for(;;) {
+        ch = fgetc( infile );
+        if( ch == 10 || ch == EOF ) { // 10 == LF
+            break;
+        }
+        if( ch != 13 ) { // Just ignore 13 == CR
+            (*line) += ch;
+        }
+    }
+    if( ch == EOF && line->empty() ) {
+        return false;
+    }
+    return true;
+}
+
 void OutputText( wxString& filename, wxFFile& outFile, TextMod& mod )
 {
     wxFileName textName = filename; // TODO: use Include path to find file
@@ -434,8 +478,8 @@ void OutputText( wxString& filename, wxFFile& outFile, TextMod& mod )
         wxPrintf( "Can not find text file \"%s\".\n", textName.GetFullPath() );
         exit( EXIT_FAILURE );
     }
-    wxTextFile textFile;
-    if( !textFile.Open( textName.GetFullPath() ) ) {
+    wxFFile textFile; // Treat text file as binary (it is utf8)
+    if( !textFile.Open( textName.GetFullPath(), "rb" ) ) {
         wxPrintf( "Can not read text file \"%s\".\n", textName.GetFullPath() );
         exit( EXIT_FAILURE );
     }
@@ -471,12 +515,11 @@ void OutputText( wxString& filename, wxFFile& outFile, TextMod& mod )
         break;
     }
 
-    wxString line;
-    wxString out;
+    std::string line, out;
     cit_t it, end;
-    for( line = textFile.GetFirstLine() ; !textFile.Eof() ; line = textFile.GetNextLine() ) {
+    while( ReadLine( &line, textFile.fp() ) ) {
         end = line.end();
-        out.Empty();
+        out.clear();
         for( it = line.begin() ; it != end ; it++ ) {
             if( skipC ) {
                 if( *it == '*' && Compare( it, end, "*/" ) ) {
@@ -523,19 +566,24 @@ void OutputText( wxString& filename, wxFFile& outFile, TextMod& mod )
             if( ignoreTcl && *it == '#' && !inDQuote && !inSQuote ) {
                 break;
             }
-            out += *it;
-       }
-        if( mod.trimR ) out.Trim();
-        if( mod.compact && out.IsEmpty() ) {
+            int ch = unsigned char( *it );
+            if( ch > 127 && mod.octal ) {
+                out += wxString::Format( "\\%o", ch );
+            } else {
+                out += ch;
+            }
+        }
+        if( mod.trimR ) out = right_trim( out );
+        if( mod.compact && out.empty() ) {
             continue;
         }
-        if( mod.mline && out.IsEmpty() ) {
+        if( mod.mline && out.empty() ) {
             if( emptyblock ) continue;
             emptyblock = true;
         } else {
             emptyblock = false;
         }
-        if( mod.trimL ) out.Trim( false );
+        if( mod.trimL ) out = left_trim( out );
         outFile.Write(
             "\n " + mod.prefix + "\""
             + out
@@ -549,7 +597,16 @@ bool IsPostfixTerminator( wxChar ch )
     return wxIsspace( ch ) || ch == ';' || ch == ',';
 }
 
-bool Compare( cit_t it, cit_t end, const wxString& str )
+bool WxCompare( wxcit_t it, wxcit_t end, const wxString& str )
+{
+    for( wxcit_t sit = str.begin() ; sit != str.end() ; sit++, it++  ) {
+        if( it == end ) return false;
+        if( *sit != *it ) return false;
+    }
+    return true;
+}
+
+bool Compare( cit_t it, cit_t end, const std::string& str )
 {
     for( cit_t sit = str.begin() ; sit != str.end() ; sit++, it++  ) {
         if( it == end ) return false;

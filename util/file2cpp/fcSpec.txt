@@ -50,6 +50,8 @@ options (zero or more in any order):-
 
   c  compact - remove all blank lines.
 
+  o  octal - replace char values greater than 127 with their octal equivalent.
+
 commenttype:  remove comments as defined by the commenttype:-
 
   .c    C multi line comments               /* ... */
