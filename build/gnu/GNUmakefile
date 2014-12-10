@@ -101,6 +101,7 @@ SOAK_CXXFLAGS = $(VAR) $(VAR_9) -I../../include -I$(CPPUNIT)/include $(CPPFLAGS)
 SOAK_OBJECTS =  \
 	soak_soak_eng.o \
 	soak_soak_er.o \
+	soak_soak_fr.o \
 	soak_soak_g.o \
 	soak_soak_j.o \
 	soak_soak_j325.o \
@@ -307,6 +308,9 @@ soak_soak_eng.o: ./../../test/soak/soak_eng.cpp
 	$(CXX) -c -o $@ $(SOAK_CXXFLAGS) $(CPPDEPS) $<
 
 soak_soak_er.o: ./../../test/soak/soak_er.cpp
+	$(CXX) -c -o $@ $(SOAK_CXXFLAGS) $(CPPDEPS) $<
+
+soak_soak_fr.o: ./../../test/soak/soak_fr.cpp
 	$(CXX) -c -o $@ $(SOAK_CXXFLAGS) $(CPPDEPS) $<
 
 soak_soak_g.o: ./../../test/soak/soak_g.cpp
