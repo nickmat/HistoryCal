@@ -64,7 +64,7 @@ namespace {
         return min_search( (Field) approx - 1, fnyoob_min_func, (Field) autumn );
     }
 
-    Field french_last_day_in_month( Field month, Field year )
+    Field french_last_day_in_month( Field year, Field month )
     {
         French base;
         if( month == 13 ) {
