@@ -243,6 +243,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\cal\calhebrew.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\cal\calhybrid.cpp"
 				>
 			</File>
@@ -358,6 +362,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\cal\calgregorian.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\cal\calhebrew.h"
 				>
 			</File>
 			<File

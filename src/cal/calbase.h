@@ -97,6 +97,7 @@ namespace Cal {
         virtual bool can_add_unit( const Field* fields, Unit unit ) const;
         // Add value * units to the Records fields. Value may be negative.
         // Exactly what this means depends on the Calendar Scheme.
+        // Returns true if it succeeds, otherwise false; 
         virtual bool add_to_fields( Field* fields, Field value, Unit unit ) const;
         // normalise is to correct illegal reg values
         // when considered in combination.

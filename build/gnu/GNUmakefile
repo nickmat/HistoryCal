@@ -119,6 +119,7 @@ CAL_OBJECTS =  \
 	cal_calfrench.o \
 	cal_calgrammar.o \
 	cal_calgregorian.o \
+	cal_calhebrew.o \
 	cal_calhybrid.o \
 	cal_caljdn.o \
 	cal_caljulian.o \
@@ -353,6 +354,9 @@ cal_calgrammar.o: ./../../src/cal/calgrammar.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calgregorian.o: ./../../src/cal/calgregorian.cpp
+	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
+
+cal_calhebrew.o: ./../../src/cal/calhebrew.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calhybrid.o: ./../../src/cal/calhybrid.cpp

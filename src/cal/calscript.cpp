@@ -265,6 +265,10 @@ Base* Script::do_base()
             bs = Scheme::BS_gregorian;
         } else if( token.get_str() == "french" ) {
             bs = Scheme::BS_french;
+        } else if( token.get_str() == "hebrew" ) {
+            bs = Scheme::BS_hebrew;
+        } else {
+            error( "Base scheme not recognised." );
         }
     } else {
         error( "Base name expected." );

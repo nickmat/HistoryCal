@@ -106,9 +106,9 @@ namespace {
 } // namespace
 
 
-Field French::get_jdn( const Field* regs ) const
+Field French::get_jdn( const Field* fields ) const
 {
-    return french_to_jdn( regs[0], regs[1], regs[2] );
+    return french_to_jdn( fields[0], fields[1], fields[2] );
 }
 
 bool French::set_fields_as_begin_first( Field* fields, const Field* mask ) const
@@ -157,6 +157,7 @@ Field French::get_field_last( const Field* fields, size_t index ) const
     return f_invalid;
 }
 
+// Return true if value adjusted or false if no change.
 bool French::normalise( Field* regs, Norm norm ) const
 {
     // All months are 30 day except month 13 which is 5 or 6

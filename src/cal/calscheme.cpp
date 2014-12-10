@@ -32,6 +32,7 @@
 #include "calfrench.h"
 #include "calgrammar.h"
 #include "calgregorian.h"
+#include "calhebrew.h"
 #include "calhybrid.h"
 #include "caljdn.h"
 #include "caljulian.h"
@@ -281,6 +282,8 @@ Base* Scheme::create_base( BaseScheme bs )
         return new Gregorian;
     case BS_french: 
         return new French;
+    case BS_hebrew: 
+        return new Hebrew;
     }
     return NULL;
 }
