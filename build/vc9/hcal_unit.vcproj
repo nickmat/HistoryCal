@@ -253,6 +253,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\test\unit\testhebrew.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\test\unit\testhybrid.cpp"
 				>
 			</File>

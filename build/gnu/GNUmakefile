@@ -90,6 +90,7 @@ UNIT_OBJECTS =  \
 	unit_testfrenchrep.o \
 	unit_testgrammar.o \
 	unit_testgregorian.o \
+	unit_testhebrew.o \
 	unit_testhybrid.o \
 	unit_testj325.o \
 	unit_testjulian.o \
@@ -285,6 +286,9 @@ unit_testgrammar.o: ./../../test/unit/testgrammar.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
 unit_testgregorian.o: ./../../test/unit/testgregorian.cpp
+	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
+
+unit_testhebrew.o: ./../../test/unit/testhebrew.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
 unit_testhybrid.o: ./../../test/unit/testhybrid.cpp
