@@ -29,19 +29,19 @@ vocab "frm" {
     lang "en";
     stylename "Month",  "Mon";
     tokens {
-        1, "Vendémiaire",      "vend";
-        2, "brumaire",         "brum";
-        3, "frimaire",         "frim";
-        4, "nivôse",           "nivo";
-        5, "pluviôse",         "pluv";
-        6, "ventôse",          "vent";
-        7, "germinal",         "germ";
-        8, "floréal",          "flor";
-        9, "prairial",         "prai";
-        10, "messidor",        "mess";
-        11, "thermidor",       "ther";
-        12, "fructidor",       "fruc";
-        13, "complémentaires", "comp";
+        1, "Vendémiaire",      "Vend";
+        2, "Brumaire",         "Brum";
+        3, "Frimaire",         "Frim";
+        4, "Nivôse",           "Nivo";
+        5, "Pluviôse",         "Pluv";
+        6, "Ventôse",          "Vent";
+        7, "Germinal",         "Germ";
+        8, "Floréal",          "Flor";
+        9, "Prairial",         "Prai";
+        10, "Messidor",        "Mess";
+        11, "Thermidor",       "Ther";
+        12, "Fructidor",       "Fruc";
+        13, "Complémentaires", "Comp";
     }
 }
 
@@ -64,7 +64,7 @@ grammar "fr" {
     }
     format "dmy",   "@(Day) @(Month:frm.a) @(Year)";
     format "dmy+",  "@(Day) @(Month:frm) @(Year)";
-    format "mdy",   "@(Month:m.a) @(Day), @(Year)";
+    format "mdy",   "@(Month:frm.a) @(Day), @(Year)";
     format "ymd",   "@(Year)@,(Month:frm.a)@,(Day)";
     pref "dmy";
 }
