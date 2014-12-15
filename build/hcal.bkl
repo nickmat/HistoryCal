@@ -151,6 +151,7 @@
     <sources>$(LOCAL_TST)/soak/soak_er.cpp</sources>
     <sources>$(LOCAL_TST)/soak/soak_fr.cpp</sources>
     <sources>$(LOCAL_TST)/soak/soak_g.cpp</sources>
+    <sources>$(LOCAL_TST)/soak/soak_h.cpp</sources>
     <sources>$(LOCAL_TST)/soak/soak_j.cpp</sources>
     <sources>$(LOCAL_TST)/soak/soak_j325.cpp</sources>
     <sources>$(LOCAL_TST)/soak/soakcommon.cpp</sources>

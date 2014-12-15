@@ -229,6 +229,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\test\soak\soak_h.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\test\soak\soak_j.cpp"
 				>
 			</File>
