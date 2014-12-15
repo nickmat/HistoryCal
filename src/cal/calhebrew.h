@@ -47,6 +47,7 @@ namespace Cal {
 
         virtual void set_fields( Field* fields, Field jdn ) const;
 
+        virtual Field get_field_first( const Field* fields, size_t index ) const;
         virtual Field get_field_last( const Field* fields, size_t index ) const;
 
         virtual double get_average_days( const Field* fields, Unit unit ) const;

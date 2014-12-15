@@ -75,7 +75,7 @@ namespace {
         return pos_mod( 1 + 7 * year, 19 ) < 7;
     }
 
-    /*! Returns the last day of the month for the given month and year
+    /*! Returns the last day of the month for the given year and month
      *  in the Hebrew Calendar.
      */
     Field hebrew_last_day_in_month( Field year, Field month )
@@ -176,7 +176,7 @@ namespace {
 
         Field m = ( jdn < hebrew_to_jdn( y, 1, 1 ) ) ? 7 : 1;
         for(;;) {
-            Field ldim = hebrew_last_day_in_month( m, y );
+            Field ldim = hebrew_last_day_in_month( y, m );
             if( jdn <= hebrew_to_jdn( y, m, ldim ) ) {
                 break;
             }
@@ -206,7 +206,7 @@ bool Hebrew::set_fields_as_begin_first( Field* fields, const Field* mask ) const
         return false; // Can't handle date lists
     }
     fields[0] = mask[0];
-    fields[1] = ( mask[1] == f_invalid ) ? 1 : mask[1];
+    fields[1] = ( mask[1] == f_invalid ) ? 7 : mask[1];
     fields[2] = ( mask[2] == f_invalid ) ? 1 : mask[2];
     return true;
 }
@@ -223,7 +223,7 @@ bool Hebrew::set_fields_as_begin_last( Field* fields, const Field* mask ) const
     if( mask[1] != f_invalid ) {
         fields[1] = mask[1];
     } else {
-        fields[1] = hebrew_is_leap_year( fields[0] ) ? 13 : 12;
+        fields[1] = 6;
     }
     if( mask[2] != f_invalid ) {
         fields[2] = mask[2];
@@ -238,13 +238,24 @@ void Hebrew::set_fields( Field* fields, Field jdn ) const
     hebrew_from_jdn( &fields[0], &fields[1], &fields[2], jdn );
 }
 
+Field Hebrew::get_field_first( const Field* fields, size_t index ) const
+{
+    switch( index )
+    {
+    case 1: // First month of year
+        return 7;
+    case 2: // First day of month
+        return 1;
+    }
+    return f_invalid;
+}
 
 Field Hebrew::get_field_last( const Field* fields, size_t index ) const
 {
     switch( index )
     {
     case 1: // Last month of year
-        return hebrew_is_leap_year( fields[0] ) ? 13 : 12;
+        return 6;
     case 2: // Last day of month
         return hebrew_last_day_in_month( fields[0], fields[1] );
     }
