@@ -37,7 +37,7 @@ class SoakHebrew : public CPPUNIT_NS::TestFixture
 {
     CPPUNIT_TEST_SUITE( SoakHebrew );
     CPPUNIT_TEST( testScript );
-    CPPUNIT_TEST( TestHebrew );
+    CPPUNIT_TEST( testHebrew );
     CPPUNIT_TEST_SUITE_END();
 
     Cal::Calendars* m_cal;
@@ -48,10 +48,10 @@ public:
     void tearDown();
 
     Field DaysInYear( Field year );
-    Field LastDayInMonth( Field year, Field month );
+    Field LastDayInMonth( Field month, Field diy );
 
     void testScript();
-    void TestHebrew();
+    void testHebrew();
 };
 
 // Registers the fixture into the 'registry'
@@ -139,7 +139,7 @@ Field SoakHebrew::LastDayInMonth( Field month, Field diy )
     return f_invalid;
 }
 
-void SoakHebrew::TestHebrew()
+void SoakHebrew::testHebrew()
 {
     CPPUNIT_ASSERT( m_sid >= 0 );
     string date = ymdToStr( CALTEST_H_START_YEAR, 7, 1 );
@@ -189,77 +189,5 @@ void SoakHebrew::TestHebrew()
         CPPUNIT_ASSERT_EQUAL( date, cvtdate );
     }
 }
-
-#if 0
-
-#ifdef CALTEST_SHORT
-#define CALTEST_FR_START_YEAR     0
-#define CALTEST_FR_START_JDN      2375475
-#define CALTEST_FR_END_YEAR       50
-#endif
-
-#ifdef CALTEST_LONG
-#define CALTEST_FR_START_YEAR     0
-#define CALTEST_FR_START_JDN      2375475
-#define CALTEST_FR_END_YEAR       230
-#endif
-
-#ifdef CALTEST_SOAK
-#define CALTEST_FR_START_YEAR     0
-#define CALTEST_FR_START_JDN      2375475
-#define CALTEST_FR_END_YEAR       230
-#endif
-
-Field SoakHebrew::FrenchLastDayInMonth( Field year, Field month )
-{
-    if( month == 13 ) {
-        FieldVec fields( 3, f_invalid );
-        fields[0] = year+1;
-        fields[1] = 1;
-        fields[2] = 1;
-        Field jdn = m_cal->fieldvec_to_jdn( m_sid, fields );
-        FieldVec fields_r = m_cal->jdn_to_fieldvec( m_sid, jdn - 1 );
-        return fields_r[2];
-    }
-    return 30;
-}
-
-void SoakHebrew::TestFrench()
-{
-    CPPUNIT_ASSERT( m_sid >= 0 );
-    string date = ymdToStr( CALTEST_FR_START_YEAR, 1, 1 );
-    Field daycount = m_cal->str_to_jdn( m_sid, date );
-    CPPUNIT_ASSERT_EQUAL( daycount, CALTEST_FR_START_JDN );
-    string cvtdate;
-    Range range;
-    for( Field year = CALTEST_FR_START_YEAR ; year < CALTEST_FR_END_YEAR ; year++ ) {
-        Field month1 = daycount;
-        for( Field month = 1 ; month <= 13 ; month++ ) {
-            int month_length = FrenchLastDayInMonth( year, month );
-            Field day1 = daycount;
-            for( Field day = 1 ; day <= month_length ; day++ ) {
-                date = ymdToStr( year, month, day );
-                Field jdn = m_cal->str_to_jdn( m_sid, date );
-                CPPUNIT_ASSERT_EQUAL( daycount, jdn );
-                cvtdate = m_cal->jdn_to_str( m_sid, jdn );
-                CPPUNIT_ASSERT_EQUAL( date, cvtdate );
-                daycount++;
-            }
-            date = ymToStr( year, month );
-            range = m_cal->str_to_range( m_sid, date );
-            CPPUNIT_ASSERT_EQUAL( day1, range.jdn1 );
-            CPPUNIT_ASSERT_EQUAL( daycount-1, range.jdn2 );
-            cvtdate = m_cal->range_to_str( m_sid, range );
-            CPPUNIT_ASSERT_EQUAL( date, cvtdate );
-        }
-        date = yToStr( year );
-        range = m_cal->str_to_range( m_sid, date );
-        CPPUNIT_ASSERT_EQUAL( month1, range.jdn1 );
-        CPPUNIT_ASSERT_EQUAL( daycount-1, range.jdn2 );
-        cvtdate = m_cal->range_to_str( m_sid, range );
-        CPPUNIT_ASSERT_EQUAL( date, cvtdate );
-    }
-}
-#endif
 
 // End of test/soak/soak_h.cpp file
