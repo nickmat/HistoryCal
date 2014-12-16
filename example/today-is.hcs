@@ -1,0 +1,16 @@
+// Display todays date in various calendar formats
+
+set input "g";
+let today = date "today";
+
+writeln "Today is :-";
+set output "g";
+writeln "Gregorian: " + str today;
+set output "j";
+writeln "Julian: " + str today;
+set output "fr";
+writeln "French Republic: " + str today;
+set output "h";
+writeln "Hebrew: " + str today;
+set output "i";
+writeln "Islamic Arithmetical: " + str today;
