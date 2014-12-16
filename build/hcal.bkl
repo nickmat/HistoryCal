@@ -185,6 +185,7 @@
     <sources>$(LOCAL_SRC)/cal/calgrammar.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calgregorian.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calhebrew.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calislamic.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calhybrid.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/caljdn.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/caljulian.cpp</sources>
@@ -216,6 +217,7 @@
     <headers>$(LOCAL_SRC)/cal/calgrammar.h</headers>
     <headers>$(LOCAL_SRC)/cal/calgregorian.h</headers>
     <headers>$(LOCAL_SRC)/cal/calhebrew.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calislamic.h</headers>
     <headers>$(LOCAL_SRC)/cal/calhybrid.h</headers>
     <headers>$(LOCAL_SRC)/cal/caljdn.h</headers>
     <headers>$(LOCAL_SRC)/cal/caljulian.h</headers>

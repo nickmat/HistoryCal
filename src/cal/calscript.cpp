@@ -267,6 +267,8 @@ Base* Script::do_base()
             bs = Scheme::BS_french;
         } else if( token.get_str() == "hebrew" ) {
             bs = Scheme::BS_hebrew;
+        } else if( token.get_str() == "islamic" ) {
+            bs = Scheme::BS_islamic;
         } else {
             error( "Base scheme not recognised." );
         }

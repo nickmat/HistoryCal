@@ -1,10 +1,10 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        scripts/hebrew.hcs
+ * Name:        scripts/islamic.hcs
  * Project:     Cal: Programmable Historical Calendar library.
- * Purpose:     Default script for Hebrew calendar.
+ * Purpose:     Default script for Islamic Arithmetical calendar.
  * Author:      Nick Matthews
  * Website:     http://historycal.org
- * Created:     10th December 2014
+ * Created:     16th December 2014
  * Copyright:   Copyright (c) 2014, Nick Matthews.
  * Licence:     GNU GPLv3
  *
@@ -24,29 +24,28 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 */
 
-vocab "hm" {
+vocab "im" {
     name "Month names";
     lang "en";
-    stylename "Month",   "Mon";
+    stylename "Month";
     tokens {
-        1, "Nisan",      "Nsn";
-        2, "Iyyar",      "Iyr";
-        3, "Sivan",      "Svn";
-        4, "Tammuz",     "Tmz";
-        5, "Av",         "Aav";
-        6, "Elul",       "Ell";
-        7, "Tishri",     "Tsh";
-        8, "Marheshvan", "Csh";
-        9, "Kislev",     "Ksl";
-        10, "Tevet",     "Tvt";
-        11, "Shevat",    "Shv";
-        12, "Adar",      "Adr";
-        13, "Adar II",   "Ads";
+        1, "Muharram";
+        2, "Safar";
+        3, "Rabi' I";
+        4, "Rabi' II";
+        5, "Jumada I";
+        6, "Jumada II";
+        7, "Rajab";
+        8, "Sha'aban";
+        9, "Ramadan";
+        10, "Shawwal";
+        11, "Dhu al Qi'dah";
+        12, "Dhu al Hijjah";
     }
 }
 
-grammar "h" {
-    vocabs "hm";
+grammar "i" {
+    vocabs "im";
     alias field {
         "Day",   "day";
         "Month", "month";
@@ -62,18 +61,18 @@ grammar "h" {
         "m", "month";
         "y", "year";
     }
-    format "dmy",   "@(Day) @(Month:hm.a) @(Year)";
-    format "dmy+",  "@(Day) @(Month:hm) @(Year)";
+    format "dmy",   "@(Day) @(Month:im) @(Year)";
     format "dmy.",  "@(Day) @(Month) @(Year)";
-    format "mdy",   "@(Month:hm.a) @(Day), @(Year)";
-    format "ymd",   "@(Year)@,(Month:hm.a)@,(Day)";
+    format "mdy",   "@(Month:im) @(Day), @(Year)";
+    format "ymd",   "@(Year)@,(Month:im)@,(Day)";
     pref "dmy";
 }
 
-scheme "h" {
-    name "Hebrew";
-    base hebrew;
-    grammar "h";
+scheme "i" {
+    name "Islamic Arithmetical";
+    base islamic;
+    grammar "i";
 }
 
-// End of scripts/hebrew.hcs file
+
+// End of scripts/islamic.hcs file
