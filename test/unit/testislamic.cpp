@@ -147,7 +147,7 @@ void TestIslamic::testRanges()
             << testIValues[i+1].day;
         string value = tst.str();
         if( value == "897 6 1 ~ 960 9 30" ) { // this should collapse
-            value = "897 6 ~ 960 9";         // to this.
+            value = "897 6 ~ 960 9";          // to this.
         }
         Range rng = m_cal->str_to_range( m_sid, value/*, 0*/ );
         CPPUNIT_ASSERT_EQUAL( testJdnValues[i], rng.jdn1 );

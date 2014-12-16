@@ -120,7 +120,7 @@ bool Islamic::set_fields_as_begin_last( Field* fields, const Field* mask ) const
         return false; // Can't handle date lists
     }
     fields[0] = mask[0];
-    fields[1] = ( mask[1] == f_invalid ) ? 13 : mask[1];
+    fields[1] = ( mask[1] == f_invalid ) ? 12 : mask[1];
     fields[2] = ( mask[2] == f_invalid ) ? 
         islamic_last_day_in_month( fields[0], fields[1] ) : mask[2];
     return true;

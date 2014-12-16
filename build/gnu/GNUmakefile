@@ -106,6 +106,7 @@ SOAK_OBJECTS =  \
 	soak_soak_fr.o \
 	soak_soak_g.o \
 	soak_soak_h.o \
+	soak_soak_i.o \
 	soak_soak_j.o \
 	soak_soak_j325.o \
 	soak_soakcommon.o \
@@ -328,6 +329,9 @@ soak_soak_g.o: ./../../test/soak/soak_g.cpp
 	$(CXX) -c -o $@ $(SOAK_CXXFLAGS) $(CPPDEPS) $<
 
 soak_soak_h.o: ./../../test/soak/soak_h.cpp
+	$(CXX) -c -o $@ $(SOAK_CXXFLAGS) $(CPPDEPS) $<
+
+soak_soak_i.o: ./../../test/soak/soak_i.cpp
 	$(CXX) -c -o $@ $(SOAK_CXXFLAGS) $(CPPDEPS) $<
 
 soak_soak_j.o: ./../../test/soak/soak_j.cpp
