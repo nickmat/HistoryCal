@@ -125,6 +125,7 @@
     <sources>$(LOCAL_TST)/unit/testgregorian.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testhebrew.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testhybrid.cpp</sources>
+    <sources>$(LOCAL_TST)/unit/testislamic.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testj325.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testjulian.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testmain.cpp</sources>

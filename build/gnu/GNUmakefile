@@ -92,6 +92,7 @@ UNIT_OBJECTS =  \
 	unit_testgregorian.o \
 	unit_testhebrew.o \
 	unit_testhybrid.o \
+	unit_testislamic.o \
 	unit_testj325.o \
 	unit_testjulian.o \
 	unit_testmain.o \
@@ -294,6 +295,9 @@ unit_testhebrew.o: ./../../test/unit/testhebrew.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
 unit_testhybrid.o: ./../../test/unit/testhybrid.cpp
+	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
+
+unit_testislamic.o: ./../../test/unit/testislamic.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
 unit_testj325.o: ./../../test/unit/testj325.cpp

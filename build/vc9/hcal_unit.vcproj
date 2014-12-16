@@ -261,6 +261,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\test\unit\testislamic.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\test\unit\testj325.cpp"
 				>
 			</File>
