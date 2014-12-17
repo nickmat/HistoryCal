@@ -39,7 +39,6 @@ namespace Cal {
 
     class Base
     {
-        enum BaseExtendedFieldNumber { BEFN_wday, BEFN_COUNT };
     public:
         Base();
         virtual ~Base() {}
@@ -49,7 +48,7 @@ namespace Cal {
         // Return the maximum number of Fields required by the Record.
         virtual size_t record_size() const = 0;
         // Return the number of extended (read-only) Fields available.
-        virtual size_t extended_size() const { return record_size() + BEFN_COUNT; }
+        virtual size_t extended_size() const { return record_size(); }
 
         // Returns the index to the named Record field, or -1 if not found.
         virtual int get_fieldname_index( const std::string& fieldname ) const;
@@ -59,23 +58,18 @@ namespace Cal {
         virtual Field get_jdn( const Field* fields ) const = 0;
 
         // Get an extended field value
-        virtual Field get_extended_field( const Field jdn, size_t index ) const;
+        virtual Field get_extended_field( const Field jdn, size_t index ) const { return f_invalid; }
 
         // Give the chance to set a field to a fixed value.
         virtual void set_fixed_fields( Field* fields ) const {}
 
-        // Note, these members are not const so that they may set state conditions
-        // related to the pos (position). This should speed up sucessive calls.
         virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) const = 0;
         virtual bool set_fields_as_next_first( Field* fields, const Field* mask ) const = 0;
         virtual bool set_fields_as_begin_last( Field* fields, const Field* mask ) const = 0;
         virtual bool set_fields_as_next_last( Field* fields, const Field* mask ) const = 0;
 
-        virtual bool set_fields_as_next_extended( Field* fields, Field jdn, const Field* mask ) const;
-        virtual bool set_fields_as_prev_extended( Field* fields, Field jdn, const Field* mask ) const;
-
-        virtual void remove_fields_if_first( Field* fields ) const;
-        virtual void remove_fields_if_last( Field* fields ) const;
+        virtual bool set_fields_as_next_extended( Field* fields, Field jdn, const Field* mask ) const { return false; }
+        virtual bool set_fields_as_prev_extended( Field* fields, Field jdn, const Field* mask ) const { return false; }
 
         virtual void remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const;
 
@@ -138,8 +132,6 @@ namespace Cal {
         Field compare_except( const Field* first, const Field* second, size_t except = 0 ) const;
 
     protected:
-        int get_extended_fieldname_index( const std::string& fieldname ) const;
-        std::string get_extended_fieldname( size_t index ) const;
         virtual XRefVec get_default_xref_order( int count ) const;
 
     private:

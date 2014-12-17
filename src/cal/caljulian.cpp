@@ -72,18 +72,35 @@ namespace {
 
 int Julian::get_fieldname_index( const string& fieldname ) const
 {
-    if( fieldname == "litweek" ) { // Liturgical week number value
-        return extended_size() - JEFN_COUNT + JEFN_litweek;
+    // Base handles year, month, day.
+    int ret = Base::get_fieldname_index( fieldname );
+    if( ret >= 0 ) {
+        return ret;
     }
-    return Base::get_fieldname_index( fieldname );
+    int offset = record_size();
+    if( fieldname == "wday" ) { // Week day (Monday=1, Sunday=7)
+        return offset + JEFN_wday;
+    }
+    if( fieldname == "litweek" ) { // Liturgical week number value
+        return offset + JEFN_litweek;
+    }
+    return -1;
 }
 
 string Julian::get_fieldname( size_t index ) const
 {
-    if( index == extended_size() - JEFN_COUNT + JEFN_litweek ) {
+    if( index < record_size() ) {
+        // Base handles year, month, day.
+        return Base::get_fieldname( index );
+    }
+    switch( index - record_size() )
+    {
+    case JEFN_wday:
+        return "wday";
+    case JEFN_litweek:
         return "litweek";
     }
-    return Base::get_fieldname( index );
+    return "";
 }
 
 Field Julian::get_jdn( const Field* fields ) const
@@ -96,10 +113,14 @@ Field Julian::get_jdn( const Field* fields ) const
 
 Field Julian::get_extended_field( const Field jdn, size_t index ) const
 {
-    if( index == extended_size() - JEFN_COUNT + JEFN_litweek ) {
+    switch( index - record_size() )
+    {
+    case JEFN_wday:
+        return day_of_week( jdn ) + 1; // Mon=1, Sun=7
+    case JEFN_litweek:
         return liturgical_get_litweek( this, jdn );
     }
-    return Base::get_extended_field( jdn, index );
+    return f_invalid;
 }
 
 bool Julian::set_fields_as_begin_first( Field* fields, const Field* mask ) const
@@ -138,6 +159,34 @@ bool Julian::set_fields_as_begin_last( Field* fields, const Field* mask ) const
 
 bool Julian::set_fields_as_next_last( Field* fields, const Field* mask ) const
 {
+    return false;
+}
+
+bool Julian::set_fields_as_next_extended( Field* fields, Field jdn, const Field* mask ) const
+{
+    // Weekday is the only extended field checked by default
+    size_t kindex = record_size() + JEFN_wday;
+    if( mask[kindex] >= 1 && mask[kindex] <= 7 && jdn != f_invalid ) {
+        Field knext = kday_on_or_after( Weekday( mask[kindex] - 1 ), jdn );
+        if( knext != jdn ) {
+            set_fields( fields, knext );
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Julian::set_fields_as_prev_extended( Field* fields, Field jdn, const Field* mask ) const
+{
+    // Weekday is the only extended field checked by default
+    size_t kindex = record_size() + JEFN_wday;
+    if( mask[kindex] >= 1 && mask[kindex] <= 7 && jdn != f_invalid ) {
+        Field knext = kday_on_or_before( Weekday( mask[kindex] - 1 ), jdn );
+        if( knext != jdn ) {
+            set_fields( fields, knext );
+            return true;
+        }
+    }
     return false;
 }
 
