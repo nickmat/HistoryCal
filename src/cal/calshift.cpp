@@ -77,14 +77,14 @@ Field Shift::get_jdn( const Field* fields ) const
     return m_base->get_jdn( &f[0] );
 }
 
-Field Shift::get_extended_field( const Field jdn, size_t index ) const
+Field Shift::get_extended_field( const Field* fields, Field jdn, size_t index ) const
 {
     if( index == extended_size() - 1 ) {
         // "unshift" return unshifted value
         Record rec( m_base, jdn );
         return rec.get_field( 0 );
     }
-    return m_base->get_extended_field( jdn, index );
+    return m_base->get_extended_field( fields, jdn, index );
 }
 
 Field Shift::get_field_last( const Field* fields, size_t index ) const

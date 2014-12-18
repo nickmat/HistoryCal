@@ -108,7 +108,7 @@ bool Record::set_fields_as_begin_first( const Field* mask )
             if( mask[i] == f_invalid ) {
                 continue;
             }
-            Field field = m_base->get_extended_field( m_jdn, i );
+            Field field = m_base->get_extended_field( &m_f[0], m_jdn, i );
             if( field != m_f[i] ) {
                 // Adjust to match extended field
                 if( m_base->set_fields_as_next_extended( &m_f[0], m_jdn, mask ) ) {
@@ -148,7 +148,7 @@ bool Record::set_fields_as_begin_last(  const Field* mask )
             if( mask[i] == f_invalid ) {
                 continue;
             }
-            Field field = m_base->get_extended_field( m_jdn, i );
+            Field field = m_base->get_extended_field( &m_f[0], m_jdn, i );
             if( field != m_f[i] ) {
                 // Adjust to match extended field
                 if( m_base->set_fields_as_prev_extended( &m_f[0], m_jdn, mask ) ) {
@@ -187,7 +187,7 @@ bool Record::set_fields_as_next( const Field* mask, Field maxjdn )
             if( mask[i] == f_invalid ) {
                 continue;
             }
-            Field field = m_base->get_extended_field( m_jdn, i );
+            Field field = m_base->get_extended_field( &m_f[0], m_jdn, i );
             if( field != m_f[i] ) {
                 // Adjust to match extended field
                 // <<======<<<<
@@ -438,7 +438,7 @@ Field Record::get_field( int index ) const
             return m_f[index];
         }
         if( index < (int) m_base->extended_size() ) {
-            return m_base->get_extended_field( m_jdn, index );
+            return m_base->get_extended_field( &m_f[0], m_jdn, index );
         }
     }
     return f_invalid;

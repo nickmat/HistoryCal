@@ -29,7 +29,6 @@
 
 #include "calformat.h"
 #include "calgrammar.h"
-#include "calmath.h"
 #include "calparse.h"
 
 using namespace Cal;

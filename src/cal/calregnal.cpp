@@ -109,7 +109,7 @@ Field Regnal::get_jdn( const Field* fields ) const
     return m_eras[fields[0]].base->get_jdn( &fs[0] );
 }
 
-Field Regnal::get_extended_field( const Field jdn, size_t index ) const
+Field Regnal::get_extended_field( const Field* fields, Field jdn, size_t index ) const
 {
     assert( index > 0 );
     size_t i = index - 1;

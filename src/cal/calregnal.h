@@ -68,7 +68,7 @@ namespace Cal {
 
         virtual Field get_jdn( const Field* fields ) const;
 
-        virtual Field get_extended_field( const Field jdn, size_t index ) const;
+        virtual Field get_extended_field( const Field* fields, Field jdn, size_t index ) const;
 
         // Give the chance to set a field to a fixed value.
         virtual void set_fixed_fields( Field* fields ) const;

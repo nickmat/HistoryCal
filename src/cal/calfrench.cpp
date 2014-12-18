@@ -35,8 +35,9 @@
 #include <cmath>
 #include <cassert>
 
-
 using namespace Cal;
+using std::string;
+
 
 #define BASEDATE_French 2375840L  // 22 Sep 1792 (G)
 
@@ -106,9 +107,75 @@ namespace {
 } // namespace
 
 
+int French::get_fieldname_index( const string& fieldname ) const
+{
+    // Base handles year, month, day.
+    int ret = Base::get_fieldname_index( fieldname );
+    if( ret >= 0 ) {
+        return ret;
+    }
+    int offset = record_size();
+    if( fieldname == "nmonth" ) { // Named month (1 to 12)
+        return offset + FEFN_nmonth;
+    }
+    if( fieldname == "nmday" ) { // Named month day (1 to 30)
+        return offset + FEFN_nmday;
+    }
+    if( fieldname == "decade" ) { // Decade within month (1 to 3)
+        return offset + FEFN_decade;
+    }
+    if( fieldname == "dday" ) { // Day within Decade (1 to 10)
+        return offset + FEFN_dday;
+    }
+    if( fieldname == "cday" ) { // Complementary day (1 to 6)
+        return offset + FEFN_cday;
+    }
+    return -1;
+}
+
+string French::get_fieldname( size_t index ) const
+{
+    if( index < record_size() ) {
+        // Base handles year, month, day.
+        return Base::get_fieldname( index );
+    }
+    switch( index - record_size() )
+    {
+    case FEFN_nmonth:
+        return "nmonth";
+    case FEFN_nmday:
+        return "nmday";
+    case FEFN_decade:
+        return "decade";
+    case FEFN_dday:
+        return "dday";
+    case FEFN_cday:
+        return "cday";
+    }
+    return "";
+}
+
 Field French::get_jdn( const Field* fields ) const
 {
     return french_to_jdn( fields[0], fields[1], fields[2] );
+}
+
+Field French::get_extended_field( const Field* fields, Field jdn, size_t index ) const
+{
+    switch( index - record_size() )
+    {
+    case FEFN_nmonth:
+        return fields[1] == 13 ? f_invalid : fields[1];
+    case FEFN_nmday:
+        return fields[1] == 13 ? f_invalid : fields[2];
+    case FEFN_decade:
+        return fields[1] == 13 ? f_invalid : ( ( fields[2] - 1 ) / 10 ) + 1;
+    case FEFN_dday:
+        return fields[1] == 13 ? f_invalid : ( ( fields[2] - 1 ) % 10 ) + 1;
+    case FEFN_cday:
+        return fields[1] == 13 ? fields[2] : f_invalid;
+    }
+    return f_invalid;
 }
 
 bool French::set_fields_as_begin_first( Field* fields, const Field* mask ) const

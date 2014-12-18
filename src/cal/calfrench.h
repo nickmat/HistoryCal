@@ -34,11 +34,18 @@ namespace Cal {
 
     class French : public Base
     {
+        enum FrenchExtendedFieldNumber {
+            FEFN_nmonth, FEFN_nmday, FEFN_decade, FEFN_dday, FEFN_cday, FEFN_COUNT
+        };
     public:
         virtual size_t record_size() const { return 3; }
-        virtual size_t extended_size() const { return Base::extended_size(); }
+        virtual size_t extended_size() const { return record_size() + FEFN_COUNT; }
+
+        virtual int get_fieldname_index( const std::string& fieldname ) const;
+        virtual std::string get_fieldname( size_t index ) const;
 
         virtual Field get_jdn( const Field* fields ) const;
+        virtual Field get_extended_field( const Field* fields, Field jdn, size_t index ) const;
 
         virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) const;
         virtual bool set_fields_as_next_first( Field* fields, const Field* mask ) const { return false; }

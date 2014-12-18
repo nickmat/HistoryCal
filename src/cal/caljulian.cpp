@@ -111,7 +111,7 @@ Field Julian::get_jdn( const Field* fields ) const
     return jdn( fields[0], fields[1], fields[2] );
 }
 
-Field Julian::get_extended_field( const Field jdn, size_t index ) const
+Field Julian::get_extended_field( const Field* fields, Field jdn, size_t index ) const
 {
     switch( index - record_size() )
     {

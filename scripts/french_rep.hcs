@@ -45,28 +45,83 @@ vocab "frm" {
     }
 }
 
+vocab "frdim" {
+    name "Decade in Month";
+    lang "en";
+    stylename "Decade",  "Dec";
+    tokens {
+        1, "Décade I",   "Dec I";
+        2, "Décade II",  "Dec II";
+        3, "Décade III", "Dec III";
+    }
+}
+
+vocab "frdd" {
+    name "Decade Day";
+    lang "en";
+    stylename "DecDay",  "DDay";
+    tokens {
+        1, "Primidi",  "Prim";
+        2, "Duodi",    "Duo";
+        3, "Tridi",    "Tri";
+        4, "Quartidi", "Quar";
+        5, "Quintidi", "Quin";
+        6, "Sextidi",  "Sex";
+        7, "Septidi",  "Sep";
+        8, "Octidi",   "Oct";
+        9, "Nonidi",   "Non";
+        10, "Décadi",  "Dec";
+    }
+}
+
+vocab "frcomp" {
+    name "Complementary Days";
+    lang "en";
+    stylename "CompDay",           "CDay";
+    tokens {
+        1, "Fête de la Vertu",      "Ver";
+        2, "Fête du Génie",         "Gen";
+        3, "Fête du Travail",       "Trav";
+        4, "Fête de l'Opinion",     "Opin";
+        5, "Fête des Récompenses",  "Rec";
+        6, "Fête de la Révolution", "Rev";
+    }
+}
+
 grammar "fr" {
-    vocabs "frm";
+    vocabs "frm", "frdd", "frdim", "frcomp";
     alias field {
         "Day",   "day";
         "Month", "month";
         "Year",  "year";
+        "NMonth", "nmonth";
+        "NMDay", "nmday";
+        "Decade", "decade";
+        "DecDay", "dday";
+        "CompDay", "cday";
     }
     alias stylename {
         "Day",   "dd";
         "Month", "mm";
         "Year",  "yyyy";
+        "NMonth", "mm";
+        "NMDay",  "dd";
+        "Decade", "dec";
+        "DecDay", "d";
+        "CompDay", "c";
     }
     alias unit {
         "d", "day";
         "m", "month";
         "y", "year";
     }
+    format "cdmy",  "@(CompDay:frcomp) @(NMDay) @(NMonth:frm) @(Year)";
     format "dmy",   "@(Day) @(Month:frm.a) @(Year)";
     format "dmy+",  "@(Day) @(Month:frm) @(Year)";
-    format "mdy",   "@(Month:frm.a) @(Day), @(Year)";
+    format "mdy",   "@(Month:frm) @(Day), @(Year)";
     format "ymd",   "@(Year)@,(Month:frm.a)@,(Day)";
-    pref "dmy";
+    format "dwmy",  "@(CompDay:frcomp) @(Decade:frdim), @(DecDay:frdd), @(NMonth:frm) @(Year)";
+    pref "cdmy";
 }
 
 scheme "fr" {
