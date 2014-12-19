@@ -26,6 +26,7 @@
 
 vocab "frm" {
     name "Month names";
+    fieldname "month";
     lang "en";
     stylename "Month",  "Mon";
     tokens {
@@ -47,6 +48,7 @@ vocab "frm" {
 
 vocab "frdim" {
     name "Decade in Month";
+    fieldname "decade";
     lang "en";
     stylename "Decade",  "Dec";
     tokens {
@@ -58,6 +60,7 @@ vocab "frdim" {
 
 vocab "frdd" {
     name "Decade Day";
+    fieldname "dday";
     lang "en";
     stylename "DecDay",  "DDay";
     tokens {
@@ -76,6 +79,7 @@ vocab "frdd" {
 
 vocab "frcomp" {
     name "Complementary Days";
+    fieldname "cday";
     lang "en";
     stylename "CompDay",           "CDay";
     tokens {

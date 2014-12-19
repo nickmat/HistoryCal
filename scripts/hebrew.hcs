@@ -26,6 +26,7 @@
 
 vocab "hm" {
     name "Month names";
+    fieldname "month";
     lang "en";
     stylename "Month",   "Mon";
     tokens {

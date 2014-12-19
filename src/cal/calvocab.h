@@ -57,6 +57,7 @@ namespace Cal {
         Vocab( const std::string& code );
 
         void set_name(const std::string& name ) { m_name = name; }
+        void set_fieldname(const std::string& fname ) { m_fieldname = fname; }
         void set_lang(const std::string& lang ) { m_lang = lang; }
         void set_full_style_name(const std::string& fname ) { m_full_name = fname; }
         void set_abbrev_style_name(const std::string& aname ) { m_abbrev_name = aname; }
@@ -64,6 +65,7 @@ namespace Cal {
 
         std::string get_code() const { return m_code; }
         std::string get_name() const { return m_name; }
+        std::string get_fieldname() const { return m_fieldname; }
         std::string get_lang() const { return m_lang; }
         std::string get_style_name( Style style ) const;
         void get_info( Vocab_info* info ) const;
@@ -73,6 +75,7 @@ namespace Cal {
     private:
         std::string  m_code;
         std::string  m_name;
+		std::string  m_fieldname;
         std::string  m_lang;
         std::string  m_full_name;
         std::string  m_abbrev_name;

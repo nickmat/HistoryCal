@@ -30,6 +30,7 @@
 #include "calformat.h"
 #include "calgrammar.h"
 #include "calparse.h"
+#include "calvocab.h"
 
 using namespace Cal;
 using namespace std;
@@ -308,7 +309,10 @@ bool Base::resolve_input(
             if( input[i].vocab ) {
                 fname = fmt->get_output_field( input[i].vocab );
                 if( fname.empty() ) {
-                    continue; // Ignore vocabs not part of format
+					fname = input[i].vocab->get_fieldname();
+					if( fname.empty() ) {
+                        continue; // Give up.
+					}
                 }
             }
             if( fname.size() ) {

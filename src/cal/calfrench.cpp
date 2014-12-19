@@ -207,6 +207,38 @@ bool French::set_fields_as_begin_last( Field* fields, const Field* mask ) const
     return true;
 }
 
+bool French::set_fields_as_next_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const
+{
+#if 0
+    // Weekday is the only extended field checked by default
+    size_t kindex = record_size() + JEFN_wday;
+    if( mask[kindex] >= 1 && mask[kindex] <
+    }
+#endif= 7 && jdn != f_invalid ) {
+        Field knext = kday_on_or_after( Weekday( mask[kindex] - 1 ), jdn );
+        if( knext != jdn ) {
+            set_fields( fields, knext );
+            return true;
+        }
+    return false;
+}
+
+bool French::set_fields_as_prev_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const
+{
+#if 0
+    // Weekday is the only extended field checked by default
+    size_t kindex = record_size() + JEFN_wday;
+    if( mask[kindex] >= 1 && mask[kindex] <= 7 && jdn != f_invalid ) {
+        Field knext = kday_on_or_before( Weekday( mask[kindex] - 1 ), jdn );
+        if( knext != jdn ) {
+            set_fields( fields, knext );
+            return true;
+        }
+    }
+#endif
+    return false;
+}
+
 void French::set_fields( Field* fields, Field jdn ) const
 {
     french_from_jdn( &fields[0], &fields[1], &fields[2], jdn );

@@ -27,6 +27,7 @@
 
 vocab "lit" {
     name "Liturgy Weeks";
+    fieldname "litweek";
     lang "en";
     stylename "Week", "Wk";
     tokens {

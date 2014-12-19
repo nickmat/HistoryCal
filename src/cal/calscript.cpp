@@ -478,6 +478,9 @@ bool Script::do_vocab()
             if( name == "name" ) {
                 str = expr( true ).get_str();
                 voc->set_name( str );
+            } else if( name == "fieldname" ) {
+                str = expr( true ).get_str();
+                voc->set_fieldname( str );
             } else if( name == "lang" ) {
                 str = expr( true ).get_str();
                 voc->set_lang( str );

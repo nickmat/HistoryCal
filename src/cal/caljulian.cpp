@@ -162,30 +162,30 @@ bool Julian::set_fields_as_next_last( Field* fields, const Field* mask ) const
     return false;
 }
 
-bool Julian::set_fields_as_next_extended( Field* fields, Field jdn, const Field* mask ) const
+bool Julian::set_fields_as_next_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const
 {
-    // Weekday is the only extended field checked by default
-    size_t kindex = record_size() + JEFN_wday;
-    if( mask[kindex] >= 1 && mask[kindex] <= 7 && jdn != f_invalid ) {
-        Field knext = kday_on_or_after( Weekday( mask[kindex] - 1 ), jdn );
-        if( knext != jdn ) {
-            set_fields( fields, knext );
-            return true;
-        }
-    }
+	if( index == record_size() + JEFN_wday ) {
+		if( mask[index] >= 1 && mask[index] <= 7 && jdn != f_invalid ) {
+			Field knext = kday_on_or_after( Weekday( mask[index] - 1 ), jdn );
+			if( knext != jdn ) {
+				set_fields( fields, knext );
+				return true;
+			}
+		}
+	}
     return false;
 }
 
-bool Julian::set_fields_as_prev_extended( Field* fields, Field jdn, const Field* mask ) const
+bool Julian::set_fields_as_prev_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const
 {
-    // Weekday is the only extended field checked by default
-    size_t kindex = record_size() + JEFN_wday;
-    if( mask[kindex] >= 1 && mask[kindex] <= 7 && jdn != f_invalid ) {
-        Field knext = kday_on_or_before( Weekday( mask[kindex] - 1 ), jdn );
-        if( knext != jdn ) {
-            set_fields( fields, knext );
-            return true;
-        }
+	if( index == record_size() + JEFN_wday ) {
+		if( mask[index] >= 1 && mask[index] <= 7 && jdn != f_invalid ) {
+			Field knext = kday_on_or_before( Weekday( mask[index] - 1 ), jdn );
+			if( knext != jdn ) {
+				set_fields( fields, knext );
+				return true;
+			}
+		}
     }
     return false;
 }

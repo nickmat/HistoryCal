@@ -50,8 +50,8 @@ namespace Cal {
         virtual bool set_fields_as_begin_last( Field* fields, const Field* mask ) const;
         virtual bool set_fields_as_next_last( Field* fields, const Field* mask ) const;
 
-        virtual bool set_fields_as_next_extended( Field* fields, Field jdn, const Field* mask ) const;
-        virtual bool set_fields_as_prev_extended( Field* fields, Field jdn, const Field* mask ) const;
+        virtual bool set_fields_as_next_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const;
+        virtual bool set_fields_as_prev_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const;
 
         virtual void set_fields( Field* fields, Field jdn ) const;
 

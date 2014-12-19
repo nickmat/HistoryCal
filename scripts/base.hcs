@@ -27,6 +27,7 @@
 
 vocab "w" {
     name "Weekday names";
+    fieldname "wday";
     lang "en";
     stylename "Weekday", "WDay";
     tokens {

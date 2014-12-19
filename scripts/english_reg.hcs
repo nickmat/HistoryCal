@@ -26,6 +26,7 @@
 
 vocab "er" {
     name "English Monarchs";
+    fieldname "era";
     lang "en";
     stylename "Reign",              "Rn";
     tokens {
@@ -81,6 +82,7 @@ vocab "er" {
 
 vocab "part" {
     name "Part of Reign Year";
+    fieldname "er-part";
     lang "en";
     stylename "Part", "Part";
     tokens {

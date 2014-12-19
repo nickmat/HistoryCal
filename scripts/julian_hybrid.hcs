@@ -26,6 +26,7 @@
 
 vocab "on" {
     name "Scheme names";
+    fieldname "scheme";
     lang "en";
     stylename "Scheme", "Sch";
     tokens {
@@ -36,6 +37,7 @@ vocab "on" {
 
 vocab "jajg" {
     name "Scheme names";
+    fieldname "scheme";
     lang "en";
     stylename "Scheme", "Sch";
     tokens {

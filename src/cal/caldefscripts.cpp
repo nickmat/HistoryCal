@@ -35,6 +35,7 @@ const char* Cal::cal_default_scripts[] = {
      /* base.hcs */
  "vocab \"w\" {\n"
  "name \"Weekday names\";\n"
+ "fieldname \"wday\";\n"
  "lang \"en\";\n"
  "stylename \"Weekday\", \"WDay\";\n"
  "tokens {\n"
@@ -66,6 +67,7 @@ const char* Cal::cal_default_scripts[] = {
      /* julian.hcs */
  "vocab \"m\" {\n"
  "name \"Month names\";\n"
+ "fieldname \"month\";\n"
  "lang \"en\";\n"
  "stylename \"Month\",  \"Mon\";\n"
  "tokens {\n"
@@ -159,6 +161,7 @@ const char* Cal::cal_default_scripts[] = {
      /* julian_hybrid.hcs */
  "vocab \"on\" {\n"
  "name \"Scheme names\";\n"
+ "fieldname \"scheme\";\n"
  "lang \"en\";\n"
  "stylename \"Scheme\", \"Sch\";\n"
  "tokens {\n"
@@ -168,6 +171,7 @@ const char* Cal::cal_default_scripts[] = {
  "}\n"
  "vocab \"jajg\" {\n"
  "name \"Scheme names\";\n"
+ "fieldname \"scheme\";\n"
  "lang \"en\";\n"
  "stylename \"Scheme\", \"Sch\";\n"
  "tokens {\n"
@@ -217,6 +221,7 @@ const char* Cal::cal_default_scripts[] = {
      /* liturgical.hcs */
  "vocab \"lit\" {\n"
  "name \"Liturgy Weeks\";\n"
+ "fieldname \"litweek\";\n"
  "lang \"en\";\n"
  "stylename \"Week\", \"Wk\";\n"
  "tokens {\n"
@@ -322,6 +327,7 @@ const char* Cal::cal_default_scripts[] = {
      /* english_reg.hcs */
  "vocab \"er\" {\n"
  "name \"English Monarchs\";\n"
+ "fieldname \"era\";\n"
  "lang \"en\";\n"
  "stylename \"Reign\",              \"Rn\";\n"
  "tokens {\n"
@@ -376,6 +382,7 @@ const char* Cal::cal_default_scripts[] = {
  "}\n"
  "vocab \"part\" {\n"
  "name \"Part of Reign Year\";\n"
+ "fieldname \"er-part\";\n"
  "lang \"en\";\n"
  "stylename \"Part\", \"Part\";\n"
  "tokens {\n"
@@ -745,6 +752,7 @@ const char* Cal::cal_default_scripts[] = {
      /* french_rep.hcs */
  "vocab \"frm\" {\n"
  "name \"Month names\";\n"
+ "fieldname \"month\";\n"
  "lang \"en\";\n"
  "stylename \"Month\",  \"Mon\";\n"
  "tokens {\n"
@@ -765,6 +773,7 @@ const char* Cal::cal_default_scripts[] = {
  "}\n"
  "vocab \"frdim\" {\n"
  "name \"Decade in Month\";\n"
+ "fieldname \"decade\";\n"
  "lang \"en\";\n"
  "stylename \"Decade\",  \"Dec\";\n"
  "tokens {\n"
@@ -775,6 +784,7 @@ const char* Cal::cal_default_scripts[] = {
  "}\n"
  "vocab \"frdd\" {\n"
  "name \"Decade Day\";\n"
+ "fieldname \"dday\";\n"
  "lang \"en\";\n"
  "stylename \"DecDay\",  \"DDay\";\n"
  "tokens {\n"
@@ -792,6 +802,7 @@ const char* Cal::cal_default_scripts[] = {
  "}\n"
  "vocab \"frcomp\" {\n"
  "name \"Complementary Days\";\n"
+ "fieldname \"cday\";\n"
  "lang \"en\";\n"
  "stylename \"CompDay\",           \"CDay\";\n"
  "tokens {\n"
@@ -846,6 +857,7 @@ const char* Cal::cal_default_scripts[] = {
      /* hebrew.hcs */
  "vocab \"hm\" {\n"
  "name \"Month names\";\n"
+ "fieldname \"month\";\n"
  "lang \"en\";\n"
  "stylename \"Month\",   \"Mon\";\n"
  "tokens {\n"
@@ -896,6 +908,7 @@ const char* Cal::cal_default_scripts[] = {
      /* islamic.hcs */
  "vocab \"im\" {\n"
  "name \"Month names\";\n"
+ "fieldname \"month\";\n"
  "lang \"en\";\n"
  "stylename \"Month\";\n"
  "tokens {\n"
