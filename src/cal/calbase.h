@@ -68,7 +68,11 @@ namespace Cal {
         virtual bool set_fields_as_begin_last( Field* fields, const Field* mask ) const = 0;
         virtual bool set_fields_as_next_last( Field* fields, const Field* mask ) const = 0;
 
+        // Calculate the extended field, indicated by index, that is on or after the jdn or mask values.
+        // If calulated date is different, update the fields to match and return true, otherwise return false.
         virtual bool set_fields_as_next_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const { return false; }
+        // Calculate the extended field, indicated by index, that is on or before the jdn or mask values.
+        // If calulated date is different, update the fields to match and return true, otherwise return false.
         virtual bool set_fields_as_prev_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const { return false; }
 
         virtual void remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const;
@@ -91,7 +95,7 @@ namespace Cal {
         virtual bool can_add_unit( const Field* fields, Unit unit ) const;
         // Add value * units to the Records fields. Value may be negative.
         // Exactly what this means depends on the Calendar Scheme.
-        // Returns true if it succeeds, otherwise false; 
+        // Returns true if it succeeds, otherwise false;
         virtual bool add_to_fields( Field* fields, Field value, Unit unit ) const;
         // normalise is to correct illegal reg values
         // when considered in combination.
