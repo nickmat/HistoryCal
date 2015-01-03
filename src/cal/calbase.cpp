@@ -172,6 +172,77 @@ Field Base::compare_minor_fields( const Field* left, const Field* right, size_t 
     return 0;
 }
 
+bool Base::resolve_input(
+    Field* fields, const InputFieldVec& input, const string& fmt_code ) const
+{
+    string code;
+    if( fmt_code.empty() ) {
+        code = get_input_format();
+    } else {
+        code = fmt_code;
+    }
+    size_t cnt = 0;
+    FieldVec fs( extended_size(), f_invalid );
+    if( m_grammar ) {
+        Format* fmt = m_grammar->get_format( code );
+        if( fmt == NULL ) {
+            return false;
+        }
+        for( size_t i = 0 ; i < input.size() ; i++ ) {
+            if( input[i].type == IFT_null ) {
+                continue;
+            }
+            string fname;
+            if( input[i].type == IFT_dual2 ) {
+                fname = fmt->get_1st_output_field( IFT_dual2 );
+                if( fname.empty() ) {
+                    continue; // Ignore if we can't find it.
+                }
+            }
+            if( input[i].vocab ) {
+                fname = input[i].vocab->get_fieldname();
+                if( fname.empty() ) {
+					fname = fmt->get_output_field( input[i].vocab );
+					if( fname.empty() ) {
+                        continue; // Give up.
+					}
+                }
+            }
+            if( fname.size() ) {
+                int index = get_fieldname_index( fname );
+                if( index >= (int) record_size() ) {
+                    // Input an extended field
+                    fields[index] = input[i].value;
+                    continue;
+                }
+            }
+            fs[cnt] = input[i].value;
+            cnt++;
+        }
+    } else {
+        for( ; cnt < input.size() ; cnt++ ) {
+            fs[cnt] = input[cnt].value;
+            if( input[cnt].type == IFT_null ) {
+                break;
+            }
+        }
+    }
+    if( cnt < 1 ) {
+        return false;
+    }
+    XRefVec xref = get_xref_order( cnt, code );
+    if( xref.empty() ) {
+        return false;
+    }
+    for( size_t i = 0 ; i < cnt ; i++ ) {
+        int x = xref[i];
+        if( x >= 0 && x < (int) extended_size() ) {
+            fields[x] = fs[i];
+        }
+    }
+    return true;
+}
+
 string Base::lookup_token( Field field, const string& vcode, bool abbrev ) const
 {
     if( m_grammar ) {
@@ -277,77 +348,6 @@ XRefVec Base::get_xref_order( int cnt, const string& fmt ) const
         return XRefVec(0);
     }
     return xref_set.find( cnt )->second;
-}
-
-bool Base::resolve_input(
-    Field* fields, const InputFieldVec& input, const string& fmt_code ) const
-{
-    string code;
-    if( fmt_code.empty() ) {
-        code = get_input_format();
-    } else {
-        code = fmt_code;
-    }
-    size_t cnt = 0;
-    FieldVec fs( extended_size(), f_invalid );
-    if( m_grammar ) {
-        Format* fmt = m_grammar->get_format( code );
-        if( fmt == NULL ) {
-            return false;
-        }
-        for( size_t i = 0 ; i < input.size() ; i++ ) {
-            if( input[i].type == IFT_null ) {
-                continue;
-            }
-            string fname;
-            if( input[i].type == IFT_dual2 ) {
-                fname = fmt->get_1st_output_field( IFT_dual2 );
-                if( fname.empty() ) {
-                    continue; // Ignore if we can't find it.
-                }
-            }
-            if( input[i].vocab ) {
-                fname = fmt->get_output_field( input[i].vocab );
-                if( fname.empty() ) {
-					fname = input[i].vocab->get_fieldname();
-					if( fname.empty() ) {
-                        continue; // Give up.
-					}
-                }
-            }
-            if( fname.size() ) {
-                int index = get_fieldname_index( fname );
-                if( index >= (int) record_size() ) {
-                    // Input an extended field
-                    fields[index] = input[i].value;
-                    continue;
-                }
-            }
-            fs[cnt] = input[i].value;
-            cnt++;
-        }
-    } else {
-        for( ; cnt < input.size() ; cnt++ ) {
-            fs[cnt] = input[cnt].value;
-            if( input[cnt].type == IFT_null ) {
-                break;
-            }
-        }
-    }
-    if( cnt < 1 ) {
-        return false;
-    }
-    XRefVec xref = get_xref_order( cnt, code );
-    if( xref.empty() ) {
-        return false;
-    }
-    for( size_t i = 0 ; i < cnt ; i++ ) {
-        int x = xref[i];
-        if( x >= 0 && x < (int) extended_size() ) {
-            fields[x] = fs[i];
-        }
-    }
-    return true;
 }
 
 

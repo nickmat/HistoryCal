@@ -114,21 +114,20 @@ int French::get_fieldname_index( const string& fieldname ) const
     if( ret >= 0 ) {
         return ret;
     }
-    int offset = record_size();
-    if( fieldname == "nmonth" ) { // Named month (1 to 12)
-        return offset + FEFN_nmonth;
-    }
-    if( fieldname == "nmday" ) { // Named month day (1 to 30)
-        return offset + FEFN_nmday;
-    }
-    if( fieldname == "decade" ) { // Decade within month (1 to 3)
-        return offset + FEFN_decade;
+    if( fieldname == "wday" ) { // 7 Day week Mon=1 (1 to 7)
+        return FFN_wday;
     }
     if( fieldname == "dday" ) { // Day within Decade (1 to 10)
-        return offset + FEFN_dday;
+        return FFN_dday;
     }
     if( fieldname == "cday" ) { // Complementary day (1 to 6)
-        return offset + FEFN_cday;
+        return FFN_cday;
+    }
+    if( fieldname == "nmonth" ) { // Named month (1 to 12)
+        return FFN_nmonth;
+    }
+    if( fieldname == "nmday" ) { // Named month day (1 to 30)
+        return FFN_nmday;
     }
     return -1;
 }
@@ -139,18 +138,18 @@ string French::get_fieldname( size_t index ) const
         // Base handles year, month, day.
         return Base::get_fieldname( index );
     }
-    switch( index - record_size() )
+    switch( index )
     {
-    case FEFN_nmonth:
-        return "nmonth";
-    case FEFN_nmday:
-        return "nmday";
-    case FEFN_decade:
-        return "decade";
-    case FEFN_dday:
+    case FFN_wday:
+        return "wday";
+    case FFN_dday:
         return "dday";
-    case FEFN_cday:
+    case FFN_cday:
         return "cday";
+    case FFN_nmonth:
+        return "nmonth";
+    case FFN_nmday:
+        return "nmday";
     }
     return "";
 }
@@ -162,18 +161,18 @@ Field French::get_jdn( const Field* fields ) const
 
 Field French::get_extended_field( const Field* fields, Field jdn, size_t index ) const
 {
-    switch( index - record_size() )
+    switch( index )
     {
-    case FEFN_nmonth:
-        return fields[1] == 13 ? f_invalid : fields[1];
-    case FEFN_nmday:
-        return fields[1] == 13 ? f_invalid : fields[2];
-    case FEFN_decade:
-        return fields[1] == 13 ? f_invalid : ( ( fields[2] - 1 ) / 10 ) + 1;
-    case FEFN_dday:
+    case FFN_wday:
+        return day_of_week( jdn ) + 1; // Mon=1, Sun=7
+    case FFN_dday:
         return fields[1] == 13 ? f_invalid : ( ( fields[2] - 1 ) % 10 ) + 1;
-    case FEFN_cday:
+    case FFN_cday:
         return fields[1] == 13 ? fields[2] : f_invalid;
+    case FFN_nmonth:
+        return fields[1] == 13 ? f_invalid : fields[1];
+    case FFN_nmday:
+        return fields[1] == 13 ? f_invalid : fields[2];
     }
     return f_invalid;
 }
@@ -202,40 +201,107 @@ bool French::set_fields_as_begin_last( Field* fields, const Field* mask ) const
     }
     fields[0] = mask[0];
     fields[1] = ( mask[1] == f_invalid ) ? 13 : mask[1];
-    fields[2] = ( mask[2] == f_invalid ) ? 
+    fields[2] = ( mask[2] == f_invalid ) ?
         french_last_day_in_month( fields[0], fields[1] ) : mask[2];
     return true;
 }
 
-bool French::set_fields_as_next_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const
+bool French::set_fields_as_next_extended(
+    Field* fields, Field jdn, const Field* mask, size_t index ) const
 {
-#if 0
-    // Weekday is the only extended field checked by default
-    size_t kindex = record_size() + JEFN_wday;
-    if( mask[kindex] >= 1 && mask[kindex] <
-    }
-#endif= 7 && jdn != f_invalid ) {
-        Field knext = kday_on_or_after( Weekday( mask[kindex] - 1 ), jdn );
-        if( knext != jdn ) {
-            set_fields( fields, knext );
+    assert( fields[FFN_year] != f_invalid );
+    assert( fields[FFN_month] != f_invalid );
+    assert( fields[FFN_year] != f_invalid );
+    assert( jdn != f_invalid );
+    if( index == FFN_nmonth ) {
+        Field nmonth = mask[index];
+        if( nmonth != mask[FFN_month] ) {
+            if( nmonth >= 1 && nmonth <= 12 ) {
+                if( mask[index] < nmonth ) {
+                    fields[FFN_year]++;
+                }
+                if( fields[FFN_month] < nmonth ) {
+                    fields[FFN_day] = 1;
+                }
+                fields[FFN_month] = nmonth;
+            }
             return true;
         }
+    } else if( index == FFN_nmday ) {
+        Field nmday = mask[index];
+        if( nmday != fields[FFN_day] ) {
+            if( nmday > fields[FFN_day] ) {
+                if( fields[FFN_month] == 12 ) {
+                    fields[FFN_month] = 1;
+                    fields[FFN_year]++;
+                } else {
+                    fields[FFN_month]++;
+                }
+            }
+            fields[FFN_day] = nmday;
+            return true;
+        }
+    } else if( index == FFN_cday ) { // Complementary day
+        Field cday = mask[index];
+        if( fields[FFN_month] != 13 || cday != fields[FFN_day] ) {
+            if( cday < fields[FFN_day] ) {
+                fields[FFN_year]++;
+            }
+            fields[FFN_month] = 13;
+            fields[FFN_day] = cday;
+            return true;
+        }
+    }
+    // TODO: extended fields FEFN_decade and FEFN_dday
     return false;
 }
 
 bool French::set_fields_as_prev_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const
 {
-#if 0
-    // Weekday is the only extended field checked by default
-    size_t kindex = record_size() + JEFN_wday;
-    if( mask[kindex] >= 1 && mask[kindex] <= 7 && jdn != f_invalid ) {
-        Field knext = kday_on_or_before( Weekday( mask[kindex] - 1 ), jdn );
-        if( knext != jdn ) {
-            set_fields( fields, knext );
+    assert( fields[FFN_year] != f_invalid );
+    assert( fields[FFN_month] != f_invalid );
+    assert( fields[FFN_year] != f_invalid );
+    assert( jdn != f_invalid );
+    if( index == FFN_nmonth ) {
+        Field nmonth = mask[index];
+        if( nmonth != mask[FFN_month] ) {
+            if( nmonth >= 1 && nmonth <= 12 ) {
+                if( mask[index] > nmonth ) {
+                    --fields[FFN_year];
+                }
+                if( fields[FFN_month] > nmonth ) {
+                    fields[FFN_day] = 30;
+                }
+                fields[FFN_month] = nmonth;
+            }
+            return true;
+        }
+    } else if( index == FFN_nmday ) {
+        Field nmday = mask[index];
+        if( nmday != fields[FFN_day] ) {
+            if( nmday < fields[FFN_day] ) {
+                if( fields[FFN_month] == 1 ) {
+                    fields[FFN_month] = 12;
+                    --fields[FFN_year];
+                } else {
+                    --fields[FFN_month];
+                }
+            }
+            fields[FFN_day] = nmday;
+            return true;
+        }
+    } else if( index == FFN_cday ) { // Complementary day
+        Field cday = mask[index];
+        if( fields[FFN_month] != 13 || cday != fields[FFN_day] ) {
+            if( cday > fields[FFN_day] ) {
+                --fields[FFN_year];
+            }
+            fields[FFN_month] = 13;
+            fields[FFN_day] = cday;
             return true;
         }
     }
-#endif
+    // TODO: extended fields FEFN_decade and FEFN_dday
     return false;
 }
 
@@ -283,4 +349,24 @@ bool French::normalise( Field* regs, Norm norm ) const
     }
     return false;
 }
+
+bool French::resolve_input( 
+    Field* fields, const InputFieldVec& input, const string& fmt_code ) const
+{
+    bool ret = Base::resolve_input( fields, input, fmt_code );
+    if( ret ) {
+        if( fields[FFN_month] == f_invalid && fields[FFN_nmonth] != f_invalid ) {
+            fields[FFN_month] = fields[FFN_nmonth];
+        }
+        if( fields[FFN_day] == f_invalid && fields[FFN_nmday] != f_invalid ) {
+            fields[FFN_day] = fields[FFN_nmday];
+        }
+        if( fields[FFN_cday] != f_invalid && fields[FFN_day] == f_invalid ) {
+            fields[FFN_day] = fields[FFN_cday];
+            fields[FFN_month] = 13;
+        }
+    }
+    return ret;
+}
+
 // End of src/cal/calfrench.cpp
