@@ -19,8 +19,8 @@
   <a href="../index.htm" class="m-item">Home</a>
   <a href="../cal/index.htm" class="m-item level1">Calendars</a>
   <a href="fr.htm" class="m-item level2 thispage">fr</a>
-  <a href="jdn.htm" class="m-item prev">&lt;&lt;</a>
-  <a href="jn.htm" class="m-item next">&gt;&gt;</a>
+  <a href="er.htm" class="m-item prev">&lt;&lt;</a>
+  <a href="h.htm" class="m-item next">&gt;&gt;</a>
 </div>
 
 <div id="content" class="nomenu calendar">
@@ -29,6 +29,28 @@
 <p>
  The French Republican calendar was part of the reforms brought in after the
  French Revolution, the same reforms that lead to the metric system.
+</p>
+<p>
+ The calendar consists of 12 months of thirty days each
+ and five (six in a leap year) additional days (Complémentaires) at the end of the year.
+ The year change is the autumnal equinox as measured at the Paris Observatory
+ which sets the first day of the first month, Vendémiaire.
+</p>
+<p>
+ Each month was divided into three 10 day periods called Décades and
+ the days were named according to their position.
+ The last day, Décadi, was a public holiday.
+</p>
+<p>
+ The use of Décades was discontinued in Apr 1802 (Gregorian) and
+ the 7-day Week restored.
+</p>
+
+<h3>Formatting</h3>
+<p>
+ The usual method of formating the date is: day of month, the month name, the year.
+ During the five or six day Complémentaires period, just the day's name and the year are given.
+ The year is often written in roman numerals.
 </p>
 
 <h3>Use Case</h3>
@@ -41,7 +63,19 @@
 </ul>
 
 <h3>Definition</h3>
+<table class='record'>
+<tr><th colspan='8'>Record</th></tr>
+<tr>
+ <td>year</td><td>month</td><td>day</td>
+ <td class='rdonly'>nmonth</td>
+ <td class='rdonly'>nmday</td>
+ <td class='rdonly'>cday</td>
+ <td class='rdonly'>dday</td>
+ <td class='rdonly'>wday</td>
+</tr>
+</table>
 <table class='data'>
+<tr><th colspan='4'>Month Names</th></tr>
 <tr><th rowspan='2'>Number</th><th rowspan='2'>Name</th><th colspan='2'>Number of Days</th></tr>
 <tr><th>Common</th><th>Leap</th></tr>
 <tr><td>1</td><td>Vendémiaire</td><td>30</td><td>30</td></tr>
@@ -58,39 +92,73 @@
 <tr><td>12</td><td>Fructidor</td><td>30</td><td>30</td></tr>
 <tr><td>13</td><td>Complémentaires</td><td>5</td><td>6</td></tr>
 </table>
-<table class='record'>
-<tr><th colspan='7'>Record</th></tr>
-<tr>
- <td>year</td><td>month</td><td>day</td>
- <td class='rdonly'>nmonth</td>
- <td class='rdonly'>decade</td>
- <td class='rdonly'>dday</td>
- <td class='rdonly'>cday</td>
-</tr>
+<table class='data'>
+<tr><th colspan='2'>Décade Day Names</th></tr>
+<tr><th>Number</th><th>Name</th></tr>
+<tr><td>1</td><td>Primidi</td></tr>
+<tr><td>2</td><td>Duodi</td></tr>
+<tr><td>3</td><td>Tridi</td></tr>
+<tr><td>4</td><td>Quartidi</td></tr>
+<tr><td>5</td><td>Quintidi</td></tr>
+<tr><td>6</td><td>Sextidi</td></tr>
+<tr><td>7</td><td>Septidi</td></tr>
+<tr><td>8</td><td>Octidi</td></tr>
+<tr><td>9</td><td>Nonidi</td></tr>
+<tr><td>10</td><td>Décadi</td></tr>
+</table>
+<table class='data'>
+<tr><th colspan='2'>Complémentaire Day Names</th></tr>
+<tr><th>Number</th><th>Name</th></tr>
+<tr><td>1</td><td>Fête de la Vertu</td></tr>
+<tr><td>2</td><td>Fête du Génie</td></tr>
+<tr><td>3</td><td>Fête du Travail</td></tr>
+<tr><td>4</td><td>Fête de l'Opinion</td></tr>
+<tr><td>5</td><td>Fête des Récompenses</td></tr>
+<tr><td>6</td><td>Fête de la Révolution</td></tr>
 </table>
 <p>
-
+ The year length is 365 or 366 days long,
+ averaging the tropical year of approximately 365.24219 days.
+ Days start at midnight.
 </p>
 <p>
  The <b>Record</b> consists of three regular <b>Fields</b> named <code>year,</code>
- <code>month,</code> and <code>day.</code> There are four extended <b>Fields</b>:
- <code>nmonth</code> for the named months,
- <code>decade</code> for the decade number within the month,
- <code>dday</code> for the day within the decade and
- <code>cday</code> for the complementary day number.
- During the complementary days, the nmonth, decade and dday <b>Fields</b> are invalid.
- Outside the complementary days the cday <b>Field</b> is invalid.
+ <code>month,</code> and <code>day.</code> There are five extended <b>Fields</b>:
+ <code>nmonth</code> and <code>nmday</code> for the named months and the named month days;
+ <code>cday</code> for the complémentaire days;
+ <code>dday</code> for the day within the décade
+ and <code>wday</code> for the 7-day week number (starting Monday).
+ During the complémentaire days, the nmonth, nmday and dday <b>Fields</b> are invalid.
+ Outside the complémentaire days the cday <b>Field</b> is invalid.
 </p>
-<p>
- The <b>Epoch</b> is set at <code>year 1 month 1 day 1 (<b>fr</b>) = day 2375840 (<b>jdn</b>).</code>
-</p>
+<div class='p'>
+ The <b>Epoch</b> is set at
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>fr</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>1</td><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>g</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1792</td><td>9</td><td>22</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>2375840</td></tr>
+ </table>.
+</div>
 
 <h3>Script</h3>
+<p>
+ The script also requires the <a href='7dayweek.htm'>7-Day week</a> vocab.
+</p>
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
 >vocab "frm" {
     name "Month names";
+    fieldname "month";
     lang "en";
     stylename "Month",  "Mon";
     tokens {
@@ -110,19 +178,9 @@
     }
 }
 
-vocab "frdim" {
-    name "Decade in Month";
-    lang "en";
-    stylename "Decade",  "Dec";
-    tokens {
-        1, "Décade I",   "Dec I";
-        2, "Décade II",  "Dec II";
-        3, "Décade III", "Dec III";
-    }
-}
-
 vocab "frdd" {
     name "Decade Day";
+    fieldname "dday";
     lang "en";
     stylename "DecDay",  "DDay";
     tokens {
@@ -131,8 +189,8 @@ vocab "frdd" {
         3, "Tridi",    "Tri";
         4, "Quartidi", "Quar";
         5, "Quintidi", "Quin";
-        6, "Sextidi",  "Sex";
-        7, "Septidi",  "Sep";
+        6, "Sextidi",  "Sext";
+        7, "Septidi",  "Sept";
         8, "Octidi",   "Oct";
         9, "Nonidi",   "Non";
         10, "Décadi",  "Dec";
@@ -141,6 +199,7 @@ vocab "frdd" {
 
 vocab "frcomp" {
     name "Complementary Days";
+    fieldname "cday";
     lang "en";
     stylename "CompDay",           "CDay";
     tokens {
@@ -154,38 +213,43 @@ vocab "frcomp" {
 }
 
 grammar "fr" {
-    vocabs "frm", "frdd", "frdim", "frcomp";
+    vocabs "frm", "frcomp", "frdd", "w";
     alias field {
-        "Day",   "day";
-        "Month", "month";
-        "Year",  "year";
-        "NMonth", "nmonth";
-        "NMDay", "nmday";
-        "Decade", "decade";
-        "DecDay", "dday";
+        "Day",     "day";
+        "Month",   "month";
+        "Year",    "year";
+        "DecDay",  "dday";
+        "WDay",    "wday";
+        "NMonth",  "nmonth";
+        "NMDay",   "nmday";
         "CompDay", "cday";
     }
     alias stylename {
-        "Day",   "dd";
-        "Month", "mm";
-        "Year",  "yyyy";
-        "NMonth", "mm";
-        "NMDay",  "dd";
-        "Decade", "dec";
-        "DecDay", "d";
+        "Day",     "dd";
+        "Month",   "mm";
+        "Year",    "yyyy";
+        "NMonth",  "mm";
+        "NMDay",   "dd";
+        "WDay",    "w";
+        "DecDay",  "d";
         "CompDay", "c";
     }
     alias unit {
-        "d", "day";
-        "m", "month";
-        "y", "year";
+        "d",   "day";
+        "dec", "decade";
+        "w",   "week";
+        "m",   "month";
+        "y",   "year";
     }
-    format "cdmy",  "@(CompDay:frcomp) @(NMDay) @(NMonth:frm) @(Year)";
-    format "dmy",   "@(Day) @(Month:frm.a) @(Year)";
-    format "dmy+",  "@(Day) @(Month:frm) @(Year)";
-    format "mdy",   "@(Month:frm) @(Day), @(Year)";
-    format "ymd",   "@(Year)@,(Month:frm.a)@,(Day)";
-    format "dwmy",  "@(CompDay:frcomp) @(Decade:frdim), @(DecDay:frdd), @(NMonth:frm) @(Year)";
+    format "cdmy",   "@(CompDay:frcomp) @(NMDay) @(NMonth:frm) @(Year)";
+    format "dcdmy",  "@(DecDay:frdd) @(CompDay:frcomp) @(NMDay) @(NMonth:frm) @(Year)";
+    format "wcdmy",  "@(WDay:w), @(CompDay:frcomp) @(NMDay) @(NMonth:frm) @(Year)";
+    format "cdmy-",  "@(CompDay:frcomp.a) @(NMDay) @(NMonth:frm.a) @(Year)";
+    format "dcdmy-", "@(DecDay:frdd.a) @(CompDay:frcomp.a) @(NMDay) @(NMonth:frm.a) @(Year)";
+    format "wcdmy-", "@(WDay:w), @(CompDay:frcomp) @(NMDay) @(NMonth:frm) @(Year)";
+    format "dmy",    "@(Day) @(Month:frm.a) @(Year)";
+    format "dmy+",   "@(Day) @(Month:frm) @(Year)";
+    format "ymd",    "@(Year)@,(Month:frm.a)@,(Day)";
     pref "cdmy";
 }
 

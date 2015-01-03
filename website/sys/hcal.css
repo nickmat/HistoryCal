@@ -27,7 +27,7 @@ h2, h3, h4 {
  clear: left;
 }
 
-p {
+p, div.p {
  margin: 0 0.5em 1em 0.5em;
 }
 
@@ -303,6 +303,33 @@ table.record td {
 
 table.record td.rdonly {
  background-color: MistyRose;
+}
+
+table.rec-value {
+ display: inline-table;
+ border: 1px solid black;
+ margin: 0.1em 0.2em;
+ border-collapse: collapse;
+ background-color: GhostWhite;
+}
+
+table.rec-value th {
+ border: 1px solid black;
+ padding: 0 0.25em;
+ text-align: center;
+ font-size: 66%;
+}
+
+table.rec-value td {
+ border: 1px solid black;
+ padding: 0 0.25em;
+ text-align: center;
+ font-weight: bold;
+}
+
+table.rec-value td.sig {
+ font-size: 120%;
+ font-weight: normal;
 }
 
 table.code {
