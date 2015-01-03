@@ -44,9 +44,11 @@ DLLIMPEXP_UTF8API std::string Utf8api::normal( const std::string& utf8 )
         UTF8PROC_NULLTERM | UTF8PROC_STABLE | UTF8PROC_COMPOSE | 
         UTF8PROC_COMPAT | UTF8PROC_CASEFOLD
     );
-    // TODO: Do some checks on size and throw errors
-    std::string str( (char*) retval );
-    free( retval );
+    std::string str;
+    if( retval ) {
+        str = std::string( (char*) retval );
+        free( retval );
+    }
     return str;
 }
 
