@@ -58,6 +58,30 @@ inline std::string WxStrToUtf8( const wxString& wxstr )
     return std::string( wxstr.mb_str( wxConvUTF8 ) );
 }
 
+wxString RangesToString( RangeList rlist )
+{
+    wxString str;
+    for( size_t i = 0 ; i < rlist.size() ; i++ ) {
+        if( i > 0 ) {
+            str << " ";
+        }
+        if( rlist[i].jdn1 == f_minimum ) {
+            str << "min";
+        } else {
+            str << rlist[i].jdn1;
+        }
+        if( rlist[i].jdn1 != rlist[i].jdn2 ) {
+            str << " ~ ";
+            if( rlist[i].jdn2 == f_maximum ) {
+                str << "max";
+            } else {
+                str << rlist[i].jdn2;
+            }
+        }
+    }
+    return str;
+}
+
 /*! \brief Frame constructor.
  *
  *  Create the window Icon.
@@ -243,16 +267,30 @@ void HcFrame::UpdateSchemeLists()
     m_schemes = m_cal.get_scheme_list();
     m_comboBoxInput->Clear();
     m_comboBoxOutput->Clear();
+    bool from_found = false, to_found = false;
     for( size_t i = 0 ; i < m_schemes.size() ; i++ ) {
         wxString entry = Utf8ToWxStr( m_schemes[i].name ) 
             + "  (" + Utf8ToWxStr( m_schemes[i].code ) + ")";
         m_comboBoxInput->Append( entry );
         if( m_schemes[i].code == m_from ) {
             m_comboBoxInput->SetSelection( i );
+            from_found = true;
         }
         m_comboBoxOutput->Append( entry );
         if( m_schemes[i].code == m_to ) {
             m_comboBoxOutput->SetSelection( i );
+            to_found = true;
+        }
+    }
+    // Ensure m_from and m_to have valid scheme codes.
+    if( m_schemes.size() ) {
+        if( ! from_found ) {
+            m_from = m_schemes[0].code;
+            m_comboBoxInput->SetSelection( 0 );
+        }
+        if( ! to_found ) {
+            m_to = m_schemes[0].code;
+            m_comboBoxOutput->SetSelection( 0 );
         }
     }
     UpdateInputFormat();
@@ -351,7 +389,7 @@ void HcFrame::CalculateOutput()
             }
         }
 
-        inter << m_cal.rangelist_to_str( m_cal.get_scheme( "jdn" ), ranges );
+        inter << RangesToString( ranges );
 
         output << Utf8ToWxStr( m_cal.rangelist_to_str( sch_to, ranges ) );
         size_t rsize = ranges.size();
