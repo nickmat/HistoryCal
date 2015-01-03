@@ -83,6 +83,7 @@ UNIT_OBJECTS =  \
 	unit_api_expr_str.o \
 	unit_def_eng.o \
 	unit_def_er.o \
+	unit_def_fr.o \
 	unit_def_g.o \
 	unit_def_j325.o \
 	unit_testcal.o \
@@ -269,6 +270,9 @@ unit_def_eng.o: ./../../test/unit/def_eng.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
 unit_def_er.o: ./../../test/unit/def_er.cpp
+	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
+
+unit_def_fr.o: ./../../test/unit/def_fr.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
 unit_def_g.o: ./../../test/unit/def_g.cpp
