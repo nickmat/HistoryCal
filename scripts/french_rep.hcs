@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014-2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -109,15 +109,15 @@ grammar "fr" {
         "m",   "month";
         "y",   "year";
     }
-    format "cdmy",  "@(CompDay:frcomp) @(NMDay) @(NMonth:frm) @(Year)";
+    format "cdmy",   "@(CompDay:frcomp) @(NMDay) @(NMonth:frm) @(Year)";
     format "dcdmy",  "@(DecDay:frdd) @(CompDay:frcomp) @(NMDay) @(NMonth:frm) @(Year)";
     format "wcdmy",  "@(WDay:w), @(CompDay:frcomp) @(NMDay) @(NMonth:frm) @(Year)";
     format "cdmy-",  "@(CompDay:frcomp.a) @(NMDay) @(NMonth:frm.a) @(Year)";
-    format "dcdmy-",  "@(DecDay:frdd.a) @(CompDay:frcomp.a) @(NMDay) @(NMonth:frm.a) @(Year)";
-    format "wcdmy-",  "@(WDay:w), @(CompDay:frcomp) @(NMDay) @(NMonth:frm) @(Year)";
-    format "dmy",   "@(Day) @(Month:frm.a) @(Year)";
-    format "dmy+",  "@(Day) @(Month:frm) @(Year)";
-    format "ymd",   "@(Year)@,(Month:frm.a)@,(Day)";
+    format "dcdmy-", "@(DecDay:frdd.a) @(CompDay:frcomp.a) @(NMDay) @(NMonth:frm.a) @(Year)";
+    format "wcdmy-", "@(WDay:w), @(CompDay:frcomp) @(NMDay) @(NMonth:frm) @(Year)";
+    format "dmy",    "@(Day) @(Month:frm.a) @(Year)";
+    format "dmy+",   "@(Day) @(Month:frm) @(Year)";
+    format "ymd",    "@(Year)@,(Month:frm.a)@,(Day)";
     pref "cdmy";
 }
 
