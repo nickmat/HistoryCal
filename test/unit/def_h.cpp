@@ -37,7 +37,7 @@ class TestDef_h : public CPPUNIT_NS::TestFixture
 {
     CPPUNIT_TEST_SUITE( TestDef_h );
     CPPUNIT_TEST( testCreation );
-//    CPPUNIT_TEST( testStrTable );
+    CPPUNIT_TEST( testStrTable );
     CPPUNIT_TEST( testStringInput );
     CPPUNIT_TEST_SUITE_END();
 
@@ -49,12 +49,49 @@ public:
     void tearDown();
 
     void testCreation();
-//    void testStrTable();
+    void testStrTable();
     void testStringInput();
 };
 
 // Registers the fixture into the 'registry'
 CPPUNIT_TEST_SUITE_REGISTRATION( TestDef_h );
+
+static const char* test_strs[MaxSample][2] = {
+    //     dmy                       wdmy
+    { "10 Av 3174",         "Yom Rishon 10 Av 3174"          },
+    { "25 Kislev 3593",     "Yom Revi'i 25 Kislev 3593"      },
+    { "3 Tishri 3831",      "Yom Revi'i 3 Tishri 3831"       },
+    { "9 Tishri 3896",      "Yom Rishon 9 Tishri 3896"       },
+    { "18 Tevet 4230",      "Yom Revi'i 18 Tevet 4230"       },
+    { "4 Sivan 4336",       "Yom Sheni 4 Sivan 4336"         },
+    { "13 Marheshvan 4455", "Yom Shabbat 13 Marheshvan 4455" },
+    { "6 Iyyar 4773",       "Yom Rishon 6 Iyyar 4773"        },
+    { "23 Iyyar 4856",      "Yom Rishon 23 Iyyar 4856"       },
+    { "7 Nisan 4950",       "Yom Shishi 7 Nisan 4950"        },
+    { "8 Adar II 5000",     "Yom Shabbat 8 Adar II 5000"     },
+    { "21 Nisan 5048",      "Yom Shishi 21 Nisan 5048"       },
+    { "7 Iyyar 5058",       "Yom Rishon 7 Iyyar 5058"        },
+    { "1 Tammuz 5151",      "Yom Rishon 1 Tammuz 5151"       },
+    { "7 Shevat 5196",      "Yom Revi'i 7 Shevat 5196"       },
+    { "3 Nisan 5252",       "Yom Shabbat 3 Nisan 5252"       },
+    { "1 Tishri 5314",      "Yom Shabbat 1 Tishri 5314"      },
+    { "27 Adar 5320",       "Yom Shabbat 27 Adar 5320"       },
+    { "20 Sivan 5408",      "Yom Revi'i 20 Sivan 5408"       },
+    { "3 Tammuz 5440",      "Yom Rishon 3 Tammuz 5440"       },
+    { "5 Av 5476",          "Yom Shishi 5 Av 5476"           },
+    { "4 Tammuz 5528",      "Yom Rishon 4 Tammuz 5528"       },
+    { "11 Av 5579",         "Yom Sheni 11 Av 5579"           },
+    { "12 Nisan 5599",      "Yom Revi'i 12 Nisan 5599"       },
+    { "22 Nisan 5663",      "Yom Rishon 22 Nisan 5663"       },
+    { "19 Av 5689",         "Yom Rishon 19 Av 5689"          },
+    { "8 Tishri 5702",      "Yom Sheni 8 Tishri 5702"        },
+    { "14 Nisan 5703",      "Yom Sheni 14 Nisan 5703"        },
+    { "8 Tishri 5704",      "Yom Hamishi 8 Tishri 5704"      },
+    { "12 Adar II 5752",    "Yom Shelishi 12 Adar II 5752"   },
+    { "5 Adar 5756",        "Yom Rishon 5 Adar 5756"         },
+    { "12 Marheshvan 5799", "Yom Revi'i 12 Marheshvan 5799"  },
+    { "5 Av 5854",          "Yom Rishon 5 Av 5854"           }
+};
 
 void TestDef_h::setUp()
 {
@@ -89,6 +126,28 @@ void TestDef_h::testCreation()
         }
         CPPUNIT_ASSERT( str != "" );
         CPPUNIT_ASSERT_EQUAL( str, info.vocab_names[i] );
+    }
+}
+
+void TestDef_h::testStrTable()
+{
+    m_cal->set_input_format( m_sid, "dmy" );
+    m_cal->set_output_format( m_sid, "dmy" );
+    for( size_t i = 0 ; i < MaxSample ; i++ ) {
+        string sample( test_strs[i][0] );
+        Field jdn = m_cal->str_to_jdn( m_sid, sample );
+        CPPUNIT_ASSERT_EQUAL( testJdnValues[i], jdn );
+        string str = m_cal->jdn_to_str( m_sid, jdn );
+        CPPUNIT_ASSERT_EQUAL( sample, str );
+    }
+    m_cal->set_input_format( m_sid, "wdmy" );
+    m_cal->set_output_format( m_sid, "wdmy" );
+    for( size_t i = 0 ; i < MaxSample ; i++ ) {
+        string sample( test_strs[i][1] );
+        Field jdn = m_cal->str_to_jdn( m_sid, sample );
+        CPPUNIT_ASSERT_EQUAL( testJdnValues[i], jdn );
+        string str = m_cal->jdn_to_str( m_sid, jdn );
+        CPPUNIT_ASSERT_EQUAL( sample, str );
     }
 }
 
