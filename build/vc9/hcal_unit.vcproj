@@ -233,6 +233,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\test\unit\def_h.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\test\unit\def_j325.cpp"
 				>
 			</File>
