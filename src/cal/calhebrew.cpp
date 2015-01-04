@@ -32,6 +32,7 @@
 #include <cassert>
 
 using namespace Cal;
+using std::string;
 
 #define BASEDATE_Hebrew    347998L
 
@@ -192,9 +193,46 @@ namespace {
 
 //===================================
 
+int Hebrew::get_fieldname_index( const string& fieldname ) const
+{
+    // Base handles year, month, day.
+    int ret = Base::get_fieldname_index( fieldname );
+    if( ret >= 0 ) {
+        return ret;
+    }
+    if( fieldname == "wsday" ) { // 7 Day week Sun=1 (1 to 7)
+        return HFN_wsday;
+    }
+    return -1;
+}
+
+string Hebrew::get_fieldname( size_t index ) const
+{
+    if( index < HFN_RCOUNT ) {
+        // Base handles year, month, day.
+        return Base::get_fieldname( index );
+    }
+    switch( index )
+    {
+    case HFN_wsday:
+        return "wsday";
+    }
+    return "";
+}
+
 Field Hebrew::get_jdn( const Field* fields ) const
 {
     return hebrew_to_jdn( fields[0], fields[1], fields[2] );
+}
+
+Field Hebrew::get_extended_field( const Field* fields, Field jdn, size_t index ) const
+{
+    switch( index )
+    {
+    case HFN_wsday:
+        return day_of_week( jdn + 1 ) + 1; // Sun=1, Sun=7
+    }
+    return f_invalid;
 }
 
 bool Hebrew::set_fields_as_begin_first( Field* fields, const Field* mask ) const
@@ -231,6 +269,36 @@ bool Hebrew::set_fields_as_begin_last( Field* fields, const Field* mask ) const
         fields[2] = hebrew_last_day_in_month( fields[0], fields[1] );
     }
     return true;
+}
+
+bool Hebrew::set_fields_as_next_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const
+{
+	if( index == HFN_wsday ) {
+		if( mask[index] >= 1 && mask[index] <= 7 && jdn != f_invalid ) {
+            // Adjust jdn and knext for week starting Sunday 
+			Field knext = kday_on_or_after( Weekday( mask[index] - 1 ), jdn + 1 ) - 1;
+			if( knext != jdn ) {
+				set_fields( fields, knext );
+				return true;
+			}
+		}
+	}
+    return false;
+}
+
+bool Hebrew::set_fields_as_prev_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const
+{
+	if( index == HFN_wsday ) {
+		if( mask[index] >= 1 && mask[index] <= 7 && jdn != f_invalid ) {
+            // Adjust jdn and knext for week starting Sunday 
+			Field knext = kday_on_or_before( Weekday( mask[index] - 1 ), jdn + 1 ) - 1;
+			if( knext != jdn ) {
+				set_fields( fields, knext );
+				return true;
+			}
+		}
+    }
+    return false;
 }
 
 void Hebrew::set_fields( Field* fields, Field jdn ) const

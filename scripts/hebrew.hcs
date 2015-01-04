@@ -46,14 +46,32 @@ vocab "hm" {
     }
 }
 
+vocab "hw" {
+    name "Weekday names";
+    fieldname "wsday"; // Note: Days are numbered from Sunday, unlike "wday".
+    lang "en";
+    stylename "Weekday", "WDay";
+    tokens {
+        1, "Yom Rishon",   "Rish"; // Sunday
+        2, "Yom Sheni",    "Shen"; // Monday
+        3, "Yom Shelishi", "Shel"; // Tuesday
+        4, "Yom Revi'i",   "Revi"; // Wednesday
+        5, "Yom Hamishi",  "Hami"; // Thursday
+        6, "Yom Shishi",   "Shis"; // Friday
+        7, "Yom Shabbat",  "Shab"; // Saturday
+    }
+}
+
 grammar "h" {
-    vocabs "hm";
+    vocabs "hm", "hw";
     alias field {
+        "WDay",  "wsday";
         "Day",   "day";
         "Month", "month";
         "Year",  "year";
     }
     alias stylename {
+        "WDay",  "w";
         "Day",   "dd";
         "Month", "mm";
         "Year",  "yyyy";
@@ -62,12 +80,14 @@ grammar "h" {
         "d", "day";
         "m", "month";
         "y", "year";
+        "w", "week";
     }
-    format "dmy",   "@(Day) @(Month:hm.a) @(Year)";
-    format "dmy+",  "@(Day) @(Month:hm) @(Year)";
-    format "dmy.",  "@(Day) @(Month) @(Year)";
-    format "mdy",   "@(Month:hm.a) @(Day), @(Year)";
-    format "ymd",   "@(Year)@,(Month:hm.a)@,(Day)";
+    format "dmy",    "@(Day) @(Month:hm) @(Year)";
+    format "dmy.a",  "@(Day) @(Month:hm.a) @(Year)";
+    format "dmy.d",  "@(Day) @(Month) @(Year)";
+    format "wdmy",   "@(WDay:hw) @(Day) @(Month:hm) @(Year)";
+    format "wdmy.a", "@(WDay:hw.a) @(Day) @(Month:hm.a) @(Year)";
+    format "ymd",    "@(Year)@,(Month:hm.a)@,(Day)";
     pref "dmy";
 }
 

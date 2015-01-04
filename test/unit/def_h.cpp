@@ -84,7 +84,7 @@ void TestDef_h::testCreation()
         if( info.vocab_codes[i] == "hm" ) {
             str = "Month names";
         }
-        if( info.vocab_codes[i] == "w" ) {
+        if( info.vocab_codes[i] == "hw" ) {
             str = "Weekday names";
         }
         CPPUNIT_ASSERT( str != "" );
@@ -95,11 +95,15 @@ void TestDef_h::testCreation()
 void TestDef_h::testStringInput()
 {
     struct data { string in; string fmt; string out; Field beg; Field end; } t[] = {
-        { "15ell5708", "dmy+", "15 Elul 5708", 2432814, 2432814 },
+        { "5708", "dmy", "5708", 2432444, 2432828 },
+        { "ell5708", "dmy", "Elul 5708", 2432800, 2432828 },
+        { "Rish15ell5708", "wdmy", "Yom Rishon 15 Elul 5708", 2432814, 2432814 },
+        { "15ell5708", "dmy", "15 Elul 5708", 2432814, 2432814 },
     };
     size_t count = sizeof(t) / sizeof(data);
 
     for( size_t i = 0 ; i < count ; i++ ) {
+        m_cal->set_input_format( m_sid, t[i].fmt );
         m_cal->set_output_format( m_sid, t[i].fmt );
         RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in );
         string str = m_cal->rangelist_to_str( m_sid, rl );
