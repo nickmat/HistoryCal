@@ -121,7 +121,13 @@ string Islamic::get_fieldname( size_t index ) const
 
 Field Islamic::get_jdn( const Field* fields ) const
 {
-    return islamic_to_jdn( fields[0], fields[1], fields[2] );
+    if( fields[IFN_year] == f_invalid ||
+        fields[IFN_month] == f_invalid ||
+        fields[IFN_day] == f_invalid
+    ) {
+        return f_invalid;
+    }
+    return islamic_to_jdn( fields[IFN_year], fields[IFN_month], fields[IFN_day] );
 }
 
 Field Islamic::get_extended_field( const Field* fields, Field jdn, size_t index ) const
