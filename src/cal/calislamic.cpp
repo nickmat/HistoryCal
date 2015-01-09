@@ -31,8 +31,8 @@
 
 #include <cassert>
 
-
 using namespace Cal;
+using std::string;
 
 #define BASEDATE_Islamic    1948440L
 
@@ -92,9 +92,46 @@ namespace {
 
 //===================================
 
+int Islamic::get_fieldname_index( const string& fieldname ) const
+{
+    // Base handles year, month, day.
+    int ret = Base::get_fieldname_index( fieldname );
+    if( ret >= 0 ) {
+        return ret;
+    }
+    if( fieldname == "wsday" ) { // 7 Day week Sun=1 (1 to 7)
+        return IFN_wsday;
+    }
+    return -1;
+}
+
+string Islamic::get_fieldname( size_t index ) const
+{
+    if( index < IFN_RCOUNT ) {
+        // Base handles year, month, day.
+        return Base::get_fieldname( index );
+    }
+    switch( index )
+    {
+    case IFN_wsday:
+        return "wsday";
+    }
+    return "";
+}
+
 Field Islamic::get_jdn( const Field* fields ) const
 {
     return islamic_to_jdn( fields[0], fields[1], fields[2] );
+}
+
+Field Islamic::get_extended_field( const Field* fields, Field jdn, size_t index ) const
+{
+    switch( index )
+    {
+    case IFN_wsday:
+        return day_of_week( jdn + 1 ) + 1; // Sun=1, Sun=7
+    }
+    return f_invalid;
 }
 
 bool Islamic::set_fields_as_begin_first( Field* fields, const Field* mask ) const
@@ -124,6 +161,36 @@ bool Islamic::set_fields_as_begin_last( Field* fields, const Field* mask ) const
     fields[2] = ( mask[2] == f_invalid ) ? 
         islamic_last_day_in_month( fields[0], fields[1] ) : mask[2];
     return true;
+}
+
+bool Islamic::set_fields_as_next_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const
+{
+	if( index == IFN_wsday ) {
+		if( mask[index] >= 1 && mask[index] <= 7 && jdn != f_invalid ) {
+            // Adjust jdn and knext for week starting Sunday 
+			Field knext = kday_on_or_after( Weekday( mask[index] - 1 ), jdn + 1 ) - 1;
+			if( knext != jdn ) {
+				set_fields( fields, knext );
+				return true;
+			}
+		}
+	}
+    return false;
+}
+
+bool Islamic::set_fields_as_prev_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const
+{
+	if( index == IFN_wsday ) {
+		if( mask[index] >= 1 && mask[index] <= 7 && jdn != f_invalid ) {
+            // Adjust jdn and knext for week starting Sunday 
+			Field knext = kday_on_or_before( Weekday( mask[index] - 1 ), jdn + 1 ) - 1;
+			if( knext != jdn ) {
+				set_fields( fields, knext );
+				return true;
+			}
+		}
+    }
+    return false;
 }
 
 void Islamic::set_fields( Field* fields, Field jdn ) const
