@@ -119,6 +119,7 @@
     <sources>$(LOCAL_TST)/unit/def_fr.cpp</sources>
     <sources>$(LOCAL_TST)/unit/def_g.cpp</sources>
     <sources>$(LOCAL_TST)/unit/def_h.cpp</sources>
+    <sources>$(LOCAL_TST)/unit/def_i.cpp</sources>
     <sources>$(LOCAL_TST)/unit/def_j325.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testcal.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testcommon.cpp</sources>
