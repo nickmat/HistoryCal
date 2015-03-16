@@ -57,7 +57,7 @@ const char* hcVersion = VERSION;
 /*! A string containing a long hand version name and copyright message.
  */
 const char* hcTitle = "HistoryCal - V" VERSION "\n"
-                      "Copyright (c) 2013-2014 Nick Matthews\n\n";
+                      "Copyright (c) 2013-2015 Nick Matthews\n\n";
 
 /*************************************************************************//**
 
@@ -73,7 +73,9 @@ const char* hcTitle = "HistoryCal - V" VERSION "\n"
 
   6dec14  v0.0.2   Uses Cal library version 0.2.3. Correct typos.
 
-  active  v0.0.3   Correct handling of utf8 strings.
+ 16mar15  v0.0.3   Correct handling of utf8 strings.
+                   Improve inserting text from the text vocabulary selector.
+                   Use Cal library version 0.2.4.
 
  See also website http://historycal.org
 

@@ -54,7 +54,8 @@ const char* Cal::cal_version = VERSION_NUM VERSION_CONFIG;
 
   6dec14  v0.2.3  Typos corrected. Keyword "today" added.
 
-  active  v0.2.4  Handling of UTF8 improved. Add French Republician calendar.
+ 16mar15  v0.2.4  Handling of UTF8 improved. Add French Republician calendar.
+                  Add Hebrew calendar.
 
 *****************************************************************************/
 
