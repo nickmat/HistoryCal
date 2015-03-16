@@ -119,7 +119,7 @@
     <sources>$(LOCAL_TST)/unit/def_fr.cpp</sources>
     <sources>$(LOCAL_TST)/unit/def_g.cpp</sources>
     <sources>$(LOCAL_TST)/unit/def_h.cpp</sources>
-    <sources>$(LOCAL_TST)/unit/def_i.cpp</sources>
+  <!--  <sources>$(LOCAL_TST)/unit/def_i.cpp</sources> -->
     <sources>$(LOCAL_TST)/unit/def_j325.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testcal.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testcommon.cpp</sources>
@@ -128,7 +128,7 @@
     <sources>$(LOCAL_TST)/unit/testgregorian.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testhebrew.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testhybrid.cpp</sources>
-    <sources>$(LOCAL_TST)/unit/testislamic.cpp</sources>
+  <!--  <sources>$(LOCAL_TST)/unit/testislamic.cpp</sources> -->
     <sources>$(LOCAL_TST)/unit/testj325.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testjulian.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testmain.cpp</sources>
@@ -156,7 +156,7 @@
     <sources>$(LOCAL_TST)/soak/soak_fr.cpp</sources>
     <sources>$(LOCAL_TST)/soak/soak_g.cpp</sources>
     <sources>$(LOCAL_TST)/soak/soak_h.cpp</sources>
-    <sources>$(LOCAL_TST)/soak/soak_i.cpp</sources>
+  <!--  <sources>$(LOCAL_TST)/soak/soak_i.cpp</sources> -->
     <sources>$(LOCAL_TST)/soak/soak_j.cpp</sources>
     <sources>$(LOCAL_TST)/soak/soak_j325.cpp</sources>
     <sources>$(LOCAL_TST)/soak/soakcommon.cpp</sources>
@@ -190,7 +190,7 @@
     <sources>$(LOCAL_SRC)/cal/calgrammar.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calgregorian.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calhebrew.cpp</sources>
-    <sources>$(LOCAL_SRC)/cal/calislamic.cpp</sources>
+  <!--  <sources>$(LOCAL_SRC)/cal/calislamic.cpp</sources> -->
     <sources>$(LOCAL_SRC)/cal/calhybrid.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/caljdn.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/caljulian.cpp</sources>
@@ -222,7 +222,7 @@
     <headers>$(LOCAL_SRC)/cal/calgrammar.h</headers>
     <headers>$(LOCAL_SRC)/cal/calgregorian.h</headers>
     <headers>$(LOCAL_SRC)/cal/calhebrew.h</headers>
-    <headers>$(LOCAL_SRC)/cal/calislamic.h</headers>
+  <!--  <headers>$(LOCAL_SRC)/cal/calislamic.h</headers> -->
     <headers>$(LOCAL_SRC)/cal/calhybrid.h</headers>
     <headers>$(LOCAL_SRC)/cal/caljdn.h</headers>
     <headers>$(LOCAL_SRC)/cal/caljulian.h</headers>

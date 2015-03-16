@@ -233,10 +233,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\test\soak\soak_i.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\test\soak\soak_j.cpp"
 				>
 			</File>

@@ -86,7 +86,6 @@ UNIT_OBJECTS =  \
 	unit_def_fr.o \
 	unit_def_g.o \
 	unit_def_h.o \
-	unit_def_i.o \
 	unit_def_j325.o \
 	unit_testcal.o \
 	unit_testcommon.o \
@@ -95,7 +94,6 @@ UNIT_OBJECTS =  \
 	unit_testgregorian.o \
 	unit_testhebrew.o \
 	unit_testhybrid.o \
-	unit_testislamic.o \
 	unit_testj325.o \
 	unit_testjulian.o \
 	unit_testmain.o \
@@ -109,7 +107,6 @@ SOAK_OBJECTS =  \
 	soak_soak_fr.o \
 	soak_soak_g.o \
 	soak_soak_h.o \
-	soak_soak_i.o \
 	soak_soak_j.o \
 	soak_soak_j325.o \
 	soak_soakcommon.o \
@@ -127,7 +124,6 @@ CAL_OBJECTS =  \
 	cal_calgrammar.o \
 	cal_calgregorian.o \
 	cal_calhebrew.o \
-	cal_calislamic.o \
 	cal_calhybrid.o \
 	cal_caljdn.o \
 	cal_caljulian.o \
@@ -283,9 +279,6 @@ unit_def_g.o: ./../../test/unit/def_g.cpp
 unit_def_h.o: ./../../test/unit/def_h.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
-unit_def_i.o: ./../../test/unit/def_i.cpp
-	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
-
 unit_def_j325.o: ./../../test/unit/def_j325.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
@@ -308,9 +301,6 @@ unit_testhebrew.o: ./../../test/unit/testhebrew.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
 unit_testhybrid.o: ./../../test/unit/testhybrid.cpp
-	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
-
-unit_testislamic.o: ./../../test/unit/testislamic.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
 unit_testj325.o: ./../../test/unit/testj325.cpp
@@ -341,9 +331,6 @@ soak_soak_g.o: ./../../test/soak/soak_g.cpp
 	$(CXX) -c -o $@ $(SOAK_CXXFLAGS) $(CPPDEPS) $<
 
 soak_soak_h.o: ./../../test/soak/soak_h.cpp
-	$(CXX) -c -o $@ $(SOAK_CXXFLAGS) $(CPPDEPS) $<
-
-soak_soak_i.o: ./../../test/soak/soak_i.cpp
 	$(CXX) -c -o $@ $(SOAK_CXXFLAGS) $(CPPDEPS) $<
 
 soak_soak_j.o: ./../../test/soak/soak_j.cpp
@@ -386,9 +373,6 @@ cal_calgregorian.o: ./../../src/cal/calgregorian.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calhebrew.o: ./../../src/cal/calhebrew.cpp
-	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
-
-cal_calislamic.o: ./../../src/cal/calislamic.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calhybrid.o: ./../../src/cal/calhybrid.cpp

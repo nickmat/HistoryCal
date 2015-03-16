@@ -42,8 +42,7 @@ namespace Cal {
     {
     public:
         enum BaseScheme { 
-            BS_NULL, BS_jdn, BS_julian, BS_gregorian, BS_french, BS_hebrew,
-            BS_islamic
+            BS_NULL, BS_jdn, BS_julian, BS_gregorian, BS_french, BS_hebrew
         };
         Scheme( const std::string& name, Base* base );
         ~Scheme();

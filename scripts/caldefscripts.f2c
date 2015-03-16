@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -38,7 +38,7 @@ const char* Cal::cal_default_scripts[] = {
     @(crl.cpp)"english_reg.hcs"
     @(crlo.cpp)"french_rep.hcs",
     @(crlo.cpp)"hebrew.hcs",
-    @(crlo.cpp)"islamic.hcs",
+    //(crlo.cpp)"islamic.hcs",
 };
 
 size_t Cal::cal_default_scripts_size = sizeof(Cal::cal_default_scripts) / sizeof(char*);
