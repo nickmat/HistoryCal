@@ -12,3 +12,5 @@ set output "fr";
 writeln "French Republic: " + str today;
 set output "h";
 writeln "Hebrew: " + str today;
+set output "i";
+writeln "Islamic Arithmetical: " + str today;
