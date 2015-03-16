@@ -303,7 +303,7 @@ void HcFrame::UpdateInputFormat()
     m_comboBoxInFormat->Clear();
     m_cal.get_scheme_input( &m_input_info, m_cal.get_scheme( m_from ) );
     for( size_t i = 0 ; i < m_input_info.code.size() ; i++ ) {
-        string fmt = Utf8ToWxStr( m_input_info.descrip[i] )
+        wxString fmt = Utf8ToWxStr( m_input_info.descrip[i] )
             + "  (" + Utf8ToWxStr( m_input_info.code[i] ) + ")";
         m_comboBoxInFormat->Append( fmt );
     }
@@ -354,7 +354,7 @@ void HcFrame::UpdateOutputFormat()
     m_comboBoxOutFormat->Clear();
     m_cal.get_scheme_output( &m_output_info, m_cal.get_scheme( m_to ) );
     for( size_t i = 0 ; i < m_output_info.code.size() ; i++ ) {
-        string fmt = Utf8ToWxStr( m_output_info.descrip[i] )
+        wxString fmt = Utf8ToWxStr( m_output_info.descrip[i] )
             + "  (" + Utf8ToWxStr( m_output_info.code[i] ) + ")";
         m_comboBoxOutFormat->Append( fmt );
     }
