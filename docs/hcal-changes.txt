@@ -1,6 +1,7 @@
 HistoryCal Calulator Changes History
 
-- Improve inserting text from the text token combo.
+16 Mar 2015
+- Improve inserting text from the text vocabulary selector.
 - Handle UTF8 translations correctly.
 - Use Cal library v0.2.4
 
