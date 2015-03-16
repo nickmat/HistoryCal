@@ -1,7 +1,7 @@
-                    HistoryCal V0.0.2
+                    HistoryCal V0.0.3
                     =================
 
-Welcome to the second alpha release of HistoryCal, an ambitious multi-platform
+Welcome to the latest alpha release of HistoryCal, an ambitious multi-platform
 historical date and calendar calulator.
 
 For more details and links to a compiled version for Windows (XT, Visa, 7 and

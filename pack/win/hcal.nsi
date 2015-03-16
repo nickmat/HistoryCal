@@ -118,7 +118,8 @@ Section "Install Program" MainInstall
   File cal.dll
   File utf8api.dll
   File ${LICENSE}
-
+  File cal-lib-changes.txt
+  File hcal-changes.txt
 
   ;Store installation folder
   WriteRegStr ${HIVE} "${REG_APP}" "" $INSTDIR
@@ -159,6 +160,7 @@ Section "Examples" InstallExamples
 
   File "spanish-era.hcs"
   File "misc-calc.hcs"
+  File "today-is.hcs"
 
 SectionEnd
 
