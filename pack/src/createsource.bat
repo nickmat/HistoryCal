@@ -56,6 +56,7 @@ copy ..\..\src\hcs\*.* hcal\src\hcs > nul
 copy ..\..\src\utf8\*.* hcal\src\utf8 > nul
 copy ..\..\test\hctest\*.* hcal\test\hctest > nul
 copy ..\..\test\scripts\*.* hcal\test\scripts > nul
+copy ..\..\test\scripts\test\*.* hcal\test\scripts > nul
 copy ..\..\test\soak\*.* hcal\test\soak > nul
 copy ..\..\test\unit\*.* hcal\test\unit > nul
 copy ..\..\util\file2cpp\*.* hcal\util\file2cpp > nul

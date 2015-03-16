@@ -5,7 +5,7 @@
 ;* Author:      Nick Matthews
 ;* Website:     http://historycal.org
 ;* Created:     24th November 2014
-;* Copyright:   Copyright (c) 2014, Nick Matthews.
+;* Copyright:   Copyright (c) 2014-2015, Nick Matthews.
 ;* Licence:     GNU GPLv3
 ;*
 ;*  The Family Pack is free software: you can redistribute it and/or modify
@@ -31,12 +31,12 @@
 
 !define HCALNAME      "HistoryCal"
 !define APP_EXE       "hcal.exe"
-!define VERSION_DOT   "0.0.2.0"
-;!define VERSION_UND   "0_0_2_0"
+!define VERSION_DOT   "0.0.3.0"
+;!define VERSION_UND   "0_0_3_0"
 !define VERSION_TXT   "V${VERSION_DOT} alpha"
 !define LICENSE       "license.txt"
 !define DESCRIPTION   "Historical Calendar Application Installer"
-!define COPYRIGHT     "2014 @ Nick Matthews"
+!define COPYRIGHT     "2014 ~ 2015 @ Nick Matthews"
 
 !define DOC_PATH      "$DOCUMENTS\${HCALNAME}"
 !define EXAMPLE_PATH  "$DOCUMENTS\${HCALNAME}"
