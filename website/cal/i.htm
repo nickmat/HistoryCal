@@ -26,6 +26,12 @@
 <div id="content" class="nomenu calendar">
 
 <h2>Calendar Description</h2>
+<p>
+ Page under construction.
+</p>
+<p>
+ The Islamic calendar is a lunar calendar used thoughout the Arabic and Muslim areas.
+</p>
 
 <h3>Use Case</h3>
 
@@ -39,7 +45,77 @@
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
->
+>vocab "im" {
+    name "Month names";
+    fieldname "month";
+    lang "en";
+    stylename "Month";
+    tokens {
+        1, "Muharram";
+        2, "Safar";
+        3, "Rabi' I";
+        4, "Rabi' II";
+        5, "Jumada I";
+        6, "Jumada II";
+        7, "Rajab";
+        8, "Sha'aban";
+        9, "Ramadan";
+        10, "Shawwal";
+        11, "Dhu al Qi'dah";
+        12, "Dhu al Hijjah";
+    }
+}
+
+vocab "iw" {
+    name "Weekday names";
+    fieldname "wsday"; // Note: Days are numbered from Sunday, unlike "wday".
+    lang "en";
+    stylename "Weekday", "WDay";
+    tokens {
+        1, "Yaum al Ahad";         // Sunday
+        2, "Yaum al Ithnayn";      // Monday
+        3, "Yaum ath Thalaathaa'"; // Tuesday
+        4, "Yaum al Arba'aa'";     // Wednesday
+        5, "Yaum al Khamis";       // Thursday
+        6, "Yaum al Jumu'ah";      // Friday
+        7, "Yaum as Sabt";         // Saturday
+    }
+}
+
+grammar "i" {
+    vocabs "im", "iw";
+    alias field {
+        "WDay",  "wsday";
+        "Day",   "day";
+        "Month", "month";
+        "Year",  "year";
+    }
+    alias stylename {
+        "WDay",  "w";
+        "Day",   "dd";
+        "Month", "mm";
+        "Year",  "yyyy";
+    }
+    alias unit {
+        "d", "day";
+        "m", "month";
+        "y", "year";
+        "w", "week";
+    }
+    format "dmy",    "@(Day) @(Month:im) @(Year)";
+    format "dmy.a",  "@(Day) @(Month:im.a) @(Year)";
+    format "dmy.d",  "@(Day) @(Month) @(Year)";
+    format "wdmy",   "@(WDay:iw) @(Day) @(Month:im) @(Year)";
+    format "wdmy.a", "@(WDay:iw.a) @(Day) @(Month:im.a) @(Year)";
+    format "ymd",    "@(Year)@,(Month:im.a)@,(Day)";
+    pref "dmy";
+}
+
+scheme "i" {
+    name "Islamic Arithmetical";
+    base islamic;
+    grammar "i";
+}
 </td></tr>
 </table>
 
