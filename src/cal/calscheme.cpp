@@ -34,7 +34,7 @@
 #include "calgregorian.h"
 #include "calhebrew.h"
 #include "calhybrid.h"
-//#include "calislamic.h"
+#include "calislamic.h"
 #include "caljdn.h"
 #include "caljulian.h"
 #include "calmath.h"
@@ -285,6 +285,8 @@ Base* Scheme::create_base( BaseScheme bs )
         return new French;
     case BS_hebrew: 
         return new Hebrew;
+    case BS_islamic: 
+        return new Islamic;
     }
     return NULL;
 }

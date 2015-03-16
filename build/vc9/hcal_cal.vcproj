@@ -251,6 +251,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\cal\calislamic.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\cal\caljdn.cpp"
 				>
 			</File>
@@ -370,6 +374,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\cal\calhybrid.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\cal\calislamic.h"
 				>
 			</File>
 			<File

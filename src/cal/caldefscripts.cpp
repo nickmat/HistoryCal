@@ -7,7 +7,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2014
- * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2014, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -918,7 +918,75 @@ const char* Cal::cal_default_scripts[] = {
  "base hebrew;\n"
  "grammar \"h\";\n"
  "}\n",
-    //(crlo.cpp)"islamic.hcs",
+     /* islamic.hcs */
+ "vocab \"im\" {\n"
+ "name \"Month names\";\n"
+ "fieldname \"month\";\n"
+ "lang \"en\";\n"
+ "stylename \"Month\";\n"
+ "tokens {\n"
+ "1, \"Muharram\";\n"
+ "2, \"Safar\";\n"
+ "3, \"Rabi' I\";\n"
+ "4, \"Rabi' II\";\n"
+ "5, \"Jumada I\";\n"
+ "6, \"Jumada II\";\n"
+ "7, \"Rajab\";\n"
+ "8, \"Sha'aban\";\n"
+ "9, \"Ramadan\";\n"
+ "10, \"Shawwal\";\n"
+ "11, \"Dhu al Qi'dah\";\n"
+ "12, \"Dhu al Hijjah\";\n"
+ "}\n"
+ "}\n"
+ "vocab \"iw\" {\n"
+ "name \"Weekday names\";\n"
+ "fieldname \"wsday\";\n"
+ "lang \"en\";\n"
+ "stylename \"Weekday\", \"WDay\";\n"
+ "tokens {\n"
+ "1, \"Yaum al Ahad\";\n"
+ "2, \"Yaum al Ithnayn\";\n"
+ "3, \"Yaum ath Thalaathaa'\";\n"
+ "4, \"Yaum al Arba'aa'\";\n"
+ "5, \"Yaum al Khamis\";\n"
+ "6, \"Yaum al Jumu'ah\";\n"
+ "7, \"Yaum as Sabt\";\n"
+ "}\n"
+ "}\n"
+ "grammar \"i\" {\n"
+ "vocabs \"im\", \"iw\";\n"
+ "alias field {\n"
+ "\"WDay\",  \"wsday\";\n"
+ "\"Day\",   \"day\";\n"
+ "\"Month\", \"month\";\n"
+ "\"Year\",  \"year\";\n"
+ "}\n"
+ "alias stylename {\n"
+ "\"WDay\",  \"w\";\n"
+ "\"Day\",   \"dd\";\n"
+ "\"Month\", \"mm\";\n"
+ "\"Year\",  \"yyyy\";\n"
+ "}\n"
+ "alias unit {\n"
+ "\"d\", \"day\";\n"
+ "\"m\", \"month\";\n"
+ "\"y\", \"year\";\n"
+ "\"w\", \"week\";\n"
+ "}\n"
+ "format \"dmy\",    \"@(Day) @(Month:im) @(Year)\";\n"
+ "format \"dmy.a\",  \"@(Day) @(Month:im.a) @(Year)\";\n"
+ "format \"dmy.d\",  \"@(Day) @(Month) @(Year)\";\n"
+ "format \"wdmy\",   \"@(WDay:iw) @(Day) @(Month:im) @(Year)\";\n"
+ "format \"wdmy.a\", \"@(WDay:iw.a) @(Day) @(Month:im.a) @(Year)\";\n"
+ "format \"ymd\",    \"@(Year)@,(Month:im.a)@,(Day)\";\n"
+ "pref \"dmy\";\n"
+ "}\n"
+ "scheme \"i\" {\n"
+ "name \"Islamic Arithmetical\";\n"
+ "base islamic;\n"
+ "grammar \"i\";\n"
+ "}\n",
 };
 
 size_t Cal::cal_default_scripts_size = sizeof(Cal::cal_default_scripts) / sizeof(char*);
