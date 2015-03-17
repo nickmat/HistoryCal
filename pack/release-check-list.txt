@@ -36,7 +36,13 @@ Check the program release version running on Windows, Ubuntu (Unity and Mint) (a
 
 -) Announce release.
 
--) Increment the version numbers on svn-trunk
+-) Increment the version numbers on git origin branch in the following files.
+   -) src/cal/calversion.cpp
+   -) src/hcal/hcversion.cpp
+   -) pack/win/hcal.nsi
+   -) pack/pack-all.bat
+   -) doc/cal-lib-changes.txt
+   -) doc/hcal-changes.txt
 
 <>
 

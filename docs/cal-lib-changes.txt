@@ -1,5 +1,7 @@
 Cal Library Change History
 
+current Version 0.2.5
+
 16 Mar 2015 Version 0.2.4
 - Add Hebrew Arithmetic calendar.
 - Add French Republican calendar.

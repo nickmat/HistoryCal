@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013-2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCal is free software: you can redistribute it and/or modify
@@ -45,7 +45,7 @@
 #define VERSION_CONFIG   " debug"
 #endif
 
-#define VERSION_NUM   "0.0.3"
+#define VERSION_NUM   "0.0.4"
 
 
 #define VERSION   VERSION_NUM VERSION_STATUS VERSION_CONFIG
@@ -76,6 +76,8 @@ const char* hcTitle = "HistoryCal - V" VERSION "\n"
  16mar15  v0.0.3   Correct handling of utf8 strings.
                    Improve inserting text from the text vocabulary selector.
                    Use Cal library version 0.2.4.
+
+  active  v0.0.4   Use Cal library version 0.2.5.
 
  See also website http://historycal.org
 

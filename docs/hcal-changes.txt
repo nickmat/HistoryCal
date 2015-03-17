@@ -1,6 +1,8 @@
 HistoryCal Calulator Changes History
 
-16 Mar 2015
+current Version 0.0.4 alpha
+
+16 Mar 2015 Version 0.0.3 alpha
 - Improve inserting text from the text vocabulary selector.
 - Handle UTF8 translations correctly.
 - Use Cal library v0.2.4

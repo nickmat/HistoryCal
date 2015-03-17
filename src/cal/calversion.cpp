@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     19th September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013-2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@
 
 #include "calversion.h"
 
-#define VERSION_NUM      "0.2.4"
+#define VERSION_NUM      "0.2.5"
 
 #if defined(NDEBUG) || !defined(_DEBUG)
 #define VERSION_CONFIG   ""
@@ -56,6 +56,8 @@ const char* Cal::cal_version = VERSION_NUM VERSION_CONFIG;
 
  16mar15  v0.2.4  Handling of UTF8 improved. Add French Republician calendar.
                   Add Hebrew calendar.
+
+  active  v0.2.5  Add Islamic tabular calendars.
 
 *****************************************************************************/
 
