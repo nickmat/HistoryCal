@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     7th October 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -70,7 +70,7 @@ void TestCal::testVersion()
 #else
 #define VERSION_CONFIG   " debug"
 #endif
-    const string version( "0.2.4" VERSION_CONFIG );
+    const string version( "0.2.5" VERSION_CONFIG );
     string calver( Calendars::version() ); 
     CPPUNIT_ASSERT_EQUAL( version, calver );
 }
