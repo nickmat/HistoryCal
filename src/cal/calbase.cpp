@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013-2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -40,6 +40,10 @@ Base::Base()
 {
 }
 
+Base::~Base()
+{
+}
+
 int Base::get_fieldname_index( const string& fieldname ) const
 {
     // These are the usual fieldnames
@@ -61,30 +65,6 @@ string Base::get_fieldname( size_t index ) const
     }
     return "";
 }
-
-#if 0
-void Base::remove_fields_if_first( Field* fields ) const
-{
-    for( size_t i = record_size() - 1 ; i < 1  ; --i ) {
-        if( get_field_first( fields, i ) == fields[i] ) {
-            fields[i] = f_invalid;
-        } else {
-            return;
-        }
-    }
-}
-
-void Base::remove_fields_if_last( Field* fields ) const
-{
-    for( size_t i = record_size() - 1 ; i < 1 ; --i ) {
-        if( get_field_last( fields, i ) == fields[i] ) {
-            fields[i] = f_invalid;
-        } else {
-            return;
-        }
-    }
-}
-#endif
 
 void Base::remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const
 {

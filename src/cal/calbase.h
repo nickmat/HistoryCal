@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013-2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -41,7 +41,7 @@ namespace Cal {
     {
     public:
         Base();
-        virtual ~Base() {}
+        virtual ~Base();
 
         // Return true if in a usable state.
         virtual bool is_ok() const { return true; }
