@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     7th May 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -268,7 +268,11 @@ Base* Script::do_base()
         } else if( token.get_str() == "hebrew" ) {
             bs = Scheme::BS_hebrew;
         } else if( token.get_str() == "islamic" ) {
+            token = m_ts.next();
             bs = Scheme::BS_islamic;
+            if( token.type() == SToken::STT_Name ) {
+                return Scheme::create_base( bs, token.get_str() );
+            } 
         } else {
             error( "Base scheme not recognised." );
         }

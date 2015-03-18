@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     20th September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013-2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -285,10 +285,22 @@ Base* Scheme::create_base( BaseScheme bs )
         return new French;
     case BS_hebrew: 
         return new Hebrew;
-    case BS_islamic: 
-        return new Islamic;
+//    case BS_islamic: 
+//        return new Islamic;
+    default:
+        return NULL;
     }
-    return NULL;
+}
+
+Base* Scheme::create_base( BaseScheme bs, const std::string& data )
+{
+    switch( bs )
+    {
+    case BS_islamic:
+        return new Islamic( data );
+    default:
+        return NULL;
+    }
 }
 
 Base* Scheme::create_base_shift( Base* sbase, Field era )

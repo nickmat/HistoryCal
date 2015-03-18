@@ -92,7 +92,7 @@ grammar "i" {
 
 scheme "i" {
     name "Islamic Arithmetical";
-    base islamic;
+    base islamic IIc;
     grammar "i";
 }
 

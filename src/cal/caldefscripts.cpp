@@ -984,7 +984,7 @@ const char* Cal::cal_default_scripts[] = {
  "}\n"
  "scheme \"i\" {\n"
  "name \"Islamic Arithmetical\";\n"
- "base islamic;\n"
+ "base islamic IIc;\n"
  "grammar \"i\";\n"
  "}\n",
 };

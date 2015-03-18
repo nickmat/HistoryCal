@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     15th December 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -29,68 +29,40 @@
 
 #include "calmath.h"
 
-#include <cassert>
-
 using namespace Cal;
 using std::string;
 
-#define BASEDATE_Islamic    1948440L
+#define BASEDATE_Islamic    1948440
 
-namespace {
-
-    /*! Returns true if the year is a leap year in the Islamic Calendar.
-     */
-    bool islamic_is_leap_year( Field year )
-    {
-        return pos_mod( 14 + 11 * year, 30 ) < 11;
+Islamic::Islamic( const string& data )
+    : m_tabtype(ITT_II), m_basedate(BASEDATE_Islamic)
+{
+    if( data == "Ia" ) {
+        m_tabtype = ITT_I;
+        m_basedate = BASEDATE_Islamic-1;
+    } else if( data == "Ic" ) {
+        m_tabtype = ITT_I;
+        m_basedate = BASEDATE_Islamic;
+    } else if( data == "IIa" ) {
+        m_tabtype = ITT_I;
+        m_basedate = BASEDATE_Islamic-1;
+    } else if( data == "IIc" ) {
+        m_tabtype = ITT_I;
+        m_basedate = BASEDATE_Islamic;
+    } else if( data == "IIIa" ) {
+        m_tabtype = ITT_I;
+        m_basedate = BASEDATE_Islamic-1;
+    } else if( data == "IIIc" ) {
+        m_tabtype = ITT_I;
+        m_basedate = BASEDATE_Islamic;
+    } else if( data == "IVa" ) {
+        m_tabtype = ITT_I;
+        m_basedate = BASEDATE_Islamic-1;
+    } else if( data == "IVc" ) {
+        m_tabtype = ITT_I;
+        m_basedate = BASEDATE_Islamic;
     }
-
-    /*! Returns the last day of the month for the given month and year
-     *  in the Islamic Calendar.
-     */
-    Field islamic_last_day_in_month( Field year, Field month )
-    {
-    //    wxASSERT( month >= 1 && month <= 12 );
-        if( month == 12 ) {
-            return islamic_is_leap_year( year ) ? 30 : 29;
-        } else {
-            return (month % 2) == 0 ? 29 : 30;
-        }
-    }
-
-    /*! Sets jdn to the Julian Day Number for the given day, month and year
-     *  in the Islamic Calendar. Always returns true.
-     */
-    //bool calIslamicToJdn( long* jdn, long year, long month, long day )
-    Field islamic_to_jdn( Field year, Field month, Field day )
-    {
-        return
-            BASEDATE_Islamic - 1
-            + ( year - 1 ) * 354
-            + floor_div( year * 11 + 3, 30 )
-            + 29 * ( month - 1 )
-            + floor_div( month, 2 ) + day;
-    }
-
-    /*! Splits the given Julian Day Number date into the day, month and year
-     *  for the Islamic Calendar.
-     */
-    bool islamic_from_jdn( Field* year, Field* month, Field* day, Field jdn )
-    {
-        *year = floor_div( 30 * ( jdn - BASEDATE_Islamic ) + 10646, 10631 );
-
-        Field temp = islamic_to_jdn( *year, 1, 1 );
-        *month = floor_div( 11 * ( jdn - temp ) + 330, 325 );
-
-        temp = islamic_to_jdn( *year, *month, 1 );
-        *day = 1 + jdn - temp;
-
-        return true;
-    }
-
-} // namespace
-
-//===================================
+}
 
 int Islamic::get_fieldname_index( const string& fieldname ) const
 {
@@ -127,7 +99,7 @@ Field Islamic::get_jdn( const Field* fields ) const
     ) {
         return f_invalid;
     }
-    return islamic_to_jdn( fields[IFN_year], fields[IFN_month], fields[IFN_day] );
+    return to_jdn( fields[IFN_year], fields[IFN_month], fields[IFN_day] );
 }
 
 Field Islamic::get_extended_field( const Field* fields, Field jdn, size_t index ) const
@@ -165,7 +137,7 @@ bool Islamic::set_fields_as_begin_last( Field* fields, const Field* mask ) const
     fields[0] = mask[0];
     fields[1] = ( mask[1] == f_invalid ) ? 12 : mask[1];
     fields[2] = ( mask[2] == f_invalid ) ? 
-        islamic_last_day_in_month( fields[0], fields[1] ) : mask[2];
+        last_day_in_month( fields[0], fields[1] ) : mask[2];
     return true;
 }
 
@@ -201,7 +173,7 @@ bool Islamic::set_fields_as_prev_extended( Field* fields, Field jdn, const Field
 
 void Islamic::set_fields( Field* fields, Field jdn ) const
 {
-    islamic_from_jdn( &fields[0], &fields[1], &fields[2], jdn );
+    from_jdn( &fields[0], &fields[1], &fields[2], jdn );
 }
 
 
@@ -212,7 +184,7 @@ Field Islamic::get_field_last( const Field* fields, size_t index ) const
     case 1: // Last month of year
         return 12;
     case 2: // Last day of month
-        return islamic_last_day_in_month( fields[0], fields[1] );
+        return last_day_in_month( fields[0], fields[1] );
     }
     return f_invalid;
 }
@@ -235,7 +207,7 @@ double Islamic::get_average_days( const Field* fields, Unit unit ) const
 bool Islamic::normalise( Field* fields, Norm norm ) const
 {
     // Normalises for days in month, assumes months >= 1 and <= 12
-    Field ldim = islamic_last_day_in_month( fields[0], fields[1] );
+    Field ldim = last_day_in_month( fields[0], fields[1] );
     if( fields[2] > ldim ) {
         switch( norm )
         {
@@ -259,5 +231,72 @@ bool Islamic::normalise( Field* fields, Norm norm ) const
     }
     return false;
 }
+
+//===================================
+
+/*! Returns true if the year is a leap year in the Islamic Calendar.
+ */
+bool Islamic::is_leap_year( Field year ) const
+{
+    Field delta;
+    switch( m_tabtype )
+    {
+    case ITT_I:
+        delta = 15;
+        break;
+    case ITT_III:
+        delta = 11;
+        break;
+    case ITT_IV:
+        delta = 9;
+        break;
+    default: // ITT_II
+        delta = 14;
+        break;
+    }
+    return pos_mod( delta + 11 * year, 30 ) < 11;
+}
+
+/*! Returns the last day of the month for the given month and year
+ *  in the Islamic Calendar.
+ */
+Field Islamic::last_day_in_month( Field year, Field month ) const
+{
+    if( month == 12 ) {
+        return is_leap_year( year ) ? 30 : 29;
+    } else {
+        return (month % 2) == 0 ? 29 : 30;
+    }
+}
+
+/*! Sets jdn to the Julian Day Number for the given day, month and year
+ *  in the Islamic Calendar. Always returns true.
+ */
+Field Islamic::to_jdn( Field year, Field month, Field day ) const
+{
+    return
+        m_basedate - 1
+        + ( year - 1 ) * 354
+        + floor_div( year * 11 + 3, 30 )
+        + 29 * ( month - 1 )
+        + floor_div( month, 2 ) + day;
+}
+
+/*! Splits the given Julian Day Number date into the day, month and year
+ *  for the Islamic Calendar.
+ */
+bool Islamic::from_jdn( Field* year, Field* month, Field* day, Field jdn ) const
+{
+    *year = floor_div( 30 * ( jdn - m_basedate ) + 10646, 10631 );
+
+    Field temp = to_jdn( *year, 1, 1 );
+    *month = floor_div( 11 * ( jdn - temp ) + 330, 325 );
+
+    temp = to_jdn( *year, *month, 1 );
+    *day = 1 + jdn - temp;
+
+    return true;
+}
+
 
 // End of src/cal/islamic.cpp

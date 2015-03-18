@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     15th December 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -40,7 +40,10 @@ namespace Cal {
             IFN_wsday = IFN_RCOUNT,
             IFN_ECOUNT
         };
+        enum IslamicTabType { ITT_I, ITT_II, ITT_III, ITT_IV };
     public:
+        Islamic( const std::string& data );
+
         virtual size_t record_size() const { return IFN_RCOUNT; }
         virtual size_t extended_size() const { return IFN_ECOUNT; }
 
@@ -64,6 +67,15 @@ namespace Cal {
 
         virtual double get_average_days( const Field* fields, Unit unit ) const;
         virtual bool normalise( Field* fields, Norm norm ) const;
+
+    private:
+        bool is_leap_year( Field year ) const;
+        Field last_day_in_month( Field year, Field month ) const;
+        Field to_jdn( Field year, Field month, Field day ) const;
+        bool from_jdn( Field* year, Field* month, Field* day, Field jdn ) const;
+
+        IslamicTabType m_tabtype;
+        Field          m_basedate;
     };
 
 }

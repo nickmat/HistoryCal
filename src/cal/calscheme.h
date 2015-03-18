@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     20th September 2013
- * Copyright:   Copyright (c) 2013, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -77,6 +77,7 @@ namespace Cal {
         RangeList rel_rangelist( const RangeList& ranges, Rel_info* info );
 
         static Base* create_base( BaseScheme bs );
+        static Base* create_base( BaseScheme bs, const std::string& data );
         static Base* create_base_shift( Base* sbase, Field era );
         static Base* create_base_hybrid( 
             const StringVec& fieldnames,
