@@ -35,31 +35,39 @@ using std::string;
 #define BASEDATE_Islamic    1948440
 
 Islamic::Islamic( const string& data )
-    : m_tabtype(ITT_II), m_basedate(BASEDATE_Islamic)
+    : m_delta(14), m_basedate(BASEDATE_Islamic)
 {
     if( data == "Ia" ) {
-        m_tabtype = ITT_I;
+//        m_tabtype = ITT_I;
+        m_delta = 15;
         m_basedate = BASEDATE_Islamic-1;
     } else if( data == "Ic" ) {
-        m_tabtype = ITT_I;
+//        m_tabtype = ITT_I;
+        m_delta = 15;
         m_basedate = BASEDATE_Islamic;
     } else if( data == "IIa" ) {
-        m_tabtype = ITT_I;
+//        m_tabtype = ITT_II;
+        m_delta = 14;
         m_basedate = BASEDATE_Islamic-1;
     } else if( data == "IIc" ) {
-        m_tabtype = ITT_I;
+//        m_tabtype = ITT_II;
+        m_delta = 14;
         m_basedate = BASEDATE_Islamic;
     } else if( data == "IIIa" ) {
-        m_tabtype = ITT_I;
+//        m_tabtype = ITT_III;
+        m_delta = 11;
         m_basedate = BASEDATE_Islamic-1;
     } else if( data == "IIIc" ) {
-        m_tabtype = ITT_I;
+//        m_tabtype = ITT_III;
+        m_delta = 11;
         m_basedate = BASEDATE_Islamic;
     } else if( data == "IVa" ) {
-        m_tabtype = ITT_I;
+//        m_tabtype = ITT_IV;
+        m_delta = 9;
         m_basedate = BASEDATE_Islamic-1;
     } else if( data == "IVc" ) {
-        m_tabtype = ITT_I;
+//        m_tabtype = ITT_IV;
+        m_delta = 9;
         m_basedate = BASEDATE_Islamic;
     }
 }
@@ -238,6 +246,7 @@ bool Islamic::normalise( Field* fields, Norm norm ) const
  */
 bool Islamic::is_leap_year( Field year ) const
 {
+#if 0
     Field delta;
     switch( m_tabtype )
     {
@@ -254,7 +263,8 @@ bool Islamic::is_leap_year( Field year ) const
         delta = 14;
         break;
     }
-    return pos_mod( delta + 11 * year, 30 ) < 11;
+#endif
+    return pos_mod( m_delta + 11 * year, 30 ) < 11;
 }
 
 /*! Returns the last day of the month for the given month and year

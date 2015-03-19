@@ -62,7 +62,7 @@ void SoakIslamic::setUp()
 {
     m_sid = NULL;
     m_cal = new Calendars;
-    m_cal->run_script( "scheme \"i\" {name \"Islamic Tabular\"; base islamic;}" );
+    m_cal->run_script( "scheme \"i\" {name \"Islamic Tabular\"; base islamic IIc;}" );
     m_sid = m_cal->get_scheme( "i" );
 }
 
@@ -139,6 +139,9 @@ void SoakIslamic::testIslamic()
     for( Field year = CALTEST_I_START_YEAR ; year < CALTEST_I_END_YEAR ; year++ ) {
         Field month1 = daycount;
         for( Field month = 1 ; month <= 12 ; month++ ) {
+            if( year == 15 && month == 12 ) {
+                int x = 0;
+            }
             Field day1 = daycount;
             int month_length = LastDayInMonth( year, month );
             for( Field day = 1 ; day <= month_length ; day++ ) {

@@ -40,7 +40,7 @@ namespace Cal {
             IFN_wsday = IFN_RCOUNT,
             IFN_ECOUNT
         };
-        enum IslamicTabType { ITT_I, ITT_II, ITT_III, ITT_IV };
+//        enum IslamicTabType { ITT_I, ITT_II, ITT_III, ITT_IV };
     public:
         Islamic( const std::string& data );
 
@@ -74,8 +74,9 @@ namespace Cal {
         Field to_jdn( Field year, Field month, Field day ) const;
         bool from_jdn( Field* year, Field* month, Field* day, Field jdn ) const;
 
-        IslamicTabType m_tabtype;
-        Field          m_basedate;
+//        IslamicTabType m_tabtype;
+        Field  m_delta;
+        Field  m_basedate;
     };
 
 }
