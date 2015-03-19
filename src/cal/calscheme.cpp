@@ -42,6 +42,7 @@
 #include "calrecord.h"
 #include "calregnal.h"
 #include "calshift.h"
+#include "calshiftday.h"
 
 #include <cassert>
 #include <cstdlib>
@@ -285,8 +286,6 @@ Base* Scheme::create_base( BaseScheme bs )
         return new French;
     case BS_hebrew: 
         return new Hebrew;
-//    case BS_islamic: 
-//        return new Islamic;
     default:
         return NULL;
     }
@@ -303,9 +302,15 @@ Base* Scheme::create_base( BaseScheme bs, const std::string& data )
     }
 }
 
-Base* Scheme::create_base_shift( Base* sbase, Field era )
+Base* Scheme::create_base_shift( Base* sbase, Field epoch )
 {
-    Base* base = new Shift( sbase, era );
+    assert( sbase != NULL );
+    Base* base;
+    if( sbase->record_size() == 1 ) {
+        base = new ShiftDay( sbase, epoch );
+    } else {
+        base = new Shift( sbase, epoch );
+    }
     if( base->is_ok() ) {
         return base;
     }

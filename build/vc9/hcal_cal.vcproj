@@ -441,6 +441,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\cal\calshiftday.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\cal\calstokenstream.h"
 				>
 			</File>

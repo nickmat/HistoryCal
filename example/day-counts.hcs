@@ -1,0 +1,14 @@
+// Modfied Julian Day and Rata Die
+mark "MJD";
+
+scheme "MJD" {
+    name "Modfied Julian Day";
+    shift "jdn", 2400001;
+    grammar "d";
+}
+
+scheme "RD" {
+    name "Rata Die";
+    shift "jdn", 1721425;
+    grammar "d";
+}
