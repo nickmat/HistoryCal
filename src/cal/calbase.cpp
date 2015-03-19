@@ -35,6 +35,9 @@
 using namespace Cal;
 using namespace std;
 
+const char* Base::s_ymd_fieldnames[] = { "year", "month", "day" };
+size_t Base::s_sizeof_ymd_fieldnames = sizeof(s_ymd_fieldnames) / sizeof(const char*);
+
 Base::Base()
     : m_grammar(NULL)
 {
@@ -42,28 +45,6 @@ Base::Base()
 
 Base::~Base()
 {
-}
-
-int Base::get_fieldname_index( const string& fieldname ) const
-{
-    // These are the usual fieldnames
-    if( fieldname == "year" ) {
-        return 0;
-    } else if( fieldname == "month" ) {
-        return 1;
-    } else if( fieldname == "day" ) {
-        return 2;
-    }
-    return -1;
-}
-
-string Base::get_fieldname( size_t index ) const
-{
-    const char* fnames[] = { "year", "month", "day" };
-    if( index < 3 ) {
-        return fnames[index];
-    }
-    return "";
 }
 
 void Base::remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const
@@ -387,6 +368,24 @@ XRefVec Base::get_default_xref_order( int count ) const
         xref[i] = i;
     }
     return xref;
+}
+
+int Base::get_ymd_fieldname_index( const string& fieldname ) const
+{
+    for( size_t i = 0 ; i < s_sizeof_ymd_fieldnames ; i++ ) {
+        if( fieldname == s_ymd_fieldnames[i] ) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+string Base::get_ymd_fieldname( size_t index ) const
+{
+    if( index < s_sizeof_ymd_fieldnames ) {
+        return s_ymd_fieldnames[index];
+    }
+    return "";
 }
 
 string Base::create_default_order() const

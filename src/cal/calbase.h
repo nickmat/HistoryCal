@@ -51,8 +51,8 @@ namespace Cal {
         virtual size_t extended_size() const { return record_size(); }
 
         // Returns the index to the named Record field, or -1 if not found.
-        virtual int get_fieldname_index( const std::string& fieldname ) const;
-        virtual std::string get_fieldname( size_t index ) const;
+        virtual int get_fieldname_index( const std::string& fieldname ) const { return get_ymd_fieldname_index( fieldname ); }
+        virtual std::string get_fieldname( size_t index ) const { return get_ymd_fieldname( index ); }
 
         // Converts the Field's into a jdn and returns it.
         virtual Field get_jdn( const Field* fields ) const = 0;
@@ -140,10 +140,17 @@ namespace Cal {
     protected:
         virtual XRefVec get_default_xref_order( int count ) const;
 
+        int get_ymd_fieldname_index( const std::string& fieldname ) const;
+        std::string get_ymd_fieldname( size_t index ) const;
+        size_t sizeof_ymd_fieldnames() const { return s_sizeof_ymd_fieldnames; }
+
     private:
         std::string create_default_order() const;
         std::string create_default_format() const;
         void add_xref_input( const std::string& code );
+
+        static const char* s_ymd_fieldnames[];
+        static size_t s_sizeof_ymd_fieldnames;
 
         Grammar*    m_grammar;
         std::string m_input_format;
