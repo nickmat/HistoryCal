@@ -38,35 +38,27 @@ Islamic::Islamic( const string& data )
     : m_delta(14), m_basedate(BASEDATE_Islamic)
 {
     if( data == "Ia" ) {
-//        m_tabtype = ITT_I;
         m_delta = 15;
         m_basedate = BASEDATE_Islamic-1;
     } else if( data == "Ic" ) {
-//        m_tabtype = ITT_I;
         m_delta = 15;
         m_basedate = BASEDATE_Islamic;
     } else if( data == "IIa" ) {
-//        m_tabtype = ITT_II;
         m_delta = 14;
         m_basedate = BASEDATE_Islamic-1;
     } else if( data == "IIc" ) {
-//        m_tabtype = ITT_II;
         m_delta = 14;
         m_basedate = BASEDATE_Islamic;
     } else if( data == "IIIa" ) {
-//        m_tabtype = ITT_III;
         m_delta = 11;
         m_basedate = BASEDATE_Islamic-1;
     } else if( data == "IIIc" ) {
-//        m_tabtype = ITT_III;
         m_delta = 11;
         m_basedate = BASEDATE_Islamic;
     } else if( data == "IVa" ) {
-//        m_tabtype = ITT_IV;
         m_delta = 9;
         m_basedate = BASEDATE_Islamic-1;
     } else if( data == "IVc" ) {
-//        m_tabtype = ITT_IV;
         m_delta = 9;
         m_basedate = BASEDATE_Islamic;
     }
@@ -246,24 +238,6 @@ bool Islamic::normalise( Field* fields, Norm norm ) const
  */
 bool Islamic::is_leap_year( Field year ) const
 {
-#if 0
-    Field delta;
-    switch( m_tabtype )
-    {
-    case ITT_I:
-        delta = 15;
-        break;
-    case ITT_III:
-        delta = 11;
-        break;
-    case ITT_IV:
-        delta = 9;
-        break;
-    default: // ITT_II
-        delta = 14;
-        break;
-    }
-#endif
     return pos_mod( m_delta + 11 * year, 30 ) < 11;
 }
 
