@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     15th November 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -35,8 +35,8 @@ using namespace std;
 using namespace Cal;
 
 
-Format::Format( const Grammar* gmr, const std::string& format )
-    : m_format(format)
+Format::Format( const Grammar* gmr, const std::string& code, const std::string& format )
+    : m_code(code), m_format(format)
 {
     string fieldname, fname, dname, vocab, abbrev;
     enum State { dooutput, doprolog, dofname, dodname, dovocab, doabbrev };

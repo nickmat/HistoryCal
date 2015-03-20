@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     15th November 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -37,9 +37,10 @@ namespace Cal {
 
     class Format {
     public:
-        Format( const Grammar* gmr, const std::string& format );
+        Format( const Grammar* gmr, const std::string& code, const std::string& format );
         ~Format();
 
+        std::string get_code() const { return m_code; }
         std::string get_format() const { return m_format; }
         // Get a user friendly format string for user selection
         std::string get_user_format() const { return m_output_str; }
@@ -52,6 +53,7 @@ namespace Cal {
         std::vector<Vocab*> get_vocabs() const { return m_vocabs; }
 
     private:
+        std::string m_code;
         std::string m_format;
         std::string m_input_str;
         std::string m_output_str;

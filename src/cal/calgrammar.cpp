@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     13th November 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -70,19 +70,24 @@ void Grammar::add_vocab( Vocab* vocab )
     }
 }
 
-void Grammar::add_format( const string& code, const string& format )
+bool Grammar::add_format( const string& code, const string& format )
 {
-    Format* fmt = new Format( this, format );
+    if( m_formats.count( code ) ) {
+        // Already there
+        return false;
+    }
+    Format* fmt = new Format( this, code, format );
     m_formats[code] = fmt;
     string order = fmt->get_order_str();
     for( StringMap::iterator it = m_input_formats.begin() ;
         it != m_input_formats.end() ; it++
     ) {
         if( it->second == order ) {
-            return;
+            return true;
         }
     }
     m_input_formats[code] = order;
+    return true;
 }
 
 void Grammar::add_alias( const string& alias, const StringVec& pairs )

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     13th November 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -46,7 +46,7 @@ namespace Cal {
         void set_inherit( Calendars* cals, const std::string& code );
         void set_pref( const std::string& fcode );
         void add_vocab( Vocab* vocab );
-        void add_format( const std::string& code, const std::string& format );
+        bool add_format( const std::string& code, const std::string& format );
         void add_alias( const std::string& alias, const StringVec& pairs );
 
         std::string code() const { return m_code; }
