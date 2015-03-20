@@ -36,7 +36,7 @@ using namespace Cal;
 
 
 Format::Format( const Grammar* gmr, const std::string& code, const std::string& format )
-    : m_code(code), m_format(format)
+    : m_code(code), m_format(format), m_owner(NULL)
 {
     string fieldname, fname, dname, vocab, abbrev;
     enum State { dooutput, doprolog, dofname, dodname, dovocab, doabbrev };

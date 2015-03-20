@@ -32,10 +32,7 @@
 
 namespace Cal {
 
-    class Vocab;
     class Calendars;
-    class Format;
-    typedef std::map<std::string,Format*> FormatMap;
 
     class Grammar
     {
@@ -66,6 +63,8 @@ namespace Cal {
         std::string lookup_token( Field field, const std::string& vcode, bool abbrev ) const;
 
         Vocab* find_vocab( const std::string& code ) const;
+
+        void remove_format( const std::string& fcode );
 
     private:
         std::string                m_code;

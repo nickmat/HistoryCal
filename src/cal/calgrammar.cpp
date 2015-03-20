@@ -294,4 +294,9 @@ Vocab* Grammar::find_vocab( const std::string& code ) const
     return NULL;
 }
 
+void Grammar::remove_format( const string& fcode )
+{
+    m_formats.erase( fcode );
+}
+
 // End of src/cal/calgrammar.cpp file

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013-2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -62,6 +62,8 @@ namespace Cal {
     typedef std::map<std::string,Grammar*> GrammarMap;
     class Vocab;
     typedef std::map<std::string,Vocab*> VocabMap;
+    class Format;
+    typedef std::map<std::string,Format*> FormatMap;
     class Mark;
     typedef std::vector<Mark*> MarkVec;
 

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     19th September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013-2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -384,6 +384,13 @@ void Calendars::add_or_replace_mark( std::string& name )
     if( pos > 0 ) {
         for( size_t i = end ; i >= pos ; --i ) {
             string code;
+            // We must remove the Format's before removing the Grammar's 
+            for(;;) { 
+                code = m_marks[i]->remove_next_format();                
+                if( code.empty() ) {
+                    break;
+                }
+            }
             for(;;) { 
                 code = m_marks[i]->remove_next_scheme();                
                 if( code.empty() ) {
