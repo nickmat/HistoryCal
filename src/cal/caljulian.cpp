@@ -72,8 +72,7 @@ namespace {
 
 int Julian::get_fieldname_index( const string& fieldname ) const
 {
-    // Base handles year, month, day.
-    int ret = Base::get_fieldname_index( fieldname );
+    int ret = get_ymd_fieldname_index( fieldname );
     if( ret >= 0 ) {
         return ret;
     }
@@ -89,9 +88,8 @@ int Julian::get_fieldname_index( const string& fieldname ) const
 
 string Julian::get_fieldname( size_t index ) const
 {
-    if( index < record_size() ) {
-        // Base handles year, month, day.
-        return Base::get_fieldname( index );
+    if( index < sizeof_ymd_fieldnames() ) {
+        return get_ymd_fieldname( index );
     }
     switch( index - record_size() )
     {

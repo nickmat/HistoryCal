@@ -51,8 +51,8 @@ namespace Cal {
         virtual size_t extended_size() const { return record_size(); }
 
         // Returns the index to the named Record field, or -1 if not found.
-        virtual int get_fieldname_index( const std::string& fieldname ) const { return get_ymd_fieldname_index( fieldname ); }
-        virtual std::string get_fieldname( size_t index ) const { return get_ymd_fieldname( index ); }
+        virtual int get_fieldname_index( const std::string& fieldname ) const = 0;
+        virtual std::string get_fieldname( size_t index ) const = 0;
 
         // Converts the Field's into a jdn and returns it.
         virtual Field get_jdn( const Field* fields ) const = 0;
