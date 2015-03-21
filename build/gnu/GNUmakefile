@@ -90,6 +90,7 @@ UNIT_OBJECTS =  \
 	unit_def_j325.o \
 	unit_testcal.o \
 	unit_testcommon.o \
+	unit_testformat.o \
 	unit_testfrenchrep.o \
 	unit_testgrammar.o \
 	unit_testgregorian.o \
@@ -294,6 +295,9 @@ unit_testcal.o: ./../../test/unit/testcal.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
 unit_testcommon.o: ./../../test/unit/testcommon.cpp
+	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
+
+unit_testformat.o: ./../../test/unit/testformat.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
 unit_testfrenchrep.o: ./../../test/unit/testfrenchrep.cpp
