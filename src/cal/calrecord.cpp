@@ -514,12 +514,12 @@ string Record::get_output( const std::string& fmt ) const
         switch( state )
         {
         case ignore:
-            if( *it == '@' ) {
+            if( *it == '|' ) {
                 state = doprolog;
             }
             break;
         case dooutput:
-            if( *it == '@' ) {
+            if( *it == '|' ) {
                 state = doprolog;
             } else {
                 output += *it;

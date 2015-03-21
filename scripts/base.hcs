@@ -48,7 +48,7 @@ grammar "d" {
     alias stylename {
         "Day", "ddddd";
     }
-    format "d", "@(Day)";
+    format "d", "|(Day)";
     pref "d";
 }
 

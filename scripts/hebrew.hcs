@@ -82,12 +82,12 @@ grammar "h" {
         "y", "year";
         "w", "week";
     }
-    format "dmy",    "@(Day) @(Month:hm) @(Year)";
-    format "dmy.a",  "@(Day) @(Month:hm.a) @(Year)";
-    format "dmy.d",  "@(Day) @(Month) @(Year)";
-    format "wdmy",   "@(WDay:hw) @(Day) @(Month:hm) @(Year)";
-    format "wdmy.a", "@(WDay:hw.a) @(Day) @(Month:hm.a) @(Year)";
-    format "ymd",    "@(Year)@,(Month:hm.a)@,(Day)";
+    format "dmy",    "|(Day) |(Month:hm) |(Year)";
+    format "dmy.a",  "|(Day) |(Month:hm.a) |(Year)";
+    format "dmy.d",  "|(Day) |(Month) |(Year)";
+    format "wdmy",   "|(WDay:hw) |(Day) |(Month:hm) |(Year)";
+    format "wdmy.a", "|(WDay:hw.a) |(Day) |(Month:hm.a) |(Year)";
+    format "ymd",    "|(Year)|,(Month:hm.a)|,(Day)";
     pref "dmy";
 }
 

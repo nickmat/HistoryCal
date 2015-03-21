@@ -65,11 +65,11 @@ grammar "hy" {
         "Hist-Year", "y";
         "Scheme",    "s";
     }
-    format "dmyh",  "@(Day) @(Month:m.a) @(Year/Hist-Year)";
-    format "dmy",   "@(Day) @(Month:m.a) @(Year)";
-    format "dmys",  "@(Day) @(Month:m.a) @(Year) @(Scheme:jajg.a)";
-    format "wdmyh", "@(WDay:w.a) @(Day) @(Month:m.a) @(Year/Hist-Year)";
-    format "wdmyhs","@(WDay:w.a) @(Day) @(Month:m.a) @(Year/Hist-Year) @(Scheme:jajg)";
+    format "dmyh",  "|(Day) |(Month:m.a) |(Year/Hist-Year)";
+    format "dmy",   "|(Day) |(Month:m.a) |(Year)";
+    format "dmys",  "|(Day) |(Month:m.a) |(Year) |(Scheme:jajg.a)";
+    format "wdmyh", "|(WDay:w.a) |(Day) |(Month:m.a) |(Year/Hist-Year)";
+    format "wdmyhs","|(WDay:w.a) |(Day) |(Month:m.a) |(Year/Hist-Year) |(Scheme:jajg)";
     pref "dmyh";
 }
 

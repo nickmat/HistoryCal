@@ -45,7 +45,7 @@ Format::Format( const Grammar* gmr, const std::string& code, const std::string& 
         switch( state )
         {
         case dooutput:
-            if( *it == '@' ) {
+            if( *it == '|' ) {
                 state = doprolog;
             } else {
                 m_output_str += *it;

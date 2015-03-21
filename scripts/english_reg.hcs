@@ -110,8 +110,8 @@ grammar "er" {
         "Scheme",    "s";
     }
     vocabs "er", "m", "w", "on", "part";
-    format "dmyr",  "@(Day) @(Month:m.a)@, (Part:part)@ (Year/Hist-Year) @(Reign:er)@, (Scheme:on.a)";
-    format "wdmyr", "@(WDay:w.a) @(Day) @(Month:m.a)@ (Year/Hist-Year) @(Reign:er)@, (Scheme:on.a)";
+    format "dmyr",  "|(Day) |(Month:m.a)|, (Part:part)| (Year/Hist-Year) |(Reign:er)|, (Scheme:on.a)";
+    format "wdmyr", "|(WDay:w.a) |(Day) |(Month:m.a)| (Year/Hist-Year) |(Reign:er)|, (Scheme:on.a)";
     pref "dmyr";
 }
 

@@ -406,7 +406,7 @@ string Base::create_default_format() const
 {
     string format;
     for( size_t i = 0 ; i < record_size() ; i++ ) {
-        format += "@";
+        format += "|";
         if( i > 0 ) {
             format += " ";
         }
