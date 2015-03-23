@@ -574,7 +574,7 @@ string Record::get_output( const std::string& fmt ) const
             break;
         }
     }
-    return output;
+    return output+prolog;
 }
 
 // End of src/cal/calrecord.cpp file

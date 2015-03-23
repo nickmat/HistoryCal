@@ -1,0 +1,5 @@
+// Add a new format to the "j" grammar for html output.
+
+mark "html";
+
+format "j:html", "<span class='date'>|(Day) |<b>(Month:m)</b> |(Year)|</span>";
