@@ -28,6 +28,7 @@
 #include "calscript.h"
 
 #include "cal/calendars.h"
+#include "calformat.h"
 #include "calgrammar.h"
 #include "calparse.h"
 #include "calregnal.h"
@@ -85,6 +86,7 @@ bool Script::statement()
         if( name == "scheme" ) return do_scheme();
         if( name == "vocab" ) return do_vocab();
         if( name == "grammar" ) return do_grammar();
+        if( name == "format" ) return do_format();
     } else if( token.type() == SToken::STT_Semicolon ) {
         return true; // Empty statement
     }
@@ -648,6 +650,43 @@ bool Script::do_grammar_alias( Grammar* gmr )
         }
     }
     gmr->add_alias( alias, pairs );
+    return true;
+}
+
+bool Script::do_format()
+{
+    string code;
+    expr( true ).get( code );
+    if( code.empty() ) {
+        error( "Format code missing." );
+        return false;
+    }
+    if( m_ts.current().type() != SToken::STT_Comma ) {
+        error( "',' expected." );
+        return false;
+    }
+    string format;
+    expr( true ).get( format );
+    if( format.empty() ) {
+        error( "Format missing." );
+        return false;
+    }
+    if( m_ts.current().type() != SToken::STT_Semicolon ) {
+        error( "';' expected." );
+        return false;
+    }
+
+    Format* fmt = m_cals->create_format( code );
+    if( fmt == NULL ) {
+        error( "Unable to create format." );
+        return false;
+    }
+    Grammar* gmr = fmt->get_owner();
+    if( gmr == NULL ) {
+        error( "Grammar not found." );
+        return false;
+    }
+    gmr->add_format( fmt, format );
     return true;
 }
 

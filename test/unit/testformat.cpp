@@ -30,25 +30,33 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <cppunit/config/SourcePrefix.h>
 
-using namespace std;
 using namespace Cal;
+using std::string;
 
 class TestFormat : public CPPUNIT_NS::TestFixture
 {
     CPPUNIT_TEST_SUITE( TestFormat );
     CPPUNIT_TEST( testScript );
+    CPPUNIT_TEST( testAddFormat );
+    CPPUNIT_TEST( testMarkAddFormat );
+    CPPUNIT_TEST( testUseFormat );
     CPPUNIT_TEST_SUITE_END();
 
-    Cal::Calendars*    m_cal;
-    Cal::SHandle       m_sid; // Scheme handle
-    Cal::SchemeFormats m_input_fmts;
-    Cal::SchemeFormats m_output_fmts;
+    Calendars*    m_cal;
+    SHandle       m_sid; // Scheme handle
+    SchemeFormats m_inputs;
+    SchemeFormats m_outputs;
 
 public:
     void setUp();
     void tearDown();
 
+    int find_format( const SchemeFormats& fmts, const string& code );
+
     void testScript();
+    void testAddFormat();
+    void testMarkAddFormat();
+    void testUseFormat();
 };
 
 // Registers the fixture into the 'registry'
@@ -99,14 +107,24 @@ void TestFormat::setUp()
     );
     m_sid = m_cal->get_scheme( "jb" );
     if( m_sid ) {
-        m_cal->get_scheme_input( &m_input_fmts, m_sid );
-        m_cal->get_scheme_input( &m_output_fmts, m_sid );
+        m_cal->get_scheme_input( &m_inputs, m_sid );
+        m_cal->get_scheme_input( &m_outputs, m_sid );
     }
 }
 
 void TestFormat::tearDown()
 {
     delete m_cal;
+}
+
+int TestFormat::find_format( const SchemeFormats& fmts, const string& code )
+{
+    for( size_t i = 0 ; i < fmts.code.size() ; i++ ) {
+        if( fmts.code[i] == code ) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 void TestFormat::testScript()
@@ -129,9 +147,72 @@ void TestFormat::testScript()
         CPPUNIT_ASSERT( str != "" );
         CPPUNIT_ASSERT_EQUAL( str, info.vocab_names[i] );
     }
-    CPPUNIT_ASSERT( m_input_fmts.code.size() == 2 ); 
-    CPPUNIT_ASSERT( m_output_fmts.code.size() == 2 ); 
+    CPPUNIT_ASSERT( m_inputs.code.size() == 2 );
+    CPPUNIT_ASSERT( find_format( m_inputs, "dmy" ) >= 0 );
+    CPPUNIT_ASSERT( find_format( m_inputs, "wdmy" ) >= 0 );
+    CPPUNIT_ASSERT( m_outputs.code.size() == 2 ); 
+    CPPUNIT_ASSERT( find_format( m_outputs, "dmy" ) >= 0 );
+    CPPUNIT_ASSERT( find_format( m_outputs, "wdmy" ) >= 0 );
 }
 
+void TestFormat::testAddFormat()
+{
+    CPPUNIT_ASSERT( m_sid != NULL );
+    // Confirm starting position
+    CPPUNIT_ASSERT( m_inputs.code.size() == 2 );
+    CPPUNIT_ASSERT( m_outputs.code.size() == 2 );
+    string expect_err = "Error (1): Unable to create format.\n";
+    string err = m_cal->run_script(
+        "format \"j:dmy\", \"|(Day) |(Month:m.a) |(Year)\";"
+    );
+    CPPUNIT_ASSERT_EQUAL( expect_err, err );
+    expect_err = "";
+    err = m_cal->run_script(
+        "format \"j:mdy\", \"|(Month:m.a) |(Day), |(Year)\";"
+    );
+    CPPUNIT_ASSERT_EQUAL( expect_err, err );
+    m_cal->get_scheme_input( &m_inputs, m_sid );
+    CPPUNIT_ASSERT( m_inputs.code.size() == 3 );
+    m_cal->get_scheme_input( &m_outputs, m_sid );
+    CPPUNIT_ASSERT( m_outputs.code.size() == 3 );
+}
+
+void TestFormat::testMarkAddFormat()
+{
+    CPPUNIT_ASSERT( m_sid != NULL );
+    // Confirm starting position
+    CPPUNIT_ASSERT( m_inputs.code.size() == 2 );
+    CPPUNIT_ASSERT( m_outputs.code.size() == 2 );
+    string expect_err;
+    string err = m_cal->run_script(
+        "mark \"test\";"
+        "format \"j:mdy\", \"|(Month:m.a) |(Day), |(Year)\";"
+    );
+    CPPUNIT_ASSERT_EQUAL( expect_err, err );
+    m_cal->get_scheme_input( &m_inputs, m_sid );
+    CPPUNIT_ASSERT( m_inputs.code.size() == 3 );
+    m_cal->get_scheme_input( &m_outputs, m_sid );
+    CPPUNIT_ASSERT( m_outputs.code.size() == 3 );
+
+    err = m_cal->run_script(
+        "mark \"test\";"
+    );
+    CPPUNIT_ASSERT_EQUAL( expect_err, err );
+    m_cal->get_scheme_input( &m_inputs, m_sid );
+    CPPUNIT_ASSERT( m_inputs.code.size() == 2 );
+    m_cal->get_scheme_input( &m_outputs, m_sid );
+    CPPUNIT_ASSERT( m_outputs.code.size() == 2 );
+}
+
+void TestFormat::testUseFormat()
+{
+    CPPUNIT_ASSERT( m_sid != NULL );
+    m_cal->run_script(
+        "format \"j:mdy\", \"|(Month:m.a) |(Day), |(Year)\";"
+    );
+    Field jdn1 = m_cal->str_to_jdn( NULL, "jb:dmy#6Sep1948" );
+    Field jdn2 = m_cal->str_to_jdn( NULL, "jb:mdy#Sep6,1948" );
+    CPPUNIT_ASSERT( jdn1 == jdn2 );
+}
 
 // End of test/unit/testformat.cpp file

@@ -44,6 +44,7 @@ namespace Cal {
         void set_pref( const std::string& fcode );
         void add_vocab( Vocab* vocab );
         bool add_format( const std::string& code, const std::string& format );
+        bool add_format( Format* fmt, const std::string& format );
         void add_alias( const std::string& alias, const StringVec& pairs );
 
         std::string code() const { return m_code; }
@@ -54,8 +55,8 @@ namespace Cal {
         void get_input_formats( SchemeFormats* input ) const;
         void get_output_formats( SchemeFormats* output ) const;
         Format* get_format( const std::string& code ) const;
-        std::string get_pref_input_format() const { return m_pref_input_fmt; }
-        std::string get_pref_output_format() const { return m_pref_output_fmt; }
+        std::string get_pref_input_fcode() const { return m_pref_input_fcode; }
+        std::string get_pref_output_fcode() const { return m_pref_output_fcode; }
         StringVec get_vocab_codes() const;
         StringVec get_vocab_names() const;
 
@@ -74,9 +75,8 @@ namespace Cal {
         std::map<std::string,Unit> m_unit_alias;
         std::vector<Vocab*>        m_vocabs;
         FormatMap                  m_formats;
-        StringMap                  m_input_formats;
-        std::string                m_pref_input_fmt;
-        std::string                m_pref_output_fmt;
+        std::string                m_pref_input_fcode;
+        std::string                m_pref_output_fcode;
     };
 
 }

@@ -37,8 +37,10 @@ namespace Cal {
 
     class Format {
     public:
-        Format( const Grammar* gmr, const std::string& code, const std::string& format );
+        Format( const std::string& code, Grammar* gmr );
         ~Format();
+
+        void set_format( const std::string& format );
 
         std::string get_code() const { return m_code; }
         std::string get_format() const { return m_format; }
@@ -53,7 +55,6 @@ namespace Cal {
         StringVec get_output_fields() const { return m_output_fields; }
         std::vector<Vocab*> get_vocabs() const { return m_vocabs; }
 
-        void set_owner( Grammar* gmr ) { m_owner = gmr; }
 
     private:
         std::string m_code;
@@ -63,7 +64,7 @@ namespace Cal {
         StringVec   m_output_fields;
         std::vector<Vocab*> m_vocabs;
         std::vector<InputFieldType> m_types;
-        Grammar*    m_owner; // NULL if local
+        Grammar*    m_owner;
     };
 
 }

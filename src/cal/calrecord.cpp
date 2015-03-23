@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     20th September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013-2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -216,7 +216,7 @@ Field Record::get_jdn() const
 
 string Record::get_str() const
 {
-    return get_output( m_base->get_format() );
+    return get_output( m_base->get_format_str_for_output() );
 }
 
 Field Record::is_unit_int( Unit unit ) const

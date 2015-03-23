@@ -29,6 +29,7 @@
 
 #include "calbase.h"
 #include "caldefscripts.h"
+#include "calformat.h"
 #include "calgrammar.h"
 #include "calmark.h"
 #include "calparse.h"
@@ -372,6 +373,24 @@ Vocab* Calendars::get_vocab( const string& code ) const
     return NULL;
 }
 
+Format* Calendars::create_format( const string& code )
+{
+    size_t pos = code.find( ':' );
+    if( pos == string::npos ) {
+        return NULL;
+    }
+    string gcode = code.substr( 0, pos );
+    string fcode = code.substr( pos + 1 );
+    Grammar* gmr = get_grammar( gcode );
+    if( gmr == NULL || gmr->get_format( fcode ) != NULL ) {
+        return NULL;
+    }
+    Format* fmt = new Format( fcode, gmr );
+    assert( m_marks.size() > 0 );
+    m_marks[m_marks.size()-1]->add_format( fmt );
+    return fmt;
+}
+
 void Calendars::add_or_replace_mark( std::string& name )
 {
     assert( m_marks.size() > 0 );
@@ -439,7 +458,7 @@ RangeList Calendars::range_str_to_rangelist( SHandle scheme, const string& str )
             base1 = base2 = sch->get_base();
         }
         if( fcode1.empty() && base1 != NULL ) {
-            fcode1 = base1->get_input_format();
+            fcode1 = base1->get_input_fcode();
         }
         fcode2 = fcode1;
         str2 = str1;
@@ -452,7 +471,7 @@ RangeList Calendars::range_str_to_rangelist( SHandle scheme, const string& str )
             base1 = sch->get_base();
         }
         if( fcode1.empty() && base1 != NULL ) {
-            fcode1 = base1->get_input_format();
+            fcode1 = base1->get_input_fcode();
         }
         temp = str.substr( pos + 1 );
         scode.clear();
@@ -462,7 +481,7 @@ RangeList Calendars::range_str_to_rangelist( SHandle scheme, const string& str )
             base2 = sch->get_base();
         }
         if( fcode2.empty() && base2 != NULL ) {
-            fcode2 = base2->get_input_format();
+            fcode2 = base2->get_input_fcode();
         }
     }
     RangeList ranges;

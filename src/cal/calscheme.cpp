@@ -105,14 +105,14 @@ void Scheme::set_grammar( Grammar* grammar )
 void Scheme::set_input_format( const std::string& code )
 {
     if( m_base ) {
-       m_base->set_input_format( code );
+       m_base->set_input_fcode( code );
     }
 }
 
 void Scheme::set_output_format( const std::string& code )
 {
     if( m_base ) {
-       m_base->set_output_format( code );
+       m_base->set_output_fcode( code );
     }
 }
 

@@ -3,6 +3,8 @@ Cal Library Change History
 current Version 0.2.5
 - Add Tabular Islamic calendar with various options.
 - Add Shift calendar variant for use with day count calendars.
+- Add format statement to script language.
+- Refactor much of the Format code to allow for retrospective changes.
 
 16 Mar 2015 Version 0.2.4
 - Add Hebrew Arithmetic calendar.

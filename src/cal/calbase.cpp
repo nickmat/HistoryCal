@@ -134,18 +134,18 @@ Field Base::compare_minor_fields( const Field* left, const Field* right, size_t 
 }
 
 bool Base::resolve_input(
-    Field* fields, const InputFieldVec& input, const string& fmt_code ) const
+    Field* fields, const InputFieldVec& input, const string& format_code ) const
 {
-    string code;
-    if( fmt_code.empty() ) {
-        code = get_input_format();
+    string fcode;
+    if( format_code.empty() ) {
+        fcode = get_input_fcode();
     } else {
-        code = fmt_code;
+        fcode = format_code;
     }
     size_t cnt = 0;
     FieldVec fs( extended_size(), f_invalid );
     if( m_grammar ) {
-        Format* fmt = m_grammar->get_format( code );
+        Format* fmt = m_grammar->get_format( fcode );
         if( fmt == NULL ) {
             return false;
         }
@@ -191,7 +191,7 @@ bool Base::resolve_input(
     if( cnt < 1 ) {
         return false;
     }
-    XRefVec xref = get_xref_order( cnt, code );
+    XRefVec xref = get_xref_order( cnt, fcode );
     if( xref.empty() ) {
         return false;
     }
@@ -233,7 +233,8 @@ void Base::get_input_formats( SchemeFormats* input ) const
         }
     }
     string code( "def" );
-    Format deffmt( m_grammar, code, create_default_format() );
+    Format deffmt( code, m_grammar );
+    deffmt.set_format( create_default_format() );
     string format = deffmt.get_order_str();
     input->descrip.push_back( format );
     input->code.push_back( code );
@@ -251,26 +252,34 @@ void Base::get_output_formats( SchemeFormats* output ) const
         }
     }
     string code( "def" );
-    Format deffmt( m_grammar, code, create_default_format() );
+    Format deffmt( code, m_grammar );
+    deffmt.set_format( create_default_format() );
     string format = deffmt.get_user_format() + "  (def)";
     output->descrip.push_back( format );
     output->code.push_back( code );
 }
 
-string Base::get_input_format() const
+string Base::get_input_fcode() const
 {
-    return m_input_format.empty() ? "def" : m_input_format;
+    return m_input_fcode.empty() ? "def" : m_input_fcode;
 }
 
-string Base::get_output_format() const
+string Base::get_input_order_str( const string& fcode ) const
 {
-    return m_output_format.empty() ? "def" : m_output_format;
+    string order;
+    if( m_grammar ) {
+        order = m_grammar->get_input_format( fcode );
+    }
+    if( order.empty() ) {
+        order = get_default_order();
+    }
+    return order;
 }
 
-string Base::get_format() const
+string Base::get_format_str_for_output() const
 {
     if( m_grammar ) {
-        Format* fmt = m_grammar->get_format( m_output_format );
+        Format* fmt = m_grammar->get_format( m_output_fcode );
         if( fmt ) {
             return fmt->get_format();
         }
@@ -284,33 +293,28 @@ void Base::set_grammar( Grammar* grammar )
         return;
     }
     m_grammar = grammar;
-    set_output_format( grammar->get_pref_output_format() );
-    set_input_format( grammar->get_pref_input_format() );
-
-    SchemeFormats inputs;
-    m_grammar->get_input_formats( &inputs );
-    for( size_t i = 0 ; i < inputs.code.size() ; i++ ) {
-        add_xref_input( inputs.code[i] );
-    }
+    set_output_fcode( grammar->get_pref_output_fcode() );
+    set_input_fcode( grammar->get_pref_input_fcode() );
 }
 
-XRefVec Base::get_xref_order( int cnt, const string& fmt ) const
+XRefVec Base::get_xref_order( int cnt, const string& fcode ) const
 {
     XRefSet xref_set;
-    size_t fmtcount = m_xref_inputs.count( fmt );
-    if( fmtcount == 0 ) {
-        fmtcount = m_xref_inputs.count( m_input_format );
-        if( fmtcount == 0 ) {
-            return get_default_xref_order( cnt );
-        }
-        xref_set = m_xref_inputs.find( m_input_format )->second;
+    string format = get_input_order_str( fcode );
+    XRefMap::const_iterator it = m_xref_inputs.find( format );
+    if( it == m_xref_inputs.end() ) {
+        // Does not exist yet.
+        xref_set = create_input_xref_set( fcode );
+        m_xref_inputs[format] = xref_set; // Add it for next time
     } else {
-        xref_set = m_xref_inputs.find( fmt )->second;
+        xref_set = it->second;
     }
-    if( xref_set.count( cnt ) == 0 ) {
+
+    XRefSet::const_iterator it2 = xref_set.find( cnt );
+    if( it2 == xref_set.end() ) {
         return XRefVec(0);
     }
-    return xref_set.find( cnt )->second;
+    return it2->second;
 }
 
 
@@ -390,7 +394,7 @@ string Base::get_ymd_fieldname( size_t index ) const
     return "";
 }
 
-string Base::create_default_order() const
+string Base::get_default_order() const
 {
     string order;
     for( size_t i = 0 ; i < record_size() ; i++ ) {
@@ -415,14 +419,10 @@ string Base::create_default_format() const
     return format;
 }
 
-void Base::add_xref_input( const std::string& code )
+XRefSet Base::create_input_xref_set( const string& fcode ) const
 {
-    if( m_grammar == NULL ) {
-        return;
-    }
-    string order = m_grammar->get_input_format( code );
     XRefVec xref;
-    XRefSet xref_set;
+    string order = get_input_order_str( fcode );
     int i, max_j = -1;
     for( i = 0 ; order.size() ; i++ ) {
         string fname = get_first_word( order, &order );
@@ -432,6 +432,7 @@ void Base::add_xref_input( const std::string& code )
             max_j = j;
         }
     }
+    XRefSet xref_set;
     while( max_j > -1 ) {
         xref_set[xref.size()] = xref;
         int prev_max_j = max_j;
@@ -449,8 +450,7 @@ void Base::add_xref_input( const std::string& code )
         }
         xref = x;
     }
-    m_xref_inputs[code] = xref_set;
+    return xref_set;
 }
-
 
 // End of src/cal/calbase.cpp file

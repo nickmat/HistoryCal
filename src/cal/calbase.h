@@ -118,16 +118,16 @@ namespace Cal {
 
         void get_input_formats( SchemeFormats* input ) const;
         void get_output_formats( SchemeFormats* output ) const;
-        std::string get_input_format() const;
-        std::string get_output_format() const;
-        std::string get_format() const;
+        std::string get_input_fcode() const;
+        std::string get_input_order_str( const std::string& fcode ) const;
+        std::string get_format_str_for_output() const;
         Grammar* get_grammar() const { return m_grammar; }
 
         void set_grammar( Grammar* grammar );
-        void set_input_format( const std::string& code ) { m_input_format = code; }
-        void set_output_format( const std::string& code ) { m_output_format = code; }
+        void set_input_fcode( const std::string& code ) { m_input_fcode = code; }
+        void set_output_fcode( const std::string& code ) { m_output_fcode = code; }
 
-        XRefVec get_xref_order( int count, const std::string& format ) const;
+        XRefVec get_xref_order( int count, const std::string& fcode ) const;
 
         FieldVec fields_to_vec( const Field* fields ) const;
         bool is_complete( const Field* fields ) const;
@@ -145,17 +145,19 @@ namespace Cal {
         size_t sizeof_ymd_fieldnames() const { return s_sizeof_ymd_fieldnames; }
 
     private:
-        std::string create_default_order() const;
+        std::string get_default_order() const;
         std::string create_default_format() const;
         void add_xref_input( const std::string& code );
+        XRefSet create_input_xref_set( const std::string& fcode ) const;
 
         static const char* s_ymd_fieldnames[];
         static size_t s_sizeof_ymd_fieldnames;
 
-        Grammar*    m_grammar;
-        std::string m_input_format;
-        std::string m_output_format;
-        XRefMap     m_xref_inputs;
+        Grammar*         m_grammar;
+        std::string      m_input_fcode;
+        std::string      m_output_fcode;
+        // Cache these as they are expensive to create.
+        mutable XRefMap  m_xref_inputs;
     };
 
 }

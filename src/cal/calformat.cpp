@@ -35,9 +35,18 @@ using namespace std;
 using namespace Cal;
 
 
-Format::Format( const Grammar* gmr, const std::string& code, const std::string& format )
-    : m_code(code), m_format(format), m_owner(NULL)
+Format::Format( const std::string& code, Grammar* gmr )
+    : m_code(code), m_owner(gmr)
 {
+}
+
+Format::~Format()
+{
+}
+
+void Format::set_format( const std::string& format )
+{
+    m_format = format;
     string fieldname, fname, dname, vocab, abbrev;
     enum State { dooutput, doprolog, dofname, dodname, dovocab, doabbrev };
     State state = dooutput;
@@ -70,10 +79,10 @@ Format::Format( const Grammar* gmr, const std::string& code, const std::string& 
                 fieldname = fname;
                 Vocab* voc = NULL;
                 InputFieldType type = IFT_number;
-                if( gmr ) {
-                    fieldname = gmr->get_field_alias( fname );
+                if( m_owner ) {
+                    fieldname = m_owner->get_field_alias( fname );
                     if( vocab.size() ) {
-                        voc = gmr->find_vocab( vocab );
+                        voc = m_owner->find_vocab( vocab );
                         if( voc ) {
                             type = IFT_vocab;
                             if( abbrev == "a" ) {
@@ -83,7 +92,7 @@ Format::Format( const Grammar* gmr, const std::string& code, const std::string& 
                             }
                         }
                     } else {
-                        fname = gmr->get_num_code_alias( fname );
+                        fname = m_owner->get_num_code_alias( fname );
                     }
                 }
                 m_output_str += fname;
@@ -92,9 +101,9 @@ Format::Format( const Grammar* gmr, const std::string& code, const std::string& 
                 if( dname.size() ) {
                     m_types.push_back( IFT_dual1 );
                     fieldname = dname;
-                    if( gmr ) {
-                        fieldname = gmr->get_field_alias( dname );
-                        dname = gmr->get_num_code_alias( dname );
+                    if( m_owner ) {
+                        fieldname = m_owner->get_field_alias( dname );
+                        dname = m_owner->get_num_code_alias( dname );
                     }
                     m_output_str += "/" + dname;
                     m_output_fields.push_back( fieldname );
@@ -127,10 +136,6 @@ Format::Format( const Grammar* gmr, const std::string& code, const std::string& 
             break;
         }
     }
-}
-
-Format::~Format()
-{
 }
 
 string Format::get_output_field( Vocab* vocab ) const
