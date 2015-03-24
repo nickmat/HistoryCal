@@ -290,6 +290,9 @@ int Record::get_field_index( const string& fieldname ) const
 Record::CP_Group Record::get_cp_group( string::const_iterator it )
 {
     int ch = *it;
+    if( ch < 0 ) {  // eliminate non-ascii 
+        return GRP_Other;
+    }
     if( ch == '-' ) {
 // For the moment, we'll treat all hyphens as numbers
         return GRP_Digit;

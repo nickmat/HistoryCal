@@ -181,7 +181,7 @@ void TestDef_fr::testStrTable_dcdmy()
 void TestDef_fr::testStringInput()
 {
     struct data { string in; string out; string o_dmy; Field beg; Field end; } t[] = {
-        { "18Vent7", "18 Vent\303\264se 7", "18 Vent 7", 2378198, 2378198 },
+        { "18Vent\303\264se7", "18 Vent\303\264se 7", "18 Vent 7", 2378198, 2378198 },
         { "Frim6", "Frimaire 6", "Frim 6", 2377726, 2377755 },
         { "7", "7", "7", 2378031, 2378396 },
         { "trav8", "F\303\252te du Travail 8", "3 Comp 8", 2378759, 2378759 },
