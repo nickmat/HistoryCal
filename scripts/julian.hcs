@@ -126,4 +126,10 @@ scheme "jn" {
     grammar "j.sh";
 }
 
+scheme "se" {
+    name "Spanish Era";
+    shift "j", 1707544;  // j:dmy# 1 Jan -37
+    grammar "j.sh";
+}
+
 // End of scripts/julian.hcs file

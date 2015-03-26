@@ -116,7 +116,7 @@ void HcFrame::OnRunScript( wxCommandEvent& event )
         std::string path = WxStrToUtf8( dialog.GetPath() );
         wxString result = Utf8ToWxStr( m_cal.run_script_file( path ) );
         if( result.size() ) {
-            wxMessageBox( result );
+            wxMessageBox( result, path );
         }
         UpdateSchemeLists();
         CalculateOutput();

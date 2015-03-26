@@ -1,0 +1,226 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Name:        scripts/scottish_reg.hcs
+ * Project:     Cal: Programmable Historical Calendar library.
+ * Purpose:     Default script.
+ * Author:      Nick Matthews
+ * Website:     http://historycal.org
+ * Created:     24th March 2015
+ * Copyright:   Copyright (c) 2015, Nick Matthews.
+ * Licence:     GNU GPLv3
+ *
+ *  The Cal library is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The Cal library is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with the Cal library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*/
+
+mark "scot";
+
+vocab "sr" {
+    name "Scottish Monarchs";
+    fieldname "era";
+    lang "en";
+    stylename "Reign",               "Rn";
+    tokens {
+        0,  "Scottish calendar",      "Scot";
+        1,  "Malcolm II",             "Mal II";
+        2,  "Duncan I",               "Dun I";
+        3,  "Macbeth",                "Mbth";
+        4,  "Lulach",                 "Lul";
+        5,  "Malcolm III",            "Mal III";
+        6,  "Donald Bane",            "Don B";
+        7,  "Duncan II",              "Dun II";
+        8,  "Eadgar",                 "Ead";
+        9,  "Alexander I",            "Alex I";
+        10, "David I",                "Dav I";
+        11, "Malcolm IV",             "Mal IV";
+        12, "William",                "Wm";
+        13, "Alexander II",           "Alex II";
+        14, "Alexander III",          "Alex III";
+        15, "Margaret",               "Marg";
+        16, "Interregnum I",          "Int I";
+        17, "John",                   "Jn";
+        18, "Interregnum II",         "Int II";
+        19, "Robert I",               "Rob I";
+        20, "David II",               "Dav II";
+        21, "David II Alt",           "Dav IIa";
+        22, "Robert II",              "Rob II";
+        23, "Robert III",             "Rob III";
+        24, "James I",                "Jm I";
+        25, "James II",               "Jm II";
+        26, "James III",              "Jm III";
+        27, "James IV",               "Jm IV";
+        28, "James V",                "Jm V";
+        29, "Mary";
+        30, "James VI",               "Jm VI";
+    }
+}
+
+grammar "sr" {
+    alias field {
+        "WDay",       "wday";
+        "Reign",      "era";
+        "Day",        "day";
+        "Month",      "month";
+        "Year",       "year";
+        "Hist-Year",  "hyear";
+    }
+    alias stylename {
+        "Day",       "dd";
+        "Month",     "mm";
+        "Year",      "yyyy";
+        "Hist-Year", "y";
+    }
+    vocabs "sr", "m", "w";
+    format "dmyr",  "|(Day) |(Month:m.a)| (Year/Hist-Year) |(Reign:sr)";
+    format "wdmyr", "|(WDay:w.a) |(Day) |(Month:m.a)| (Year/Hist-Year) |(Reign:sr)";
+    pref "dmyr";
+}
+
+scheme "sr" {
+    name "Scotish Regnal";
+    regnal {
+        fields "year", "month", "day";
+        extended "hyear", "wday";
+        era {
+            scheme "eng";
+            match "unshift", "hyear";
+        }
+        era {  // Malcolm II
+            range 2088218 ~ 2099055;   // 25 Mar 1005 ~ 25 Nov 1034
+            scheme 1 { shift "j", 2088218; }
+        }
+        era {  // Duncan I
+            range 2099055 ~ 2101144;   // 25 Nov 1034 ~ 14 Aug 1040
+            scheme 2 { shift "j", 2099055; }
+        }
+        era {  // Macbeth
+            range 2101144 ~ 2107354;   // 14 Aug 1040 ~ 15 Aug 1057
+            scheme 3 { shift "j", 2101144; }
+        }
+        era {  // Lulach 'The Simple'
+            range 2107354 ~ 2107568;   // 15 Aug 1057 ~ 17 Mar 1057/8
+            scheme 4 { shift "j", 2107354; }
+        }
+        era {  // Malcolm III
+            range 2107568 ~ 2120593;   // 17 Mar 1057/8 ~ 13 Nov 1093
+            scheme 5 { shift "j", 2107568; }
+        }
+        era {  // Donald Bane
+            range 2120593 ~ 2122018;   // 13 Nov 1093 ~ 8 Oct 1097
+            scheme 6 { shift "j", 2120593; }
+        }
+        era {  // Duncan II - interrupted Donalds Bane reign
+            range 2120773 ~ 2120957;   // 12 May 1094 ~ 12 Nov 1094
+            scheme 7 { shift "j", 2120773; }
+        }
+        era {  // Eadgar
+            range 2122018 ~ 2125397;   // 8 Oct 1097 ~ 8 Jan 1106/7
+            scheme 8 { shift "j", 2122018; }
+        }
+        era {  // Alexander I
+            range 2125397 ~ 2131712;   // 8 Jan 1106/7 ~ 23 Apr 1124
+            scheme 9 { shift "j", 2125397; }
+        }
+        era {  // David I
+            range 2131712 ~ 2142335;   // 23 Apr 1124 ~ 24 May 1153
+            scheme 10 { shift "j", 2131712; }
+        }
+        era {  // Malcolm IV
+            range 2142335 ~ 2146917;   // 24 May 1153 ~ 9 Dec 1165
+            scheme 11 { shift "j", 2142335; }
+        }
+        era {  // William
+            range 2146917 ~ 2164809;   // 9 Dec 1165 ~ 4 Dec 1214
+            scheme 12 { shift "j", 2146917; }
+        }
+        era {  // Alexander II
+            range 2164809 ~ 2177444;   // 4 Dec 1214 ~ 8 Jul 1249
+            scheme 13 { shift "j", 2164809; }
+        }
+        era {  // Alexander III
+            range 2177444 ~ 2190847;   // 8 Jul 1249 ~ 19 Mar 1285/6
+            scheme 14 { shift "j", 2177444; }
+        }
+        era {  // Margaret
+            range 2190847 ~ 2192499;   // 19 Mar 1285/6 ~ 26 Sep 1290
+            scheme 15 { shift "j", 2190847; }
+        }
+        era {  // 1st Interregnum
+            range 2192500 ~ 2193281;   // 27 Sep 1290 ~ 16 Nov 1292
+            scheme "scot";
+            match "unshift", "hyear";
+        }
+        era {  // John
+            range 2193282 ~ 2194613;   // 17 Nov 1292 ~ 10 Jul 1296
+            scheme 17 { shift "j", 2193282; }
+        }
+        era {  // 2nd Interregnum
+            range 2194614 ~ 2198159;   // 11 Jul 1296 ~ 26 Mar 1306
+            scheme "scot";
+            match "unshift", "hyear";
+        }
+        era {  // Robert I
+            range 2198160 ~ 2206633;   // 27 Mar 1306 ~ 7 Jun 1329
+            scheme 19 { shift "j", 2198160; }
+        }
+        era {  // David II
+            range 2206633 ~ 2221868;   // 7 Jun 1329 ~ 22 Feb 1370/1
+            scheme 20 { shift "j", 2206633; }
+        }
+        era {  // David II Alt (Some documents are dated 1 year less than given above.)
+            range 2215033 ~ 2221868;   // 6 Jun 1352 ~ 22 Feb 1370/1
+            scheme 21 { shift "j", 2206268; } // 7 Jun 1328
+        }
+        era {  // Robert II
+            range 2221868 ~ 2228864;   // 22 Feb 1370/1 ~ 19 Apr 1390
+            scheme 22 { shift "j", 2221868; }
+        }
+        era {  // Robert III
+            range 2228864 ~ 2234693;   // 19 Apr 1390 ~ 4 Apr 1406
+            scheme 23 { shift "j", 2228864; }
+        }
+        era {  // James I
+            range 2234693 ~ 2245974;   // 4 Apr 1406 ~ 21 Feb 1436/7
+            scheme 24 { shift "j", 2234693; }
+        }
+        era {  // James II
+            range 2245974 ~ 2254538;   // 21 Feb 1436/7 ~ 3 Aug 1460
+            scheme 25 { shift "j", 2245974; }
+        }
+        era {  // James III
+            range 2254538 ~ 2264712;   // 3 Aug 1460 ~ 11 Jun 1488
+            scheme 26 { shift "j", 2254538; }
+        }
+        era {  // James IV
+            range 2264712 ~ 2273933;   // 11 Jun 1488 ~ 9 Sep 1513
+            scheme 27 { shift "j", 2264712; }
+        }
+        era {  // James V
+            range 2273933 ~ 2284621;   // 9 Sep 1513 ~ 14 Dec 1542
+            scheme 28 { shift "j", 2273933; }
+        }
+        era {  // Mary
+            range 2284621 ~ 2293609;   // 14 Dec 1542 ~ 24 Jul 1567
+            scheme 29 { shift "j", 2284621; }
+        }
+        era {  // James VI
+            range 2293609 ~ 2361221;   // 24 Jul 1567 ~ 27 Mar 1625
+            scheme 29 { shift "j", 2293609; }
+        }
+    }
+    grammar "sr";
+}
+
+
+// End of scripts/scottish_reg.hcs file

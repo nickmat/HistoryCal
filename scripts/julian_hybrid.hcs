@@ -87,5 +87,19 @@ scheme "eng" {
     grammar "hy";
 }
 
+scheme "scot" {
+    name "Scottish Hybrid";
+    hybrid {
+        fields "year", "month", "day";
+        extended "wday", "unshift";
+        scheme "ja";
+        change 2305458;  // j:dmy# 1 Jan 1600
+        scheme "j";
+        change 2361222;  // g:dmy# 14 Sep 1752
+        scheme "g";
+    }
+    grammar "hy";
+}
+
 // End of scripts/julian_hybrid.hcs file
 

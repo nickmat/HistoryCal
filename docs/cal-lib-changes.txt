@@ -5,6 +5,10 @@ current Version 0.2.5
 - Add Shift calendar variant for use with day count calendars.
 - Add format statement to script language.
 - Refactor much of the Format code to allow for retrospective changes.
+- Fix bug on inputting Unicode characters.
+- Add Scottish hybrid calendar to default script.
+- Add Scottish Regnal calendar to default script.
+- Add Spanish Era calendar to default script.
 
 16 Mar 2015 Version 0.2.4
 - Add Hebrew Arithmetic calendar.
