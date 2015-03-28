@@ -161,7 +161,7 @@ const char* Cal::cal_default_scripts[] = {
  "scheme \"se\" {\n"
  "name \"Spanish Era\";\n"
  "shift \"j\", 1707544;\n"
- "grammar \"j.sh\";\n"
+ "grammar \"j\";\n"
  "}\n",
      /* julian_hybrid.hcs */
  "vocab \"on\" {\n"
