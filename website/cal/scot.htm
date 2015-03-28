@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>HistoryCal - Scottish Hybrid</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="icon" type="image/png" href="../sys/logo1_32x32x32.png" />
+<link rel='stylesheet' type='text/css' href='../sys/hcal.css' />
+</head>
+<body>
+
+<h1>
+ <a  href="http://historycal.org/"><img id="logo" src="../sys/logo2.png" alt="Logo" /></a>
+ HistoryCal Calendar<br/>Scottish Hybrid (scot)
+</h1>
+
+<div id="page">
+
+<div id="crumbs">
+  <a href="../index.htm" class="m-item">Home</a>
+  <a href="../cal/index.htm" class="m-item level1">Calendars</a>
+  <a href="scot.htm" class="m-item level2 thispage">scot</a>
+  <a href="er.htm" class="m-item prev">&lt;&lt;</a>
+  <a href="sr.htm" class="m-item next">&gt;&gt;</a>
+</div>
+
+<div id="content" class="nomenu calendar">
+
+<h2>Calendar Description</h2>
+<p>
+ The Scottish Hybrid calendar is a hybrid variant combining the <a href='ja.htm'>Julian Annunciation</a>,
+ the <a href='j.htm'>Julian</a> and the <a href='g.htm'>Gregorian</a> calendars.
+</p>
+
+<h3>Use Case</h3>
+<ul>
+ <li>Scotland from about the 12th century to the current day.</li>
+</ul>
+
+<h3>Definition</h3>
+<table class='record'>
+<tr><th colspan='6'>Record</th></tr>
+<tr><td>scheme</td><td>year</td><td>month</td><td>day</td><td class='rdonly'>wday</td><td class='rdonly'>unshift</td></tr>
+</table>
+<p>
+</p>
+<p>
+ The <b>Record</b> consists of four <b>Fields</b> named <code>scheme,</code> <code>year,</code>
+ <code>month,</code> and <code>day</code> and two read only <b>Fields</b> <code>wday,</code> and
+ <code>unshift.</code>
+ The unshifted field holds the historical year as calculated by the underlying
+ Julian calendar.
+</p>
+<p>
+ The calendar starts by implementing the Julian Annunciation (ja) scheme.
+ On the j:dmy# 1 Jan 1600 the calendar switches to Julian scheme,
+ leaving the year 1599 at only 282 days long.
+ On the g:dmy# 14 Sep 1752 the calendar switches to the Gregorian scheme,
+ the previous day being j:dmy# 2 Sep 1752.
+ This means the length of year 1752 was 355 days.
+ The calendar then remains on the Gregorian scheme for all future dates.
+</p>
+<p>
+ As a Hybrid calendar, it has no single epoch.
+</p>
+
+<h3>Script</h3>
+<table class='code'>
+<tr><th>Default Script</th></tr>
+<tr><td>
+scheme "scot" {
+    name "Scottish Hybrid";
+    hybrid {
+        fields "year", "month", "day";
+        extended "wday", "unshift";
+        scheme "ja";
+        change 2305458;  // j:dmy# 1 Jan 1600
+        scheme "j";
+        change 2361222;  // g:dmy# 14 Sep 1752
+        scheme "g";
+    }
+    grammar "hy";
+}
+</td></tr>
+</table>
+<p>
+ The script makes use of the globally available read-only field <code>wday</code>
+ to output weekdays.
+</p>
+<p>
+ The calendar uses the hy grammar as defined for
+ the <a href='eng.htm'>English Hybrid</a> calendar.
+</p>
+
+</div>
+
+<hr/>
+<div id='valid'>
+  <p>
+    <a href="http://validator.w3.org/check?uri=referer"><img
+        src="../sys/valid-xhtml10.png"
+        alt="Valid XHTML 1.0 Strict" height="31" width="88" /></a>
+  </p>
+</div>
+
+<div id='create-date'><p>27<sup>th</sup> March 2015</p></div>
+
+</div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>
