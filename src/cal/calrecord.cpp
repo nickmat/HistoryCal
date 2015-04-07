@@ -32,6 +32,7 @@
 #include "calgregorian.h"
 #include "calparse.h"
 
+#include <algorithm>
 #include <cassert>
 
 using namespace Cal;
