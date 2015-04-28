@@ -76,10 +76,8 @@ string get_first_word( const string& str, string* tail, char sep )
 
 string read_file( const string& name )
 {
-    ifstream in( name.c_str() );
-    stringstream ss;
-    ss << in.rdbuf();
-    return ss.str();
+    std::ifstream in( name.c_str() );
+    return std::string( std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>() );
 }
 
 void run_test( Calendars* cal, const string& filename )
