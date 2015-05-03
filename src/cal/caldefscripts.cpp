@@ -829,7 +829,7 @@ const char* Cal::cal_default_scripts[] = {
  "pref \"dmyr\";\n"
  "}\n"
  "scheme \"sr\" {\n"
- "name \"Scotish Regnal\";\n"
+ "name \"Scottish Regnal\";\n"
  "regnal {\n"
  "fields \"year\", \"month\", \"day\";\n"
  "extended \"hyear\", \"wday\";\n"

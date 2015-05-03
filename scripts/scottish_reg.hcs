@@ -24,8 +24,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 */
 
-mark "scot";
-
 vocab "sr" {
     name "Scottish Monarchs";
     fieldname "era";
@@ -88,7 +86,7 @@ grammar "sr" {
 }
 
 scheme "sr" {
-    name "Scotish Regnal";
+    name "Scottish Regnal";
     regnal {
         fields "year", "month", "day";
         extended "hyear", "wday";

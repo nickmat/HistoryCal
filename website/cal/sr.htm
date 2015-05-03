@@ -45,13 +45,13 @@
  <tr><th colspan='8'>Record</th></tr>
  <tr>
   <td>era</td><td>year</td><td>month</td><td>day</td>
-  <td class='rdonly'>er-hyear</td><td class='rdonly'>wday</td>
-  <td class='rdonly'>er-part</td><td class='rdonly'>er-scheme</td>
+  <td class='rdonly'>hyear</td><td class='rdonly'>wday</td>
  </tr>
 </table>
 
 <p>
  The dates given in the following table are Julian using the <a href='scot.htm'>Scottish Hybrid</a> calendar.
+ They are based on the book "Scottish Kings" by Sir Archibald H. Dunbar, Bart.
 </p>
 
 <table class='data large'>
@@ -77,7 +77,7 @@
 <tr><td>18</td><td>Interregnum II</td><td>11 Jul 1296 ~ 26 Mar 1306</td><td></td><td></td></tr>
 <tr><td>19</td><td>Robert I</td><td>27 Mar 1306 ~ 7 Jun 1329</td><td>27 Mar 1306</td><td></td></tr>
 <tr><td>20</td><td>David II</td><td>7 Jun 1329 ~ 22 Feb 1370/1</td><td>7 Jun 1329</td><td></td></tr>
-<tr><td>21</td><td>David II Alt</td><td>6 Jun 1352 ~ 22 Feb 1370/1</td><td>6 Jun 1352</td><td class='note'>Some documents are dated 1 year less than expected.</td></tr>
+<tr><td>21</td><td>David II Alt</td><td>6 Jun 1352 ~ 22 Feb 1370/1</td><td>7 Jun 1328</td><td class='note'>Some documents are dated 1 year less than expected.</td></tr>
 <tr><td>22</td><td>Robert II</td><td>22 Feb 1370/1 ~ 19 Apr 1390</td><td>22 Feb 1370/1</td><td></td></tr>
 <tr><td>23</td><td>Robert III</td><td>19 Apr 1390 ~ 4 Apr 1406</td><td>19 Apr 1390</td><td></td></tr>
 <tr><td>24</td><td>James I</td><td>4 Apr 1406 ~ 21 Feb 1436/7</td><td>4 Apr 1406</td><td></td></tr>
@@ -155,7 +155,7 @@ grammar "sr" {
 }
 
 scheme "sr" {
-    name "Scotish Regnal";
+    name "Scottish Regnal";
     regnal {
         fields "year", "month", "day";
         extended "hyear", "wday";
