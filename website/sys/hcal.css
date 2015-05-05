@@ -31,6 +31,10 @@ p, div.p {
  margin: 0 0.5em 1em 0.5em;
 }
 
+p.clear, div.p {
+ clear: both;
+}
+
 a.download {
  float: right;
 }
