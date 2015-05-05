@@ -1,11 +1,11 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Name:        scripts/islamic.hcs
  * Project:     Cal: Programmable Historical Calendar library.
- * Purpose:     Default script for Islamic Arithmetical calendar.
+ * Purpose:     Default script for Islamic Arithmetical calendars.
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     16th December 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -51,13 +51,13 @@ vocab "iw" {
     lang "en";
     stylename "Weekday", "WDay";
     tokens {
-        1, "Yaum al Ahad";         // Sunday
-        2, "Yaum al Ithnayn";      // Monday
-        3, "Yaum ath Thalaathaa'"; // Tuesday
-        4, "Yaum al Arba'aa'";     // Wednesday
-        5, "Yaum al Khamis";       // Thursday
-        6, "Yaum al Jumu'ah";      // Friday
-        7, "Yaum as Sabt";         // Saturday
+        1, "Yaum al Ahad",         "Ahad"; // Sunday
+        2, "Yaum al Ithnayn",      "Ithn"; // Monday
+        3, "Yaum ath Thalaathaa'", "Thal"; // Tuesday
+        4, "Yaum al Arba'aa'",     "Arba"; // Wednesday
+        5, "Yaum al Khamis",       "Kham"; // Thursday
+        6, "Yaum al Jumu'ah",      "Jumu"; // Friday
+        7, "Yaum as Sabt",         "Sabt"; // Saturday
     }
 }
 
@@ -91,10 +91,21 @@ grammar "i" {
 }
 
 scheme "i" {
-    name "Islamic Arithmetical";
+    name "Islamic Tabular";
     base islamic IIc;
     grammar "i";
 }
 
+scheme "ims" {
+    name "Islamic Microsoft Hijri";
+    base islamic IIa;
+    grammar "i";
+}
+
+scheme "if" {
+    name "Islamic Fātimid";
+    base islamic IIIa;
+    grammar "i";
+}
 
 // End of scripts/islamic.hcs file
