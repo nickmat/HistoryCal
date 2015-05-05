@@ -28,20 +28,20 @@ vocab "im" {
     name "Month names";
     fieldname "month";
     lang "en";
-    stylename "Month";
+    stylename "Month", "Mon";
     tokens {
-        1, "Muharram";
-        2, "Safar";
-        3, "Rabi' I";
-        4, "Rabi' II";
-        5, "Jumada I";
-        6, "Jumada II";
+        1, "Muḥarram",         "Muharram";
+        2, "Ṣafar",            "Safar";
+        3, "Rabī‘ al-Awwal",   "Rabi' I";
+        4, "Rabī‘ al-Ākhir",   "Rabi' II";
+        5, "Jumādá al-Ūlá",    "Jumada I";
+        6, "Jumādá al-Ākhira", "Jumada II";
         7, "Rajab";
-        8, "Sha'aban";
-        9, "Ramadan";
-        10, "Shawwal";
-        11, "Dhu al Qi'dah";
-        12, "Dhu al Hijjah";
+        8, "Sha‘bān",          "Sha'aban";
+        9, "Ramaḍān",          "Ramadan";
+        10, "Shawwāl",         "Shawwal";
+        11, "Dhū al-Qa‘dah",   "Dhu al-Qi'dah";
+        12, "Dhū al-Ḥijjah",   "Dhu al-Hijjah";
     }
 }
 
@@ -51,13 +51,13 @@ vocab "iw" {
     lang "en";
     stylename "Weekday", "WDay";
     tokens {
-        1, "Yaum al Ahad",         "Ahad"; // Sunday
-        2, "Yaum al Ithnayn",      "Ithn"; // Monday
-        3, "Yaum ath Thalaathaa'", "Thal"; // Tuesday
-        4, "Yaum al Arba'aa'",     "Arba"; // Wednesday
-        5, "Yaum al Khamis",       "Kham"; // Thursday
-        6, "Yaum al Jumu'ah",      "Jumu"; // Friday
-        7, "Yaum as Sabt",         "Sabt"; // Saturday
+        1, "Yawm al-Aḥad",       "Ahad"; // Sunday
+        2, "Yawm al-Ithnayn",    "Ithn"; // Monday
+        3, "Yawm ath-Thulāthāʼ", "Thul"; // Tuesday
+        4, "Yawm al-Arbi‘ā’",    "Arbi"; // Wednesday
+        5, "Yawm al-Khamīs",     "Kham"; // Thursday
+        6, "Yawm al-Jumu‘ah",    "Jumu"; // Friday
+        7, "Yawm as-Sabt",       "Sabt"; // Saturday
     }
 }
 

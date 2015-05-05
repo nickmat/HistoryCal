@@ -60,39 +60,39 @@ CPPUNIT_TEST_SUITE_REGISTRATION( TestDef_i );
 
 static const char* test_strs[MaxSample][2] = {
     //     dmy                       wdmy
-    { "9 Dhu al Hijjah -1245", "Yaum al Ahad 9 Dhu al Hijjah -1245",   },
-    { "23 Safar -813",         "Yaum al Arba'aa' 23 Safar -813",       },
-    { "1 Rabi' II -568",       "Yaum al Arba'aa' 1 Rabi' II -568",     },
-    { "6 Rabi' II -501",       "Yaum al Ahad 6 Rabi' II -501",         },
-    { "17 Shawwal -157",       "Yaum al Arba'aa' 17 Shawwal -157",     },
-    { "3 Jumada II -47",       "Yaum al Ithnayn 3 Jumada II -47",      },
-    { "13 Rajab 75",           "Yaum as Sabt 13 Rajab 75",             },
-    { "5 Shawwal 403",         "Yaum al Ahad 5 Shawwal 403",           },
-    { "22 Jumada I 489",       "Yaum al Ahad 22 Jumada I 489",         },
-    { "7 Safar 586",           "Yaum al Jumu'ah 7 Safar 586",          },
-    { "7 Sha'aban 637",        "Yaum as Sabt 7 Sha'aban 637",          },
-    { "20 Safar 687",          "Yaum al Jumu'ah 20 Safar 687",         },
-    { "7 Rajab 697",           "Yaum al Ahad 7 Rajab 697",             },
-    { "1 Rajab 793",           "Yaum al Ahad 1 Rajab 793",             },
-    { "6 Rajab 839",           "Yaum al Arba'aa' 6 Rajab 839",         },
-    { "1 Jumada II 897",       "Yaum as Sabt 1 Jumada II 897",         },
-    { "30 Ramadan 960",        "Yaum as Sabt 30 Ramadan 960",          },
-    { "27 Jumada I 967",       "Yaum as Sabt 27 Jumada I 967",         },
-    { "18 Jumada I 1058",      "Yaum al Arba'aa' 18 Jumada I 1058",    },
-    { "2 Jumada II 1091",      "Yaum al Ahad 2 Jumada II 1091",        },
-    { "4 Sha'aban 1128",       "Yaum al Jumu'ah 4 Sha'aban 1128",      },
-    { "3 Safar 1182",          "Yaum al Ahad 3 Safar 1182",            },
-    { "10 Shawwal 1234",       "Yaum al Ithnayn 10 Shawwal 1234",      },
-    { "11 Muharram 1255",      "Yaum al Arba'aa' 11 Muharram 1255",    },
-    { "21 Muharram 1321",      "Yaum al Ahad 21 Muharram 1321",        },
-    { "19 Rabi' I 1348",       "Yaum al Ahad 19 Rabi' I 1348",         },
-    { "8 Ramadan 1360",        "Yaum al Ithnayn 8 Ramadan 1360",       },
-    { "13 Rabi' II 1362",      "Yaum al Ithnayn 13 Rabi' II 1362",     },
-    { "7 Shawwal 1362",        "Yaum al Khamis 7 Shawwal 1362",        },
-    { "13 Ramadan 1412",       "Yaum ath Thalaathaa' 13 Ramadan 1412", },
-    { "5 Shawwal 1416",        "Yaum al Ahad 5 Shawwal 1416",          },
-    { "12 Shawwal 1460",       "Yaum al Arba'aa' 12 Shawwal 1460",     },
-    { "5 Rabi' I 1518",        "Yaum al Ahad 5 Rabi' I 1518",          }
+    { "9 Dhu al-Hijjah -1245", "Ahad 9 Dhu al-Hijjah -1245", },
+    { "23 Safar -813",         "Arbi 23 Safar -813",         },
+    { "1 Rabi' II -568",       "Arbi 1 Rabi' II -568",       },
+    { "6 Rabi' II -501",       "Ahad 6 Rabi' II -501",       },
+    { "17 Shawwal -157",       "Arbi 17 Shawwal -157",       },
+    { "3 Jumada II -47",       "Ithn 3 Jumada II -47",       },
+    { "13 Rajab 75",           "Sabt 13 Rajab 75",           },
+    { "5 Shawwal 403",         "Ahad 5 Shawwal 403",         },
+    { "22 Jumada I 489",       "Ahad 22 Jumada I 489",       },
+    { "7 Safar 586",           "Jumu 7 Safar 586",           },
+    { "7 Sha'aban 637",        "Sabt 7 Sha'aban 637",        },
+    { "20 Safar 687",          "Jumu 20 Safar 687",          },
+    { "7 Rajab 697",           "Ahad 7 Rajab 697",           },
+    { "1 Rajab 793",           "Ahad 1 Rajab 793",           },
+    { "6 Rajab 839",           "Arbi 6 Rajab 839",           },
+    { "1 Jumada II 897",       "Sabt 1 Jumada II 897",       },
+    { "30 Ramadan 960",        "Sabt 30 Ramadan 960",        },
+    { "27 Jumada I 967",       "Sabt 27 Jumada I 967",       },
+    { "18 Jumada I 1058",      "Arbi 18 Jumada I 1058",      },
+    { "2 Jumada II 1091",      "Ahad 2 Jumada II 1091",      },
+    { "4 Sha'aban 1128",       "Jumu 4 Sha'aban 1128",       },
+    { "3 Safar 1182",          "Ahad 3 Safar 1182",          },
+    { "10 Shawwal 1234",       "Ithn 10 Shawwal 1234",       },
+    { "11 Muharram 1255",      "Arbi 11 Muharram 1255",      },
+    { "21 Muharram 1321",      "Ahad 21 Muharram 1321",      },
+    { "19 Rabi' I 1348",       "Ahad 19 Rabi' I 1348",       },
+    { "8 Ramadan 1360",        "Ithn 8 Ramadan 1360",        },
+    { "13 Rabi' II 1362",      "Ithn 13 Rabi' II 1362",      },
+    { "7 Shawwal 1362",        "Kham 7 Shawwal 1362",        },
+    { "13 Ramadan 1412",       "Thul 13 Ramadan 1412",       },
+    { "5 Shawwal 1416",        "Ahad 5 Shawwal 1416",        },
+    { "12 Shawwal 1460",       "Arbi 12 Shawwal 1460",       },
+    { "5 Rabi' I 1518",        "Ahad 5 Rabi' I 1518",        }
 };
 
 void TestDef_i::setUp()
@@ -134,7 +134,7 @@ void TestDef_i::testCreation()
 void TestDef_i::testStrTable()
 {
     m_cal->set_input_format( m_sid, "dmy" );
-    m_cal->set_output_format( m_sid, "dmy" );
+    m_cal->set_output_format( m_sid, "dmy.a" );
     for( size_t i = 0 ; i < MaxSample ; i++ ) {
         string sample( test_strs[i][0] );
         Field jdn = m_cal->str_to_jdn( m_sid, sample );
@@ -143,7 +143,7 @@ void TestDef_i::testStrTable()
         CPPUNIT_ASSERT_EQUAL( sample, str );
     }
     m_cal->set_input_format( m_sid, "wdmy" );
-    m_cal->set_output_format( m_sid, "wdmy" );
+    m_cal->set_output_format( m_sid, "wdmy.a" );
     for( size_t i = 0 ; i < MaxSample ; i++ ) {
         string sample( test_strs[i][1] );
         Field jdn = m_cal->str_to_jdn( m_sid, sample );
@@ -157,9 +157,10 @@ void TestDef_i::testStringInput()
 {
     struct data { string in; string fmt; string out; Field beg; Field end; } t[] = {
         { "1367", "dmy", "1367", 2432505, 2432858 },
-        { "dhualqi'dah1367", "dmy", "Dhu al Qi'dah 1367", 2432800, 2432829 },
-        { "yaumalahad15dhualqi'dah1367", "wdmy", "Yaum al Ahad 15 Dhu al Qi'dah 1367", 2432814, 2432814 },
-        { "15dhualqi'dah1367", "dmy", "15 Dhu al Qi'dah 1367", 2432814, 2432814 },
+        { "dhual-qi'dah1367", "dmy.a", "Dhu al-Qi'dah 1367", 2432800, 2432829 },
+        { "ahad15dhual-qi'dah1367", "wdmy.a", "Ahad 15 Dhu al-Qi'dah 1367", 2432814, 2432814 },
+        { "15dhual-qi'dah1367", "dmy.a", "15 Dhu al-Qi'dah 1367", 2432814, 2432814 },
+        { "15dhual-qi'dah-10", "dmy.a", "15 Dhu al-Qi'dah -10", 1944851, 1944851 },
     };
     size_t count = sizeof(t) / sizeof(data);
 
