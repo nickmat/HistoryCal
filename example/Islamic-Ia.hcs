@@ -1,0 +1,11 @@
+// Muslim Tabular Ia
+// Leap year on 2, 5, 7, 10, 13, 15, 18, 21, 24, 26 and 29 years of 30 cycle.
+// Epoch 1 1 1 = j:mdy# 15 Jul 622
+
+mark "I.Ia";
+
+scheme "I.Ia" {
+    name "Islamic Tabular Ia";
+    base islamic Ia;
+    grammar "i";
+}
