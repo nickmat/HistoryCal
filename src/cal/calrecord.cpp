@@ -288,16 +288,21 @@ int Record::get_field_index( const string& fieldname ) const
     return m_base->get_fieldname_index( fn );
 }
 
-Record::CP_Group Record::get_cp_group( string::const_iterator it )
+Record::CP_Group Record::get_cp_group(
+    string::const_iterator it, string::const_iterator end )
 {
     int ch = *it;
     if( ch < 0 ) {  // eliminate non-ascii 
         return GRP_Other;
     }
     if( ch == '-' ) {
-// For the moment, we'll treat all hyphens as numbers
-        return GRP_Digit;
-//        return GRP_Hyphen;
+        // If hyphen is followed by a digit treat as digit
+        if( it+1 != end && isdigit( *(it+1) ) ) {
+            return GRP_Digit;
+        } else {
+            // Otherwise treat it as text
+            return GRP_Other;
+        }
     }
     if( ch == '/' ) {
         return GRP_Dual;
@@ -360,7 +365,7 @@ int Record::parse_date( InputField* ifs, size_t size, const string& str )
     string token;
     CP_Group grp, prev_grp, token_grp;
     string::const_iterator it = str.begin();
-    grp = prev_grp = token_grp = get_cp_group( it );
+    grp = prev_grp = token_grp = get_cp_group( it, str.end() );
     if( grp == GRP_Quest ) {
         prev_grp = GRP_Sep;
     }
@@ -429,7 +434,7 @@ int Record::parse_date( InputField* ifs, size_t size, const string& str )
             grp = GRP_Sep;
             done = true;
         } else {
-            grp = get_cp_group( it );
+            grp = get_cp_group( it, str.end() );
         }
     }
     return i;

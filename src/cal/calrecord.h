@@ -85,7 +85,7 @@ namespace Cal {
             GRP_Hyphen, GRP_Digit, GRP_Quest, GRP_Dual,
             GRP_Sep, GRP_Other
         };
-        CP_Group get_cp_group( std::string::const_iterator it );
+        CP_Group get_cp_group( std::string::const_iterator it, std::string::const_iterator end );
         Field get_token_value( Vocab** vocab, const std::string& str );
         Field get_dual2_value( Field dual1, const std::string& str2 ) const;
         int parse_date( InputField* ifs, size_t size, const std::string& str );
