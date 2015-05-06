@@ -52,7 +52,7 @@ namespace Cal {
     class Vocab
     {
     public:
-        enum Style { style_full, style_abbrev };
+        enum Style { style_full, style_abbrev, style_ordsuffix };
 
         Vocab( const std::string& code );
 
