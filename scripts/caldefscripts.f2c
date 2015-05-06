@@ -35,8 +35,8 @@ const char* Cal::cal_default_scripts[] = {
     @(crl.cpp)"julian.hcs",
     @(crl.cpp)"julian_hybrid.hcs",
     @(crl.cpp)"liturgical.hcs",
-    @(crl.cpp)"english_reg.hcs"
-    @(crl.cpp)"scottish_reg.hcs"
+    @(crl.cpp)"english_reg.hcs",
+    @(crl.cpp)"scottish_reg.hcs",
     @(crlo.cpp)"french_rep.hcs",
     @(crlo.cpp)"hebrew.hcs",
     @(crlo.cpp)"islamic.hcs",

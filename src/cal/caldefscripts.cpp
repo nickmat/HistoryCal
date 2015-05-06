@@ -766,7 +766,7 @@ const char* Cal::cal_default_scripts[] = {
  "}\n"
  "}\n"
  "grammar \"er\";\n"
- "}\n"
+ "}\n",
      /* scottish_reg.hcs */
  "vocab \"sr\" {\n"
  "name \"Scottish Monarchs\";\n"
@@ -960,7 +960,7 @@ const char* Cal::cal_default_scripts[] = {
  "}\n"
  "}\n"
  "grammar \"sr\";\n"
- "}\n"
+ "}\n",
      /* french_rep.hcs */
  "vocab \"frm\" {\n"
  "name \"Month names\";\n"
