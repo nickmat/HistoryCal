@@ -209,6 +209,7 @@
     <sources>$(LOCAL_SRC)/cal/calshift.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calstokenstream.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calsvalue.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/caltext.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calversion.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calvocab.cpp</sources>
 
@@ -244,6 +245,7 @@
     <headers>$(LOCAL_SRC)/cal/calshiftday.h</headers>
     <headers>$(LOCAL_SRC)/cal/calstokenstream.h</headers>
     <headers>$(LOCAL_SRC)/cal/calsvalue.h</headers>
+    <headers>$(LOCAL_SRC)/cal/caltext.h</headers>
     <headers>$(LOCAL_SRC)/cal/calversion.h</headers>
     <headers>$(LOCAL_SRC)/cal/calvocab.h</headers>
 

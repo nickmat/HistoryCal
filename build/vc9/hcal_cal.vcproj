@@ -315,6 +315,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\cal\caltext.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\cal\calversion.cpp"
 				>
 			</File>
@@ -450,6 +454,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\cal\calsvalue.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\cal\caltext.h"
 				>
 			</File>
 			<File
