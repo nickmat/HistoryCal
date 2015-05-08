@@ -58,7 +58,7 @@ Hybrid::Hybrid(
 
 Hybrid::~Hybrid()
 {
-    for( size_t i = 1 ; i < m_data.size() ; i++ ) {
+    for( size_t i = 0 ; i < m_data.size() ; i++ ) {
         delete m_data[i].scheme;
     }
 }
