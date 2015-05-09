@@ -45,7 +45,7 @@ Format::~Format()
 {
 }
 
-void Format::set_format( const std::string& format )
+void Format::set_format( const std::string& format, Use usefor )
 {
     m_format = format;
     string fieldname, fieldout, fname, dname, vocab, abbrev;
@@ -56,7 +56,9 @@ void Format::set_format( const std::string& format )
         {
         case dooutput:
             if( *it == '|' ) {
-                m_output_str += fieldout;
+                if( usefor != Use_input ) {
+                    m_output_str += fieldout;
+                }
                 fieldout.clear();
             } else if( *it == '(' ) {
                 state = dofname;
@@ -69,10 +71,12 @@ void Format::set_format( const std::string& format )
         case dovocab:
         case doabbrev:
             if( *it == ')' ) {
-                if( m_input_str.size() ) {
-                    m_input_str += " ";
+                if( usefor != Use_output ) {
+                    if( m_input_str.size() ) {
+                        m_input_str += " ";
+                    }
+                    m_input_str += fname;
                 }
-                m_input_str += fname;
                 fieldname = fname;
                 Vocab* voc = NULL;
                 InputFieldType type = IFT_number;
@@ -135,7 +139,9 @@ void Format::set_format( const std::string& format )
             break;
         }
     }
-    m_output_str += fieldout;
+    if( usefor != Use_input ) {
+        m_output_str += fieldout;
+    }
 }
 
 string Format::get_output_field( Vocab* vocab ) const

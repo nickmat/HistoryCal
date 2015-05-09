@@ -37,10 +37,12 @@ namespace Cal {
 
     class Format {
     public:
+        enum Use { Use_inout, Use_output, Use_input };
+
         Format( const std::string& code, Grammar* gmr );
         ~Format();
 
-        void set_format( const std::string& format );
+        void set_format( const std::string& format, Use usefor = Use_inout );
 
         std::string get_code() const { return m_code; }
         std::string get_format() const { return m_format; }
