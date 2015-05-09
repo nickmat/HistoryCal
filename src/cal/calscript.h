@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     7th May 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -66,9 +66,8 @@ namespace Cal {
         bool do_vocab_tokens( Vocab* voc );
         bool do_grammar();
         bool do_grammar_vocabs( Grammar* gmr );
-        bool do_grammar_format( Grammar* gmr );
         bool do_grammar_alias( Grammar* gmr );
-        bool do_format();
+        bool do_format( Grammar* gmr );
         StringVec do_string_list();
         FieldVec do_fixed_fields( const StringVec& fieldnames );
 

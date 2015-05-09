@@ -81,13 +81,14 @@ Format* Grammar::create_format( const string& code )
     return fmt;
 }
 
-bool Grammar::add_format( Format* fmt, const string& format )
+bool Grammar::add_format( Format* fmt )
 {
     assert( fmt != NULL );
-    assert( format.size() != 0 );
-    fmt->set_format( format );
     string code = fmt->get_code();
-
+    if( m_formats.count( code ) ) {
+        // Already there
+        return false;
+    }
     m_formats[code] = fmt;
     return true;
 }

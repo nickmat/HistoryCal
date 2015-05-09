@@ -44,7 +44,7 @@ namespace Cal {
         void set_pref( const std::string& fcode );
         void add_vocab( Vocab* vocab );
         Format* create_format( const std::string& code );
-        bool add_format( Format* fmt, const std::string& format );
+        bool add_format( Format* fmt );
         void add_alias( const std::string& alias, const StringVec& pairs );
 
         std::string code() const { return m_code; }

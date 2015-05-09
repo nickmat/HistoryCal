@@ -386,6 +386,10 @@ Format* Calendars::create_format( const string& code )
         return NULL;
     }
     Format* fmt = new Format( fcode, gmr );
+    if( !gmr->add_format( fmt ) ) {
+        delete fmt;
+        return NULL;
+    }
     assert( m_marks.size() > 0 );
     m_marks[m_marks.size()-1]->add_format( fmt );
     return fmt;

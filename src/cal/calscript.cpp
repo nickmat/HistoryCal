@@ -86,7 +86,7 @@ bool Script::statement()
         if( name == "scheme" ) return do_scheme();
         if( name == "vocab" ) return do_vocab();
         if( name == "grammar" ) return do_grammar();
-        if( name == "format" ) return do_format();
+        if( name == "format" ) return do_format( NULL );
     } else if( token.type() == SToken::STT_Semicolon ) {
         return true; // Empty statement
     }
@@ -571,7 +571,7 @@ bool Script::do_grammar()
             if( name == "vocabs" ) {
                 do_grammar_vocabs( gmr );
             } else if( name == "format" ) {
-                do_grammar_format( gmr );
+                do_format( gmr );
             } else if( name == "pref" ) {
                 expr( true ).get( str );
                 gmr->set_pref( str );
@@ -590,29 +590,6 @@ bool Script::do_grammar_vocabs( Grammar* gmr )
         Vocab* voc = m_cals->get_vocab( vocabs[i] );
         gmr->add_vocab( voc );
     }
-    return true;
-}
-
-bool Script::do_grammar_format( Grammar* gmr )
-{
-    string code;
-    expr( true ).get( code );
-    if( m_ts.current().type() != SToken::STT_Comma ) {
-        error( "',' expected." );
-        return false;
-    }
-    string format;
-    expr( true ).get( format );
-    if( m_ts.current().type() != SToken::STT_Semicolon ) {
-        error( "';' expected." );
-        return false;
-    }
-    Format* fmt = gmr->create_format( code );
-    if( fmt == NULL ) {
-        error( "Cannot create Format." );
-        return false;
-    }
-    gmr->add_format( fmt, format );
     return true;
 }
 
@@ -658,7 +635,12 @@ bool Script::do_grammar_alias( Grammar* gmr )
     return true;
 }
 
-bool Script::do_format()
+// If parsing the format within a grammar then gmr is not NULL
+// and the Format code just contains just the Format code, as in "fmt".
+// If parsing the format in the global space then gmr is NULL and
+// the Grammar to be used will be encoded into the Format code,
+// as in "gmr:fmt"
+bool Script::do_format( Grammar* gmr )
 {
     string code;
     expr( true ).get( code );
@@ -681,17 +663,26 @@ bool Script::do_format()
         return false;
     }
 
-    Format* fmt = m_cals->create_format( code );
-    if( fmt == NULL ) {
-        error( "Unable to create format." );
-        return false;
-    }
-    Grammar* gmr = fmt->get_owner();
+    Format* fmt;
     if( gmr == NULL ) {
-        error( "Grammar not found." );
-        return false;
+        fmt = m_cals->create_format( code );
+        if( fmt == NULL ) {
+            error( "Unable to create format." );
+            return false;
+        }
+        gmr = fmt->get_owner();
+        if( gmr == NULL ) {
+            error( "Grammar not found." );
+            return false;
+        }
+    } else {
+        fmt = gmr->create_format( code );
+        if( fmt == NULL ) {
+            error( "Unable to create format." );
+            return false;
+        }
     }
-    gmr->add_format( fmt, format );
+    fmt->set_format( format );
     return true;
 }
 
