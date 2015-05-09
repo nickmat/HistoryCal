@@ -33,6 +33,7 @@
 namespace Cal {
 
     extern std::string get_ordinal_suffix( Field field );
+    extern std::string get_ordinal_suffix_style();
 
 }
 

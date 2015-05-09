@@ -46,5 +46,9 @@ string Cal::get_ordinal_suffix( Field field )
     return "th";
 }
 
+string Cal::get_ordinal_suffix_style()
+{
+    return "th";
+}
 
 // End of src/cal/caltext.cpp

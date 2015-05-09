@@ -29,6 +29,7 @@
 
 #include "calgrammar.h"
 #include "calparse.h"
+#include "caltext.h"
 #include "calvocab.h"
 
 using namespace std;
@@ -47,24 +48,20 @@ Format::~Format()
 void Format::set_format( const std::string& format )
 {
     m_format = format;
-    string fieldname, fname, dname, vocab, abbrev;
-    enum State { dooutput, doprolog, dofname, dodname, dovocab, doabbrev };
+    string fieldname, fieldout, fname, dname, vocab, abbrev;
+    enum State { dooutput, dofname, dodname, dovocab, doabbrev };
     State state = dooutput;
     for( string::const_iterator it = m_format.begin() ; it != m_format.end() ; it++ ) {
         switch( state )
         {
         case dooutput:
             if( *it == '|' ) {
-                state = doprolog;
-            } else {
-                m_output_str += *it;
-            }
-            break;
-        case doprolog:
-            if( *it == '(' ) {
+                m_output_str += fieldout;
+                fieldout.clear();
+            } else if( *it == '(' ) {
                 state = dofname;
             } else {
-                m_output_str += *it;
+                fieldout += *it;
             }
             break;
         case dofname:
@@ -91,11 +88,13 @@ void Format::set_format( const std::string& format )
                                 fname = voc->get_style_name( Vocab::style_full );
                             }
                         }
+                    } else if( abbrev == "os" ) {
+                        fname = get_ordinal_suffix_style();
                     } else {
                         fname = m_owner->get_num_code_alias( fname );
                     }
                 }
-                m_output_str += fname;
+                fieldout += fname;
                 m_output_fields.push_back( fieldname );
                 m_vocabs.push_back( voc );
                 if( dname.size() ) {
@@ -105,7 +104,7 @@ void Format::set_format( const std::string& format )
                         fieldname = m_owner->get_field_alias( dname );
                         dname = m_owner->get_num_code_alias( dname );
                     }
-                    m_output_str += "/" + dname;
+                    fieldout += "/" + dname;
                     m_output_fields.push_back( fieldname );
                     m_vocabs.push_back( NULL );
                     m_types.push_back( IFT_dual2 );
@@ -136,6 +135,7 @@ void Format::set_format( const std::string& format )
             break;
         }
     }
+    m_output_str += fieldout;
 }
 
 string Format::get_output_field( Vocab* vocab ) const

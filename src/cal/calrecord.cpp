@@ -31,6 +31,7 @@
 #include "calgrammar.h"
 #include "calgregorian.h"
 #include "calparse.h"
+#include "caltext.h"
 
 #include <algorithm>
 #include <cassert>
@@ -482,7 +483,9 @@ string Record::lookup_token(
         if( index >= 0 ) {
             Field f = get_field( index );
             if( vcode.size() ) {
-                result = m_base->lookup_token( f, vcode, a );
+                result = m_base->lookup_token( f, vcode, a );            
+            } else if( abbrev == "os" ) {
+                result = get_ordinal_suffix( f );
             }
             if( result.empty() ) {
                 result = field_to_str( f );
@@ -516,29 +519,25 @@ string Record::lookup_token(
 
 string Record::get_output( const std::string& fmt ) const
 {
-    string output, prolog, fname, dname, vocab, abbrev, value;
-    enum State { ignore, dooutput, doprolog, dofname, dodname, dovocab, doabbrev };
+    string output, fieldout, fname, dname, vocab, abbrev, value;
+    enum State { ignore, dooutput, dofname, dodname, dovocab, doabbrev };
     State state = dooutput;
     for( string::const_iterator it = fmt.begin() ; it != fmt.end() ; it++ ) {
         switch( state )
         {
         case ignore:
             if( *it == '|' ) {
-                state = doprolog;
+                state = dooutput;
             }
             break;
         case dooutput:
             if( *it == '|' ) {
-                state = doprolog;
-            } else {
-                output += *it;
-            }
-            break;
-        case doprolog:
-            if( *it == '(' ) {
+                output += fieldout;
+                fieldout.clear();
+            } else if( *it == '(' ) {
                 state = dofname;
             } else {
-                prolog += *it;
+                fieldout += *it;
             }
             break;
         case dofname:
@@ -553,12 +552,12 @@ string Record::get_output( const std::string& fmt ) const
                 }
                 value = lookup_token( i, d, vocab, abbrev );
                 if( value.empty() ) {
+                    fieldout.clear();
                     state = ignore;
                 } else {
-                    output += prolog + value;
+                    fieldout += value;
                     state = dooutput;
                 }
-                prolog.clear();
                 fname.clear();
                 dname.clear();
                 vocab.clear();
@@ -583,7 +582,7 @@ string Record::get_output( const std::string& fmt ) const
             break;
         }
     }
-    return output+prolog;
+    return output+fieldout;
 }
 
 // End of src/cal/calrecord.cpp file
