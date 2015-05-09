@@ -180,6 +180,9 @@ void Grammar::get_input_formats( SchemeFormats* input ) const
         Format* fmt = it->second;
         string code = fmt->get_code();
         string order = fmt->get_order_str();
+        if( order.empty() ) {
+            continue;
+        }
         bool exists = false;
         for( size_t i = 0 ; i < input->descrip.size() ; i++ ) {
             if( input->descrip[i] == order ) {

@@ -638,31 +638,56 @@ bool Script::do_grammar_alias( Grammar* gmr )
 // If parsing the format within a grammar then gmr is not NULL
 // and the Format code just contains just the Format code, as in "fmt".
 // If parsing the format in the global space then gmr is NULL and
-// the Grammar to be used will be encoded into the Format code,
+// the Grammar to be used should be encoded into the Format code,
 // as in "gmr:fmt"
 bool Script::do_format( Grammar* gmr )
 {
-    string code;
+    string code, format;
+    Format::Use usefor = Format::Use_inout;
     expr( true ).get( code );
     if( code.empty() ) {
         error( "Format code missing." );
         return false;
     }
-    if( m_ts.current().type() != SToken::STT_Comma ) {
-        error( "',' expected." );
-        return false;
-    }
-    string format;
-    expr( true ).get( format );
-    if( format.empty() ) {
-        error( "Format missing." );
-        return false;
-    }
-    if( m_ts.current().type() != SToken::STT_Semicolon ) {
-        error( "';' expected." );
+    if( m_ts.current().type() == SToken::STT_Comma ) {
+        expr( true ).get( format );
+        if( format.empty() ) {
+            error( "Format missing." );
+            return false;
+        }
+        if( m_ts.current().type() != SToken::STT_Semicolon ) {
+            error( "';' expected." );
+            return false;
+        }
+    } else if( m_ts.current().type() == SToken::STT_LCbracket ) {
+        for(;;) {
+            SToken token = m_ts.next();
+            if( token.type() == SToken::STT_RCbracket ||
+                token.type() == SToken::STT_End ) {
+                break;
+            }
+            if( token.type() == SToken::STT_Semicolon ) {
+                continue;
+            }
+            if( token.type() == SToken::STT_Name ) {
+                if( token.get_str() == "output" ) {
+                    usefor = Format::Use_output;
+                    expr( true ).get( format );
+                } else if( token.get_str() == "inout" ) {
+                    usefor = Format::Use_inout;
+                    expr( true ).get( format );
+                }
+            }
+        }
+    } else {
+        error( "',' or '{' expected." );
         return false;
     }
 
+    if( format.empty() ) {
+        error( "Format string not found." );
+        return false;
+    }
     Format* fmt;
     if( gmr == NULL ) {
         fmt = m_cals->create_format( code );
@@ -682,7 +707,7 @@ bool Script::do_format( Grammar* gmr )
             return false;
         }
     }
-    fmt->set_format( format );
+    fmt->set_format( format, usefor );
     return true;
 }
 

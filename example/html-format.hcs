@@ -2,4 +2,6 @@
 
 mark "html";
 
-format "j:html", "<span class='date'>|(Day)<sup>(Day:.os)</sup> |<b>(Month:m)</b> |(Year)|</span>";
+format "j:html" {
+    output "<span class='date'>|(Day)<sup>(Day:.os)</sup> |<b>(Month:m)</b> |(Year)|</span>";
+}
