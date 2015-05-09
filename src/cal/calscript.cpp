@@ -607,7 +607,12 @@ bool Script::do_grammar_format( Grammar* gmr )
         error( "';' expected." );
         return false;
     }
-    gmr->add_format( code, format );
+    Format* fmt = gmr->create_format( code );
+    if( fmt == NULL ) {
+        error( "Cannot create Format." );
+        return false;
+    }
+    gmr->add_format( fmt, format );
     return true;
 }
 

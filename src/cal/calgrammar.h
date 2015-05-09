@@ -43,7 +43,7 @@ namespace Cal {
         void set_inherit( Calendars* cals, const std::string& code );
         void set_pref( const std::string& fcode );
         void add_vocab( Vocab* vocab );
-        bool add_format( const std::string& code, const std::string& format );
+        Format* create_format( const std::string& code );
         bool add_format( Format* fmt, const std::string& format );
         void add_alias( const std::string& alias, const StringVec& pairs );
 

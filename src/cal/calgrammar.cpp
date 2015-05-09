@@ -70,16 +70,15 @@ void Grammar::add_vocab( Vocab* vocab )
     }
 }
 
-bool Grammar::add_format( const string& code, const string& format )
+Format* Grammar::create_format( const string& code )
 {
     if( m_formats.count( code ) ) {
         // Already there
-        return false;
+        return NULL;
     }
     Format* fmt = new Format( code, this );
-    fmt->set_format( format );
     m_formats[code] = fmt;
-    return true;
+    return fmt;
 }
 
 bool Grammar::add_format( Format* fmt, const string& format )
