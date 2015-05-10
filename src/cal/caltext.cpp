@@ -69,4 +69,26 @@ string Cal::get_ordinal_suffix_style()
     return "th";
 }
 
+string Cal::get_roman_numerals( Field field )
+{
+    // We can only convert numbers 1 to 4999 (4000 = "MMMM")
+    if( field >= 5000 || field <= 0 ) {
+        return field_to_str( field );
+    }
+    size_t n = field;
+    static const char* units[10]
+        = { "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" };
+    static const char* tens[10]
+        = { "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" };
+    static const char* hunds[10]
+        = { "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" };
+    static const char* thous[5]
+        = { "", "M", "MM", "MMM", "MMMM" };
+
+    return string(thous[(n/1000)%10]) 
+        + string(hunds[(n/100)%10]) 
+        + string(tens[(n/10)%10]) 
+        + string(units[n%10]);
+}
+
 // End of src/cal/caltext.cpp
