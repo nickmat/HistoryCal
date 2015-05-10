@@ -27,8 +27,26 @@
 
 #include "caltext.h"
 
+#include <sstream>
+
 using namespace Cal;
 using std::string;
+
+string Cal::field_to_str( Field field )
+{
+    if( field== f_invalid ) {
+        return "";
+    }
+    if( field == f_maximum ) {
+        return "future";
+    }
+    if( field == f_minimum ) {
+        return "past";
+    }
+    std::ostringstream ss; 
+    ss << field; 
+    return ss.str();
+}
 
 string Cal::get_ordinal_suffix( Field field )
 {

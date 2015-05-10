@@ -32,6 +32,7 @@
 
 namespace Cal {
 
+    extern std::string field_to_str( Field field );
     extern std::string get_ordinal_suffix( Field field );
     extern std::string get_ordinal_suffix_style();
 

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     20th September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -30,11 +30,9 @@
 #include <utf8/utf8api.h>
 
 #include <cassert>
-#include <cstdlib>
-#include <sstream>
 
 using namespace Cal;
-using namespace std;
+using std::string;
 
 // Splits into statements that end with the ';' character.
 // Removes line comments that start with "//". Leaves the new line.  
@@ -142,22 +140,6 @@ string Cal::peel_cbrackets( const string& str )
         }
     }
     return left_trim( result );
-}
-
-string Cal::field_to_str( Field field )
-{
-    if( field== f_invalid ) {
-        return "";
-    }
-    if( field == f_maximum ) {
-        return "future";
-    }
-    if( field == f_minimum ) {
-        return "past";
-    }
-    ostringstream ss; 
-    ss << field; 
-    return ss.str();
 }
 
 Field Cal::str_to_field( const std::string& str )
