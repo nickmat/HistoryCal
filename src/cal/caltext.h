@@ -32,10 +32,13 @@
 
 namespace Cal {
 
+    enum StringStyle { SS_undefined, SS_lowercase, SS_uppercase };
+
     extern std::string field_to_str( Field field );
-    extern std::string get_ordinal_suffix( Field field );
-    extern std::string get_ordinal_suffix_style();
-    extern std::string get_roman_numerals( Field field );
+    extern std::string get_ordinal_suffix( Field field, StringStyle style = SS_lowercase );
+    extern std::string get_ordinal_suffix_style( StringStyle style = SS_lowercase );
+    extern std::string get_roman_numerals( Field field, StringStyle style );
+    extern std::string get_roman_numerals_style( StringStyle style );
 
 }
 

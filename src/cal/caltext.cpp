@@ -32,6 +32,29 @@
 using namespace Cal;
 using std::string;
 
+
+static string ascii_tolower( const string& str )
+{
+    string result;
+    for( string::const_iterator it = str.begin() ; it != str.end() ; it++ ) {
+        if( *it >= 'A' && *it <= 'Z' ) {
+            result += *it + ('a' - 'A');
+        } else {
+            result += *it;
+        }
+    }
+    return result;
+}
+
+static void ascii_tolower( string& str )
+{
+    for( string::iterator it = str.begin() ; it != str.end() ; it++ ) {
+        if( *it >= 'A' && *it <= 'Z' ) {
+            *it = *it + ('a' - 'A');
+        }
+    }
+}
+
 string Cal::field_to_str( Field field )
 {
     if( field== f_invalid ) {
@@ -48,34 +71,44 @@ string Cal::field_to_str( Field field )
     return ss.str();
 }
 
-string Cal::get_ordinal_suffix( Field field )
+string Cal::get_ordinal_suffix( Field field, StringStyle style )
 {
+    if( field <= f_minimum || field >= f_maximum ) {
+        return "";
+    }
+    const char* result = "TH";
     if( (field % 100) < 4 || (field % 100) > 20 ) {
         switch( field % 10 )
         {
         case 1:
-            return "st";
+            result = "ST";
+            break;
         case 2:
-            return "nd";
+            result = "ND";
+            break;
         case 3:
-            return "rd";
+            result = "RD";
+            break;
         }
     }
-    return "th";
+    string str(result);
+    if( style != SS_uppercase ) {
+        ascii_tolower( str );
+    }
+    return str;
 }
 
-string Cal::get_ordinal_suffix_style()
+string Cal::get_ordinal_suffix_style( StringStyle style )
 {
-    return "th";
+    return style == SS_uppercase ? "TH" : "th";
 }
 
-string Cal::get_roman_numerals( Field field )
+string Cal::get_roman_numerals( Field field, StringStyle style )
 {
     // We can only convert numbers 1 to 4999 (4000 = "MMMM")
     if( field >= 5000 || field <= 0 ) {
         return field_to_str( field );
     }
-    size_t n = field;
     static const char* units[10]
         = { "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" };
     static const char* tens[10]
@@ -85,10 +118,21 @@ string Cal::get_roman_numerals( Field field )
     static const char* thous[5]
         = { "", "M", "MM", "MMM", "MMMM" };
 
-    return string(thous[(n/1000)%10]) 
-        + string(hunds[(n/100)%10]) 
-        + string(tens[(n/10)%10]) 
+    size_t n = field;
+    string result = string(thous[n/1000])
+        + string(hunds[(n/100)%10])
+        + string(tens[(n/10)%10])
         + string(units[n%10]);
+
+    if( style == SS_lowercase ) {
+        ascii_tolower( result );
+    }
+    return result;
+}
+
+string Cal::get_roman_numerals_style( StringStyle style )
+{
+    return style == SS_lowercase ? "[x]" : "[X]";
 }
 
 // End of src/cal/caltext.cpp
