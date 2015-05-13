@@ -45,6 +45,9 @@ Format::~Format()
 {
 }
 
+// TODO: This should be split and call new private functions,
+//    set_input_description_str( format )
+//    set_output_description_str( format )
 void Format::set_format( const std::string& format, Use usefor )
 {
     m_format = format;
@@ -80,6 +83,7 @@ void Format::set_format( const std::string& format, Use usefor )
                 fieldname = fname;
                 Vocab* voc = NULL;
                 InputFieldType type = IFT_number;
+                string foname;
                 if( m_owner ) {
                     fieldname = m_owner->get_field_alias( fname );
                     if( vocab.size() ) {
@@ -87,18 +91,37 @@ void Format::set_format( const std::string& format, Use usefor )
                         if( voc ) {
                             type = IFT_vocab;
                             if( abbrev == "a" ) {
-                                fname = voc->get_style_name( Vocab::style_abbrev );
+                                foname = voc->get_style_name( Vocab::style_abbrev );
                             } else {
-                                fname = voc->get_style_name( Vocab::style_full );
+                                foname = voc->get_style_name( Vocab::style_full );
                             }
                         }
-                    } else if( abbrev == "os" ) {
-                        fname = get_ordinal_suffix_style();
-                    } else {
-                        fname = m_owner->get_num_code_alias( fname );
+                    }
+                    if( foname.empty() ) {
+                        foname = m_owner->get_num_code_alias( fname );
                     }
                 }
-                fieldout += fname;
+                if( vocab.size() ) {
+                    char ch = *vocab.begin();
+                    if( ch == '!' ) {
+                        if( vocab == "!os" ) {
+                            StringStyle ss = ( abbrev == "u" ) ? SS_uppercase : SS_undefined;
+                            foname = get_ordinal_suffix_style( ss );
+                        } else if( vocab == "!rn" ) {
+                            StringStyle ss = ( abbrev == "l" ) ? SS_lowercase : SS_undefined;
+                            foname += get_roman_numerals_style( ss );
+                        }
+                    } else if( ch == '+' ) {
+                        if( vocab == "+os" ) {
+                            StringStyle ss = ( abbrev == "u" ) ? SS_uppercase : SS_undefined;
+                            foname += get_ordinal_suffix_style( ss );
+                        }
+                    }
+                }
+                if( foname.empty() ) {
+                    foname = fname;
+                }
+                fieldout += foname;
                 m_output_fields.push_back( fieldname );
                 m_vocabs.push_back( voc );
                 if( dname.size() ) {

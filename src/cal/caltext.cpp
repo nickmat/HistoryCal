@@ -71,6 +71,32 @@ string Cal::field_to_str( Field field )
     return ss.str();
 }
 
+string Cal::dual_fields_to_str( Field field, Field dual )
+{
+    string result = field_to_str( field );
+    string dualstr = field_to_str( dual );
+    if( result.size() && dualstr.size() && dualstr != result ) {
+        if( result.size() != dualstr.size() ) {
+            return result + "/" + dualstr;
+        }
+        string suffix = "/";
+        bool matched = true;
+        for( string::iterator rit = result.begin(), dit = dualstr.begin()
+            ; rit != result.end() ; rit++, dit++
+        ) {
+            if( matched && *rit != *dit ) {
+                matched = false;
+            }
+            if( ! matched ) {
+                suffix += *dit;
+            }
+        }
+        result += suffix;
+    }
+    return result;
+}
+
+
 string Cal::get_ordinal_suffix( Field field, StringStyle style )
 {
     if( field <= f_minimum || field >= f_maximum ) {

@@ -90,9 +90,8 @@ namespace Cal {
         Field get_dual2_value( Field dual1, const std::string& str2 ) const;
         int parse_date( InputField* ifs, size_t size, const std::string& str );
 
-        std::string value_from_field( int index ) const;
-        std::string lookup_token(
-            int index, int dual, const std::string& vcode, const std::string& abbrev ) const;
+        std::string formatted_str(
+            Field field, const std::string& format, const std::string& specifier ) const;
         std::string get_output( const std::string& format ) const;
 
         const Base* m_base;

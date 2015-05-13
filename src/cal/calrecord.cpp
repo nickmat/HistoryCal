@@ -465,53 +465,28 @@ bool Record::is_mask_valid( Field* mask, size_t mask_size ) const
     return true;
 }
 
-string Record::value_from_field( int index ) const
-{
-    Field f = get_field( index );
-    if( f == f_invalid ) {
-        return "";
-    }
-    return field_to_str( f );
-}
-
-string Record::lookup_token(
-    int index, int dual, const string& vcode, const string& abbrev ) const
+string Record::formatted_str( 
+    Field field, const string& format, const string& specifier ) const
 {
     string result;
-    bool a = ( abbrev == "a" );
-    if( dual < 0 ) {
-        if( index >= 0 ) {
-            Field f = get_field( index );
-            if( vcode.size() ) {
-                result = m_base->lookup_token( f, vcode, a );            
-            } else if( abbrev == "os" ) {
-                result = get_ordinal_suffix( f );
+    if( format.size() ) {
+        if( *format.begin() == '!' ) {
+            if( format == "!os" ) {
+                StringStyle ss = ( specifier == "u" ) ? SS_uppercase : SS_undefined;
+                result = get_ordinal_suffix( field, ss );
+            } else if( format == "!rn" ) {
+                StringStyle ss = ( specifier == "l" ) ? SS_lowercase : SS_undefined;
+                result = get_roman_numerals( field, ss );
             }
-            if( result.empty() ) {
-                result = field_to_str( f );
-            }
+        } else {
+            result = m_base->lookup_token( field, format, (specifier == "a") );
         }
-    } else {
-        // dual value
-        result = value_from_field( index );
-        string dualstr = value_from_field( dual );
-        if( result.size() && dualstr.size() && dualstr != result ) {
-            if( result.size() != dualstr.size() ) {
-                return result + "/" + dualstr;
-            }
-            string suffix = "/";
-            bool matched = true;
-            for( string::iterator rit = result.begin(), dit = dualstr.begin()
-                ; rit != result.end() ; rit++, dit++
-            ) {
-                if( matched && *rit != *dit ) {
-                    matched = false;
-                }
-                if( ! matched ) {
-                    suffix += *dit;
-                }
-            }
-            result += suffix;
+    }
+    if( result.empty() ) {
+        result = field_to_str( field );
+        if( format == "+os" && result.size() ) {
+            StringStyle ss = ( specifier == "u" ) ? SS_uppercase : SS_undefined;
+            result += get_ordinal_suffix( field, ss );
         }
     }
     return result;
@@ -545,12 +520,13 @@ string Record::get_output( const std::string& fmt ) const
         case dovocab:
         case doabbrev:
             if( *it == ')' ) {
-                int i = get_field_index( fname );
-                int d = -1;
+                Field f = get_field( get_field_index( fname ) );
                 if( dname.size() ) {
-                    d = get_field_index( dname );
+                    Field d = get_field( get_field_index( dname ) );
+                    value = dual_fields_to_str( f, d );
+                } else {
+                    value = formatted_str( f, vocab, abbrev );
                 }
-                value = lookup_token( i, d, vocab, abbrev );
                 if( value.empty() ) {
                     fieldout.clear();
                     state = ignore;
