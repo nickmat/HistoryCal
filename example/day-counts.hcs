@@ -12,3 +12,16 @@ scheme "RD" {
     shift "jdn", 1721425;
     grammar "d";
 }
+
+grammar "JD" {
+    inherit "d";
+    format "d" {
+        output "(Day).5";
+    }
+}
+
+scheme "JD" {
+    name "Julian Day";
+    shift "jdn", 1;
+    grammar "JD";
+}
