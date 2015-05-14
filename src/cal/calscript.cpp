@@ -577,6 +577,8 @@ bool Script::do_grammar()
                 gmr->set_pref( str );
             } else if( name == "alias" ) {
                 do_grammar_alias( gmr );
+            } else if( name == "inherit" ) {
+                do_grammar_inherit( gmr );
             }
         }
     }
@@ -633,6 +635,13 @@ bool Script::do_grammar_alias( Grammar* gmr )
     }
     gmr->add_alias( alias, pairs );
     return true;
+}
+
+void Script::do_grammar_inherit( Grammar* gmr )
+{
+    string code;
+    expr( true ).get( code );
+    gmr->set_inherit( m_cals, code );
 }
 
 // If parsing the format within a grammar then gmr is not NULL

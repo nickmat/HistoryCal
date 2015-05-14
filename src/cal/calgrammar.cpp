@@ -212,12 +212,24 @@ void Grammar::get_output_formats( SchemeFormats* output ) const
     for( FormatMap::const_iterator it = m_formats.begin() ; 
         it != m_formats.end() ; it++
     ) {
+        bool exists = false;
+        for( size_t i = 0 ; i < output->code.size() ; i++ ) {
+            if( it->first == output->code[i] ) {
+                exists = true;
+            }
+        }
+        if( exists ) {
+            continue;
+        }
         output->code.push_back( it->first );
         output->descrip.push_back( it->second->get_user_format() );
         if( it->first == m_pref_output_fcode ) {
             output->current = cur;
         }
         cur++;
+    }
+    if( m_inherit ) {
+        m_inherit->get_output_formats( output );
     }
 }
 
