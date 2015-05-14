@@ -477,6 +477,8 @@ string Record::formatted_str(
             } else if( format == "!rn" ) {
                 StringStyle ss = ( specifier == "l" ) ? SS_lowercase : SS_undefined;
                 result = get_roman_numerals( field, ss );
+            } else if( format == "!lp" ) {
+                result = get_left_padded( field, specifier );
             }
         } else {
             result = m_base->lookup_token( field, format, (specifier == "a") );

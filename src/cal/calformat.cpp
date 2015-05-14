@@ -110,6 +110,8 @@ void Format::set_format( const std::string& format, Use usefor )
                         } else if( vocab == "!rn" ) {
                             StringStyle ss = ( abbrev == "l" ) ? SS_lowercase : SS_undefined;
                             foname += get_roman_numerals_style( ss );
+                        } else if( vocab == "!lp" ) {
+                            foname = get_left_pad_style( foname, abbrev );
                         }
                     } else if( ch == '+' ) {
                         if( vocab == "+os" ) {

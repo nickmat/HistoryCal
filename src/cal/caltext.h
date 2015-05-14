@@ -41,6 +41,9 @@ namespace Cal {
     extern std::string get_roman_numerals( Field field, StringStyle style );
     extern std::string get_roman_numerals_style( StringStyle style );
 
+    extern std::string get_left_padded( Field field, const std::string& specifier );
+    extern std::string get_left_pad_style(
+        const std::string& fieldstyle, const std::string& specifier );
 }
 
 #endif // CAL_CALTEXT_H_GUARD

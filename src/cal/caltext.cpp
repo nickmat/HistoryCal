@@ -27,6 +27,7 @@
 
 #include "caltext.h"
 
+#include <cassert>
 #include <sstream>
 
 using namespace Cal;
@@ -160,5 +161,57 @@ string Cal::get_roman_numerals_style( StringStyle style )
 {
     return style == SS_lowercase ? "[x]" : "[X]";
 }
+
+
+static string left_padded_str( const string& str, const string& ch, size_t size )
+{
+    assert( ch.size() > 0 );
+    string result = str;
+    while( result.size() < size ) {
+        result = ch + result;
+    }
+    return result;
+}
+
+string Cal::get_left_padded( Field field, const std::string& specifier )
+{
+    // TODO: This assumes fieldstyle and specifier are ASCII.
+    // Rewrite for utf8.
+    if( specifier.size() < 2 ) {
+        return field_to_str( field );
+    }
+    size_t width = std::strtol( specifier.substr( 1 ).c_str(), NULL, 10 );
+    string ch = specifier.substr( 0, 1 );
+    bool neg = ( field < 0 && ch == "0" );
+    if( neg ) {
+        field = -field;
+    }
+    string result = field_to_str( field );
+    if( result.size() < width ) {
+        result = left_padded_str( result, ch, width );
+    }
+    if( neg ) {
+        result = "-" + result;
+    }
+    return result;
+}
+
+string Cal::get_left_pad_style(
+        const string& fieldstyle, const string& specifier )
+{
+    // TODO: This assumes fieldstyle and specifier are ASCII.
+    // Rewrite for utf8.
+    if( specifier.size() < 2 ) {
+        return fieldstyle;
+    }
+    size_t width = std::strtol( specifier.substr( 1 ).c_str(), NULL, 10 );
+    if( width < 2 ) {
+        return fieldstyle;
+    }
+    string ch = specifier.substr( 0, 1 );
+    string style = fieldstyle.substr( fieldstyle.size() - (width-1), width-1 );
+    return left_padded_str( style, ch, width );
+}
+
 
 // End of src/cal/caltext.cpp
