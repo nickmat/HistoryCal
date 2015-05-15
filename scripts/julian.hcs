@@ -66,12 +66,12 @@ grammar "j" {
         "y", "year";
         "w", "week";
     }
-    format "dmy",   "|(Day) |(Month:m.a) |(Year)";
-    format "wdmy",  "|(WDay:w.a) |(Day) |(Month:m.a) |(Year)";
-    format "dmy+",  "|(Day) |(Month:m) |(Year)";
-    format "wdmy+", "|(WDay:w) |(Day) |(Month:m) |(Year)";
-    format "mdy",   "|(Month:m.a) |(Day), |(Year)";
-    format "ymd",   "|(Year)|:(Month:m.a)|:(Day)";
+    format "dmy",   "(Day) |(Month:m.a) |(Year)";
+    format "wdmy",  "(WDay:w.a) |(Day) |(Month:m.a) |(Year)";
+    format "dmy+",  "(Day) |(Month:m) |(Year)";
+    format "wdmy+", "(WDay:w) |(Day) |(Month:m) |(Year)";
+    format "mdy",   "(Month:m.a) |(Day), |(Year)";
+    format "ymd",   "(Year)|:(Month:m.a)|:(Day)";
     pref "dmy";
 }
 
@@ -81,10 +81,18 @@ scheme "j" {
     grammar "j";
 }
 
+grammar "g" {
+    inherit "j";
+    format "iso" {
+        output "(Year:!lp.04)|-(Month:!lp.02)|-(Day:!lp.02)";
+    }
+    pref "dmy";
+}
+
 scheme "g" {
     name "Gregorian";
     base gregorian;
-    grammar "j";
+    grammar "g";
 }
 
 grammar "j.sh" {
