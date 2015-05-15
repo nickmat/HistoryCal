@@ -32,13 +32,10 @@
 
 namespace Cal {
 
-    StringVec parse_statements( const std::string& str );
     std::string left_trim( const std::string& str );
     std::string right_trim( const std::string& str );
     std::string full_trim( const std::string& str );
     std::string get_first_word( const std::string& str, std::string* tail = NULL, char sep = ' ' );
-    std::string get_next_phrase( const std::string& str, std::string* tail = NULL, char sep = ' ' );
-    std::string peel_cbrackets( const std::string& str );
     Field str_to_field( const std::string& str );
     std::string make_key( const std::string& str );
     bool split_code_date( std::string* scheme, std::string* format, std::string* date, const std::string& str );

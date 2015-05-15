@@ -34,46 +34,6 @@
 using namespace Cal;
 using std::string;
 
-// Splits into statements that end with the ';' character.
-// Removes line comments that start with "//". Leaves the new line.  
-// Passes over matched curly brackets.
-StringVec Cal::parse_statements( const string& str )
-{
-    StringVec result;
-    string statement;
-    int cbracket = 0;
-    bool comment = false;
-    for( string::const_iterator it = str.begin() ; it != str.end() ; it++ ) {
-        if( comment ) {
-            if( *it == '\n' ) {
-                comment = false;
-                statement += ' ';
-            }
-            continue;
-        }
-        if( *it == '/' ) {
-            if( it+1 != str.end() && *(it+1) == '/' ) {
-                comment = true;
-                continue;
-            }
-        } else if( *it == '{' ) {
-            cbracket++;
-        } else if( *it == '}' ) {
-            --cbracket;
-        }
-        if( cbracket == 0 && *it == ';' ) {
-            result.push_back( left_trim( statement ) );
-            statement.clear();
-        } else {
-            if( *it == '\n' || *it == '\t' ) {
-                statement += ' ';
-            } else {
-                statement += *it;
-            }
-        }
-    }
-    return result;
-}
 
 string Cal::left_trim( const string& str )
 {
@@ -100,46 +60,6 @@ string Cal::get_first_word( const string& str, string* tail, char sep )
         *tail = ( pos == string::npos ) ? "" : left_trim( str.substr( pos + 1 ) );
     }
     return result;
-}
-
-string Cal::get_next_phrase( const string& str, string* tail, char sep )
-{
-    if( str.empty() ) {
-        return "";
-    }
-    if( *str.begin() != '"' ) {
-        return get_first_word( str, tail, sep );
-    }
-    size_t pos = str.find( '"', 1 );
-    string result = str.substr( 1, pos - 1 );
-    if( tail ) {
-        *tail = ( pos == string::npos ) ? "" : left_trim( str.substr( pos + 1 ) );
-    }
-    return result;
-}
-
-string Cal::peel_cbrackets( const string& str )
-{
-    string result;
-    int cbracket = 0;
-    for( string::const_iterator it = str.begin() ; it != str.end() ; it++ ) {
-        if( *it == '{' ) {
-            cbracket++;
-            if( cbracket == 1 ) {
-                continue;
-            }
-        }
-        if( *it == '}' ) {
-            --cbracket;
-            if( cbracket <= 0 ) {
-                break;
-            }
-        }
-        if( cbracket > 0 ) {
-            result += *it;
-        }
-    }
-    return left_trim( result );
 }
 
 Field Cal::str_to_field( const std::string& str )
