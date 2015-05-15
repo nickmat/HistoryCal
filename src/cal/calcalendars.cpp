@@ -194,32 +194,35 @@ string Calendars::fieldvec_to_str( SHandle scheme, const FieldVec& fieldv )
 
 FieldVec Calendars::str_to_fieldvec( SHandle scheme, const string& str )
 {
-    if( ! scheme ) {
-        return FieldVec();
-    }
-    string scode, fcode, mstr;
-    split_code_date( &scode, &fcode, &mstr, str );
+    string scode, fcode, dstr;
+    split_code_date( &scode, &fcode, &dstr, str );
     if( scode.size() ) {
         scheme = get_scheme( scode );
+        if( scheme && fcode.empty() ) {
+            fcode = scheme->get_pref_input_format();
+        }
     }
     if( scheme == NULL ) {
         return FieldVec(0);
     }
-    Record rec( scheme->get_base(), mstr, fcode );
+    Record rec( scheme->get_base(), dstr, fcode );
     return rec.get_fieldvec();
 }
 
 Field Calendars::str_to_jdn( SHandle scheme, const string& str )
 {
-    string sch, fmt, date;
-    split_code_date( &sch, &fmt, &date, str );
-    if( sch.size() ) {
-        scheme = get_scheme( sch );
+    string scode, fcode, dstr;
+    split_code_date( &scode, &fcode, &dstr, str );
+    if( scode.size() ) {
+        scheme = get_scheme( scode );
+        if( scheme && fcode.empty() ) {
+            fcode = scheme->get_pref_input_format();
+        }
     }
     if( scheme == NULL ) {
         return f_invalid;
     }
-    return scheme->str_to_jdn( date, fmt );
+    return scheme->str_to_jdn( dstr, fcode );
 }
 
 string Calendars::jdn_to_str( SHandle scheme, Field jdn )
@@ -459,7 +462,12 @@ RangeList Calendars::range_str_to_rangelist( SHandle scheme, const string& str )
         split_code_date( &scode, &fcode1, &str1, str );
         if( scode.size() ) {
             SHandle sch = get_scheme( scode );
-            base1 = base2 = sch->get_base();
+            if( sch ) {
+                base1 = base2 = sch->get_base();
+                if( fcode1.empty() ) {
+                    fcode1 = sch->get_pref_input_format();
+                }
+            }
         }
         if( fcode1.empty() && base1 != NULL ) {
             fcode1 = base1->get_input_fcode();
@@ -472,7 +480,12 @@ RangeList Calendars::range_str_to_rangelist( SHandle scheme, const string& str )
         split_code_date( &scode, &fcode1, &str1, temp );
         if( scode.size() ) {
             SHandle sch = get_scheme( scode );
-            base1 = sch->get_base();
+            if( sch ) {
+                base1 = sch->get_base();
+                if( fcode1.empty() ) {
+                    fcode1 = sch->get_pref_input_format();
+                }
+            }
         }
         if( fcode1.empty() && base1 != NULL ) {
             fcode1 = base1->get_input_fcode();
@@ -482,7 +495,12 @@ RangeList Calendars::range_str_to_rangelist( SHandle scheme, const string& str )
         split_code_date( &scode, &fcode2, &str2, temp );
         if( scode.size() ) {
             SHandle sch = get_scheme( scode );
-            base2 = sch->get_base();
+            if( sch ) {
+                base2 = sch->get_base();
+                if( fcode2.empty() ) {
+                    fcode2 = sch->get_pref_input_format();
+                }
+            }
         }
         if( fcode2.empty() && base2 != NULL ) {
             fcode2 = base2->get_input_fcode();

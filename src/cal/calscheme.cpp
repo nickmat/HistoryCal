@@ -66,6 +66,15 @@ bool Scheme::is_ok() const
     return m_base && m_code.size();
 }
 
+string Scheme::get_pref_input_format() const
+{
+    Grammar* gmr = m_base->get_grammar();
+    if( gmr ) {
+        return gmr->get_pref_input_fcode();
+    }
+    return "def";
+}
+
 void Scheme::get_info( Scheme_info* info ) const
 {
     info->name = m_name;
