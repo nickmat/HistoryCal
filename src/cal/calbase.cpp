@@ -227,7 +227,7 @@ void Base::get_input_formats( SchemeFormats* input ) const
     input->code.clear();
     input->current = 0;
     if( m_grammar ) {
-        m_grammar->get_input_formats( input );
+        m_grammar->get_input_formats( input, m_input_fcode );
         if( input->code.size() ) {
             return;
         }
@@ -246,7 +246,7 @@ void Base::get_output_formats( SchemeFormats* output ) const
     output->code.clear();
     output->current = 0;
     if( m_grammar ) {
-        m_grammar->get_output_formats( output );
+        m_grammar->get_output_formats( output, m_output_fcode );
         if( output->code.size() ) {
             return;
         }

@@ -171,9 +171,9 @@ string Grammar::get_input_format( const string& code ) const
     return "";
 }
 
-void Grammar::get_input_formats( SchemeFormats* input ) const
+void Grammar::get_input_formats( SchemeFormats* input, const std::string& cur_code ) const
 {
-    int cur = 0;
+    int cur = input->code.size();
     for( FormatMap::const_iterator it = m_formats.begin() ; 
         it != m_formats.end() ; it++
     ) {
@@ -186,7 +186,7 @@ void Grammar::get_input_formats( SchemeFormats* input ) const
         bool exists = false;
         for( size_t i = 0 ; i < input->descrip.size() ; i++ ) {
             if( input->descrip[i] == order ) {
-                if( code == m_pref_input_fcode ) {
+                if( code == cur_code ) {
                     input->current = i;
                 }
                 exists = true;
@@ -202,13 +202,13 @@ void Grammar::get_input_formats( SchemeFormats* input ) const
         }
     }
     if( m_inherit ) {
-        m_inherit->get_input_formats( input );
+        m_inherit->get_input_formats( input, cur_code );
     }
 }
 
-void Grammar::get_output_formats( SchemeFormats* output ) const
+void Grammar::get_output_formats( SchemeFormats* output, const std::string& cur_code ) const
 {
-    int cur = 0;
+    int cur = output->code.size();
     for( FormatMap::const_iterator it = m_formats.begin() ; 
         it != m_formats.end() ; it++
     ) {
@@ -223,13 +223,13 @@ void Grammar::get_output_formats( SchemeFormats* output ) const
         }
         output->code.push_back( it->first );
         output->descrip.push_back( it->second->get_user_format() );
-        if( it->first == m_pref_output_fcode ) {
+        if( it->first == cur_code ) {
             output->current = cur;
         }
         cur++;
     }
     if( m_inherit ) {
-        m_inherit->get_output_formats( output );
+        m_inherit->get_output_formats( output, cur_code );
     }
 }
 
