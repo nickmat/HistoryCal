@@ -81,12 +81,12 @@ grammar "i" {
         "y", "year";
         "w", "week";
     }
-    format "dmy",    "|(Day) |(Month:im) |(Year)";
-    format "dmy.a",  "|(Day) |(Month:im.a) |(Year)";
-    format "dmy.d",  "|(Day) |(Month) |(Year)";
-    format "wdmy",   "|(WDay:iw) |(Day) |(Month:im) |(Year)";
-    format "wdmy.a", "|(WDay:iw.a) |(Day) |(Month:im.a) |(Year)";
-    format "ymd",    "|(Year)|,(Month:im.a)|,(Day)";
+    format "dmy",    "(Day) |(Month:im) |(Year)";
+    format "dmy.a",  "(Day) |(Month:im.a) |(Year)";
+    format "dmy.d",  "(Day) |(Month) |(Year)";
+    format "wdmy",   "(WDay:iw) |(Day) |(Month:im) |(Year)";
+    format "wdmy.a", "(WDay:iw.a) |(Day) |(Month:im.a) |(Year)";
+    format "ymd",    "(Year)|,(Month:im.a)|,(Day)";
     pref "dmy";
 }
 

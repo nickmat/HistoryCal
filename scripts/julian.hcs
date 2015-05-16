@@ -110,9 +110,9 @@ grammar "j.sh" {
         "Year",      "yyyy";
         "Hist-Year", "y";
     }
-    format "dmy",   "|(Day) |(Month:m.a) |(Year)";
-    format "dmyh",  "|(Day) |(Month:m.a) |(Year/Hist-Year)";
-    format "wdmyh", "|(WDay:w.a) |(Day) |(Month:m.a) @(Year/Hist-Year)";
+    format "dmy",   "(Day) |(Month:m.a) |(Year)";
+    format "dmyh",  "(Day) |(Month:m.a) |(Year/Hist-Year)";
+    format "wdmyh", "(WDay:w.a) |(Day) |(Month:m.a) @(Year/Hist-Year)";
     pref "dmyh";
 }
 

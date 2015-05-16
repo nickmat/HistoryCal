@@ -98,8 +98,8 @@ vocab "lit" {
 
 grammar "lit" {
     vocabs "m", "w", "lit";
-    format "wdmyl",  "|(WDay:w.a) |(Day) |(Month:m.a) |(Year) |(LitWeek:lit.a)";
-    format "wdmyl+", "|(WDay:w) |(Day) |(Month:m) |(Year) |(LitWeek:lit)";
+    format "wdmyl",  "(WDay:w.a) |(Day) |(Month:m.a) |(Year) |(LitWeek:lit.a)";
+    format "wdmyl+", "(WDay:w) |(Day) |(Month:m) |(Year) |(LitWeek:lit)";
     pref "wdmyl";
     alias field {
         "WDay",    "wday";
