@@ -32,8 +32,11 @@
 #include "caltext.h"
 #include "calvocab.h"
 
-using namespace std;
+#include <cassert>
+
+//using namespace std;
 using namespace Cal;
+using std::string;
 
 
 Format::Format( const std::string& code, Grammar* gmr )
@@ -45,145 +48,125 @@ Format::~Format()
 {
 }
 
-// TODO: This should be split and call new private functions,
-//    set_input_description_str( format )
-//    set_output_description_str( format )
 void Format::set_format( const std::string& format, Use usefor )
 {
+    assert( m_owner );
+    assert( m_format.empty() );
     m_format = format;
-    string fieldname, fieldout, fname, dname, vocab, abbrev;
     enum State { dooutput, dofname, dodname, dovocab, doabbrev };
     State state = dooutput;
+    string fieldout, fname, dname, vocab, abbrev;
     for( string::const_iterator it = m_format.begin() ; it != m_format.end() ; it++ ) {
-        switch( state )
-        {
-        case dooutput:
+        if( state == dooutput ) {
             if( *it == '|' ) {
-                if( usefor != Use_input ) {
-                    m_output_str += fieldout;
-                }
+                m_output_str += fieldout;
                 fieldout.clear();
             } else if( *it == '(' ) {
                 state = dofname;
             } else {
                 fieldout += *it;
             }
-            break;
-        case dofname:
-        case dodname:
-        case dovocab:
-        case doabbrev:
-            if( *it == ')' ) {
-                if( usefor != Use_output ) {
-                    if( m_input_str.size() ) {
-                        m_input_str += " ";
-                    }
-                    m_input_str += fname;
-                }
-                fieldname = fname;
-                Vocab* voc = NULL;
-                InputFieldType type = IFT_number;
-                string foname;
-                if( m_owner ) {
-                    fieldname = m_owner->get_field_alias( fname );
-                    if( vocab.size() ) {
-                        voc = m_owner->find_vocab( vocab );
-                        if( voc ) {
-                            type = IFT_vocab;
-                            if( abbrev == "a" ) {
-                                foname = voc->get_style_name( Vocab::style_abbrev );
-                            } else {
-                                foname = voc->get_style_name( Vocab::style_full );
-                            }
-                        }
-                    }
-                    if( foname.empty() ) {
-                        foname = m_owner->get_num_code_alias( fname );
-                    }
-                }
-                if( vocab.size() ) {
-                    char ch = *vocab.begin();
-                    if( ch == '!' ) {
-                        if( vocab == "!os" ) {
-                            StringStyle ss = ( abbrev == "u" ) ? SS_uppercase : SS_undefined;
-                            foname = get_ordinal_suffix_style( ss );
-                        } else if( vocab == "!rn" ) {
-                            StringStyle ss = ( abbrev == "l" ) ? SS_lowercase : SS_undefined;
-                            foname += get_roman_numerals_style( ss );
-                        } else if( vocab == "!lp" ) {
-                            foname = get_left_pad_style( foname, abbrev );
-                        }
-                    } else if( ch == '+' ) {
-                        if( vocab == "+os" ) {
-                            StringStyle ss = ( abbrev == "u" ) ? SS_uppercase : SS_undefined;
-                            foname += get_ordinal_suffix_style( ss );
-                        }
-                    }
-                }
-                if( foname.empty() ) {
-                    foname = fname;
-                }
-                fieldout += foname;
-                m_output_fields.push_back( fieldname );
-                m_vocabs.push_back( voc );
-                if( dname.size() ) {
-                    m_types.push_back( IFT_dual1 );
-                    fieldname = dname;
-                    if( m_owner ) {
-                        fieldname = m_owner->get_field_alias( dname );
-                        dname = m_owner->get_num_code_alias( dname );
-                    }
-                    fieldout += "/" + dname;
-                    m_output_fields.push_back( fieldname );
-                    m_vocabs.push_back( NULL );
-                    m_types.push_back( IFT_dual2 );
+            continue;
+        }
+        if( *it == ')' ) {
+            if( m_input_str.size() ) {
+                m_input_str += " ";
+            }
+            m_input_str += fname;
+            InputFieldType type = IFT_number;
+            string fieldname = m_owner->get_field_alias( fname );
+            string foname = m_owner->get_num_code_alias( fname );
+            Vocab* voc = m_owner->find_vocab( vocab );
+            if( voc ) {
+                type = IFT_vocab;
+                if( abbrev == "a" ) {
+                    foname = voc->get_style_name( Vocab::style_abbrev );
                 } else {
-                    m_types.push_back( type );
+                    foname = voc->get_style_name( Vocab::style_full );
                 }
-                fname.clear();
-                fieldname.clear();
-                dname.clear();
-                vocab.clear();
-                abbrev.clear();
-                state = dooutput;
-            } else if( state == dofname && *it == '/' ) {
-                state = dodname;
-            } else if( state == dofname && *it == ':' ) {
-                state = dovocab;
-            } else if( state == dovocab && *it == '.' ) {
-                state = doabbrev;
-            } else {
-                switch( state )
-                {
-                case dofname:  fname += *it;  break;
-                case dodname:  dname += *it;  break;
-                case dovocab:  vocab += *it;  break;
-                case doabbrev: abbrev += *it; break;
+            } else if( vocab.size() ) {
+                // Look for universal number formatting.
+                char ch = *vocab.begin();
+                if( ch == '!' ) {
+                    if( vocab == "!os" ) {
+                        StringStyle ss = ( abbrev == "u" ) ? SS_uppercase : SS_undefined;
+                        foname = get_ordinal_suffix_style( ss );
+                    } else if( vocab == "!rn" ) {
+                        StringStyle ss = ( abbrev == "l" ) ? SS_lowercase : SS_undefined;
+                        foname += get_roman_numerals_style( ss );
+                    } else if( vocab == "!lp" ) {
+                        foname = get_left_pad_style( foname, abbrev );
+                    }
+                } else if( ch == '+' ) {
+                    if( vocab == "+os" ) {
+                        StringStyle ss = ( abbrev == "u" ) ? SS_uppercase : SS_undefined;
+                        foname += get_ordinal_suffix_style( ss );
+                    }
                 }
             }
-            break;
+            fieldout += foname;
+
+            if( dname.size() ) {
+                fieldout += "/" + m_owner->get_num_code_alias( dname );
+
+                m_input_fields.push_back( fieldname );
+                m_vocabs.push_back( NULL );
+                m_types.push_back( IFT_dual1 );
+
+                fieldname = m_owner->get_field_alias( dname );
+                type = IFT_dual2;
+            }
+            m_input_fields.push_back( fieldname );
+            m_vocabs.push_back( voc );
+            m_types.push_back( type );
+
+            fname.clear();
+            dname.clear();
+            vocab.clear();
+            abbrev.clear();
+            state = dooutput;
+        } else if( state == dofname && *it == '/' ) {
+            state = dodname;
+        } else if( state == dofname && *it == ':' ) {
+            state = dovocab;
+        } else if( state == dovocab && *it == '.' ) {
+            state = doabbrev;
+        } else {
+            switch( state )
+            {
+            case dofname:  fname += *it;  break;
+            case dodname:  dname += *it;  break;
+            case dovocab:  vocab += *it;  break;
+            case doabbrev: abbrev += *it; break;
+            default: break;
+            }
         }
     }
-    if( usefor != Use_input ) {
-        m_output_str += fieldout;
+    m_output_str += fieldout;
+
+    if( usefor == Use_output ) {
+        m_input_str.clear();
+    }
+    if( usefor == Use_input ) {
+        m_output_str.clear();
     }
 }
 
-string Format::get_output_field( Vocab* vocab ) const
+string Format::get_input_field( Vocab* vocab ) const
 {
     for( size_t i = 0 ; i < m_vocabs.size() ; i++ ) {
         if( vocab == m_vocabs[i] ) {
-            return m_output_fields[i];
+            return m_input_fields[i];
         }
     }
     return "";
 }
 
-string Format::get_1st_output_field( InputFieldType type ) const
+string Format::get_1st_input_field( InputFieldType type ) const
 {
     for( size_t i = 0 ; i < m_types.size() ; i++ ) {
         if( type == m_types[i] ) {
-            return m_output_fields[i];
+            return m_input_fields[i];
         }
     }
     return "";

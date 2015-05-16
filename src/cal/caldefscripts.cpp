@@ -47,7 +47,8 @@ const char* Cal::cal_default_scripts[] = {
  "6, \"Saturday\",  \"Sat\";\n"
  "7, \"Sunday\",    \"Sun\";\n"
  "}\n"
- "}\n"
+ "}\n",
+     /* jdn.hcs */
  "grammar \"d\" {\n"
  "alias field {\n"
  "\"Day\", \"day\";\n"
@@ -55,10 +56,9 @@ const char* Cal::cal_default_scripts[] = {
  "alias stylename {\n"
  "\"Day\", \"ddddd\";\n"
  "}\n"
- "format \"d\", \"|(Day)\";\n"
+ "format \"d\", \"(Day)\";\n"
  "pref \"d\";\n"
- "}\n",
-     /* jdn.hcs */
+ "}\n"
  "scheme \"jdn\" {\n"
  "name \"Julian Day Number\";\n"
  "base jdn;\n"

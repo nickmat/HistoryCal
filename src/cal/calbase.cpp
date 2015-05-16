@@ -155,7 +155,7 @@ bool Base::resolve_input(
             }
             string fname;
             if( input[i].type == IFT_dual2 ) {
-                fname = fmt->get_1st_output_field( IFT_dual2 );
+                fname = fmt->get_1st_input_field( IFT_dual2 );
                 if( fname.empty() ) {
                     continue; // Ignore if we can't find it.
                 }
@@ -163,7 +163,7 @@ bool Base::resolve_input(
             if( input[i].vocab ) {
                 fname = input[i].vocab->get_fieldname();
                 if( fname.empty() ) {
-					fname = fmt->get_output_field( input[i].vocab );
+					fname = fmt->get_input_field( input[i].vocab );
 					if( fname.empty() ) {
                         continue; // Give up.
 					}
@@ -235,7 +235,7 @@ void Base::get_input_formats( SchemeFormats* input ) const
     string code( "def" );
     Format deffmt( code, m_grammar );
     deffmt.set_format( create_default_format() );
-    string format = deffmt.get_order_str();
+    string format = deffmt.get_user_input_str();
     input->descrip.push_back( format );
     input->code.push_back( code );
 }
@@ -254,7 +254,7 @@ void Base::get_output_formats( SchemeFormats* output ) const
     string code( "def" );
     Format deffmt( code, m_grammar );
     deffmt.set_format( create_default_format() );
-    string format = deffmt.get_user_format() + "  (def)";
+    string format = deffmt.get_user_output_str();
     output->descrip.push_back( format );
     output->code.push_back( code );
 }

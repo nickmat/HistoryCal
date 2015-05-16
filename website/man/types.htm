@@ -31,7 +31,7 @@
  The simplest is the day count, where we pick a point in history and call it day one,
  we then count the days forward and back from there.
  The other, more common type, is when the days are grouped into months and years.
- There are other types of calendar but HistoryCal does not deal with these yet.
+ There are other types of calendar but HistoryCal will be dealing with these in a future version.
 </p>
 <p>
  Days may also be counted in cyclic groups, the most common of which is the seven day week.
@@ -42,7 +42,33 @@
 
 <h2>Day Counts</h2>
 <p>
+ The only day count calender included by default is the Julian Day Number "jdn".
+ When HistoryCal converts a date from one calander to another,
+ it first converts the input date to the "jdn" value
+ and then converts the "jdn" to the output calendar.
+ This way, a new calendar type can be included just by providing these two conversion methods.
+</p>
+<p>
+ Other day count calendars are:
+</p>
+<ul>
+ <li>
+  <b>Julian Day</b>. Similar to "jdn" but includes the time of day.
+  JD = jdn - 0.5
+ </li>
+ <li>
+  <b>Modified Julian Day</b>. MJD = jdn - 2400001
+ </li>
+ <li>
+  <b>Rata Die</b>. RD = jdn - 1721425
+ </li>
+</ul>
 
+<h2>Years, Months and Days</h2>
+<p>
+ Here the months roughly correspond with the lunar cycle and the years with the solar cycle.
+ The correspondence may be quite accurate or very approximate,  
+ but vast majority of the worlds calendars fall into this category. 
 </p>
 
 </div>

@@ -47,26 +47,27 @@ namespace Cal {
         std::string get_code() const { return m_code; }
         std::string get_format() const { return m_format; }
         Grammar* get_owner() const { return m_owner; }
-        // Get a user friendly format string for user selection
-        std::string get_user_format() const { return m_output_str; }
-        std::string get_order_str() const { return m_input_str; }
 
-        std::string get_output_field( Vocab* vocab ) const;
-        std::string get_1st_output_field( InputFieldType type ) const;
+        std::string get_user_input_str() const { return m_input_str; }
+        std::string get_user_output_str() const { return m_output_str; }
 
-        StringVec get_output_fields() const { return m_output_fields; }
-        std::vector<Vocab*> get_vocabs() const { return m_vocabs; }
-
+        std::string get_input_field( Vocab* vocab ) const;
+        std::string get_1st_input_field( InputFieldType type ) const;
 
     private:
+        void set_input();
+        void set_output();
+
         std::string m_code;
+        Grammar*    m_owner;
         std::string m_format;
+
         std::string m_input_str;
         std::string m_output_str;
-        StringVec   m_output_fields;
+
         std::vector<Vocab*> m_vocabs;
         std::vector<InputFieldType> m_types;
-        Grammar*    m_owner;
+        StringVec   m_input_fields;
     };
 
 }

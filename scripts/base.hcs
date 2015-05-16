@@ -41,16 +41,5 @@ vocab "w" {
     }
 }
 
-grammar "d" {
-    alias field {
-        "Day", "day";
-    }
-    alias stylename {
-        "Day", "ddddd";
-    }
-    format "d", "|(Day)";
-    pref "d";
-}
-
 // End of scripts/base.hcs file
 

@@ -163,7 +163,7 @@ string Grammar::get_input_format( const string& code ) const
 {
     FormatMap::const_iterator it2 = m_formats.find( code );
     if( it2 != m_formats.end() ) {
-        return it2->second->get_order_str();
+        return it2->second->get_user_input_str();
     }
     if( m_inherit ) {
         return m_inherit->get_input_format( code );
@@ -179,7 +179,7 @@ void Grammar::get_input_formats( SchemeFormats* input, const std::string& cur_co
     ) {
         Format* fmt = it->second;
         string code = fmt->get_code();
-        string order = fmt->get_order_str();
+        string order = fmt->get_user_input_str();
         if( order.empty() ) {
             continue;
         }
@@ -222,7 +222,7 @@ void Grammar::get_output_formats( SchemeFormats* output, const std::string& cur_
             continue;
         }
         output->code.push_back( it->first );
-        output->descrip.push_back( it->second->get_user_format() );
+        output->descrip.push_back( it->second->get_user_output_str() );
         if( it->first == cur_code ) {
             output->current = cur;
         }
@@ -314,6 +314,9 @@ string Grammar::lookup_token( Field field, const std::string& vcode, bool abbrev
 
 Vocab* Grammar::find_vocab( const std::string& code ) const
 {
+    if( code.empty() ) {
+        return NULL;
+    }
     for( size_t i = 0 ; i < m_vocabs.size() ; i++ ) {
         if( m_vocabs[i]->get_code() == code ) {
             return m_vocabs[i];

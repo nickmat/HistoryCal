@@ -367,4 +367,12 @@ tr.future {
  color: red;
 }
 
+dl.gloss dt {
+ font-weight: bold;
+}
+
+dl.gloss dd {
+ margin-bottom: 0.75em;
+}
+
 /* End of hcal.css file */
