@@ -147,7 +147,7 @@ const char* Cal::cal_default_scripts[] = {
  "}\n"
  "format \"dmy\",   \"(Day) |(Month:m.a) |(Year)\";\n"
  "format \"dmyh\",  \"(Day) |(Month:m.a) |(Year/Hist-Year)\";\n"
- "format \"wdmyh\", \"(WDay:w.a) |(Day) |(Month:m.a) @(Year/Hist-Year)\";\n"
+ "format \"wdmyh\", \"(WDay:w.a) |(Day) |(Month:m.a) |(Year/Hist-Year)\";\n"
  "pref \"dmyh\";\n"
  "}\n"
  "scheme \"ja\" {\n"
