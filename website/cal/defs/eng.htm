@@ -54,15 +54,12 @@
  The unshifted field holds the historical year as calculated by the underlying
  Julian calendar.
 </p>
-<p>
- The calendar starts by implementing the Julian Annunciation (ja) scheme.
- On the j:dmy# 1 Jan 1752 the calendar switches to Julian scheme,
- leaving the year 1751 at only 282 days long.
- On the g:dmy# 14 Sep 1752 the calendar switches to the Gregorian scheme,
- the previous day being j:dmy# 2 Sep 1752.
- This means the length of year 1752 was 355 days.
- The calendar then remains on the Gregorian scheme for all future dates.
-</p>
+<table class='data'>
+<tr><th colspan='2'>Calendar</th><th>Start</th><th>Finish</th><th>Notes</th></tr>
+<tr><td><a href='ja.htm'>ja</a></td><td>Julian Annunciation</td><td>past</td><td>31 Dec 1751</td><td>Year 1751 is 282 days long</td></tr>
+<tr><td><a href='j.htm'>j</a></td><td>Julian</td><td>1 Jan 1752</td><td>2 Sep 1752</td><td></td></tr>
+<tr><td><a href='g.htm'>g</a></td><td>Gregorian</td><td>14 Sep 1752</td><td>future</td><td>Year 1752 is 355 days long</td></tr>
+</table>
 <p>
  As a Hybrid calendar, it has no single epoch.
 </p>
@@ -71,8 +68,9 @@
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
-><b>vocab</b> "jajg" {
+>vocab "jajg" {
     name "Scheme names";
+    fieldname "scheme";
     lang "en";
     stylename "Scheme", "Sch";
     tokens {
@@ -82,7 +80,7 @@
     }
 }
 
-<b>grammar</b> "hy" {
+grammar "hy" {
     vocabs "w", "m", "jajg";
     alias field {
         "WDay",      "wday";
@@ -94,17 +92,17 @@
     }
     alias stylename {
         "WDay",      "w";
-        "Day",       "add";
+        "Day",       "dd";
         "Month",     "mm";
         "Year",      "yyyy";
         "Hist-Year", "y";
         "Scheme",    "s";
     }
-    format "dmyh",  "@(Day) @(Month:m.a) @(Year/Hist-Year)";
-    format "dmy",   "@(Day) @(Month:m.a) @(Year)";
-    format "dmys",  "@(Day) @(Month:m.a) @(Year) @(Scheme:jajg.a)";
-    format "wdmyh", "@(WDay:w.a) @(Day) @(Month:m.a) @(Year/Hist-Year)";
-    format "wdmyhs","@(WDay:w.a) @(Day) @(Month:m.a) @(Year/Hist-Year) @(Scheme:jajg)";
+    format "dmyh",  "(Day) |(Month:m.a) |(Year/Hist-Year)";
+    format "dmy",   "(Day) |(Month:m.a) |(Year)";
+    format "dmys",  "(Day) |(Month:m.a) |(Year) |(Scheme:jajg.a)";
+    format "wdmyh", "(WDay:w.a) |(Day) |(Month:m.a) |(Year/Hist-Year)";
+    format "wdmyhs","(WDay:w.a) |(Day) |(Month:m.a) |(Year/Hist-Year) |(Scheme:jajg)";
     pref "dmyh";
 }
 
@@ -114,9 +112,9 @@ scheme "eng" {
         fields "year", "month", "day";
         extended "wday", "unshift";
         scheme "ja";
-        change 2360976;  // j:dmy# 1 Jan 1752
+        change 2360976;  // j# 1 Jan 1752
         scheme "j";
-        change 2361222;  // g:dmy# 14 Sep 1752
+        change 2361222;  // g# 14 Sep 1752
         scheme "g";
     }
     grammar "hy";
@@ -128,8 +126,7 @@ scheme "eng" {
  to output weekdays.
 </p>
 <p>
- The hy grammar uses the m (Julian months) and w (Weekdays) vocabs as defined for
- the <a href='j.htm'>Julian</a> calendar.
+ The "hy" grammar uses the m (<a href='j.htm'>Julian months</a>) and w (<a href='7dayweek.htm'>Weekdays</a>) vocabs.
 </p>
 
 </div>

@@ -31,7 +31,7 @@
 </p>
 <p>
  The calendar presented here starts from King William I's coronation on the
- j:dmy# 25 Dec 1066 to the current day.
+ j# 25 Dec 1066 to the current day.
 </p>
 
 <h3>Use Case</h3>
@@ -107,15 +107,16 @@
 <tr><td>43</td><td>George V</td><td>6 May 1910 ~ 20 Jan 1936</td><td>6 May 1910</td><td></td></tr>
 <tr><td>44</td><td>Edward VIII</td><td>20 Jan 1936 ~ 11 Dec 1936</td><td>20 Jan 1936</td><td></td></tr>
 <tr><td>45</td><td>George VI</td><td>11 Dec 1936 ~ 6 Feb 1952</td><td>11 Dec 1936</td><td></td></tr>
-<tr><td>46</td><td>Elizabeth II</td><td>6 Feb 1952 ~ Future</td><td>6 Feb 1952</td><td></td></tr>
+<tr><td>46</td><td>Elizabeth II</td><td>6 Feb 1952 ~ Future</td><td>6 Feb 1952</td><td class='note'>Last confirmed 17 May 2015</td></tr>
 </table>
 
 <h3>Script</h3>
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
-><b>vocab</b> "er" {
+>vocab "er" {
     name "English Monarchs";
+    fieldname "era";
     lang "en";
     stylename "Reign",              "Rn";
     tokens {
@@ -144,7 +145,7 @@
         22, "Edward VI",            "Ed VI";
         23, "Jane";
         24, "Mary I";
-        25, "Philip and Mary",      "P &amp; M";
+        25, "Philip and Mary",      "P & M";
         26, "Elizabeth I",          "Eliz I";
         27, "James I",              "Jm I";
         28, "Charles I",            "Chas I";
@@ -152,7 +153,7 @@
         30, "Charles II",           "Chas II";
         31, "James II",             "Jm II";
         32, "Interregnum",          "Int";
-        33, "William and Mary",     "W &amp; M";
+        33, "William and Mary",     "W & M";
         34, "William III",          "Wm III";
         35, "Anne";
         36, "George I",             "Geo I";
@@ -169,8 +170,9 @@
     }
 }
 
-<b>vocab</b> "part" {
+vocab "part" {
     name "Part of Reign Year";
+    fieldname "er-part";
     lang "en";
     stylename "Part", "Part";
     tokens {
@@ -179,17 +181,7 @@
     }
 }
 
-<b>vocab</b> "on" {
-    name "Scheme names";
-    lang "en";
-    stylename "Scheme", "Sch";
-    tokens {
-        0, "Old Style", "os";
-        1, "New Style", "ns";
-    }
-}
-
-<b>grammar</b> "er" {
+grammar "er" {
     alias field {
         "WDay",       "wday";
         "Reign",      "era";
@@ -207,13 +199,13 @@
         "Hist-Year", "y";
         "Scheme",    "s";
     }
-    vocabs "w", "er", "m", "on", "part";
-    format "dmyr",  "@(Day) @(Month:m.a)@, (Part:part)@ (Year/Hist-Year)@ (Reign:er)@, (Scheme:on.a)";
-    format "wdmyr", "@(WDay:w.a) @(Day) @(Month:m.a)@ (Year/Hist-Year)@ (Reign:er)@, (Scheme:on.a)";
+    vocabs "er", "m", "w", "on", "part";
+    format "dmyr",  "(Day) |(Month:m.a)|, (Part:part)| (Year/Hist-Year) |(Reign:er)|, (Scheme:on.a)";
+    format "wdmyr", "(WDay:w.a) |(Day) |(Month:m.a)| (Year/Hist-Year) |(Reign:er)|, (Scheme:on.a)";
     pref "dmyr";
 }
 
-<b>scheme</b> "er" {
+scheme "er" {
     name "English Regnal";
     regnal {
         fields "year", "month", "day";
@@ -466,8 +458,8 @@
         }
         era {  // The Commonwealth
             range 2323386~2327521;
-            scheme "eng";
-            match "unshift", "er-hyear", "scheme", "er-scheme";
+            scheme "ja";
+            match "unshift", "er-hyear";
         }
         era {  // Charles II
             range 2327522~2336541;

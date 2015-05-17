@@ -336,6 +336,10 @@ table.rec-value td.sig {
  font-weight: normal;
 }
 
+table.rec-value span.var {
+ font-style: italic;
+}
+
 table.code {
  display: inline-table;
  float: left;

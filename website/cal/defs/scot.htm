@@ -65,16 +65,16 @@
 <h3>Script</h3>
 <table class='code'>
 <tr><th>Default Script</th></tr>
-<tr><td>
-scheme "scot" {
+<tr><td
+>scheme "scot" {
     name "Scottish Hybrid";
     hybrid {
         fields "year", "month", "day";
         extended "wday", "unshift";
         scheme "ja";
-        change 2305458;  // j:dmy# 1 Jan 1600
+        change 2305458;  // j# 1 Jan 1600
         scheme "j";
-        change 2361222;  // g:dmy# 14 Sep 1752
+        change 2361222;  // g# 14 Sep 1752
         scheme "g";
     }
     grammar "hy";
@@ -86,7 +86,7 @@ scheme "scot" {
  to output weekdays.
 </p>
 <p>
- The calendar uses the hy grammar as defined for
+ The calendar uses the "hy" grammar as defined for
  the <a href='eng.htm'>English Hybrid</a> calendar.
 </p>
 

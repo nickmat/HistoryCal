@@ -32,15 +32,24 @@
  Julian Astronomical Days) but the time element is missing and the day is
  considered to start at midnight.
 </p>
-<p>
+<div class='p'>
  Note that the terms "Julian Day Number", "Julian Day" and "Julian Astronomical
  Day" are often used interchangeably in the academic world. However, this
- project will use the term "Julian Day Number" (abbreviated <b>jdn</b>) to
+ project will use the term "Julian Day Number" (signature <b>jdn</b>) to
  describe the above definition of the calendar and the term "Julian Day"
- (abbreviated <b>jd</b>) to describe the more common academic definition, where
+ (signature <b>jd</b>) to describe the more common academic definition, where
  the day begins at midday.
- Thus:- <code><i>x</i> (<b>jdn</b>) = <i>x</i> - 0.5 (<b>jd</b>)</code>
-</p>
+ Thus:-
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+   <tr class='value'><td><span class='var'>x</span></td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>jd</td><th>day</th></tr>
+   <tr class='value'><td><span class='var'>x</span> - 0.5</td></tr>
+ </table>.
+</div>
 
 <h3>Use Case</h3>
 <p>
@@ -63,26 +72,37 @@
 </p>
 <p>
  The <b>Record</b> consists of a single <b>Field</b> named <code>day.</code>
- The <b>Epoch</b> is the same as the internal version, so
- <code>day 1 (<b>jdn</b>) = day 1 (<b>jdn</b>).</code>
 </p>
+
+<div class='p'>
+ The <b>Epoch</b> is the same as the internal version, so
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+   <tr class='value'><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+   <tr class='value'><td>1</td></tr>
+ </table>.
+</div>
 
 <h3>Script</h3>
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
-><b>grammar</b> "d" {
+>grammar "d" {
     alias field {
         "Day", "day";
     }
     alias stylename {
         "Day", "ddddd";
     }
-    format "d", "@(Day)";
+    format "d", "(Day)";
     pref "d";
 }
 
-<b>scheme</b> "jdn" {
+scheme "jdn" {
     name "Julian Day Number";
     base jdn;
     grammar "d";

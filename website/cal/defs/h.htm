@@ -133,7 +133,7 @@ with the days numbered 1 to 7, and with Sunday equal to day 1.
 </p>
 <p>
 The following rules are used to determine when the New Year
-falls, and thus, the length of the year.
+falls and thus, the length of the year.
 </p>
 <ol>
  <li>
@@ -239,12 +239,12 @@ grammar "h" {
         "y", "year";
         "w", "week";
     }
-    format "dmy",    "@(Day) @(Month:hm) @(Year)";
-    format "dmy.a",  "@(Day) @(Month:hm.a) @(Year)";
-    format "dmy.d",  "@(Day) @(Month) @(Year)";
-    format "wdmy",   "@(WDay:hw) @(Day) @(Month:hm) @(Year)";
-    format "wdmy.a", "@(WDay:hw.a) @(Day) @(Month:hm.a) @(Year)";
-    format "ymd",    "@(Year)@,(Month:hm.a)@,(Day)";
+    format "dmy",    "(Day) |(Month:hm) |(Year)";
+    format "dmy.a",  "(Day) |(Month:hm.a) |(Year)";
+    format "dmy.d",  "(Day) |(Month) |(Year)";
+    format "wdmy",   "(WDay:hw) |(Day) |(Month:hm) |(Year)";
+    format "wdmy.a", "(WDay:hw.a) |(Day) |(Month:hm.a) |(Year)";
+    format "ymd",    "(Year)|,(Month:hm.a)|,(Day)";
     pref "dmy";
 }
 

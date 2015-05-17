@@ -84,16 +84,26 @@
  The number of <code>days</code> in a <code>month</code> varies between 28 and 31, and are numbered from 1,
  as shown in the table opposite. This gives a total of 365 days in a common year and 366 in a leap year.
 </p>
-<p>
- The <b>Epoch</b> is set at <code>year 1 month 1 day 1 (<b>j</b>) = day 1721424 (<b>jdn</b>).</code>
+<p style='display:inline;'>
+ The <b>Epoch</b> is set at
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>j</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>1</td><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>1721424</td></tr>
+ </table>.
 </p>
 
 <h3>Script</h3>
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
-><b>vocab</b> "m" {
+>vocab "m" {
     name "Month names";
+    fieldname "month";
     lang "en";
     stylename "Month",  "Mon";
     tokens {
@@ -112,7 +122,7 @@
     }
 }
 
-<b>grammar</b> "j" {
+grammar "j" {
     vocabs "m", "w";
     alias field {
         "WDay",  "wday";
@@ -132,16 +142,16 @@
         "y", "year";
         "w", "week";
     }
-    format "dmy",   "@(Day) @(Month:m.a) @(Year)";
-    format "wdmy",  "@(WDay:w.a) @(Day) @(Month:m.a) @(Year)";
-    format "dmy+",  "@(Day) @(Month:m) @(Year)";
-    format "wdmy+", "@(WDay:w) @(Day) @(Month:m) @(Year)";
-    format "mdy",   "@(Month:m.a) @(Day), @(Year)";
-    format "ymd",   "@(Year)@:(Month)@:(Day)";
+    format "dmy",   "(Day) |(Month:m.a) |(Year)";
+    format "wdmy",  "(WDay:w.a) |(Day) |(Month:m.a) |(Year)";
+    format "dmy+",  "(Day) |(Month:m) |(Year)";
+    format "wdmy+", "(WDay:w) |(Day) |(Month:m) |(Year)";
+    format "mdy",   "(Month:m.a) |(Day), |(Year)";
+    format "ymd",   "(Year)|:(Month:m.a)|:(Day)";
     pref "dmy";
 }
 
-<b>scheme</b> "j" {
+scheme "j" {
     name "Julian";
     base julian;
     grammar "j";

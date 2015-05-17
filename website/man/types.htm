@@ -27,49 +27,39 @@
 
 <h2>Calendar Types</h2>
 <p>
- The HistoryCal program currently deals with two broad calendar types.
- The simplest is the day count, where we pick a point in history and call it day one,
- we then count the days forward and back from there.
- The other, more common type, is when the days are grouped into months and years.
- There are other types of calendar but HistoryCal will be dealing with these in a future version.
-</p>
-<p>
- Days may also be counted in cyclic groups, the most common of which is the seven day week.
- However, since these groups do not have an overal count we can not include them as calendars.
- They may be used along side a calendar and may even directly influence them,
- for instance, the Hebrew calendar where the new year is adjusted to fall on certain days of the week.
+ This section attempts to explain how the HistoryCal program looks at calendar schemes in general
+ and how the HistoryCal script language can be used to define new schemes.
 </p>
 
-<h2>Day Counts</h2>
+<h2>Base Calendars</h2>
 <p>
- The only day count calender included by default is the Julian Day Number "jdn".
- When HistoryCal converts a date from one calander to another,
- it first converts the input date to the "jdn" value
- and then converts the "jdn" to the output calendar.
- This way, a new calendar type can be included just by providing these two conversion methods.
+ The HistoryCal library has, at its heart, the ability to work
+ with a number of basic calendar schemes.
+ 
 </p>
-<p>
- Other day count calendars are:
-</p>
-<ul>
- <li>
-  <b>Julian Day</b>. Similar to "jdn" but includes the time of day.
-  JD = jdn - 0.5
- </li>
- <li>
-  <b>Modified Julian Day</b>. MJD = jdn - 2400001
- </li>
- <li>
-  <b>Rata Die</b>. RD = jdn - 1721425
- </li>
-</ul>
 
-<h2>Years, Months and Days</h2>
+<h2>Shifted Calendars</h2>
 <p>
- Here the months roughly correspond with the lunar cycle and the years with the solar cycle.
- The correspondence may be quite accurate or very approximate,  
- but vast majority of the worlds calendars fall into this category. 
+ Calendars normally have two separate parts to their definitions.
+ There is the definition that describes how the days are counted within the year,
+ then there is the method of counting those years.
+ One common occurrence is that different calendar schemes may use the same method
+ to count the days with the year but very different ways of counting the years.
+ The year count may start at any point of the year,
+ not just the point normally considered the start of the year (New Years Day).
 </p>
+<p>
+ For instance, when Julius Caesar introduced the Julian calendar,
+ New Years Day was considered to be 1st January.
+ However, not all calendar systems increased the year count on this day.
+</p>
+<p>
+ 
+</p>
+
+<h2>Hybrid Calendars</h2>
+
+<h2>Regnal Calendars</h2>
 
 </div>
 
