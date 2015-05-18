@@ -34,7 +34,6 @@
 
 #include <cassert>
 
-//using namespace std;
 using namespace Cal;
 using std::string;
 

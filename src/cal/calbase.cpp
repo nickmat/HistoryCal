@@ -32,8 +32,10 @@
 #include "calparse.h"
 #include "calvocab.h"
 
+#include <cassert>
+
 using namespace Cal;
-using namespace std;
+using std::string;
 
 const char* Base::s_ymd_fieldnames[] = { "year", "month", "day" };
 size_t Base::s_sizeof_ymd_fieldnames = sizeof(s_ymd_fieldnames) / sizeof(const char*);
@@ -45,6 +47,10 @@ Base::Base()
 
 Base::~Base()
 {
+    // Default grammar has no code
+    if( m_grammar && m_grammar->code() == "" ) {
+        delete m_grammar;
+    }
 }
 
 void Base::remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const
@@ -226,18 +232,10 @@ void Base::get_input_formats( SchemeFormats* input ) const
     input->descrip.clear();
     input->code.clear();
     input->current = 0;
-    if( m_grammar ) {
-        m_grammar->get_input_formats( input, m_input_fcode );
-        if( input->code.size() ) {
-            return;
-        }
+    if( m_grammar == NULL ) {
+        create_default_grammar();
     }
-    string code( "def" );
-    Format deffmt( code, m_grammar );
-    deffmt.set_format( create_default_format() );
-    string format = deffmt.get_user_input_str();
-    input->descrip.push_back( format );
-    input->code.push_back( code );
+    m_grammar->get_input_formats( input, get_input_fcode() );
 }
 
 void Base::get_output_formats( SchemeFormats* output ) const
@@ -245,18 +243,10 @@ void Base::get_output_formats( SchemeFormats* output ) const
     output->descrip.clear();
     output->code.clear();
     output->current = 0;
-    if( m_grammar ) {
-        m_grammar->get_output_formats( output, m_output_fcode );
-        if( output->code.size() ) {
-            return;
-        }
+    if( m_grammar == NULL ) {
+        create_default_grammar();
     }
-    string code( "def" );
-    Format deffmt( code, m_grammar );
-    deffmt.set_format( create_default_format() );
-    string format = deffmt.get_user_output_str();
-    output->descrip.push_back( format );
-    output->code.push_back( code );
+    m_grammar->get_output_formats( output, get_output_fcode() );
 }
 
 string Base::get_input_fcode() const
@@ -264,27 +254,30 @@ string Base::get_input_fcode() const
     return m_input_fcode.empty() ? "def" : m_input_fcode;
 }
 
+string Base::get_output_fcode() const
+{
+    return m_output_fcode.empty() ? "def" : m_output_fcode;
+}
+
 string Base::get_input_order_str( const string& fcode ) const
 {
-    string order;
-    if( m_grammar ) {
-        order = m_grammar->get_input_format( fcode );
+    if( m_grammar == NULL ) {
+        create_default_grammar();
     }
-    if( order.empty() ) {
-        order = get_default_order();
-    }
-    return order;
+    return m_grammar->get_input_format( fcode );
 }
 
 string Base::get_format_str_for_output() const
 {
-    if( m_grammar ) {
-        Format* fmt = m_grammar->get_format( m_output_fcode );
-        if( fmt ) {
-            return fmt->get_format();
-        }
+    if( m_grammar == NULL ) {
+        create_default_grammar();
     }
-    return create_default_format();
+    string format;
+    Format* fmt = m_grammar->get_format( get_output_fcode() );
+    if( fmt ) {
+        format = fmt->get_format();
+    }
+    return format;
 }
 
 void Base::set_grammar( Grammar* grammar )
@@ -394,29 +387,20 @@ string Base::get_ymd_fieldname( size_t index ) const
     return "";
 }
 
-string Base::get_default_order() const
+void Base::create_default_grammar() const
 {
-    string order;
-    for( size_t i = 0 ; i < record_size() ; i++ ) {
-        if( i > 0 ) {
-            order += " ";
-        }
-        order += get_fieldname( i );
-    }
-    return order;
-}
-
-string Base::create_default_format() const
-{
+    assert( m_grammar == NULL );
+    Grammar* gmr = new Grammar( "" );
+    Format* fmt = gmr->create_format( "def" );
     string format;
     for( size_t i = 0 ; i < record_size() ; i++ ) {
-        format += "|";
         if( i > 0 ) {
-            format += " ";
+            format += "| ";
         }
         format += "(" + get_fieldname( i ) + ")";
     }
-    return format;
+    fmt->set_format( format );
+    m_grammar = gmr;
 }
 
 XRefSet Base::create_input_xref_set( const string& fcode ) const

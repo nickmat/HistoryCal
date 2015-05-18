@@ -119,6 +119,7 @@ namespace Cal {
         void get_input_formats( SchemeFormats* input ) const;
         void get_output_formats( SchemeFormats* output ) const;
         std::string get_input_fcode() const;
+        std::string get_output_fcode() const;
         std::string get_input_order_str( const std::string& fcode ) const;
         std::string get_format_str_for_output() const;
         Grammar* get_grammar() const { return m_grammar; }
@@ -145,15 +146,16 @@ namespace Cal {
         size_t sizeof_ymd_fieldnames() const { return s_sizeof_ymd_fieldnames; }
 
     private:
-        std::string get_default_order() const;
-        std::string create_default_format() const;
+        void create_default_grammar() const;
         void add_xref_input( const std::string& code );
         XRefSet create_input_xref_set( const std::string& fcode ) const;
 
         static const char* s_ymd_fieldnames[];
         static size_t s_sizeof_ymd_fieldnames;
 
-        Grammar*         m_grammar;
+        // We may need to create a default grammar if none exists
+        // so we may as well save it.
+        mutable Grammar* m_grammar;
         std::string      m_input_fcode;
         std::string      m_output_fcode;
         // Cache these as they are expensive to create.

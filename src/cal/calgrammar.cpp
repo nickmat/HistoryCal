@@ -90,6 +90,13 @@ bool Grammar::add_format( Format* fmt )
         return false;
     }
     m_formats[code] = fmt;
+    // Set preferences to the first format by default.
+    if( m_pref_input_fcode.empty() ) {
+        m_pref_input_fcode = code;
+    }
+    if( m_pref_output_fcode.empty() ) {
+        m_pref_output_fcode = code;
+    }
     return true;
 }
 
