@@ -150,49 +150,40 @@ bool Base::resolve_input(
     }
     size_t cnt = 0;
     FieldVec fs( extended_size(), f_invalid );
-    if( m_grammar ) {
-        Format* fmt = m_grammar->get_format( fcode );
-        if( fmt == NULL ) {
-            return false;
+    Format* fmt = get_grammar()->get_format( fcode );
+    if( fmt == NULL ) {
+        return false;
+    }
+    for( size_t i = 0 ; i < input.size() ; i++ ) {
+        if( input[i].type == IFT_null ) {
+            continue;
         }
-        for( size_t i = 0 ; i < input.size() ; i++ ) {
-            if( input[i].type == IFT_null ) {
+        string fname;
+        if( input[i].type == IFT_dual2 ) {
+            fname = fmt->get_1st_input_field( IFT_dual2 );
+            if( fname.empty() ) {
+                continue; // Ignore if we can't find it.
+            }
+        }
+        if( input[i].vocab ) {
+            fname = input[i].vocab->get_fieldname();
+            if( fname.empty() ) {
+				fname = fmt->get_input_field( input[i].vocab );
+				if( fname.empty() ) {
+                    continue; // Give up.
+				}
+            }
+        }
+        if( fname.size() ) {
+            int index = get_fieldname_index( fname );
+            if( index >= (int) record_size() ) {
+                // Input an extended field
+                fields[index] = input[i].value;
                 continue;
             }
-            string fname;
-            if( input[i].type == IFT_dual2 ) {
-                fname = fmt->get_1st_input_field( IFT_dual2 );
-                if( fname.empty() ) {
-                    continue; // Ignore if we can't find it.
-                }
-            }
-            if( input[i].vocab ) {
-                fname = input[i].vocab->get_fieldname();
-                if( fname.empty() ) {
-					fname = fmt->get_input_field( input[i].vocab );
-					if( fname.empty() ) {
-                        continue; // Give up.
-					}
-                }
-            }
-            if( fname.size() ) {
-                int index = get_fieldname_index( fname );
-                if( index >= (int) record_size() ) {
-                    // Input an extended field
-                    fields[index] = input[i].value;
-                    continue;
-                }
-            }
-            fs[cnt] = input[i].value;
-            cnt++;
         }
-    } else {
-        for( ; cnt < input.size() ; cnt++ ) {
-            fs[cnt] = input[cnt].value;
-            if( input[cnt].type == IFT_null ) {
-                break;
-            }
-        }
+        fs[cnt] = input[i].value;
+        cnt++;
     }
     if( cnt < 1 ) {
         return false;
@@ -212,18 +203,12 @@ bool Base::resolve_input(
 
 string Base::lookup_token( Field field, const string& vcode, bool abbrev ) const
 {
-    if( m_grammar ) {
-        return m_grammar->lookup_token( field, vcode, abbrev );
-    }
-    return "";
+    return get_grammar()->lookup_token( field, vcode, abbrev );
 }
 
 string Base::get_alias_fieldname( const string& alias ) const
 {
-    if( m_grammar ) {
-        return m_grammar->get_field_alias( alias );
-    }
-    return alias;
+    return get_grammar()->get_field_alias( alias );
 }
 
 
@@ -232,10 +217,7 @@ void Base::get_input_formats( SchemeFormats* input ) const
     input->descrip.clear();
     input->code.clear();
     input->current = 0;
-    if( m_grammar == NULL ) {
-        create_default_grammar();
-    }
-    m_grammar->get_input_formats( input, get_input_fcode() );
+    get_grammar()->get_input_formats( input, get_input_fcode() );
 }
 
 void Base::get_output_formats( SchemeFormats* output ) const
@@ -243,10 +225,7 @@ void Base::get_output_formats( SchemeFormats* output ) const
     output->descrip.clear();
     output->code.clear();
     output->current = 0;
-    if( m_grammar == NULL ) {
-        create_default_grammar();
-    }
-    m_grammar->get_output_formats( output, get_output_fcode() );
+    get_grammar()->get_output_formats( output, get_output_fcode() );
 }
 
 string Base::get_input_fcode() const
@@ -261,24 +240,27 @@ string Base::get_output_fcode() const
 
 string Base::get_input_order_str( const string& fcode ) const
 {
-    if( m_grammar == NULL ) {
-        create_default_grammar();
-    }
-    return m_grammar->get_input_format( fcode );
+    return get_grammar()->get_input_format( fcode );
 }
 
 string Base::get_format_str_for_output() const
 {
-    if( m_grammar == NULL ) {
-        create_default_grammar();
-    }
     string format;
-    Format* fmt = m_grammar->get_format( get_output_fcode() );
+    Format* fmt = get_grammar()->get_format( get_output_fcode() );
     if( fmt ) {
         format = fmt->get_format();
     }
     return format;
 }
+
+Grammar* Base::get_grammar() const
+{
+    if( m_grammar == NULL ) {
+        create_default_grammar();
+    }
+    return m_grammar;
+}
+
 
 void Base::set_grammar( Grammar* grammar )
 {

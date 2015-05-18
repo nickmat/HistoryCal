@@ -122,7 +122,7 @@ namespace Cal {
         std::string get_output_fcode() const;
         std::string get_input_order_str( const std::string& fcode ) const;
         std::string get_format_str_for_output() const;
-        Grammar* get_grammar() const { return m_grammar; }
+        Grammar* get_grammar() const;
 
         void set_grammar( Grammar* grammar );
         void set_input_fcode( const std::string& code ) { m_input_fcode = code; }
@@ -154,7 +154,7 @@ namespace Cal {
         static size_t s_sizeof_ymd_fieldnames;
 
         // We may need to create a default grammar if none exists
-        // so we may as well save it.
+        // so we may as well cashe it.
         mutable Grammar* m_grammar;
         std::string      m_input_fcode;
         std::string      m_output_fcode;
