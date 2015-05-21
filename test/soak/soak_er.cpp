@@ -100,7 +100,7 @@ static string fieldsToStr( Field d, Field m, Field y, Field e, Field s )
 {
     stringstream tst;
     if( s >= 0 ) {
-        tst << d << " " << m << " ? " << y << " " << e << " " << s;
+        tst << d << " " << m << " ? " << y << " ? " << e << " " << s;
     } else {
         tst << d << " " << m << " " << y << " " << e;
     }

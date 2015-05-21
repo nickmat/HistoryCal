@@ -194,6 +194,8 @@ void TestDef_er::testStringInput()
             2159851, 2160216 },
         { "12jun26geoii", "12 Jun 26 George II, os | 12 Jun 26 George II, ns",
             2361139, 2361493 },
+        { "12jun26geoii,os", "12 Jun 26 George II, os",
+            2361139, 2361139 },
         { "19sep12geovi", "19 Sep 12 George VI", 2432814, 2432814 },
     };
     size_t count = sizeof(t) / sizeof(data);
