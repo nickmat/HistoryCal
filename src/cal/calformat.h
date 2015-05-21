@@ -32,35 +32,37 @@
 
 namespace Cal {
 
-    class Grammar;
-    class Vocab;
-
     class Format {
     public:
-        enum Use { Use_inout, Use_output, Use_input };
+        enum Use { Use_inout, Use_output, Use_strict };
 
         Format( const std::string& code, Grammar* gmr );
         ~Format();
 
         void set_format( const std::string& format, Use usefor = Use_inout );
+        void set_separators( const std::string& sep ) { m_separators = sep; }
 
         std::string get_code() const { return m_code; }
-        std::string get_format() const { return m_format; }
         Grammar* get_owner() const { return m_owner; }
+        std::string get_format() const { return m_format; }
+        std::string get_separators() const { return m_separators; }
 
         std::string get_user_input_str() const { return m_input_str; }
         std::string get_user_output_str() const { return m_output_str; }
+        StringVec get_input_fields() const { return m_input_fields; }
 
         std::string get_input_field( Vocab* vocab ) const;
         std::string get_1st_input_field( InputFieldType type ) const;
 
     private:
+        void set_usefor( Use usefor );
         void set_input();
         void set_output();
 
         std::string m_code;
         Grammar*    m_owner;
         std::string m_format;
+        std::string m_separators;
 
         std::string m_input_str;
         std::string m_output_str;
@@ -68,6 +70,10 @@ namespace Cal {
         std::vector<Vocab*> m_vocabs;
         std::vector<InputFieldType> m_types;
         StringVec   m_input_fields;
+
+        bool m_usefor_output;
+        bool m_usefor_input;
+        bool m_strict_input;
     };
 
 }

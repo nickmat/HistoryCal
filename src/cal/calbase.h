@@ -32,8 +32,6 @@
 
 namespace Cal {
 
-    class Grammar;
-
     typedef std::map<int,XRefVec> XRefSet;
     typedef std::map<std::string,XRefSet> XRefMap;
 
@@ -111,7 +109,7 @@ namespace Cal {
         virtual Field compare_minor_fields( const Field* left, const Field* right, size_t index );
         // Set the fields given the decoded input fields and the format code.
         // Normally handled by the Base class, even when over ridden.
-        virtual bool resolve_input( Field* fields, const InputFieldVec& input, const std::string& fmt_code ) const;
+        virtual bool resolve_input( Field* fields, const InputFieldVec& input, Format* fmt ) const;
 
         std::string lookup_token( Field field, const std::string& vcode, bool abbrev ) const;
         std::string get_alias_fieldname( const std::string& alias ) const;
@@ -120,15 +118,15 @@ namespace Cal {
         void get_output_formats( SchemeFormats* output ) const;
         std::string get_input_fcode() const;
         std::string get_output_fcode() const;
-        std::string get_input_order_str( const std::string& fcode ) const;
         std::string get_format_str_for_output() const;
         Grammar* get_grammar() const;
+        Format* get_format( std::string& fcode ) const;
 
         void set_grammar( Grammar* grammar );
         void set_input_fcode( const std::string& code ) { m_input_fcode = code; }
         void set_output_fcode( const std::string& code ) { m_output_fcode = code; }
 
-        XRefVec get_xref_order( int count, const std::string& fcode ) const;
+        XRefVec get_xref_order( int count, Format* fmt ) const;
 
         FieldVec fields_to_vec( const Field* fields ) const;
         bool is_complete( const Field* fields ) const;
@@ -147,8 +145,7 @@ namespace Cal {
 
     private:
         void create_default_grammar() const;
-        void add_xref_input( const std::string& code );
-        XRefSet create_input_xref_set( const std::string& fcode ) const;
+        XRefSet create_input_xref_set( Format* fmt ) const;
 
         static const char* s_ymd_fieldnames[];
         static size_t s_sizeof_ymd_fieldnames;

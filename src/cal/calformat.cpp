@@ -39,7 +39,8 @@ using std::string;
 
 
 Format::Format( const std::string& code, Grammar* gmr )
-    : m_code(code), m_owner(gmr)
+: m_code(code), m_owner(gmr), m_separators(":,"),
+m_usefor_output(true), m_usefor_input(true), m_strict_input(false)
 {
 }
 
@@ -51,6 +52,7 @@ void Format::set_format( const std::string& format, Use usefor )
 {
     assert( m_owner );
     assert( m_format.empty() );
+    set_usefor( usefor );
     m_format = format;
     enum State { dooutput, dofname, dodname, dovocab, doabbrev };
     State state = dooutput;
@@ -64,11 +66,14 @@ void Format::set_format( const std::string& format, Use usefor )
                 state = dofname;
             } else {
                 fieldout += *it;
+                if( m_strict_input ) {
+                    m_input_str += *it;
+                }
             }
             continue;
         }
         if( *it == ')' ) {
-            if( m_input_str.size() ) {
+            if( !m_strict_input && m_input_str.size() ) {
                 m_input_str += " ";
             }
             m_input_str += fname;
@@ -143,11 +148,33 @@ void Format::set_format( const std::string& format, Use usefor )
     }
     m_output_str += fieldout;
 
-    if( usefor == Use_output ) {
+    if( !m_usefor_input ) {
         m_input_str.clear();
     }
-    if( usefor == Use_input ) {
+    if( !m_usefor_output ) {
         m_output_str.clear();
+    }
+}
+
+void Format::set_usefor( Use usefor )
+{
+    switch( usefor )
+    {
+    case Use_inout:
+        m_usefor_output = true;
+        m_usefor_input = true;
+        m_strict_input = false;
+        break;
+    case Use_output:
+        m_usefor_output = true;
+        m_usefor_input = false;
+        m_strict_input = false;
+        break;
+    case Use_strict:
+        m_usefor_output = true;
+        m_usefor_input = true;
+        m_strict_input = true;
+        break;
     }
 }
 

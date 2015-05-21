@@ -28,16 +28,16 @@
 #include "calrecord.h"
 
 #include "calbase.h"
+#include "calformat.h"
 #include "calgrammar.h"
 #include "calgregorian.h"
 #include "calparse.h"
 #include "caltext.h"
 
-#include <algorithm>
 #include <cassert>
 
 using namespace Cal;
-using namespace std;
+using std::string;
 
 Record::Record( const Base* base )
     : m_base(base), m_jdn(f_invalid), m_f(base->extended_size())
@@ -68,7 +68,7 @@ Record::Record( const Record& rec )
 {
 }
 
-void Record::set_str( const string& str, const string& fmt )
+void Record::set_str( const string& str, const string& fcode )
 {
     clear_fields();
     string in = full_trim( str );
@@ -85,8 +85,18 @@ void Record::set_str( const string& str, const string& fmt )
         return;
     }
 
+    string fc;
+    if( fcode.empty() ) {
+        fc = m_base->get_input_fcode();
+    } else {
+        fc = fcode;
+    }
+    Format* fmt = m_base->get_format( fc );
+    if( fmt == NULL ) {
+        return;
+    }
     InputFieldVec ifs(m_base->extended_size());
-    parse_date( &ifs[0], ifs.size(), in );
+    parse_date( &ifs[0], ifs.size(), in, fmt );
 
     if( m_base->resolve_input( &m_f[0], ifs, fmt ) ) {
         m_jdn = get_jdn();
@@ -290,11 +300,17 @@ int Record::get_field_index( const string& fieldname ) const
 }
 
 Record::CP_Group Record::get_cp_group(
-    string::const_iterator it, string::const_iterator end )
+    string::const_iterator it, string::const_iterator end, Format* fmt )
 {
     int ch = *it;
     if( ch < 0 ) {  // eliminate non-ascii 
         return GRP_Other;
+    }
+    string sep = fmt->get_separators();
+    for( string::const_iterator sit = sep.begin() ; sit != sep.end() ; sit++ ) {
+        if( *it == *sit ) {
+            return GRP_Sep;
+        }
     }
     if( ch == '-' ) {
         // If hyphen is followed by a digit treat as digit
@@ -313,14 +329,6 @@ Record::CP_Group Record::get_cp_group(
     }
     if( isdigit( ch ) ) {
         return GRP_Digit;
-    }
-    const char* seps = ":,";
-    size_t i = 0;
-    while( seps[i] ) {
-        if( ch == seps[i] ) {
-            return GRP_Sep;
-        }
-        i++;
     }
     return GRP_Other;
 }
@@ -354,7 +362,7 @@ Field Record::get_dual2_value( Field dual1, const string& str2 ) const
     return str_to_field( result );
 }
 
-int Record::parse_date( InputField* ifs, size_t size, const string& str )
+int Record::parse_date( InputField* ifs, size_t size, const string& str, Format* fmt )
 {
     size_t i = 0;
 
@@ -366,7 +374,7 @@ int Record::parse_date( InputField* ifs, size_t size, const string& str )
     string token;
     CP_Group grp, prev_grp, token_grp;
     string::const_iterator it = str.begin();
-    grp = prev_grp = token_grp = get_cp_group( it, str.end() );
+    grp = prev_grp = token_grp = get_cp_group( it, str.end(), fmt );
     if( grp == GRP_Quest ) {
         prev_grp = GRP_Sep;
     }
@@ -435,7 +443,7 @@ int Record::parse_date( InputField* ifs, size_t size, const string& str )
             grp = GRP_Sep;
             done = true;
         } else {
-            grp = get_cp_group( it, str.end() );
+            grp = get_cp_group( it, str.end(), fmt );
         }
     }
     return i;
@@ -456,7 +464,7 @@ Field Record::get_field( int index ) const
 
 bool Record::is_mask_valid( Field* mask, size_t mask_size ) const
 {
-    size_t size = min( mask_size, m_base->extended_size() );
+    size_t size = std::min( mask_size, m_base->extended_size() );
     for( size_t i = 0 ; i < size ; i++ ) {
         if( mask[i] != f_invalid && mask[i] != m_f[i] ) {
             return false;

@@ -37,11 +37,12 @@
 
 #include <cassert>
 
-using namespace std;
 using namespace Cal;
+using std::string;
+using std::vector;
 
 
-Script::Script( Calendars* cals, istream& in, ostream& out ) 
+Script::Script( Calendars* cals, std::istream& in, std::ostream& out ) 
     : m_cals(cals), m_ts(in,out), m_out(&out), m_err(&out)
 {
     assert( cals != NULL );
@@ -651,7 +652,7 @@ void Script::do_grammar_inherit( Grammar* gmr )
 // as in "gmr:fmt"
 bool Script::do_format( Grammar* gmr )
 {
-    string code, format;
+    string code, format, separators;
     Format::Use usefor = Format::Use_inout;
     expr( true ).get( code );
     if( code.empty() ) {
@@ -681,11 +682,18 @@ bool Script::do_format( Grammar* gmr )
             if( token.type() == SToken::STT_Name ) {
                 if( token.get_str() == "output" ) {
                     usefor = Format::Use_output;
-                    expr( true ).get( format );
                 } else if( token.get_str() == "inout" ) {
                     usefor = Format::Use_inout;
-                    expr( true ).get( format );
+                } else if( token.get_str() == "strict" ) {
+                    usefor = Format::Use_strict;
+                } else if( token.get_str() == "separators" ) {
+                    expr( true ).get( separators );
+                    continue;
+                } else {
+                    error( "Expected format sub-statement." );
+                    continue;
                 }
+                expr( true ).get( format );
             }
         }
     } else {
@@ -717,6 +725,9 @@ bool Script::do_format( Grammar* gmr )
         }
     }
     fmt->set_format( format, usefor );
+    if( separators.size() ) {
+        fmt->set_separators( separators );
+    }
     return true;
 }
 

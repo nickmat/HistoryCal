@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     8th December 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -349,9 +349,9 @@ bool French::normalise( Field* regs, Norm norm ) const
 }
 
 bool French::resolve_input( 
-    Field* fields, const InputFieldVec& input, const string& fmt_code ) const
+    Field* fields, const InputFieldVec& input, Format* fmt ) const
 {
-    bool ret = Base::resolve_input( fields, input, fmt_code );
+    bool ret = Base::resolve_input( fields, input, fmt );
     if( ret ) {
         if( fields[FFN_month] == f_invalid && fields[FFN_nmonth] != f_invalid ) {
             fields[FFN_month] = fields[FFN_nmonth];
