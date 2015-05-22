@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -23,17 +23,6 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 */
-
-vocab "on" {
-    name "Scheme names";
-    fieldname "scheme";
-    lang "en";
-    stylename "Scheme", "Sch";
-    tokens {
-        0, "Old Style", "os";
-        1, "New Style", "ns";
-    }
-}
 
 vocab "jajg" {
     name "Scheme names";

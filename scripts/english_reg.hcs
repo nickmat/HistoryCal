@@ -80,6 +80,17 @@ vocab "er" {
     }
 }
 
+vocab "on" {
+    name "Scheme names";
+    fieldname "scheme";
+    lang "en";
+    stylename "Scheme", "Sch";
+    tokens {
+        0, "Old Style", "os";
+        1, "New Style", "ns";
+    }
+}
+
 vocab "part" {
     name "Part of Reign Year";
     fieldname "er-part";
