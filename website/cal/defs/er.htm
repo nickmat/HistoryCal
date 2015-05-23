@@ -171,6 +171,17 @@
     }
 }
 
+vocab "on" {
+    name "Scheme names";
+    fieldname "scheme";
+    lang "en";
+    stylename "Scheme", "Sch";
+    tokens {
+        0, "Old Style", "os";
+        1, "New Style", "ns";
+    }
+}
+
 vocab "part" {
     name "Part of Reign Year";
     fieldname "er-part";
@@ -191,7 +202,7 @@ grammar "er" {
         "Year",       "year";
         "Hist-Year",  "er-hyear";
         "Part",       "er-part";
-        "Scheme",     "er-scheme";
+        "Scheme",     "scheme";
     }
     alias stylename {
         "Day",       "dd";
@@ -210,10 +221,10 @@ scheme "er" {
     name "English Regnal";
     regnal {
         fields "year", "month", "day";
-        extended "er-hyear", "wday", "er-part", "er-scheme";
+        extended "er-hyear", "wday", "er-part", "scheme";
         era {
             scheme "eng";
-            match "unshift", "er-hyear", "scheme", "er-scheme";
+            match "unshift", "er-hyear";
         }
         era {  // William I
             range 2110773~2118336;
@@ -473,7 +484,7 @@ scheme "er" {
         era {  // Interregnum
             range 2337946~2338008;
             scheme "eng";
-            match "unshift", "er-hyear", "scheme", "er-scheme";
+            match "unshift", "er-hyear";
         }
         era {  // William and Mary
             range 2338009~2340152;
@@ -501,7 +512,6 @@ scheme "er" {
                     scheme 1 { shift "g", 2352006; }
                 }
             }
-            match "scheme", "er-scheme";
         }
         era {  // George III
             range 2364185~2385829;

@@ -35,8 +35,19 @@
 <p>
  The HistoryCal library has, at its heart, the ability to work
  with a number of basic calendar schemes.
- 
+ These calendars can be used directly,
+ or they may used to create variants as described below.
 </p>
+<p>
+ Some Base calendars available are:
+</p>
+<ul>
+ <li>Julian. The base for the Julian calendar variants.</li>
+ <li>Gregorian. The modified Julian calendar used world wide.</li>
+ <li>Hebrew. The calendar used by Jewish communities.</li>
+ <li>Islamic. A tabular version of the calendar used by Muslim communities.</li>
+ <li>Julian Day Number. A day count calendar used internally by HistoryCal.</li>  
+</ul>
 
 <h2>Shifted Calendars</h2>
 <p>
@@ -52,14 +63,90 @@
  For instance, when Julius Caesar introduced the Julian calendar,
  New Years Day was considered to be 1st January.
  However, not all calendar systems increased the year count on this day.
+ When the AD (Anno Domini) Julian calendar was first used,
+ the year change occurred on the 25th December.
+ Later, many other dates were used, for instance, 25th March,
+ the Feast of the Annunciation.
 </p>
 <p>
- 
+ We can also use the shift variant to change the era,
+ even if the year change remains the 1st January,
+ as with the Spanish Era calendar.
+ It will also work with day count calendars,
+ to create day count calendar that starts at a different date,
+ such as the Modified Julian Day calendar.
 </p>
 
 <h2>Hybrid Calendars</h2>
+<p>
+ When an authority changes from calender system to another,
+ and where the underling system is the same,
+ we can create a hybrid calender.
+ This occurred quite often with the Julian and Gregorian calenders.
+ Not only do they switch between them,
+ they may also change the year count change date.
+</p>
+<p>
+ In order for a hybrid calendar to be useful,
+ the change over must occur in an organised way, on a particular day.
+ But where it is possible, a hybrid calendar can simplify things.
+</p>
+<p>
+ The hybrid calendar has the appearance of adding or removing days from the calender.
+ On the occasions that days are added, this produces an ambiguity.
+ When one of these ambiguities occurs,
+ entering a date produces two possible results.
+ An additional element is required to indicate the required day,
+ for example, the scheme being used.
+ Alternatively, something like the day of the week can be added.
+</p>
 
 <h2>Regnal Calendars</h2>
+<p>
+ A common method of numbering the years in a calendar
+ is to number them from the start of the reign of a monarch or official.
+ Such calendars are still in use today.
+</p>
+<p>
+ A calendar based on this system is really a sequence of shifted calendars,
+ the era of each based on the start of the reign.
+ It also allows the specification of the date range covered by each era.
+ These ranges may overlap or have gaps, a default calendar is defined
+ to be used outside of these ranges.
+</p>
+
+<h2>In Development</h2>
+<p>
+ The project is still under development, and the following calendar variants are being considered.
+</p>
+<h3>Corrected Calendars</h3>
+<p>
+ With some calendars, a particular authority is used to decide on the calendar elements
+ and so a standard conversion is not possible.
+ The Islamic observation calendar based on the appearance of the crescent moon is such a calendar.
+</p>
+<p>
+ It is possible to create a calendar accurate to within a day or two and this may be sufficient.
+ But it may be possible, for instance, where the day of the week and calendar day is known,
+ to improve the accuracy by adding a correction table.
+</p>
+
+<h3>Estimated Calendars</h3>
+<p>
+ This is similar to the above, but where the error may be quite large
+ and there is little hope of improvement. An example would be the early Roman calendar.
+ In this variant, a series of ranges with a suggested error would be included.
+ Dates would translate to a range,
+ but would include a field so when translating back,
+ the system knows to remove the error range.
+</p>
+
+<h3>Multi Calendars</h3>
+<p>
+ A multi calendar is where two or more calendars are used together
+ but unlike a hybrid calendar, they do not have to be similar.
+ When formatting a multi-calendar, any element from any of the calendars may be used. 
+</p>
 
 </div>
 

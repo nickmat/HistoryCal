@@ -93,7 +93,8 @@
 >grammar "g" {
     inherit "j";
     format "iso" {
-        output "(Year:!lp.04)|-(Month:!lp.02)|-(Day:!lp.02)";
+        separators "-";
+        strict "(Year:!lp.04)|-(Month:!lp.02)|-(Day:!lp.02)";
     }
     pref "dmy";
 }

@@ -43,7 +43,35 @@
 
 <h2>Introduction</h2>
 <p>
- Under construction.
+ It is a goal of this project to add all the worlds calendar schemes for which we have reliable information.
+ This section will document those calendars and describe the progress being made.
+</p>
+<p>
+ To begin, we need to say what we mean by a calendar scheme.
+ Closely associated with schemes, is the format used to express them.
+ <i>"19 Sep 1948"</i> and <i>"9 19, 1948"</i>
+ is a single date expressed in the Gregorian calendar using different formats.
+ <i>"8 Days before the Ides of September 1948"</i> and <i>6 Sep 1948"</i>
+ is the same day expressed in two formats of the Julian calendar.
+ Whether we treat different formats of the same calendar as
+ one or two different schemes is purely arbitrary -
+ the underlying library allows both choices.
+ We can therefore make these decisions in the interests of clarity and efficiency.  
+</p>
+<p>
+ All Schemes have the following properties:-
+</p>
+<ul>
+ <li><b>Signature code.</b> A short text code which uniquely identifies the scheme.</li>
+ <li><b>Name.</b> A short description of the scheme.</li>
+ <li><b>Grammar.</b> A technical definition which describes how the scheme is written.</li>
+ <li><b>Use range.</b> The period of time that the scheme used or designed for.</li>
+</ul>
+<p>
+ The HistoryCal program has a number of calendars built-in, these are shown in the
+ <a href='defs/index.htm'>Calendar List</a>.
+ Others may be added by running a script,
+ some example scripts are supplied with the program.
 </p>
 
 </div>
