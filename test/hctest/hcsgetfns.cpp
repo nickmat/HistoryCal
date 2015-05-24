@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     20th June 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCalTest is free software: you can redistribute it and/or modify
@@ -33,6 +33,7 @@
 #include <dirent.h>
 #endif
 
+#include <cstring>
 #include <iostream>
 
 using std::vector;
@@ -51,7 +52,7 @@ void get_filenames( vector<string>& vec, const string& path )
         if( pdir->d_type & DT_DIR ) {
             get_filenames( vec, path + "/" + fname );
         } else {
-            size_t len = pdir->d_namlen;
+            size_t len = std::strlen( pdir->d_name );
             if( len > 4 && fname.substr( len - 4, 4 ) == ".hcs" ) {
                 vec.push_back( path + "/" + fname );
             }

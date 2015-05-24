@@ -30,6 +30,7 @@
 #include <utf8/utf8api.h>
 
 #include <cassert>
+#include <cstdlib>
 
 using namespace Cal;
 using std::string;
@@ -64,7 +65,7 @@ string Cal::get_first_word( const string& str, string* tail, char sep )
 
 Field Cal::str_to_field( const std::string& str )
 {
-    return strtol( str.c_str(), NULL, 10 );
+    return std::strtol( str.c_str(), NULL, 10 );
 }
 
 string Cal::make_key( const string& str )

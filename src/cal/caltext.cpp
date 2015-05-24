@@ -28,6 +28,7 @@
 #include "caltext.h"
 
 #include <cassert>
+#include <cstdlib>
 #include <sstream>
 
 using namespace Cal;
