@@ -110,6 +110,9 @@ grammar "fr" {
         "y",   "year";
     }
     format "cdmy",   "(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";
+    format "out" {
+        output "(CompDay:frcomp) |(NMDay) |(NMonth:frm) |an (Year:!rn)";
+    }
     format "dcdmy",  "(DecDay:frdd) |(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";
     format "wcdmy",  "(WDay:w), |(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";
     format "cdmy-",  "(CompDay:frcomp.a) |(NMDay) |(NMonth:frm.a) |(Year)";

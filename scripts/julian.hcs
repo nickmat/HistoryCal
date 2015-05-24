@@ -68,6 +68,12 @@ grammar "j" {
     }
     format "dmy",   "(Day) |(Month:m.a) |(Year)";
     format "wdmy",  "(WDay:w.a) |(Day) |(Month:m.a) |(Year)";
+    format "out" {
+        output "(Day:+os) |(Month:m) |(Year)";
+    }
+    format "full" {
+        output "(WDay:w) |(Day:+os) |(Month:m) |(Year)";
+    }
     format "dmy+",  "(Day) |(Month:m) |(Year)";
     format "wdmy+", "(WDay:w) |(Day) |(Month:m) |(Year)";
     format "mdy",   "(Month:m.a) |(Day), |(Year)";
@@ -113,6 +119,12 @@ grammar "j.sh" {
     }
     format "dmy",   "(Day) |(Month:m.a) |(Year)";
     format "dmyh",  "(Day) |(Month:m.a) |(Year/Hist-Year)";
+    format "out" {
+        output "(Day:+os) |(Month:m) |(Year/Hist-Year)";
+    }
+    format "full" {
+        output "(WDay:w) |(Day:+os) |(Month:m) |(Year/Hist-Year)";
+    }
     format "wdmyh", "(WDay:w.a) |(Day) |(Month:m.a) |(Year/Hist-Year)";
     pref "dmyh";
 }
