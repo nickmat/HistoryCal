@@ -1,7 +1,0 @@
-// Add a new format to the "fr" grammar for roman numeral years.
-
-mark "fr:stdout";
-
-format "fr:stdout" {
-    output "(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year:!rn)";
-}

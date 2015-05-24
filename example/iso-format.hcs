@@ -1,8 +1,0 @@
-// Add a new format to the "j" grammar for iso output.
-
-mark "iso";
-
-format "j:iso" {
-    output "(Year:!lp.04)|-(Month:!lp.02)|-(Day:!lp.02)";
-}
-
