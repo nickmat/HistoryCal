@@ -106,6 +106,22 @@ bool Cal::split_code_date(
     return true;
 }
 
+// Parse a string formated as 'scheme:format' into scheme and format.
+bool Cal::split_code( string* scheme, string* format, const string& codes )
+{
+    assert( scheme != NULL );
+    assert( format != NULL );
+
+    size_t pos = codes.find( ':' );
+    if( pos != string::npos ) {
+        *scheme = codes.substr( 0, pos );
+        *format = codes.substr( pos + 1 );
+    } else {
+        *scheme = codes;
+    }
+    return true;
+}
+
 // Convert a date expression string to a script string.
 string Cal::parse_date_expr( const string& str )
 {

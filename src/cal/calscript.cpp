@@ -112,12 +112,20 @@ bool Script::do_set()
         error( "set statement is \"set propery value;\"." );
         return false;
     }
-    SHandle sch = m_cals->get_scheme( value );
+    string scheme, format;
+    split_code( &scheme, &format, value );
+    SHandle sch = m_cals->get_scheme( scheme );
     if( sch ) {
         if( prop == "input" ) {
             store()->ischeme = sch;
+            if( format.size() ) {
+                m_cals->set_input_format( sch, format );
+            }
         } else if( prop == "output" ) {
             store()->oscheme = sch;
+            if( format.size() ) {
+                m_cals->set_output_format( sch, format );
+            }
         } else {
             error( "Set property \"" + prop + "\" not recognised." );
         }
