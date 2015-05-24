@@ -31,7 +31,7 @@
 
 !define HCALNAME      "HistoryCal"
 !define APP_EXE       "hcal.exe"
-!define VERSION_DOT   "0.0.4.0"
+!define VERSION_DOT   "0.0.5.0"
 !define VERSION_TXT   "V${VERSION_DOT} alpha"
 !define LICENSE       "license.txt"
 !define DESCRIPTION   "Historical Calendar Application Installer"

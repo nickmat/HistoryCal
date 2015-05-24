@@ -27,7 +27,7 @@
 
 #include "calversion.h"
 
-#define VERSION_NUM      "0.2.5"
+#define VERSION_NUM      "0.2.6"
 
 #if defined(NDEBUG) || !defined(_DEBUG)
 #define VERSION_CONFIG   ""
@@ -59,6 +59,8 @@ const char* Cal::cal_version = VERSION_NUM VERSION_CONFIG;
 
  24may15  v0.2.5  Add Islamic tabular calendars. Add Scottish hybrid and
                   regnal calendars. Improve format system.
+
+  active  v0.2.6  
 
 *****************************************************************************/
 

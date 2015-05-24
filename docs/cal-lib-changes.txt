@@ -1,5 +1,7 @@
 Cal Library Change History
 
+Active Version 0.2.6
+
 24 May 2015 Version 0.2.5
 - Add Tabular Islamic calendar with various options.
 - Add Shift calendar variant for use with day count calendars.
