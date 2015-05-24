@@ -77,7 +77,7 @@ const char* hcTitle = "HistoryCal - V" VERSION "\n"
                    Improve inserting text from the text vocabulary selector.
                    Use Cal library version 0.2.4.
 
-  active  v0.0.4   Use Cal library version 0.2.5.
+ 24may15  v0.0.4   Use Cal library version 0.2.5.
 
  See also website http://historycal.org
 

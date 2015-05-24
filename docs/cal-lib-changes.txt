@@ -1,6 +1,6 @@
 Cal Library Change History
 
-current Version 0.2.5
+24 May 2015 Version 0.2.5
 - Add Tabular Islamic calendar with various options.
 - Add Shift calendar variant for use with day count calendars.
 - Add format statement to script language.
@@ -9,6 +9,13 @@ current Version 0.2.5
 - Add Scottish hybrid calendar to default script.
 - Add Scottish Regnal calendar to default script.
 - Add Spanish Era calendar to default script.
+- Change date expression parser to accept hyphens in text.
+- Fix memory leak bug in the Hybrid class destructor.
+- Allow formats to be created just for output.
+- Add Ordinal Suffix to output formats.
+- Add Roman Numerals to output formats.
+- Change the way default formats are selected.
+- The "set" statement can now set input/output format as well as the scheme.
 
 16 Mar 2015 Version 0.2.4
 - Add Hebrew Arithmetic calendar.

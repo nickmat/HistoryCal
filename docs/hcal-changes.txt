@@ -1,6 +1,8 @@
 HistoryCal Calulator Changes History
 
-current Version 0.0.4 alpha
+24 May 2015 Version 0.0.4 alpha
+- New and updated example scripts.
+- Use Cal library v0.2.5
 
 16 Mar 2015 Version 0.0.3 alpha
 - Improve inserting text from the text vocabulary selector.

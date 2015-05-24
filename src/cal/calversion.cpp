@@ -57,7 +57,8 @@ const char* Cal::cal_version = VERSION_NUM VERSION_CONFIG;
  16mar15  v0.2.4  Handling of UTF8 improved. Add French Republician calendar.
                   Add Hebrew calendar.
 
-  active  v0.2.5  Add Islamic tabular calendars.
+ 24may15  v0.2.5  Add Islamic tabular calendars. Add Scottish hybrid and
+                  regnal calendars. Improve format system.
 
 *****************************************************************************/
 

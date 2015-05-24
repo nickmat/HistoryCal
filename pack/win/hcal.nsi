@@ -31,7 +31,7 @@
 
 !define HCALNAME      "HistoryCal"
 !define APP_EXE       "hcal.exe"
-!define VERSION_DOT   "0.0.3.0"
+!define VERSION_DOT   "0.0.4.0"
 !define VERSION_TXT   "V${VERSION_DOT} alpha"
 !define LICENSE       "license.txt"
 !define DESCRIPTION   "Historical Calendar Application Installer"
@@ -157,7 +157,13 @@ Section "Examples" InstallExamples
   CreateDirectory "${EXAMPLE_PATH}"
   SetOutPath      "${EXAMPLE_PATH}"
 
-  File "spanish-era.hcs"
+  File "day-counts.hcs"
+  File "Islamic-Ia.hcs"
+  File "Islamic-Ic.hcs"
+  File "Islamic-IIIc.hcs"
+  File "Islamic-IVa.hcs"
+  File "Islamic-IVc.hcs"
+  File "html-format.hcs"
   File "misc-calc.hcs"
   File "today-is.hcs"
 
