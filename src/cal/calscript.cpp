@@ -593,6 +593,8 @@ bool Script::do_grammar()
                 do_grammar_alias( gmr );
             } else if( name == "inherit" ) {
                 do_grammar_inherit( gmr );
+            } else if( name == "optional" ) {
+                StringVec optfields = do_string_list();
             }
         }
     }
