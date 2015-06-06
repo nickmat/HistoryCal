@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th December 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013-2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -28,23 +28,8 @@
 #include "caljdn.h"
 
 using namespace Cal;
-using namespace std;
+using std::string;
 
-int Jdn::get_fieldname_index( const string& fieldname ) const
-{
-    if( fieldname == "day" ) {
-        return 0;
-    }
-    return -1;
-}
-
-string Jdn::get_fieldname( size_t index ) const
-{
-    if( index == 0 ) {
-        return "day";
-    }
-    return "";
-}
 
 bool Jdn::set_fields_as_begin_first( Field* fields, const Field* mask ) const
 {
@@ -66,6 +51,22 @@ bool Jdn::set_fields_as_begin_last( Field* fields, const Field* mask ) const
 bool Jdn::set_fields_as_next_last( Field* fields, const Field* mask ) const
 {
     return false;
+}
+
+int Jdn::get_std_fieldname_index( const string& fieldname ) const
+{
+    if( fieldname == "day" ) {
+        return 0;
+    }
+    return -1;
+}
+
+string Jdn::get_std_fieldname( size_t index ) const
+{
+    if( index == 0 ) {
+        return "day";
+    }
+    return "";
 }
 
 // End of src/cal/caljdn.cpp file
