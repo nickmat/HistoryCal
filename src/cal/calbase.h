@@ -58,8 +58,8 @@ namespace Cal {
         virtual size_t extended_size() const { return additional_size() + m_opt_fields.size(); }
 
         // Returns the index to the named Record field, or -1 if not found.
-        virtual int get_fieldname_index( const std::string& fieldname ) const = 0;
-        virtual std::string get_fieldname( size_t index ) const = 0;
+        virtual int get_fieldname_index( const std::string& fieldname ) const;
+        virtual std::string get_fieldname( size_t index ) const;
 
 
         // Converts the Field's into a jdn and returns it.
@@ -149,8 +149,11 @@ namespace Cal {
         Field compare_except( const Field* first, const Field* second, size_t except = 0 ) const;
 
     protected:
+        virtual int get_std_fieldname_index( const std::string& fieldname ) const { return get_ymd_fieldname_index( fieldname ); }
+        virtual std::string get_std_fieldname( size_t index ) const { return get_ymd_fieldname( index ); }
         virtual OptFieldID get_opt_field_id( const std::string& fieldname ) const;
         virtual std::string get_opt_fieldname( OptFieldID field_id ) const;
+
         virtual Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const;
         virtual Field get_additional_field( const Field* fields, Field jdn, size_t index ) const { return f_invalid; };
 

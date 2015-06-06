@@ -54,6 +54,30 @@ Base::~Base()
     }
 }
 
+int Base::get_fieldname_index( const string& fieldname ) const
+{
+    int index = get_std_fieldname_index( fieldname );
+    if( index < 0 ) {
+        for( size_t i = 0 ; i < m_opt_fields.size() ; i++ ) {
+            if( get_opt_fieldname( m_opt_fields[i] ) == fieldname ) {
+                return additional_size() + i;
+            }
+        }
+    }
+    return index;
+}
+
+string Base::get_fieldname( size_t index ) const
+{
+    if( index < additional_size() ) {
+        return get_std_fieldname( index );
+    }
+    if( index < extended_size() ) {
+        return get_opt_fieldname( OptFieldID( index - additional_size() ) );
+    }
+    return "";
+}
+
 Field Base::get_extended_field( const Field* fields, Field jdn, size_t index ) const
 {
     if( index >= record_size() ) {
