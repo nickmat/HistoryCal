@@ -293,12 +293,16 @@ Format* Base::get_format( std::string& fcode ) const
 
 void Base::set_grammar( Grammar* grammar )
 {
-    if( grammar == NULL ) {
+    if( grammar == NULL || m_grammar != NULL ) {
         return;
     }
     m_grammar = grammar;
     set_output_fcode( grammar->get_pref_output_fcode() );
     set_input_fcode( grammar->get_pref_input_fcode() );
+    StringVec optfields = grammar->get_opt_fieldnames();
+    for( size_t i = 0 ; i < optfields.size() ; i++ ) {
+        add_opt_field( optfields[i] );
+    }
 }
 
 void Base::add_opt_field( const string& fieldname )

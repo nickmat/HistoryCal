@@ -67,7 +67,8 @@ namespace Cal {
 
         void remove_format( const std::string& fcode );
 
-        void set_opt_fields( StringVec fieldnames ) { m_opt_fields = fieldnames; }
+        void set_opt_fieldnames( StringVec fieldnames ) { m_opt_fieldnames = fieldnames; }
+        StringVec get_opt_fieldnames() const { return m_opt_fieldnames; }
 
     private:
         std::string                m_code;
@@ -79,7 +80,7 @@ namespace Cal {
         FormatMap                  m_formats;
         std::string                m_pref_input_fcode;
         std::string                m_pref_output_fcode;
-        StringVec                  m_opt_fields;
+        StringVec                  m_opt_fieldnames;
     };
 
 }
