@@ -216,8 +216,8 @@ SHandle Script::do_create_scheme( const std::string& code )
         return NULL;
     }
     Base* base = NULL;
-    string name;
-    string gmr_code;
+    string name, gmr_code;
+    StringVec optfields;
     Scheme_style style = SCH_STYLE_Default;
     for(;;) {
         SToken token = m_ts.next();
@@ -239,6 +239,8 @@ SHandle Script::do_create_scheme( const std::string& code )
                 base = do_base_hybrid();
             } else if( token.get_str() == "regnal" ) {
                 base = do_base_regnal();
+            } else if( token.get_str() == "optional" ) {
+                optfields = do_string_list();
             } else if( token.get_str() == "grammar" ) {
                 expr( true ).get( gmr_code );
             } else if( token.get_str() == "style" ) {
@@ -255,6 +257,9 @@ SHandle Script::do_create_scheme( const std::string& code )
     }
     if( base == NULL ) {
         return NULL;
+    }
+    for( size_t i = 0 ; i < optfields.size() ; i++ ) {
+        base->add_opt_field( optfields[i] );
     }
     SHandle sch = new Scheme( name, base );
     sch->set_style( style );

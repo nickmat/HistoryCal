@@ -29,6 +29,7 @@
 
 #include "calformat.h"
 #include "calgrammar.h"
+#include "calmath.h"
 #include "calparse.h"
 #include "calvocab.h"
 
@@ -51,6 +52,18 @@ Base::~Base()
     if( m_grammar && m_grammar->code() == "" ) {
         delete m_grammar;
     }
+}
+
+Field Base::get_extended_field( const Field* fields, Field jdn, size_t index ) const
+{
+    if( index >= record_size() ) {
+        size_t e_size = extended_size() - m_opt_fields.size();
+        if( index >= e_size ) {
+            return get_opt_field( fields, jdn, OptFieldID( index - e_size ) );
+        }
+        return get_additional_field( fields, jdn, index - record_size() );
+    }
+    return f_invalid;
 }
 
 void Base::remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const
@@ -264,6 +277,14 @@ void Base::set_grammar( Grammar* grammar )
     set_input_fcode( grammar->get_pref_input_fcode() );
 }
 
+void Base::add_opt_field( const string& fieldname )
+{
+    OptFieldID id = get_opt_field_id( fieldname );
+    if( id != OFID_NULL ) {
+        m_opt_fields.push_back( id );
+    }
+}
+
 XRefVec Base::get_xref_order( int cnt, Format* fmt ) const
 {
     XRefSet xref_set;
@@ -375,6 +396,45 @@ void Base::create_default_grammar() const
     }
     fmt->set_format( format );
     m_grammar = gmr;
+}
+
+OptFieldID Base::get_opt_field_id( const std::string& fieldname ) const
+{
+    if( fieldname == "wday" ) {
+        return OFID_wday;
+    } else if( fieldname == "wsday" ) {
+        return OFID_wsday;
+    } else if( fieldname == "dayinyear" ) {
+        return OFID_dayinyear;
+    }
+    return OFID_NULL;
+}
+
+std::string Base::get_opt_fieldname( OptFieldID field_id ) const
+{
+    switch( field_id )
+    {
+    case OFID_wday:
+        return "wday";
+    case OFID_wsday:
+        return "wsday";
+    case OFID_dayinyear:
+        return "dayinyear";
+    default:
+        return "";
+    }
+}
+
+Field Base::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const
+{
+    switch( id )
+    {
+    case OFID_wday:
+        return day_of_week( jdn ) + 1; // Mon=1, Sun=7
+    case OFID_wsday:
+        return day_of_week( jdn + 1 ) + 1; // Sun=1, Sun=7
+    }
+    return f_invalid;
 }
 
 XRefSet Base::create_input_xref_set( Format* fmt ) const

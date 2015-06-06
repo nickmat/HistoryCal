@@ -35,6 +35,13 @@ namespace Cal {
     typedef std::map<int,XRefVec> XRefSet;
     typedef std::map<std::string,XRefSet> XRefMap;
 
+    enum OptFieldID {
+        OFID_NULL,
+        OFID_wday, OFID_wsday,
+        OFID_dayinyear,
+        OFID_MAX
+    };
+
     class Base
     {
     public:
@@ -45,18 +52,21 @@ namespace Cal {
         virtual bool is_ok() const { return true; }
         // Return the maximum number of Fields required by the Record.
         virtual size_t record_size() const = 0;
+        // Return the number of additional (read-only) Fields available.
+        virtual size_t additional_size() const { return record_size(); }
         // Return the number of extended (read-only) Fields available.
-        virtual size_t extended_size() const { return record_size(); }
+        virtual size_t extended_size() const { return additional_size() + m_opt_fields.size(); }
 
         // Returns the index to the named Record field, or -1 if not found.
         virtual int get_fieldname_index( const std::string& fieldname ) const = 0;
         virtual std::string get_fieldname( size_t index ) const = 0;
 
+
         // Converts the Field's into a jdn and returns it.
         virtual Field get_jdn( const Field* fields ) const = 0;
 
         // Get an extended field value
-        virtual Field get_extended_field( const Field* fields, Field jdn, size_t index ) const { return f_invalid; }
+        virtual Field get_extended_field( const Field* fields, Field jdn, size_t index ) const;
 
         // Give the chance to set a field to a fixed value.
         virtual void set_fixed_fields( Field* fields ) const {}
@@ -126,6 +136,8 @@ namespace Cal {
         void set_input_fcode( const std::string& code ) { m_input_fcode = code; }
         void set_output_fcode( const std::string& code ) { m_output_fcode = code; }
 
+        void add_opt_field( const std::string& fieldname );
+
         XRefVec get_xref_order( int count, Format* fmt ) const;
 
         FieldVec fields_to_vec( const Field* fields ) const;
@@ -137,6 +149,11 @@ namespace Cal {
         Field compare_except( const Field* first, const Field* second, size_t except = 0 ) const;
 
     protected:
+        virtual OptFieldID get_opt_field_id( const std::string& fieldname ) const;
+        virtual std::string get_opt_fieldname( OptFieldID field_id ) const;
+        virtual Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const;
+        virtual Field get_additional_field( const Field* fields, Field jdn, size_t index ) const { return f_invalid; };
+
         virtual XRefVec get_default_xref_order( int count ) const;
 
         int get_ymd_fieldname_index( const std::string& fieldname ) const;
@@ -157,6 +174,8 @@ namespace Cal {
         std::string      m_output_fcode;
         // Cache these as they are expensive to create.
         mutable XRefMap  m_xref_inputs;
+
+        std::vector<OptFieldID> m_opt_fields;
     };
 
 }
