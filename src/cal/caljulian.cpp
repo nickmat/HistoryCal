@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013-2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -68,37 +68,6 @@ namespace {
         return;
     }
 
-}
-
-int Julian::get_fieldname_index( const string& fieldname ) const
-{
-    int ret = get_ymd_fieldname_index( fieldname );
-    if( ret >= 0 ) {
-        return ret;
-    }
-    int offset = record_size();
-    if( fieldname == "wday" ) { // Week day (Monday=1, Sunday=7)
-        return offset + JEFN_wday;
-    }
-    if( fieldname == "litweek" ) { // Liturgical week number value
-        return offset + JEFN_litweek;
-    }
-    return -1;
-}
-
-string Julian::get_fieldname( size_t index ) const
-{
-    if( index < sizeof_ymd_fieldnames() ) {
-        return get_ymd_fieldname( index );
-    }
-    switch( index - record_size() )
-    {
-    case JEFN_wday:
-        return "wday";
-    case JEFN_litweek:
-        return "litweek";
-    }
-    return "";
 }
 
 Field Julian::get_jdn( const Field* fields ) const

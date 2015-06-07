@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013-2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -37,10 +37,6 @@ namespace Cal {
         enum JulianExtendedFieldNumber { JEFN_wday, JEFN_litweek, JEFN_COUNT };
     public:
         virtual size_t record_size() const { return 3; }
-        virtual size_t extended_size() const { return record_size() + JEFN_COUNT; }
-
-        virtual int get_fieldname_index( const std::string& fieldname ) const;
-        virtual std::string get_fieldname( size_t index ) const;
 
         virtual Field get_jdn( const Field* fields ) const;
         virtual Field get_extended_field( const Field* fields, Field jdn, size_t index ) const;

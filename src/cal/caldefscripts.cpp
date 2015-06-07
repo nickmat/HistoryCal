@@ -86,6 +86,7 @@ const char* Cal::cal_default_scripts[] = {
  "}\n"
  "}\n"
  "grammar \"j\" {\n"
+ "optional \"wday\";\n"
  "vocabs \"m\", \"w\";\n"
  "alias field {\n"
  "\"WDay\",  \"wday\";\n"
