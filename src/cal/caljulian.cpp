@@ -27,7 +27,6 @@
 
 #include "caljulian.h"
 
-#include "calliturgical.h"
 #include "calmath.h"
 
 using namespace Cal;
@@ -78,18 +77,6 @@ Field Julian::get_jdn( const Field* fields ) const
     return jdn( fields[0], fields[1], fields[2] );
 }
 
-Field Julian::get_extended_field( const Field* fields, Field jdn, size_t index ) const
-{
-    switch( index - record_size() )
-    {
-    case JEFN_wday:
-        return day_of_week( jdn ) + 1; // Mon=1, Sun=7
-    case JEFN_litweek:
-        return liturgical_get_litweek( this, jdn );
-    }
-    return f_invalid;
-}
-
 bool Julian::set_fields_as_begin_first( Field* fields, const Field* mask ) const
 {
     if( mask[0] == f_invalid ) {
@@ -126,34 +113,6 @@ bool Julian::set_fields_as_begin_last( Field* fields, const Field* mask ) const
 
 bool Julian::set_fields_as_next_last( Field* fields, const Field* mask ) const
 {
-    return false;
-}
-
-bool Julian::set_fields_as_next_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const
-{
-	if( index == record_size() + JEFN_wday ) {
-		if( mask[index] >= 1 && mask[index] <= 7 && jdn != f_invalid ) {
-			Field knext = kday_on_or_after( Weekday( mask[index] - 1 ), jdn );
-			if( knext != jdn ) {
-				set_fields( fields, knext );
-				return true;
-			}
-		}
-	}
-    return false;
-}
-
-bool Julian::set_fields_as_prev_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const
-{
-	if( index == record_size() + JEFN_wday ) {
-		if( mask[index] >= 1 && mask[index] <= 7 && jdn != f_invalid ) {
-			Field knext = kday_on_or_before( Weekday( mask[index] - 1 ), jdn );
-			if( knext != jdn ) {
-				set_fields( fields, knext );
-				return true;
-			}
-		}
-    }
     return false;
 }
 

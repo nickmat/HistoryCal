@@ -79,9 +79,11 @@ namespace Cal {
         // Calculate the extended field, indicated by index, that is on or after the jdn or mask values.
         // If calulated date is different, update the fields to match and return true, otherwise return false.
         virtual bool set_fields_as_next_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const { return false; }
+        virtual bool set_fields_as_next_optional( Field* fields, Field jdn, const Field* mask, size_t index ) const;
         // Calculate the extended field, indicated by index, that is on or before the jdn or mask values.
         // If calulated date is different, update the fields to match and return true, otherwise return false.
         virtual bool set_fields_as_prev_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const { return false; }
+        virtual bool set_fields_as_prev_optional( Field* fields, Field jdn, const Field* mask, size_t index ) const;
 
         virtual void remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const;
 

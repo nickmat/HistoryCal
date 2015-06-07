@@ -83,11 +83,53 @@ Field Base::get_extended_field( const Field* fields, Field jdn, size_t index ) c
     if( index >= record_size() ) {
         size_t e_size = extended_size() - m_opt_fields.size();
         if( index >= e_size ) {
-            return get_opt_field( fields, jdn, OptFieldID( index - e_size ) );
+            return get_opt_field( fields, jdn, m_opt_fields[index-e_size] );
         }
         return get_additional_field( fields, jdn, index - record_size() );
     }
     return f_invalid;
+}
+
+bool Base::set_fields_as_next_optional( Field* fields, Field jdn, const Field* mask, size_t index ) const
+{
+    if( index >= (extended_size() - m_opt_fields.size() ) ) {
+        OptFieldID id = m_opt_fields[index-additional_size()];
+        switch( id )
+        {
+        case OFID_wday:
+		    if( mask[index] >= 1 && mask[index] <= 7 && jdn != f_invalid ) {
+			    Field knext = kday_on_or_after( Weekday( mask[index] - 1 ), jdn );
+			    if( knext != jdn ) {
+				    set_fields( fields, knext );
+				    return true;
+			    }
+		    }
+            break;
+	    }
+        return false;
+    }
+    return set_fields_as_next_extended( fields, jdn, mask, index );
+}
+
+bool Base::set_fields_as_prev_optional( Field* fields, Field jdn, const Field* mask, size_t index ) const
+{
+    if( index >= (extended_size() - m_opt_fields.size() ) ) {
+        OptFieldID id = m_opt_fields[index-additional_size()];
+        switch( id )
+        {
+        case OFID_wday:
+		    if( mask[index] >= 1 && mask[index] <= 7 && jdn != f_invalid ) {
+			    Field knext = kday_on_or_before( Weekday( mask[index] - 1 ), jdn );
+			    if( knext != jdn ) {
+				    set_fields( fields, knext );
+				    return true;
+			    }
+		    }
+            break;
+        }
+        return false;
+    }
+    return set_fields_as_prev_extended( fields, jdn, mask, index );
 }
 
 void Base::remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const

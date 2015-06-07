@@ -121,7 +121,7 @@ bool Record::set_fields_as_begin_first( const Field* mask )
                 continue;
             }
             // Adjust to match extended field
-            if( m_base->set_fields_as_next_extended( &m_f[0], m_jdn, mask, i ) ) {
+            if( m_base->set_fields_as_next_optional( &m_f[0], m_jdn, mask, i ) ) {
                 Field jdn = get_jdn();
                 if( m_jdn != jdn ) {
                     m_jdn = jdn;
@@ -161,7 +161,7 @@ bool Record::set_fields_as_begin_last(  const Field* mask )
                 continue;
             }
             // Adjust to match extended field
-            if( m_base->set_fields_as_prev_extended( &m_f[0], m_jdn, mask, i ) ) {
+            if( m_base->set_fields_as_prev_optional( &m_f[0], m_jdn, mask, i ) ) {
                 Field jdn = get_jdn();
                 if( m_jdn != jdn ) {
                     m_jdn = jdn;
