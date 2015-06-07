@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     29th March 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -61,7 +61,7 @@ void Soak_eng::setUp()
     m_cal = new Calendars;
     m_cal->run_script(
         "scheme \"j\" {name \"Julian\"; base julian;}"
-        "scheme \"ja\" {name \"Julian Annunciation\"; shift \"j\", 1721507;}"
+        "scheme \"ja\" {name \"Julian Annunciation\"; shift \"j\", 1721507; optional \"unshift\";}"
         "scheme \"g\" {name \"Gregorian\"; base gregorian;}"
         "scheme \"eng\" {name \"English Hybrid\";"
         " hybrid {"

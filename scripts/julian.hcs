@@ -104,6 +104,7 @@ scheme "g" {
 }
 
 grammar "j.sh" {
+    optional "unshift", "wday";
     vocabs "m", "w";
     alias field {
         "WDay",      "wday";

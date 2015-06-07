@@ -139,6 +139,7 @@ const char* Cal::cal_default_scripts[] = {
  "grammar \"g\";\n"
  "}\n"
  "grammar \"j.sh\" {\n"
+ "optional \"unshift\", \"wday\";\n"
  "vocabs \"m\", \"w\";\n"
  "alias field {\n"
  "\"WDay\",      \"wday\";\n"

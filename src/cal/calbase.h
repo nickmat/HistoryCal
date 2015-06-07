@@ -39,6 +39,7 @@ namespace Cal {
         OFID_NULL,
         OFID_wday, OFID_wsday,
         OFID_dayinyear,
+        OFID_unshift,
         OFID_MAX
     };
 

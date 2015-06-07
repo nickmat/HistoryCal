@@ -476,6 +476,8 @@ OptFieldID Base::get_opt_field_id( const std::string& fieldname ) const
         return OFID_wsday;
     } else if( fieldname == "dayinyear" ) {
         return OFID_dayinyear;
+    } else if( fieldname == "unshift" ) {
+        return OFID_unshift;
     }
     return OFID_NULL;
 }
@@ -490,6 +492,8 @@ std::string Base::get_opt_fieldname( OptFieldID field_id ) const
         return "wsday";
     case OFID_dayinyear:
         return "dayinyear";
+    case OFID_unshift:
+        return "unshift";
     default:
         return "";
     }

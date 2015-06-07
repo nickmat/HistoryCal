@@ -103,7 +103,6 @@ void Record::set_str( const string& str, const string& fcode )
     } else {
         clear_fields();
     }
-    return;
 }
 
 bool Record::set_fields_as_begin_first( const Field* mask )
