@@ -340,4 +340,14 @@ void Grammar::remove_format( const string& fcode )
     m_formats.erase( fcode );
 }
 
+StringVec Grammar::get_opt_fieldnames() const
+{
+    if( m_inherit ) {
+        StringVec ofns = m_inherit->get_opt_fieldnames();
+        ofns.insert( ofns.end(), m_opt_fieldnames.begin(), m_opt_fieldnames.end() );
+        return ofns;
+    }
+    return m_opt_fieldnames;
+}
+
 // End of src/cal/calgrammar.cpp file
