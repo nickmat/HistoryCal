@@ -1040,6 +1040,7 @@ const char* Cal::cal_default_scripts[] = {
  "}\n"
  "}\n"
  "grammar \"fr\" {\n"
+ "optional \"nmonth\", \"nmday\", \"cday\", \"dday\", \"wday\";\n"
  "vocabs \"frm\", \"frcomp\", \"frdd\", \"w\";\n"
  "alias field {\n"
  "\"Day\",     \"day\";\n"

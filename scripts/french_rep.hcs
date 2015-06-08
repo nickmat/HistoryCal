@@ -81,6 +81,7 @@ vocab "frcomp" {
 }
 
 grammar "fr" {
+    optional "nmonth", "nmday", "cday", "dday", "wday";
     vocabs "frm", "frcomp", "frdd", "w";
     alias field {
         "Day",     "day";

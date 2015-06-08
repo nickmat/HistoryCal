@@ -35,11 +35,20 @@ namespace Cal {
     typedef std::map<int,XRefVec> XRefSet;
     typedef std::map<std::string,XRefSet> XRefMap;
 
+    enum {
+        YMD_year, YMD_month, YMD_day
+    };
     enum OptFieldID {
         OFID_NULL,
-        OFID_wday, OFID_wsday,
-        OFID_dayinyear,
-        OFID_unshift,
+        OFID_wday,      // 7 Day week Mon=1 (1 to 7)
+        OFID_wsday,     // 7 Day week Sun=1 (1 to 7)
+        OFID_dayinyear, // Day in year (1 to about 366, dep. on scheme)
+        OFID_unshift,   // Value before being shifted, (year or day)
+        // French Republican fields
+        OFID_fr_nmonth, // Named month (1 to 12) (or invalid)
+        OFID_fr_nmday,  // Named month day (1 to 30) (or invalid)
+        OFID_fr_cday,   // Complementary day (1 to 6) (or invalid)
+        OFID_fr_dday,   // Day within Decade (1 to 10) (or invalid)
         OFID_MAX
     };
 
@@ -159,6 +168,9 @@ namespace Cal {
 
         virtual Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const;
         virtual Field get_additional_field( const Field* fields, Field jdn, size_t index ) const { return f_invalid; };
+        size_t opt_fields_size() const { return m_opt_fields.size(); }
+        OptFieldID opt_field_id( size_t index ) const { return m_opt_fields[index]; }
+        int opt_field_index( OptFieldID id ) const;
 
         virtual XRefVec get_default_xref_order( int count ) const;
 

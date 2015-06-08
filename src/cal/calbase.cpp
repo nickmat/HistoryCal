@@ -422,6 +422,16 @@ Field Base::compare_except( const Field* first, const Field* second, size_t exce
     return 0;
 }
 
+int Base::opt_field_index( OptFieldID id ) const
+{
+    for( size_t i = 0 ; i < m_opt_fields.size() ; i++ ) {
+        if( m_opt_fields[i] == id ) {
+            return additional_size() + i;
+        }
+    }
+    return -1;
+}
+
 XRefVec Base::get_default_xref_order( int count ) const
 {
     XRefVec xref( record_size(), -1 );
