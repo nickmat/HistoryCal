@@ -34,31 +34,17 @@ namespace Cal {
 
     class Islamic : public Base
     {
-        enum IslamicFieldNumber {
-            IFN_year, IFN_month, IFN_day,
-            IFN_RCOUNT,
-            IFN_wsday = IFN_RCOUNT,
-            IFN_ECOUNT
-        };
     public:
         Islamic( const std::string& data );
 
-        virtual size_t record_size() const { return IFN_RCOUNT; }
-        virtual size_t extended_size() const { return IFN_ECOUNT; }
-
-        virtual int get_fieldname_index( const std::string& fieldname ) const;
-        virtual std::string get_fieldname( size_t index ) const;
+        virtual size_t record_size() const { return 3; }
 
         virtual Field get_jdn( const Field* fields ) const;
-        virtual Field get_extended_field( const Field* fields, Field jdn, size_t index ) const;
 
         virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) const;
         virtual bool set_fields_as_next_first( Field* fields, const Field* mask ) const { return false; }
         virtual bool set_fields_as_begin_last( Field* fields, const Field* mask ) const;
         virtual bool set_fields_as_next_last( Field* fields, const Field* mask ) const { return false; }
-
-        virtual bool set_fields_as_next_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const;
-        virtual bool set_fields_as_prev_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const;
 
         virtual void set_fields( Field* fields, Field jdn ) const;
 

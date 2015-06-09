@@ -1196,6 +1196,7 @@ const char* Cal::cal_default_scripts[] = {
  "}\n"
  "}\n"
  "grammar \"i\" {\n"
+ "optional \"wsday\";\n"
  "vocabs \"im\", \"iw\";\n"
  "alias field {\n"
  "\"WDay\",  \"wsday\";\n"
