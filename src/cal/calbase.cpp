@@ -97,6 +97,7 @@ bool Base::set_fields_as_next_optional( Field* fields, Field jdn, const Field* m
         switch( id )
         {
         case OFID_wday:
+            // Adjust jdn and knext for week starting Monday 
 		    if( mask[index] >= 1 && mask[index] <= 7 && jdn != f_invalid ) {
 			    Field knext = kday_on_or_after( Weekday( mask[index] - 1 ), jdn );
 			    if( knext != jdn ) {
@@ -105,7 +106,17 @@ bool Base::set_fields_as_next_optional( Field* fields, Field jdn, const Field* m
 			    }
 		    }
             break;
-	    }
+        case OFID_wsday:
+		    if( mask[index] >= 1 && mask[index] <= 7 && jdn != f_invalid ) {
+                // Adjust jdn and knext for week starting Sunday 
+			    Field knext = kday_on_or_after( Weekday( mask[index] - 1 ), jdn + 1 ) - 1;
+			    if( knext != jdn ) {
+				    set_fields( fields, knext );
+				    return true;
+			    }
+		    }
+            break;
+        }
         return false;
     }
     return set_fields_as_next_extended( fields, jdn, mask, index );
@@ -120,6 +131,16 @@ bool Base::set_fields_as_prev_optional( Field* fields, Field jdn, const Field* m
         case OFID_wday:
 		    if( mask[index] >= 1 && mask[index] <= 7 && jdn != f_invalid ) {
 			    Field knext = kday_on_or_before( Weekday( mask[index] - 1 ), jdn );
+			    if( knext != jdn ) {
+				    set_fields( fields, knext );
+				    return true;
+			    }
+		    }
+            break;
+        case OFID_wsday:
+		    if( mask[index] >= 1 && mask[index] <= 7 && jdn != f_invalid ) {
+                // Adjust jdn and knext for week starting Sunday 
+			    Field knext = kday_on_or_before( Weekday( mask[index] - 1 ), jdn + 1 ) - 1;
 			    if( knext != jdn ) {
 				    set_fields( fields, knext );
 				    return true;
