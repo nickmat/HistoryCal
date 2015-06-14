@@ -29,8 +29,10 @@
 
 #include "calmath.h"
 
+#include <cassert>
+
 using namespace Cal;
-using namespace std;
+using std::string;
 
 #define BASEDATE_Julian    1721058L
 
@@ -219,6 +221,44 @@ Field Julian::jdn( Field year, Field month, Field day ) const
 Field Julian::easter( Field year ) const
 {
     return jdn( year, 4, 19 ) - ( 14 + 11 * ( year % 19 ) ) % 30;
+}
+
+OptFieldID Julian::get_opt_field_id( const std::string& fieldname ) const
+{
+    if( fieldname == "ce" ) {  // 0 = BCE, 1 = CE
+        return OFID_j_ce;
+    }
+    // Positive CE or BCE year
+    if( fieldname == "ceyear" ) {
+        return OFID_j_ceyear;
+    }
+    return Base::get_opt_field_id( fieldname );
+}
+
+std::string Julian::get_opt_fieldname( OptFieldID field_id ) const
+{
+    switch( field_id )
+    {
+    case OFID_j_ce:
+        return "ce";
+    case OFID_j_ceyear:
+        return "ceyear";
+    default:
+        return Base::get_opt_fieldname( field_id );
+    }
+}
+
+Field Julian::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const
+{
+    switch( id )
+    {
+    case OFID_j_ce:  // 0 = BCE, 1 = CE
+        return fields[YMD_year] < 1 ? 0 : 1;
+    case OFID_j_ceyear: // Positive CE or BCE year
+        return fields[YMD_year] < 1 ? -fields[YMD_year] + 1 : fields[YMD_year];
+    default:
+        return Base::get_opt_field( fields, jdn, id );
+    }
 }
 
 /*! Returns true if the year is a leap year in the Julian Calendar.

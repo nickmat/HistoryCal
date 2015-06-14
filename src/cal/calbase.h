@@ -44,6 +44,9 @@ namespace Cal {
         OFID_wsday,     // 7 Day week Sun=1 (1 to 7)
         OFID_dayinyear, // Day in year (1 to about 366, dep. on scheme)
         OFID_unshift,   // Value before being shifted, (year or day)
+        // Julian, Gregorian
+        OFID_j_ce,      // 0 = BCE, 1 = CE
+        OFID_j_ceyear,  // Positive CE or BCE year
         // French Republican fields
         OFID_fr_nmonth, // Named month (1 to 12) (or invalid)
         OFID_fr_nmday,  // Named month day (1 to 30) (or invalid)

@@ -57,6 +57,10 @@ namespace Cal {
         virtual Field easter( Field year ) const;
 
     protected:
+        virtual OptFieldID get_opt_field_id( const std::string& fieldname ) const;
+        virtual std::string get_opt_fieldname( OptFieldID field_id ) const;
+        virtual Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const;
+
         virtual bool is_leap_year( Field year ) const;
         Field last_day_in_month( Field year, Field month ) const;
     };
