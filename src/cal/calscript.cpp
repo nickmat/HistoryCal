@@ -596,6 +596,9 @@ bool Script::do_grammar()
             } else if( name == "optional" ) {
                 StringVec optfields = do_string_list();
                 gmr->set_opt_fieldnames( optfields );
+            } else if( name == "rank" ) {
+                StringVec rankfields = do_string_list();
+                gmr->set_rank_fieldnames( rankfields );
             }
         }
     }
