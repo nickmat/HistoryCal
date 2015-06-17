@@ -268,8 +268,8 @@ bool Base::resolve_input(
             }
         }
         if( fname.size() ) {
-            int index = get_fieldname_index( fname );
-            if( index >= (int) record_size() ) {
+            if( !fmt->is_tier1( fname ) ) {
+                int index = get_fieldname_index( fname );
                 // Input an extended field
                 fields[index] = input[i].value;
                 continue;
@@ -542,37 +542,52 @@ Field Base::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const
     return f_invalid;
 }
 
+XRefVec Base::create_xref( const StringVec& fieldnames ) const 
+{
+    size_t size = extended_size();
+    XRefVec xref( size );
+    std::vector<bool> used( size, false );
+    for( size_t i = 0, u = 0 ; i < size ; i++ ) {
+        if( i < fieldnames.size() ) {
+            int index = get_fieldname_index( fieldnames[i] );
+            if( index >= 0 && index < int(size) ) {
+                xref[i] = index;
+                used[index] = true;
+            }
+        } else {
+            while( u < size && used[u] ) {
+                u++;
+            }
+            if( u < size ) {
+                xref[i] = u;
+                u++;
+            }
+        }
+    }
+    return xref;
+}
+
 XRefSet Base::create_input_xref_set( Format* fmt ) const
 {
-    XRefVec xref;
-    StringVec order = fmt->get_input_fields();
-    int max_j = -1;
-    for( size_t i = 0 ; i < order.size() ; i++ ) {
-        int j = get_fieldname_index( order[i] );
-        xref.push_back( j );
-        if( j > max_j ) {
-            max_j = j;
-        }
-    }
-    XRefSet xref_set;
-    while( max_j > -1 ) {
-        xref_set[xref.size()] = xref;
-        int prev_max_j = max_j;
-        max_j = -1;
+    XRefVec order = create_xref( fmt->get_input_fields() );
+    XRefVec rank = create_xref( fmt->get_rank_fieldnames() );
+
+    XRefSet xrefset;
+    size_t cnt = order.size();
+    xrefset[cnt] = order;
+    while( cnt > 1 ) {
+        --cnt;
         XRefVec x;
-        for( size_t i = 0 ; i < xref.size() ; i++ ) {
-            int j = xref[i];
-            if( j == prev_max_j ) {
-                continue;
-            }
-            x.push_back( j );
-            if( j > max_j ) {
-                max_j = j;
+        for( size_t i = 0 ; i < order.size() ; i++ ) {
+            if( rank[cnt] != order[i] ) {
+                x.push_back( order[i] );
             }
         }
-        xref = x;
+        assert( x.size() < order.size() );
+        xrefset[cnt] = x;
+        order = x;
     }
-    return xref_set;
+    return xrefset;
 }
 
 // End of src/cal/calbase.cpp file

@@ -183,6 +183,7 @@ namespace Cal {
 
     private:
         void create_default_grammar() const;
+        XRefVec create_xref( const StringVec& fieldnames ) const; 
         XRefSet create_input_xref_set( Format* fmt ) const;
 
         static const char* s_ymd_fieldnames[];
