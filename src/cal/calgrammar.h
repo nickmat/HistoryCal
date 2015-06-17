@@ -69,6 +69,8 @@ namespace Cal {
 
         void set_opt_fieldnames( StringVec fieldnames ) { m_opt_fieldnames = fieldnames; }
         StringVec get_opt_fieldnames() const;
+        void set_rank_fieldnames( StringVec fieldnames ) { m_rank_fieldnames = fieldnames; }
+        StringVec get_rank_fieldnames() const;
 
     private:
         std::string                m_code;
@@ -81,6 +83,7 @@ namespace Cal {
         std::string                m_pref_input_fcode;
         std::string                m_pref_output_fcode;
         StringVec                  m_opt_fieldnames;
+        StringVec                  m_rank_fieldnames;
     };
 
 }

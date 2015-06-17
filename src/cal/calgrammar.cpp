@@ -34,8 +34,8 @@
 
 #include <cassert>
 
-using namespace std;
 using namespace Cal;
+using std::string;
 
 Grammar::Grammar( const string& code )
     : m_code(code), m_inherit(NULL)
@@ -348,6 +348,14 @@ StringVec Grammar::get_opt_fieldnames() const
         return ofns;
     }
     return m_opt_fieldnames;
+}
+
+StringVec Grammar::get_rank_fieldnames() const
+{
+    if( m_rank_fieldnames.empty() && m_inherit ) {
+        return m_inherit->get_rank_fieldnames();
+    }
+    return m_rank_fieldnames;
 }
 
 // End of src/cal/calgrammar.cpp file
