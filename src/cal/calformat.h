@@ -54,6 +54,7 @@ namespace Cal {
         std::string get_input_field( Vocab* vocab ) const;
         std::string get_1st_input_field( InputFieldType type ) const;
 
+        void set_rank_fieldnames( StringVec fieldnames ) { m_rank_fieldnames = fieldnames; }
         StringVec get_rank_fieldnames() const;
         bool is_tier1( const std::string& fieldname ) const;
 
@@ -73,6 +74,7 @@ namespace Cal {
         std::vector<Vocab*> m_vocabs;
         std::vector<InputFieldType> m_types;
         StringVec   m_input_fields;
+        StringVec   m_rank_fieldnames;
 
         bool m_usefor_output;
         bool m_usefor_input;

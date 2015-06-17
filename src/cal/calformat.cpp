@@ -200,7 +200,10 @@ string Format::get_1st_input_field( InputFieldType type ) const
 
 StringVec Format::get_rank_fieldnames() const
 {
-    return m_owner->get_rank_fieldnames();
+    if( m_rank_fieldnames.empty() ) {
+        return m_owner->get_rank_fieldnames();
+    }
+    return m_rank_fieldnames;
 }
 
 bool Format::is_tier1( const std::string& fieldname ) const
