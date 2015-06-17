@@ -673,6 +673,7 @@ bool Script::do_format( Grammar* gmr )
 {
     string code, format, separators;
     Format::Use usefor = Format::Use_inout;
+    StringVec rankfields;
     expr( true ).get( code );
     if( code.empty() ) {
         error( "Format code missing." );
@@ -699,14 +700,18 @@ bool Script::do_format( Grammar* gmr )
                 continue;
             }
             if( token.type() == SToken::STT_Name ) {
-                if( token.get_str() == "output" ) {
+                string name = token.get_str();
+                if( name == "output" ) {
                     usefor = Format::Use_output;
-                } else if( token.get_str() == "inout" ) {
+                } else if( name == "inout" ) {
                     usefor = Format::Use_inout;
-                } else if( token.get_str() == "strict" ) {
+                } else if( name == "strict" ) {
                     usefor = Format::Use_strict;
-                } else if( token.get_str() == "separators" ) {
+                } else if( name == "separators" ) {
                     expr( true ).get( separators );
+                    continue;
+                } else if( name == "rank" ) {
+                    rankfields = do_string_list();
                     continue;
                 } else {
                     error( "Expected format sub-statement." );
@@ -746,6 +751,9 @@ bool Script::do_format( Grammar* gmr )
     fmt->set_format( format, usefor );
     if( separators.size() ) {
         fmt->set_separators( separators );
+    }
+    if( rankfields.size() ) {
+        fmt->set_rank_fieldnames( rankfields );
     }
     return true;
 }
