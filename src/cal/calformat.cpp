@@ -198,4 +198,19 @@ string Format::get_1st_input_field( InputFieldType type ) const
     return "";
 }
 
+StringVec Format::get_rank_fieldnames() const
+{
+    return m_owner->get_rank_fieldnames();
+}
+
+bool Format::is_tier1( const std::string& fieldname ) const
+{
+    for( size_t i = 0 ; i < m_input_fields.size() ; i++ ) {
+        if( fieldname == m_input_fields[i] ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // End of src/cal/calformat.cpp file

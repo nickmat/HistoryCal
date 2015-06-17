@@ -54,6 +54,9 @@ namespace Cal {
         std::string get_input_field( Vocab* vocab ) const;
         std::string get_1st_input_field( InputFieldType type ) const;
 
+        StringVec get_rank_fieldnames() const;
+        bool is_tier1( const std::string& fieldname ) const;
+
     private:
         void set_usefor( Use usefor );
         void set_input();
