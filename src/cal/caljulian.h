@@ -52,6 +52,8 @@ namespace Cal {
         virtual bool add_to_fields( Field* fields, Field value, Unit unit ) const;
         virtual bool normalise( Field* fields, Norm norm ) const;
 
+        virtual bool resolve_input( Field* fields, const InputFieldVec& input, Format* fmt ) const;
+
         // Virtual members shared with Gregorian class.
         virtual Field jdn( Field year, Field month, Field day ) const;
         virtual Field easter( Field year ) const;

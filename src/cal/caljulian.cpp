@@ -261,6 +261,25 @@ Field Julian::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) con
     }
 }
 
+bool Julian::resolve_input( 
+    Field* fields, const InputFieldVec& input, Format* fmt ) const
+{
+    bool ret = Base::resolve_input( fields, input, fmt );
+    if( ret && fields[YMD_year] == f_invalid ) {
+        int ice = opt_field_index( OFID_j_ce );
+        int iceyear = opt_field_index( OFID_j_ceyear );
+        Field ceyear = ( iceyear >= 0 ) ? fields[iceyear] : f_invalid;
+        if( ice >= 0 && ceyear != f_invalid && ceyear != 0 ) {
+            if( fields[ice] == 1 ) {
+                fields[YMD_year] = ceyear;
+            } else if( fields[ice] == 0 ) {
+                fields[YMD_year] = -ceyear + 1;
+            }
+        }
+    }
+    return ret;
+}
+
 /*! Returns true if the year is a leap year in the Julian Calendar.
  */
 bool Julian::is_leap_year( Field year ) const
