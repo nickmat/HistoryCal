@@ -122,7 +122,7 @@ Field Hybrid::get_jdn( const Field* fields ) const
         return f_invalid;
     }
     FieldVec fs = get_xref( &fields[0], fields[0] );
-    if( fields[0] == f_invalid ) {
+    if( fs[0] == f_invalid ) {
         return f_invalid;
     }
     return m_data[fields[0]].base->get_jdn( &fs[1] );
@@ -349,7 +349,7 @@ bool Hybrid::fields_ok( const Field* fields ) const
 FieldVec Hybrid::get_xref( const Field* fields, Field sch ) const
 {
     FieldVec result( m_ext_size, f_invalid );
-    if( sch >= (Field) m_xref_fields.size() ) {
+    if( sch >= (Field) m_xref_fields.size() || sch < 0 ) {
         return result;
     }
     FieldVec xref = m_xref_fields[sch];
