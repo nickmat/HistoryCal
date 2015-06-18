@@ -39,8 +39,7 @@ using std::string;
 
 
 Format::Format( const std::string& code, Grammar* gmr )
-: m_code(code), m_owner(gmr), m_separators(":,"),
-m_usefor_output(true), m_usefor_input(true), m_strict_input(false)
+: m_code(code), m_owner(gmr), m_separators(":,")
 {
 }
 
@@ -51,32 +50,61 @@ Format::~Format()
 void Format::set_format( const std::string& format, Use usefor )
 {
     assert( m_owner );
-    assert( m_format.empty() );
-    set_usefor( usefor );
-    m_format = format;
     enum State { dooutput, dofname, dodname, dovocab, doabbrev };
     State state = dooutput;
     string fieldout, fname, dname, vocab, abbrev;
-    for( string::const_iterator it = m_format.begin() ; it != m_format.end() ; it++ ) {
+    bool usefor_output, usefor_input, strict_input;
+    switch( usefor )
+    {
+    case Use_output:
+        usefor_output = true;
+        usefor_input = false;
+        strict_input = false;
+        break;
+    case Use_input:
+        usefor_output = false;
+        usefor_input = true;
+        strict_input = true;
+        break;
+    case Use_strict:
+        usefor_output = true;
+        usefor_input = true;
+        strict_input = true;
+        break;
+    case Use_inout:
+    default:
+        usefor_output = true;
+        usefor_input = true;
+        strict_input = false;
+        break;
+    }
+    if( usefor_output ) {
+        m_format = format;
+    }
+    for( string::const_iterator it = format.begin() ; it != format.end() ; it++ ) {
         if( state == dooutput ) {
             if( *it == '|' ) {
-                m_output_str += fieldout;
+                if( usefor_output ) {
+                    m_output_str += fieldout;
+                }
                 fieldout.clear();
             } else if( *it == '(' ) {
                 state = dofname;
             } else {
                 fieldout += *it;
-                if( m_strict_input ) {
+                if( strict_input ) {
                     m_input_str += *it;
                 }
             }
             continue;
         }
         if( *it == ')' ) {
-            if( !m_strict_input && m_input_str.size() ) {
+            if( !strict_input && m_input_str.size() ) {
                 m_input_str += " ";
             }
-            m_input_str += fname;
+            if( usefor_input ) {
+                m_input_str += fname;
+            }
             InputFieldType type = IFT_number;
             string fieldname = m_owner->get_field_alias( fname );
             string foname = m_owner->get_num_code_alias( fname );
@@ -113,16 +141,20 @@ void Format::set_format( const std::string& format, Use usefor )
             if( dname.size() ) {
                 fieldout += "/" + m_owner->get_num_code_alias( dname );
 
-                m_input_fields.push_back( fieldname );
-                m_vocabs.push_back( NULL );
-                m_types.push_back( IFT_dual1 );
+                if( usefor_input ) {
+                    m_input_fields.push_back( fieldname );
+                    m_vocabs.push_back( NULL );
+                    m_types.push_back( IFT_dual1 );
+                }
 
                 fieldname = m_owner->get_field_alias( dname );
                 type = IFT_dual2;
             }
-            m_input_fields.push_back( fieldname );
-            m_vocabs.push_back( voc );
-            m_types.push_back( type );
+            if( usefor_input ) {
+                m_input_fields.push_back( fieldname );
+                m_vocabs.push_back( voc );
+                m_types.push_back( type );
+            }
 
             fname.clear();
             dname.clear();
@@ -146,35 +178,8 @@ void Format::set_format( const std::string& format, Use usefor )
             }
         }
     }
-    m_output_str += fieldout;
-
-    if( !m_usefor_input ) {
-        m_input_str.clear();
-    }
-    if( !m_usefor_output ) {
-        m_output_str.clear();
-    }
-}
-
-void Format::set_usefor( Use usefor )
-{
-    switch( usefor )
-    {
-    case Use_inout:
-        m_usefor_output = true;
-        m_usefor_input = true;
-        m_strict_input = false;
-        break;
-    case Use_output:
-        m_usefor_output = true;
-        m_usefor_input = false;
-        m_strict_input = false;
-        break;
-    case Use_strict:
-        m_usefor_output = true;
-        m_usefor_input = true;
-        m_strict_input = true;
-        break;
+    if( usefor_output ) {
+        m_output_str += fieldout;
     }
 }
 
