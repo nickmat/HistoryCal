@@ -671,7 +671,7 @@ void Script::do_grammar_inherit( Grammar* gmr )
 // as in "gmr:fmt"
 bool Script::do_format( Grammar* gmr )
 {
-    string code, format, separators;
+    string code, format, informat, separators;
     Format::Use usefor = Format::Use_inout;
     StringVec rankfields;
     expr( true ).get( code );
@@ -707,6 +707,9 @@ bool Script::do_format( Grammar* gmr )
                     usefor = Format::Use_inout;
                 } else if( name == "strict" ) {
                     usefor = Format::Use_strict;
+                } else if( name == "input" ) {
+                    expr( true ).get( informat );
+                    continue;
                 } else if( name == "separators" ) {
                     expr( true ).get( separators );
                     continue;
@@ -749,6 +752,9 @@ bool Script::do_format( Grammar* gmr )
         }
     }
     fmt->set_format( format, usefor );
+    if( informat.size() ) {
+        fmt->set_format( informat, Format::Use_input );
+    }
     if( separators.size() ) {
         fmt->set_separators( separators );
     }
