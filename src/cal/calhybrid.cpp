@@ -28,6 +28,7 @@
 #include "calhybrid.h"
 
 #include "cal/calendars.h"
+#include "calformat.h"
 #include "calparse.h"
 #include "calscheme.h"
 #include "calrecord.h"
@@ -344,6 +345,33 @@ void Hybrid::set_fields( Field* fields, Field jdn ) const
 bool Hybrid::fields_ok( const Field* fields ) const
 {
     return fields[0] == f_invalid || (size_t) fields[0] < m_data.size();
+}
+
+XRefSet Hybrid::create_input_xref_set( Format* fmt ) const
+{
+    XRefVec order = create_xref( fmt->get_input_fields() );
+    StringVec rank_fns = fmt->get_rank_fieldnames();
+    if( rank_fns.empty() ) {
+        rank_fns = m_fieldnames;
+    }
+    XRefVec rank = create_xref( rank_fns );
+
+    XRefSet xrefset;
+    size_t cnt = order.size();
+    xrefset[cnt] = order;
+    while( cnt > 1 ) {
+        --cnt;
+        XRefVec x;
+        for( size_t i = 0 ; i < order.size() ; i++ ) {
+            if( rank[cnt] != order[i] ) {
+                x.push_back( order[i] );
+            }
+        }
+        assert( x.size() < order.size() );
+        xrefset[cnt] = x;
+        order = x;
+    }
+    return xrefset;
 }
 
 FieldVec Hybrid::get_xref( const Field* fields, Field sch ) const

@@ -570,7 +570,11 @@ XRefVec Base::create_xref( const StringVec& fieldnames ) const
 XRefSet Base::create_input_xref_set( Format* fmt ) const
 {
     XRefVec order = create_xref( fmt->get_input_fields() );
-    XRefVec rank = create_xref( fmt->get_rank_fieldnames() );
+    StringVec rank_fns = fmt->get_rank_fieldnames();
+    if( rank_fns.empty() ) {
+        rank_fns = get_rank_fieldnames();
+    }
+    XRefVec rank = create_xref( rank_fns );
 
     XRefSet xrefset;
     size_t cnt = order.size();

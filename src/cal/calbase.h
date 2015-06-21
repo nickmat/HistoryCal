@@ -180,11 +180,12 @@ namespace Cal {
         int get_ymd_fieldname_index( const std::string& fieldname ) const;
         std::string get_ymd_fieldname( size_t index ) const;
         size_t sizeof_ymd_fieldnames() const { return s_sizeof_ymd_fieldnames; }
+        XRefVec create_xref( const StringVec& fieldnames ) const; 
+        virtual XRefSet create_input_xref_set( Format* fmt ) const;
+        virtual StringVec get_rank_fieldnames() const { return StringVec(0); }
 
     private:
         void create_default_grammar() const;
-        XRefVec create_xref( const StringVec& fieldnames ) const; 
-        XRefSet create_input_xref_set( Format* fmt ) const;
 
         static const char* s_ymd_fieldnames[];
         static size_t s_sizeof_ymd_fieldnames;

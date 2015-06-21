@@ -51,8 +51,9 @@ namespace Cal {
         ~Hybrid();
 
         virtual bool is_ok() const;
-        virtual size_t record_size() const { return m_rec_size; }
-        virtual size_t extended_size() const { return m_ext_size; }
+        virtual size_t record_size() const { return m_ext_size; }
+//        virtual size_t record_size() const { return m_rec_size; }
+//        virtual size_t extended_size() const { return m_ext_size; }
 
         virtual int get_fieldname_index( const std::string& fieldname ) const;
         virtual std::string get_fieldname( size_t index ) const;
@@ -74,12 +75,14 @@ namespace Cal {
         virtual bool fields_ok( const Field* fields ) const;
 
     protected:
+        virtual StringVec get_rank_fieldnames() const { return m_fieldnames; }
 
     private:
         FieldVec get_xref( const Field* fields, Field sch ) const;
         bool is_in_scheme( Field jdn, Field scheme ) const;
         size_t find_scheme( Field jdn ) const;
         void set_hybrid_fields( Field* fields, const Field* mask, Field scheme ) const;
+        XRefSet create_input_xref_set( Format* fmt ) const;
 
         // Note: m_data.size() == m_xref_fields.size()
         std::vector<HybridData> m_data;
