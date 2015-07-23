@@ -268,7 +268,7 @@ bool Base::resolve_input(
             }
         }
         if( fname.size() ) {
-            if( !fmt->is_tier1( fname ) ) {
+            if( !is_tier1( fname, fmt ) ) {
                 int index = get_fieldname_index( fname );
                 // Input an extended field
                 fields[index] = input[i].value;
@@ -481,6 +481,11 @@ string Base::get_ymd_fieldname( size_t index ) const
         return s_ymd_fieldnames[index];
     }
     return "";
+}
+
+bool Base::is_tier1( const string& fieldname, const Format* fmt ) const
+{
+    return fmt->is_tier1( fieldname );
 }
 
 void Base::create_default_grammar() const

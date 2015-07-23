@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     28th March 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -81,6 +81,9 @@ namespace Cal {
         virtual void remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const;
 
         virtual void set_fields( Field* fields, Field jdn ) const;
+
+    protected:
+        virtual bool is_tier1( const std::string& fieldname, const Format* fmt ) const;
 
     private:
         // Return the era index coresponding to given jdn.

@@ -183,6 +183,7 @@ namespace Cal {
         XRefVec create_xref( const StringVec& fieldnames ) const; 
         virtual XRefSet create_input_xref_set( Format* fmt ) const;
         virtual StringVec get_rank_fieldnames() const { return StringVec(0); }
+        virtual bool is_tier1( const std::string& fieldname, const Format* fmt ) const;
 
     private:
         void create_default_grammar() const;
