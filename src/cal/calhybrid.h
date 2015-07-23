@@ -52,8 +52,6 @@ namespace Cal {
 
         virtual bool is_ok() const;
         virtual size_t record_size() const { return m_ext_size; }
-//        virtual size_t record_size() const { return m_rec_size; }
-//        virtual size_t extended_size() const { return m_ext_size; }
 
         virtual int get_fieldname_index( const std::string& fieldname ) const;
         virtual std::string get_fieldname( size_t index ) const;
