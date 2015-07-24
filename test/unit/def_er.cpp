@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     23th November 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -187,6 +187,8 @@ void TestDef_er::testStrTableOutput()
 void TestDef_er::testStringInput()
 {
     struct data { string in; string out; Field beg; Field end; } t[] = {
+        { "10 6 ? 26 ? 37 1", "10 Jun 26 George II, ns", 2361491, 2361491 },
+        { "11 6 ? 26 ? 37 1", "11 Jun 26 George II, ns", 2361492, 2361492 },
         { "com", "The Commonwealth", 2323386, 2327521 },
         { "1jan1000eng", "1 Jan 1000/1 English calendar, os", 2086674, 2086674 },
 //        { "20may6john", "", 0, 0 }, // Currently, this is normalised to "20 May 7 John", should be invalid.
