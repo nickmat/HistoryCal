@@ -142,6 +142,7 @@ void Format::set_format( const std::string& format, Use usefor )
                 fieldout += "/" + m_owner->get_num_code_alias( dname );
 
                 if( usefor_input ) {
+                    m_input_str += "/";
                     m_input_fields.push_back( fieldname );
                     m_vocabs.push_back( NULL );
                     m_types.push_back( IFT_dual1 );
