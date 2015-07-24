@@ -93,7 +93,7 @@ vocab "on" {
 
 vocab "part" {
     name "Part of Reign Year";
-    fieldname "er-part";
+    fieldname "part";
     lang "en";
     stylename "Part", "Part";
     tokens {
@@ -109,8 +109,8 @@ grammar "er" {
         "Day",        "day";
         "Month",      "month";
         "Year",       "year";
-        "Hist-Year",  "er-hyear";
-        "Part",       "er-part";
+        "Hist-Year",  "hyear";
+        "Part",       "part";
         "Scheme",     "scheme";
     }
     alias stylename {
@@ -133,10 +133,10 @@ scheme "er" {
     name "English Regnal";
     regnal {
         fields "year", "month", "day";
-        extended "er-hyear", "wday", "er-part", "scheme";
+        extended "hyear", "part", "scheme", "wday";
         era {
             scheme "eng";
-            match "unshift", "er-hyear";
+            match "unshift", "hyear";
         }
         era {  // William I
             range 2110773~2118336;
@@ -294,7 +294,7 @@ scheme "er" {
                     }
                 }
             }
-            match "era", "year",  "john-part", "er-part";
+            match "era", "year",  "john-part", "part";
         }
         era {  // Henry III
             range 2165503~2185976;
@@ -383,7 +383,7 @@ scheme "er" {
         era {  // The Commonwealth
             range 2323386~2327521;
             scheme "ja";
-            match "unshift", "er-hyear";
+            match "unshift", "hyear";
         }
         era {  // Charles II
             range 2327522~2336541;
@@ -396,7 +396,7 @@ scheme "er" {
         era {  // Interregnum
             range 2337946~2338008;
             scheme "eng";
-            match "unshift", "er-hyear";
+            match "unshift", "hyear";
         }
         era {  // William and Mary
             range 2338009~2340152;
