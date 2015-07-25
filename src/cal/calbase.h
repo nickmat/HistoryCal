@@ -65,15 +65,12 @@ namespace Cal {
         virtual bool is_ok() const { return true; }
         // Return the maximum number of Fields required by the Record.
         virtual size_t record_size() const = 0;
-        // Return the number of additional (read-only) Fields available.
-        virtual size_t additional_size() const { return record_size(); }
         // Return the number of extended (read-only) Fields available.
-        virtual size_t extended_size() const { return additional_size() + m_opt_fields.size(); }
+        virtual size_t extended_size() const { return record_size() + m_opt_fields.size(); }
 
         // Returns the index to the named Record field, or -1 if not found.
         virtual int get_fieldname_index( const std::string& fieldname ) const;
         virtual std::string get_fieldname( size_t index ) const;
-
 
         // Converts the Field's into a jdn and returns it.
         virtual Field get_jdn( const Field* fields ) const = 0;

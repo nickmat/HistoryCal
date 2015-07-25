@@ -60,7 +60,7 @@ int Base::get_fieldname_index( const string& fieldname ) const
     if( index < 0 ) {
         for( size_t i = 0 ; i < m_opt_fields.size() ; i++ ) {
             if( get_opt_fieldname( m_opt_fields[i] ) == fieldname ) {
-                return additional_size() + i;
+                return record_size() + i;
             }
         }
     }
@@ -69,11 +69,11 @@ int Base::get_fieldname_index( const string& fieldname ) const
 
 string Base::get_fieldname( size_t index ) const
 {
-    if( index < additional_size() ) {
+    if( index < record_size() ) {
         return get_std_fieldname( index );
     }
     if( index < extended_size() ) {
-        return get_opt_fieldname( OptFieldID( index - additional_size() ) );
+        return get_opt_fieldname( OptFieldID( index - record_size() ) );
     }
     return "";
 }
@@ -93,7 +93,7 @@ Field Base::get_extended_field( const Field* fields, Field jdn, size_t index ) c
 bool Base::set_fields_as_next_optional( Field* fields, Field jdn, const Field* mask, size_t index ) const
 {
     if( index >= (extended_size() - m_opt_fields.size() ) ) {
-        OptFieldID id = m_opt_fields[index-additional_size()];
+        OptFieldID id = m_opt_fields[index-record_size()];
         switch( id )
         {
         case OFID_wday:
@@ -125,7 +125,7 @@ bool Base::set_fields_as_next_optional( Field* fields, Field jdn, const Field* m
 bool Base::set_fields_as_prev_optional( Field* fields, Field jdn, const Field* mask, size_t index ) const
 {
     if( index >= (extended_size() - m_opt_fields.size() ) ) {
-        OptFieldID id = m_opt_fields[index-additional_size()];
+        OptFieldID id = m_opt_fields[index-record_size()];
         switch( id )
         {
         case OFID_wday:
@@ -447,7 +447,7 @@ int Base::opt_field_index( OptFieldID id ) const
 {
     for( size_t i = 0 ; i < m_opt_fields.size() ; i++ ) {
         if( m_opt_fields[i] == id ) {
-            return additional_size() + i;
+            return record_size() + i;
         }
     }
     return -1;

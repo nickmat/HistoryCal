@@ -150,7 +150,7 @@ bool French::set_fields_as_next_optional(
     assert( fields[YMD_day] != f_invalid );
     assert( jdn != f_invalid );
     if( index >= (extended_size() - opt_fields_size() ) ) {
-        OptFieldID id = opt_field_id( index - additional_size() );
+        OptFieldID id = opt_field_id( index - record_size() );
         switch( id )
         {
         case OFID_fr_nmonth:
@@ -215,7 +215,7 @@ bool French::set_fields_as_prev_optional( Field* fields, Field jdn, const Field*
     assert( jdn != f_invalid );
 
     if( index >= (extended_size() - opt_fields_size() ) ) {
-        OptFieldID id = opt_field_id( index - additional_size() );
+        OptFieldID id = opt_field_id( index - record_size() );
         switch( id )
         {
         case OFID_fr_nmonth:
