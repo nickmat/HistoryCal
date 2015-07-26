@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -52,9 +52,6 @@ namespace Cal {
         bool set_fields_as_next_first( const Field* mask );
         bool set_fields_as_begin_last( const Field* mask );
         bool set_fields_as_next_last( const Field* mask );
-
-        bool set_fields_as_next( const Field* mask, Field maxjdn );
-        bool set_fields_as_prev( const Field* mask, Field minjdn );
 
         void remove_balanced_fields( Record* record );
 

@@ -185,29 +185,6 @@ bool Record::set_fields_as_next_last( const Field* mask )
     return ret;
 }
 
-bool Record::set_fields_as_next( const Field* mask, Field maxjdn )
-{
-    if( m_f[0] == f_minimum ) {
-        m_jdn = f_minimum;
-        return true;
-    }
-    bool ret = m_base->set_fields_as_begin_first( &m_f[0], mask );
-    if( ret ) {
-        m_jdn = get_jdn();
-        for( size_t i = m_base->record_size() ; i < m_base->extended_size() ; i++ ) {
-            if( mask[i] == f_invalid ) {
-                continue;
-            }
-            Field field = m_base->get_extended_field( &m_f[0], m_jdn, i );
-            if( field != m_f[i] ) {
-                // Adjust to match extended field
-                // <<======<<<<
-            }
-        }
-    }
-    return ret;
-}
-
 void Record::remove_balanced_fields( Record* rec )
 {
     // Both must have the same Base and not be identical.
@@ -455,7 +432,8 @@ Field Record::get_field( int index ) const
             return m_f[index];
         }
         if( index < (int) m_base->extended_size() ) {
-            return m_base->get_extended_field( &m_f[0], m_jdn, index );
+            OptFieldID id = m_base->opt_index_to_id( index );
+            return m_base->get_opt_field( &m_f[0], m_jdn, id );
         }
     }
     return f_invalid;

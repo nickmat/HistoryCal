@@ -186,26 +186,55 @@ void TestDef_er::testStrTableOutput()
 
 void TestDef_er::testStringInput()
 {
-    struct data { string in; string out; Field beg; Field end; } t[] = {
-        { "10 6 ? 26 ? 37 1", "10 Jun 26 George II, ns", 2361491, 2361491 },
-        { "11 6 ? 26 ? 37 1", "11 Jun 26 George II, ns", 2361492, 2361492 },
-        { "com", "The Commonwealth", 2323386, 2327521 },
-        { "1jan1000eng", "1 Jan 1000/1 English calendar, os", 2086674, 2086674 },
-//        { "20may6john", "", 0, 0 }, // Currently, this is normalised to "20 May 7 John", should be invalid.
-        { "8may3john", "8 May, First 3 John | 8 May, Second 3 John",
-            2159851, 2160216 },
-        { "12jun26geoii", "12 Jun 26 George II, os | 12 Jun 26 George II, ns",
-            2361139, 2361493 },
-        { "12jun26geoii,os", "12 Jun 26 George II, os",
-            2361139, 2361139 },
-        { "19sep12geovi", "19 Sep 12 George VI", 2432814, 2432814 },
+    struct data { string in; string out; string wdmyr; Field beg; Field end; } t[] = {
+        { "10 6 ? 26 ? 37 1",
+          "10 Jun 26 George II, ns",
+          "Sun 10 Jun 26 George II, ns", 2361491, 2361491 },
+        { "11 6 ? 26 ? 37 1",
+          "11 Jun 26 George II, ns",
+          "Mon 11 Jun 26 George II, ns", 2361492, 2361492 },
+        { "com",
+          "The Commonwealth",
+          "Wed The Commonwealth ~ Mon The Commonwealth", // TODO: This needs working on?
+          2323386, 2327521 },
+        { "1jan1000eng",
+          "1 Jan 1000/1 English calendar, os",
+          "Wed 1 Jan 1000/1 English calendar, os", 2086674, 2086674 },
+//        { "20may6john", "", "", 0, 0 }, // Currently, this is normalised to "20 May 7 John", should be invalid.
+        { "8may3john",
+          "8 May, First 3 John | 8 May, Second 3 John",
+          "Tue 8 May 3 John | Wed 8 May 3 John", 2159851, 2160216 },
+        { "12jun26geoii",
+          "12 Jun 26 George II, os | 12 Jun 26 George II, ns",
+          "Fri 12 Jun 26 George II, os | Tue 12 Jun 26 George II, ns",
+          2361139, 2361493 },
+        { "12jun26geoii,os",
+          "12 Jun 26 George II, os",
+          "Fri 12 Jun 26 George II, os", 2361139, 2361139 },
+        { "19sep12geovi",
+          "19 Sep 12 George VI",
+          "Sun 19 Sep 12 George VI", 2432814, 2432814 },
     };
     size_t count = sizeof(t) / sizeof(data);
 
+    m_cal->set_input_format( m_sid, "dmyr" );
+    m_cal->set_output_format( m_sid, "dmyr" );
     for( size_t i = 0 ; i < count ; i++ ) {
         RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in );
         string str = m_cal->rangelist_to_str( m_sid, rl );
         CPPUNIT_ASSERT_EQUAL( t[i].out, str );
+        if( rl.size() ) {
+            CPPUNIT_ASSERT_EQUAL( t[i].beg, rl[0].jdn1 );
+            size_t j = rl.size() - 1;
+            CPPUNIT_ASSERT_EQUAL( t[i].end, rl[j].jdn2 );
+        }
+    }
+
+    m_cal->set_output_format( m_sid, "wdmyr" );
+    for( size_t i = 0 ; i < count ; i++ ) {
+        RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in );
+        string str = m_cal->rangelist_to_str( m_sid, rl );
+        CPPUNIT_ASSERT_EQUAL( t[i].wdmyr, str );
         if( rl.size() ) {
             CPPUNIT_ASSERT_EQUAL( t[i].beg, rl[0].jdn1 );
             size_t j = rl.size() - 1;

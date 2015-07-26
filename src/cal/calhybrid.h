@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     23rd September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -57,8 +57,8 @@ namespace Cal {
         virtual std::string get_fieldname( size_t index ) const;
 
         virtual Field get_jdn( const Field* fields ) const;
-        virtual Field get_extended_field( const Field* fields, Field jdn, size_t index ) const;
 
+        virtual Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const;
         virtual Field get_field_last( const Field* fields, size_t index ) const;
 
         virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) const;

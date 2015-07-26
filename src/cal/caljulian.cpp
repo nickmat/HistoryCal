@@ -266,8 +266,8 @@ bool Julian::resolve_input(
 {
     bool ret = Base::resolve_input( fields, input, fmt );
     if( ret && fields[YMD_year] == f_invalid ) {
-        int ice = opt_field_index( OFID_j_ce );
-        int iceyear = opt_field_index( OFID_j_ceyear );
+        int ice = opt_id_to_index( OFID_j_ce );
+        int iceyear = opt_id_to_index( OFID_j_ceyear );
         Field ceyear = ( iceyear >= 0 ) ? fields[iceyear] : f_invalid;
         if( ice >= 0 && ceyear != f_invalid && ceyear != 0 ) {
             if( fields[ice] == 1 ) {

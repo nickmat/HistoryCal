@@ -150,7 +150,7 @@ bool French::set_fields_as_next_optional(
     assert( fields[YMD_day] != f_invalid );
     assert( jdn != f_invalid );
     if( index >= (extended_size() - opt_fields_size() ) ) {
-        OptFieldID id = opt_field_id( index - record_size() );
+        OptFieldID id = opt_index_to_id( index );
         switch( id )
         {
         case OFID_fr_nmonth:
@@ -215,7 +215,7 @@ bool French::set_fields_as_prev_optional( Field* fields, Field jdn, const Field*
     assert( jdn != f_invalid );
 
     if( index >= (extended_size() - opt_fields_size() ) ) {
-        OptFieldID id = opt_field_id( index - record_size() );
+        OptFieldID id = opt_index_to_id( index );
         switch( id )
         {
         case OFID_fr_nmonth:
@@ -322,15 +322,15 @@ bool French::resolve_input(
 {
     bool ret = Base::resolve_input( fields, input, fmt );
     if( ret ) {
-        int index = opt_field_index( OFID_fr_nmonth );
+        int index = opt_id_to_index( OFID_fr_nmonth );
         if( index >= 0 && fields[YMD_month] == f_invalid && fields[index] != f_invalid ) {
             fields[YMD_month] = fields[index];
         }
-        index = opt_field_index( OFID_fr_nmday );
+        index = opt_id_to_index( OFID_fr_nmday );
         if( index >= 0 && fields[YMD_day] == f_invalid && fields[index] != f_invalid ) {
             fields[YMD_day] = fields[index];
         }
-        index = opt_field_index( OFID_fr_cday );
+        index = opt_id_to_index( OFID_fr_cday );
         if( index >= 0 && fields[index] != f_invalid && fields[YMD_day] == f_invalid ) {
             fields[YMD_day] = fields[index];
             fields[YMD_month] = 13;

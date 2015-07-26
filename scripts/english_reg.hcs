@@ -103,6 +103,7 @@ vocab "part" {
 }
 
 grammar "er" {
+    optional "wday";
     alias field {
         "WDay",       "wday";
         "Reign",      "era";
@@ -133,7 +134,7 @@ scheme "er" {
     name "English Regnal";
     regnal {
         fields "year", "month", "day";
-        extended "hyear", "part", "scheme", "wday";
+        extended "hyear", "part", "scheme";
         era {
             scheme "eng";
             match "unshift", "hyear";

@@ -75,8 +75,8 @@ namespace Cal {
         // Converts the Field's into a jdn and returns it.
         virtual Field get_jdn( const Field* fields ) const = 0;
 
-        // Get an extended field value
-        virtual Field get_extended_field( const Field* fields, Field jdn, size_t index ) const;
+        // Get an optional field value.
+        virtual Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const;
 
         // Give the chance to set a field to a fixed value.
         virtual void set_fixed_fields( Field* fields ) const {}
@@ -160,23 +160,23 @@ namespace Cal {
         // return f_invalid if an invalid field is encountered
         Field compare_except( const Field* first, const Field* second, size_t except = 0 ) const;
 
+        OptFieldID opt_index_to_id( size_t index ) const { return m_opt_fields[index-record_size()]; }
+        int opt_id_to_index( OptFieldID id ) const;
     protected:
         virtual int get_std_fieldname_index( const std::string& fieldname ) const { return get_ymd_fieldname_index( fieldname ); }
         virtual std::string get_std_fieldname( size_t index ) const { return get_ymd_fieldname( index ); }
         virtual OptFieldID get_opt_field_id( const std::string& fieldname ) const;
         virtual std::string get_opt_fieldname( OptFieldID field_id ) const;
 
-        virtual Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const;
         virtual Field get_additional_field( const Field* fields, Field jdn, size_t index ) const { return f_invalid; };
         size_t opt_fields_size() const { return m_opt_fields.size(); }
-        OptFieldID opt_field_id( size_t index ) const { return m_opt_fields[index]; }
-        int opt_field_index( OptFieldID id ) const;
 
         virtual XRefVec get_default_xref_order( int count ) const;
 
         int get_ymd_fieldname_index( const std::string& fieldname ) const;
         std::string get_ymd_fieldname( size_t index ) const;
         size_t sizeof_ymd_fieldnames() const { return s_sizeof_ymd_fieldnames; }
+        int get_opt_fieldname_index( const std::string& fieldname ) const;
         XRefVec create_xref( const StringVec& fieldnames ) const; 
         virtual XRefSet create_input_xref_set( Format* fmt ) const;
         virtual StringVec get_rank_fieldnames() const { return StringVec(0); }

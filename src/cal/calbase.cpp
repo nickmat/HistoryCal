@@ -78,14 +78,14 @@ string Base::get_fieldname( size_t index ) const
     return "";
 }
 
-Field Base::get_extended_field( const Field* fields, Field jdn, size_t index ) const
+Field Base::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const
 {
-    if( index >= record_size() ) {
-        size_t e_size = extended_size() - m_opt_fields.size();
-        if( index >= e_size ) {
-            return get_opt_field( fields, jdn, m_opt_fields[index-e_size] );
-        }
-        return get_additional_field( fields, jdn, index - record_size() );
+    switch( id )
+    {
+    case OFID_wday:
+        return day_of_week( jdn ) + 1; // Mon=1, Sun=7
+    case OFID_wsday:
+        return day_of_week( jdn + 1 ) + 1; // Sun=1, Sun=7
     }
     return f_invalid;
 }
@@ -443,7 +443,7 @@ Field Base::compare_except( const Field* first, const Field* second, size_t exce
     return 0;
 }
 
-int Base::opt_field_index( OptFieldID id ) const
+int Base::opt_id_to_index( OptFieldID id ) const
 {
     for( size_t i = 0 ; i < m_opt_fields.size() ; i++ ) {
         if( m_opt_fields[i] == id ) {
@@ -481,6 +481,16 @@ string Base::get_ymd_fieldname( size_t index ) const
         return s_ymd_fieldnames[index];
     }
     return "";
+}
+
+int Base::get_opt_fieldname_index( const string& fieldname ) const
+{
+    for( size_t i = 0 ; i < m_opt_fields.size() ; i++ ) {
+        if( get_opt_fieldname( m_opt_fields[i] ) == fieldname ) {
+            return record_size() + i;
+        }
+    }
+    return -1;
 }
 
 bool Base::is_tier1( const string& fieldname, const Format* fmt ) const
@@ -533,18 +543,6 @@ std::string Base::get_opt_fieldname( OptFieldID field_id ) const
     default:
         return "";
     }
-}
-
-Field Base::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const
-{
-    switch( id )
-    {
-    case OFID_wday:
-        return day_of_week( jdn ) + 1; // Mon=1, Sun=7
-    case OFID_wsday:
-        return day_of_week( jdn + 1 ) + 1; // Sun=1, Sun=7
-    }
-    return f_invalid;
 }
 
 XRefVec Base::create_xref( const StringVec& fieldnames ) const 

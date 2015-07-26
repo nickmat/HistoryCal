@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     23rd September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -89,7 +89,7 @@ int Hybrid::get_fieldname_index( const string& fieldname ) const
             return i + offset;
         }
     }
-    return -1;
+    return get_opt_fieldname_index( fieldname );
 }
 
 string Hybrid::get_fieldname( size_t index ) const
@@ -129,16 +129,10 @@ Field Hybrid::get_jdn( const Field* fields ) const
     return m_data[fields[0]].base->get_jdn( &fs[1] );
 }
 
-Field Hybrid::get_extended_field( const Field* fields, Field jdn, size_t index ) const
+Field Hybrid::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const
 {
-    assert( index > 0 );
-    size_t i = index - 1;
     size_t s = find_scheme( jdn );
-    if( index > m_xref_fields[s].size() || m_xref_fields[s][i] < 0 ) {
-        return f_invalid;
-    }
-    Record rec( m_data[s].base, jdn );
-    return rec.get_field( m_xref_fields[s][i] );
+    return m_data[s].base->get_opt_field( &fields[1], jdn, id );
 }
 
 Field Hybrid::get_field_last( const Field* fields, size_t index ) const

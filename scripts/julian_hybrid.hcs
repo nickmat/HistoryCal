@@ -37,6 +37,7 @@ vocab "jajg" {
 }
 
 grammar "hy" {
+    optional "unshift", "wday";
     vocabs "w", "m", "jajg";
     alias field {
         "WDay",      "wday";
@@ -66,7 +67,6 @@ scheme "eng" {
     name "English Hybrid";
     hybrid {
         fields "year", "month", "day";
-        extended "wday", "unshift";
         scheme "ja";
         change 2360976;  // j# 1 Jan 1752
         scheme "j";
@@ -80,7 +80,6 @@ scheme "scot" {
     name "Scottish Hybrid";
     hybrid {
         fields "year", "month", "day";
-        extended "wday", "unshift";
         scheme "ja";
         change 2305458;  // j# 1 Jan 1600
         scheme "j";
