@@ -187,6 +187,9 @@ void TestDef_er::testStrTableOutput()
 void TestDef_er::testStringInput()
 {
     struct data { string in; string out; string wdmyr; Field beg; Field end; } t[] = {
+        { "wed8may3john",
+          "8 May, Second 3 John",
+          "Wed 8 May 3 John", 2159851, 2160216 },
         { "10 6 ? 26 ? 37 1",
           "10 Jun 26 George II, ns",
           "Sun 10 Jun 26 George II, ns", 2361491, 2361491 },
