@@ -261,9 +261,9 @@ SHandle Script::do_create_scheme( const std::string& code )
     for( size_t i = 0 ; i < optfields.size() ; i++ ) {
         base->add_opt_field( optfields[i] );
     }
+    base->set_grammar( m_cals->get_grammar( gmr_code ) );
     SHandle sch = new Scheme( name, base );
     sch->set_style( style );
-    sch->set_grammar( m_cals->get_grammar( gmr_code ) );
     sch->set_code( code );
     return sch;
 }

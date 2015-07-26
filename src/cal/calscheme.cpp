@@ -104,13 +104,6 @@ void Scheme::get_output( SchemeFormats* info ) const
     }
 }
 
-void Scheme::set_grammar( Grammar* grammar )
-{
-    if( m_base ) {
-        m_base->set_grammar( grammar );
-    }
-}
-
 void Scheme::set_input_format( const std::string& code )
 {
     if( m_base ) {

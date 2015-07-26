@@ -60,7 +60,6 @@ namespace Cal {
 
         void set_code( const std::string& code ) { m_code = code; }
         void set_style( Scheme_style style ) { m_style = style; }
-        void set_grammar( Grammar* grammar );
         void set_input_format( const std::string& code );
         void set_output_format( const std::string& code );
 
