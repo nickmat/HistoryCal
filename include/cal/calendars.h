@@ -33,6 +33,7 @@
 namespace Cal {
 
     class ScriptStore;
+    class Record;
 
     enum Init_schemes { Init_script_none, Init_script_default };
 
@@ -82,6 +83,8 @@ namespace Cal {
         Format* create_format( const std::string& code );
         void add_or_replace_mark( std::string& name );
         ScriptStore* get_store() const { return m_store; }
+        bool set_range_as_begin( Range* range, const Record& mask1, const Record& mask2 );
+        bool set_range_as_next( Range* range, const Record& mask1, const Record& mask2 );
 
     private:
         RangeList range_str_to_rangelist( SHandle scheme, const std::string& str );

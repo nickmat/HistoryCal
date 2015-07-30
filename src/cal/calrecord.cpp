@@ -105,7 +105,7 @@ void Record::set_str( const string& str, const string& fcode )
     }
 }
 
-bool Record::set_fields_as_begin_first( const Field* mask )
+bool Record::set_fields_as_begin_first( const Field* mask, bool check )
 {
     if( m_f[0] == f_minimum ) {
         m_jdn = f_minimum;
@@ -114,21 +114,23 @@ bool Record::set_fields_as_begin_first( const Field* mask )
     bool ret = m_base->set_fields_as_begin_first( &m_f[0], mask );
     if( ret ) {
         m_jdn = get_jdn();
-        int attempt = 0;
-        for( size_t i = m_base->record_size() ; i < m_base->extended_size() ; i++ ) {
-            if( mask[i] == f_invalid ) {
-                continue;
-            }
-            // Adjust to match extended field
-            if( m_base->set_fields_as_next_optional( &m_f[0], m_jdn, mask, i ) ) {
-                Field jdn = get_jdn();
-                if( m_jdn != jdn ) {
-                    m_jdn = jdn;
-                    if( attempt >= 3 ) {
-                        return false; // Give up.
+        if( check ) {
+            int attempt = 0;
+            for( size_t i = m_base->record_size() ; i < m_base->extended_size() ; i++ ) {
+                if( mask[i] == f_invalid ) {
+                    continue;
+                }
+                // Adjust to match extended field
+                if( m_base->set_fields_as_next_optional( &m_f[0], m_jdn, mask, i ) ) {
+                    Field jdn = get_jdn();
+                    if( m_jdn != jdn ) {
+                        m_jdn = jdn;
+                        if( attempt >= 3 ) {
+                            return false; // Give up.
+                        }
+                        attempt++;
+                        i = m_base->record_size() - 1; // Start again.
                     }
-                    attempt++;
-                    i = m_base->record_size() - 1; // Start again.
                 }
             }
         }
@@ -145,7 +147,30 @@ bool Record::set_fields_as_next_first( const Field* mask )
     return ret;
 }
 
-bool Record::set_fields_as_begin_last(  const Field* mask )
+bool Record::correct_fields_as_first( const Field* mask )
+{
+    int attempt = 0;
+    for( size_t i = m_base->record_size() ; i < m_base->extended_size() ; i++ ) {
+        if( mask[i] == f_invalid ) {
+            continue;
+        }
+        // Adjust to match extended field
+        if( m_base->set_fields_as_next_optional( &m_f[0], m_jdn, mask, i ) ) {
+            Field jdn = get_jdn();
+            if( m_jdn != jdn ) {
+                m_jdn = jdn;
+                if( attempt >= 3 ) {
+                    return false; // Give up.
+                }
+                attempt++;
+                i = m_base->record_size() - 1; // Start again.
+            }
+        }
+    }
+    return true;
+}
+
+bool Record::set_fields_as_begin_last(  const Field* mask, bool check )
 {
     if( m_f[0] == f_maximum ) {
         m_jdn = f_maximum;
@@ -154,21 +179,23 @@ bool Record::set_fields_as_begin_last(  const Field* mask )
     bool ret = m_base->set_fields_as_begin_last( &m_f[0], mask );
     if( ret ) {
         m_jdn = get_jdn();
-        int attempt = 0;
-        for( size_t i = m_base->record_size() ; i < m_base->extended_size() ; i++ ) {
-            if( mask[i] == f_invalid ) {
-                continue;
-            }
-            // Adjust to match extended field
-            if( m_base->set_fields_as_prev_optional( &m_f[0], m_jdn, mask, i ) ) {
-                Field jdn = get_jdn();
-                if( m_jdn != jdn ) {
-                    m_jdn = jdn;
-                    if( attempt >= 3 ) {
-                        return false; // Give up.
+        if( check ) {
+            int attempt = 0;
+            for( size_t i = m_base->record_size() ; i < m_base->extended_size() ; i++ ) {
+                if( mask[i] == f_invalid ) {
+                    continue;
+                }
+                // Adjust to match extended field
+                if( m_base->set_fields_as_prev_optional( &m_f[0], m_jdn, mask, i ) ) {
+                    Field jdn = get_jdn();
+                    if( m_jdn != jdn ) {
+                        m_jdn = jdn;
+                        if( attempt >= 3 ) {
+                            return false; // Give up.
+                        }
+                        attempt++;
+                        i = m_base->record_size() - 1; // Start again.
                     }
-                    attempt++;
-                    i = m_base->record_size() - 1; // Start again.
                 }
             }
         }
@@ -183,6 +210,29 @@ bool Record::set_fields_as_next_last( const Field* mask )
         m_jdn = get_jdn();
     }
     return ret;
+}
+
+bool Record::correct_fields_as_last( const Field* mask )
+{
+    int attempt = 0;
+    for( size_t i = m_base->record_size() ; i < m_base->extended_size() ; i++ ) {
+        if( mask[i] == f_invalid ) {
+            continue;
+        }
+        // Adjust to match extended field
+        if( m_base->set_fields_as_prev_optional( &m_f[0], m_jdn, mask, i ) ) {
+            Field jdn = get_jdn();
+            if( m_jdn != jdn ) {
+                m_jdn = jdn;
+                if( attempt >= 3 ) {
+                    return false; // Give up.
+                }
+                attempt++;
+                i = m_base->record_size() - 1; // Start again.
+            }
+        }
+    }
+    return true;
 }
 
 void Record::remove_balanced_fields( Record* rec )

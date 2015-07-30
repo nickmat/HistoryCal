@@ -187,9 +187,12 @@ void TestDef_er::testStrTableOutput()
 void TestDef_er::testStringInput()
 {
     struct data { string in; string out; string wdmyr; Field beg; Field end; } t[] = {
+        { "1jan1000eng",
+          "1 Jan 1000/1 English calendar, os",
+          "Wed 1 Jan 1000/1 English calendar, os", 2086674, 2086674 },
         { "wed8may3john",
           "8 May, Second 3 John",
-          "Wed 8 May 3 John", 2159851, 2160216 },
+          "Wed 8 May 3 John", 2160216, 2160216 },
         { "10 6 ? 26 ? 37 1",
           "10 Jun 26 George II, ns",
           "Sun 10 Jun 26 George II, ns", 2361491, 2361491 },
@@ -200,9 +203,6 @@ void TestDef_er::testStringInput()
           "The Commonwealth",
           "Wed The Commonwealth ~ Mon The Commonwealth", // TODO: This needs working on?
           2323386, 2327521 },
-        { "1jan1000eng",
-          "1 Jan 1000/1 English calendar, os",
-          "Wed 1 Jan 1000/1 English calendar, os", 2086674, 2086674 },
 //        { "20may6john", "", "", 0, 0 }, // Currently, this is normalised to "20 May 7 John", should be invalid.
         { "8may3john",
           "8 May, First 3 John | 8 May, Second 3 John",
