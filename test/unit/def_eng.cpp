@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     6th March 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -206,6 +206,8 @@ void TestDef_eng::testStrTableOutput()
 void TestDef_eng::testRangeShorthand()
 {
     struct data { string in; string out1; string out2; } t[] = {
+        { "1750", "1750", "1750 ~ 1750/1" },
+        { "1752", "1752", "1752" },
         { 
             "Mar 1748", 
             "25 Mar 1748 ~ 31 Mar 1748 | 1 Mar 1748 ~ 24 Mar 1748",
@@ -219,7 +221,6 @@ void TestDef_eng::testRangeShorthand()
         { "6 sep 1948", "6 Sep 1948", "6 Sep 1948" },
         { "23feb1942", "23 Feb 1942", "23 Feb 1942" },
         { "25 March 1448 ~ 24 3 1448", "1448", "1448 ~ 1448/9" },
-        { "1752", "1752", "1752" },
     };
     size_t count = sizeof(t) / sizeof(data);
 
