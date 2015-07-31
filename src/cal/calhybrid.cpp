@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     23rd September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -28,6 +28,7 @@
 #include "calhybrid.h"
 
 #include "cal/calendars.h"
+#include "calformat.h"
 #include "calparse.h"
 #include "calscheme.h"
 #include "calrecord.h"
@@ -88,7 +89,7 @@ int Hybrid::get_fieldname_index( const string& fieldname ) const
             return i + offset;
         }
     }
-    return -1;
+    return get_opt_fieldname_index( fieldname );
 }
 
 string Hybrid::get_fieldname( size_t index ) const
@@ -122,22 +123,16 @@ Field Hybrid::get_jdn( const Field* fields ) const
         return f_invalid;
     }
     FieldVec fs = get_xref( &fields[0], fields[0] );
-    if( fields[0] == f_invalid ) {
+    if( fs[0] == f_invalid ) {
         return f_invalid;
     }
     return m_data[fields[0]].base->get_jdn( &fs[1] );
 }
 
-Field Hybrid::get_extended_field( const Field* fields, Field jdn, size_t index ) const
+Field Hybrid::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const
 {
-    assert( index > 0 );
-    size_t i = index - 1;
     size_t s = find_scheme( jdn );
-    if( index > m_xref_fields[s].size() || m_xref_fields[s][i] < 0 ) {
-        return f_invalid;
-    }
-    Record rec( m_data[s].base, jdn );
-    return rec.get_field( m_xref_fields[s][i] );
+    return m_data[s].base->get_opt_field( &fields[1], jdn, id );
 }
 
 Field Hybrid::get_field_last( const Field* fields, size_t index ) const
@@ -346,10 +341,37 @@ bool Hybrid::fields_ok( const Field* fields ) const
     return fields[0] == f_invalid || (size_t) fields[0] < m_data.size();
 }
 
+XRefSet Hybrid::create_input_xref_set( Format* fmt ) const
+{
+    XRefVec order = create_xref( fmt->get_input_fields() );
+    StringVec rank_fns = fmt->get_rank_fieldnames();
+    if( rank_fns.empty() ) {
+        rank_fns = m_fieldnames;
+    }
+    XRefVec rank = create_xref( rank_fns );
+
+    XRefSet xrefset;
+    size_t cnt = order.size();
+    xrefset[cnt] = order;
+    while( cnt > 1 ) {
+        --cnt;
+        XRefVec x;
+        for( size_t i = 0 ; i < order.size() ; i++ ) {
+            if( rank[cnt] != order[i] ) {
+                x.push_back( order[i] );
+            }
+        }
+        assert( x.size() < order.size() );
+        xrefset[cnt] = x;
+        order = x;
+    }
+    return xrefset;
+}
+
 FieldVec Hybrid::get_xref( const Field* fields, Field sch ) const
 {
     FieldVec result( m_ext_size, f_invalid );
-    if( sch >= (Field) m_xref_fields.size() ) {
+    if( sch >= (Field) m_xref_fields.size() || sch < 0 ) {
         return result;
     }
     FieldVec xref = m_xref_fields[sch];

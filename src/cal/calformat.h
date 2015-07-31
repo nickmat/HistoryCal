@@ -34,7 +34,7 @@ namespace Cal {
 
     class Format {
     public:
-        enum Use { Use_inout, Use_output, Use_strict };
+        enum Use { Use_inout, Use_output, Use_input, Use_strict };
 
         Format( const std::string& code, Grammar* gmr );
         ~Format();
@@ -54,11 +54,11 @@ namespace Cal {
         std::string get_input_field( Vocab* vocab ) const;
         std::string get_1st_input_field( InputFieldType type ) const;
 
-    private:
-        void set_usefor( Use usefor );
-        void set_input();
-        void set_output();
+        void set_rank_fieldnames( StringVec fieldnames ) { m_rank_fieldnames = fieldnames; }
+        StringVec get_rank_fieldnames() const;
+        bool is_tier1( const std::string& fieldname ) const;
 
+    private:
         std::string m_code;
         Grammar*    m_owner;
         std::string m_format;
@@ -70,10 +70,7 @@ namespace Cal {
         std::vector<Vocab*> m_vocabs;
         std::vector<InputFieldType> m_types;
         StringVec   m_input_fields;
-
-        bool m_usefor_output;
-        bool m_usefor_input;
-        bool m_strict_input;
+        StringVec   m_rank_fieldnames;
     };
 
 }

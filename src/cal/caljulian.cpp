@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013-2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -27,11 +27,12 @@
 
 #include "caljulian.h"
 
-#include "calliturgical.h"
 #include "calmath.h"
 
+#include <cassert>
+
 using namespace Cal;
-using namespace std;
+using std::string;
 
 #define BASEDATE_Julian    1721058L
 
@@ -70,55 +71,12 @@ namespace {
 
 }
 
-int Julian::get_fieldname_index( const string& fieldname ) const
-{
-    int ret = get_ymd_fieldname_index( fieldname );
-    if( ret >= 0 ) {
-        return ret;
-    }
-    int offset = record_size();
-    if( fieldname == "wday" ) { // Week day (Monday=1, Sunday=7)
-        return offset + JEFN_wday;
-    }
-    if( fieldname == "litweek" ) { // Liturgical week number value
-        return offset + JEFN_litweek;
-    }
-    return -1;
-}
-
-string Julian::get_fieldname( size_t index ) const
-{
-    if( index < sizeof_ymd_fieldnames() ) {
-        return get_ymd_fieldname( index );
-    }
-    switch( index - record_size() )
-    {
-    case JEFN_wday:
-        return "wday";
-    case JEFN_litweek:
-        return "litweek";
-    }
-    return "";
-}
-
 Field Julian::get_jdn( const Field* fields ) const
 {
     if( fields[0] == f_invalid || fields[1] == f_invalid || fields[2] == f_invalid ) {
         return f_invalid;
     }
     return jdn( fields[0], fields[1], fields[2] );
-}
-
-Field Julian::get_extended_field( const Field* fields, Field jdn, size_t index ) const
-{
-    switch( index - record_size() )
-    {
-    case JEFN_wday:
-        return day_of_week( jdn ) + 1; // Mon=1, Sun=7
-    case JEFN_litweek:
-        return liturgical_get_litweek( this, jdn );
-    }
-    return f_invalid;
 }
 
 bool Julian::set_fields_as_begin_first( Field* fields, const Field* mask ) const
@@ -157,34 +115,6 @@ bool Julian::set_fields_as_begin_last( Field* fields, const Field* mask ) const
 
 bool Julian::set_fields_as_next_last( Field* fields, const Field* mask ) const
 {
-    return false;
-}
-
-bool Julian::set_fields_as_next_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const
-{
-	if( index == record_size() + JEFN_wday ) {
-		if( mask[index] >= 1 && mask[index] <= 7 && jdn != f_invalid ) {
-			Field knext = kday_on_or_after( Weekday( mask[index] - 1 ), jdn );
-			if( knext != jdn ) {
-				set_fields( fields, knext );
-				return true;
-			}
-		}
-	}
-    return false;
-}
-
-bool Julian::set_fields_as_prev_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const
-{
-	if( index == record_size() + JEFN_wday ) {
-		if( mask[index] >= 1 && mask[index] <= 7 && jdn != f_invalid ) {
-			Field knext = kday_on_or_before( Weekday( mask[index] - 1 ), jdn );
-			if( knext != jdn ) {
-				set_fields( fields, knext );
-				return true;
-			}
-		}
-    }
     return false;
 }
 
@@ -291,6 +221,63 @@ Field Julian::jdn( Field year, Field month, Field day ) const
 Field Julian::easter( Field year ) const
 {
     return jdn( year, 4, 19 ) - ( 14 + 11 * ( year % 19 ) ) % 30;
+}
+
+OptFieldID Julian::get_opt_field_id( const std::string& fieldname ) const
+{
+    if( fieldname == "ce" ) {  // 0 = BCE, 1 = CE
+        return OFID_j_ce;
+    }
+    // Positive CE or BCE year
+    if( fieldname == "ceyear" ) {
+        return OFID_j_ceyear;
+    }
+    return Base::get_opt_field_id( fieldname );
+}
+
+std::string Julian::get_opt_fieldname( OptFieldID field_id ) const
+{
+    switch( field_id )
+    {
+    case OFID_j_ce:
+        return "ce";
+    case OFID_j_ceyear:
+        return "ceyear";
+    default:
+        return Base::get_opt_fieldname( field_id );
+    }
+}
+
+Field Julian::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const
+{
+    switch( id )
+    {
+    case OFID_j_ce:  // 0 = BCE, 1 = CE
+        return fields[YMD_year] < 1 ? 0 : 1;
+    case OFID_j_ceyear: // Positive CE or BCE year
+        return fields[YMD_year] < 1 ? -fields[YMD_year] + 1 : fields[YMD_year];
+    default:
+        return Base::get_opt_field( fields, jdn, id );
+    }
+}
+
+bool Julian::resolve_input( 
+    Field* fields, const InputFieldVec& input, Format* fmt ) const
+{
+    bool ret = Base::resolve_input( fields, input, fmt );
+    if( ret && fields[YMD_year] == f_invalid ) {
+        int ice = opt_id_to_index( OFID_j_ce );
+        int iceyear = opt_id_to_index( OFID_j_ceyear );
+        Field ceyear = ( iceyear >= 0 ) ? fields[iceyear] : f_invalid;
+        if( ice >= 0 && ceyear != f_invalid && ceyear != 0 ) {
+            if( fields[ice] == 1 ) {
+                fields[YMD_year] = ceyear;
+            } else if( fields[ice] == 0 ) {
+                fields[YMD_year] = -ceyear + 1;
+            }
+        }
+    }
+    return ret;
 }
 
 /*! Returns true if the year is a leap year in the Julian Calendar.

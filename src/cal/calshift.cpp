@@ -52,22 +52,6 @@ Shift::~Shift()
 {
 }
 
-int Shift::get_fieldname_index( const string& fieldname ) const
-{
-    if( fieldname == "unshift" ) { // Unshifted value
-        return extended_size() - 1;
-    }
-    return m_base->get_fieldname_index( fieldname );
-}
-
-string Shift::get_fieldname( size_t index ) const
-{
-    if( index == extended_size() - 1 ) {
-        return "unshift";
-    }
-    return m_base->get_fieldname( index );
-}
-
 Field Shift::get_jdn( const Field* fields ) const
 {
     if( is_complete( fields ) == false ) {
@@ -75,16 +59,6 @@ Field Shift::get_jdn( const Field* fields ) const
     }
     FieldVec f = get_vec_adjusted_to_base( fields );
     return m_base->get_jdn( &f[0] );
-}
-
-Field Shift::get_extended_field( const Field* fields, Field jdn, size_t index ) const
-{
-    if( index == extended_size() - 1 ) {
-        // "unshift" return unshifted value
-        Record rec( m_base, jdn );
-        return rec.get_field( 0 );
-    }
-    return m_base->get_extended_field( fields, jdn, index );
 }
 
 Field Shift::get_field_last( const Field* fields, size_t index ) const
@@ -279,6 +253,15 @@ bool Shift::normalise( Field* fields, Norm norm ) const
         fields[0] = get_adjusted_to_shift( fields );
     }
     return ret;
+}
+
+Field Shift::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const
+{
+    if( id == OFID_unshift ) {
+        Record rec( m_base, jdn );
+        return rec.get_field( 0 );
+    }
+    return Base::get_opt_field( fields, jdn, id );
 }
 
 Field Shift::get_adjustment( const Field* fields ) const

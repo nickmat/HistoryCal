@@ -446,6 +446,88 @@ void Calendars::add_or_replace_mark( std::string& name )
     m_marks.push_back( mark );
 }
 
+namespace {
+
+    // Sets range and returns true if the masks can create a valid range.
+    // Sets up range but returns false if the masks can create a valid range only
+    // by ignoring optional fields.
+    // Sets range to invalid and returns false if the masks cannot create a valid
+    // range.
+    bool set_range_as_begin( Range* range, const Record& mask1, const Record& mask2 )
+    {
+        Record rec1( mask1.get_base() );
+        Record rec2( mask2.get_base() );
+        bool ret1 = rec1.set_fields_as_begin_first( mask1.get_field_ptr(), false );
+        bool ret2 = rec2.set_fields_as_begin_last( mask2.get_field_ptr(), false );
+        if( !ret1 || !ret2 ) {
+            range->jdn1 = f_invalid;
+            return false;
+        }
+        range->jdn1 = rec1.get_jdn();
+        range->jdn2 = rec2.get_jdn();
+        if( range->jdn1 == f_invalid || range->jdn2 == f_invalid ) {
+            range->jdn1 = f_invalid;
+            return false;
+        }
+        ret1 = rec1.set_fields_as_begin_first( mask1.get_field_ptr(), true );
+        ret2 = rec2.set_fields_as_begin_last( mask2.get_field_ptr(), true );
+        if( ret1 && ret2 ) {
+            Range r;
+            r.jdn1 = rec1.get_jdn();
+            r.jdn2 = rec2.get_jdn();
+            if( r.jdn1 != range->jdn1 || r.jdn2 != range->jdn2 ) {
+                if( r.jdn1 > r.jdn2 ) {
+                    return false;
+                }
+                *range = r;
+                return true;
+            }
+        }
+        return ret1 && ret2;
+    }
+
+    // Using the initial value of range, attempts to adjust the value of range
+    // to the next value.
+    // If it fails, it sets the range invalid and returns false.
+    // If it succeeds, it will attempt to correct for optional fields - if this
+    // fails, the uncorrected range is set and the the function returns false.
+    bool set_range_as_next( Range* range, const Record& mask1, const Record& mask2 )
+    {
+        Record rec1( mask1.get_base(), range->jdn1 );
+        Record rec2( mask2.get_base(), range->jdn2 );
+        bool ret1 = rec1.set_fields_as_next_first( mask1.get_field_ptr() );
+        bool ret2 = rec2.set_fields_as_next_last( mask2.get_field_ptr() );
+        if( !ret1 || !ret2 ) {
+            range->jdn1 = f_invalid;
+            return false;
+        }
+        range->jdn1 = rec1.get_jdn();
+        range->jdn2 = rec2.get_jdn();
+        if( range->jdn1 > range->jdn2 ||
+            range->jdn1 == f_invalid || range->jdn2 == f_invalid )
+        {
+            range->jdn1 = f_invalid;
+            return false;
+        }
+        ret1 = rec1.correct_fields_as_first( mask1.get_field_ptr() );
+        ret2 = rec2.correct_fields_as_last( mask2.get_field_ptr() );
+        if( ret1 && ret2 ) {
+            Range r;
+            r.jdn1 = rec1.get_jdn();
+            r.jdn2 = rec2.get_jdn();
+            if( r.jdn1 != range->jdn1 || r.jdn2 != range->jdn2 ) {
+                if( r.jdn1 > r.jdn2 ) {
+                    return false;
+                }
+                *range = r;
+                return true;
+            }
+        }
+        return ret1 && ret2;
+    }
+
+} // namespace
+
 // Convert a string written as a shorthand or single longhand range
 // to a rangelist. Handles scheme:format# prefix. Scheme may be NULL;
 RangeList Calendars::range_str_to_rangelist( SHandle scheme, const string& str )
@@ -512,26 +594,19 @@ RangeList Calendars::range_str_to_rangelist( SHandle scheme, const string& str )
     }
 
     Record mask1( base1, str1, fcode1 ), mask2( base2, str2, fcode2 );
-    Record rec1(base1), rec2(base2);
-    bool ret1 = rec1.set_fields_as_begin_first( mask1.get_field_ptr() );
-    bool ret2 = rec2.set_fields_as_begin_last( mask2.get_field_ptr() );
-    while( ret1 && ret2 ) {
-        Range range;
-        range.jdn1 = rec1.get_jdn();
-        range.jdn2 = rec2.get_jdn();
-        if( range.jdn1 > range.jdn2 ) {
-            break;
+    Range range;
+    bool ret = set_range_as_begin( &range, mask1, mask2 );
+    while( range.jdn1 != f_invalid ) {
+        if( ret ) {
+            if( ranges.size() && ranges[ranges.size()-1].jdn2+1 >= range.jdn1 ) {
+                ranges[ranges.size()-1].jdn2 = range.jdn2;
+            } else {
+                ranges.push_back( range );
+            }
         }
-        if( ranges.size() && ranges[ranges.size()-1].jdn2+1 >= range.jdn1 ) {
-            ranges[ranges.size()-1].jdn2 = range.jdn2;
-        } else {
-            ranges.push_back( range );
-        }
-        ret1 = rec1.set_fields_as_next_first( mask1.get_field_ptr() );
-        ret2 = rec2.set_fields_as_next_last( mask2.get_field_ptr() );
+        ret = set_range_as_next( &range, mask1, mask2 );
     }
     return ranges;
 }
-
 
 // End of src/cal/calcalendars.cpp file

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     28th March 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -60,15 +60,9 @@ namespace Cal {
         ~Regnal();
 
         virtual bool is_ok() const;
-        virtual size_t record_size() const { return m_rec_size; }
-        virtual size_t extended_size() const { return m_ext_size; }
-
-        virtual int get_fieldname_index( const std::string& fieldname ) const;
-        virtual std::string get_fieldname( size_t index ) const;
+        virtual size_t record_size() const { return m_ext_size; }
 
         virtual Field get_jdn( const Field* fields ) const;
-
-        virtual Field get_extended_field( const Field* fields, Field jdn, size_t index ) const;
 
         // Give the chance to set a field to a fixed value.
         virtual void set_fixed_fields( Field* fields ) const;
@@ -81,6 +75,11 @@ namespace Cal {
         virtual void remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const;
 
         virtual void set_fields( Field* fields, Field jdn ) const;
+
+    protected:
+        virtual int get_std_fieldname_index( const std::string& fieldname ) const;
+        virtual std::string get_std_fieldname( size_t index ) const;
+        virtual bool is_tier1( const std::string& fieldname, const Format* fmt ) const;
 
     private:
         // Return the era index coresponding to given jdn.

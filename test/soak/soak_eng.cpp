@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     29th March 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -61,11 +61,12 @@ void Soak_eng::setUp()
     m_cal = new Calendars;
     m_cal->run_script(
         "scheme \"j\" {name \"Julian\"; base julian;}"
-        "scheme \"ja\" {name \"Julian Annunciation\"; shift \"j\", 1721507;}"
+        "scheme \"ja\" {name \"Julian Annunciation\"; shift \"j\", 1721507; optional \"unshift\";}"
         "scheme \"g\" {name \"Gregorian\"; base gregorian;}"
         "scheme \"eng\" {name \"English Hybrid\";"
         " hybrid {"
-        "  fields \"year\", \"month\", \"day\", \"unshift\";"
+        "  fields \"year\", \"month\", \"day\";"
+        "  extended \"unshift\";"
         "  scheme \"ja\";"
         "  change 2360975;"
         "  scheme \"j\";"
@@ -134,7 +135,7 @@ void Soak_eng::testEngCalendar()
 
     CPPUNIT_ASSERT( m_sid >= 0 );
     Field eng_year = HIS_START_YEAR-1;
-    string date_in = fieldsToStr( f_invalid, eng_year, 1, 1, f_invalid );
+    string date_in = fieldsToStr( 0, eng_year, 1, 1, f_invalid );
     Field daycount = m_cal->str_to_jdn( m_sid, date_in );
     CPPUNIT_ASSERT_EQUAL( ENG_START_JDN, daycount );
     Field sch = 0;
@@ -159,7 +160,7 @@ void Soak_eng::testEngCalendar()
                     sch++;
                     day = 14;
                 }
-                date_in = fieldsToStr( f_invalid, eng_year, month, day, f_invalid );
+                date_in = fieldsToStr( sch, eng_year, month, day, f_invalid );
                 Field jdn = m_cal->str_to_jdn( m_sid, date_in );
                 CPPUNIT_ASSERT_EQUAL( daycount, jdn );
                 Field hyear = ( sch == 0 ) ? year : f_invalid;

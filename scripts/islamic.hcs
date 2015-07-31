@@ -62,6 +62,7 @@ vocab "iw" {
 }
 
 grammar "i" {
+    optional "wsday";
     vocabs "im", "iw";
     alias field {
         "WDay",  "wsday";

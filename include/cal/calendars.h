@@ -33,6 +33,7 @@
 namespace Cal {
 
     class ScriptStore;
+    class Record;
 
     enum Init_schemes { Init_script_none, Init_script_default };
 

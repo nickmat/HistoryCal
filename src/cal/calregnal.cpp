@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     28th March 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -63,43 +63,6 @@ bool Regnal::is_ok() const
     return m_rec_size > 1 && m_eras.size() > 1; 
 }
 
-int Regnal::get_fieldname_index( const string& fieldname ) const
-{
-    if( fieldname == "era" ) {
-        return 0;
-    }
-    int offset = 1;
-    for( size_t i = 0 ; i < m_fieldnames.size() ; i++ ) {
-        if( m_fieldnames[i] == fieldname ) {
-            return i + offset;
-        }
-    }
-    offset += m_fieldnames.size();
-    for( size_t i = 0 ; i < m_ext_fieldnames.size() ; i++ ) {
-        if( m_ext_fieldnames[i] == fieldname ) {
-            return i + offset;
-        }
-    }
-    return -1;
-}
-
-string Regnal::get_fieldname( size_t index ) const
-{
-    if( index == 0 ) {
-        return "era";
-    }
-    --index;
-    if( index < m_fieldnames.size() ) {
-        return m_fieldnames[index];
-    }
-    index -= m_fieldnames.size();
-    if( index < m_ext_fieldnames.size() ) {
-        return m_ext_fieldnames[index];
-    }
-    return "";
-}
-
-
 Field Regnal::get_jdn( const Field* fields ) const
 {
     FieldVec fs = get_base_fields( fields );
@@ -107,18 +70,6 @@ Field Regnal::get_jdn( const Field* fields ) const
         return f_invalid;
     }
     return m_eras[fields[0]].base->get_jdn( &fs[0] );
-}
-
-Field Regnal::get_extended_field( const Field* fields, Field jdn, size_t index ) const
-{
-    assert( index > 0 );
-    size_t i = index - 1;
-    Field e = get_era_index( jdn );
-    if( index > m_eras[e].xref.size() || m_eras[e].xref[i] < 0 ) {
-        return f_invalid;
-    }
-    Record rec( m_eras[e].base, jdn );
-    return rec.get_field( m_eras[e].xref[i] );
 }
 
 void Regnal::set_fixed_fields( Field* fields ) const
@@ -244,6 +195,55 @@ void Regnal::set_fields( Field* fields, Field jdn ) const
     Record rec( m_eras[e].base, jdn );
     make_regnal_fields( fields, e, rec );
     return;
+}
+
+int Regnal::get_std_fieldname_index( const string& fieldname ) const
+{
+    if( fieldname == "era" ) {
+        return 0;
+    }
+    int offset = 1;
+    for( size_t i = 0 ; i < m_fieldnames.size() ; i++ ) {
+        if( m_fieldnames[i] == fieldname ) {
+            return i + offset;
+        }
+    }
+    offset += m_fieldnames.size();
+    for( size_t i = 0 ; i < m_ext_fieldnames.size() ; i++ ) {
+        if( m_ext_fieldnames[i] == fieldname ) {
+            return i + offset;
+        }
+    }
+    return -1;
+}
+
+string Regnal::get_std_fieldname( size_t index ) const
+{
+    if( index == 0 ) {
+        return "era";
+    }
+    --index;
+    if( index < m_fieldnames.size() ) {
+        return m_fieldnames[index];
+    }
+    index -= m_fieldnames.size();
+    if( index < m_ext_fieldnames.size() ) {
+        return m_ext_fieldnames[index];
+    }
+    return "";
+}
+
+bool Regnal::is_tier1( const string& fieldname, const Format* fmt ) const
+{
+    if( fieldname == "era" ) {
+        return true;
+    }
+    for( size_t i = 0 ; i < m_fieldnames.size() ; i++ ) {
+        if( fieldname == m_fieldnames[i] ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 size_t Regnal::get_era_index( Field jdn ) const

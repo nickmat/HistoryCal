@@ -1,0 +1,84 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Name:        scripts/ce-bce.hcs
+ * Project:     Cal: Programmable Historical Calendar library.
+ * Purpose:     Common Era and Before Common Era - default script.
+ * Author:      Nick Matthews
+ * Website:     http://historycal.org
+ * Created:     17th June 2015
+ * Copyright:   Copyright (c) 2015, Nick Matthews.
+ * Licence:     GNU GPLv3
+ *
+ *  The Cal library is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The Cal library is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with the Cal library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*/
+
+vocab "ce" {
+    name "Historic Era";
+    fieldname "ce";
+    lang "en";
+    stylename "CommonEra",  "CE";
+    tokens {
+        0, "Before Common Era",   "BCE";
+        1, "Common Era",   "CE";
+    }
+}
+
+grammar "jce" {
+    optional "wday", "ce", "ceyear";
+    rank "ce", "ceyear", "month", "day", "wday";
+    vocabs "m", "w", "ce";
+    alias field {
+        "WDay",  "wday";
+        "Day",   "day";
+        "Month", "month";
+        "Year",  "ceyear";
+        "CEra",  "ce";
+    }
+    alias stylename {
+        "WDay",  "w";
+        "Day",   "dd";
+        "Month", "mm";
+        "Year",  "yyyy";
+    }
+    alias unit {
+        "d", "day";
+        "m", "month";
+        "y", "year";
+        "w", "week";
+    }
+    format "dmy",   "(Day) |(Month:m.a) |(Year) |(CEra:ce.a)";
+    format "wdmy",  "(WDay:w.a) |(Day) |(Month:m.a) |(Year) |(CEra:ce.a)";
+    format "out" {
+        output "(Day:+os) |(Month:m) |(Year) |(CEra:ce.a)";
+    }
+    format "full" {
+        output "(WDay:w) |(Day:+os) |(Month:m) |(Year) |(CEra:ce)";
+    }
+    format "dmy+",  "(Day) |(Month:m) |(Year) |(CEra:ce)";
+    format "wdmy+", "(WDay:w) |(Day) |(Month:m) |(Year) |(CEra:ce)";
+    format "mdy",   "(Month:m.a) |(Day), |(Year) |(CEra:ce.a)";
+    format "ymd",   "(Year)|(CEra:ce.a)|:(Month:m.a)|:(Day)";
+    pref "dmy";
+}
+
+
+
+scheme "jce" {
+    name "Julian Common Era";
+    base julian;
+    grammar "jce";
+}
+
+// End of scripts/julian.hcs file

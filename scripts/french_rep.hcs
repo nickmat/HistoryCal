@@ -81,6 +81,7 @@ vocab "frcomp" {
 }
 
 grammar "fr" {
+    optional "nmonth", "nmday", "cday", "dday", "wday";
     vocabs "frm", "frcomp", "frdd", "w";
     alias field {
         "Day",     "day";
@@ -109,18 +110,37 @@ grammar "fr" {
         "m",   "month";
         "y",   "year";
     }
-    format "cdmy",   "(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";
-    format "out" {
-        output "(CompDay:frcomp) |(NMDay) |(NMonth:frm) |an (Year:!rn)";
-    }
-    format "dcdmy",  "(DecDay:frdd) |(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";
-    format "wcdmy",  "(WDay:w), |(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";
-    format "cdmy-",  "(CompDay:frcomp.a) |(NMDay) |(NMonth:frm.a) |(Year)";
-    format "dcdmy-", "(DecDay:frdd.a) |(CompDay:frcomp.a) |(NMDay) |(NMonth:frm.a) |(Year)";
-    format "wcdmy-", "(WDay:w), |(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";
     format "dmy",    "(Day) |(Month:frm.a) |(Year)";
     format "dmy+",   "(Day) |(Month:frm) |(Year)";
     format "ymd",    "(Year)|,(Month:frm.a)|,(Day)";
+    format "cdmy" {
+        input "(Day) |(Month) |(Year)";
+        output "(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";
+    }
+    format "out" {
+        input "(Day) |(Month) |(Year)";
+        output "(CompDay:frcomp) |(NMDay) |(NMonth:frm) |an (Year:!rn)";
+    }
+    format "dcdmy" {
+        input "(Day) |(Month) |(Year)";
+        output "(DecDay:frdd) |(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";
+    }
+    format "wcdmy" {
+        input "(Day) |(Month) |(Year)";
+        output "(WDay:w), |(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";
+    }
+    format "cdmy-" {
+        input "(Day) |(Month) |(Year)";
+        output "(CompDay:frcomp.a) |(NMDay) |(NMonth:frm.a) |(Year)";
+    }
+    format "dcdmy-" {
+        input "(Day) |(Month) |(Year)";
+        output "(DecDay:frdd.a) |(CompDay:frcomp.a) |(NMDay) |(NMonth:frm.a) |(Year)";
+    }
+    format "wcdmy-" {
+        input "(Day) |(Month) |(Year)";
+        output "(WDay:w), |(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";
+    }
     pref "cdmy";
 }
 

@@ -35,6 +35,26 @@ namespace Cal {
     typedef std::map<int,XRefVec> XRefSet;
     typedef std::map<std::string,XRefSet> XRefMap;
 
+    enum {
+        YMD_year, YMD_month, YMD_day
+    };
+    enum OptFieldID {
+        OFID_NULL,
+        OFID_wday,      // 7 Day week Mon=1 (1 to 7)
+        OFID_wsday,     // 7 Day week Sun=1 (1 to 7)
+        OFID_dayinyear, // Day in year (1 to about 366, dep. on scheme)
+        OFID_unshift,   // Value before being shifted, (year or day)
+        // Julian, Gregorian
+        OFID_j_ce,      // 0 = BCE, 1 = CE
+        OFID_j_ceyear,  // Positive CE or BCE year
+        // French Republican fields
+        OFID_fr_nmonth, // Named month (1 to 12) (or invalid)
+        OFID_fr_nmday,  // Named month day (1 to 30) (or invalid)
+        OFID_fr_cday,   // Complementary day (1 to 6) (or invalid)
+        OFID_fr_dday,   // Day within Decade (1 to 10) (or invalid)
+        OFID_MAX
+    };
+
     class Base
     {
     public:
@@ -46,17 +66,17 @@ namespace Cal {
         // Return the maximum number of Fields required by the Record.
         virtual size_t record_size() const = 0;
         // Return the number of extended (read-only) Fields available.
-        virtual size_t extended_size() const { return record_size(); }
+        virtual size_t extended_size() const { return record_size() + m_opt_fields.size(); }
 
         // Returns the index to the named Record field, or -1 if not found.
-        virtual int get_fieldname_index( const std::string& fieldname ) const = 0;
-        virtual std::string get_fieldname( size_t index ) const = 0;
+        virtual int get_fieldname_index( const std::string& fieldname ) const;
+        virtual std::string get_fieldname( size_t index ) const;
 
         // Converts the Field's into a jdn and returns it.
         virtual Field get_jdn( const Field* fields ) const = 0;
 
-        // Get an extended field value
-        virtual Field get_extended_field( const Field* fields, Field jdn, size_t index ) const { return f_invalid; }
+        // Get an optional field value.
+        virtual Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const;
 
         // Give the chance to set a field to a fixed value.
         virtual void set_fixed_fields( Field* fields ) const {}
@@ -69,9 +89,11 @@ namespace Cal {
         // Calculate the extended field, indicated by index, that is on or after the jdn or mask values.
         // If calulated date is different, update the fields to match and return true, otherwise return false.
         virtual bool set_fields_as_next_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const { return false; }
+        virtual bool set_fields_as_next_optional( Field* fields, Field jdn, const Field* mask, size_t index ) const;
         // Calculate the extended field, indicated by index, that is on or before the jdn or mask values.
         // If calulated date is different, update the fields to match and return true, otherwise return false.
         virtual bool set_fields_as_prev_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const { return false; }
+        virtual bool set_fields_as_prev_optional( Field* fields, Field jdn, const Field* mask, size_t index ) const;
 
         virtual void remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const;
 
@@ -126,6 +148,8 @@ namespace Cal {
         void set_input_fcode( const std::string& code ) { m_input_fcode = code; }
         void set_output_fcode( const std::string& code ) { m_output_fcode = code; }
 
+        void add_opt_field( const std::string& fieldname );
+
         XRefVec get_xref_order( int count, Format* fmt ) const;
 
         FieldVec fields_to_vec( const Field* fields ) const;
@@ -136,16 +160,30 @@ namespace Cal {
         // return f_invalid if an invalid field is encountered
         Field compare_except( const Field* first, const Field* second, size_t except = 0 ) const;
 
+        OptFieldID opt_index_to_id( size_t index ) const { return m_opt_fields[index-record_size()]; }
+        int opt_id_to_index( OptFieldID id ) const;
     protected:
+        virtual int get_std_fieldname_index( const std::string& fieldname ) const { return get_ymd_fieldname_index( fieldname ); }
+        virtual std::string get_std_fieldname( size_t index ) const { return get_ymd_fieldname( index ); }
+        virtual OptFieldID get_opt_field_id( const std::string& fieldname ) const;
+        virtual std::string get_opt_fieldname( OptFieldID field_id ) const;
+
+        virtual Field get_additional_field( const Field* fields, Field jdn, size_t index ) const { return f_invalid; };
+        size_t opt_fields_size() const { return m_opt_fields.size(); }
+
         virtual XRefVec get_default_xref_order( int count ) const;
 
         int get_ymd_fieldname_index( const std::string& fieldname ) const;
         std::string get_ymd_fieldname( size_t index ) const;
         size_t sizeof_ymd_fieldnames() const { return s_sizeof_ymd_fieldnames; }
+        int get_opt_fieldname_index( const std::string& fieldname ) const;
+        XRefVec create_xref( const StringVec& fieldnames ) const; 
+        virtual XRefSet create_input_xref_set( Format* fmt ) const;
+        virtual StringVec get_rank_fieldnames() const { return StringVec(0); }
+        virtual bool is_tier1( const std::string& fieldname, const Format* fmt ) const;
 
     private:
         void create_default_grammar() const;
-        XRefSet create_input_xref_set( Format* fmt ) const;
 
         static const char* s_ymd_fieldnames[];
         static size_t s_sizeof_ymd_fieldnames;
@@ -157,6 +195,8 @@ namespace Cal {
         std::string      m_output_fcode;
         // Cache these as they are expensive to create.
         mutable XRefMap  m_xref_inputs;
+
+        std::vector<OptFieldID> m_opt_fields;
     };
 
 }

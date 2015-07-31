@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013-2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -34,24 +34,15 @@ namespace Cal {
 
     class Julian : public Base
     {
-        enum JulianExtendedFieldNumber { JEFN_wday, JEFN_litweek, JEFN_COUNT };
     public:
         virtual size_t record_size() const { return 3; }
-        virtual size_t extended_size() const { return record_size() + JEFN_COUNT; }
-
-        virtual int get_fieldname_index( const std::string& fieldname ) const;
-        virtual std::string get_fieldname( size_t index ) const;
 
         virtual Field get_jdn( const Field* fields ) const;
-        virtual Field get_extended_field( const Field* fields, Field jdn, size_t index ) const;
 
         virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) const;
         virtual bool set_fields_as_next_first( Field* fields, const Field* mask ) const;
         virtual bool set_fields_as_begin_last( Field* fields, const Field* mask ) const;
         virtual bool set_fields_as_next_last( Field* fields, const Field* mask ) const;
-
-        virtual bool set_fields_as_next_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const;
-        virtual bool set_fields_as_prev_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const;
 
         virtual void set_fields( Field* fields, Field jdn ) const;
 
@@ -61,11 +52,17 @@ namespace Cal {
         virtual bool add_to_fields( Field* fields, Field value, Unit unit ) const;
         virtual bool normalise( Field* fields, Norm norm ) const;
 
+        virtual bool resolve_input( Field* fields, const InputFieldVec& input, Format* fmt ) const;
+
         // Virtual members shared with Gregorian class.
         virtual Field jdn( Field year, Field month, Field day ) const;
         virtual Field easter( Field year ) const;
 
     protected:
+        virtual OptFieldID get_opt_field_id( const std::string& fieldname ) const;
+        virtual std::string get_opt_fieldname( OptFieldID field_id ) const;
+        virtual Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const;
+
         virtual bool is_leap_year( Field year ) const;
         Field last_day_in_month( Field year, Field month ) const;
     };

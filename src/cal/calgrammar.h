@@ -28,7 +28,7 @@
 #ifndef CAL_CALGRAMMAR_H_GUARD
 #define CAL_CALGRAMMAR_H_GUARD
 
-#include "cal/caldefs.h"
+#include "calprivate.h"
 
 namespace Cal {
 
@@ -67,6 +67,11 @@ namespace Cal {
 
         void remove_format( const std::string& fcode );
 
+        void set_opt_fieldnames( StringVec fieldnames ) { m_opt_fieldnames = fieldnames; }
+        StringVec get_opt_fieldnames() const;
+        void set_rank_fieldnames( StringVec fieldnames ) { m_rank_fieldnames = fieldnames; }
+        StringVec get_rank_fieldnames() const;
+
     private:
         std::string                m_code;
         Grammar*                   m_inherit;
@@ -77,6 +82,8 @@ namespace Cal {
         FormatMap                  m_formats;
         std::string                m_pref_input_fcode;
         std::string                m_pref_output_fcode;
+        StringVec                  m_opt_fieldnames;
+        StringVec                  m_rank_fieldnames;
     };
 
 }

@@ -65,6 +65,7 @@ vocab "sr" {
 }
 
 grammar "sr" {
+    optional "wday";
     alias field {
         "WDay",       "wday";
         "Reign",      "era";
@@ -89,9 +90,9 @@ scheme "sr" {
     name "Scottish Regnal";
     regnal {
         fields "year", "month", "day";
-        extended "hyear", "wday";
+        extended "hyear";
         era {
-            scheme "eng";
+            scheme "scot";
             match "unshift", "hyear";
         }
         era {  // Malcolm II

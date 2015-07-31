@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -48,13 +48,12 @@ namespace Cal {
         void set_fields( const Field* fields, size_t size );
         void set_str( const std::string& str, const std::string& fmt );
 
-        bool set_fields_as_begin_first( const Field* mask );
+        bool set_fields_as_begin_first( const Field* mask, bool check = true );
         bool set_fields_as_next_first( const Field* mask );
-        bool set_fields_as_begin_last( const Field* mask );
+        bool correct_fields_as_first( const Field* mask );
+        bool set_fields_as_begin_last( const Field* mask, bool check = true );
         bool set_fields_as_next_last( const Field* mask );
-
-        bool set_fields_as_next( const Field* mask, Field maxjdn );
-        bool set_fields_as_prev( const Field* mask, Field minjdn );
+        bool correct_fields_as_last( const Field* mask );
 
         void remove_balanced_fields( Record* record );
 
@@ -64,6 +63,7 @@ namespace Cal {
 
         Field* get_field_ptr() { return &m_f[0]; }
         const Field* get_field_ptr() const { return &m_f[0]; }
+        const Base* get_base() const { return m_base; }
 
         Field is_unit_int( Unit unit ) const;
         bool can_add_unit( Unit unit ) const;

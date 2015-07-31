@@ -216,8 +216,8 @@ SHandle Script::do_create_scheme( const std::string& code )
         return NULL;
     }
     Base* base = NULL;
-    string name;
-    string gmr_code;
+    string name, gmr_code;
+    StringVec optfields;
     Scheme_style style = SCH_STYLE_Default;
     for(;;) {
         SToken token = m_ts.next();
@@ -239,6 +239,8 @@ SHandle Script::do_create_scheme( const std::string& code )
                 base = do_base_hybrid();
             } else if( token.get_str() == "regnal" ) {
                 base = do_base_regnal();
+            } else if( token.get_str() == "optional" ) {
+                optfields = do_string_list();
             } else if( token.get_str() == "grammar" ) {
                 expr( true ).get( gmr_code );
             } else if( token.get_str() == "style" ) {
@@ -256,9 +258,12 @@ SHandle Script::do_create_scheme( const std::string& code )
     if( base == NULL ) {
         return NULL;
     }
+    for( size_t i = 0 ; i < optfields.size() ; i++ ) {
+        base->add_opt_field( optfields[i] );
+    }
+    base->set_grammar( m_cals->get_grammar( gmr_code ) );
     SHandle sch = new Scheme( name, base );
     sch->set_style( style );
-    sch->set_grammar( m_cals->get_grammar( gmr_code ) );
     sch->set_code( code );
     return sch;
 }
@@ -588,6 +593,12 @@ bool Script::do_grammar()
                 do_grammar_alias( gmr );
             } else if( name == "inherit" ) {
                 do_grammar_inherit( gmr );
+            } else if( name == "optional" ) {
+                StringVec optfields = do_string_list();
+                gmr->set_opt_fieldnames( optfields );
+            } else if( name == "rank" ) {
+                StringVec rankfields = do_string_list();
+                gmr->set_rank_fieldnames( rankfields );
             }
         }
     }
@@ -660,8 +671,9 @@ void Script::do_grammar_inherit( Grammar* gmr )
 // as in "gmr:fmt"
 bool Script::do_format( Grammar* gmr )
 {
-    string code, format, separators;
+    string code, format, informat, separators;
     Format::Use usefor = Format::Use_inout;
+    StringVec rankfields;
     expr( true ).get( code );
     if( code.empty() ) {
         error( "Format code missing." );
@@ -688,14 +700,21 @@ bool Script::do_format( Grammar* gmr )
                 continue;
             }
             if( token.type() == SToken::STT_Name ) {
-                if( token.get_str() == "output" ) {
+                string name = token.get_str();
+                if( name == "output" ) {
                     usefor = Format::Use_output;
-                } else if( token.get_str() == "inout" ) {
+                } else if( name == "inout" ) {
                     usefor = Format::Use_inout;
-                } else if( token.get_str() == "strict" ) {
+                } else if( name == "strict" ) {
                     usefor = Format::Use_strict;
-                } else if( token.get_str() == "separators" ) {
+                } else if( name == "input" ) {
+                    expr( true ).get( informat );
+                    continue;
+                } else if( name == "separators" ) {
                     expr( true ).get( separators );
+                    continue;
+                } else if( name == "rank" ) {
+                    rankfields = do_string_list();
                     continue;
                 } else {
                     error( "Expected format sub-statement." );
@@ -733,8 +752,14 @@ bool Script::do_format( Grammar* gmr )
         }
     }
     fmt->set_format( format, usefor );
+    if( informat.size() ) {
+        fmt->set_format( informat, Format::Use_input );
+    }
     if( separators.size() ) {
         fmt->set_separators( separators );
+    }
+    if( rankfields.size() ) {
+        fmt->set_rank_fieldnames( rankfields );
     }
     return true;
 }
