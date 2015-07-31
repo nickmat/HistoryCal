@@ -497,8 +497,6 @@ namespace {
         Record rec2( mask2.get_base(), range->jdn2 );
         bool ret1 = rec1.set_fields_as_next_first( mask1.get_field_ptr() );
         bool ret2 = rec2.set_fields_as_next_last( mask2.get_field_ptr() );
-
-
         if( !ret1 || !ret2 ) {
             range->jdn1 = f_invalid;
             return false;

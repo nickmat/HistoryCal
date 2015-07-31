@@ -88,6 +88,7 @@ UNIT_OBJECTS =  \
 	unit_def_h.o \
 	unit_def_i.o \
 	unit_def_j325.o \
+	unit_def_jce.o \
 	unit_testcal.o \
 	unit_testcommon.o \
 	unit_testformat.o \
@@ -290,6 +291,9 @@ unit_def_i.o: ./../../test/unit/def_i.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
 unit_def_j325.o: ./../../test/unit/def_j325.cpp
+	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
+
+unit_def_jce.o: ./../../test/unit/def_jce.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
 unit_testcal.o: ./../../test/unit/testcal.cpp
