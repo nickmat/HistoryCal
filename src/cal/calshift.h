@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     22nd September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -49,6 +49,8 @@ namespace Cal {
 
         virtual Field get_jdn( const Field* fields ) const;
 
+        virtual Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const;
+
         virtual Field get_field_last( const Field* fields, size_t index ) const;
 
         virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) const;
@@ -68,9 +70,6 @@ namespace Cal {
         virtual double get_average_days( const Field* fields, Unit unit ) const;
         virtual bool add_to_fields( Field* fields, Field value, Unit unit ) const;
         virtual bool normalise( Field* fields, Norm norm ) const;
-
-    protected:
-        virtual Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const;
 
     private:
         Field get_adjustment( const Field* fields ) const;

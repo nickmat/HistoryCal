@@ -3,9 +3,9 @@
  * Project:     Cal: Programmable Historical Calendar library.
  * Purpose:     Base Shift variant calendar implimentation.
  * Author:      Nick Matthews
- * Website:     http://pcalcalc.org
+ * Website:     http://historycal.org
  * Created:     22nd September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -59,6 +59,15 @@ Field Shift::get_jdn( const Field* fields ) const
     }
     FieldVec f = get_vec_adjusted_to_base( fields );
     return m_base->get_jdn( &f[0] );
+}
+
+Field Shift::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const
+{
+    if( id == OFID_unshift ) {
+        Record rec( m_base, jdn );
+        return rec.get_field( 0 );
+    }
+    return Base::get_opt_field( fields, jdn, id );
 }
 
 Field Shift::get_field_last( const Field* fields, size_t index ) const
@@ -253,15 +262,6 @@ bool Shift::normalise( Field* fields, Norm norm ) const
         fields[0] = get_adjusted_to_shift( fields );
     }
     return ret;
-}
-
-Field Shift::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const
-{
-    if( id == OFID_unshift ) {
-        Record rec( m_base, jdn );
-        return rec.get_field( 0 );
-    }
-    return Base::get_opt_field( fields, jdn, id );
 }
 
 Field Shift::get_adjustment( const Field* fields ) const
