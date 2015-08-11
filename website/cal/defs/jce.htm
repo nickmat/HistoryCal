@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>HistoryCal - Julian Common Era</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="icon" type="image/png" href="../../sys/logo1_32x32x32.png" />
+<link rel='stylesheet' type='text/css' href='../../sys/hcal.css' />
+</head>
+<body>
+
+<h1>
+ <a  href="http://historycal.org/"><img id="logo" src="../../sys/logo2.png" alt="Logo" /></a>
+ HistoryCal Calendar<br/>Julian Common Era (jce)
+</h1>
+
+<div id="page">
+
+<div id="crumbs">
+  <a href="../../index.htm" class="m-item">Home</a>
+  <a href="../index.htm" class="m-item level1">Calendars</a>
+  <a href="index.htm" class="m-item level2">Calendar List</a>
+  <a href="jce.htm" class="m-item level3 thispage">jce</a>
+  <a href="j.htm" class="m-item prev">&lt;&lt;</a>
+  <a href="jn.htm" class="m-item next">&gt;&gt;</a>
+</div>
+
+<div id="content" class="nomenu calendar">
+
+<h2>Calendar Description</h2>
+<p>
+ This version of the Julian calendar is commonly used by historians when referring
+ to dates in the first millennium and earlier.
+ The calendar is split into two eras, the <b>Common Era</b>
+ (also known as the Christian Era or AD - Anno Domini) and <b>Before Common Era</b>
+ (also known as Before Christian Era or BC - Before Christ).
+</p>
+<p>
+ Dates <b>Before Common Era</b> end on the 31st December year 1 BCE
+ and the years are counted backwards from this point for all previous years.
+ The <b>Common Era</b> start the next day, the 1st January, year 1 CE
+ and continues until the present day.
+ Thus, years are always positive and there is no year zero.
+ Leap years follow the same rules as the Julian calendar scheme. 
+</p>
+
+<h3>Use Case</h3>
+<p>
+ For dates in the <b>Common Era</b> this scheme is the same as the <a href='j.htm'>Julian</a> scheme,
+ which includes the period for when it was in contemporary use.
+ As this scheme requires an additional field (BCE or CE), the simpler Julian scheme is preferred.
+ However, when dealing with dates before the second millennium
+ it is convenient for Historians to use a single scheme.
+</p>
+
+<h3>Definition</h3>
+<table class='record'>
+<tr><th colspan='6'>Record</th></tr>
+<tr><td class='rdonly'>ce</td><td class='rdonly'>ceyear</td><td>month</td><td>day</td><td class='rdonly'>wday</td><td>year</td></tr>
+</table>
+<table class='data'>
+<tr><th>Number</th><th>Era</th><th>Abbrev.</th><th>Range</th></tr>
+<tr><td>0</td><td>Before Common Era</td><td>BCE</td><td>past ~ j:dmy# 31 Dec 0</td></tr>
+<tr><td>1</td><td>Common Era</td><td>CE</td><td>j:dmy# 1 Jan 1 ~ future</td></tr>
+</table>
+<p class='clear'>
+ The Julian Common Era scheme is a variation of the <a href='j.htm'>Julian</a> scheme and has the same definition except that it includes the optional fields <code>ce</code> and <code>ceyear.</code>
+</p>
+<p>
+ The <b>Record</b> consists of three <b>Fields</b> named <code>year,</code>
+ <code>month</code> and <code>day</code> and the optional <b>Field</b> <code>wday</code>
+ - these are as described for the <a href='j.htm'>Julian</a> scheme.
+ As stated, the record also includes the optional <b>Fields</b> <code>ce</code> and <code>ceyear.</code>
+ These fields are ranked into the order shown in the <b>Record</b>.
+</p>
+<p>
+ The <code>ce</code> field has the value 0 for all values of <code>year</code> less than one,
+ and the value 1 for all other values of <code>year.</code>
+</p>
+<p>
+ The <code>ceyear</code> field has the value <code>-year + 1</code>
+ for all values of <code>year</code> less than one,
+ and the value <code>year</code> for all other values.
+</p>
+<div>
+ The <b>Epoch</b> is set at
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>jce</td><th>ce</th><th>ceyear</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>1721424</td></tr>
+ </table>.
+</div>
+
+<h3>Script</h3>
+<table class='code'>
+<tr><th>Default Script</th></tr>
+<tr><td
+>vocab "ce" {
+    name "Historic Era";
+    fieldname "ce";
+    lang "en";
+    stylename "CommonEra",  "CE";
+    tokens {
+        0, "Before Common Era",   "BCE";
+        1, "Common Era",   "CE";
+    }
+}
+
+grammar "jce" {
+    optional "wday", "ce", "ceyear";
+    rank "ce", "ceyear", "month", "day", "wday";
+    vocabs "m", "w", "ce";
+    alias field {
+        "WDay",  "wday";
+        "Day",   "day";
+        "Month", "month";
+        "Year",  "ceyear";
+        "CEra",  "ce";
+    }
+    alias stylename {
+        "WDay",  "w";
+        "Day",   "dd";
+        "Month", "mm";
+        "Year",  "yyyy";
+    }
+    alias unit {
+        "d", "day";
+        "m", "month";
+        "y", "year";
+        "w", "week";
+    }
+    format "dmy",   "(Day) |(Month:m.a) |(Year) |(CEra:ce.a)";
+    format "wdmy",  "(WDay:w.a) |(Day) |(Month:m.a) |(Year) |(CEra:ce.a)";
+    format "out" {
+        output "(Day:+os) |(Month:m) |(Year) |(CEra:ce.a)";
+    }
+    format "full" {
+        output "(WDay:w) |(Day:+os) |(Month:m) |(Year) |(CEra:ce)";
+    }
+    format "dmy+",  "(Day) |(Month:m) |(Year) |(CEra:ce)";
+    format "wdmy+", "(WDay:w) |(Day) |(Month:m) |(Year) |(CEra:ce)";
+    format "mdy",   "(Month:m.a) |(Day), |(Year) |(CEra:ce.a)";
+    format "ymd",   "(Year)|(CEra:ce.a)|:(Month:m.a)|:(Day)";
+    pref "dmy";
+}
+
+scheme "jce" {
+    name "Julian Common Era";
+    base julian;
+    grammar "jce";
+}
+</td></tr>
+</table>
+<p>
+ The script makes use of the optional field <code>wday</code>
+ to output weekdays and so it requires the <a href='7dayweek.htm'>7 Day Week</a> vocab "w".
+</p>
+
+</div>
+
+<hr/>
+<div id='valid'>
+  <p>
+    <a href="http://validator.w3.org/check?uri=referer"><img
+        src="../../sys/valid-xhtml10.png"
+        alt="Valid XHTML 1.0 Strict" height="31" width="88" /></a>
+  </p>
+</div>
+
+<div id='create-date'><p>31<sup>st</sup> July 2015</p></div>
+
+</div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>
