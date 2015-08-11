@@ -73,11 +73,26 @@ grammar "jce" {
     pref "dmy";
 }
 
-
-
 scheme "jce" {
     name "Julian Common Era";
     base julian;
+    grammar "jce";
+}
+
+scheme "gce" {
+    name "Gregorian Common Era";
+    base gregorian;
+    grammar "jce";
+}
+
+scheme "ce" {
+    name "Common Era";
+    hybrid {
+        fields "year", "month", "day";
+        scheme "jce";
+        change 2299161;
+        scheme "gce";
+    }
     grammar "jce";
 }
 
