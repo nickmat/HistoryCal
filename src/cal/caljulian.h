@@ -37,7 +37,12 @@ namespace Cal {
     public:
         virtual size_t record_size() const { return 3; }
 
+        virtual OptFieldID get_opt_field_id( const std::string& fieldname ) const;
+        virtual std::string get_opt_fieldname( OptFieldID field_id ) const;
+
         virtual Field get_jdn( const Field* fields ) const;
+
+        virtual Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const;
 
         virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) const;
         virtual bool set_fields_as_next_first( Field* fields, const Field* mask ) const;
@@ -52,17 +57,13 @@ namespace Cal {
         virtual bool add_to_fields( Field* fields, Field value, Unit unit ) const;
         virtual bool normalise( Field* fields, Norm norm ) const;
 
-        virtual bool resolve_input( Field* fields, const InputFieldVec& input, Format* fmt ) const;
+        virtual void resolve_opt_input( Field* fields, size_t index ) const;
 
         // Virtual members shared with Gregorian class.
         virtual Field jdn( Field year, Field month, Field day ) const;
         virtual Field easter( Field year ) const;
 
     protected:
-        virtual OptFieldID get_opt_field_id( const std::string& fieldname ) const;
-        virtual std::string get_opt_fieldname( OptFieldID field_id ) const;
-        virtual Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const;
-
         virtual bool is_leap_year( Field year ) const;
         Field last_day_in_month( Field year, Field month ) const;
     };

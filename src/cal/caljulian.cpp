@@ -71,12 +71,50 @@ namespace {
 
 }
 
+OptFieldID Julian::get_opt_field_id( const std::string& fieldname ) const
+{
+    if( fieldname == "ce" ) {  // 0 = BCE, 1 = CE
+        return OFID_j_ce;
+    }
+    // Positive CE or BCE year
+    if( fieldname == "ceyear" ) {
+        return OFID_j_ceyear;
+    }
+    return Base::get_opt_field_id( fieldname );
+}
+
+std::string Julian::get_opt_fieldname( OptFieldID field_id ) const
+{
+    switch( field_id )
+    {
+    case OFID_j_ce:
+        return "ce";
+    case OFID_j_ceyear:
+        return "ceyear";
+    default:
+        return Base::get_opt_fieldname( field_id );
+    }
+}
+
 Field Julian::get_jdn( const Field* fields ) const
 {
     if( fields[0] == f_invalid || fields[1] == f_invalid || fields[2] == f_invalid ) {
         return f_invalid;
     }
     return jdn( fields[0], fields[1], fields[2] );
+}
+
+Field Julian::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const
+{
+    switch( id )
+    {
+    case OFID_j_ce:  // 0 = BCE, 1 = CE
+        return fields[YMD_year] < 1 ? 0 : 1;
+    case OFID_j_ceyear: // Positive CE or BCE year
+        return fields[YMD_year] < 1 ? -fields[YMD_year] + 1 : fields[YMD_year];
+    default:
+        return Base::get_opt_field( fields, jdn, id );
+    }
 }
 
 bool Julian::set_fields_as_begin_first( Field* fields, const Field* mask ) const
@@ -201,6 +239,33 @@ bool Julian::normalise( Field* fields, Norm norm ) const
     return false;
 }
 
+void Julian::resolve_opt_input( Field* fields, size_t index ) const
+{
+    assert( fields[index] != f_invalid );
+    OptFieldID id = opt_index_to_id( index );
+    switch( id )
+    {
+    case OFID_j_ceyear:
+        if( fields[YMD_year] == f_invalid ) {
+            int cei = opt_id_to_index( OFID_j_ce );
+            if( cei >= 0 ) {
+                switch( fields[cei] )
+                {
+                case 0:
+                    fields[YMD_year] = -(fields[index]-1);
+                    break;
+                default:
+                    fields[YMD_year] = fields[index];
+                    break;
+                }
+            }
+        }
+        break;
+    default:
+        break;
+    }
+}
+
 /*! Sets jdn to the Julian Day Number for the given day, month and year
  *  in the Julian Calendar. Always returns true.
  */
@@ -221,63 +286,6 @@ Field Julian::jdn( Field year, Field month, Field day ) const
 Field Julian::easter( Field year ) const
 {
     return jdn( year, 4, 19 ) - ( 14 + 11 * ( year % 19 ) ) % 30;
-}
-
-OptFieldID Julian::get_opt_field_id( const std::string& fieldname ) const
-{
-    if( fieldname == "ce" ) {  // 0 = BCE, 1 = CE
-        return OFID_j_ce;
-    }
-    // Positive CE or BCE year
-    if( fieldname == "ceyear" ) {
-        return OFID_j_ceyear;
-    }
-    return Base::get_opt_field_id( fieldname );
-}
-
-std::string Julian::get_opt_fieldname( OptFieldID field_id ) const
-{
-    switch( field_id )
-    {
-    case OFID_j_ce:
-        return "ce";
-    case OFID_j_ceyear:
-        return "ceyear";
-    default:
-        return Base::get_opt_fieldname( field_id );
-    }
-}
-
-Field Julian::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const
-{
-    switch( id )
-    {
-    case OFID_j_ce:  // 0 = BCE, 1 = CE
-        return fields[YMD_year] < 1 ? 0 : 1;
-    case OFID_j_ceyear: // Positive CE or BCE year
-        return fields[YMD_year] < 1 ? -fields[YMD_year] + 1 : fields[YMD_year];
-    default:
-        return Base::get_opt_field( fields, jdn, id );
-    }
-}
-
-bool Julian::resolve_input( 
-    Field* fields, const InputFieldVec& input, Format* fmt ) const
-{
-    bool ret = Base::resolve_input( fields, input, fmt );
-    if( ret && fields[YMD_year] == f_invalid ) {
-        int ice = opt_id_to_index( OFID_j_ce );
-        int iceyear = opt_id_to_index( OFID_j_ceyear );
-        Field ceyear = ( iceyear >= 0 ) ? fields[iceyear] : f_invalid;
-        if( ice >= 0 && ceyear != f_invalid && ceyear != 0 ) {
-            if( fields[ice] == 1 ) {
-                fields[YMD_year] = ceyear;
-            } else if( fields[ice] == 0 ) {
-                fields[YMD_year] = -ceyear + 1;
-            }
-        }
-    }
-    return ret;
 }
 
 /*! Returns true if the year is a leap year in the Julian Calendar.

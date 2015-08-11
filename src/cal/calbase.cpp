@@ -78,6 +78,37 @@ string Base::get_fieldname( size_t index ) const
     return "";
 }
 
+OptFieldID Base::get_opt_field_id( const std::string& fieldname ) const
+{
+    if( fieldname == "wday" ) {
+        return OFID_wday;
+    } else if( fieldname == "wsday" ) {
+        return OFID_wsday;
+    } else if( fieldname == "dayinyear" ) {
+        return OFID_dayinyear;
+    } else if( fieldname == "unshift" ) {
+        return OFID_unshift;
+    }
+    return OFID_NULL;
+}
+
+std::string Base::get_opt_fieldname( OptFieldID field_id ) const
+{
+    switch( field_id )
+    {
+    case OFID_wday:
+        return "wday";
+    case OFID_wsday:
+        return "wsday";
+    case OFID_dayinyear:
+        return "dayinyear";
+    case OFID_unshift:
+        return "unshift";
+    default:
+        return "";
+    }
+}
+
 Field Base::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const
 {
     switch( id )
@@ -289,6 +320,11 @@ bool Base::resolve_input(
         int x = xref[i];
         if( x >= 0 && x < (int) extended_size() ) {
             fields[x] = fs[i];
+        }
+    }
+    for( size_t i = record_size() ; i < extended_size() ; i++ ) {
+        if( fields[i] != f_invalid ) {
+            resolve_opt_input( fields, i );
         }
     }
     return true;
@@ -514,41 +550,10 @@ void Base::create_default_grammar() const
     m_grammar = gmr;
 }
 
-OptFieldID Base::get_opt_field_id( const std::string& fieldname ) const
-{
-    if( fieldname == "wday" ) {
-        return OFID_wday;
-    } else if( fieldname == "wsday" ) {
-        return OFID_wsday;
-    } else if( fieldname == "dayinyear" ) {
-        return OFID_dayinyear;
-    } else if( fieldname == "unshift" ) {
-        return OFID_unshift;
-    }
-    return OFID_NULL;
-}
-
-std::string Base::get_opt_fieldname( OptFieldID field_id ) const
-{
-    switch( field_id )
-    {
-    case OFID_wday:
-        return "wday";
-    case OFID_wsday:
-        return "wsday";
-    case OFID_dayinyear:
-        return "dayinyear";
-    case OFID_unshift:
-        return "unshift";
-    default:
-        return "";
-    }
-}
-
 XRefVec Base::create_xref( const StringVec& fieldnames ) const 
 {
     size_t size = extended_size();
-    XRefVec xref( size );
+    XRefVec xref( size, -1 );
     std::vector<bool> used( size, false );
     for( size_t i = 0, u = 0 ; i < size ; i++ ) {
         if( i < fieldnames.size() ) {
@@ -590,7 +595,7 @@ XRefSet Base::create_input_xref_set( Format* fmt ) const
                 x.push_back( order[i] );
             }
         }
-        assert( x.size() < order.size() );
+        assert( x.size() <= order.size() );
         xrefset[cnt] = x;
         order = x;
     }

@@ -61,6 +61,7 @@ namespace Cal {
         Base();
         virtual ~Base();
 
+
         // Return true if in a usable state.
         virtual bool is_ok() const { return true; }
         // Return the maximum number of Fields required by the Record.
@@ -71,6 +72,8 @@ namespace Cal {
         // Returns the index to the named Record field, or -1 if not found.
         virtual int get_fieldname_index( const std::string& fieldname ) const;
         virtual std::string get_fieldname( size_t index ) const;
+        virtual OptFieldID get_opt_field_id( const std::string& fieldname ) const;
+        virtual std::string get_opt_fieldname( OptFieldID field_id ) const;
 
         // Converts the Field's into a jdn and returns it.
         virtual Field get_jdn( const Field* fields ) const = 0;
@@ -132,6 +135,7 @@ namespace Cal {
         // Set the fields given the decoded input fields and the format code.
         // Normally handled by the Base class, even when over ridden.
         virtual bool resolve_input( Field* fields, const InputFieldVec& input, Format* fmt ) const;
+        virtual void resolve_opt_input( Field* fields, size_t index ) const {}
 
         std::string lookup_token( Field field, const std::string& vcode, bool abbrev ) const;
         std::string get_alias_fieldname( const std::string& alias ) const;
@@ -148,6 +152,8 @@ namespace Cal {
         void set_input_fcode( const std::string& code ) { m_input_fcode = code; }
         void set_output_fcode( const std::string& code ) { m_output_fcode = code; }
 
+        // Add an optional field to the base.
+        // The fieldname must match one of the OptFieldID enum's.
         void add_opt_field( const std::string& fieldname );
 
         XRefVec get_xref_order( int count, Format* fmt ) const;
@@ -165,8 +171,6 @@ namespace Cal {
     protected:
         virtual int get_std_fieldname_index( const std::string& fieldname ) const { return get_ymd_fieldname_index( fieldname ); }
         virtual std::string get_std_fieldname( size_t index ) const { return get_ymd_fieldname( index ); }
-        virtual OptFieldID get_opt_field_id( const std::string& fieldname ) const;
-        virtual std::string get_opt_fieldname( OptFieldID field_id ) const;
 
         virtual Field get_additional_field( const Field* fields, Field jdn, size_t index ) const { return f_invalid; };
         size_t opt_fields_size() const { return m_opt_fields.size(); }

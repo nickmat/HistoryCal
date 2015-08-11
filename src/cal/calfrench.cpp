@@ -107,9 +107,60 @@ namespace {
 } // namespace
 
 
+OptFieldID French::get_opt_field_id( const std::string& fieldname ) const
+{
+    if( fieldname == "dday" ) { // Day within Decade (1 to 10)
+        return OFID_fr_dday;
+    }
+    if( fieldname == "cday" ) { // Complementary day (1 to 6)
+        return OFID_fr_cday;
+    }
+    if( fieldname == "nmonth" ) { // Named month (1 to 12)
+        return OFID_fr_nmonth;
+    }
+    if( fieldname == "nmday" ) { // Named month day (1 to 30)
+        return OFID_fr_nmday;
+    }
+    return Base::get_opt_field_id( fieldname );
+}
+
+std::string French::get_opt_fieldname( OptFieldID field_id ) const
+{
+    switch( field_id )
+    {
+    case OFID_fr_dday:
+        return "dday";
+    case OFID_fr_cday:
+        return "cday";
+    case OFID_fr_nmonth:
+        return "nmonth";
+    case OFID_fr_nmday:
+        return "nmday";
+    default:
+        return Base::get_opt_fieldname( field_id );
+    }
+}
+
 Field French::get_jdn( const Field* fields ) const
 {
     return french_to_jdn( fields[0], fields[1], fields[2] );
+}
+
+Field French::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const
+{
+    switch( id )
+    {
+    case OFID_fr_dday:
+        return fields[1] == 13 ? f_invalid : ( ( fields[2] - 1 ) % 10 ) + 1;
+    case OFID_fr_cday:
+        return fields[1] == 13 ? fields[2] : f_invalid;
+    case OFID_fr_nmonth:
+        return fields[1] == 13 ? f_invalid : fields[1];
+    case OFID_fr_nmday:
+        return fields[1] == 13 ? f_invalid : fields[2];
+    default:
+        return Base::get_opt_field( fields, jdn, id );
+    }
 }
 
 bool French::set_fields_as_begin_first( Field* fields, const Field* mask ) const
@@ -317,76 +368,30 @@ bool French::normalise( Field* regs, Norm norm ) const
     return false;
 }
 
-bool French::resolve_input( 
-    Field* fields, const InputFieldVec& input, Format* fmt ) const
+void French::resolve_opt_input( Field* fields, size_t index ) const
 {
-    bool ret = Base::resolve_input( fields, input, fmt );
-    if( ret ) {
-        int index = opt_id_to_index( OFID_fr_nmonth );
-        if( index >= 0 && fields[YMD_month] == f_invalid && fields[index] != f_invalid ) {
+    assert( fields[index] != f_invalid );
+    OptFieldID id = opt_index_to_id( index );
+    switch( id )
+    {
+    case OFID_fr_nmonth:
+        if( fields[YMD_month] == f_invalid ) {
             fields[YMD_month] = fields[index];
         }
-        index = opt_id_to_index( OFID_fr_nmday );
-        if( index >= 0 && fields[YMD_day] == f_invalid && fields[index] != f_invalid ) {
+        break;
+    case OFID_fr_nmday:
+        if( fields[YMD_day] == f_invalid ) {
             fields[YMD_day] = fields[index];
         }
-        index = opt_id_to_index( OFID_fr_cday );
-        if( index >= 0 && fields[index] != f_invalid && fields[YMD_day] == f_invalid ) {
+        break;
+    case OFID_fr_cday:
+        if( fields[YMD_day] == f_invalid ) {
             fields[YMD_day] = fields[index];
             fields[YMD_month] = 13;
         }
-    }
-    return ret;
-}
-
-OptFieldID French::get_opt_field_id( const std::string& fieldname ) const
-{
-    if( fieldname == "dday" ) { // Day within Decade (1 to 10)
-        return OFID_fr_dday;
-    }
-    if( fieldname == "cday" ) { // Complementary day (1 to 6)
-        return OFID_fr_cday;
-    }
-    if( fieldname == "nmonth" ) { // Named month (1 to 12)
-        return OFID_fr_nmonth;
-    }
-    if( fieldname == "nmday" ) { // Named month day (1 to 30)
-        return OFID_fr_nmday;
-    }
-    return Base::get_opt_field_id( fieldname );
-}
-
-std::string French::get_opt_fieldname( OptFieldID field_id ) const
-{
-    switch( field_id )
-    {
-    case OFID_fr_dday:
-        return "dday";
-    case OFID_fr_cday:
-        return "cday";
-    case OFID_fr_nmonth:
-        return "nmonth";
-    case OFID_fr_nmday:
-        return "nmday";
+        break;
     default:
-        return Base::get_opt_fieldname( field_id );
-    }
-}
-
-Field French::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const
-{
-    switch( id )
-    {
-    case OFID_fr_dday:
-        return fields[1] == 13 ? f_invalid : ( ( fields[2] - 1 ) % 10 ) + 1;
-    case OFID_fr_cday:
-        return fields[1] == 13 ? fields[2] : f_invalid;
-    case OFID_fr_nmonth:
-        return fields[1] == 13 ? f_invalid : fields[1];
-    case OFID_fr_nmday:
-        return fields[1] == 13 ? f_invalid : fields[2];
-    default:
-        return Base::get_opt_field( fields, jdn, id );
+        break;
     }
 }
 
