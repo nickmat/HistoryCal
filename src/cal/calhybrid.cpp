@@ -108,6 +108,28 @@ string Hybrid::get_fieldname( size_t index ) const
     return "";
 }
 
+OptFieldID Hybrid::get_opt_field_id( const string& fieldname ) const
+{
+    for( size_t i = 0 ; i < m_data.size() ; i++ ) {
+        OptFieldID id = m_data[i].base->get_opt_field_id( fieldname );
+        if( id != OFID_NULL ) {
+            return id; // Found it.
+        }
+    }
+    return OFID_NULL;
+}
+
+string Hybrid::get_opt_fieldname( OptFieldID field_id ) const
+{
+    for( size_t i = 0 ; i < m_data.size() ; i++ ) {
+        string fn = m_data[i].base->get_opt_fieldname( field_id );
+        if( !fn.empty() ) {
+            return fn; // Found it.
+        }
+    }
+    return "";
+}
+
 Field Hybrid::get_jdn( const Field* fields ) const
 {
     if( fields[0] == f_invalid ) {
@@ -341,6 +363,13 @@ bool Hybrid::fields_ok( const Field* fields ) const
     return fields[0] == f_invalid || (size_t) fields[0] < m_data.size();
 }
 
+void Hybrid::resolve_opt_input( Field* fields, size_t index ) const
+{
+    // Under Hybrid rules, all schemes are base on the same base calendar,
+    // so they would all give the same result. Use 0 for convenience.
+    m_data[0].base->resolve_opt_input( &fields[1], index - 1 );
+}
+
 XRefSet Hybrid::create_input_xref_set( Format* fmt ) const
 {
     XRefVec order = create_xref( fmt->get_input_fields() );
@@ -361,6 +390,8 @@ XRefSet Hybrid::create_input_xref_set( Format* fmt ) const
                 x.push_back( order[i] );
             }
         }
+        // Check there are not more fields in the format than in the record.
+        // This may happen if there are errors looking up fieldnames. 
         assert( x.size() < order.size() );
         xrefset[cnt] = x;
         order = x;

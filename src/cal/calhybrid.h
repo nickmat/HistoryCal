@@ -55,6 +55,8 @@ namespace Cal {
 
         virtual int get_fieldname_index( const std::string& fieldname ) const;
         virtual std::string get_fieldname( size_t index ) const;
+        virtual OptFieldID get_opt_field_id( const std::string& fieldname ) const;
+        virtual std::string get_opt_fieldname( OptFieldID field_id ) const;
 
         virtual Field get_jdn( const Field* fields ) const;
 
@@ -71,6 +73,8 @@ namespace Cal {
         virtual void set_fields( Field* fields, Field jdn ) const;
 
         virtual bool fields_ok( const Field* fields ) const;
+
+        virtual void resolve_opt_input( Field* fields, size_t index ) const;
 
     protected:
         virtual StringVec get_rank_fieldnames() const { return m_fieldnames; }
