@@ -45,6 +45,7 @@ namespace Cal {
         OFID_dayinyear, // Day in year (1 to about 366, dep. on scheme)
         OFID_unshift,   // Value before being shifted, (year or day)
         // Julian, Gregorian
+        OFID_j_litweek, // See calliturgical.cpp
         OFID_j_ce,      // 0 = BCE, 1 = CE
         OFID_j_ceyear,  // Positive CE or BCE year
         // French Republican fields

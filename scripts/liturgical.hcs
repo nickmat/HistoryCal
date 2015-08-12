@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -97,10 +97,9 @@ vocab "lit" {
 }
 
 grammar "lit" {
+    optional "wday", "litweek";
+    rank "year", "litweek", "wday";
     vocabs "m", "w", "lit";
-    format "wdmyl",  "(WDay:w.a) |(Day) |(Month:m.a) |(Year) |(LitWeek:lit.a)";
-    format "wdmyl+", "(WDay:w) |(Day) |(Month:m) |(Year) |(LitWeek:lit)";
-    pref "wdmyl";
     alias field {
         "WDay",    "wday";
         "Day",     "day";
@@ -120,6 +119,11 @@ grammar "lit" {
         "y", "year";
         "w", "week";
     }
+    format "wdmyl",  "(WDay:w.a) |(Day) |(Month:m.a) |(Year)| (LitWeek:lit.a)";
+    format "wdmyl+", "(WDay:w) |(Day) |(Month:m) |(Year)| (LitWeek:lit)";
+    format "wly",  "(WDay:w.a), |(LitWeek:lit.a) |(Year)";
+    format "wly+", "(WDay:w), |(LitWeek:lit) |(Year)";
+    pref "wdmyl";
 }
 
 scheme "jlit" {

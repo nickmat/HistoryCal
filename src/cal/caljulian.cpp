@@ -27,7 +27,9 @@
 
 #include "caljulian.h"
 
+#include "calliturgical.h"
 #include "calmath.h"
+#include "calrecord.h"
 
 #include <cassert>
 
@@ -76,9 +78,11 @@ OptFieldID Julian::get_opt_field_id( const std::string& fieldname ) const
     if( fieldname == "ce" ) {  // 0 = BCE, 1 = CE
         return OFID_j_ce;
     }
-    // Positive CE or BCE year
-    if( fieldname == "ceyear" ) {
+    if( fieldname == "ceyear" ) {  // Positive CE or BCE year
         return OFID_j_ceyear;
+    }
+    if( fieldname == "litweek" ) {
+        return OFID_j_litweek;
     }
     return Base::get_opt_field_id( fieldname );
 }
@@ -91,6 +95,8 @@ std::string Julian::get_opt_fieldname( OptFieldID field_id ) const
         return "ce";
     case OFID_j_ceyear:
         return "ceyear";
+    case OFID_j_litweek:
+        return "litweek";
     default:
         return Base::get_opt_fieldname( field_id );
     }
@@ -112,6 +118,8 @@ Field Julian::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) con
         return fields[YMD_year] < 1 ? 0 : 1;
     case OFID_j_ceyear: // Positive CE or BCE year
         return fields[YMD_year] < 1 ? -fields[YMD_year] + 1 : fields[YMD_year];
+    case OFID_j_litweek:
+        return liturgical_get_litweek( this, jdn );
     default:
         return Base::get_opt_field( fields, jdn, id );
     }
@@ -154,6 +162,74 @@ bool Julian::set_fields_as_begin_last( Field* fields, const Field* mask ) const
 bool Julian::set_fields_as_next_last( Field* fields, const Field* mask ) const
 {
     return false;
+}
+
+// Return true if the fields where changed.
+bool Julian::set_fields_as_next_optional( Field* fields, Field jdn, const Field* mask, size_t index ) const
+{
+    assert( fields[YMD_year] != f_invalid );
+    assert( fields[YMD_month] != f_invalid );
+    assert( fields[YMD_day] != f_invalid );
+    assert( jdn != f_invalid );
+    if( index >= (extended_size() - opt_fields_size() ) ) {
+        OptFieldID id = opt_index_to_id( index );
+        switch( id )
+        {
+        case OFID_j_litweek:
+            {
+                Field litweek = mask[index];
+                Field current = liturgical_get_litweek( this, jdn );
+                if( litweek != current ) {
+                    Field year = fields[YMD_year];
+                    Field njdn = liturgical_get_jdn( this, year, litweek );
+                    if( njdn < jdn ) {
+                        njdn = liturgical_get_jdn( this, year+1, litweek );
+                    }
+                    if( njdn > jdn ) {
+                        Record rec(this,njdn);
+                        copy_fields( fields, rec.get_field_ptr() );
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+    }
+    return Base::set_fields_as_next_optional( fields, jdn, mask, index );
+}
+
+// Return true if the fields where changed.
+bool Julian::set_fields_as_prev_optional( Field* fields, Field jdn, const Field* mask, size_t index ) const
+{
+    assert( fields[YMD_year] != f_invalid );
+    assert( fields[YMD_month] != f_invalid );
+    assert( fields[YMD_day] != f_invalid );
+    assert( jdn != f_invalid );
+    if( index >= (extended_size() - opt_fields_size() ) ) {
+        OptFieldID id = opt_index_to_id( index );
+        switch( id )
+        {
+        case OFID_j_litweek:
+            {
+                Field litweek = mask[index];
+                Field current = liturgical_get_litweek( this, jdn );
+                if( litweek != current ) {
+                    Field year = fields[YMD_year];
+                    Field pjdn = liturgical_get_jdn( this, year, litweek ) + 6;
+                    if( pjdn > jdn ) {
+                        pjdn = liturgical_get_jdn( this, year-1, litweek ) + 6;
+                    }
+                    if( pjdn < jdn ) {
+                        Record rec(this,pjdn);
+                        copy_fields( fields, rec.get_field_ptr() );
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+    }
+    return Base::set_fields_as_prev_optional( fields, jdn, mask, index );
 }
 
 void Julian::set_fields( Field* fields, Field jdn ) const
