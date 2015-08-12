@@ -150,7 +150,7 @@ bool Base::set_fields_as_next_optional( Field* fields, Field jdn, const Field* m
         }
         return false;
     }
-    return set_fields_as_next_extended( fields, jdn, mask, index );
+    return false;
 }
 
 bool Base::set_fields_as_prev_optional( Field* fields, Field jdn, const Field* mask, size_t index ) const
@@ -181,7 +181,7 @@ bool Base::set_fields_as_prev_optional( Field* fields, Field jdn, const Field* m
         }
         return false;
     }
-    return set_fields_as_prev_extended( fields, jdn, mask, index );
+    return false;
 }
 
 void Base::remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const

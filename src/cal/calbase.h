@@ -90,13 +90,11 @@ namespace Cal {
         virtual bool set_fields_as_begin_last( Field* fields, const Field* mask ) const = 0;
         virtual bool set_fields_as_next_last( Field* fields, const Field* mask ) const = 0;
 
-        // Calculate the extended field, indicated by index, that is on or after the jdn or mask values.
+        // Calculate the optional field, indicated by index, that is on or after the jdn or mask values.
         // If calulated date is different, update the fields to match and return true, otherwise return false.
-        virtual bool set_fields_as_next_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const { return false; }
         virtual bool set_fields_as_next_optional( Field* fields, Field jdn, const Field* mask, size_t index ) const;
-        // Calculate the extended field, indicated by index, that is on or before the jdn or mask values.
+        // Calculate the optional field, indicated by index, that is on or before the jdn or mask values.
         // If calulated date is different, update the fields to match and return true, otherwise return false.
-        virtual bool set_fields_as_prev_extended( Field* fields, Field jdn, const Field* mask, size_t index ) const { return false; }
         virtual bool set_fields_as_prev_optional( Field* fields, Field jdn, const Field* mask, size_t index ) const;
 
         virtual void remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const;
@@ -173,7 +171,6 @@ namespace Cal {
         virtual int get_std_fieldname_index( const std::string& fieldname ) const { return get_ymd_fieldname_index( fieldname ); }
         virtual std::string get_std_fieldname( size_t index ) const { return get_ymd_fieldname( index ); }
 
-        virtual Field get_additional_field( const Field* fields, Field jdn, size_t index ) const { return f_invalid; };
         size_t opt_fields_size() const { return m_opt_fields.size(); }
 
         virtual XRefVec get_default_xref_order( int count ) const;
