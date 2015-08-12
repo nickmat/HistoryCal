@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     14th April 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -113,7 +113,6 @@
 #include "calrecord.h"
 
 using namespace Cal;
-using namespace std;
 
 namespace {
 
@@ -180,11 +179,9 @@ Field Cal::liturgical_get_litweek( const Julian* base, Field jdn )
     return week;
 }
 
-
-Field liturgical_get_jdn(
-    const Julian* base, Field year, Field month, Field litweek )
+Field Cal::liturgical_get_jdn( const Julian* base, Field year, Field litweek )
 {
-    Field jdn;
+    Field jdn = f_invalid;
     // First check the week starting the end of the previous year
     // and deal with it if necessary.
     if( litweek == WEEK_Blk5 ) {

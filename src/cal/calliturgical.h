@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     14th April 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -33,8 +33,7 @@
 namespace Cal {
 
     extern Field liturgical_get_litweek( const Julian* base, Field jdn );
-    extern Field liturgical_get_jdn(
-        const Julian* base, Field year, Field month, Field litweek );
+    extern Field liturgical_get_jdn( const Julian* base, Field year, Field litweek );
 
 }
 
