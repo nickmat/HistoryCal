@@ -337,6 +337,27 @@ void Julian::resolve_opt_input( Field* fields, size_t index ) const
             }
         }
         break;
+    case OFID_j_litweek:
+        // If the "day" and "month" fields are missing
+        // but the "wday", "litweek" and "year" fields are given,
+        // these are used to fill in the missing fields.
+        if( fields[YMD_year] != f_invalid ) {
+            // Before we fill these in, both litweek and wday fields must be invalid
+            int windex = opt_id_to_index( OFID_wday );
+            if( windex < 0 || fields[windex] == f_invalid ) {
+                break;
+            }
+            // And month and day invalid.
+            if( fields[YMD_month] != f_invalid || fields[YMD_day] != f_invalid ) {
+                break;
+            }
+            Field wday = fields[windex] % 7;
+            Field jdn = liturgical_get_jdn( this, fields[YMD_year], fields[index] );
+            Record rec( this, jdn + wday );
+            fields[YMD_month] = rec.get_field( YMD_month );
+            fields[YMD_day] = rec.get_field( YMD_day );
+        }
+        break;
     default:
         break;
     }
