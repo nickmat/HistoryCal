@@ -118,6 +118,7 @@
     <sources>$(LOCAL_TST)/unit/def_er.cpp</sources>
     <sources>$(LOCAL_TST)/unit/def_fr.cpp</sources>
     <sources>$(LOCAL_TST)/unit/def_g.cpp</sources>
+    <sources>$(LOCAL_TST)/unit/def_glit.cpp</sources>
     <sources>$(LOCAL_TST)/unit/def_h.cpp</sources>
     <sources>$(LOCAL_TST)/unit/def_i.cpp</sources>
     <sources>$(LOCAL_TST)/unit/def_j325.cpp</sources>

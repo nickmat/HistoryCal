@@ -85,6 +85,7 @@ UNIT_OBJECTS =  \
 	unit_def_er.o \
 	unit_def_fr.o \
 	unit_def_g.o \
+	unit_def_glit.o \
 	unit_def_h.o \
 	unit_def_i.o \
 	unit_def_j325.o \
@@ -282,6 +283,9 @@ unit_def_fr.o: ./../../test/unit/def_fr.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
 unit_def_g.o: ./../../test/unit/def_g.cpp
+	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
+
+unit_def_glit.o: ./../../test/unit/def_glit.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
 unit_def_h.o: ./../../test/unit/def_h.cpp

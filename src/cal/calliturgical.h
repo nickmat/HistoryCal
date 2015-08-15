@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Name:        src/cal/calliturgical.h
  * Project:     Cal: Programmable Historical Calendar library.
- * Purpose:     Base for Liturgical calendars header.
+ * Purpose:     Liturgical calendars functions header.
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     14th April 2014
