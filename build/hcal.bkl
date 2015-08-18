@@ -123,6 +123,7 @@
     <sources>$(LOCAL_TST)/unit/def_i.cpp</sources>
     <sources>$(LOCAL_TST)/unit/def_j325.cpp</sources>
     <sources>$(LOCAL_TST)/unit/def_jce.cpp</sources>
+    <sources>$(LOCAL_TST)/unit/def_jlit.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testcal.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testcommon.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testformat.cpp</sources>

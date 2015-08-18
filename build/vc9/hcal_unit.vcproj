@@ -253,6 +253,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\test\unit\def_jlit.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\test\unit\testcal.cpp"
 				>
 			</File>
