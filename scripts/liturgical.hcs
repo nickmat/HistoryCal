@@ -46,15 +46,15 @@ vocab "lit" {
         13, "Second Week of Lent",               "Lent II";
         14, "Third Week of Lent",                "Lent III";
         15, "Fourth Week of Lent",               "Lent IV";
-        16, "Fifth Week of Lent",                "Lent V";
-        17, "Passion Week",                      "Passion";
+        16, "Passion Week",                      "Passion";
+        17, "Holy Week",                         "Holy";
         18, "Easter Week",                       "Easter";
         19, "Quasimodo Week",                    "Quasimodo";
         20, "Second Week after Easter",          "Easter II";
         21, "Third Week after Easter",           "Easter III";
         22, "Fourth Week after Easter",          "Easter IV";
         23, "Rogation Week",                     "Rogation";
-        24, "First Week after Ascension",        "Ascens I";
+        24, "First Week after Ascension",        "Ascen I";
         25, "Whitsun Week",                      "Whitsun";
         26, "Trinity Week",                      "Trinity";
         27, "First Week after Trinity",          "Trinity I";

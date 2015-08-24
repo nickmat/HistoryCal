@@ -133,25 +133,25 @@ grammar "j.sh" {
 
 scheme "ja" {
     name "Julian Annunciation";
-    shift "j", 1721507;    // j# 25 Mar 1
+    shift "j", 1721507;    // j:dmy# 25 Mar 1
     grammar "j.sh";
 }
 
 scheme "jap" {
     name "Julian Annunciation Pisa";
-    shift "j", 1721142;    // j# 25 Mar 0
+    shift "j", 1721142;    // j:dmy# 25 Mar 0
     grammar "j.sh";
 }
 
 scheme "jn" {
     name "Julian Nativity";
-    shift "j", 1721417;    // j# 25 Dec 0
+    shift "j", 1721417;    // j:dmy# 25 Dec 0
     grammar "j.sh";
 }
 
 scheme "se" {
     name "Spanish Era";
-    shift "j", 1707544;  // j# 1 Jan -37
+    shift "j", 1707544;  // j:dmy# 1 Jan -37
     grammar "j";
 }
 
