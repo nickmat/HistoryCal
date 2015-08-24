@@ -58,39 +58,39 @@ CPPUNIT_TEST_SUITE_REGISTRATION( TestDef_jlit );
 
 static const char* test_strs[MaxSample][2] = {
     //             wdmyl                       wly
-    { "Sun 24 Jul -586 Trinity IV",   "Sun, Trinity IV -586",   },
-    { "Wed 5 Dec -168 Advent I",      "Wed, Advent I -168",     },
-    { "Wed 24 Sep 70 Trinity XV",     "Wed, Trinity XV 70",     },
-    { "Sun 2 Oct 135 Trinity XVI",    "Sun, Trinity XVI 135",   },
-    { "Wed 8 Jan 470 Epiph",          "Wed, Epiph 470",         },
-    { "Mon 20 May 576 Ascens I",      "Mon, Ascens I 576",      },
-    { "Sat 10 Nov 694 Trinity XX",    "Sat, Trinity XX 694",    },
-    { "Sun 25 Apr 1013 Easter II",    "Sun, Easter II 1013",    },
-    { "Sun 24 May 1096 Rogation",     "Sun, Rogation 1096",     },
-    { "Fri 23 Mar 1190 Lent V",       "Fri, Lent V 1190",       },
-    { "Sat 10 Mar 1240 Quinquag",     "Sat, Quinquag 1240",     },
-    { "Fri 2 Apr 1288 Easter",        "Fri, Easter 1288",       },
-    { "Sun 27 Apr 1298 Easter III",   "Sun, Easter III 1298",   },
-    { "Sun 12 Jun 1391 Trinity II",   "Sun, Trinity II 1391",   },
-    { "Wed 3 Feb 1436 Epiph IV",      "Wed, Epiph IV 1436",     },
-    { "Sat 9 Apr 1492 Quasimodo",     "Sat, Quasimodo 1492",    },
-    { "Sat 19 Sep 1553 Trinity XIV",  "Sat, Trinity XIV 1553",  },
-    { "Sat 5 Mar 1560 Lent III",      "Sat, Lent III 1560",     },
-    { "Wed 10 Jun 1648 Trinity",      "Wed, Trinity 1648",      }, // checked
-    { "Sun 30 Jun 1680 Trinity II",   "Sun, Trinity II 1680",   },
-    { "Fri 24 Jul 1716 Trinity VI",   "Fri, Trinity VI 1716",   },
-    { "Sun 19 Jun 1768 Trinity III",  "Sun, Trinity III 1768",  },
-    { "Mon 2 Aug 1819 Trinity VIII",  "Mon, Trinity VIII 1819", },
-    { "Wed 27 Mar 1839 Passion",      "Wed, Passion 1839",      },
-    { "Sun 19 Apr 1903 Quasimodo",    "Sun, Quasimodo 1903",    },
-    { "Sun 25 Aug 1929 Trinity XIII", "Sun, Trinity XIII 1929", },
-    { "Mon 29 Sep 1941 Trinity XVI",  "Mon, Trinity XVI 1941",  },
-    { "Mon 19 Apr 1943 Passion",      "Mon, Passion 1943",      },
-    { "Thur 7 Oct 1943 Trinity XV",   "Thur, Trinity XV 1943",  },
-    { "Tue 17 Mar 1992 Lent II",      "Tue, Lent II 1992",      },
-    { "Sun 25 Feb 1996 Quadrag",      "Sun, Quadrag 1996",      },
-    { "Wed 10 Nov 2038 Trinity XX",   "Wed, Trinity XX 2038",   },
-    { "Sun 18 Jul 2094 Trinity VII",  "Sun, Trinity VII 2094",  }
+    { "Sun 30 Jul -586 Trinity IV",   "Sun, Trinity IV -586",   },
+    { "Wed 8 Dec -168 Advent II",     "Wed, Advent II -168",    },
+    { "Wed 26 Sep 70 Trinity XV",     "Wed, Trinity XV 70",     },
+    { "Sun 3 Oct 135 Trinity XVI",    "Sun, Trinity XVI 135",   },
+    { "Wed 7 Jan 470 Xmas II",        "Wed, Xmas II 470",       }, // Checked
+    { "Mon 18 May 576 Ascen I",       "Mon, Ascen I 576",       },
+    { "Sat 7 Nov 694 Trinity XX",     "Sat, Trinity XX 694",    },
+    { "Sun 19 Apr 1013 Easter II",    "Sun, Easter II 1013",    },
+    { "Sun 18 May 1096 Rogation",     "Sun, Rogation 1096",     },
+    { "Fri 16 Mar 1190 Passion",      "Fri, Passion 1190",      },
+    { "Sat 3 Mar 1240 Quinquag",      "Sat, Quinquag 1240",     },
+    { "Fri 26 Mar 1288 Holy",         "Fri, Holy 1288",         },
+    { "Sun 20 Apr 1298 Easter II",    "Sun, Easter II 1298",    },
+    { "Sun 4 Jun 1391 Trinity II",    "Sun, Trinity II 1391",   },
+    { "Wed 25 Jan 1436 Epiph III",    "Wed, Epiph III 1436",    },
+    { "Sat 31 Mar 1492 Lent III",     "Sat, Lent III 1492",     },
+    { "Sat 9 Sep 1553 Trinity XIV",   "Sat, Trinity XIV 1553",  },
+    { "Sat 24 Feb 1560 Sexages",      "Sat, Sexages 1560",      },
+    { "Wed 31 May 1648 Trinity",      "Wed, Trinity 1648",      }, // Checked
+    { "Sun 20 Jun 1680 Trinity II",   "Sun, Trinity II 1680",   },
+    { "Fri 13 Jul 1716 Trinity VI",   "Fri, Trinity VI 1716",   },
+    { "Sun 8 Jun 1768 Trinity II",    "Sun, Trinity II 1768",   },
+    { "Mon 21 Jul 1819 Trinity VII",  "Mon, Trinity VII 1819",  },
+    { "Wed 15 Mar 1839 Passion",      "Wed, Passion 1839",      },
+    { "Sun 6 Apr 1903 Easter",        "Sun, Easter 1903",       },
+    { "Sun 12 Aug 1929 Trinity VIII", "Sun, Trinity VIII 1929", },
+    { "Mon 16 Sep 1941 Trinity XV",   "Mon, Trinity XV 1941",   },
+    { "Mon 6 Apr 1943 Holy",          "Mon, Holy 1943",         },
+    { "Thur 24 Sep 1943 Trinity XV",  "Thur, Trinity XV 1943",  },
+    { "Tue 4 Mar 1992 Quadrag",       "Tue, Quadrag 1992",      },
+    { "Sun 12 Feb 1996 Quinquag",     "Sun, Quinquag 1996",     },
+    { "Wed 28 Oct 2038 Trinity XX",   "Wed, Trinity XX 2038",   },
+    { "Sun 5 Jul 2094 Trinity VI",   "Sun, Trinity VI 2094",    }
 };
 
 void TestDef_jlit::setUp()
@@ -157,8 +157,9 @@ void TestDef_jlit::testStrTable()
 void TestDef_jlit::testStringInput()
 {
     struct data { string fmt; string in; string out; Field beg; Field end; } t[] = {
+        { "wly", "wed,xmasii470", "Wed, Xmas II 470", 1892732, 1892732 },
+        { "wly", "mon,trinityxv1748", "Mon, Trinity XV 1748", 2359777, 2359777 },
         { "wdmyl", "mon19sep1748trinityxv", "Mon 19 Sep 1748 Trinity XV", 2359777, 2359777 },
-        { "wly", "mon,trinityxv1748", "Sun, Trinity XVII 1948", 2359777, 2359777 },
     };
     size_t count = sizeof(t) / sizeof(data);
 
