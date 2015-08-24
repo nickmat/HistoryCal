@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -65,8 +65,8 @@ namespace Cal {
         WDAY_Thursday, WDAY_Friday, WDAY_Saturday, WDAY_Sunday
     };
 
-    Field inline day_of_week( Field jdn ) { 
-        return ( jdn % 7 );
+    Weekday inline day_of_week( Field jdn ) { 
+        return Weekday( jdn % 7 );
     }
     Field inline kday_on_or_before( Weekday wday, Field jdn ) { 
         return jdn - day_of_week( jdn - wday );
