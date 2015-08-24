@@ -52,6 +52,10 @@
 </ul>
 
 <h3>Definition</h3>
+<table class='record'>
+<tr><th colspan='4'>Record</th></tr>
+<tr><td>year</td><td>month</td><td>day</td><td class='rdonly'>wday</td></tr>
+</table>
 <table class='data'>
 <tr><th rowspan='2'>Number</th><th rowspan='2'>Name</th><th colspan='2'>Number of Days</th></tr>
 <tr><th>Common</th><th>Leap</th></tr>
@@ -68,24 +72,20 @@
 <tr><td>11</td><td>November</td><td>30</td><td>30</td></tr>
 <tr><td>12</td><td>December</td><td>31</td><td>31</td></tr>
 </table>
-<table class='record'>
-<tr><th colspan='5'>Record</th></tr>
-<tr><td>year</td><td>month</td><td>day</td><td class='rdonly'>wday</td><td class='rdonly'>litweek</td></tr>
-</table>
-<p>
+<p style='clear: left'>
  The Julian calendar is based on a solar year of 365.25 days.
  Days start at midnight.
 </p>
 <p>
  The <b>Record</b> consists of three <b>Fields</b> named <code>year,</code>
- <code>month,</code> and <code>day</code> and the extended <b>Fields</b> named
- <code>wday</code> and <code>litweek.</code> There are two types of years, a common year and a leap year,
+ <code>month,</code> and <code>day</code> and the <b>Optional Field</b> 
+ <code>wday.</code> There are two types of years, a common year and a leap year,
  which follow the repeating pattern of three common years then one leap year.
  There are twelve <code>months</code> in a <code>year</code> numbered 1 to 12.
  The number of <code>days</code> in a <code>month</code> varies between 28 and 31, and are numbered from 1,
  as shown in the table opposite. This gives a total of 365 days in a common year and 366 in a leap year.
 </p>
-<p style='display:inline;'>
+<div>
  The <b>Epoch</b> is set at
  <table class='rec-value'>
    <tr><td rowspan='2' class='sig'>j</td><th>year</th><th>month</th><th>day</th></tr>
@@ -96,7 +96,7 @@
   <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
   <tr class='value'><td>1721424</td></tr>
  </table>.
-</p>
+</div>
 
 <h3>Script</h3>
 <table class='code'>
@@ -124,6 +124,7 @@
 }
 
 grammar "j" {
+    optional "wday";
     vocabs "m", "w";
     alias field {
         "WDay",  "wday";
@@ -160,11 +161,8 @@ scheme "j" {
 </td></tr>
 </table>
 <p>
- The script makes use of the extended field <code>wday</code>
+ The script makes use of the optional field <code>wday</code>
  to output weekdays and is thus requires the <a href='7dayweek.htm'>7 Day Week</a> vocab "w".
-</p>
-<p>
- The <code>litweek</code> extended field is used by separate liturgical schemes.
 </p>
 
 </div>

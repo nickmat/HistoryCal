@@ -42,8 +42,8 @@
 
 <h3>Definition</h3>
 <table class='record'>
-<tr><th colspan='6'>Record</th></tr>
-<tr><td>year</td><td>month</td><td>day</td><td class='rdonly'>wday</td><td class='rdonly'>litweek</td><td class='rdonly'>unshift</td></tr>
+<tr><th colspan='5'>Record</th></tr>
+<tr><td>year</td><td>month</td><td>day</td><td class='rdonly'>unshift</td><td class='rdonly'>wday</td></tr>
 </table>
 <p>
  The Julian Nativity calendar is based on <a href='j.htm'>Julian</a> calendar and has the same
@@ -53,7 +53,7 @@
  An additional extended Field <code>unshift.</code> is included in the Record which
  holds the historical year as calculated by the underlying Julian calendar.
 </p>
-<p style='display:inline;'>
+<div>
  The <b>Epoch</b> is set at
  <table class='rec-value'>
    <tr><td rowspan='2' class='sig'>jn</td><th>year</th><th>month</th><th>day</th></tr>
@@ -69,13 +69,14 @@
   <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
   <tr class='value'><td>1721417</td></tr>
  </table>.
-</p>
+</div>
 
 <h3>Script</h3>
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
 >grammar "j.sh" {
+    optional "unshift", "wday";
     vocabs "m", "w";
     alias field {
         "WDay",      "wday";
@@ -92,13 +93,19 @@
     }
     format "dmy",   "(Day) |(Month:m.a) |(Year)";
     format "dmyh",  "(Day) |(Month:m.a) |(Year/Hist-Year)";
+    format "out" {
+        output "(Day:+os) |(Month:m) |(Year/Hist-Year)";
+    }
+    format "full" {
+        output "(WDay:w) |(Day:+os) |(Month:m) |(Year/Hist-Year)";
+    }
     format "wdmyh", "(WDay:w.a) |(Day) |(Month:m.a) |(Year/Hist-Year)";
     pref "dmyh";
 }
 
 scheme "jn" {
     name "Julian Nativity";
-    shift "j", 1721417;    // j# 25 Dec 0
+    shift "j", 1721417;    // j:dmy# 25 Dec 0
     grammar "j.sh";
 }
 </td></tr>
@@ -106,9 +113,6 @@ scheme "jn" {
 <p>
  The j.sh grammar uses the m (Julian months) vocab as defined for the <a href='j.htm'>Julian</a> calendar
  and the w (Weekdays) vocab as defined for the <a href='7dayweek.htm'>7 day week</a> cycle.
-</p>
-<p>
- The <code>litweek</code> extended field is used by separate liturgical schemes.
 </p>
 
 </div>
