@@ -351,9 +351,9 @@ void Julian::resolve_opt_input( Field* fields, size_t index ) const
             if( fields[YMD_month] != f_invalid || fields[YMD_day] != f_invalid ) {
                 break;
             }
-            Field wday = fields[windex] % 7;
+            Weekday wday = day_of_week( fields[windex] - 1 );
             Field jdn = liturgical_get_jdn( this, fields[YMD_year], fields[index] );
-            Record rec( this, jdn + wday );
+            Record rec( this, kday_on_or_after( wday, jdn ) );
             fields[YMD_month] = rec.get_field( YMD_month );
             fields[YMD_day] = rec.get_field( YMD_day );
         }
@@ -382,7 +382,9 @@ Field Julian::jdn( Field year, Field month, Field day ) const
  */
 Field Julian::easter( Field year ) const
 {
-    return jdn( year, 4, 19 ) - ( 14 + 11 * ( year % 19 ) ) % 30;
+    Field shifted_epact = ( 14 + 11 * ( year % 19 ) ) % 30;
+    Field paschal_moon = jdn( year, 4, 19 ) - shifted_epact;
+    return kday_after( WDAY_Sunday, paschal_moon );
 }
 
 /*! Returns true if the year is a leap year in the Julian Calendar.
