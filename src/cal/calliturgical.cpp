@@ -27,11 +27,11 @@
 
     Week numbers
 
-         62  1st Week of Christmas      1st Sunday on or after 25 Dec
+  Blk5   62  1st Week of Christmas      1st Sunday on or after 25 Dec
     ----------- Year Change ------------
-        * 1  2nd Week of Christmas
-  Blk1  * 2  Epiphany
-  Blk2    3  1st Week of Epiphany
+        * 1  2nd Week of Christmas      Sunday between 1 Jan and 5 Jan (incl.)
+  Blk1  * 2  Epiphany                   Only if 6 Jan is Sunday
+  Blk2    3  1st Week of Epiphany       1st Sunday after 6 Jan
         * 4  2nd Week of Epiphany
         * 5  3rd Week of Epiphany
         * 6  4th Week of Epiphany
@@ -45,7 +45,7 @@
          14  3rd Week of Lent
          15  4th Week of Lent
          16  5th (Passion)
-         17  6th (Palm) (Holy Week)
+         17  6th (Holy Week) (Palm)
          18  Easter Week
          19  Quasimodo
          20  2nd Week after Easter
@@ -155,28 +155,26 @@ namespace {
 
 Field Cal::liturgical_get_litweek( const Julian* base, Field jdn )
 {
-    const int year_index = 0;
     Field sunday = kday_on_or_before( WDAY_Sunday, jdn );
     Record rec( base, sunday );
-    Field year = rec.get_field( year_index );
-    Field b0 = xmas1( base, year-1 );
-    Field b1 = epiph( base, year );
+    Field year = rec.get_field( YMD_year );
+    Field b1 = base->jdn( year, 1, 6 );
+    if( sunday < b1 ) {
+        return 1;
+    }
+    if( sunday == b1 ) {
+        return 2;
+    }
     Field b2 = epiph1( base, year );
     Field b3 = septuag( base, year );
-    Field b4 = advent( base, year );
-    Field week;
-    if( sunday < b1 ) {
-        week = 1 + ( sunday - b0 ) / 7;
-    } else if( sunday < b2 ) {
-        week = WEEK_Blk1 + ( sunday - b1 ) / 7;
-    } else if( sunday < b3 ) {
-        week = WEEK_Blk2 + ( sunday - b2 ) / 7;
-    } else if( sunday < b4 ) {
-        week = WEEK_Blk3 + ( sunday - b3 ) / 7;
-    } else {
-        week = WEEK_Blk4 + ( sunday - b4 ) / 7;
+    if( sunday < b3 ) {
+        return WEEK_Blk2 + ( sunday - b2 ) / 7;
     }
-    return week;
+    Field b4 = advent( base, year );
+    if( sunday < b4 ) {
+        return WEEK_Blk3 + ( sunday - b3 ) / 7;
+    }
+    return WEEK_Blk4 + ( sunday - b4 ) / 7;
 }
 
 Field Cal::liturgical_get_jdn( const Julian* base, Field year, Field litweek )
