@@ -23,7 +23,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-    Day numbers 1 = Monday ... 7 = Sunday
+    Day numbers (enum Weekday) 0 = Monday ... 6 = Sunday
 
     Week numbers
 
@@ -82,7 +82,7 @@
         *51  25th Week after Trinity
         *52  26th Week after Trinity
         *53  27th Week after Trinity
-  Blk4a *54  4th Week before Advent
+        *54  4th Week before Advent
         *55  3rd Week before Advent
         *56  2nd Week before Advent
         *57  1st Week before Advent
@@ -103,7 +103,6 @@
     Blk1  (Epiph)     If [base: year 1 6] is a Sunday
     Blk2  (Epiph 1)   First sunday after [base: year 1 6]
     Blk3  (Septuag)   Ninth Sunday before Easter [base: Easter(year) - 63]
-    Blk4a (Advent -4) Nearest Sunday to [base: year ?? ??]
     Blk4  (Advent 1)  Nearest Sunday to [base: year 11 30]
 */
 
@@ -118,7 +117,7 @@ namespace {
 
     enum WeekBlockNumber {
         WEEK_Blk1 = 2, WEEK_Blk2 = 3, WEEK_Blk3 = 9,
-        WEEK_Blk4a = 54, WEEK_Blk4 = 58, WEEK_Blk5 = 62 
+        WEEK_Blk4 = 58, WEEK_Blk5 = 62 
     };
 
     Field xmas1( const Julian* base, Field year )
