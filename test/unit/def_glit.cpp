@@ -76,22 +76,23 @@ static const char* test_strs[MaxSample][2] = {
     { "Sat 9 Apr 1492 Quasimodo",     "Sat, Quasimodo 1492",    },
     { "Sat 19 Sep 1553 Trinity XIV",  "Sat, Trinity XIV 1553",  },
     { "Sat 5 Mar 1560 Lent III",      "Sat, Lent III 1560",     },
-    { "Wed 10 Jun 1648 Trinity",      "Wed, Trinity 1648",      }, // checked
-    { "Sun 30 Jun 1680 Trinity II",   "Sun, Trinity II 1680",   },
-    { "Fri 24 Jul 1716 Trinity VI",   "Fri, Trinity VI 1716",   },
-    { "Sun 19 Jun 1768 Trinity III",  "Sun, Trinity III 1768",  },
-    { "Mon 2 Aug 1819 Trinity VIII",  "Mon, Trinity VIII 1819", },
-    { "Wed 27 Mar 1839 Holy",         "Wed, Holy 1839",         },
-    { "Sun 19 Apr 1903 Quasimodo",    "Sun, Quasimodo 1903",    },
-    { "Sun 25 Aug 1929 Trinity XIII", "Sun, Trinity XIII 1929", },
-    { "Mon 29 Sep 1941 Trinity XVI",  "Mon, Trinity XVI 1941",  },
-    { "Mon 19 Apr 1943 Holy",         "Mon, Holy 1943",         },
-    { "Thur 7 Oct 1943 Trinity XV",   "Thur, Trinity XV 1943",  },
-    { "Tue 17 Mar 1992 Lent II",      "Tue, Lent II 1992",      },
-    { "Sun 25 Feb 1996 Quadrag",      "Sun, Quadrag 1996",      },
-    { "Wed 10 Nov 2038 Trinity XX",   "Wed, Trinity XX 2038",   },
-    { "Sun 18 Jul 2094 Trinity VII",  "Sun, Trinity VII 2094",  }
+    { "Wed 10 Jun 1648 Trinity",      "Wed, Trinity 1648",      }, // Checked [1]
+    { "Sun 30 Jun 1680 Trinity II",   "Sun, Trinity II 1680",   }, // Checked [1]
+    { "Fri 24 Jul 1716 Trinity VI",   "Fri, Trinity VI 1716",   }, // Checked [1]
+    { "Sun 19 Jun 1768 Trinity III",  "Sun, Trinity III 1768",  }, // Checked [1]
+    { "Mon 2 Aug 1819 Trinity VIII",  "Mon, Trinity VIII 1819", }, // Checked [1]
+    { "Wed 27 Mar 1839 Holy",         "Wed, Holy 1839",         }, // Checked [1]
+    { "Sun 19 Apr 1903 Quasimodo",    "Sun, Quasimodo 1903",    }, // Checked [1]
+    { "Sun 25 Aug 1929 Trinity XIII", "Sun, Trinity XIII 1929", }, // Checked [1]
+    { "Mon 29 Sep 1941 Trinity XVI",  "Mon, Trinity XVI 1941",  }, // Checked [1]
+    { "Mon 19 Apr 1943 Holy",         "Mon, Holy 1943",         }, // Checked [1]
+    { "Thur 7 Oct 1943 Trinity XV",   "Thur, Trinity XV 1943",  }, // Checked [1]
+    { "Tue 17 Mar 1992 Lent II",      "Tue, Lent II 1992",      }, // Checked [1]
+    { "Sun 25 Feb 1996 Quadrag",      "Sun, Quadrag 1996",      }, // Checked [1]
+    { "Wed 10 Nov 2038 Trinity XX",   "Wed, Trinity XX 2038",   }, // Checked [1]
+    { "Sun 18 Jul 2094 Trinity VII",  "Sun, Trinity VII 2094",  }  // Checked [1]
 };
+// Checked [1] - A Handbook of Dates, C R Cheney revised Micheal Jones 
 
 void TestDef_glit::setUp()
 {
