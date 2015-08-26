@@ -122,8 +122,8 @@
 <tr><td>62</td><td>First Week of Christmas</td><td>Xmas I</td><td>1st Sunday on or after 25 Dec.</td></tr>
 </table>
 
-<p>
- The <b>Record</b> consists of a single extended <b>Field</b> named <code>litweek.</code>
+<p class='clear'>
+ The <b>Record</b> consists of a single <b>Optional Field</b> named <code>litweek.</code>
  There is no separate <b>Epoch</b> since this will depend upon the underlying scheme.
 </p>
 
@@ -131,8 +131,9 @@
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
-><b>vocab</b> "lit" {
+>vocab "lit" {
     name "Liturgy Weeks";
+    fieldname "litweek";
     lang "en";
     stylename "Week", "Wk";
     tokens {
@@ -151,15 +152,15 @@
         13, "Second Week of Lent",               "Lent II";
         14, "Third Week of Lent",                "Lent III";
         15, "Fourth Week of Lent",               "Lent IV";
-        16, "Fifth Week of Lent",                "Lent V";
-        17, "Passion Week",                      "Passion";
+        16, "Passion Week",                      "Passion";
+        17, "Holy Week",                         "Holy";
         18, "Easter Week",                       "Easter";
         19, "Quasimodo Week",                    "Quasimodo";
         20, "Second Week after Easter",          "Easter II";
         21, "Third Week after Easter",           "Easter III";
         22, "Fourth Week after Easter",          "Easter IV";
         23, "Rogation Week",                     "Rogation";
-        24, "First Week after Ascension",        "Ascens I";
+        24, "First Week after Ascension",        "Ascen I";
         25, "Whitsun Week",                      "Whitsun";
         26, "Trinity Week",                      "Trinity";
         27, "First Week after Trinity",          "Trinity I";
@@ -201,11 +202,10 @@
     }
 }
 
-<b>grammar</b> "lit" {
+grammar "lit" {
+    optional "wday", "litweek";
+    rank "year", "litweek", "wday";
     vocabs "m", "w", "lit";
-    format "wdmyl",  "(WDay:w.a) |(Day) |(Month:m.a) |(Year) |(LitWeek:lit.a)";
-    format "wdmyl+", "(WDay:w) |(Day) |(Month:m) |(Year) |(LitWeek:lit)";
-    pref "wdmyl";
     alias field {
         "WDay",    "wday";
         "Day",     "day";
@@ -225,6 +225,11 @@
         "y", "year";
         "w", "week";
     }
+    format "wdmyl",  "(WDay:w.a) |(Day) |(Month:m.a) |(Year)| (LitWeek:lit.a)";
+    format "wdmyl+", "(WDay:w) |(Day) |(Month:m) |(Year)| (LitWeek:lit)";
+    format "wly",  "(WDay:w.a), |(LitWeek:lit.a) |(Year)";
+    format "wly+", "(WDay:w), |(LitWeek:lit) |(Year)";
+    pref "wdmyl";
 }
 </td></tr>
 </table>

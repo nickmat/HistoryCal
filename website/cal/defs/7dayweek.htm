@@ -35,40 +35,80 @@
 <h3>Use Case</h3>
 <p>
  Thought to have originated in ancient Babylonia around 600 BCE.
- It is used with the Julian, Gregorian, Hebrew and Islamic and other calendars.
+ It is used with the Julian, Gregorian, Hebrew, Islamic and other calendars.
 </p>
 <p>
- There are more than one way of numbering the week days. For convenience, the
- library has chosen Monday as the first day. Saturday and Sunday are
- alternative start days.
+ There are more than one way of numbering the week days. If the scheme only uses text names for the week days, any numbering system can be used since they will not normally be visible. However, some calendars routinely use the weekday number (i.e. ISO, Hebrew and Islamic calendars) and so the numbering system can be selected depending on the optional field specified.
+</p>
+<p>
+ The Julian, Gregorian and variants use the <code>wday</code> field.
+</p>
+<p>
+ The Hebrew, Islamic and variants use the <code>wsday</code> field.
 </p>
 
 <h3>Definition</h3>
-<table class='data'>
-<tr><th>Number</th><th>Name</th></tr>
-<tr><td>1</td><td>Monday</td></tr>
-<tr><td>2</td><td>Tuesday</td></tr>
-<tr><td>3</td><td>Wednesday</td></tr>
-<tr><td>4</td><td>Thursday</td></tr>
-<tr><td>5</td><td>Friday</td></tr>
-<tr><td>6</td><td>Saturday</td></tr>
-<tr><td>7</td><td>Sunday</td></tr>
-</table>
 <table class='record'>
 <tr><th>Record</th></tr>
 <tr><td class='rdonly'>wday</td></tr>
 </table>
-<p>
- The <b>Record</b> consists of a single extended <b>Field</b> named <code>wday.</code>
- The <b>Epoch</b> is <code>wday 1 = day 1 (jdn)</code> a Monday.
+<table class='record'>
+<tr><th>Record</th></tr>
+<tr><td class='rdonly'>wsday</td></tr>
+</table>
+<table class='data'>
+<tr><th colspan='2'>Number</th><th rowspan='2'>Name</th></tr>
+<tr><th><code>wday</code></th><th><code>wsday</code></th></tr>
+<tr><td>7</td><td>1</td><td>Sunday</td></tr>
+<tr><td>1</td><td>2</td><td>Monday</td></tr>
+<tr><td>2</td><td>3</td><td>Tuesday</td></tr>
+<tr><td>3</td><td>4</td><td>Wednesday</td></tr>
+<tr><td>4</td><td>5</td><td>Thursday</td></tr>
+<tr><td>5</td><td>6</td><td>Friday</td></tr>
+<tr><td>6</td><td>7</td><td>Saturday</td></tr>
+</table>
+<p style='clear: left'>
+ The weekday is implemented by using an <b>Optional Field</b>,
+ <code>wday</code> for weeks beginning Monday or 
+ <code>wsday</code> for weeks beginning Sunday.
 </p>
+<p>
+ Only one of these <b>Optional Fields</b> should be used in any given scheme.
+</p>
+<div>
+ The <b>Epoch</b> for <code>wday</code> is set at
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>&nbsp;</td><th>wday</th></tr>
+  <tr class='value'><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>1</td></tr>
+ </table>
+ a Monday.
+</div>
+<div>
+ The <b>Epoch</b> for <code>wsday</code> is set at
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>&nbsp;</td><th>wsday</th></tr>
+  <tr class='value'><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>0</td></tr>
+ </table>
+ a Sunday.
+</div>
 
 <h3>Script</h3>
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
-><b>vocab</b> "w" {
+>vocab "w" {
     name "Weekday names";
+    fieldname "wday";
     lang "en";
     stylename "Weekday", "WDay";
     tokens {
@@ -84,8 +124,8 @@
 </td></tr>
 </table>
 <p>
- Since this calendar is only used in conjunction with others, only the
- <b>vocab</b> associated with it is shown.
+ Since weekdays are only used in conjunction with others, only the
+ <b>vocab</b> associated with the <code>wday</code> <b>Optional Field</b> is shown here.
 </p>
 <p>
  The script has no dependencies.

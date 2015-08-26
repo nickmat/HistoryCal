@@ -45,10 +45,10 @@
 
 <h3>Definition</h3>
 <table class='record'>
-<tr><th colspan='6'>Record</th></tr>
-<tr><td>year</td><td>month</td><td>day</td><td class='rdonly'>wday</td><td class='rdonly'>litweek</td><td class='rdonly'>unshift</td></tr>
+<tr><th colspan='5'>Record</th></tr>
+<tr><td>year</td><td>month</td><td>day</td><td class='rdonly'>unshift</td><td class='rdonly'>wday</td></tr>
 </table>
-<p>
+<p class='clear'>
  The Julian Annunciation Pisa calendar is based on <a href='j.htm'>Julian</a> calendar and has the same
  definition as the <a href='jn.htm'>Julian Nativity</a> calendar except it has a different epoch.
 </p>
@@ -76,16 +76,13 @@
 <tr><td
 >scheme "jap" {
     name "Julian Annunciation Pisa";
-    shift "j", 1721142;    // j# 25 Mar 0
+    shift "j", 1721142;    // j:dmy# 25 Mar 0
     grammar "j.sh";
 }
 </td></tr>
 </table>
 <p>
  The scheme uses the j.sh grammar as defined for the <a href='jn.htm'>Julian Nativity</a> calendar.
-</p>
-<p>
- The <code>litweek</code> extended field is used by separate liturgical schemes.
 </p>
 
 </div>
