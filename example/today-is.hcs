@@ -6,11 +6,20 @@ let today = date "today";
 writeln "Today is :-";
 set output "g:full";
 writeln "Gregorian: " + str today;
+set output "glit:wly+";
+writeln "Western Christian Liturgical:-";
+writeln "    " + str today;
+
 set output "er:full";
 writeln "English Regnal:-";
 writeln "    " + str today;
 set output "ja:out";
 writeln "Julian Annunciation: " + str today;
+
+set output "jlit:wly+";
+writeln "Orthodox Christian Liturgical:-";
+writeln "    " + str today;
+
 set output "fr:out";
 writeln "French Republic: " + str today;
 set output "h:wdmy";
