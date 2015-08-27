@@ -31,6 +31,7 @@
 #include <utf8/utf8api.h>
 
 #include <cstdlib>
+#include <ctime>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -80,7 +81,7 @@ string read_file( const string& name )
     return std::string( std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>() );
 }
 
-void run_test( Calendars* cal, const string& filename )
+string run_test( Calendars* cal, const string& filename )
 {
     string script = read_file( filename );
     string output = cal->run_script( script );
@@ -93,24 +94,46 @@ void run_test( Calendars* cal, const string& filename )
             expected = script.substr( pos1, pos2 - pos1 );
         }
     }
-    cout << filename << "  ";
+    string error;
     if( output.empty() ) {
-        cout << "No output\n";
-    } else if( output == expected ) {
-        cout << "Pass: " << output << "\n";
-    } else {
-        cout << "Expected: " << expected << "\n"
-            << "Output: " << output << "\n";
+        error = "No output";
+    } else if( output != expected ) {
+        error = "  Expected: " + expected + "\n"
+            + "    Output: " + output;
     }
+    string result;
+    if( !error.empty() ) {
+        result = filename + "\n" + error;
+        cout << "F";
+    } else {
+        cout << ".";
+    }
+    return result;
 }
 
 void run_full_test( Calendars* cal, const string& path )
 {
+    clock_t t = clock();
     vector<string> filenames;
+    vector<string> errors;
     get_filenames( filenames, path );
     for( size_t i = 0 ; i < filenames.size() ; i++ ) {
-        run_test( cal, filenames[i] );
+        string error = run_test( cal, filenames[i] );
+        if( !error.empty() ) {
+            errors.push_back( error );
+        }
     }
+    cout << "\n\nRun (" << filenames.size() << ") ";
+    if( !errors.empty() ) {
+        cout << " fail (" << errors.size() << ")";
+        for( size_t i = 0 ; i < errors.size() ; i++ ) {
+            cout << "\n\n" << errors[i];
+        }
+    }
+    cout << "\n\n";
+    int s = (clock() - t) / CLOCKS_PER_SEC;
+    int m = (int) s / 60;
+    cout << "Timed: " << m << "m " << s - (m*60) << "s\n";
 }
 
 int main( int argc, char* argv[] )
