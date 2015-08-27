@@ -3,4 +3,5 @@
 write "Hello world!";
 
 /*[OUTPUT]
-Hello world![OUTPUT]*/
+Hello world!
+[OUTPUT]*/

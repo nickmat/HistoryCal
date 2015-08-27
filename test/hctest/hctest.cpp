@@ -89,7 +89,7 @@ string run_test( Calendars* cal, const string& filename )
     size_t pos1 = script.find( "/*[OUTPUT]\n" );
     if( pos1 != string::npos ) {
         pos1 += 11;
-        size_t pos2 = script.find( "[OUTPUT]*/", pos1 );
+        size_t pos2 = script.find( "\n[OUTPUT]*/", pos1 );
         if( pos2 != string::npos ) {
             expected = script.substr( pos1, pos2 - pos1 );
         }

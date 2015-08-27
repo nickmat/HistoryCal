@@ -7,4 +7,5 @@ scheme "j-test" { base julian; }
 write "Ok so far";
 
 /*[OUTPUT]
-Ok so far[OUTPUT]*/
+Ok so far
+[OUTPUT]*/

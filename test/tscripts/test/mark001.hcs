@@ -5,4 +5,5 @@ mark "test";
 write "Ok so far";
 
 /*[OUTPUT]
-Ok so far[OUTPUT]*/
+Ok so far
+[OUTPUT]*/

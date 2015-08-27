@@ -4,4 +4,5 @@ set input g;
 write date "19sep1948";
 
 /*[OUTPUT]
-2432814[OUTPUT]*/
+2432814
+[OUTPUT]*/

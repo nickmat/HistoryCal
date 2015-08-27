@@ -4,4 +4,5 @@ set output g;
 write "Date ranges are " + str ( 2430726 ~ 2431090 | 2432552 ~ 2432917 ) + ".";
 
 /*[OUTPUT]
-Date ranges are 1943 | 1948.[OUTPUT]*/
+Date ranges are 1943 | 1948.
+[OUTPUT]*/

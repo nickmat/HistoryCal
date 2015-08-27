@@ -4,4 +4,5 @@ set output g;
 write "Date is " + str 2432814;
 
 /*[OUTPUT]
-Date is 19 Sep 1948[OUTPUT]*/
+Date is 19 Sep 1948
+[OUTPUT]*/

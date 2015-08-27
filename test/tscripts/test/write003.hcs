@@ -3,4 +3,5 @@
 write 1234;
 
 /*[OUTPUT]
-1234[OUTPUT]*/
+1234
+[OUTPUT]*/
