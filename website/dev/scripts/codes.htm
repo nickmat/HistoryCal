@@ -32,10 +32,12 @@
 <tr><th colspan='5'>Calendar Schemes</th></tr>
 <tr><th>Code</th><th>Name</th><th>Status</th><th>Script</th><th>Notes</th></tr>
 <tr><td>cath</td><td>Catholic Hybrid</td><td>Proposed</td><td></td><td class='note'>Hybrid calendar used in regions that changed from Julian to Gregorian on 15th October 1582.</td></tr>
+<tr><td>ce</td><td>Common Era</td><td>Proposed</td><td></td><td class='note'>Hybrid of "jce" and "gce"</td></tr>
 <tr><td>eng</td><td>English Hybrid</td><td>Default</td><td>scripts/julian_hybrid.hcs</td><td class='note'></td></tr>
 <tr><td>er</td><td>English Regnal</td><td>Default</td><td>scripts/english_reg.hcs</td><td class='note'></td></tr>
 <tr><td>fr</td><td>French Republican</td><td>Default</td><td>scripts/french_rep.hcs</td><td class='note'>Includes year zero</td></tr>
 <tr><td>g</td><td>Gregorian</td><td>Default</td><td>scripts/julian.hcs</td><td class='note'>Includes year zero</td></tr>
+<tr><td>gce</td><td>Gregorian Common Era</td><td>Default</td><td>scripts/ce-bce.hcs</td><td class='note'></td></tr>
 <tr><td>h</td><td>Hebrew</td><td>Default</td><td>scripts/hebrew.hcs</td><td class='note'>Includes year zero</td></tr>
 <tr><td>i</td><td>Islamic Tabular</td><td>Default</td><td>scripts/islamic.hcs</td><td class='note'>Includes year zero</td></tr>
 <tr><td>I.Ia</td><td>Islamic Tabular Ia</td><td>Script</td><td>example/islamic-Ia.hcs</td><td class='note'><a href='http://www.staff.science.uu.nl/~gent0113/islam/islam_tabcal.htm'>See website</a></td></tr>
@@ -48,9 +50,11 @@
 <tr><td>j</td><td>Julian</td><td>Default</td><td>scripts/julian.hcs</td><td class='note'>Includes year zero</td></tr>
 <tr><td>ja</td><td>Julian Annunciation</td><td>Default</td><td>scripts/julian.hcs</td><td class='note'>Includes year zero</td></tr>
 <tr><td>jap</td><td>Julian Annunciation Pisa</td><td>Default</td><td>scripts/julian.hcs</td><td class='note'>Includes year zero</td></tr>
+<tr><td>jce</td><td>Julian Common Era</td><td>Default</td><td>scripts/ce-bce.hcs</td><td class='note'></td></tr>
 <tr><td>JD</td><td>Julian Day</td><td>Script</td><td>example/day-counts.hcs</td><td class='note'>Only a text conversion (includes a fixed decimal value)</td></tr>
-<tr><td>jn</td><td>Julian Nativity</td><td>Default</td><td>scripts/julian.hcs</td><td class='note'>Includes year zero</td></tr>
 <tr><td>jdn</td><td>Julian Day Number</td><td>Default</td><td>scripts/jdn.hcs</td><td class='note'>Internal representation</td></tr>
+<tr><td>jeast</td><td>Julian Easter</td><td>Proposed</td><td></td><td class='note'>Use weekday to avoid ambiguity</td></tr>
+<tr><td>jn</td><td>Julian Nativity</td><td>Default</td><td>scripts/julian.hcs</td><td class='note'>Includes year zero</td></tr>
 <tr><td>MJD</td><td>Modified Julian Day</td><td>Script</td><td>example/day-counts.hcs</td><td class='note'></td></tr>
 <tr><td>RD</td><td>Rata Die</td><td>Script</td><td>example/day-counts.hcs</td><td class='note'></td></tr>
 <tr><td>scot</td><td>Scottish Hybrid</td><td>Default</td><td>scripts/julian_hybrid.hcs</td><td class='note'></td></tr>
@@ -59,13 +63,51 @@
 <tr><td>swed</td><td>Swedish Hybrid</td><td>Proposed</td><td></td><td class='note'>The calendar used by Sweden when changing from Julian to Gregorian.</td></tr>
 </table>
 
+<table class='basic'>
+<tr><th colspan='5'>Grammar Definitions</th></tr>
+<tr><th>Code</th><th>Description</th><th>Status</th><th>Script</th><th>Notes</th></tr>
+<tr><td>d</td><td>Simple Day Count</td><td>Default</td><td>scripts/day-counts.hcs</td><td class='note'></td></tr>
+<tr><td>er</td><td>English Regnal</td><td>Default</td><td>scripts/english_reg.hcs</td><td class='note'></td></tr>
+<tr><td>fr</td><td>Basic French Republican scheme</td><td>scripts</td><td>example/french_rep.hcs</td><td class='note'></td></tr>
+<tr><td>g</td><td>Gregorian scheme</td><td>Default</td><td>scripts/julian.hcs</td><td class='note'>Inherits from "j"</td></tr>
+<tr><td>h</td><td>Hebrew schemes</td><td>Default</td><td>scripts/hebrew.hcs</td><td class='note'></td></tr>
+<tr><td>i</td><td>Islamic schemes</td><td>Default</td><td>scripts/islamic.hcs</td><td class='note'></td></tr>
+<tr><td>hy</td><td>Julian - Gregorian hybrids</td><td>Default</td><td>scripts/julian_hybrid.hcs</td><td class='note'></td></tr>
+<tr><td>j</td><td>Basic Julian and Gregorian schemes</td><td>Default</td><td>scripts/julian.hcs</td><td class='note'></td></tr>
+<tr><td>j.sh</td><td>Shifted Julian and Gregorian schemes</td><td>Default</td><td>scripts/julian.hcs</td><td class='note'></td></tr>
+<tr><td>jce</td><td>Historical Julian and Gregorian schemes</td><td>Default</td><td>scripts/ce-bce.hcs</td><td class='note'></td></tr>
+<tr><td>lit</td><td>Christian Liturgical Weeks</td><td>Default</td><td>scripts/liturgical.hcs</td><td class='note'></td></tr>
+<tr><td>sr</td><td>Scottish Regnal</td><td>Default</td><td>scripts/scottish_reg.hcs</td><td class='note'></td></tr>
+</table>
+
+<table class='basic'>
+<tr><th colspan='5'>Vocabulary (vocab) Definitions</th></tr>
+<tr><th>Code</th><th>Name</th><th>Status</th><th>Script</th><th>Notes</th></tr>
+<tr><td>ce</td><td>Historic Era</td><td>Default</td><td>scripts/ce-bce.hcs</td><td class='note'></td></tr>
+<tr><td>er</td><td>English Monarchs</td><td>Default</td><td>scripts/english_reg.hcs</td><td class='note'></td></tr>
+<tr><td>frcomp</td><td>Complementary Days</td><td>Default</td><td>scripts/french_rep.hcs</td><td class='note'>For French Republican calendar</td></tr>
+<tr><td>frdd</td><td>Decade Day</td><td>Default</td><td>scripts/french_rep.hcs</td><td class='note'>For French Republican calendar</td></tr>
+<tr><td>frm</td><td>Month names</td><td>Default</td><td>scripts/french_rep.hcs</td><td class='note'>For French Republican calendar</td></tr>
+<tr><td>hm</td><td>Month names</td><td>Default</td><td>scripts/hebrew.hcs</td><td class='note'>For Hebrew calendar</td></tr>
+<tr><td>hw</td><td>Weekday names</td><td>Default</td><td>scripts/hebrew.hcs</td><td class='note'>For Hebrew calendar</td></tr>
+<tr><td>im</td><td>Month names</td><td>Default</td><td>scripts/islamic.hcs</td><td class='note'>For Islamic calendar</td></tr>
+<tr><td>iw</td><td>Weekday names</td><td>Default</td><td>scripts/islamic.hcs</td><td class='note'>For Islamic calendar</td></tr>
+<tr><td>jajg</td><td>Scheme names</td><td>Default</td><td>scripts/julian_hybrid.hcs</td><td class='note'>Used for Julian/Gregorian hybids</td></tr>
+<tr><td>lit</td><td>Liturgy Weeks</td><td>Default</td><td>scripts/liturgical.hcs</td><td class='note'>Week starts Monday = 1</td></tr>
+<tr><td>m</td><td>Month names</td><td>Default</td><td>scripts/julian.hcs</td><td class='note'></td></tr>
+<tr><td>on</td><td>Scheme names</td><td>Default</td><td>scripts/english_reg.hcs</td><td class='note'>Old/New style</td></tr>
+<tr><td>part</td><td>Part of Reign Year</td><td>Default</td><td>scripts/english_reg.hcs</td><td class='note'>First/Second part</td></tr>
+<tr><td>sr</td><td>Scottish Monarchs</td><td>Default</td><td>scripts/scottish_reg.hcs</td><td class='note'></td></tr>
+<tr><td>w</td><td>Weekday names</td><td>Default</td><td>scripts/base.hcs</td><td class='note'></td></tr>
+</table>
+
 </div>
 
 <hr/>
 <div id='valid'>
   <p>
     <a href="http://validator.w3.org/check?uri=referer"><img
-        src="../sys/valid-xhtml10.png"
+        src="../../sys/valid-xhtml10.png"
         alt="Valid XHTML 1.0 Strict" height="31" width="88" /></a>
   </p>
 </div>
