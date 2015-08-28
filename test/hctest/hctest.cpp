@@ -136,6 +136,30 @@ void run_full_test( Calendars* cal, const string& path )
     cout << "Timed: " << m << "m " << s - (m*60) << "s\n";
 }
 
+void run_test_script( Calendars* cal, const string& filename )
+{
+    string script = read_file( filename );
+    string output = cal->run_script( script );
+    string expected;
+    size_t pos1 = script.find( "/*[OUTPUT]\n" );
+    if( pos1 != string::npos ) {
+        pos1 += 11;
+        size_t pos2 = script.find( "\n[OUTPUT]*/", pos1 );
+        if( pos2 != string::npos ) {
+            expected = script.substr( pos1, pos2 - pos1 );
+        }
+    }
+    cout << filename << "  ";
+    if( output.empty() ) {
+        cout << "No output\n";
+    } else if( output == expected ) {
+        cout << "Pass: " << output << "\n\n";
+    } else {
+        cout << "\n Expected: " << expected << "\n"
+            << "   Output: " << output << "\n\n";
+    }
+}
+
 int main( int argc, char* argv[] )
 {
     Calendars cal( Init_script_default );
@@ -148,7 +172,7 @@ int main( int argc, char* argv[] )
         break;
     case 2:
         argv1 = string(argv[1]);
-        run_test( &cal, argv1 );
+        run_test_script( &cal, argv1 );
         return 0;
     case 3:
         argv1 = string(argv[1]);
