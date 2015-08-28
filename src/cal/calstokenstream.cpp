@@ -123,6 +123,17 @@ SToken STokenStream::next()
     case '/': set_type( SToken::STT_Divide ); break;
     case '*': set_type( SToken::STT_Star ); break;
     case '%': set_type( SToken::STT_Percent ); break;
+    case '<':
+        switch( m_in->peek() ) {
+        case '>': m_in->get( ch ); set_type( SToken::STT_NotEqual ); break;
+        case '=': m_in->get( ch ); set_type( SToken::STT_LessThanEq ); break;
+        default: set_type( SToken::STT_LessThan ); break;
+        } break;
+    case '>':
+        switch( m_in->peek() ) {
+        case '=': m_in->get( ch ); set_type( SToken::STT_GtThanEq ); break;
+        default: set_type( SToken::STT_GtThan ); break;
+        } break;
     case '(': set_type( SToken::STT_Lbracket ); break;
     case ')': set_type( SToken::STT_Rbracket ); break;
     case '{': set_type( SToken::STT_LCbracket ); break;

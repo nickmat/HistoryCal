@@ -1,0 +1,6 @@
+// bool001.hcs Test file to test bool maths.
+write 1 = 1;
+
+/*[OUTPUT]
+true
+[OUTPUT]*/

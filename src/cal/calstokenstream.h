@@ -50,8 +50,11 @@ namespace Cal {
             STT_LSbracket, STT_RSbracket, 
             STT_and, STT_or, STT_not, STT_match,
             STT_str_cast, STT_date, STT_mask,
-            STT_NotEqual/*<>*/,
-            STT_GtThan, STT_GtThanEq, STT_LessThan, STT_LessThanEq, 
+            STT_NotEqual,    //  "<>"
+            STT_GtThan,      //  ">"
+            STT_GtThanEq,    //  ">="
+            STT_LessThan,    //  "<"
+            STT_LessThanEq,  //  "<="
             // Alternative token names
             STT_UNION = STT_Vline,
             STT_INTERSECTION = STT_Ampersand,
