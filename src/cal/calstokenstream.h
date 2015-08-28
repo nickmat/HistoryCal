@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     24th June 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -40,7 +40,7 @@ namespace Cal {
     public:
         enum Type {
             STT_Null, STT_End, 
-            STT_String,
+            STT_String, STT_Bool,
             STT_Name, STT_Number, STT_Range, STT_RList,
             STT_Equal, STT_Plus, STT_Minus, STT_Divide, STT_Star,
             STT_Percent, STT_Backslash, STT_Tilde,
@@ -67,6 +67,7 @@ namespace Cal {
         void set_type( Type type ) { m_type = type; }
         void set_value( const std::string& str ) { m_value.set_str( str ); }
         void set_value( Field field ) { m_value.set_field( field ); }
+        void set_value( bool b ) { m_value.set_bool( b ); }
 
         Type type() const { return m_type; }
         SValue value() const { return m_value; }
@@ -99,6 +100,7 @@ namespace Cal {
         void set_type( SToken::Type type ) { m_cur_token.set_type( type ); } 
         void set_current( SToken::Type type, const std::string& str );
         void set_current( SToken::Type type, Field num );
+        void set_current( SToken::Type type, bool b );
 
         std::istream* m_in;
         std::ostream* m_err;

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     24th June 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -92,6 +92,10 @@ SToken STokenStream::next()
             set_type( SToken::STT_and );
         } else if( str == "not" ) {
             set_type( SToken::STT_not );
+        } else if( str == "true" ) {
+            set_current( SToken::STT_Bool, true );
+        } else if( str == "false" ) {
+            set_current( SToken::STT_Bool, false );        
         } else if( str == "match" ) {
             set_type( SToken::STT_match );
         } else if( str == "str" ) {
@@ -208,6 +212,12 @@ void STokenStream::set_current( SToken::Type type, Field num )
 {
     m_cur_token.set_type( type );
     m_cur_token.set_value( num );
+}
+
+void STokenStream::set_current( SToken::Type type, bool b )
+{
+    m_cur_token.set_type( type );
+    m_cur_token.set_value( b );
 }
 
 // End of src/cal/calstokenstream.cpp file
