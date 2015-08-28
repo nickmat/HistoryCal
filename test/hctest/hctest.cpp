@@ -176,8 +176,13 @@ int main( int argc, char* argv[] )
         return 0;
     case 3:
         argv1 = string(argv[1]);
-        run_full_test( &cal, string(argv[2]) );
-        return 0;
+        if( argv1 == "-t" ) {
+            run_full_test( &cal, string(argv[2]) );
+            return 0;
+        } else {
+            cout << "Expected -t as 1st argument.\n";
+            return 1;
+        }
     default:
         cout << "Too many arguments.\n";
         return 1;
