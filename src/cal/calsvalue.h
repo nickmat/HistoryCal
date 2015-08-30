@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     24th June 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -70,6 +70,7 @@ namespace Cal {
 
         bool get( std::string& str ) const;
         bool get( Field& field ) const;
+        bool get( bool& flag ) const;
         bool get_rlist( RangeList& rlist ) const;
 
         bool is_error() const { return m_type == SVT_Error; }

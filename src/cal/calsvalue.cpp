@@ -170,6 +170,18 @@ bool SValue::get( Field& field ) const
     return false;
 }
 
+bool SValue::get( bool& flag ) const
+{
+    switch( m_type )
+    {
+    case SVT_Bool:
+        flag = m_range.jdn1 == 0 ? false : true;
+        return true;
+    default:
+        return false;
+    }
+}
+
 bool SValue::get_bool() const
 {
     assert( m_type == SVT_Bool );
