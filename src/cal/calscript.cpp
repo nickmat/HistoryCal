@@ -79,6 +79,7 @@ bool Script::statement()
     if( token.type() == SToken::STT_Name ) {
         string name = token.get_str();
         if( name == "end" ) return false;
+        if( name == "if" ) return do_if();
         if( name == "set" ) return do_set();
         if( name == "let" ) return do_let();
         if( name == "write" ) return do_write();
@@ -93,6 +94,81 @@ bool Script::statement()
     }
     // Assume error
     return error( "Unrecognised statement." ); 
+}
+
+bool Script::do_if()
+{
+    bool done = false, result = false;
+    for(;;) {
+        if( !result && !done ) {
+            bool ok = expr( true ).get( result );
+            if( !ok ) {
+                error( "Boolean expression expected." );
+                return false;
+            }
+        }
+        SToken token = m_ts.current();
+        if( result ) {
+            // Run the statements
+            for(;;) {
+                if( token.type() == SToken::STT_End ) {
+                    error( "Unexpected end." );
+                    return false;
+                }
+                if( token.type() == SToken::STT_Name ) {
+                    string name = token.get_str();
+                    if( name == "endif" ) {
+                        return true;
+                    }
+                    if( name == "else" || name == "elseif" ) {
+                        break;
+                    }
+                }
+                if( statement() == false ) {
+                    return false;
+                }
+                token = m_ts.next();
+            }
+            done = true;
+            result = false;
+        } else {
+            // move on to the next "elseif" or "else"
+            for(;;) {
+                if( token.type() == SToken::STT_End ) {
+                    error( "Unexpected end." );
+                    return false;
+                }
+                if( token.type() == SToken::STT_Name ) {
+                    string name = token.get_str();
+                    if( name == "endif" ) {
+                        return true;
+                    }
+                    if( name == "else" ) {
+                        m_ts.next();
+                        result = true;
+                        break;
+                    }
+                    if( name == "elseif" ) {
+                        break;
+                    }
+                }
+                token = m_ts.next();
+            }
+        }
+        if( done ) {
+            // Skip to "endif"
+            for(;;) {
+                token = m_ts.next();
+                if( token.type() == SToken::STT_Name && token.get_str() == "endif" ) {
+                    return true;
+                }
+                if( token.type() == SToken::STT_End ) {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
 }
 
 bool Script::do_set()

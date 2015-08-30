@@ -1,0 +1,15 @@
+// if003.hcs Test file to test if statement
+
+let value = "Started";
+if true
+  let value = value + " if true";
+else
+  let value = value + " else"
+endif
+let value = value + " finished";
+
+write value;
+
+/*[OUTPUT]
+Started if true finished
+[OUTPUT]*/

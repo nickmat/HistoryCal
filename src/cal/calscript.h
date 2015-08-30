@@ -49,8 +49,8 @@ namespace Cal {
         bool error( const std::string& mess ) { return m_ts.error( mess ); }
         ScriptStore* store() const;
         bool statement();
+        bool do_if();
         bool do_set();
-        bool do_rlist();
         bool do_let();
         bool do_write();
         bool do_writeln();
