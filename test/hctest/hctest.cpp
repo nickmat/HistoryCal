@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     18th May 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCalTest is free software: you can redistribute it and/or modify
@@ -36,9 +36,9 @@
 #include <fstream>
 #include <sstream>
 
-#define VERSION   "0.8.0"
+#define VERSION   "0.8.1"
 #define PROGNAME  "HistoryCalTest"
-#define COPYRIGHT  "2014 Nick Matthews"
+#define COPYRIGHT  "2014 - 20015 Nick Matthews"
 
 const char* g_version = VERSION;
 const char* g_progName = PROGNAME;
@@ -131,9 +131,8 @@ void run_full_test( Calendars* cal, const string& path )
         }
     }
     cout << "\n\n";
-    int s = (clock() - t) / CLOCKS_PER_SEC;
-    int m = (int) s / 60;
-    cout << "Timed: " << m << "m " << s - (m*60) << "s\n";
+    double dt = ((double) clock() - t) / CLOCKS_PER_SEC;
+    std::cout << "Timed: " << dt << "s" << std::endl;
 }
 
 void run_test_script( Calendars* cal, const string& filename )
