@@ -1,0 +1,12 @@
+// let009.hcs Test file to test let statement
+
+x = 10;
+
+x += " and Y";
+
+write x;
+
+/*[OUTPUT]
+Error (3): Unrecognised statement.
+
+[OUTPUT]*/

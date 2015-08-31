@@ -53,6 +53,7 @@ namespace Cal {
         bool do_do();
         bool do_set();
         bool do_let();
+        bool do_assign( const std::string& name );
         bool do_write();
         bool do_writeln();
         bool do_mark();

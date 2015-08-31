@@ -91,6 +91,7 @@ bool Script::statement()
         if( name == "vocab" ) return do_vocab();
         if( name == "grammar" ) return do_grammar();
         if( name == "format" ) return do_format( NULL );
+        if( store()->exists( name ) ) return do_assign( name );
     } else if( token.type() == SToken::STT_Semicolon ) {
         return true; // Empty statement
     }
@@ -277,9 +278,12 @@ bool Script::do_let()
         error( "Variable name expected." );
         return false;
     }
-    string name = token.get_str();
+    return do_assign( token.get_str() );
+}
 
-    token = m_ts.next();
+bool Script::do_assign( const std::string& name )
+{
+    SToken token = m_ts.next();
     SValue value;
     if( token.type() == SToken::STT_Equal ) {
         value = expr( true );
