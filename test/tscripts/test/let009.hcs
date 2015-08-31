@@ -1,5 +1,6 @@
 // let009.hcs Test file to test let statement
 
+clear
 x = 10;
 
 x += " and Y";
@@ -7,6 +8,6 @@ x += " and Y";
 write x;
 
 /*[OUTPUT]
-Error (3): Unrecognised statement.
+Error (4): Unrecognised statement.
 
 [OUTPUT]*/
