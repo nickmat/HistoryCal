@@ -1,0 +1,15 @@
+// do006.hcs Test file to test do statement
+
+write "Start ";
+
+let count = 0;
+do
+  let count = count + 1;
+  write count + ", ";
+until count > 2 loop
+
+write "end";
+
+/*[OUTPUT]
+Start 1, 2, 3, end
+[OUTPUT]*/

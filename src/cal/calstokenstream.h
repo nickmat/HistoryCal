@@ -1,5 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        src/cal/calscript.h
+ * Name:        src/cal/calstokenstream.h
  * Project:     Cal: Programmable Historical Calendar library.
  * Purpose:     Translate a character stream to a token stream.
  * Author:      Nick Matthews
@@ -87,14 +87,16 @@ namespace Cal {
         STokenStream( std::istream& in, std::ostream& err ) 
             : m_in(&in), m_err(&err), m_line(1), m_errors(0) {}
 
-        void reset();
-
         SToken next();
         SToken& current() { return m_cur_token; }
-        std::string read_function();
+        std::string read_until( const std::string& name, const std::string& esc );
 
         bool error( const std::string& mess );
         int errors() const { return m_errors; }
+
+        int get_line() const { return m_line; }
+        void set_line( int line ) { m_line = line; }
+        std::istream* reset_in( std::istream* in );
 
     private:
         void set_type( SToken::Type type ) { m_cur_token.set_type( type ); } 

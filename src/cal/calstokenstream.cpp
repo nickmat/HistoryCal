@@ -162,44 +162,78 @@ SToken STokenStream::next()
     return m_cur_token;
 }
 
-string STokenStream::read_function()
+string STokenStream::read_until( const string& name, const string& esc )
 {
+    string code;
     char ch;
-    string def;
-
-    do { // Skip whitespace.
-        if( !m_in->get( ch ) ) {
-            return "";
+    int count = 0;
+    for(;;) {
+        string word;
+        while( m_in->get( ch ) && isalnum( ch ) ) {
+            word += ch;
         }
         if( ch == '\n' ) {
             m_line++;
         }
-    } while( isspace( ch ) );
-
-    def += ch;
-    while( m_in->get( ch ) && ch != '{' && ch != ';' ) {
-        def += ch;
-    }
-    if( ch == '{' ) {
-        int bcount = 0;
-        def += ch;
-        while( m_in->get( ch ) ) {
-            def += ch;
-            if( ch == '{' ) {
-                bcount++;
-            } else if( ch == '}' ) {
-                if( bcount == 0 ) break;
-                --bcount;
+        if( !word.empty() ) {
+            code += word;
+            if( word == esc ) {
+                count++;
+            }
+            if( word == name ) {
+                if( count == 0 ) {
+                    break;
+                }
+                --count;
             }
         }
+        if( ch == '/' ) {
+            if( m_in->peek() == '*' ) { // Multiline comments
+                m_in->get(); // Step over '*'
+                while( m_in->get( ch ) ) {
+                    if( ch == '\n' ) {
+                        m_line++;
+                        code += '\n'; // Keep line numbers in sync.
+                    }
+                    if( ch == '*' && m_in->peek() == '/' ) {
+                        m_in->get(); // Step over '/'
+                        ch = ' '; // Replace comment with a space
+                        break;
+                    }
+                }
+            }
+            if( m_in->peek() == '/' ) { // Singleline comments
+                m_in->get(); // Step over '/'
+                while( m_in->get( ch ) ) {
+                    if( ch == '\n' ) {
+                        m_line++;
+                        break;
+                    }
+                }
+            }
+        }
+        if( ch == '"' ) {
+            code += ch;
+            while( m_in->get( ch ) && ch != '"' ) {
+                code += ch;
+            }
+        }
+        code += ch;
     }
-    return def;
+    return code;
 }
 
 bool STokenStream::error( const string& mess )
 {
     *m_err << "Error (" << m_line << "): " << mess << "\n";
     return ( ++m_errors > MAX_ALLOWED_ERRORS );
+}
+
+std::istream* STokenStream::reset_in( std::istream* in )
+{
+    std::istream* prev = m_in;
+    m_in = in;
+    return prev;
 }
 
 void STokenStream::set_current( SToken::Type type, const std::string& str )

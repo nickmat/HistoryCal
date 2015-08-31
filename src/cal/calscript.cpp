@@ -36,6 +36,7 @@
 #include "calvocab.h"
 
 #include <cassert>
+#include <sstream>
 
 using namespace Cal;
 using std::string;
@@ -80,6 +81,7 @@ bool Script::statement()
         string name = token.get_str();
         if( name == "end" ) return false;
         if( name == "if" ) return do_if();
+        if( name == "do" ) return do_do();
         if( name == "set" ) return do_set();
         if( name == "let" ) return do_let();
         if( name == "write" ) return do_write();
@@ -168,6 +170,63 @@ bool Script::do_if()
             }
         }
     }
+    return true;
+}
+
+bool Script::do_do()
+{
+    int start_line = m_ts.get_line();
+    string code = m_ts.read_until( "loop", "do" );
+    if( code.empty() ) {
+        return false;
+    }
+    int end_line = m_ts.get_line();
+    std::istringstream iss( code );
+    std::istream* prev_iss = m_ts.reset_in( &iss );
+    for( size_t i = 1000 ; i > 0 ; --i ) {  // We have a limit of 1000 reiterations
+        m_ts.set_line( start_line );
+        bool exit = false;
+        SToken token = m_ts.next();
+        for(;;) {
+            if( token.type() == SToken::STT_End ) {
+                exit = true;
+                break;
+            }
+            if( token.type() == SToken::STT_Name ) {
+                string name = token.get_str();
+                if( name == "until" || name == "while" ) {
+                    bool ok = expr( true ).get( exit );
+                    if( !ok ) {
+                        error( "Boolean expression expected." );
+                        break;
+                    }
+                    if( name == "while" ) {
+                        exit = !exit;
+                    }
+                    if( exit ) {
+                        break;
+                    }
+                    token = m_ts.current();
+                    continue;
+                }
+                if( name == "loop" ) {
+                    break;
+                }
+            }
+            if( statement() == false ) {
+                exit = true;
+                break;
+            }
+            token = m_ts.next();
+        }
+        if( exit ) {
+            break;
+        }
+        iss.clear();
+        iss.seekg( 0 );
+    }
+    m_ts.reset_in( prev_iss );
+    m_ts.set_line( end_line );
     return true;
 }
 

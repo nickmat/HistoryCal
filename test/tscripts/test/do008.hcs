@@ -1,0 +1,24 @@
+// do008.hcs Test file to test nested do statements
+
+write "Start ";
+
+let count = 0;
+do
+  let count = count + 1;
+  let newcount = count;
+  write "[";
+  do
+    let newcount = newcount - 1;
+    write newcount;
+    while newcount <> 0
+    write ",";
+  loop
+  write "] ";
+  until count = 4
+loop
+
+write "end";
+
+/*[OUTPUT]
+Start [0] [1,0] [2,1,0] [3,2,1,0] end
+[OUTPUT]*/

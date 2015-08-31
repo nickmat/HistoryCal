@@ -1,0 +1,12 @@
+// write022.hcs Test file to test write statement
+
+let one = 1;
+let two = 2;
+write "Start ";
+write one + ", ";
+write two + ", ";
+write "end.";
+
+/*[OUTPUT]
+Start 1, 2, end.
+[OUTPUT]*/

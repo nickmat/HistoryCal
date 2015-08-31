@@ -50,6 +50,7 @@ namespace Cal {
         ScriptStore* store() const;
         bool statement();
         bool do_if();
+        bool do_do();
         bool do_set();
         bool do_let();
         bool do_write();
