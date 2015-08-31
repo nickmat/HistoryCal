@@ -272,18 +272,42 @@ bool Script::do_set()
 
 bool Script::do_let()
 {
-    string var;
     SToken token = m_ts.next();
-    if( token.type() == SToken::STT_Name ) {
-        var = token.get_str();
-        token = m_ts.next();
+    if( token.type() != SToken::STT_Name ) {
+        error( "Variable name expected." );
+        return false;
     }
-    if( token.type() != SToken::STT_Equal ) {
+    string name = token.get_str();
+
+    token = m_ts.next();
+    SValue value;
+    if( token.type() == SToken::STT_Equal ) {
+        value = expr( true );
+    } else if( store()->exists( name ) ) {
+        value = store()->table[name];
+        switch( token.type() )
+        {
+        case SToken::STT_PlusEq:
+            value.plus( expr( true ) );
+            break;
+        case SToken::STT_MinusEq:
+            value.minus( expr( true ) );
+            break;
+        case SToken::STT_DivideEq:
+            value.divide( expr( true ) );
+            break;
+        case SToken::STT_StarEq:
+            value.multiply( expr( true ) );
+            break;
+        default:
+            error( "Assign operator expected." );
+            return false;
+        }
+    } else {
         error( "'=' expected." );
         return false;
     }
-    SValue value = expr( true );
-    store()->table[var] = value;
+    store()->table[name] = value;
     token = m_ts.current();
     if( token.type() != SToken::STT_Semicolon ) {
         error( "';' expected." );

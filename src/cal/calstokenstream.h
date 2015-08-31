@@ -43,6 +43,7 @@ namespace Cal {
             STT_String, STT_Bool,
             STT_Name, STT_Number, STT_Range, STT_RList,
             STT_Equal, STT_Plus, STT_Minus, STT_Divide, STT_Star,
+            STT_PlusEq, STT_MinusEq, STT_DivideEq, STT_StarEq,
             STT_Percent, STT_Backslash, STT_Tilde,
             STT_Comma, STT_Colon, STT_Semicolon, STT_Qmark,
             STT_Vline, STT_Ampersand, STT_Exclamation, STT_Carrot,

@@ -1,0 +1,11 @@
+// let008.hcs Test file to test let statement
+
+let x = 10;
+
+let x += " and Y";
+
+write x;
+
+/*[OUTPUT]
+10 and Y
+[OUTPUT]*/

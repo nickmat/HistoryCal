@@ -122,10 +122,26 @@ SToken STokenStream::next()
     switch( ch )
     {
     case '=': set_type( SToken::STT_Equal ); break;
-    case '+': set_type( SToken::STT_Plus ); break;
-    case '-': set_type( SToken::STT_Minus ); break;
-    case '/': set_type( SToken::STT_Divide ); break;
-    case '*': set_type( SToken::STT_Star ); break;
+    case '+':
+        switch( m_in->peek() ) {
+        case '=': m_in->get( ch ); set_type( SToken::STT_PlusEq ); break;
+        default: set_type( SToken::STT_Plus ); break;
+        } break;
+    case '-':
+        switch( m_in->peek() ) {
+        case '=': m_in->get( ch ); set_type( SToken::STT_MinusEq ); break;
+        default: set_type( SToken::STT_Minus ); break;
+        } break;
+    case '/':
+        switch( m_in->peek() ) {
+        case '=': m_in->get( ch ); set_type( SToken::STT_DivideEq ); break;
+        default: set_type( SToken::STT_Divide ); break;
+        } break;
+    case '*':
+        switch( m_in->peek() ) {
+        case '=': m_in->get( ch ); set_type( SToken::STT_StarEq ); break;
+        default: set_type( SToken::STT_Star ); break;
+        } break;
     case '%': set_type( SToken::STT_Percent ); break;
     case '<':
         switch( m_in->peek() ) {

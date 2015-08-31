@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     17th May 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -40,6 +40,8 @@ namespace Cal {
     class ScriptStore {
     public:
         ScriptStore() : ischeme(NULL), oscheme(NULL) {}
+
+        bool exists( const std::string& value ) { return table.count( value ) == 1; }
 
         SValueMap table;
         Scheme*   ischeme;

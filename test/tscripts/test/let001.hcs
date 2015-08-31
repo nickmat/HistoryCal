@@ -1,0 +1,9 @@
+// let001.hcs Test file to test let statement
+
+let x = 10;
+
+write x;
+
+/*[OUTPUT]
+10
+[OUTPUT]*/
