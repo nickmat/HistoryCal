@@ -1,28 +1,25 @@
 // Display todays date in various calendar formats
 
-set input "g";
-let today = date "today";
+let today = date "g#today";
 
 writeln "Today is :-";
-set output "g:full";
-writeln "Gregorian: " + str today;
-set output "glit:wly+";
+writeln "Gregorian: " + str,"g:full" today;
+
 writeln "Western Christian Liturgical:-";
-writeln "    " + str today;
+writeln "    " + str,"glit:wly+" today;
 
-set output "er:full";
 writeln "English Regnal:-";
-writeln "    " + str today;
-set output "ja:out";
-writeln "Julian Annunciation: " + str today;
+writeln "    " + str,"er:full" today;
 
-set output "jlit:wly+";
+writeln "Julian Annunciation: " + str,"ja:out" today;
+
 writeln "Orthodox Christian Liturgical:-";
-writeln "    " + str today;
+writeln "    " + str,"jlit:wly+" today;
 
-set output "fr:out";
-writeln "French Republic: " + str today;
-set output "h:wdmy";
-writeln "Hebrew: " + str today;
-set output "i:wdmy";
-writeln "Islamic Tabular: " + str today;
+writeln "French Republic: " + str,"fr:out" today;
+
+writeln "Hebrew: " + str,"h:wdmy" today;
+
+writeln "Islamic Tabular: " + str,"i:wdmy" today;
+
+clear
