@@ -1,5 +1,7 @@
 // let007.hcs Test file to test let statement
 
+clear
+
 let x = "Value X";
 
 let x += " and Y";

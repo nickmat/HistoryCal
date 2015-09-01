@@ -80,10 +80,7 @@ bool Script::statement()
     if( token.type() == SToken::STT_Name ) {
         string name = token.get_str();
         if( name == "end" ) return false;
-        if( name == "clear" ) {
-            store()->table.clear();
-            return true;
-        }
+        if( name == "clear" ) return do_clear();
         if( name == "if" ) return do_if();
         if( name == "do" ) return do_do();
         if( name == "set" ) return do_set();
@@ -101,6 +98,12 @@ bool Script::statement()
     }
     // Assume error
     return error( "Unrecognised statement." ); 
+}
+
+bool Script::do_clear()
+{
+    store()->table.clear();
+    return true;
 }
 
 bool Script::do_if()
