@@ -1172,17 +1172,7 @@ SValue Script::primary( bool get )
         }
         break;
     case SToken::STT_str_cast:
-        value = primary( true );
-        {
-            SHandle sch = store()->oscheme;
-            if( sch ) {
-                RangeList rlist;
-                value.get_rlist( rlist );
-                value.set_str( sch->rangelist_to_str( rlist ) );
-            } else {
-                error( "Valid scheme not set." );
-            }
-        }
+        value = str_cast();
         break;
     case SToken::STT_Minus:
         value = primary( true );
@@ -1230,6 +1220,31 @@ SValue Script::fields_expr( bool get )
         }
         token = m_ts.next();
     }
+}
+
+SValue Script::str_cast()
+{
+    SToken token = m_ts.next();
+    SHandle sch = NULL;
+    string sig, scode, fcode;
+    if( token.type() == SToken::STT_Comma ) {
+        // Includes scheme:format signiture
+        expr( true ).get( sig );
+        split_code( &scode, &fcode, sig );
+        sch = m_cals->get_scheme( scode );
+    }
+    if( sch == NULL ) {
+        sch = store()->oscheme;
+    }
+    SValue value = primary( false );
+    if( sch ) {
+        RangeList rlist;
+        value.get_rlist( rlist );
+        value.set_str( sch->rangelist_to_str( rlist, fcode ) );
+    } else {
+        error( "Valid scheme not set." );
+    }
+    return value;
 }
 
 SValue Script::get_value_var( const string& name )

@@ -84,6 +84,8 @@ namespace Cal {
         SValue primary( bool get );
         SValue fields_expr( bool get );
 
+        SValue str_cast();
+
         SValue get_value_var( const std::string& name );
         std::string get_name_or_string( const SToken& token ) const;
 
