@@ -58,16 +58,16 @@ namespace Cal {
 
         DLLIMPEXP_CAL Field fieldvec_to_jdn( SHandle scheme, const FieldVec& fieldv );
         DLLIMPEXP_CAL FieldVec jdn_to_fieldvec( SHandle scheme, Field jdn );
-        DLLIMPEXP_CAL std::string fieldvec_to_str( SHandle scheme, const FieldVec& fieldv );
+        DLLIMPEXP_CAL std::string fieldvec_to_str( SHandle scheme, const FieldVec& fieldv, const std::string& fcode );
         DLLIMPEXP_CAL FieldVec str_to_fieldvec( SHandle scheme, const std::string& str );
 
         DLLIMPEXP_CAL Field str_to_jdn( SHandle scheme, const std::string& str );
-        DLLIMPEXP_CAL std::string jdn_to_str( SHandle scheme, Field jdn );
+        DLLIMPEXP_CAL std::string jdn_to_str( SHandle scheme, Field jdn, const std::string& fcode = "" );
         DLLIMPEXP_CAL Range str_to_range( SHandle scheme, const std::string& str );
-        DLLIMPEXP_CAL std::string range_to_str( SHandle scheme, Range range );
+        DLLIMPEXP_CAL std::string range_to_str( SHandle scheme, Range range, const std::string& fcode = "" );
         DLLIMPEXP_CAL RangeList str_to_rangelist( SHandle scheme, const std::string& str );
         DLLIMPEXP_CAL RangeList expr_str_to_rangelist( SHandle scheme, const std::string& str );
-        DLLIMPEXP_CAL std::string rangelist_to_str( SHandle scheme, const RangeList& ranges );
+        DLLIMPEXP_CAL std::string rangelist_to_str( SHandle scheme, const RangeList& ranges, const std::string& fcode = "" );
 
         DLLIMPEXP_CAL Field add_to_jdn( SHandle scheme, Field jdn, Field value, Unit unit, Norm norm );
 

@@ -67,10 +67,10 @@ namespace Cal {
         FieldVec jdn_to_fieldvec( Field jdn );
 
         Field str_to_jdn( const std::string& str, const std::string& fmt );
-        std::string jdn_to_str( Field jdn );
-        std::string range_to_str( Range range );
+        std::string jdn_to_str( Field jdn, const std::string& fcode );
+        std::string range_to_str( Range range, const std::string& fcode );
         RangeList rlist_str_to_rangelist( const std::string& str );
-        std::string rangelist_to_str( const RangeList& ranges );
+        std::string rangelist_to_str( const RangeList& ranges, const std::string& fcode );
 
         Field add_to_jdn( Field jdn, Field value, Unit unit, Norm norm );
         bool str_to_rel_info( const std::string& str, Rel_info* info ) const;

@@ -57,10 +57,10 @@ Record::Record( const Base* base, const Field* fields, size_t size )
     set_fields( fields, size );
 }
 
-Record::Record( const Base* base, const string& str, const string& fmt )
+Record::Record( const Base* base, const string& str, const string& fcode )
     : m_base(base), m_jdn(f_invalid), m_f(base->extended_size())
 {
-    set_str( str, fmt );
+    set_str( str, fcode );
 }
 
 Record::Record( const Record& rec )
@@ -252,9 +252,9 @@ Field Record::get_jdn() const
     return m_base->get_jdn( &m_f[0] );
 }
 
-string Record::get_str() const
+string Record::get_str( const std::string& fcode ) const
 {
-    return get_output( m_base->get_format_str_for_output() );
+    return get_output( m_base->get_format_str_for_output( fcode ) );
 }
 
 Field Record::is_unit_int( Unit unit ) const

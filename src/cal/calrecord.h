@@ -40,13 +40,13 @@ namespace Cal {
         Record( const Base* base );
         Record( const Base* base, Field jdn );
         Record( const Base* base, const Field* fields, size_t size );
-        Record( const Base* base, const std::string& str, const std::string& fmt );
+        Record( const Base* base, const std::string& str, const std::string& fcode );
         Record( const Record& rec );
         virtual ~Record() {}
 
         void set_jdn( Field jdn );
         void set_fields( const Field* fields, size_t size );
-        void set_str( const std::string& str, const std::string& fmt );
+        void set_str( const std::string& str, const std::string& fcode );
 
         bool set_fields_as_begin_first( const Field* mask, bool check = true );
         bool set_fields_as_next_first( const Field* mask );
@@ -59,7 +59,7 @@ namespace Cal {
 
         Field get_jdn() const;
         FieldVec get_fieldvec() { return m_f; };
-        std::string get_str() const;
+        std::string get_str( const std::string& fcode ) const;
 
         Field* get_field_ptr() { return &m_f[0]; }
         const Field* get_field_ptr() const { return &m_f[0]; }

@@ -139,7 +139,7 @@ Field Scheme::str_to_jdn( const string& str, const string& fmt )
     return rec.get_jdn();
 }
 
-string Scheme::jdn_to_str( Field jdn )
+string Scheme::jdn_to_str( Field jdn, const string& fcode )
 {
     if( jdn == f_minimum ) {
         return "past";
@@ -148,25 +148,25 @@ string Scheme::jdn_to_str( Field jdn )
         return "future";
     }
     Record rec( m_base, jdn );
-    return rec.get_str();
+    return rec.get_str( fcode );
 }
 
-string Scheme::range_to_str( Range range )
+string Scheme::range_to_str( Range range, const string& fcode )
 {
     if( range.jdn1 == range.jdn2 ) {
-        return jdn_to_str( range.jdn1 );
+        return jdn_to_str( range.jdn1, fcode );
     }
     string str1, str2;
     if( range.jdn1 == f_minimum || range.jdn2 == f_maximum ) {
-        str1 = jdn_to_str( range.jdn1 );
-        str2 = jdn_to_str( range.jdn2 );
+        str1 = jdn_to_str( range.jdn1, fcode );
+        str2 = jdn_to_str( range.jdn2, fcode );
     } else {
         Record rec1( m_base, range.jdn1 );
         Record rec2( m_base, range.jdn2 );
 
         rec1.remove_balanced_fields( &rec2 );
-        str1 = rec1.get_str();
-        str2 = rec2.get_str();
+        str1 = rec1.get_str( fcode );
+        str2 = rec2.get_str( fcode );
         if( str1 == str2 ) {
             return str1;
         }
@@ -174,14 +174,14 @@ string Scheme::range_to_str( Range range )
     return str1 + " ~ " + str2;
 }
 
-string Scheme::rangelist_to_str( const RangeList& ranges )
+string Scheme::rangelist_to_str( const RangeList& ranges, const std::string& fcode )
 {
     string str;
     for( size_t i = 0 ; i < ranges.size() ; i++ ) {
         if( i > 0 ) {
             str += " | ";
         }
-        str += range_to_str( ranges[i] );
+        str += range_to_str( ranges[i], fcode );
     }
     return str;
 }

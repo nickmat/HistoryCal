@@ -153,14 +153,14 @@ bool Calendars::get_vocab_info( Vocab_info* info, const string& code ) const
     return true;
 }
 
-void Calendars::set_input_format( SHandle scheme, const std::string& code )
+void Calendars::set_input_format( SHandle scheme, const string& code )
 {
     if( scheme ) {
         scheme->set_input_format( code );
     }
 }
 
-void Calendars::set_output_format( SHandle scheme, const std::string& code )
+void Calendars::set_output_format( SHandle scheme, const string& code )
 {
     if( scheme ) {
         scheme->set_output_format( code );
@@ -183,11 +183,11 @@ FieldVec Calendars::jdn_to_fieldvec( SHandle scheme, Field jdn )
     return FieldVec();
 }
 
-string Calendars::fieldvec_to_str( SHandle scheme, const FieldVec& fieldv )
+string Calendars::fieldvec_to_str( SHandle scheme, const FieldVec& fieldv, const string& fcode )
 {
     if( scheme ) {
         Record rec( scheme->get_base(), &fieldv[0], fieldv.size() );
-        return rec.get_str();
+        return rec.get_str( fcode );
     }
     return "";
 }
@@ -225,10 +225,10 @@ Field Calendars::str_to_jdn( SHandle scheme, const string& str )
     return scheme->str_to_jdn( dstr, fcode );
 }
 
-string Calendars::jdn_to_str( SHandle scheme, Field jdn )
+string Calendars::jdn_to_str( SHandle scheme, Field jdn, const string& fcode )
 {
     if( scheme ) {
-        return scheme->jdn_to_str( jdn );
+        return scheme->jdn_to_str( jdn, fcode );
     }
     return "";
 }
@@ -246,10 +246,10 @@ Range Calendars::str_to_range( SHandle scheme, const string& str )
     return Range( rlist[0].jdn1, rlist[rlist.size()-1].jdn2 );
 }
 
-string Calendars::range_to_str( SHandle scheme, Range range )
+string Calendars::range_to_str( SHandle scheme, Range range, const string& fcode )
 {
     if( scheme ) {
-        return scheme->range_to_str( range );
+        return scheme->range_to_str( range, fcode );
     }
     return "";
 }
@@ -299,9 +299,9 @@ RangeList Calendars::expr_str_to_rangelist( SHandle scheme, const string& str )
     return rlist;
 }
 
-string Calendars::rangelist_to_str( SHandle scheme, const RangeList& ranges )
+string Calendars::rangelist_to_str( SHandle scheme, const RangeList& ranges, const string& fcode )
 {
-    return scheme->rangelist_to_str( ranges );
+    return scheme->rangelist_to_str( ranges, fcode );
 }
 
 Field Calendars::add_to_jdn( SHandle scheme, Field jdn, Field value, Unit unit, Norm norm )
