@@ -73,7 +73,7 @@ string Base::get_fieldname( size_t index ) const
         return get_std_fieldname( index );
     }
     if( index < extended_size() ) {
-        return get_opt_fieldname( OptFieldID( index - record_size() ) );
+        return get_opt_fieldname( opt_index_to_id( index ) );
     }
     return "";
 }
@@ -540,7 +540,7 @@ void Base::create_default_grammar() const
     Grammar* gmr = new Grammar( "" );
     Format* fmt = gmr->create_format( "def" );
     string format;
-    for( size_t i = 0 ; i < record_size() ; i++ ) {
+    for( size_t i = 0 ; i < extended_size() ; i++ ) {
         if( i > 0 ) {
             format += "| ";
         }
