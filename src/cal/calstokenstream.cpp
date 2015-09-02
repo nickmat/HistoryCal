@@ -92,10 +92,6 @@ SToken STokenStream::next()
             set_type( SToken::STT_and );
         } else if( str == "not" ) {
             set_type( SToken::STT_not );
-        } else if( str == "true" ) {
-            set_current( SToken::STT_Bool, true );
-        } else if( str == "false" ) {
-            set_current( SToken::STT_Bool, false );        
         } else if( str == "match" ) {
             set_type( SToken::STT_match );
         } else if( str == "str" ) {
