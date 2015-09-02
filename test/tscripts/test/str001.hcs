@@ -1,4 +1,4 @@
-// write012.hcs Test str cast
+// str001.hcs Test str cast
 
 set output g;
 write "Date is " + str 2432814;
