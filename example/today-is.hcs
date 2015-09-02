@@ -1,7 +1,5 @@
 // Display todays date in various calendar formats
 
-let today = date "g#today";
-
 writeln "Today is :-";
 writeln "Gregorian: " + str,"g:full" today;
 

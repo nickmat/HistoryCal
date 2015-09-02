@@ -30,6 +30,7 @@
 #include "cal/calendars.h"
 #include "calformat.h"
 #include "calgrammar.h"
+#include "calgregorian.h"
 #include "calparse.h"
 #include "calregnal.h"
 #include "calscheme.h"
@@ -1263,6 +1264,9 @@ SValue Script::get_value_var( const string& name )
     }
     if( name == "future" ) {
         return SValue( f_maximum );
+    }
+    if( name == "today" ) {
+        return SValue( Gregorian::today() );
     }
     if( store()->table.count( name ) ) {
         return store()->table.find( name )->second;
