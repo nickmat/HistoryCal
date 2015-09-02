@@ -84,6 +84,12 @@ OptFieldID Julian::get_opt_field_id( const std::string& fieldname ) const
     if( fieldname == "litweek" ) {
         return OFID_j_litweek;
     }
+    if( fieldname == "eastermonth" ) {
+        return OFID_j_eastermonth;
+    }
+    if( fieldname == "easterday" ) {
+        return OFID_j_easterday;
+    }
     return Base::get_opt_field_id( fieldname );
 }
 
@@ -97,6 +103,10 @@ std::string Julian::get_opt_fieldname( OptFieldID field_id ) const
         return "ceyear";
     case OFID_j_litweek:
         return "litweek";
+    case OFID_j_eastermonth:
+        return "eastermonth";
+    case OFID_j_easterday:
+        return "easterday";
     default:
         return Base::get_opt_fieldname( field_id );
     }
@@ -120,6 +130,16 @@ Field Julian::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) con
         return fields[YMD_year] < 1 ? -fields[YMD_year] + 1 : fields[YMD_year];
     case OFID_j_litweek:
         return liturgical_get_litweek( this, jdn );
+    case OFID_j_eastermonth:
+        {
+            Record rec( this, easter( fields[YMD_year] ) );
+            return rec.get_field( YMD_month );
+        }
+    case OFID_j_easterday:
+        {
+            Record rec( this, easter( fields[YMD_year] ) );
+            return rec.get_field( YMD_day );
+        }
     default:
         return Base::get_opt_field( fields, jdn, id );
     }
