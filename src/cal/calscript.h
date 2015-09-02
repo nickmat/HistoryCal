@@ -77,10 +77,11 @@ namespace Cal {
 
         SValue expr( bool get );
         SValue compare( bool get );
-        SValue sum( bool get );
-        SValue term( bool get );
         SValue combine( bool get );
         SValue range( bool get );
+        SValue sum( bool get );
+        SValue term( bool get );
+        SValue subscript( bool get );
         SValue primary( bool get );
         SValue fields_expr( bool get );
 

@@ -1102,17 +1102,39 @@ SValue Script::sum( bool get )
 
 SValue Script::term( bool get )
 {
-    SValue left = primary( get );
+    SValue left = subscript( get );
 
     for(;;) {
         SToken token = m_ts.current();
         switch( token.type() )
         {
         case SToken::STT_Star:
-            left.multiply( primary( true ) );
+            left.multiply( subscript( true ) );
             break;
         case SToken::STT_Divide:
-            left.divide( primary( true ) );
+            left.divide( subscript( true ) );
+            break;
+        default:
+            return left;
+        }
+    }
+}
+
+SValue Script::subscript( bool get )
+{
+    SValue left = primary( get );
+
+    for(;;) {
+        SToken token = m_ts.current();
+        switch( token.type() )
+        {
+        case SToken::STT_LSbracket:
+            left.subscript_op( primary( true ) );
+            if( m_ts.current().type() != SToken::STT_RSbracket ) {
+                error( "']' expected." );
+                break;
+            }
+            m_ts.next();
             break;
         default:
             return left;

@@ -93,6 +93,7 @@ namespace Cal {
         void sym_difference( const SValue& value );
 
         void range_op( const SValue& value );
+        void subscript_op( const SValue& value );
 
         void negate(); // Unitary minus
         void logical_not();

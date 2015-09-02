@@ -1,0 +1,8 @@
+// subscript001.hcs Test file to test let statement
+
+write {10,20,30}[1];
+
+*/
+/*[OUTPUT]
+20
+[OUTPUT]*/

@@ -558,6 +558,27 @@ void SValue::range_op( const SValue& value )
     set_error( "Can only set range with numbers." );
 }
 
+void SValue::subscript_op( const SValue& value )
+{
+    if( propagate_error( value ) ) {
+        return;
+    }
+    if( m_type == SVT_RList || m_type == SVT_Fields ) {
+        Field index = value.get_field();
+        if( index < 0 || index >= (Field) m_rlist.size() ) {
+            set_error( "Subscript out of range." );
+        }
+        if( m_type == SVT_RList ) {
+            set_range( m_rlist[index] );
+        } else {
+            set_field( m_rlist[index].jdn1 );
+        }
+        m_rlist.clear();
+        return;
+    }
+    set_error( "Can only set range with numbers." );
+}
+
 void SValue::negate()
 {
     if( is_error() ) {
