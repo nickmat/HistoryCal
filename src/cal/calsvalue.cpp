@@ -576,7 +576,7 @@ void SValue::subscript_op( const SValue& value )
         m_rlist.clear();
         return;
     }
-    set_error( "Can only set range with numbers." );
+    set_error( "Unable to use subscript." );
 }
 
 void SValue::negate()

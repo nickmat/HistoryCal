@@ -75,11 +75,10 @@ namespace Cal {
         void set_field( Field value, size_t index ) { m_f[index] = value; }
 
         bool is_mask_valid( Field* mask, size_t mask_size ) const;
+        int get_field_index( const std::string& fieldname ) const;
 
     private:
         void clear_fields();
-
-        int get_field_index( const std::string& fieldname ) const;
 
         enum CP_Group {
             GRP_Hyphen, GRP_Digit, GRP_Quest, GRP_Dual,

@@ -1126,20 +1126,30 @@ SValue Script::subscript( bool get )
 
     for(;;) {
         SToken token = m_ts.current();
-        switch( token.type() )
-        {
-        case SToken::STT_LSbracket:
-            left.subscript_op( primary( true ) );
+        if( token.type() == SToken::STT_LSbracket ) {
+            SValue right = primary( true );
+            if( left.type() == SValue::SVT_Field && right.type() == SValue::SVT_Str ) {
+                string scode, fname;
+                split_code( &scode, &fname, right.get_str() );
+                Field jdn = left.get_field();
+                SHandle sch = m_cals->get_scheme( scode );
+                Field field = f_invalid;
+                if( sch ) {
+                    field = sch->jdn_fieldname_to_field( jdn, fname );
+                }
+                left.set_field( field );
+            } else {
+                left.subscript_op( right );
+            }
             if( m_ts.current().type() != SToken::STT_RSbracket ) {
                 error( "']' expected." );
-                break;
             }
             m_ts.next();
+        } else {
             break;
-        default:
-            return left;
         }
     }
+    return left;
 }
 
 SValue Script::primary( bool get )

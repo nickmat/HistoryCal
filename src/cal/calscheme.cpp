@@ -133,6 +133,13 @@ FieldVec Scheme::jdn_to_fieldvec( Field jdn )
     return rec.get_fieldvec();
 }
 
+Field Scheme::jdn_fieldname_to_field( Field jdn, const string& fieldname ) const
+{
+    Record rec( m_base, jdn );
+    int index = rec.get_field_index( fieldname );
+    return rec.get_field( index );
+}
+
 Field Scheme::str_to_jdn( const string& str, const string& fmt )
 {
     Record rec( m_base, str, fmt );
