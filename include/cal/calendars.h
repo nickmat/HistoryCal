@@ -65,7 +65,7 @@ namespace Cal {
         DLLIMPEXP_CAL std::string jdn_to_str( SHandle scheme, Field jdn, const std::string& fcode = "" );
         DLLIMPEXP_CAL Range str_to_range( SHandle scheme, const std::string& str );
         DLLIMPEXP_CAL std::string range_to_str( SHandle scheme, Range range, const std::string& fcode = "" );
-        DLLIMPEXP_CAL RangeList str_to_rangelist( SHandle scheme, const std::string& str );
+        DLLIMPEXP_CAL RangeList str_to_rangelist( SHandle scheme, const std::string& str, const std::string& fcode = "" );
         DLLIMPEXP_CAL RangeList expr_str_to_rangelist( SHandle scheme, const std::string& str );
         DLLIMPEXP_CAL std::string rangelist_to_str( SHandle scheme, const RangeList& ranges, const std::string& fcode = "" );
 
@@ -85,7 +85,8 @@ namespace Cal {
         ScriptStore* get_store() const { return m_store; }
 
     private:
-        RangeList range_str_to_rangelist( SHandle scheme, const std::string& str );
+        RangeList range_str_to_rangelist( 
+            SHandle scheme, const std::string& str, const std::string fcode = "" );
 
         SHandleMap   m_shandles;
         GrammarMap   m_grammars;

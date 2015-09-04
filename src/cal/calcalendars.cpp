@@ -254,7 +254,8 @@ string Calendars::range_to_str( SHandle scheme, Range range, const string& fcode
     return "";
 }
 
-RangeList Calendars::str_to_rangelist( SHandle scheme, const string& input )
+RangeList Calendars::str_to_rangelist(
+    SHandle scheme, const string& input, const string& fcode )
 {
     RangeList rlist;
     string str;
@@ -267,7 +268,7 @@ RangeList Calendars::str_to_rangelist( SHandle scheme, const string& input )
         } else {
             str = input.substr( cpos );
         }
-        RangeList rl = range_str_to_rangelist( scheme, str );
+        RangeList rl = range_str_to_rangelist( scheme, str, fcode );
         if( rl.size() ) {
             rlist.insert( rlist.end(), rl.begin(), rl.end() );
         }
@@ -530,14 +531,15 @@ namespace {
 
 // Convert a string written as a shorthand or single longhand range
 // to a rangelist. Handles scheme:format# prefix. Scheme may be NULL;
-RangeList Calendars::range_str_to_rangelist( SHandle scheme, const string& str )
+RangeList Calendars::range_str_to_rangelist(
+    SHandle scheme, const string& str, const std::string fcode )
 {
     Base* base1 = NULL;
     Base* base2 = NULL;
     if( scheme ) {
         base1 = base2 = scheme->get_base();
     }
-    string str1, str2, scode, fcode1, fcode2;
+    string str1, str2, scode, fcode1(fcode), fcode2(fcode);
     size_t pos = str.find( range_sep );
     if( pos == string::npos ) {
         // Single, poss shorthand, date string.
