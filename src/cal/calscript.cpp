@@ -1270,12 +1270,17 @@ SValue Script::str_cast()
         sch = store()->oscheme;
     }
     SValue value = primary( false );
-    if( sch ) {
+    if( sch == NULL ) {
+        error( "Valid scheme not set." );
+        return value;
+    }
+    if( value.type() == SValue::SVT_Fields ) {
+        Field jdn = sch->fieldvec_to_jdn( value.get_fields() );
+        value.set_str( sch->jdn_to_str( jdn, fcode ) );
+    } else {
         RangeList rlist;
         value.get_rlist( rlist );
         value.set_str( sch->rangelist_to_str( rlist, fcode ) );
-    } else {
-        error( "Valid scheme not set." );
     }
     return value;
 }
