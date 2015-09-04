@@ -211,7 +211,7 @@ FieldVec SValue::get_fields() const
     assert( m_type == SVT_Fields );
     FieldVec fields;
     for( size_t i = 0 ; i < m_rlist.size() ; i++ ) {
-        fields[i] = m_rlist[i].jdn1;
+        fields.push_back( m_rlist[i].jdn1 );
     }
     return fields;
 }
