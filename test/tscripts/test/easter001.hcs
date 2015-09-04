@@ -1,4 +1,4 @@
-// let???.hcs Test file to test let statement
+// easter001.hcs Test file to test using easter dates
 
 mark "test-easter";
 clear
