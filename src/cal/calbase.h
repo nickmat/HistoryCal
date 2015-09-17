@@ -50,6 +50,9 @@ namespace Cal {
         OFID_j_ceyear,  // Positive CE or BCE year
         OFID_j_eastermonth, // The month easter falls for the given year (3 or 4)
         OFID_j_easterday, // The day of the month easter falls for the given year
+        OFID_j_easter, // The jdn day easter falls for the given year.
+        OFID_j_eastershift, // The year value if shifted to easter day new year.
+        OFID_j_easterrpt, // With eastershift, set to first or second date within Easter year.
         // French Republican fields
         OFID_fr_nmonth, // Named month (1 to 12) (or invalid)
         OFID_fr_nmday,  // Named month day (1 to 30) (or invalid)

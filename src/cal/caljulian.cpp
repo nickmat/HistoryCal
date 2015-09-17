@@ -90,6 +90,15 @@ OptFieldID Julian::get_opt_field_id( const std::string& fieldname ) const
     if( fieldname == "easterday" ) {
         return OFID_j_easterday;
     }
+    if( fieldname == "easter" ) {
+        return OFID_j_easter;
+    }
+    if( fieldname == "eastershift" ) {
+        return OFID_j_eastershift;
+    }
+    if( fieldname == "easterrpt" ) {
+        return OFID_j_easterrpt;
+    }
     return Base::get_opt_field_id( fieldname );
 }
 
@@ -107,6 +116,12 @@ std::string Julian::get_opt_fieldname( OptFieldID field_id ) const
         return "eastermonth";
     case OFID_j_easterday:
         return "easterday";
+    case OFID_j_easter:
+        return "easter";
+    case OFID_j_eastershift:
+        return "eastershift";
+    case OFID_j_easterrpt:
+        return "easterrpt";
     default:
         return Base::get_opt_fieldname( field_id );
     }
@@ -139,6 +154,20 @@ Field Julian::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) con
         {
             Record rec( this, easter( fields[YMD_year] ) );
             return rec.get_field( YMD_day );
+        }
+    case OFID_j_easter:
+        return easter( fields[YMD_year] );
+    case OFID_j_eastershift:
+        {
+            Record rec( this, easter( fields[YMD_year] ) );
+            if( rec.get_field( YMD_month ) < fields[YMD_month] ||
+                ( rec.get_field( YMD_month ) ==  fields[YMD_month] &&
+                rec.get_field( YMD_day ) < fields[YMD_day] ) )
+            {
+                return rec.get_field( YMD_year );
+            } else {
+                return rec.get_field( YMD_year ) - 1;
+            }
         }
     default:
         return Base::get_opt_field( fields, jdn, id );
