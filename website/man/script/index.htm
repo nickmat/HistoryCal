@@ -5,39 +5,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="icon" type="image/png" href="../../sys/logo1_32x32x32.png" />
 <link rel='stylesheet' type='text/css' href='../../sys/hcal.css' />
-<style type="text/css">
-table.list {
-// display: inline-table;
-// float: right;
-// margin: 0 0 1em 1em;
- border-collapse: collapse;
-}
-
-table.list th {
- background-color: Cornsilk;
- text-align: center;
- border: 1px solid black;
- padding: 0.1em 0.5em 0.1em 0.5em;
-}
-
-table.list td {
-// white-space: pre;
-// font-family: "Courier New", Courier, monospace;
- background-color: #fffefd;
- border: 1px solid black;
- padding: 0.1em 0.5em 0.1em 0.5em;
-}
-
-table.list td.code {
- font-family: "Courier New", Courier, monospace;
-}  
-
-table.list td.example {
- white-space: pre;
- font-family: "Courier New", Courier, monospace;
- background-color: mintcream;
-}  
-</style>
 </head>
 <body>
 
@@ -49,14 +16,14 @@ table.list td.example {
 <div id="page">
 
 <div id="crumbs">
-  <a href="../index.htm" class="m-item">Home</a>
-  <a href="index.htm" class="m-item level1">Manual</a>
-  <a href="script.htm" class="m-item level2 thispage">Script</a>
+  <a href="../../index.htm" class="m-item">Home</a>
+  <a href="../index.htm" class="m-item level1">Manual</a>
+  <a href="index.htm" class="m-item level2 thispage">Script</a>
   <a href="../types.htm" class="m-item prev">&lt;&lt;</a>
-  <a href="../../cal/index.htm" class="m-item next">&gt;&gt;</a>
+  <a href="expr.htm" class="m-item next">&gt;&gt;</a>
 </div>
 <div id="menu">
-  <a href="expressions.htm" class="m-item">Expressions</a>
+  <a href="expr.htm" class="m-item">Expressions</a>
   <span class='m-item'>Write Statement</span>
   <span class='m-item'>Let Statement</span>
   <span class='m-item'>End Statement</span>
@@ -92,7 +59,7 @@ table.list td.example {
  This is different from the input that has been described at the beginning of this manual,
  which is called a HistoryCal Date Expression.
  The Date Expression is similar to the script but is simplified and designed for easier input.
- The Date Expression is converted into a HistoryCal script to be evaluated.
+ The Date Expression is converted into a HistoryCal Script to be evaluated.
 </p>
 
 <p>
@@ -104,11 +71,12 @@ table.list td.example {
 </ul>
 <p>
  The scripts for the default calendar definitions are shown in the
- <a href='../cal/defs/index.htm'>calendar definitions</a> section.
+ <a href='../../cal/defs/index.htm'>calendar definitions</a> section.
 </p>
 
 <h3>Hello World</h3>
 <p>
+ A script consists of one or more statements.
  As is obligatory in these circumstances, we present a hello world script.
 </p>
 <table class='code'>
@@ -122,8 +90,8 @@ writeln "Hello world!";
 <img class='scrnprnt' src='../../sp/hello.png' alt='Screen Print 1' />
 <p>
  Using a text editor, copy the above script and save as "hello.hcs".
- Run the HistoryCal program and under the menu option "File &gt; Run Script ..."
- find the file and select it.
+ Run the HistoryCal Script by starting the HistoryCal program.
+ Under the menu option "File &gt; Run Script ..." find the file and select it.
  This should then result in the message shown.
 </p>
 

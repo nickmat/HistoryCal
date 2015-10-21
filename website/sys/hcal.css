@@ -27,12 +27,12 @@ h2, h3, h4 {
  clear: left;
 }
 
-p, div.p {
- margin: 0 0.5em 1em 0.5em;
+.clear, div.p {
+ clear: both;
 }
 
-p.clear, div.p {
- clear: both;
+p, div.p {
+ margin: 0 0.5em 1em 0.5em;
 }
 
 a.download {
@@ -299,6 +299,33 @@ table.data td {
 table.data td.note {
  white-space: normal;
 }
+
+table.list {
+ border-collapse: collapse;
+}
+
+table.list th {
+ background-color: Cornsilk;
+ text-align: center;
+ border: 1px solid black;
+ padding: 0.1em 0.5em 0.1em 0.5em;
+}
+
+table.list td {
+ background-color: #fffefd;
+ border: 1px solid black;
+ padding: 0.1em 0.5em 0.1em 0.5em;
+}
+
+table.list td.code {
+ font-family: "Courier New", Courier, monospace;
+}  
+
+table.list td.example {
+ white-space: pre;
+ font-family: "Courier New", Courier, monospace;
+ background-color: mintcream;
+}  
 
 table.record {
  display: inline-table;
