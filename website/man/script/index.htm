@@ -28,7 +28,7 @@
   <span class='m-item'>Let Statement</span>
   <span class='m-item'>End Statement</span>
   <span class='m-item'>If Statement</span>
-  <span class='m-item'>Do Loop</span>
+  <span class='m-item'>Do ... Loop</span>
   <span class='m-item'>Mark &amp; Clear</span>
   <span class='m-item'>Define Vocab</span>
   <span class='m-item'>Define Grammar</span>
@@ -97,18 +97,51 @@ writeln "Hello world!";
 
 <h3 class='clear'>Comments and White Space</h3>
 <p>
- 
+ The first line in the above script is a single line comment.
+ Every thing from the "//" token to the end of the line is ignored
+ (or alternatively, treated as white space).
 </p>
-
+<p>
+ Multi-line comments can be included by placing them between the
+ "/*" and "*/" tokens. These comments cannot be nested.
+</p>
+<table class='code'>
+<tr><td
+>// A single line comment
+/*
+  This is a
+  multi-line
+  comment.
+*/
+</td></tr>
+</table>
+<p>
+ Tabs, spaces, newlines and comments can appear anywhere within a script
+ without effecting its meaning.
+ They are required only when necessary to separate tokens.  
+</p>
 <h3>Expressions and Variables</h3>
 <p>
- 
+ Values in the HistoryCal Script can exist as one of a number of types:-
+</p>
+<ul>
+ <li><b>String</b> - A sequence of unicode (UTF-8) characters.</li>
+ <li><b>Field</b> - A number, a date or part of a date.</li>
+ <li><b>Range</b> - One or more consecutive dates.</li>
+ <li><b>RList</b> - A <a href='../calculate.htm#well-ordered'>well-ordered list</a> of dates.</li>
+ <li><b>Record</b> - An sequence of Fields which describe a date.</li>
+ <li><b>Boolean</b> - The value <b>true</b> or <b>false</b>.</li>
+</ul>
+<p>
+ Variables are defined by using the <code>let</code> statement,
+ but their type is determined by their context.
+ There are a number of operators which are used in expressions and
+ the values in these expressions are automatically converted, wherever possible.
 </p>
 
 <h3>Statements</h3>
 <p>
- A script consists of one or more Statements,
- such as the "writeln" one used above to create output.
+ A script consists of one or more of the following Statements:-
 </p>
 <table class='list'>
 <tr><th colspan='3'>Statement List</th></tr>
