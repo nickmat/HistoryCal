@@ -24,6 +24,42 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 */
 
+vocab "jg" {
+    name "Scheme names";
+    fieldname "scheme";
+    lang "en";
+    stylename "Scheme", "Sch";
+    tokens {
+        0, "Julian",     "j";
+        1, "Gregorian",  "g";
+    }
+}
+
+grammar "jg" {
+    inherit "j";
+    vocabs "jg";
+    alias field {
+        "Scheme",    "scheme";
+    }
+    alias stylename {
+        "Scheme",    "s";
+    }
+    format "dmys",  "(Day) |(Month:m.a) |(Year) |(Scheme:jg.a)";
+    format "dmys+",  "(Day) |(Month:m) |(Year) |(Scheme:jg)";
+    pref "dmy";
+}
+
+scheme "ay" {
+    name "Astronomical Year";
+    hybrid {
+        fields "year", "month", "day";
+        scheme "j";
+        change 2299161;  // g# 15 Oct 1582
+        scheme "g";
+    }
+    grammar "jg";
+}
+
 vocab "jajg" {
     name "Scheme names";
     fieldname "scheme";

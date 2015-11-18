@@ -155,7 +155,7 @@ void TestDef_jce::testCreation()
         if( info.vocab_codes[i] == "w" ) {
             str = "Weekday names";
         }
-        if( info.vocab_codes[i] == "ce" ) {
+        if( info.vocab_codes[i] == "jce" ) {
             str = "Historic Era";
         }
         CPPUNIT_ASSERT( str != "" );
