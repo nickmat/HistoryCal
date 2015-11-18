@@ -187,8 +187,14 @@ bool French::set_fields_as_begin_last( Field* fields, const Field* mask ) const
     }
     fields[0] = mask[0];
     fields[1] = ( mask[1] == f_invalid ) ? 13 : mask[1];
-    fields[2] = ( mask[2] == f_invalid ) ?
-        french_last_day_in_month( fields[0], fields[1] ) : mask[2];
+    if( mask[2] == f_invalid ) {
+        fields[2] = french_last_day_in_month( fields[0], fields[1] );
+        if( fields[2] == f_invalid ) {
+            return false;
+        }
+    } else {
+        fields[2] = mask[2];
+    }
     return true;
 }
 

@@ -230,6 +230,9 @@ bool Hebrew::set_fields_as_begin_last( Field* fields, const Field* mask ) const
         fields[2] = mask[2];
     } else {
         fields[2] = hebrew_last_day_in_month( fields[0], fields[1] );
+        if( fields[2] == f_invalid ) {
+            return false;
+        }
     }
     return true;
 }
