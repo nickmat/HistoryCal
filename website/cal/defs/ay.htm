@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>HistoryCal - Astronomical Year</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="icon" type="image/png" href="../../sys/logo1_32x32x32.png" />
+<link rel='stylesheet' type='text/css' href='../../sys/hcal.css' />
+</head>
+<body>
+
+<h1>
+ <a  href="http://historycal.org/"><img id="logo" src="../../sys/logo2.png" alt="Logo" /></a>
+ HistoryCal Calendar<br/>Astronomical Year (ay)
+</h1>
+
+<div id="page">
+
+<div id="crumbs">
+  <a href="../../index.htm" class="m-item">Home</a>
+  <a href="../index.htm" class="m-item level1">Calendars</a>
+  <a href="index.htm" class="m-item level2">Calendar List</a>
+  <a href="ay.htm" class="m-item level3 thispage">ay</a>
+  <a href="glit.htm" class="m-item prev">&lt;&lt;</a>
+  <a href="eng.htm" class="m-item next">&gt;&gt;</a>
+</div>
+
+<div id="content" class="nomenu calendar">
+
+<h2>Calendar Description</h2>
+<p>
+ The Astronomical Year calendar is a hybrid variant combining the <a href='j.htm'>Julian</a>
+ and the <a href='g.htm'>Gregorian</a> calendars.
+ The calendar contains the year zero and prior years are shown as negative.
+</p>
+
+<h3>Use Case</h3>
+<ul>
+ <li>This calendar is commonly used by astronomers.
+ See <a href='https://en.wikipedia.org/wiki/Astronomical_year_numbering'>Wikipedia entry</a>.</li>
+</ul>
+
+<h3>Definition</h3>
+<table class='record'>
+<tr><th colspan='6'>Record</th></tr>
+<tr><td>scheme</td><td>year</td><td>month</td><td>day</td><td class='rdonly'>wday</td></tr>
+</table>
+<p>
+</p>
+<p class='clear'>
+ The <b>Record</b> consists of four <b>Fields</b> named <code>year,</code>
+ <code>month,</code> <code>day</code> and <code>scheme</code> plus the read only <b>Field</b> <code>wday.</code>
+</p>
+<table class='data'>
+<tr><th colspan='2'>Calendar</th><th>Start</th><th>Finish</th><th>Notes</th></tr>
+<tr><td><a href='j.htm'>j</a></td><td>Julian</td><td>past</td><td>j# 4 Oct 1582</td><td></td></tr>
+<tr><td><a href='g.htm'>g</a></td><td>Gregorian</td><td>g# 15 Oct 1582</td><td>future</td><td>Year 1582 is 355 days long</td></tr>
+</table>
+<p>
+ As a Hybrid calendar, it has no single epoch.
+</p>
+
+<h3>Script</h3>
+<table class='code'>
+<tr><th>Default Script</th></tr>
+<tr><td
+>vocab "jg" {
+    name "Scheme names";
+    fieldname "scheme";
+    lang "en";
+    stylename "Scheme", "Sch";
+    tokens {
+        0, "Julian",     "j";
+        1, "Gregorian",  "g";
+    }
+}
+
+grammar "jg" {
+    inherit "j";
+    vocabs "jg";
+    alias field {
+        "Scheme",    "scheme";
+    }
+    alias stylename {
+        "Scheme",    "s";
+    }
+    format "dmys",  "(Day) |(Month:m.a) |(Year) |(Scheme:jg.a)";
+    format "dmys+",  "(Day) |(Month:m) |(Year) |(Scheme:jg)";
+    pref "dmy";
+}
+
+scheme "ay" {
+    name "Astronomical Year";
+    hybrid {
+        fields "year", "month", "day";
+        scheme "j";
+        change 2299161;  // g# 15 Oct 1582
+        scheme "g";
+    }
+    grammar "jg";
+}
+</td></tr>
+</table>
+<p>
+ The "jg" grammar inherits the <a href='j.htm'>"j" grammar</a>
+ and adds "jg" vocab to use with the <code>scheme</code> field.
+</p>
+<p>
+ The script makes use of the globally available read-only field <code>wday</code>
+ to output weekdays.
+</p>
+
+</div>
+
+<hr/>
+<div id='valid'>
+  <p>
+    <a href="http://validator.w3.org/check?uri=referer"><img
+        src="../../sys/valid-xhtml10.png"
+        alt="Valid XHTML 1.0 Strict" height="31" width="88" /></a>
+  </p>
+</div>
+
+<div id='create-date'><p>18<sup>th</sup> November 2015</p></div>
+
+</div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

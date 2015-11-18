@@ -300,6 +300,12 @@ table.data td.note {
  white-space: normal;
 }
 
+table.left {
+ display: inline-table;
+ float: left;
+ margin: 0 1em 1em 0;
+}
+
 table.list {
  border-collapse: collapse;
 }
