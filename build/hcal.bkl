@@ -109,6 +109,8 @@
     <library>utf8api</library>
   </exe>
 
+ <if cond="EXCLUDE_UTIL=='0'">
+
   <exe id="unit" template="wxlike">
     <app-type>console</app-type>
     <runtime-libs>dynamic</runtime-libs>
@@ -178,6 +180,7 @@
     <sys-lib>$(substituteFromDict(WX_DEBUG,{'0':'cppunit','1':'cppunitd'}))</sys-lib>
   </exe>
 
+ </if>
 
   <dll id="cal" template="wxlike">
     <dllname>cal</dllname>
@@ -273,6 +276,8 @@
     <include>$(LOCAL_INC)</include>
   </dll>
 
+ <if cond="EXCLUDE_UTIL=='0'">
+
   <exe id="file2cpp" template="wxconsole,wxlike">
     <app-type>console</app-type>
     <runtime-libs>dynamic</runtime-libs>
@@ -280,6 +285,8 @@
     <sources>$(LOCAL_UTIL)/file2cpp/file2cpp.cpp</sources>
     <wx-lib>base</wx-lib>
   </exe>
+
+ </if>
 
 </makefile>
 
