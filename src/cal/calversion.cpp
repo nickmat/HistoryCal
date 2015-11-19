@@ -60,7 +60,10 @@ const char* Cal::cal_version = VERSION_NUM VERSION_CONFIG;
  24may15  v0.2.5  Add Islamic tabular calendars. Add Scottish hybrid and
                   regnal calendars. Improve format system.
 
-  active  v0.2.6  
+ 18nov15  v0.2.6  Add optional fields to records and allow field ranking.
+                  Get liturgical calendars working.
+                  Add "jce", "gce" and "ay" default calendars.
+                  Add "if/endif" and "do/loop" statements to script language.
 
 *****************************************************************************/
 

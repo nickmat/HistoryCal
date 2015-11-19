@@ -1,6 +1,6 @@
 HistoryCal Calulator Changes History
 
-Active Version 0.0.5 alpha
+18 Nov 2015 Version 0.0.5 alpha
 - Use Cal library v0.2.6
 
 24 May 2015 Version 0.0.4 alpha

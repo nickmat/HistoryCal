@@ -1,6 +1,18 @@
 Cal Library Change History
 
-Active Version 0.2.6
+18 Nov 2015 Version 0.2.6
+- Add Astronomical Year ("ay") calendar scheme.
+- Add Julian and Gregorian CE/BCE calendars ("jce" and "gce").
+- Extend script language with "do/while/until/loop" statement.
+- Extend script language with "if/elseif/else/endif" statement.
+- Other script language improvements.
+- Add optional fields to records, replacing extended fields.
+- Ambiguous dates can now be resolved using optional fields.
+- Formats can now specify separate output and output formats.
+- Allow records to rank its fields for input/output priority.
+- Extend the calendar Format to include field ranking.
+- Christian Liturgical calendars now working correctly.
+- Other bug fixes.
 
 24 May 2015 Version 0.2.5
 - Add Tabular Islamic calendar with various options.

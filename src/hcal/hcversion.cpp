@@ -79,7 +79,7 @@ const char* hcTitle = "HistoryCal - V" VERSION "\n"
 
  24may15  v0.0.4   Use Cal library version 0.2.5.
 
-  active  v0.0.5   Use Cal library version 0.2.6.
+ 18nov15  v0.0.5   Use Cal library version 0.2.6.
 
  See also website http://historycal.org
 
