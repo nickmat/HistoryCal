@@ -1,7 +1,7 @@
             HistoryCal Release Check List
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Note, the version numbers used in the svn-trunk refer to the proposed future release number.
+Note, the version numbers used in the git-trunk refer to the proposed future release number.
 
 
 Check the program release version running on Windows, Ubuntu (Unity and Mint) (and soon, the Mac).
@@ -14,7 +14,7 @@ Check the program release version running on Windows, Ubuntu (Unity and Mint) (a
 
 -) Ensure docs/cal-lib-changes.txt and docs/hcal-changes.txt are up to date.
 
--) Check pack/win/tfp.nsi for version number, copyright date and sample files.
+-) Check pack/win/hcal.nsi for version number, copyright date and sample files.
 
 -) Check pack/win/license.txt for (c) date.
 
@@ -24,7 +24,11 @@ Check the program release version running on Windows, Ubuntu (Unity and Mint) (a
 
 -) Check pack/pack-all.bat batch file for final file version number.
 
--) run pack/pack-all.
+-) Check pack/src/createsource.bat for changes
+
+-) Ensure unused files will not be included with source.
+
+-) Run pack/pack-all.
 
 -) Test resultant windows installer.
 

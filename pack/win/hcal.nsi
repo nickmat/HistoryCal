@@ -8,18 +8,18 @@
 ;* Copyright:   Copyright (c) 2014-2015, Nick Matthews.
 ;* Licence:     GNU GPLv3
 ;*
-;*  The Family Pack is free software: you can redistribute it and/or modify
+;*  HistoryCal is free software: you can redistribute it and/or modify
 ;*  it under the terms of the GNU General Public License as published by
 ;*  the Free Software Foundation, either version 3 of the License, or
 ;*  (at your option) any later version.
 ;*
-;*  The Family Pack is distributed in the hope that it will be useful,
+;*  HistoryCal is distributed in the hope that it will be useful,
 ;*  but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ;*  GNU General Public License for more details.
 ;*
 ;*  You should have received a copy of the GNU General Public License
-;*  along with The Family Pack.  If not, see <http://www.gnu.org/licenses/>.
+;*  along with HistoryCal.  If not, see <http://www.gnu.org/licenses/>.
 ;*
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
@@ -34,7 +34,7 @@
 !define VERSION_DOT   "0.0.5.0"
 !define VERSION_TXT   "V${VERSION_DOT} alpha"
 !define LICENSE       "license.txt"
-!define DESCRIPTION   "Historical Calendar Application Installer"
+!define DESCRIPTION   "HistoryCal Application Installer"
 !define COPYRIGHT     "2014 ~ 2015 @ Nick Matthews"
 
 !define DOC_PATH      "$DOCUMENTS\${HCALNAME}"
@@ -95,7 +95,7 @@ Var StartMenuFolder
 
 !insertmacro MUI_UNPAGE_INSTFILES
 
-!define MUI_FINISHPAGE_TEXT "The Family Pack has been uninstalled from your computer but example and user created data files have NOT be deleted. Use File Explorer to delete these files manually.$\r$\n$\r$\nThe Family Pack data files are normally found in the$\r$\n${DOC_PATH}$\r$\nfolder.$\r$\n$\r$\nClick Finish to close this wizard."
+!define MUI_FINISHPAGE_TEXT "The HistoryCal application has been uninstalled from your computer but example and user created script files have NOT be deleted. Use File Explorer to delete these files manually.$\r$\n$\r$\nThe HistoryCal files are normally found in the$\r$\n${DOC_PATH}$\r$\nfolder.$\r$\n$\r$\nClick Finish to close this wizard."
 !insertmacro MUI_UNPAGE_FINISH
 
 ;--------------------------------
@@ -158,12 +158,13 @@ Section "Examples" InstallExamples
   SetOutPath      "${EXAMPLE_PATH}"
 
   File "day-counts.hcs"
+  File "easter.hcs"
+  File "html-format.hcs"
   File "Islamic-Ia.hcs"
   File "Islamic-Ic.hcs"
   File "Islamic-IIIc.hcs"
   File "Islamic-IVa.hcs"
   File "Islamic-IVc.hcs"
-  File "html-format.hcs"
   File "misc-calc.hcs"
   File "today-is.hcs"
 
