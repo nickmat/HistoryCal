@@ -1,0 +1,33 @@
+// easter.hcs example file to display a list of Easter Sundays.
+
+mark "test-easter";
+clear
+
+let start = 1950;
+let finish = 1955;
+
+scheme "J-EASTER" {
+  name "Julian Easter Test";
+  base julian;
+  optional "easter";
+}
+
+scheme "G-EASTER" {
+  name "Gregorian Easter Test";
+  base gregorian;
+  optional "easter";
+}
+
+writeln "Easter Sunday for years " + start + " to " + finish + ":";
+writeln "";
+
+do
+  let d = date "g:ymd#" + start + " 1 1";
+  let e = d["G-EASTER:easter"];
+  writeln str,"g:dmy+" e;
+  until start = finish;
+  start += 1;
+loop
+
+mark "test-easter";
+clear
