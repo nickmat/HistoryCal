@@ -81,7 +81,8 @@ namespace Cal {
         Vocab* create_vocab( const std::string& code );
         Vocab* get_vocab( const std::string& code ) const;
         Format* create_format( const std::string& code );
-        void add_or_replace_mark( std::string& name );
+        void add_or_replace_mark( const std::string& name );
+        bool clear_mark( const std::string& name );
         ScriptStore* get_store() const { return m_store; }
 
     private:

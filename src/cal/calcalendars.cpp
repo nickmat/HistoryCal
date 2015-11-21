@@ -44,8 +44,8 @@
 #include <fstream>
 #include <sstream>
 
-using namespace std;
 using namespace Cal;
+using std::string;
 
 
 Calendars::Calendars( Init_schemes init )
@@ -81,8 +81,8 @@ const char* Calendars::version()
 
 string Calendars::run_script( const string& script )
 {
-    istringstream iss( script );
-    ostringstream oss;
+    std::istringstream iss( script );
+    std::ostringstream oss;
     Script scr( this, iss, oss );
     scr.run();
     return oss.str();
@@ -90,8 +90,8 @@ string Calendars::run_script( const string& script )
 
 string Calendars::run_script_file( const string& filename )
 {
-    ifstream ifs( filename.c_str() );
-    ostringstream oss;
+    std::ifstream ifs( filename.c_str() );
+    std::ostringstream oss;
     Script scr( this, ifs, oss );
     scr.run();
     return oss.str();
@@ -288,8 +288,8 @@ RangeList Calendars::expr_str_to_rangelist( SHandle scheme, const string& str )
     }
     script += "let result = " + parse_date_expr( str ) + ";";
 
-    istringstream iss( script );
-    ostringstream oss;
+    std::istringstream iss( script );
+    std::ostringstream oss;
     Script scr( this, iss, oss );
     scr.run();
 
@@ -399,52 +399,59 @@ Format* Calendars::create_format( const string& code )
     return fmt;
 }
 
-void Calendars::add_or_replace_mark( std::string& name )
+void Calendars::add_or_replace_mark( const string& name )
 {
-    assert( m_marks.size() > 0 );
-    assert( name.size() > 0 );
+    clear_mark( name );
+    Mark* mark = new Mark( name );
+    m_marks.push_back( mark );
+}
+
+bool Calendars::clear_mark( const string& name )
+{
+    assert( !m_marks.empty() );
+    assert( !name.empty() );
     size_t end, pos;
     end = pos = m_marks.size() - 1;
     while( pos != 0 && name != m_marks[pos]->get_name() ) {
         --pos;
     }
-    if( pos > 0 ) {
-        for( size_t i = end ; i >= pos ; --i ) {
-            string code;
-            // We must remove the Format's before removing the Grammar's 
-            for(;;) { 
-                code = m_marks[i]->remove_next_format();                
-                if( code.empty() ) {
-                    break;
-                }
-            }
-            for(;;) { 
-                code = m_marks[i]->remove_next_scheme();                
-                if( code.empty() ) {
-                    break;
-                }
-                m_shandles.erase( code );
-            }
-            for(;;) { 
-                code = m_marks[i]->remove_next_grammar();                
-                if( code.empty() ) {
-                    break;
-                }
-                m_grammars.erase( code );
-            }
-            for(;;) { 
-                code = m_marks[i]->remove_next_vocab();                
-                if( code.empty() ) {
-                    break;
-                }
-                m_vocabs.erase( code );
-            }
-            delete m_marks[i];
-            m_marks.pop_back();
-        }
+    if( pos == 0 ) {
+        return false; // Can't find mark name.
     }
-    Mark* mark = new Mark( name );
-    m_marks.push_back( mark );
+    for( size_t i = end ; i >= pos ; --i ) {
+        string code;
+        // We must remove the Format's before removing the Grammar's 
+        for(;;) { 
+            code = m_marks[i]->remove_next_format();                
+            if( code.empty() ) {
+                break;
+            }
+        }
+        for(;;) { 
+            code = m_marks[i]->remove_next_scheme();                
+            if( code.empty() ) {
+                break;
+            }
+            m_shandles.erase( code );
+        }
+        for(;;) { 
+            code = m_marks[i]->remove_next_grammar();                
+            if( code.empty() ) {
+                break;
+            }
+            m_grammars.erase( code );
+        }
+        for(;;) { 
+            code = m_marks[i]->remove_next_vocab();                
+            if( code.empty() ) {
+                break;
+            }
+            m_vocabs.erase( code );
+        }
+        delete m_marks[i];
+        m_marks.pop_back();
+    }
+    return true;
 }
 
 namespace {
