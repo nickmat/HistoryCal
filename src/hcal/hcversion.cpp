@@ -45,7 +45,7 @@
 #define VERSION_CONFIG   " debug"
 #endif
 
-#define VERSION_NUM   "0.0.5"
+#define VERSION_NUM   "0.0.6"
 
 
 #define VERSION   VERSION_NUM VERSION_STATUS VERSION_CONFIG
@@ -80,6 +80,8 @@ const char* hcTitle = "HistoryCal - V" VERSION "\n"
  24may15  v0.0.4   Use Cal library version 0.2.5.
 
  18nov15  v0.0.5   Use Cal library version 0.2.6.
+
+  active  v0.0.6   Use Cal library version 0.2.7.
 
  See also website http://historycal.org
 
