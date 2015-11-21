@@ -1,0 +1,18 @@
+// clear001.hcs Test file to test mark and clear statements
+
+clear;
+mark "test0";
+mark "test1";
+
+scheme "j-test" { base julian; }
+
+clear "test1";
+scheme "j-test" { base julian; }
+
+write "Ok so far";
+
+clear "test0";
+
+/*[OUTPUT]
+Ok so far
+[OUTPUT]*/

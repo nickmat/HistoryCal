@@ -81,6 +81,7 @@ bool Script::statement()
     if( token.type() == SToken::STT_Name ) {
         string name = token.get_str();
         if( name == "end" ) return false;
+        if( name == "mark" ) return do_mark();
         if( name == "clear" ) return do_clear();
         if( name == "if" ) return do_if();
         if( name == "do" ) return do_do();
@@ -88,7 +89,6 @@ bool Script::statement()
         if( name == "let" ) return do_let();
         if( name == "write" ) return do_write();
         if( name == "writeln" ) return do_writeln();
-        if( name == "mark" ) return do_mark();
         if( name == "scheme" ) return do_scheme();
         if( name == "vocab" ) return do_vocab();
         if( name == "grammar" ) return do_grammar();
@@ -101,8 +101,37 @@ bool Script::statement()
     return error( "Unrecognised statement." ); 
 }
 
+bool Script::do_mark()
+{
+    string mark;
+    expr( true ).get( mark );
+    if( m_ts.current().type() != SToken::STT_Semicolon ) {
+        error( "';' expected." );
+        return false;
+    }
+    if( mark.empty() ) {
+        error( "Mark name string expected." );
+        return false;
+    }
+    m_cals->add_or_replace_mark( mark );
+    return true;
+}
+
 bool Script::do_clear()
 {
+    string mark;
+    SToken token = m_ts.next();
+    if( token.type() != SToken::STT_Semicolon ) {
+        expr( false ).get( mark );
+        token = m_ts.current();
+    }
+    if( token.type() != SToken::STT_Semicolon ) {
+        error( "';' expected." );
+        return false;
+    }
+    if( !mark.empty() ) {
+        m_cals->clear_mark( mark );
+    }
     store()->table.clear();
     return true;
 }
@@ -350,18 +379,6 @@ bool Script::do_writeln()
     bool ret = do_write();
     *m_out << string("\n");
     return ret;
-}
-
-bool Script::do_mark()
-{
-    string mark;
-    expr( true ).get( mark );
-    if( mark.empty() ) {
-        error( "Mark name string expected." );
-        return false;
-    }
-    m_cals->add_or_replace_mark( mark );
-    return true;
 }
 
 bool Script::do_scheme()

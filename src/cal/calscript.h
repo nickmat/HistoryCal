@@ -49,6 +49,7 @@ namespace Cal {
         bool error( const std::string& mess ) { return m_ts.error( mess ); }
         ScriptStore* store() const;
         bool statement();
+        bool do_mark();
         bool do_clear();
         bool do_if();
         bool do_do();
@@ -57,7 +58,6 @@ namespace Cal {
         bool do_assign( const std::string& name );
         bool do_write();
         bool do_writeln();
-        bool do_mark();
         bool do_scheme();
         SHandle do_create_scheme( const std::string& code );
         Base* do_base();

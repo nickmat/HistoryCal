@@ -1,6 +1,6 @@
 // let006.hcs Test file to test let statement
 
-clear
+clear;
 
 let x = "Value X";
 

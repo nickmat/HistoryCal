@@ -1,7 +1,7 @@
 // easter002.hcs Test file to test using easter dates
 
 mark "test-easter";
-clear
+clear;
 
 let d = date "g:dmy# 1 Jan 1900";
 
@@ -14,7 +14,7 @@ scheme "GEASTER" {
 write "Easter Day is: " + str,"g:dmy" { d["g:year"], d["GEASTER:eastermonth"], d["GEASTER:easterday"] };
 
 mark "test-easter";
-clear
+clear;
 
 */
 /*[OUTPUT]

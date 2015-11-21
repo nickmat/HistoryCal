@@ -1,7 +1,7 @@
 // easter001.hcs Test file to test using easter dates
 
 mark "test-easter";
-clear
+clear;
 
 let d = date "j:dmy# 1 Jan 1200";
 
@@ -14,7 +14,7 @@ scheme "easter-test" {
 write str,"easter-test" d;
 
 mark "test-easter";
-clear
+clear;
 
 */
 /*[OUTPUT]

@@ -1,7 +1,7 @@
 // let???.hcs Test file to test let statement
 
 mark "test-easter";
-clear
+clear;
 
 scheme "G-EASTER" {
   name "Gregorian Easter Test";
@@ -18,7 +18,7 @@ do
 until y > 1955 loop
 
 mark "test-easter";
-clear
+clear;
 
 */
 /*[OUTPUT]
