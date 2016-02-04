@@ -161,6 +161,7 @@ void TestDef_i::testStringInput()
         { "ahad15dhual-qi'dah1367", "wdmy.a", "Ahad 15 Dhu al-Qi'dah 1367", 2432814, 2432814 },
         { "15dhual-qi'dah1367", "dmy.a", "15 Dhu al-Qi'dah 1367", 2432814, 2432814 },
         { "15dhual-qi'dah-10", "dmy.a", "15 Dhu al-Qi'dah -10", 1944851, 1944851 },
+        { "15Jum\304\201d\303\241 al-\304\200khira1300", "dmy", "15 Jum\304\201d\303\241 al-\304\200khira 1300", 2408924, 2408924 },
     };
     size_t count = sizeof(t) / sizeof(data);
 

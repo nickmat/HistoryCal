@@ -340,12 +340,14 @@ Record::CP_Group Record::get_cp_group(
     }
     if( ch == '-' ) {
         // If hyphen is followed by a digit treat as digit
-        if( it+1 != end && isdigit( *(it+1) ) ) {
-            return GRP_Digit;
-        } else {
-            // Otherwise treat it as text
-            return GRP_Other;
-        }
+		if( it+1 != end ) {
+		    int ch1 = *(it+1);
+			if( ch1 > 0 && isdigit( ch1 ) ) {
+				return GRP_Digit;
+			}
+		}
+        // Otherwise treat it as text
+		return GRP_Other;
     }
     if( ch == '/' ) {
         return GRP_Dual;
