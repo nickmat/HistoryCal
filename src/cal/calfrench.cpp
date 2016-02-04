@@ -53,8 +53,9 @@ namespace {
         return localfromapparent - paris_longitude / 360;
     }
 
-    bool fnyoob_min_func( Field jdn, Field constant )
+    bool fnyoob_min_func( Field jdn, const void* data )
     {
+        double constant = *static_cast<const double*>(data);
         return constant <= solar_longtitude( midnight_in_paris( jdn ) );
     }
 
@@ -62,7 +63,8 @@ namespace {
     {
         double approx =
             estimate_prior_solar_longitude( autumn, midnight_in_paris( jdn ) );
-        return min_search( (Field) approx - 1, fnyoob_min_func, (Field) autumn );
+        double c = autumn;
+        return min_search( (Field) approx - 1, fnyoob_min_func, &c );
     }
 
     Field french_last_day_in_month( Field year, Field month )

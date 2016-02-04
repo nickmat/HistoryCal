@@ -65,17 +65,17 @@ Field Cal::pos_mod( Field a, Field b )
     return r;
 }
 
-#define calSEARCH_MAX 10
+#define calSEARCH_MAX 30
 
 // CC3 p20
-Field Cal::min_search( Field start, calLongSearchFunc func, Field constant )
+Field Cal::min_search( Field start, calSearchFunc func, const void* data )
 {
     for( Field i = 0, d = start ; i < calSEARCH_MAX ; i++, d++ ) {
-        if( func( d, constant ) ) {
+        if( func( d, data ) ) {
             return d;
         }
     }
-    return 0;
+    return f_invalid;
 }
 
 int Cal::cal_signum( double n )
