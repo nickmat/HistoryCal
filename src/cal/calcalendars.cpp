@@ -279,9 +279,6 @@ RangeList Calendars::str_to_rangelist(
 RangeList Calendars::expr_str_to_rangelist( SHandle scheme, const string& str )
 {
     RangeList rlist;
-    if( scheme == NULL ) {
-        return rlist;
-    }
     string script;
     if( scheme ) {
         script = "set input \"" + scheme->get_code() + "\";\n";
