@@ -150,7 +150,7 @@ string Cal::parse_date_expr( const string& str )
                 script += *it;
                 it++;       // Step over dot, next char is treated as operator.
             } else {
-                date += *it; // Treat dot as part of date string.
+                date += *it; // Treat & as part of date string.
             }
             break;
         case '|': case '\\': case '^': case '!': case '(': case ')':
