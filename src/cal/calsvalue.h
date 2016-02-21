@@ -103,13 +103,14 @@ namespace Cal {
 
         Type type() const { return m_type; }
     private:
-        Field add( Field left, Field right ) const; 
-        Range add( Range range, Field field ) const; 
-        Range add( Range left, Range right ) const; 
-        RangeList add( RangeList rlist, Field field ) const; 
-        RangeList add( RangeList rlist, Range range ) const; 
-        Field multiply( Field left, Field right ) const; 
-        Field divide( Field left, Field right ) const; 
+        Field add( Field left, Field right ) const;
+        FieldVec add( const FieldVec& left, const FieldVec& right ) const;
+        Range add( Range range, Field field ) const;
+        Range add( Range left, Range right ) const;
+        RangeList add( RangeList rlist, Field field ) const;
+        RangeList add( RangeList rlist, Range range ) const;
+        Field multiply( Field left, Field right ) const;
+        Field divide( Field left, Field right ) const;
 
         Type        m_type;
         std::string m_str;

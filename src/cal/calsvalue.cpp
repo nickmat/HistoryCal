@@ -62,6 +62,7 @@ SValue::SValue( const SValue& value )
 void SValue::set_fields( const FieldVec& fields )
 {
     m_type = SVT_Fields;
+    m_rlist.clear();
     for( size_t i = 0 ; i < fields.size() ; i++ ) {
         Range range( fields[i], f_invalid );
         m_rlist.push_back( range );
@@ -447,6 +448,10 @@ void SValue::plus( const SValue& value )
         }
         return;
     }
+    if( type() == SVT_Fields && value.type() == SVT_Fields ) {
+        set_fields( add( get_fields(), value.get_fields() ) );
+        return;
+    }
     set_error( "Not able to add types." );
 }
 
@@ -648,6 +653,23 @@ Field SValue::add( Field left, Field right ) const
         return f_maximum;
     }
     return (Field) lf;
+}
+
+FieldVec SValue::add( const FieldVec& left, const FieldVec& right ) const
+{
+    FieldVec v;
+    for( size_t i = 0 ; i < left.size() || i < right.size() ; i++ ) {
+        if( i >= left.size() ) {
+            v.push_back( right[i] );
+            continue;
+        }
+        if( i >= right.size() ) {
+            v.push_back( left[i] );
+            continue;
+        }
+        v.push_back( add( left[i], right[i] ) );
+    }
+    return v;
 }
 
 Range SValue::add( Range range, Field field ) const

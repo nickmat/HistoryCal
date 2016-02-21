@@ -1,0 +1,14 @@
+// plus001.hcs Test file to test addition
+
+let f = 2432814 + 3;
+
+let m = { 1948, 9, 19 } + { 1, 2, 3 };
+
+write f + ", " + m;
+
+*/
+/*[OUTPUT]
+2432817, {1949, 11, 22}
+[OUTPUT]*/
+
+
