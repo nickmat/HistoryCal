@@ -1211,11 +1211,7 @@ SValue Script::primary( bool get )
         value = date_cast();
         break;
     case SToken::STT_mask:
-        {
-            value = primary( true );
-            SHandle sch = store()->ischeme;
-            value.set_fields( m_cals->str_to_fieldvec( sch, value.get_str() ) );
-        }
+        value = mask_cast();
         break;
     case SToken::STT_str_cast:
         value = str_cast();
@@ -1319,6 +1315,30 @@ SValue Script::date_cast()
         return value;
     }
     value.set( m_cals->str_to_rangelist( sch, str, fcode ) );
+    return value;
+}
+
+SValue Script::mask_cast()
+{
+    SToken token = m_ts.next();
+    SHandle sch = NULL;
+    string sig, scode, fcode;
+    if( token.type() == SToken::STT_Comma ) {
+        // Includes scheme:format signiture
+        expr( true ).get( sig );
+        split_code( &scode, &fcode, sig );
+        sch = m_cals->get_scheme( scode );
+    }
+    if( sch == NULL ) {
+        sch = store()->ischeme;
+    }
+    string str;
+    SValue value = sum( false );
+    if( !value.get( str ) ) {
+        error( "Expected a string expression." );
+        return value;
+    }
+    value.set_fields( m_cals->str_to_fieldvec( sch, str, fcode ) );
     return value;
 }
 

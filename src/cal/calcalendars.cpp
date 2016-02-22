@@ -192,20 +192,24 @@ string Calendars::fieldvec_to_str( SHandle scheme, const FieldVec& fieldv, const
     return "";
 }
 
-FieldVec Calendars::str_to_fieldvec( SHandle scheme, const string& str )
+FieldVec Calendars::str_to_fieldvec( SHandle scheme, const string& str, const string& fcode )
 {
-    string scode, fcode, dstr;
-    split_code_date( &scode, &fcode, &dstr, str );
+    string scode, fmtcode, dstr;
+    split_code_date( &scode, &fmtcode, &dstr, str );
     if( scode.size() ) {
         scheme = get_scheme( scode );
-        if( scheme && fcode.empty() ) {
-            fcode = scheme->get_pref_input_format();
-        }
     }
     if( scheme == NULL ) {
         return FieldVec(0);
     }
-    Record rec( scheme->get_base(), dstr, fcode );
+    if( fmtcode.empty() ) {
+        if( fcode.empty() ) {
+            fmtcode = scheme->get_pref_input_format();
+        } else {
+            fmtcode = fcode;
+        }
+    }
+    Record rec( scheme->get_base(), dstr, fmtcode );
     return rec.get_fieldvec();
 }
 

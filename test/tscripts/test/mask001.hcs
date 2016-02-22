@@ -1,0 +1,15 @@
+// plus002.hcs Test file to test addition
+
+//write mask date "19sep1948"  + { 1, 2, 3 };
+//set input g;
+//set output g;
+//write  date,"g:dmy" "19sep1948";
+write mask,"g:dmy" "19sep1948";
+//write mask "19sep1948";
+
+*/
+/*[OUTPUT]
+{1948, 9, 19, ?}
+[OUTPUT]*/
+
+

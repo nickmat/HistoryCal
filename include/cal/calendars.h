@@ -59,7 +59,7 @@ namespace Cal {
         DLLIMPEXP_CAL Field fieldvec_to_jdn( SHandle scheme, const FieldVec& fieldv );
         DLLIMPEXP_CAL FieldVec jdn_to_fieldvec( SHandle scheme, Field jdn );
         DLLIMPEXP_CAL std::string fieldvec_to_str( SHandle scheme, const FieldVec& fieldv, const std::string& fcode );
-        DLLIMPEXP_CAL FieldVec str_to_fieldvec( SHandle scheme, const std::string& str );
+        DLLIMPEXP_CAL FieldVec str_to_fieldvec( SHandle scheme, const std::string& str, const std::string& fcode = "" );
 
         DLLIMPEXP_CAL Field str_to_jdn( SHandle scheme, const std::string& str );
         DLLIMPEXP_CAL std::string jdn_to_str( SHandle scheme, Field jdn, const std::string& fcode = "" );
