@@ -41,6 +41,9 @@ namespace Cal {
     bool split_code_date( std::string* scheme, std::string* format, std::string* date, const std::string& str );
     bool split_code( std::string* scheme, std::string* format, const std::string& str );
     std::string parse_date_expr( const std::string& str );
+
+    inline bool u8_isspace( int ch ) { return ( ch > 0 && isspace( ch ) ); }
+    inline bool u8_isdigit( int ch ) { return ( ch > 0 && isdigit( ch ) ); }
 }
 
 #endif // CAL_CALPARSE_H_GUARD

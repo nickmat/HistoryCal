@@ -76,6 +76,7 @@ namespace Cal {
 
         bool is_mask_valid( Field* mask, size_t mask_size ) const;
         int get_field_index( const std::string& fieldname ) const;
+        int get_unit_index( const std::string& unitname ) const;
 
     private:
         void clear_fields();
@@ -87,10 +88,13 @@ namespace Cal {
         CP_Group get_cp_group( 
             std::string::const_iterator it,
             std::string::const_iterator end,
-            Format* fmt );
-        Field get_token_value( Vocab** vocab, const std::string& str );
+            Format* fmt ) const;
+        Field get_token_value( Vocab** vocab, const std::string& str ) const;
         Field get_dual2_value( Field dual1, const std::string& str2 ) const;
         int parse_date( InputField* ifs, size_t size, const std::string& str, Format* fmt );
+
+        void set_field_by_unit( const std::string& value, const std::string& unit );
+        void parse_units( const std::string& str );
 
         std::string formatted_str(
             Field field, const std::string& format, const std::string& specifier ) const;

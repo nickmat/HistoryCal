@@ -91,6 +91,10 @@ void Record::set_str( const string& str, const string& fcode )
     } else {
         fc = fcode;
     }
+    if( fcode == "u" ) {
+        parse_units( in );
+        return;
+    }
     Format* fmt = m_base->get_format( fc );
     if( fmt == NULL ) {
         return;
@@ -325,8 +329,14 @@ int Record::get_field_index( const string& fieldname ) const
     return m_base->get_fieldname_index( fn );
 }
 
+int Record::get_unit_index( const string& unitname ) const
+{
+    string fn = m_base->get_alias_fieldname( unitname );
+    return m_base->get_fieldname_index( fn );
+}
+
 Record::CP_Group Record::get_cp_group(
-    string::const_iterator it, string::const_iterator end, Format* fmt )
+    string::const_iterator it, string::const_iterator end, Format* fmt ) const
 {
     int ch = *it;
     if( ch < 0 ) {  // eliminate non-ascii 
@@ -361,7 +371,7 @@ Record::CP_Group Record::get_cp_group(
     return GRP_Other;
 }
 
-Field Record::get_token_value( Vocab** vocab, const string& str )
+Field Record::get_token_value( Vocab** vocab, const string& str ) const
 {
     Grammar* gmr = m_base->get_grammar();
     if( gmr ) {
@@ -475,6 +485,53 @@ int Record::parse_date( InputField* ifs, size_t size, const string& str, Format*
         }
     }
     return i;
+}
+
+void Record::set_field_by_unit( const std::string& value, const std::string& unit )
+{
+    Field v = str_to_field( value );
+    if( v == 0 ) {
+        return;
+    }
+    int i = get_unit_index( unit );
+    if( i < 0 ) {
+        return;
+    }
+    m_f[i] = v;
+}
+
+// A unit string is parsed as a list of a number and unit-name pairs,
+// where the unit matches a fieldname or its alias.
+void Record::parse_units( const string& str )
+{
+    enum step_t { START, VALUE, UNIT };
+    step_t step = START;
+    string value, unit;
+    for( string::const_iterator it = str.begin() ; it != str.end() ; it++ ) {
+        int ch = *it;
+        if( u8_isspace( ch ) ) {
+            continue;
+        }
+        if( step != VALUE && ( ch == '-' || u8_isdigit( ch ) ) ) {
+            if( !value.empty() ) {
+                set_field_by_unit( value, unit );
+            }
+            value.clear();
+            unit.clear();
+            step = VALUE;
+            value += ch;
+            continue;
+        }
+        if( step == VALUE ) {
+            if( u8_isdigit( ch ) ) {
+                value += ch;
+                continue;
+            }
+            step = UNIT;
+        }
+        unit += ch;
+    }
+    set_field_by_unit( value, unit );
 }
 
 Field Record::get_field( int index ) const
