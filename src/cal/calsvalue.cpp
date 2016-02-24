@@ -667,7 +667,13 @@ FieldVec SValue::add( const FieldVec& left, const FieldVec& right ) const
             v.push_back( left[i] );
             continue;
         }
-        v.push_back( add( left[i], right[i] ) );
+        Field f = f_invalid;
+        if( !( left[i] == f_invalid && right[i] == f_invalid ) ) {
+            Field l = left[i] == f_invalid ? 0 : left[i];
+            Field r = right[i] == f_invalid ? 0 : right[i];
+            f = add( l, r );
+        }
+        v.push_back( f );
     }
     return v;
 }
