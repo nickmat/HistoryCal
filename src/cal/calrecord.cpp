@@ -68,6 +68,25 @@ Record::Record( const Record& rec )
 {
 }
 
+void Record::set_jdn( Field jdn )
+{
+    clear_fields();
+    m_base->set_fields( &m_f[0], jdn );
+    m_jdn = jdn;
+}
+
+void Record::set_fields( const Field* fields, size_t size )
+{
+    for( size_t i = 0 ; i < m_f.size() ; i++ ) {
+        if( i >= size ) {
+            m_f[i] = f_invalid;
+        } else {
+            m_f[i] = fields[i];
+        }
+    }
+    m_jdn = get_jdn();
+}
+
 void Record::set_str( const string& str, const string& fcode )
 {
     clear_fields();
@@ -294,33 +313,29 @@ double Record::get_average_days( Unit unit ) const
     return m_base->get_average_days( &m_f[0], unit );
 }
 
-
-void Record::clear_fields()
+Field Record::get_field( int index ) const
 {
-    // Clears the registers
-    for( size_t i = 0 ; i < m_f.size() ; i++ ) {
-        m_f[i] = f_invalid;
-    }
-    m_jdn = f_invalid;
-}
-
-void Record::set_fields( const Field* fields, size_t size )
-{
-    for( size_t i = 0 ; i < m_f.size() ; i++ ) {
-        if( i >= size ) {
-            m_f[i] = f_invalid;
-        } else {
-            m_f[i] = fields[i];
+    if( index >= 0 ) {
+        if( index < (int) m_base->record_size() ) {
+            return m_f[index];
+        }
+        if( index < (int) m_base->extended_size() ) {
+            OptFieldID id = m_base->opt_index_to_id( index );
+            return m_base->get_opt_field( &m_f[0], m_jdn, id );
         }
     }
-    m_jdn = get_jdn();
+    return f_invalid;
 }
 
-void Record::set_jdn( Field jdn )
+bool Record::is_mask_valid( Field* mask, size_t mask_size ) const
 {
-    clear_fields();
-    m_base->set_fields( &m_f[0], jdn );
-    m_jdn = jdn;
+    size_t size = std::min( mask_size, m_base->extended_size() );
+    for( size_t i = 0 ; i < size ; i++ ) {
+        if( mask[i] != f_invalid && mask[i] != m_f[i] ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 int Record::get_field_index( const string& fieldname ) const
@@ -333,6 +348,15 @@ int Record::get_unit_index( const string& unitname ) const
 {
     string fn = m_base->get_alias_fieldname( unitname );
     return m_base->get_fieldname_index( fn );
+}
+
+void Record::clear_fields()
+{
+    // Clears the registers
+    for( size_t i = 0 ; i < m_f.size() ; i++ ) {
+        m_f[i] = f_invalid;
+    }
+    m_jdn = f_invalid;
 }
 
 Record::CP_Group Record::get_cp_group(
@@ -532,31 +556,6 @@ void Record::parse_units( const string& str )
         unit += ch;
     }
     set_field_by_unit( value, unit );
-}
-
-Field Record::get_field( int index ) const
-{
-    if( index >= 0 ) {
-        if( index < (int) m_base->record_size() ) {
-            return m_f[index];
-        }
-        if( index < (int) m_base->extended_size() ) {
-            OptFieldID id = m_base->opt_index_to_id( index );
-            return m_base->get_opt_field( &m_f[0], m_jdn, id );
-        }
-    }
-    return f_invalid;
-}
-
-bool Record::is_mask_valid( Field* mask, size_t mask_size ) const
-{
-    size_t size = std::min( mask_size, m_base->extended_size() );
-    for( size_t i = 0 ; i < size ; i++ ) {
-        if( mask[i] != f_invalid && mask[i] != m_f[i] ) {
-            return false;
-        }
-    }
-    return true;
 }
 
 string Record::formatted_str( 
