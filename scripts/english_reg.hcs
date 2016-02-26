@@ -174,124 +174,124 @@ scheme "er" {
                         scheme "j";
                     }
                     era {  // John year 1
-                        range date "j:dmy#27May1199" ~ date "j:dmy#17May1200";
-                        scheme 1 { shift "j", date "j:dmy#27May1199"; }
+                        range 2159139 ~ 2159495;
+                        scheme 1 { shift "j", 2159139; }
                     }
                     era {  // John year 2
-                        range date "j:dmy#18May1200" ~ date "j:dmy#2May1201";
-                        scheme 2 { shift "j", date "j:dmy#18May1200"; }
+                        range 2159496 ~ 2159845;
+                        scheme 2 { shift "j", 2159496; }
                     }
                     era {  // John year 3
-                        range date "j:dmy#3May1201" ~ date "j:dmy#22May1202";
+                        range 2159846 ~ 2160230;
                         scheme 3 {
                             hybrid {
                                 fields "year", "month", "day";
-                                scheme 0 { shift "j", date "j:dmy#3May1201"; }
-                                change date "j:dmy#3May1202";
-                                scheme 1 { shift "j", date "j:dmy#3May1202"; }
+                                scheme 0 { shift "j", 2159846; }
+                                change 2160211;
+                                scheme 1 { shift "j", 2160211; }
                             }
                         }
                         match "scheme", "john-part";
                     }
                     era {  // John year 4
-                        range date "j:dmy#23May1202" ~ date "j:dmy#14May1203";
-                        scheme 4 { shift "j", date "j:dmy#23May1202"; }
+                        range 2160231 ~ 2160587;
+                        scheme 4 { shift "j", 2160231; }
                     }
                     era {  // John year 5
-                        range date "j:dmy#15May1203" ~ date "j:dmy#2Jun1204";
+                        range 2160588 ~ 2160972;
                         scheme 5 {
                             hybrid {
                                 fields "year", "month", "day";
-                                scheme 0 { shift "j", date "j:dmy#15May1203"; }
-                                change date "j:dmy#15May1204";
-                                scheme 1 { shift "j", date "j:dmy#15May1204"; }
+                                scheme 0 { shift "j", 2160588; }
+                                change 2160954;
+                                scheme 1 { shift "j", 2160954; }
                             }
                         }
                         match "scheme", "john-part";
                     }
                     era {  // John year 8
-                        range date "j:dmy#3Jun1204" ~ date "j:dmy#18May1205";
-                        scheme 6 { shift "j", date "j:dmy#3Jun1204"; }
+                        range 2160973 ~ 2161322;
+                        scheme 6 { shift "j", 2160973; }
                     }
                     era {  // John year 7
-                        range date "j:dmy#19May1205" ~ date "j:dmy#10May1206";
-                        scheme 7 { shift "j", date "j:dmy#19May1205"; }
+                        range 2161323 ~ 2161679;
+                        scheme 7 { shift "j", 2161323; }
                     }
                     era {  // John year 8
-                        range date "j:dmy#11May1206" ~ date "j:dmy#30May1207";
+                        range 2161680 ~ 2162064;
                         scheme 8 {
                             hybrid {
                                 fields "year", "month", "day";
-                                scheme 0 { shift "j", date "j:dmy#11May1206"; }
-                                change date "j:dmy#11May1207";
-                                scheme 1 { shift "j", date "j:dmy#11May1207"; }
+                                scheme 0 { shift "j", 2161680; }
+                                change 2162045;
+                                scheme 1 { shift "j", 2162045; }
                             }
                         }
                         match "scheme", "john-part";
                     }
                     era {  // John year 9
-                        range date "j:dmy#31May1207" ~ date "j:dmy#14May1208";
-                        scheme 9 { shift "j", date "j:dmy#31May1207"; }
+                        range 2162065 ~ 2162414;
+                        scheme 9 { shift "j", 2162065; }
                     }
                     era {  // John year 10
-                        range date "j:dmy#15May1208" ~ date "j:dmy#6May1209";
-                        scheme 10 { shift "j", date "j:dmy#15May1208"; }
+                        range 2162415 ~ 2162771;
+                        scheme 10 { shift "j", 2162415; }
                     }
                     era {  // John year 11
-                        range date "j:dmy#7May1209" ~ date "j:dmy#26May1210";
+                        range 2162772 ~ 2163156;
                         scheme 11 {
                             hybrid {
                                 fields "year", "month", "day";
-                                scheme 0 { shift "j", date "j:dmy#7May1209"; }
-                                change date "j:dmy#7May1210";
-                                scheme 1 { shift "j", date "j:dmy#7May1210"; }
+                                scheme 0 { shift "j", 2162772; }
+                                change 2163137;
+                                scheme 1 { shift "j", 2163137; }
                             }
                         }
                         match "scheme", "john-part";
                     }
                     era {  // John year 12
-                        range date "j:dmy#27May1210" ~ date "j:dmy#11May1211";
-                        scheme 12 { shift "j", date "j:dmy#27May1210"; }
+                        range 2163157 ~ 2163506;
+                        scheme 12 { shift "j", 2163157; }
                     }
                     era {  // John year 13
-                        range date "j:dmy#12May1211" ~ date "j:dmy#2May1212";
-                        scheme 13 { shift "j", date "j:dmy#12May1211"; }
+                        range 2163507 ~ 2163863;
+                        scheme 13 { shift "j", 2163507; }
                     }
                     era {  // John year 14
-                        range date "j:dmy#3May1212" ~ date "j:dmy#22May1213";
+                        range 2163864 ~ 2164248;
                         scheme 14 {
                             hybrid {
                                 fields "year", "month", "day";
-                                scheme 0 { shift "j", date "j:dmy#3May1212"; }
-                                change date "j:dmy#3May1213";
-                                scheme 1 { shift "j", date "j:dmy#3May1213"; }
+                                scheme 0 { shift "j", 2163864; }
+                                change 2164229;
+                                scheme 1 { shift "j", 2164229; }
                             }
                         }
                         match "scheme", "john-part";
                     }
                     era {  // John year 15
-                        range date "j:dmy#23May1213" ~ date "j:dmy#7May1214";
-                        scheme 15 { shift "j", date "j:dmy#23May1213"; }
+                        range 2164249 ~ 2164598;
+                        scheme 15 { shift "j", 2164249; }
                     }
                     era {  // John year 16
-                        range date "j:dmy#8May1214" ~ date "j:dmy#27May1215";
+                        range 2164599 ~ 2164983;
                         scheme 16 {
                             hybrid {
                                 fields "year", "month", "day";
-                                scheme 0 { shift "j", date "j:dmy#8May1214"; }
-                                change date "j:dmy#8May1215";
-                                scheme 1 { shift "j", date "j:dmy#8May1215"; }
+                                scheme 0 { shift "j", 2164599; }
+                                change 2164964;
+                                scheme 1 { shift "j", 2164964; }
                             }
                         }
                         match "scheme", "john-part";
                     }
                     era {  // John year 17
-                        range date "j:dmy#28May1215" ~ date "j:dmy#18May1216";
-                        scheme 17 { shift "j", date "j:dmy#28May1215"; }
+                        range 2164984 ~ 2165340;
+                        scheme 17 { shift "j", 2164984; }
                     }
                     era {  // John year 18
-                        range date "j:dmy#19May1216" ~ date "j:dmy#19Oct1216";
-                        scheme 18 { shift "j", date "j:dmy#19May1216"; }
+                        range 2165341 ~ 2165494;
+                        scheme 18 { shift "j", 2165341; }
                     }
                 }
             }
