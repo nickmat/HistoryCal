@@ -4,5 +4,4 @@
 set input "g";
 let answer = date "er#vic" & date "1890~1910" & ! date "1899";
 
-set output "g";
-write "Answer = " + str answer;
+write "Answer = " + str,"g:dmy" answer;

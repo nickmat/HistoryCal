@@ -6,12 +6,14 @@ mark "test1";
 
 scheme "j-test" { base julian; }
 
-clear "test1";
+clear "test0";
+
+mark "test";
 scheme "j-test" { base julian; } // This would be an error if j-test already exists.
 
 write "Ok so far";
 
-clear "test0";
+clear "test";
 
 /*[OUTPUT]
 Ok so far
