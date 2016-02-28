@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2015, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCal is free software: you can redistribute it and/or modify
@@ -63,7 +63,7 @@ wxString RangesToString( RangeList rlist )
     wxString str;
     for( size_t i = 0 ; i < rlist.size() ; i++ ) {
         if( i > 0 ) {
-            str << " ";
+            str << " | ";
         }
         if( rlist[i].jdn1 == f_minimum ) {
             str << "min";
