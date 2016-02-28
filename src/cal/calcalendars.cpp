@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     19th September 2013
- * Copyright:   Copyright (c) 2013-2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -68,8 +68,8 @@ Calendars::Calendars( Init_schemes init )
 
 Calendars::~Calendars()
 {
-    for( size_t i = 0 ; i < m_marks.size() ; i++ ) {
-        delete m_marks[i];
+    for( size_t i = m_marks.size() ; i > 0 ; --i ) {
+        delete m_marks[i-1];
     }
     delete m_store;
 }
