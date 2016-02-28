@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     7th May 2014
- * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -1309,7 +1309,7 @@ SValue Script::date_cast()
         sch = store()->ischeme;
     }
     string str;
-    SValue value = sum( false );
+    SValue value = primary( false );
     if( !value.get( str ) ) {
         error( "Expected a string expression." );
         return value;

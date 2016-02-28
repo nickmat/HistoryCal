@@ -1,7 +1,7 @@
 // easter.hcs example file to display a list of Easter Sundays.
 
 mark "test-easter";
-clear
+clear;
 
 let start = 1950;
 let finish = 1955;
@@ -22,12 +22,11 @@ writeln "Easter Sunday for years " + start + " to " + finish + ":";
 writeln "";
 
 do
-  let d = date "g:ymd#" + start + " 1 1";
+  let d = date ( "g:ymd#" + start + " 1 1" );
   let e = d["G-EASTER:easter"];
   writeln str,"g:dmy+" e;
   until start = finish;
   start += 1;
 loop
 
-mark "test-easter";
-clear
+clear "test-easter";
