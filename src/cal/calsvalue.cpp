@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     24th June 2014
- * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -52,16 +52,16 @@ SValue::SValue( const SValue& value )
     case SVT_Range:
         m_range = value.m_range;
         break;
-    case SVT_Fields:
+    case SVT_Record:
     case SVT_RList:
         m_rlist = value.m_rlist;
         break;
     }
 }
 
-void SValue::set_fields( const FieldVec& fields )
+void SValue::set_record( const FieldVec& fields )
 {
-    m_type = SVT_Fields;
+    m_type = SVT_Record;
     m_rlist.clear();
     for( size_t i = 0 ; i < fields.size() ; i++ ) {
         Range range( fields[i], f_invalid );
@@ -131,7 +131,7 @@ bool SValue::get( string& str ) const
             }
         }
         return true;
-    case SVT_Fields:
+    case SVT_Record:
         str += "{";
         for( size_t i = 0 ; i < m_rlist.size() ; i++ ) {
             if( i > 0 ) {
@@ -207,9 +207,9 @@ RangeList SValue::get_rlist() const
     return m_rlist;
 }
 
-FieldVec SValue::get_fields() const
+FieldVec SValue::get_record() const
 {
-    assert( m_type == SVT_Fields );
+    assert( m_type == SVT_Record );
     FieldVec fields;
     for( size_t i = 0 ; i < m_rlist.size() ; i++ ) {
         fields.push_back( m_rlist[i].jdn1 );
@@ -448,8 +448,8 @@ void SValue::plus( const SValue& value )
         }
         return;
     }
-    if( type() == SVT_Fields && value.type() == SVT_Fields ) {
-        set_fields( add( get_fields(), value.get_fields() ) );
+    if( type() == SVT_Record && value.type() == SVT_Record ) {
+        set_record( add( get_record(), value.get_record() ) );
         return;
     }
     set_error( "Not able to add types." );
@@ -568,7 +568,7 @@ void SValue::subscript_op( const SValue& value )
     if( propagate_error( value ) ) {
         return;
     }
-    if( m_type == SVT_RList || m_type == SVT_Fields ) {
+    if( m_type == SVT_RList || m_type == SVT_Record ) {
         Field index = value.get_field();
         if( index < 0 || index >= (Field) m_rlist.size() ) {
             set_error( "Subscript out of range." );

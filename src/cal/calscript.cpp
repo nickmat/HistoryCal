@@ -1283,8 +1283,8 @@ SValue Script::str_cast()
         error( "Valid scheme not set." );
         return value;
     }
-    if( value.type() == SValue::SVT_Fields ) {
-        Field jdn = sch->fieldvec_to_jdn( value.get_fields() );
+    if( value.type() == SValue::SVT_Record ) {
+        Field jdn = sch->fieldvec_to_jdn( value.get_record() );
         value.set_str( sch->jdn_to_str( jdn, fcode ) );
     } else {
         RangeList rlist;
@@ -1338,7 +1338,7 @@ SValue Script::mask_cast()
         error( "Expected a string expression." );
         return value;
     }
-    value.set_fields( m_cals->str_to_fieldvec( sch, str, fcode ) );
+    value.set_record( m_cals->str_to_fieldvec( sch, str, fcode ) );
     return value;
 }
 

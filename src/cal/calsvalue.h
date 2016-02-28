@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     24th June 2014
- * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -39,7 +39,7 @@ namespace Cal {
     public:
         enum Type { 
             SVT_Error, SVT_Null, 
-            SVT_Str, SVT_Bool, SVT_Field, SVT_Range, SVT_RList, SVT_Fields
+            SVT_Str, SVT_Bool, SVT_Field, SVT_Range, SVT_RList, SVT_Record
         };
         SValue() : m_type(SVT_Null) {}
         SValue( const SValue& value );
@@ -48,14 +48,14 @@ namespace Cal {
         SValue( Field field ) : m_type(SVT_Field) { m_range.jdn1 = field; }
         SValue( Range range ) : m_type(SVT_Range), m_range(range) {}
         SValue( const RangeList& rlist ) : m_type(SVT_RList), m_rlist(rlist) {}
-        SValue( const FieldVec& fields ) { set_fields( fields ); }
+        SValue( const FieldVec& fields ) { set_record( fields ); }
 
         void set_str( const std::string& str ) { m_type = SVT_Str; m_str = str; }
         void set_bool( bool b ) { m_type = SVT_Bool; m_range.jdn1 = b ? 1 : 0; }
         void set_field( Field field ) { m_type = SVT_Field; m_range.jdn1 = field; }
         void set_range( Range range ) { m_type = SVT_Range; m_range = range; }
         void set_rlist( RangeList rlist ) { m_type = SVT_RList; m_rlist = rlist; }
-        void set_fields( const FieldVec& fields );
+        void set_record( const FieldVec& fields );
 
         void set_error( const std::string& str );
 
@@ -66,7 +66,7 @@ namespace Cal {
         Field get_field() const;
         Range get_range() const;
         RangeList get_rlist() const;
-        FieldVec get_fields() const;
+        FieldVec get_record() const;
 
         bool get( std::string& str ) const;
         bool get( Field& field ) const;
