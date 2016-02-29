@@ -1,0 +1,12 @@
+// plus003.hcs Test file to test addition of records.
+
+set input "g:dmy";
+
+write record "19sep1948" + record,":u" "1Year 2Month -3Day";
+
+*/
+/*[OUTPUT]
+{1949, 11, 16, ?}
+[OUTPUT]*/
+
+

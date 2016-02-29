@@ -1,0 +1,9 @@
+// record001.hcs   Test file to test record cast
+
+write record,"g:dmy" "19sep1948";
+
+/*[OUTPUT]
+{1948, 9, 19, ?}
+[OUTPUT]*/
+
+

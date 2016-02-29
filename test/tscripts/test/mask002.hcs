@@ -1,7 +1,0 @@
-// mask002.hcs Test mask.
-
-write mask "g:dmy#21??";
-
-/*[OUTPUT]
-{?, ?, 21, ?}
-[OUTPUT]*/

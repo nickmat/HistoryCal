@@ -1,0 +1,7 @@
+// record002.hcs   Test file to test record cast.
+
+write record "g:dmy#21??";
+
+/*[OUTPUT]
+{?, ?, 21, ?}
+[OUTPUT]*/

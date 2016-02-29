@@ -1210,8 +1210,8 @@ SValue Script::primary( bool get )
     case SToken::STT_date:
         value = date_cast();
         break;
-    case SToken::STT_mask:
-        value = mask_cast();
+    case SToken::STT_record:
+        value = record_cast();
         break;
     case SToken::STT_str_cast:
         value = str_cast();
@@ -1318,7 +1318,7 @@ SValue Script::date_cast()
     return value;
 }
 
-SValue Script::mask_cast()
+SValue Script::record_cast()
 {
     SToken token = m_ts.next();
     SHandle sch = NULL;
@@ -1333,7 +1333,7 @@ SValue Script::mask_cast()
         sch = store()->ischeme;
     }
     string str;
-    SValue value = sum( false );
+    SValue value = primary( false );
     if( !value.get( str ) ) {
         error( "Expected a string expression." );
         return value;
