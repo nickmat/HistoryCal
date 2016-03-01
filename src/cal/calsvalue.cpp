@@ -53,15 +53,18 @@ SValue::SValue( const SValue& value )
         m_range = value.m_range;
         break;
     case SVT_Record:
+        m_str = value.m_str;
+        // Fall thru.
     case SVT_RList:
         m_rlist = value.m_rlist;
         break;
     }
 }
 
-void SValue::set_record( const FieldVec& fields )
+void SValue::set_record( const string& scode, const FieldVec& fields )
 {
     m_type = SVT_Record;
+    m_str = scode;
     m_rlist.clear();
     for( size_t i = 0 ; i < fields.size() ; i++ ) {
         Range range( fields[i], f_invalid );
@@ -132,11 +135,9 @@ bool SValue::get( string& str ) const
         }
         return true;
     case SVT_Record:
-        str += "{";
+        str += "{\"" + m_str + "\"";
         for( size_t i = 0 ; i < m_rlist.size() ; i++ ) {
-            if( i > 0 ) {
-                str += ", ";
-            }
+            str += ", ";
             if( m_rlist[i].jdn1 == f_invalid ) {
                 str += "?";
             } else {
@@ -215,6 +216,12 @@ FieldVec SValue::get_record() const
         fields.push_back( m_rlist[i].jdn1 );
     }
     return fields;
+}
+
+string SValue::get_record_scode() const
+{
+    assert( m_type == SVT_Record );
+    return m_str;
 }
 
 bool SValue::get_rlist( RangeList& rlist ) const
@@ -449,7 +456,7 @@ void SValue::plus( const SValue& value )
         return;
     }
     if( type() == SVT_Record && value.type() == SVT_Record ) {
-        set_record( add( get_record(), value.get_record() ) );
+        set_record( m_str, add( get_record(), value.get_record() ) );
         return;
     }
     set_error( "Not able to add types." );

@@ -3,7 +3,7 @@
 write record,"g:dmy" "19sep1948";
 
 /*[OUTPUT]
-{1948, 9, 19, ?}
+{"g", 1948, 9, 19, ?}
 [OUTPUT]*/
 
 

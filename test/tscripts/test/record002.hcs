@@ -3,5 +3,5 @@
 write record "g:dmy#21??";
 
 /*[OUTPUT]
-{?, ?, 21, ?}
+{"g", ?, ?, 21, ?}
 [OUTPUT]*/

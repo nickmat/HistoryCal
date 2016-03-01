@@ -1236,15 +1236,17 @@ SValue Script::primary( bool get )
 
 SValue Script::fields_expr( bool get )
 {
+    string scode;
     FieldVec fields;
-    SToken token = get ? m_ts.next() : m_ts.current();
+    expr( get ).get( scode );
+    SToken token = m_ts.current();
 
     for(;;) {
         switch( token.type() )
         {
         case SToken::STT_End:
         case SToken::STT_RCbracket:
-            return SValue( fields );
+            return SValue( scode, fields );
         case SToken::STT_Comma:
             break;
         default:
@@ -1331,6 +1333,7 @@ SValue Script::record_cast()
     }
     if( sch == NULL ) {
         sch = store()->ischeme;
+        scode = sch->get_code();
     }
     string str;
     SValue value = primary( false );
@@ -1338,7 +1341,7 @@ SValue Script::record_cast()
         error( "Expected a string expression." );
         return value;
     }
-    value.set_record( m_cals->str_to_fieldvec( sch, str, fcode ) );
+    value.set_record( scode, m_cals->str_to_fieldvec( sch, str, fcode ) );
     return value;
 }
 

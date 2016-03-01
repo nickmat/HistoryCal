@@ -11,12 +11,11 @@ scheme "GEASTER" {
   optional "eastermonth", "easterday";
 }
 
-write "Easter Day is: " + str,"g:dmy" { d["g:year"], d["GEASTER:eastermonth"], d["GEASTER:easterday"] };
+write "Easter Day is: " + str,"g:dmy" { "g", d["g:year"], d["GEASTER:eastermonth"], d["GEASTER:easterday"] };
 
 mark "test-easter";
 clear;
 
-*/
 /*[OUTPUT]
 Easter Day is: 15 Apr 1900
 [OUTPUT]*/

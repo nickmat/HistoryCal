@@ -1,8 +1,7 @@
 // subscript001.hcs Test file to test subscript expression
 
-write {10,20,30}[1];
+write {"g",10,20,30}[1];
 
-*/
 /*[OUTPUT]
 20
 [OUTPUT]*/

@@ -48,14 +48,14 @@ namespace Cal {
         SValue( Field field ) : m_type(SVT_Field) { m_range.jdn1 = field; }
         SValue( Range range ) : m_type(SVT_Range), m_range(range) {}
         SValue( const RangeList& rlist ) : m_type(SVT_RList), m_rlist(rlist) {}
-        SValue( const FieldVec& fields ) { set_record( fields ); }
+        SValue( const std::string& scode, const FieldVec& fields ) { set_record( scode, fields ); }
 
         void set_str( const std::string& str ) { m_type = SVT_Str; m_str = str; }
         void set_bool( bool b ) { m_type = SVT_Bool; m_range.jdn1 = b ? 1 : 0; }
         void set_field( Field field ) { m_type = SVT_Field; m_range.jdn1 = field; }
         void set_range( Range range ) { m_type = SVT_Range; m_range = range; }
         void set_rlist( RangeList rlist ) { m_type = SVT_RList; m_rlist = rlist; }
-        void set_record( const FieldVec& fields );
+        void set_record( const std::string& scode, const FieldVec& fields );
 
         void set_error( const std::string& str );
 
@@ -67,6 +67,7 @@ namespace Cal {
         Range get_range() const;
         RangeList get_rlist() const;
         FieldVec get_record() const;
+        std::string get_record_scode() const;
 
         bool get( std::string& str ) const;
         bool get( Field& field ) const;
