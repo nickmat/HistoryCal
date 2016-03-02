@@ -1335,13 +1335,20 @@ SValue Script::record_cast()
         sch = store()->ischeme;
         scode = sch->get_code();
     }
+    FieldVec fields;
     string str;
     SValue value = primary( false );
-    if( !value.get( str ) ) {
+    if( value.type() == SValue::SVT_Field ) {
+        fields = m_cals->jdn_to_fieldvec( sch, value.get_field() );
+    } else if( value.get( str ) ) {
+        fields = m_cals->str_to_fieldvec( sch, str, fcode );
+    } else {
         error( "Expected a string expression." );
         return value;
     }
-    value.set_record( scode, m_cals->str_to_fieldvec( sch, str, fcode ) );
+    if( !fields.empty() ) {
+        value.set_record( scode, fields );
+    }
     return value;
 }
 
