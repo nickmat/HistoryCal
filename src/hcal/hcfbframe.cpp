@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun  5 2014)
+// C++ code generated with wxFormBuilder (version Jun 17 2015)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -76,7 +76,7 @@ hcFbFrame::hcFbFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	bSizer5->Add( m_staticText1, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT|wxLEFT, 5 );
 	
 	m_comboBoxInput = new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_DROPDOWN|wxCB_READONLY ); 
-	bSizer5->Add( m_comboBoxInput, 1, wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT|wxLEFT, 5 );
+	bSizer5->Add( m_comboBoxInput, 1, wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT, 5 );
 	
 	
 	bSizer1->Add( bSizer5, 0, wxEXPAND, 5 );
@@ -90,7 +90,7 @@ hcFbFrame::hcFbFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	bSizer8->Add( m_staticText4, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT|wxLEFT, 5 );
 	
 	m_comboBoxInFormat = new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_DROPDOWN|wxCB_READONLY ); 
-	bSizer8->Add( m_comboBoxInFormat, 1, wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT|wxLEFT, 5 );
+	bSizer8->Add( m_comboBoxInFormat, 1, wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT, 5 );
 	
 	
 	bSizer1->Add( bSizer8, 0, wxEXPAND, 5 );
@@ -104,14 +104,14 @@ hcFbFrame::hcFbFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	bSizer10->Add( m_staticText6, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT|wxLEFT, 5 );
 	
 	m_comboBoxVocab = new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_DROPDOWN|wxCB_READONLY ); 
-	bSizer10->Add( m_comboBoxVocab, 1, wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT|wxLEFT, 5 );
+	bSizer10->Add( m_comboBoxVocab, 1, wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT, 5 );
 	
 	m_comboBoxToken = new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_DROPDOWN|wxCB_READONLY ); 
-	bSizer10->Add( m_comboBoxToken, 1, wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT|wxLEFT, 5 );
+	bSizer10->Add( m_comboBoxToken, 1, wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT, 5 );
 	
 	m_checkTextFull = new wxCheckBox( this, wxID_ANY, _("Full"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_checkTextFull->SetValue(true); 
-	bSizer10->Add( m_checkTextFull, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT|wxLEFT, 5 );
+	bSizer10->Add( m_checkTextFull, 0, wxALIGN_CENTER_VERTICAL|wxTOP, 5 );
 	
 	
 	bSizer1->Add( bSizer10, 0, wxEXPAND, 5 );
@@ -129,16 +129,16 @@ hcFbFrame::hcFbFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	bSizer3 = new wxBoxSizer( wxHORIZONTAL );
 	
 	
-	bSizer3->Add( 0, 0, 1, wxEXPAND, 5 );
+	bSizer3->Add( 0, 0, 1, 0, 5 );
 	
 	m_buttonConvert = new wxButton( this, wxID_ANY, _("Convert"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer3->Add( m_buttonConvert, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	bSizer3->Add( m_buttonConvert, 0, wxALL, 5 );
 	
 	
-	bSizer3->Add( 0, 0, 1, wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
+	bSizer3->Add( 0, 0, 1, 0, 5 );
 	
 	
-	bSizer1->Add( bSizer3, 0, wxEXPAND, 5 );
+	bSizer1->Add( bSizer3, 0, wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	bSizerIntermeadiate = new wxBoxSizer( wxHORIZONTAL );
 	
@@ -148,7 +148,7 @@ hcFbFrame::hcFbFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	bSizerIntermeadiate->Add( m_staticText3, 0, wxTOP|wxRIGHT|wxLEFT|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	m_textIntermediate = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY|wxTE_WORDWRAP );
-	bSizerIntermeadiate->Add( m_textIntermediate, 1, wxTOP|wxRIGHT|wxLEFT|wxALIGN_CENTER_VERTICAL, 5 );
+	bSizerIntermeadiate->Add( m_textIntermediate, 1, wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT, 5 );
 	
 	
 	bSizer1->Add( bSizerIntermeadiate, 0, wxEXPAND, 5 );
@@ -162,7 +162,7 @@ hcFbFrame::hcFbFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	bSizer6->Add( m_staticText2, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT|wxLEFT, 5 );
 	
 	m_comboBoxOutput = new wxComboBox( this, wxID_ANY, _("Combo!"), wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_DROPDOWN|wxCB_READONLY ); 
-	bSizer6->Add( m_comboBoxOutput, 1, wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT|wxLEFT, 5 );
+	bSizer6->Add( m_comboBoxOutput, 1, wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT, 5 );
 	
 	
 	bSizer1->Add( bSizer6, 0, wxEXPAND, 5 );
@@ -173,10 +173,10 @@ hcFbFrame::hcFbFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	wxStaticText* m_staticText41;
 	m_staticText41 = new wxStaticText( this, wxID_ANY, _("Format:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText41->Wrap( -1 );
-	bSizer81->Add( m_staticText41, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT|wxLEFT, 5 );
+	bSizer81->Add( m_staticText41, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5 );
 	
 	m_comboBoxOutFormat = new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_DROPDOWN|wxCB_READONLY ); 
-	bSizer81->Add( m_comboBoxOutFormat, 1, wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT|wxLEFT, 5 );
+	bSizer81->Add( m_comboBoxOutFormat, 1, wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT, 5 );
 	
 	
 	bSizer1->Add( bSizer81, 0, wxEXPAND, 5 );
@@ -187,7 +187,7 @@ hcFbFrame::hcFbFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_textOutput = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY|wxTE_WORDWRAP );
 	m_textOutput->SetMinSize( wxSize( 300,50 ) );
 	
-	bSizer4->Add( m_textOutput, 1, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
+	bSizer4->Add( m_textOutput, 1, wxALL|wxEXPAND, 5 );
 	
 	
 	bSizer1->Add( bSizer4, 1, wxEXPAND, 5 );
