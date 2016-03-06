@@ -47,7 +47,7 @@
   </if>
   <set var="LOCAL_SRC">$(REL_ROOT)/src</set>
   <set var="LOCAL_INC">$(REL_ROOT)/include</set>
-  <set var="CPPUNIT_DIR">$(DOLLAR)($(ENV_VAR)CPPUNIT)</set>
+  <set var="CPPUNIT_DIR">$(DOLLAR)(CPPUNIT)</set>
   <set var="LOCAL_TST">$(REL_ROOT)/test</set>
   <set var="LOCAL_UTIL">$(REL_ROOT)/util</set>
 
