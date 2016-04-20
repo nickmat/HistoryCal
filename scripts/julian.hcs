@@ -155,4 +155,57 @@ scheme "se" {
     grammar "j";
 }
 
+grammar "isow" {
+    vocabs "w";
+    alias field {
+        "Day",   "wday";
+        "Week",  "week";
+        "Year",  "year";
+    }
+    alias stylename {
+        "Day",   "d";
+        "Week", "ww";
+        "Year",  "yyyy";
+    }
+    alias unit {
+        "d", "day";
+        "y", "year";
+        "w", "week";
+    }
+    format "ywd",   "(Year)| (Week)| (Day:w.a)";
+    format "ywd+",   "(Year)| (Week)| (Day:w)";
+    format "iso",   "(Year)| (Week)| (Day)";
+    pref "ywd";
+}
+
+scheme "isow" {
+    name "ISO Week";
+	base isoweek;
+	grammar "isow";
+}
+
+grammar "isoo" {
+    alias field {
+        "Day",   "day";
+        "Year",  "year";
+    }
+    alias stylename {
+        "Day",   "ddd";
+        "Year",  "yyyy";
+    }
+    alias unit {
+        "d", "day";
+        "y", "year";
+        "w", "week";
+    }
+    format "yd",   "(Year)| (Day)";
+    pref "yd";
+}
+
+scheme "isoo" {
+    name "ISO Ordinal";
+	base isoordinal;
+	grammar "isoo";
+}
+
 // End of scripts/julian.hcs file

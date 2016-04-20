@@ -88,6 +88,8 @@ UNIT_OBJECTS =  \
 	unit_def_glit.o \
 	unit_def_h.o \
 	unit_def_i.o \
+	unit_def_isoo.o \
+	unit_def_isow.o \
 	unit_def_j325.o \
 	unit_def_jce.o \
 	unit_def_jlit.o \
@@ -295,6 +297,12 @@ unit_def_h.o: ./../../test/unit/def_h.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
 unit_def_i.o: ./../../test/unit/def_i.cpp
+	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
+
+unit_def_isoo.o: ./../../test/unit/def_isoo.cpp
+	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
+
+unit_def_isow.o: ./../../test/unit/def_isow.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
 unit_def_j325.o: ./../../test/unit/def_j325.cpp

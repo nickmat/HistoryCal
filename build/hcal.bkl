@@ -123,6 +123,8 @@
     <sources>$(LOCAL_TST)/unit/def_glit.cpp</sources>
     <sources>$(LOCAL_TST)/unit/def_h.cpp</sources>
     <sources>$(LOCAL_TST)/unit/def_i.cpp</sources>
+    <sources>$(LOCAL_TST)/unit/def_isoo.cpp</sources>
+    <sources>$(LOCAL_TST)/unit/def_isow.cpp</sources>
     <sources>$(LOCAL_TST)/unit/def_j325.cpp</sources>
     <sources>$(LOCAL_TST)/unit/def_jce.cpp</sources>
     <sources>$(LOCAL_TST)/unit/def_jlit.cpp</sources>

@@ -245,6 +245,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\test\unit\def_isoo.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\test\unit\def_isow.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\test\unit\def_j325.cpp"
 				>
 			</File>
