@@ -255,6 +255,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\cal\calisoordinal.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\cal\calisoweek.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\cal\caljdn.cpp"
 				>
 			</File>
@@ -382,6 +390,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\cal\calislamic.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\cal\calisoordinal.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\cal\calisoweek.h"
 				>
 			</File>
 			<File

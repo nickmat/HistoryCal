@@ -133,6 +133,8 @@ CAL_OBJECTS =  \
 	cal_calgregorian.o \
 	cal_calhebrew.o \
 	cal_calislamic.o \
+	cal_calisoordinal.o \
+	cal_calisoweek.o \
 	cal_calhybrid.o \
 	cal_caljdn.o \
 	cal_caljulian.o \
@@ -410,6 +412,12 @@ cal_calhebrew.o: ./../../src/cal/calhebrew.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calislamic.o: ./../../src/cal/calislamic.cpp
+	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
+
+cal_calisoordinal.o: ./../../src/cal/calisoordinal.cpp
+	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
+
+cal_calisoweek.o: ./../../src/cal/calisoweek.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calhybrid.o: ./../../src/cal/calhybrid.cpp
