@@ -562,12 +562,20 @@ void SValue::range_op( const SValue& value )
     if( propagate_error( value ) ) {
         return;
     }
+    Range range( f_invalid, f_invalid );
     if( m_type == SVT_Field || m_type == SVT_Range ) {
-        Range range( get_field(), value.get_field() );
-        set_range( range );
+        range.jdn1 = m_range.jdn1;
+    }
+    if( value.m_type == SVT_Field ) {
+        range.jdn2 = value.m_range.jdn1;
+    } else if( value.m_type == SVT_Range ) {
+        range.jdn2 = value.m_range.jdn2;
+    }
+    if( range.jdn1 == f_invalid || range.jdn2 == f_invalid ) {
+        set_error( "Can only set range with a number or another range." );
         return;
     }
-    set_error( "Can only set range with numbers." );
+    set_range( range );
 }
 
 void SValue::subscript_op( const SValue& value )
