@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -199,7 +199,7 @@ Field Gregorian::today()
 
 /*! Returns true if the year is a leap year in the Gregorian Calendar.
  */
-bool Gregorian::is_leap_year( Field year ) const
+bool Gregorian::leap_year( Field year )
 {
     return ( year%4 == 0 && year%100 != 0 ) || year%400 == 0;
 }

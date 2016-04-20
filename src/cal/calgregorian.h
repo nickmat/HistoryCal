@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -47,10 +47,11 @@ namespace Cal {
 
         static Field to_jdn( Field year, Field month, Field day );
         static Field year_from_jdn( Field jdn );
+        static bool leap_year( Field year );
         static Field today();
 
     protected:
-        virtual bool is_leap_year( Field year ) const;
+        virtual bool is_leap_year( Field year ) const { return leap_year( year ); }
         Field last_day_in_month( Field year, Field month ) const;
     };
 
