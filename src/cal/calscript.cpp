@@ -467,6 +467,10 @@ Base* Script::do_base()
             bs = Scheme::BS_julian;
         } else if( token.get_str() == "gregorian" ) {
             bs = Scheme::BS_gregorian;
+        } else if( token.get_str() == "isoweek" ) {
+            bs = Scheme::BS_isoweek;
+        } else if( token.get_str() == "isoordinal" ) {
+            bs = Scheme::BS_isoordinal;
         } else if( token.get_str() == "french" ) {
             bs = Scheme::BS_french;
         } else if( token.get_str() == "hebrew" ) {

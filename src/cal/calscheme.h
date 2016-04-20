@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     20th September 2013
- * Copyright:   Copyright (c) 2013 - 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -42,8 +42,8 @@ namespace Cal {
     {
     public:
         enum BaseScheme { 
-            BS_NULL, BS_jdn, BS_julian, BS_gregorian, BS_french, BS_hebrew,
-            BS_islamic
+            BS_NULL, BS_jdn, BS_julian, BS_gregorian, BS_isoweek, BS_isoordinal,
+            BS_french, BS_hebrew, BS_islamic
         };
         Scheme( const std::string& name, Base* base );
         ~Scheme();

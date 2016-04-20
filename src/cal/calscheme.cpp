@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     20th September 2013
- * Copyright:   Copyright (c) 2013-2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -35,6 +35,8 @@
 #include "calhebrew.h"
 #include "calhybrid.h"
 #include "calislamic.h"
+#include "calisoordinal.h"
+#include "calisoweek.h"
 #include "caljdn.h"
 #include "caljulian.h"
 #include "calmath.h"
@@ -291,6 +293,10 @@ Base* Scheme::create_base( BaseScheme bs )
         return new Julian;
     case BS_gregorian: 
         return new Gregorian;
+    case BS_isoweek: 
+        return new IsoWeek;
+    case BS_isoordinal: 
+        return new IsoOrdinal;
     case BS_french: 
         return new French;
     case BS_hebrew: 
