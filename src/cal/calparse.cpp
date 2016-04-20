@@ -144,6 +144,15 @@ string Cal::parse_date_expr( const string& str )
     for( it = str.begin() ; it != str.end() ; it++ ) {
         switch( *it )
         {
+        case '"':
+            while( it != str.end() && *it != '"' ) {
+                date += *it;
+                it++;
+            }
+            if( it != str.end() ) {
+                it++;
+            }
+            break;
         case '[':  // Ignore comments in square brackets.
             for( int cnt = 1 ; it != str.end() && cnt != 0 ; it++ ) {
                 if( *it == ']' ) {
