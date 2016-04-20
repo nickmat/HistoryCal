@@ -123,10 +123,23 @@ bool Cal::split_code( string* scheme, string* format, const string& codes )
     return true;
 }
 
+namespace {
+    string create_date_str( string& sig, string& date )
+    {
+        string d = full_trim( date );
+        if( !d.empty() ) {
+            d = "date" + sig + "\"" + d + "\"";
+            date.clear();
+        }
+        sig.clear();
+        return d;
+    }
+}
+
 // Convert a date expression string to a script string.
 string Cal::parse_date_expr( const string& str )
 {
-    string script, date;
+    string script, date, sig;
     string::const_iterator it, nit;
     for( it = str.begin() ; it != str.end() ; it++ ) {
         switch( *it )
@@ -143,24 +156,23 @@ string Cal::parse_date_expr( const string& str )
         case '&':
             nit = it+1;
             if( nit != str.end() && ( *nit == '.' ) ) {
-                date = full_trim( date );
-                if( date.size() ) {
-                    script += "date\"" + date + "\"";
-                    date.clear();
-                }
+                script += create_date_str( sig, date );
                 script += *it;
                 it++;       // Step over dot, next char is treated as operator.
             } else {
                 date += *it; // Treat & as part of date string.
             }
             break;
-        case '|': case '\\': case '^': case '!': case '(': case ')':
+        case '|': case '\\': case '^': case '!': case '(': case ')': case '~':
+            script += create_date_str( sig, date );
+            script += *it;
+            break;
+        case '#':
             date = full_trim( date );
-            if( date.size() ) {
-                script += "date\"" + date + "\"";
+            if( !date.empty() ) {
+                sig = ",\"" + date + "\" ";
                 date.clear();
             }
-            script += *it;
             break;
         default:
             date += *it;
@@ -170,10 +182,7 @@ string Cal::parse_date_expr( const string& str )
             break;
         }
     }
-    date = full_trim( date );
-    if( date.size() ) {
-        script += "date\"" + date + "\"";
-    }
+    script += create_date_str( sig, date );
     return script;
 }
 
