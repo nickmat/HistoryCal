@@ -46,6 +46,7 @@ namespace Cal {
 
 
         static Field to_jdn( Field year, Field month, Field day );
+        static void from_jdn( Field* year, Field* month, Field* day, Field jdn );
         static Field year_from_jdn( Field jdn );
         static bool leap_year( Field year );
         static Field today();

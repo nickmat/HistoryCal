@@ -174,6 +174,23 @@ Field Gregorian::to_jdn( Field year, Field month, Field day )
     return jdn;
 }
 
+void Gregorian::from_jdn( Field* year, Field* month, Field* day, Field jdn )
+{
+    if( jdn != f_invalid ) {
+        Field y, m, d;
+        gregorian_from_jdn( &y, &m, &d, jdn );
+        if( year ) {
+            *year = y;
+        }
+        if( month ) {
+            *month = m;
+        }
+        if( day ) {
+            *day = d;
+        }
+    }
+}
+
 Field Gregorian::year_from_jdn( Field jdn )
 {
     Field year, month, day;
