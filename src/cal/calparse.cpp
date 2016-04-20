@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     20th September 2013
- * Copyright:   Copyright (c) 2013 - 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -139,6 +139,7 @@ string Cal::parse_date_expr( const string& str )
                     cnt++;
                 }
             }
+            break;
         case '&':
             nit = it+1;
             if( nit != str.end() && ( *nit == '.' ) ) {
