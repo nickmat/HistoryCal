@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013-2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -388,7 +388,7 @@ Grammar* Base::get_grammar() const
     return m_grammar;
 }
 
-Format* Base::get_format( string& fcode ) const
+Format* Base::get_format( const string& fcode ) const
 {
     return get_grammar()->get_format( fcode );
 }
