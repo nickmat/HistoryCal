@@ -148,7 +148,6 @@ namespace Cal {
         void get_output_formats( SchemeFormats* output ) const;
         std::string get_input_fcode() const;
         std::string get_output_fcode() const;
-        std::string get_format_str_for_output( const std::string& fcode ) const;
         Grammar* get_grammar() const;
         Format* get_format( const std::string& fcode ) const;
 

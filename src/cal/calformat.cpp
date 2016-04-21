@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     15th November 2013
- * Copyright:   Copyright (c) 2013 - 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -27,8 +27,10 @@
 
 #include "calformat.h"
 
+#include "calbase.h"
 #include "calgrammar.h"
 #include "calparse.h"
+#include "calrecord.h"
 #include "caltext.h"
 #include "calvocab.h"
 
@@ -221,5 +223,158 @@ bool Format::is_tier1( const std::string& fieldname ) const
     }
     return false;
 }
+
+string Format::rlist_to_string( Base* base, const RangeList& ranges ) const
+{
+    string str;
+    for( size_t i = 0 ; i < ranges.size() ; i++ ) {
+        if( i > 0 ) {
+            str += " | ";
+        }
+        str += range_to_string( base, ranges[i] );
+    }
+    return str;
+}
+
+string Format::range_to_string( Base* base, Range range ) const
+{
+    if( range.jdn1 == range.jdn2 ) {
+        return jdn_to_string( base, range.jdn1 );
+    }
+    string str1, str2;
+    if( range.jdn1 == f_minimum || range.jdn2 == f_maximum ) {
+        str1 = jdn_to_string( base, range.jdn1 );
+        str2 = jdn_to_string( base, range.jdn2 );
+    } else {
+        Record rec1( base, range.jdn1 );
+        Record rec2( base, range.jdn2 );
+
+        rec1.remove_balanced_fields( &rec2 );
+        str1 = get_output( rec1 );
+        str2 = get_output( rec2 );
+        if( str1 == str2 ) {
+            return str1;
+        }
+    }
+    return str1 + " ~ " + str2;
+}
+
+string Format::jdn_to_string( Base* base, Field jdn ) const
+{
+    if( jdn == f_minimum ) {
+        return "past";
+    }
+    if( jdn == f_maximum ) {
+        return "future";
+    }
+    Record rec( base, jdn );
+    return get_output( rec );
+}
+
+string Format::get_output( const Record& record ) const
+{
+    string output, fieldout, fname, dname, vocab, abbrev, value;
+    enum State { ignore, dooutput, dofname, dodname, dovocab, doabbrev };
+    State state = dooutput;
+    for( string::const_iterator it = m_format.begin() ; it != m_format.end() ; it++ ) {
+        switch( state )
+        {
+        case ignore:
+            if( *it == '|' ) {
+                state = dooutput;
+            }
+            break;
+        case dooutput:
+            if( *it == '|' ) {
+                output += fieldout;
+                fieldout.clear();
+            } else if( *it == '(' ) {
+                state = dofname;
+            } else {
+                fieldout += *it;
+            }
+            break;
+        case dofname:
+        case dodname:
+        case dovocab:
+        case doabbrev:
+            if( *it == ')' ) {
+                Field f = get_field( record, fname );
+                if( dname.size() ) {
+                    Field d = get_field( record, dname );
+                    value = dual_fields_to_str( f, d );
+                } else {
+                    value = formatted_str( f, vocab, abbrev );
+                }
+                if( value.empty() ) {
+                    fieldout.clear();
+                    state = ignore;
+                } else {
+                    fieldout += value;
+                    state = dooutput;
+                }
+                fname.clear();
+                dname.clear();
+                vocab.clear();
+                abbrev.clear();
+            } else if( state == dofname && *it == ':' ) {
+                state = dovocab;
+            } else if( state == dofname && *it == '/' ) {
+                state = dodname;
+            } else if( state == dovocab && *it == '.' ) {
+                state = doabbrev;
+            } else {
+                if( state == dofname ) {
+                    fname += *it;
+                } else if( state == dodname ) {
+                    dname += *it;
+                } else if( state == dovocab ) {
+                    vocab += *it;
+                } else { // doabbrev
+                    abbrev += *it;
+                }
+            }
+            break;
+        }
+    }
+    return output+fieldout;
+}
+
+Field Format::get_field( const Record& record, const std::string& fname ) const
+{
+    string fn = get_owner()->get_field_alias( fname );
+    int index = record.get_base()->get_fieldname_index( fn );
+    return record.get_field( index );
+}
+
+string Format::formatted_str( 
+    Field field, const string& format, const string& specifier ) const
+{
+    string result;
+    if( !format.empty() ) {
+        if( *format.begin() == '!' ) {
+            if( format == "!os" ) {
+                StringStyle ss = ( specifier == "u" ) ? SS_uppercase : SS_undefined;
+                result = get_ordinal_suffix( field, ss );
+            } else if( format == "!rn" ) {
+                StringStyle ss = ( specifier == "l" ) ? SS_lowercase : SS_undefined;
+                result = get_roman_numerals( field, ss );
+            } else if( format == "!lp" ) {
+                result = get_left_padded( field, specifier );
+            }
+        } else {
+            result = get_owner()->lookup_token( field, format, (specifier == "a") );
+        }
+    }
+    if( result.empty() ) {
+        result = field_to_str( field );
+        if( format == "+os" && result.size() ) {
+            StringStyle ss = ( specifier == "u" ) ? SS_uppercase : SS_undefined;
+            result += get_ordinal_suffix( field, ss );
+        }
+    }
+    return result;
+}
+
 
 // End of src/cal/calformat.cpp file

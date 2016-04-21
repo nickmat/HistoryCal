@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     20th September 2013
- * Copyright:   Copyright (c) 2013-2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -277,7 +277,12 @@ Field Record::get_jdn() const
 
 string Record::get_str( const std::string& fcode ) const
 {
-    return get_output( m_base->get_format_str_for_output( fcode ) );
+    string fc = fcode.empty() ? m_base->get_output_fcode() : fcode;
+    Format* fmt = m_base->get_format( fc );
+    if( fmt == NULL ) {
+        return "";
+    }
+    return fmt->get_output( *this );
 }
 
 Field Record::is_unit_int( Unit unit ) const
@@ -556,104 +561,6 @@ void Record::parse_units( const string& str )
         unit += ch;
     }
     set_field_by_unit( value, unit );
-}
-
-string Record::formatted_str( 
-    Field field, const string& format, const string& specifier ) const
-{
-    string result;
-    if( format.size() ) {
-        if( *format.begin() == '!' ) {
-            if( format == "!os" ) {
-                StringStyle ss = ( specifier == "u" ) ? SS_uppercase : SS_undefined;
-                result = get_ordinal_suffix( field, ss );
-            } else if( format == "!rn" ) {
-                StringStyle ss = ( specifier == "l" ) ? SS_lowercase : SS_undefined;
-                result = get_roman_numerals( field, ss );
-            } else if( format == "!lp" ) {
-                result = get_left_padded( field, specifier );
-            }
-        } else {
-            result = m_base->lookup_token( field, format, (specifier == "a") );
-        }
-    }
-    if( result.empty() ) {
-        result = field_to_str( field );
-        if( format == "+os" && result.size() ) {
-            StringStyle ss = ( specifier == "u" ) ? SS_uppercase : SS_undefined;
-            result += get_ordinal_suffix( field, ss );
-        }
-    }
-    return result;
-}
-
-string Record::get_output( const std::string& fmt ) const
-{
-    string output, fieldout, fname, dname, vocab, abbrev, value;
-    enum State { ignore, dooutput, dofname, dodname, dovocab, doabbrev };
-    State state = dooutput;
-    for( string::const_iterator it = fmt.begin() ; it != fmt.end() ; it++ ) {
-        switch( state )
-        {
-        case ignore:
-            if( *it == '|' ) {
-                state = dooutput;
-            }
-            break;
-        case dooutput:
-            if( *it == '|' ) {
-                output += fieldout;
-                fieldout.clear();
-            } else if( *it == '(' ) {
-                state = dofname;
-            } else {
-                fieldout += *it;
-            }
-            break;
-        case dofname:
-        case dodname:
-        case dovocab:
-        case doabbrev:
-            if( *it == ')' ) {
-                Field f = get_field( get_field_index( fname ) );
-                if( dname.size() ) {
-                    Field d = get_field( get_field_index( dname ) );
-                    value = dual_fields_to_str( f, d );
-                } else {
-                    value = formatted_str( f, vocab, abbrev );
-                }
-                if( value.empty() ) {
-                    fieldout.clear();
-                    state = ignore;
-                } else {
-                    fieldout += value;
-                    state = dooutput;
-                }
-                fname.clear();
-                dname.clear();
-                vocab.clear();
-                abbrev.clear();
-            } else if( state == dofname && *it == ':' ) {
-                state = dovocab;
-            } else if( state == dofname && *it == '/' ) {
-                state = dodname;
-            } else if( state == dovocab && *it == '.' ) {
-                state = doabbrev;
-            } else {
-                if( state == dofname ) {
-                    fname += *it;
-                } else if( state == dodname ) {
-                    dname += *it;
-                } else if( state == dovocab ) {
-                    vocab += *it;
-                } else { // doabbrev
-                    abbrev += *it;
-                }
-            }
-            break;
-        }
-    }
-    return output+fieldout;
 }
 
 // End of src/cal/calrecord.cpp file

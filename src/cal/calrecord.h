@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013 - 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -95,10 +95,6 @@ namespace Cal {
 
         void set_field_by_unit( const std::string& value, const std::string& unit );
         void parse_units( const std::string& str );
-
-        std::string formatted_str(
-            Field field, const std::string& format, const std::string& specifier ) const;
-        std::string get_output( const std::string& format ) const;
 
         const Base* m_base;
         FieldVec    m_f;

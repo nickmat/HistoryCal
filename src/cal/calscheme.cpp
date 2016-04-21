@@ -29,6 +29,7 @@
 
 #include "cal/calendars.h"
 #include "calbase.h"
+#include "calformat.h"
 #include "calfrench.h"
 #include "calgrammar.h"
 #include "calgregorian.h"
@@ -106,6 +107,15 @@ void Scheme::get_output( SchemeFormats* info ) const
     }
 }
 
+Format* Scheme::get_output_format( const string& fcode ) const
+{
+    if( fcode.empty() ) {
+        string fc = get_base()->get_output_fcode();
+        return get_base()->get_format( fc );
+    }
+    return get_base()->get_format( fcode );
+}
+
 void Scheme::set_input_format( const std::string& code )
 {
     if( m_base ) {
@@ -150,49 +160,26 @@ Field Scheme::str_to_jdn( const string& str, const string& fmt )
 
 string Scheme::jdn_to_str( Field jdn, const string& fcode )
 {
-    if( jdn == f_minimum ) {
-        return "past";
-    }
-    if( jdn == f_maximum ) {
-        return "future";
-    }
-    Record rec( m_base, jdn );
-    return rec.get_str( fcode );
+    Format* fmt = get_output_format( fcode );
+    assert( fmt != NULL );
+    return fmt->jdn_to_string( get_base(), jdn );
 }
 
 string Scheme::range_to_str( Range range, const string& fcode )
 {
-    if( range.jdn1 == range.jdn2 ) {
-        return jdn_to_str( range.jdn1, fcode );
-    }
-    string str1, str2;
-    if( range.jdn1 == f_minimum || range.jdn2 == f_maximum ) {
-        str1 = jdn_to_str( range.jdn1, fcode );
-        str2 = jdn_to_str( range.jdn2, fcode );
-    } else {
-        Record rec1( m_base, range.jdn1 );
-        Record rec2( m_base, range.jdn2 );
-
-        rec1.remove_balanced_fields( &rec2 );
-        str1 = rec1.get_str( fcode );
-        str2 = rec2.get_str( fcode );
-        if( str1 == str2 ) {
-            return str1;
-        }
-    }
-    return str1 + " ~ " + str2;
+    Format* fmt = get_output_format( fcode );
+    assert( fmt != NULL );
+    return fmt->range_to_string( get_base(), range );
 }
 
 string Scheme::rangelist_to_str( const RangeList& ranges, const std::string& fcode )
 {
-    string str;
-    for( size_t i = 0 ; i < ranges.size() ; i++ ) {
-        if( i > 0 ) {
-            str += " | ";
-        }
-        str += range_to_str( ranges[i], fcode );
+    if( ranges.empty() ) {
+        return "";
     }
-    return str;
+    Format* fmt = get_output_format( fcode );
+    assert( fmt != NULL );
+    return fmt->rlist_to_string( get_base(), ranges );
 }
 
 Field Scheme::add_to_jdn( Field jdn, Field value, Unit unit, Norm norm )

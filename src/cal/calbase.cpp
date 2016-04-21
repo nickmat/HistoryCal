@@ -367,19 +367,6 @@ string Base::get_output_fcode() const
     return m_output_fcode.empty() ? "def" : m_output_fcode;
 }
 
-string Base::get_format_str_for_output( const string& fcode ) const
-{
-    string format;
-    Format* fmt = get_grammar()->get_format( fcode );          // Try supplied code
-    if( fmt == NULL ) {
-        fmt = get_grammar()->get_format( get_output_fcode() ); // Else use default
-    }
-    if( fmt ) {
-        format = fmt->get_format();
-    }
-    return format;
-}
-
 Grammar* Base::get_grammar() const
 {
     if( m_grammar == NULL ) {

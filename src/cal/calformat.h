@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     15th November 2013
- * Copyright:   Copyright (c) 2013 - 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -32,6 +32,9 @@
 
 namespace Cal {
 
+    class Base;
+    class Record;
+
     class Format {
     public:
         enum Use { Use_inout, Use_output, Use_input, Use_strict };
@@ -39,16 +42,27 @@ namespace Cal {
         Format( const std::string& code, Grammar* gmr );
         ~Format();
 
-        void set_format( const std::string& format, Use usefor = Use_inout );
-        void set_separators( const std::string& sep ) { m_separators = sep; }
+        void set_user_input_str( const std::string str ) { m_input_str = str; }
+        void set_user_output_str( const std::string str ) { m_output_str = str; }
 
         std::string get_code() const { return m_code; }
         Grammar* get_owner() const { return m_owner; }
+        std::string get_user_input_str() const { return m_input_str; }
+        std::string get_user_output_str() const { return m_output_str; }
+
+
+        std::string rlist_to_string( Base* base, const RangeList& ranges ) const;
+        std::string range_to_string( Base* base, Range range ) const;
+        std::string jdn_to_string( Base* base, Field jdn ) const;
+        std::string get_output( const Record& record ) const;
+
+
+        void set_format( const std::string& format, Use usefor = Use_inout );
+        void set_separators( const std::string& sep ) { m_separators = sep; }
+
         std::string get_format() const { return m_format; }
         std::string get_separators() const { return m_separators; }
 
-        std::string get_user_input_str() const { return m_input_str; }
-        std::string get_user_output_str() const { return m_output_str; }
         StringVec get_input_fields() const { return m_input_fields; }
 
         std::string get_input_field( Vocab* vocab ) const;
@@ -59,17 +73,22 @@ namespace Cal {
         bool is_tier1( const std::string& fieldname ) const;
 
     private:
+        Field get_field( const Record& record, const std::string& fname ) const;
+        std::string formatted_str( 
+            Field field, const std::string& format, const std::string& specifier ) const;
+
         std::string m_code;
         Grammar*    m_owner;
-        std::string m_format;
-        std::string m_separators;
-
         std::string m_input_str;
         std::string m_output_str;
+
+        std::string m_format;
+        std::string m_separators;
 
         std::vector<Vocab*> m_vocabs;
         std::vector<InputFieldType> m_types;
         StringVec   m_input_fields;
+
         StringVec   m_rank_fieldnames;
     };
 
