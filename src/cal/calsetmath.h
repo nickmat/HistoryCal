@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     13th May 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -37,6 +37,8 @@ namespace Cal {
     RangeList op_set_rel_complement( const RangeList& left, const RangeList& right );
     RangeList op_set_sym_difference( const RangeList& left, const RangeList& right );
     RangeList op_set_complement( const RangeList& rlist );
+
+    RangeList op_set_well_order( const RangeList& rlist );
 
 }
 
