@@ -118,6 +118,7 @@
     <sources>$(LOCAL_TST)/unit/api_expr_str.cpp</sources>
     <sources>$(LOCAL_TST)/unit/def_eng.cpp</sources>
     <sources>$(LOCAL_TST)/unit/def_er.cpp</sources>
+    <sources>$(LOCAL_TST)/unit/def_expr_str.cpp</sources>
     <sources>$(LOCAL_TST)/unit/def_fr.cpp</sources>
     <sources>$(LOCAL_TST)/unit/def_g.cpp</sources>
     <sources>$(LOCAL_TST)/unit/def_glit.cpp</sources>
