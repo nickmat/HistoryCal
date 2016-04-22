@@ -12,7 +12,7 @@ scheme "G-EASTER" {
 let y = 1950;
 writeln "Easter for the following years:";
 do
-  let d = date ( "g:ymd#" + y + " 1 1" );
+  let d = date,"g:ymd" ( "" + y + " 1 1" );
   writeln str,"g:dmy+" {"g",y,d["G-EASTER:eastermonth"],d["G-EASTER:easterday"]};
   y += 1;
 until y > 1955 loop

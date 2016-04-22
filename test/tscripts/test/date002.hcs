@@ -1,6 +1,6 @@
 // date002.hcs Test file to test date cast expressions
 
-write date "g:u# 1948Year 19Day 9Month";
+write date,"g:u" "1948Year 19Day 9Month";
 
 /*[OUTPUT]
 2432814
