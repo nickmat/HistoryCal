@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     6th May 2015
- * Copyright:   Copyright (c) 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2015 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -183,6 +183,17 @@ string Cal::get_left_padded( Field field, const std::string& specifier )
     }
     size_t width = std::strtol( specifier.substr( 1 ).c_str(), NULL, 10 );
     string ch = specifier.substr( 0, 1 );
+    return get_left_padded( field, ch, width ); 
+}
+
+string Cal::get_left_padded( Field field, const std::string& ch, size_t width )
+{
+    if( field == f_invalid ) {
+        return "";
+    }
+    if( ch.empty() ) {
+        return field_to_str( field );
+    }
     bool neg = ( field < 0 && ch == "0" );
     if( neg ) {
         field = -field;

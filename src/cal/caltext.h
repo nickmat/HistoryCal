@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     6th May 2015
- * Copyright:   Copyright (c) 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2015 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -42,6 +42,7 @@ namespace Cal {
     extern std::string get_roman_numerals_style( StringStyle style );
 
     extern std::string get_left_padded( Field field, const std::string& specifier );
+    extern std::string get_left_padded( Field field, const std::string& ch, size_t width );
     extern std::string get_left_pad_style(
         const std::string& fieldstyle, const std::string& specifier );
 }
