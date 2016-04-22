@@ -27,6 +27,8 @@
 
 #include "calparse.h"
 
+#include "caltext.h"
+
 #include <utf8/utf8api.h>
 
 #include <cassert>
@@ -66,6 +68,26 @@ string Cal::get_first_word( const string& str, string* tail, char sep )
 Field Cal::str_to_field( const std::string& str )
 {
     return std::strtol( str.c_str(), NULL, 10 );
+}
+
+Field Cal::str_to_dual2( Field dual1, const string& str2 )
+{
+    string str1 = field_to_str( dual1 );
+    if( str1.size() <= str2.size() ) {
+        return str_to_field( str2 );
+    }
+    string result;
+    string::const_iterator it1 = str1.end(), it2 = str2.end();
+    while( it1 != str1.begin() ) {
+        --it1;
+        if( it2 != str2.begin() ) {
+            --it2;
+            result = *it2 + result;
+        } else {
+            result = *it1 + result;
+        }
+    }
+    return str_to_field( result );
 }
 
 string Cal::make_key( const string& str )
