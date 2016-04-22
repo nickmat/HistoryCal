@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     14th November 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -48,6 +48,8 @@ namespace Cal {
     };
 
     typedef std::vector<InputField> InputFieldVec;
+
+    enum Boundary { RB_none, RB_begin, RB_end };
 }
 
 #endif // CAL_CALPRIVATE_H_GUARD

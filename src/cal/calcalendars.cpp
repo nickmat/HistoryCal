@@ -209,7 +209,7 @@ FieldVec Calendars::str_to_fieldvec( SHandle scheme, const string& str, const st
             fmtcode = fcode;
         }
     }
-    Record rec( scheme->get_base(), dstr, fmtcode );
+    Record rec( scheme->get_base(), dstr, fmtcode, RB_none );
     return rec.get_fieldvec();
 }
 
@@ -603,7 +603,7 @@ RangeList Calendars::range_str_to_rangelist(
         return ranges;
     }
 
-    Record mask1( base1, str1, fcode1 ), mask2( base2, str2, fcode2 );
+    Record mask1( base1, str1, fcode1, RB_none ), mask2( base2, str2, fcode2, RB_none );
     Range range;
     bool ret = set_range_as_begin( &range, mask1, mask2 );
     while( range.jdn1 != f_invalid ) {

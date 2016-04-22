@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     11th June 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -41,7 +41,7 @@ Pattern::Pattern( Base* base )
 
 void Pattern::set_mask( const std::string& mask )
 {
-    Record rec( m_base, mask, "" );
+    Record rec( m_base, mask, "", RB_none );
     m_mask = rec.get_fieldvec();
 }
 

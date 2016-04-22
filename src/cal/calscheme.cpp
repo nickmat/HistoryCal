@@ -154,7 +154,7 @@ Field Scheme::jdn_fieldname_to_field( Field jdn, const string& fieldname ) const
 
 Field Scheme::str_to_jdn( const string& str, const string& fmt )
 {
-    Record rec( m_base, str, fmt );
+    Record rec( m_base, str, fmt, RB_none );
     return rec.get_jdn();
 }
 

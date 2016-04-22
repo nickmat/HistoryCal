@@ -57,10 +57,10 @@ Record::Record( const Base* base, const Field* fields, size_t size )
     set_fields( fields, size );
 }
 
-Record::Record( const Base* base, const string& str, const string& fcode )
+Record::Record( const Base* base, const string& str, const string& fcode, Boundary rb )
     : m_base(base), m_jdn(f_invalid), m_f(base->extended_size())
 {
-    set_str( str, fcode );
+    set_str( str, fcode, rb );
 }
 
 Record::Record( const Record& rec )
@@ -87,7 +87,7 @@ void Record::set_fields( const Field* fields, size_t size )
     m_jdn = get_jdn();
 }
 
-void Record::set_str( const string& str, const string& fcode )
+void Record::set_str( const string& str, const string& fcode, Boundary rb )
 {
     clear_fields();
     string in = full_trim( str );
