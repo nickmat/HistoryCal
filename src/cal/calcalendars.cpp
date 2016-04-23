@@ -194,39 +194,25 @@ string Calendars::fieldvec_to_str( SHandle scheme, const FieldVec& fieldv, const
 
 FieldVec Calendars::str_to_fieldvec( SHandle scheme, const string& str, const string& fcode )
 {
-    string scode, fmtcode, dstr;
-    split_code_date( &scode, &fmtcode, &dstr, str );
-    if( scode.size() ) {
-        scheme = get_scheme( scode );
-    }
     if( scheme == NULL ) {
         return FieldVec(0);
     }
-    if( fmtcode.empty() ) {
-        if( fcode.empty() ) {
-            fmtcode = scheme->get_pref_input_format();
-        } else {
-            fmtcode = fcode;
-        }
+    string fmtcode;
+    if( fcode.empty() ) {
+        fmtcode = scheme->get_pref_input_format();
+    } else {
+        fmtcode = fcode;
     }
-    Record rec( scheme->get_base(), dstr, fmtcode, RB_none );
+    Record rec( scheme->get_base(), str, fmtcode, RB_none );
     return rec.get_fieldvec();
 }
 
-Field Calendars::str_to_jdn( SHandle scheme, const string& str )
+Field Calendars::str_to_jdn( SHandle scheme, const string& str, const string& fcode )
 {
-    string scode, fcode, dstr;
-    split_code_date( &scode, &fcode, &dstr, str );
-    if( scode.size() ) {
-        scheme = get_scheme( scode );
-        if( scheme && fcode.empty() ) {
-            fcode = scheme->get_pref_input_format();
-        }
-    }
     if( scheme == NULL ) {
         return f_invalid;
     }
-    return scheme->str_to_jdn( dstr, fcode );
+    return scheme->str_to_jdn( str, fcode );
 }
 
 string Calendars::jdn_to_str( SHandle scheme, Field jdn, const string& fcode )
@@ -237,9 +223,9 @@ string Calendars::jdn_to_str( SHandle scheme, Field jdn, const string& fcode )
     return "";
 }
 
-Range Calendars::str_to_range( SHandle scheme, const string& str )
+Range Calendars::str_to_range( SHandle scheme, const string& str, const string& fcode )
 {
-    RangeList rlist = range_str_to_rangelist( scheme, str );
+    RangeList rlist = str_to_rangelist( scheme, str, fcode );
     switch( rlist.size() )
     {
     case 0:
@@ -261,23 +247,18 @@ string Calendars::range_to_str( SHandle scheme, Range range, const string& fcode
 RangeList Calendars::str_to_rangelist(
     SHandle scheme, const string& input, const string& fcode )
 {
-    RangeList rlist;
-    string str;
-    size_t pos, cpos = 0;
-    do {
-        pos = input.find( range_div, cpos );
-        if( pos != string::npos ) {
-            str = input.substr( cpos, pos - cpos );
-            cpos = pos + 1;
-        } else {
-            str = input.substr( cpos );
-        }
-        RangeList rl = range_str_to_rangelist( scheme, str, fcode );
-        if( rl.size() ) {
-            rlist.insert( rlist.end(), rl.begin(), rl.end() );
-        }
-    } while( pos != string::npos );
-    return rlist;
+    if( scheme == NULL ) {
+        return RangeList(0);
+    }
+    Base* base = scheme->get_base();
+    assert( base != NULL );
+
+    string fc = fcode.empty() ? base->get_input_fcode() : fcode;
+    Format* fmt = base->get_format( fc );
+    if( fmt == NULL ) {
+        return RangeList(0);
+    }
+    return fmt->string_to_rlist( base, input );
 }
 
 RangeList Calendars::expr_str_to_rangelist( SHandle scheme, const string& str )
@@ -536,87 +517,5 @@ namespace {
     }
 
 } // namespace
-
-// Convert a string written as a shorthand or single longhand range
-// to a rangelist. Handles scheme:format# prefix. Scheme may be NULL;
-RangeList Calendars::range_str_to_rangelist(
-    SHandle scheme, const string& str, const std::string fcode )
-{
-    Base* base1 = NULL;
-    Base* base2 = NULL;
-    if( scheme ) {
-        base1 = base2 = scheme->get_base();
-    }
-    string str1, str2, scode, fcode1(fcode), fcode2(fcode);
-    size_t pos = str.find( range_sep );
-    if( pos == string::npos ) {
-        // Single, poss shorthand, date string.
-        split_code_date( &scode, &fcode1, &str1, str );
-        if( scode.size() ) {
-            SHandle sch = get_scheme( scode );
-            if( sch ) {
-                base1 = base2 = sch->get_base();
-                if( fcode1.empty() ) {
-                    fcode1 = sch->get_pref_input_format();
-                }
-            }
-        }
-        if( fcode1.empty() && base1 != NULL ) {
-            fcode1 = base1->get_input_fcode();
-        }
-        fcode2 = fcode1;
-        str2 = str1;
-    } else {
-        // Two date strings.
-        string temp = str.substr( 0, pos );
-        split_code_date( &scode, &fcode1, &str1, temp );
-        if( scode.size() ) {
-            SHandle sch = get_scheme( scode );
-            if( sch ) {
-                base1 = sch->get_base();
-                if( fcode1.empty() ) {
-                    fcode1 = sch->get_pref_input_format();
-                }
-            }
-        }
-        if( fcode1.empty() && base1 != NULL ) {
-            fcode1 = base1->get_input_fcode();
-        }
-        temp = str.substr( pos + 1 );
-        scode.clear();
-        split_code_date( &scode, &fcode2, &str2, temp );
-        if( scode.size() ) {
-            SHandle sch = get_scheme( scode );
-            if( sch ) {
-                base2 = sch->get_base();
-                if( fcode2.empty() ) {
-                    fcode2 = sch->get_pref_input_format();
-                }
-            }
-        }
-        if( fcode2.empty() && base2 != NULL ) {
-            fcode2 = base2->get_input_fcode();
-        }
-    }
-    RangeList ranges;
-    if( base1 == NULL || base2 == NULL ) {
-        return ranges;
-    }
-
-    Record mask1( base1, str1, fcode1, RB_none ), mask2( base2, str2, fcode2, RB_none );
-    Range range;
-    bool ret = set_range_as_begin( &range, mask1, mask2 );
-    while( range.jdn1 != f_invalid ) {
-        if( ret ) {
-            if( ranges.size() && ranges[ranges.size()-1].jdn2+1 >= range.jdn1 ) {
-                ranges[ranges.size()-1].jdn2 = range.jdn2;
-            } else {
-                ranges.push_back( range );
-            }
-        }
-        ret = set_range_as_next( &range, mask1, mask2 );
-    }
-    return ranges;
-}
 
 // End of src/cal/calcalendars.cpp file

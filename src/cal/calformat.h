@@ -55,6 +55,7 @@ namespace Cal {
         std::string jdn_to_string( Base* base, Field jdn ) const;
         std::string get_output( const Record& record ) const;
 
+        RangeList string_to_rlist( Base* base, const std::string& input ) const;
         bool set_input( Record* record, const std::string& input, Boundary rb ) const;
 
         bool resolve_input(
@@ -87,6 +88,11 @@ namespace Cal {
         std::string formatted_str( 
             Field field, const std::string& format, const std::string& specifier ) const;
         int parse_date( InputField* ifs, size_t size, const std::string& str ) const;
+
+        RangeList multirange_str_to_rlist( Base* base, const std::string& input ) const;
+        RangeList bare_str_to_rlist( Base* base, const std::string& input ) const;
+        bool set_range_as_begin( Range* range, const Record& mask ) const;
+        bool set_range_as_next( Range* range, const Record& mask ) const;
 
         std::string m_code;
         Grammar*    m_owner;

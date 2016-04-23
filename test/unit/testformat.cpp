@@ -210,8 +210,9 @@ void TestFormat::testUseFormat()
     m_cal->run_script(
         "format \"j:mdy\", \"|(Month:m.a) |(Day), |(Year)\";"
     );
-    Field jdn1 = m_cal->str_to_jdn( NULL, "jb:dmy#6Sep1948" );
-    Field jdn2 = m_cal->str_to_jdn( NULL, "jb:mdy#Sep6,1948" );
+    Field jdn1 = m_cal->str_to_jdn( m_sid, "6Sep1948", "dmy" );
+    CPPUNIT_ASSERT( jdn1 != f_invalid );
+    Field jdn2 = m_cal->str_to_jdn( m_sid, "Sep6,1948", "mdy" );
     CPPUNIT_ASSERT( jdn1 == jdn2 );
 }
 

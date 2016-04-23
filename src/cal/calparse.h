@@ -39,7 +39,6 @@ namespace Cal {
     Field str_to_field( const std::string& str );
     Field str_to_dual2( Field dual1, const std::string& str );
     std::string make_key( const std::string& str );
-    bool split_code_date( std::string* scheme, std::string* format, std::string* date, const std::string& str );
     bool split_code( std::string* scheme, std::string* format, const std::string& str );
     std::string parse_date_expr( const std::string& str );
 

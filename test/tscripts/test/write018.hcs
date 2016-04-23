@@ -1,7 +1,0 @@
-// write018.hcs Test use of date scheme prefixes with range list.
-
-write date "g#8mar1948|j#sep1948";
-
-/*[OUTPUT]
-2432619 | 2432809 ~ 2432838
-[OUTPUT]*/

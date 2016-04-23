@@ -31,6 +31,7 @@
 #include "calgrammar.h"
 #include "calparse.h"
 #include "calrecord.h"
+#include "calsetmath.h"
 #include "caltext.h"
 #include "calvocab.h"
 
@@ -163,6 +164,14 @@ string Format::get_output( const Record& record ) const
         }
     }
     return output+fieldout;
+}
+
+RangeList Format::string_to_rlist( Base* base, const string& input ) const
+{
+    if(  input.find( '~' ) != string::npos || input.find( '|' ) != string::npos ) {
+        return multirange_str_to_rlist( base, input );
+    }
+    return bare_str_to_rlist( base, input );
 }
 
 bool Format::set_input( Record* record, const string& input, Boundary rb ) const
@@ -572,6 +581,150 @@ int Format::parse_date( InputField* ifs, size_t size, const string& str ) const
         }
     }
     return i;
+}
+
+RangeList Format::multirange_str_to_rlist( Base* base, const string& input ) const
+{
+    RangeList rlist;
+    string str = input;
+    string rangestr, begval, endval;
+    size_t pos1;
+    for( ;;) {
+        pos1 = str.find( '|' );
+        rangestr = str.substr( 0, pos1 );
+        size_t pos2 = rangestr.find( '~' );
+        if( pos2 == string::npos ) {
+            // single value
+            RangeList rl = bare_str_to_rlist( base, rangestr );
+            rlist.insert( rlist.end(), rl.begin(), rl.end() );
+        } else {
+            // start and end
+            begval = rangestr.substr( 0, pos2 );
+            endval = rangestr.substr( pos2 + 1 );
+            Record rec1( base ), rec2( base );
+            bool ret1 = true, ret2 = true;
+            Range range;
+            if( begval.empty() ) {
+                range.jdn1 = f_minimum;
+            } else {
+                Record rec( base );
+                ret1 = set_input( &rec, begval, RB_begin );
+                range.jdn1 = rec.get_jdn();
+            }
+            if( endval.empty() ) {
+                range.jdn2 = f_maximum;
+            } else {
+                Record rec( base );
+                ret2 = set_input( &rec, endval, RB_end );
+                range.jdn2 = rec.get_jdn();
+            }
+            if( ret1 && ret2 && range.jdn1 != f_invalid && range.jdn2 != f_invalid ) {
+                rlist.push_back( range );
+            }
+        }
+        if( pos1 == string::npos ) {
+            break;
+        }
+        str = str.substr( pos1 + 1 );
+    }
+    return op_set_well_order( rlist );
+}
+
+RangeList Format::bare_str_to_rlist( Base* base, const string& input ) const
+{
+    RangeList ranges;
+    Record mask( base, input, get_code(), RB_none );
+    Range range;
+    bool ret = set_range_as_begin( &range, mask );
+    while( range.jdn1 != f_invalid ) {
+        if( ret ) {
+            if( ranges.size() && ranges[ranges.size()-1].jdn2+1 >= range.jdn1 ) {
+                ranges[ranges.size()-1].jdn2 = range.jdn2;
+            } else {
+                ranges.push_back( range );
+            }
+        }
+        ret = set_range_as_next( &range, mask );
+    }
+    return ranges;
+}
+
+// Sets range and returns true if the masks can create a valid range.
+// Sets up range but returns false if the masks can create a valid range only
+// by ignoring optional fields.
+// Sets range to invalid and returns false if the masks cannot create a valid
+// range.
+bool Format::set_range_as_begin( Range* range, const Record& mask ) const
+{
+    Record rec1( mask.get_base() );
+    Record rec2( mask.get_base() );
+    bool ret1 = rec1.set_fields_as_begin_first( mask.get_field_ptr(), false );
+    bool ret2 = rec2.set_fields_as_begin_last( mask.get_field_ptr(), false );
+    if( !ret1 || !ret2 ) {
+        range->jdn1 = f_invalid;
+        return false;
+    }
+    range->jdn1 = rec1.get_jdn();
+    range->jdn2 = rec2.get_jdn();
+    if( range->jdn1 == f_invalid || range->jdn2 == f_invalid ) {
+        range->jdn1 = f_invalid;
+        return false;
+    }
+    ret1 = rec1.set_fields_as_begin_first( mask.get_field_ptr(), true );
+    ret2 = rec2.set_fields_as_begin_last( mask.get_field_ptr(), true );
+    if( ret1 && ret2 ) {
+        Range r;
+        r.jdn1 = rec1.get_jdn();
+        r.jdn2 = rec2.get_jdn();
+        if( r.jdn1 != range->jdn1 || r.jdn2 != range->jdn2 ) {
+            if( r.jdn1 > r.jdn2 ) {
+                return false;
+            }
+            *range = r;
+            return true;
+        }
+    }
+    return ret1 && ret2;
+}
+
+// Using the initial value of range, attempts to adjust the value of range
+// to the next value.
+// If it fails, it sets the range invalid and returns false.
+// If it succeeds, it will attempt to correct for optional fields - if this
+// fails, the uncorrected range is set and the the function returns false.
+bool Format::set_range_as_next( Range* range, const Record& mask ) const
+{
+    Record rec1( mask.get_base(), range->jdn1 );
+    Record rec2( mask.get_base(), range->jdn2 );
+    bool ret1 = rec1.set_fields_as_next_first( mask.get_field_ptr() );
+    bool ret2 = rec2.set_fields_as_next_last( mask.get_field_ptr() );
+    if( !ret1 || !ret2 ) {
+        range->jdn1 = f_invalid;
+        return false;
+    }
+    range->jdn1 = rec1.get_jdn();
+    range->jdn2 = rec2.get_jdn();
+    if( range->jdn1 > range->jdn2 ||
+        range->jdn1 == f_invalid || range->jdn2 == f_invalid )
+    {
+        range->jdn1 = f_invalid;
+        return false;
+    }
+    ret1 = rec1.correct_fields_as_first( mask.get_field_ptr() );
+    ret2 = rec2.correct_fields_as_last( mask.get_field_ptr() );
+    if( ret1 && ret2 ) {
+        Range r;
+        r.jdn1 = rec1.get_jdn();
+        r.jdn2 = rec2.get_jdn();
+        if( r.jdn1 != range->jdn1 || r.jdn2 != range->jdn2 ) {
+            if( r.jdn1 > r.jdn2 ) {
+                return false;
+            }
+            *range = r;
+            return true;
+        }
+    }
+    return ret1 && ret2;
 }
 
 
