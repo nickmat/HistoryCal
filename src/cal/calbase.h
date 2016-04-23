@@ -159,7 +159,7 @@ namespace Cal {
         // The fieldname must match one of the OptFieldID enum's.
         void add_opt_field( const std::string& fieldname );
 
-        XRefVec get_xref_order( int count, Format* fmt ) const;
+        XRefVec get_xref_order( int count, const Format* fmt ) const;
 
         FieldVec fields_to_vec( const Field* fields ) const;
         bool is_complete( const Field* fields ) const;
@@ -171,6 +171,7 @@ namespace Cal {
 
         OptFieldID opt_index_to_id( size_t index ) const { return m_opt_fields[index-record_size()]; }
         int opt_id_to_index( OptFieldID id ) const;
+        virtual bool is_tier1( const std::string& fieldname, const Format* fmt ) const;
     protected:
         virtual int get_std_fieldname_index( const std::string& fieldname ) const { return get_ymd_fieldname_index( fieldname ); }
         virtual std::string get_std_fieldname( size_t index ) const { return get_ymd_fieldname( index ); }
@@ -184,9 +185,8 @@ namespace Cal {
         size_t sizeof_ymd_fieldnames() const { return s_sizeof_ymd_fieldnames; }
         int get_opt_fieldname_index( const std::string& fieldname ) const;
         XRefVec create_xref( const StringVec& fieldnames ) const; 
-        virtual XRefSet create_input_xref_set( Format* fmt ) const;
+        virtual XRefSet create_input_xref_set( const Format* fmt ) const;
         virtual StringVec get_rank_fieldnames() const { return StringVec(0); }
-        virtual bool is_tier1( const std::string& fieldname, const Format* fmt ) const;
 
     private:
         void create_default_grammar() const;

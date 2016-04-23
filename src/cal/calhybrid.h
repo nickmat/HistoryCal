@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     23rd September 2013
- * Copyright:   Copyright (c) 2013 - 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -84,7 +84,7 @@ namespace Cal {
         bool is_in_scheme( Field jdn, Field scheme ) const;
         size_t find_scheme( Field jdn ) const;
         void set_hybrid_fields( Field* fields, const Field* mask, Field scheme ) const;
-        XRefSet create_input_xref_set( Format* fmt ) const;
+        XRefSet create_input_xref_set( const Format* fmt ) const;
 
         // Note: m_data.size() == m_xref_fields.size()
         std::vector<HybridData> m_data;

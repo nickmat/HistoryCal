@@ -50,12 +50,15 @@ namespace Cal {
         std::string get_user_input_str() const { return m_input_str; }
         std::string get_user_output_str() const { return m_output_str; }
 
-
         std::string rlist_to_string( Base* base, const RangeList& ranges ) const;
         std::string range_to_string( Base* base, Range range ) const;
         std::string jdn_to_string( Base* base, Field jdn ) const;
         std::string get_output( const Record& record ) const;
 
+        bool set_input( Record* record, const std::string& input, Boundary rb ) const;
+
+        bool resolve_input(
+            const Base* base, Field* fields, const InputFieldVec& input ) const;
 
         void set_format( const std::string& format, Use usefor = Use_inout );
         void set_separators( const std::string& sep ) { m_separators = sep; }
@@ -73,9 +76,17 @@ namespace Cal {
         bool is_tier1( const std::string& fieldname ) const;
 
     private:
+        enum CP_Group {
+            GRP_Hyphen, GRP_Digit, GRP_Quest, GRP_Dual,
+            GRP_Sep, GRP_Other
+        };
+        CP_Group get_cp_group( 
+            std::string::const_iterator it,
+            std::string::const_iterator end ) const;
         Field get_field( const Record& record, const std::string& fname ) const;
         std::string formatted_str( 
             Field field, const std::string& format, const std::string& specifier ) const;
+        int parse_date( InputField* ifs, size_t size, const std::string& str ) const;
 
         std::string m_code;
         Grammar*    m_owner;

@@ -49,6 +49,198 @@ Format::~Format()
 {
 }
 
+string Format::rlist_to_string( Base* base, const RangeList& ranges ) const
+{
+    string str;
+    for( size_t i = 0 ; i < ranges.size() ; i++ ) {
+        if( i > 0 ) {
+            str += " | ";
+        }
+        str += range_to_string( base, ranges[i] );
+    }
+    return str;
+}
+
+string Format::range_to_string( Base* base, Range range ) const
+{
+    if( range.jdn1 == range.jdn2 ) {
+        return jdn_to_string( base, range.jdn1 );
+    }
+    string str1, str2;
+    if( range.jdn1 == f_minimum || range.jdn2 == f_maximum ) {
+        str1 = jdn_to_string( base, range.jdn1 );
+        str2 = jdn_to_string( base, range.jdn2 );
+    } else {
+        Record rec1( base, range.jdn1 );
+        Record rec2( base, range.jdn2 );
+
+        rec1.remove_balanced_fields( &rec2 );
+        str1 = get_output( rec1 );
+        str2 = get_output( rec2 );
+        if( str1 == str2 ) {
+            return str1;
+        }
+    }
+    return str1 + " ~ " + str2;
+}
+
+string Format::jdn_to_string( Base* base, Field jdn ) const
+{
+    if( jdn == f_minimum ) {
+        return "past";
+    }
+    if( jdn == f_maximum ) {
+        return "future";
+    }
+    Record rec( base, jdn );
+    return get_output( rec );
+}
+
+string Format::get_output( const Record& record ) const
+{
+    string output, fieldout, fname, dname, vocab, abbrev, value;
+    enum State { ignore, dooutput, dofname, dodname, dovocab, doabbrev };
+    State state = dooutput;
+    for( string::const_iterator it = m_format.begin() ; it != m_format.end() ; it++ ) {
+        switch( state )
+        {
+        case ignore:
+            if( *it == '|' ) {
+                state = dooutput;
+            }
+            break;
+        case dooutput:
+            if( *it == '|' ) {
+                output += fieldout;
+                fieldout.clear();
+            } else if( *it == '(' ) {
+                state = dofname;
+            } else {
+                fieldout += *it;
+            }
+            break;
+        case dofname:
+        case dodname:
+        case dovocab:
+        case doabbrev:
+            if( *it == ')' ) {
+                Field f = get_field( record, fname );
+                if( dname.size() ) {
+                    Field d = get_field( record, dname );
+                    value = dual_fields_to_str( f, d );
+                } else {
+                    value = formatted_str( f, vocab, abbrev );
+                }
+                if( value.empty() ) {
+                    fieldout.clear();
+                    state = ignore;
+                } else {
+                    fieldout += value;
+                    state = dooutput;
+                }
+                fname.clear();
+                dname.clear();
+                vocab.clear();
+                abbrev.clear();
+            } else if( state == dofname && *it == ':' ) {
+                state = dovocab;
+            } else if( state == dofname && *it == '/' ) {
+                state = dodname;
+            } else if( state == dovocab && *it == '.' ) {
+                state = doabbrev;
+            } else {
+                if( state == dofname ) {
+                    fname += *it;
+                } else if( state == dodname ) {
+                    dname += *it;
+                } else if( state == dovocab ) {
+                    vocab += *it;
+                } else { // doabbrev
+                    abbrev += *it;
+                }
+            }
+            break;
+        }
+    }
+    return output+fieldout;
+}
+
+bool Format::set_input( Record* record, const string& input, Boundary rb ) const
+{
+    const Base* base = record->get_base();
+    InputFieldVec ifs(base->extended_size());
+    parse_date( &ifs[0], ifs.size(), input );
+    bool ret = resolve_input( base, record->get_field_ptr(), ifs );
+    if( !ret || rb == RB_none ) {
+        return ret;
+    }
+    Record rec( *record );
+    if( rb == RB_begin ) {
+        ret = record->set_fields_as_begin_first( rec.get_field_ptr(), false );
+    }
+    if( rb == RB_end ) {
+        ret = record->set_fields_as_begin_last( rec.get_field_ptr(), false );
+    }
+    return ret;
+}
+
+bool Format::resolve_input(
+    const Base* base, Field* fields, const InputFieldVec& input ) const
+{
+    size_t cnt = 0;
+    FieldVec fs( base->extended_size(), f_invalid );
+    for( size_t i = 0 ; i < input.size() ; i++ ) {
+        if( input[i].type == IFT_null ) {
+            continue;
+        }
+        string fname;
+        if( input[i].type == IFT_dual2 ) {
+            fname = get_1st_input_field( IFT_dual2 );
+            if( fname.empty() ) {
+                continue; // Ignore if we can't find it.
+            }
+        }
+        if( input[i].vocab ) {
+            fname = input[i].vocab->get_fieldname();
+            if( fname.empty() ) {
+                fname = get_input_field( input[i].vocab );
+                if( fname.empty() ) {
+                    continue; // Give up.
+                }
+            }
+        }
+        if( fname.size() ) {
+            if( !base->is_tier1( fname, this ) ) {
+                int index = base->get_fieldname_index( fname );
+                // Input an extended field
+                fields[index] = input[i].value;
+                continue;
+            }
+        }
+        fs[cnt] = input[i].value;
+        cnt++;
+    }
+    if( cnt < 1 ) {
+        return false;
+    }
+    XRefVec xref = base->get_xref_order( cnt, this );
+    if( xref.empty() ) {
+        return false;
+    }
+    for( size_t i = 0 ; i < cnt ; i++ ) {
+        int x = xref[i];
+        if( x >= 0 && x < (int) base->extended_size() ) {
+            fields[x] = fs[i];
+        }
+    }
+    for( size_t i = base->record_size() ; i < base->extended_size() ; i++ ) {
+        if( fields[i] != f_invalid ) {
+            base->resolve_opt_input( fields, i );
+        }
+    }
+    return true;
+}
+
 void Format::set_format( const std::string& format, Use usefor )
 {
     assert( m_owner );
@@ -224,120 +416,39 @@ bool Format::is_tier1( const std::string& fieldname ) const
     return false;
 }
 
-string Format::rlist_to_string( Base* base, const RangeList& ranges ) const
+Format::CP_Group Format::get_cp_group(
+    string::const_iterator it, string::const_iterator end ) const
 {
-    string str;
-    for( size_t i = 0 ; i < ranges.size() ; i++ ) {
-        if( i > 0 ) {
-            str += " | ";
-        }
-        str += range_to_string( base, ranges[i] );
+    int ch = *it;
+    if( ch < 0 ) {  // eliminate non-ascii 
+        return GRP_Other;
     }
-    return str;
-}
-
-string Format::range_to_string( Base* base, Range range ) const
-{
-    if( range.jdn1 == range.jdn2 ) {
-        return jdn_to_string( base, range.jdn1 );
-    }
-    string str1, str2;
-    if( range.jdn1 == f_minimum || range.jdn2 == f_maximum ) {
-        str1 = jdn_to_string( base, range.jdn1 );
-        str2 = jdn_to_string( base, range.jdn2 );
-    } else {
-        Record rec1( base, range.jdn1 );
-        Record rec2( base, range.jdn2 );
-
-        rec1.remove_balanced_fields( &rec2 );
-        str1 = get_output( rec1 );
-        str2 = get_output( rec2 );
-        if( str1 == str2 ) {
-            return str1;
+    for( string::const_iterator sit = m_separators.begin() ; sit != m_separators.end() ; sit++ ) {
+        if( *it == *sit ) {
+            return GRP_Sep;
         }
     }
-    return str1 + " ~ " + str2;
-}
-
-string Format::jdn_to_string( Base* base, Field jdn ) const
-{
-    if( jdn == f_minimum ) {
-        return "past";
-    }
-    if( jdn == f_maximum ) {
-        return "future";
-    }
-    Record rec( base, jdn );
-    return get_output( rec );
-}
-
-string Format::get_output( const Record& record ) const
-{
-    string output, fieldout, fname, dname, vocab, abbrev, value;
-    enum State { ignore, dooutput, dofname, dodname, dovocab, doabbrev };
-    State state = dooutput;
-    for( string::const_iterator it = m_format.begin() ; it != m_format.end() ; it++ ) {
-        switch( state )
-        {
-        case ignore:
-            if( *it == '|' ) {
-                state = dooutput;
+    if( ch == '-' ) {
+        // If hyphen is followed by a digit treat as digit
+        if( it+1 != end ) {
+            int ch1 = *(it+1);
+            if( ch1 > 0 && isdigit( ch1 ) ) {
+                return GRP_Digit;
             }
-            break;
-        case dooutput:
-            if( *it == '|' ) {
-                output += fieldout;
-                fieldout.clear();
-            } else if( *it == '(' ) {
-                state = dofname;
-            } else {
-                fieldout += *it;
-            }
-            break;
-        case dofname:
-        case dodname:
-        case dovocab:
-        case doabbrev:
-            if( *it == ')' ) {
-                Field f = get_field( record, fname );
-                if( dname.size() ) {
-                    Field d = get_field( record, dname );
-                    value = dual_fields_to_str( f, d );
-                } else {
-                    value = formatted_str( f, vocab, abbrev );
-                }
-                if( value.empty() ) {
-                    fieldout.clear();
-                    state = ignore;
-                } else {
-                    fieldout += value;
-                    state = dooutput;
-                }
-                fname.clear();
-                dname.clear();
-                vocab.clear();
-                abbrev.clear();
-            } else if( state == dofname && *it == ':' ) {
-                state = dovocab;
-            } else if( state == dofname && *it == '/' ) {
-                state = dodname;
-            } else if( state == dovocab && *it == '.' ) {
-                state = doabbrev;
-            } else {
-                if( state == dofname ) {
-                    fname += *it;
-                } else if( state == dodname ) {
-                    dname += *it;
-                } else if( state == dovocab ) {
-                    vocab += *it;
-                } else { // doabbrev
-                    abbrev += *it;
-                }
-            }
-            break;
         }
+        // Otherwise treat it as text
+        return GRP_Other;
     }
-    return output+fieldout;
+    if( ch == '/' ) {
+        return GRP_Dual;
+    }
+    if( ch == unknown_val ) {
+        return GRP_Quest;
+    }
+    if( isdigit( ch ) ) {
+        return GRP_Digit;
+    }
+    return GRP_Other;
 }
 
 Field Format::get_field( const Record& record, const std::string& fname ) const
@@ -374,6 +485,93 @@ string Format::formatted_str(
         }
     }
     return result;
+}
+
+int Format::parse_date( InputField* ifs, size_t size, const string& str ) const
+{
+    size_t i = 0;
+
+    assert( ifs != NULL );
+    assert( size > 0 );
+    if( str.empty() ) {
+        return 0;
+    }
+    string token;
+    CP_Group grp, prev_grp, token_grp;
+    string::const_iterator it = str.begin();
+    grp = prev_grp = token_grp = get_cp_group( it, str.end() );
+    if( grp == GRP_Quest ) {
+        prev_grp = GRP_Sep;
+    }
+    bool done = false, ignore = false, dual = false;
+    for(;;) {
+        if( grp != prev_grp ) {
+            token = full_trim( token );
+            if( token.size() ) {
+                if( token_grp == GRP_Digit ) {
+                    if( grp == GRP_Dual ) {
+                        ifs[i].value = str_to_field( token );
+                        ifs[i].type = IFT_dual1;
+                        i++;
+                        // Default is dual dates are the same.
+                        ifs[i].value = ifs[i-1].value;
+                        ifs[i].type = IFT_dual2;
+                        i++;
+                        dual = true;
+                    } else if( dual ) {
+                        assert( i >= 2 );
+                        ifs[i-1].value = str_to_dual2( ifs[i-2].value, token );
+                        dual = false;
+                    } else {
+                        ifs[i].value = str_to_field( token );
+                        ifs[i].type = IFT_number;
+                        i++;
+                    }
+                }
+                if( token_grp == GRP_Other ) {
+                    Field f = get_owner()->find_token( &(ifs[i].vocab), token );
+                    if( f == f_invalid ) {
+                        return -1; // Unrecognised token
+                    }
+                    ifs[i].value = f;
+                    ifs[i].type = IFT_vocab;
+                    i++;
+                }
+                if( i == size ) {
+                    break;
+                }
+            }
+            token.clear();
+            if( grp == GRP_Quest ) {
+                ifs[i].value = f_invalid;
+                ifs[i].type = IFT_quest;
+                i++;
+                if( i == size ) {
+                    break;
+                }
+                // Question marks are not grouped
+                prev_grp = GRP_Sep;
+            } else {
+                prev_grp = grp;
+            }
+            token_grp = grp;
+        }
+        if( done ) {
+            break;
+        }
+        if( token_grp == GRP_Digit || token_grp == GRP_Other ) {
+            token += *it;
+        }
+        it++;
+        if( grp != GRP_Digit && grp != GRP_Dual ) dual = false; 
+        if( it == str.end() ) {
+            grp = GRP_Sep;
+            done = true;
+        } else {
+            grp = get_cp_group( it, str.end() );
+        }
+    }
+    return i;
 }
 
 

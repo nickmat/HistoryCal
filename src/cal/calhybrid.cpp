@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     23rd September 2013
- * Copyright:   Copyright (c) 2013 - 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -370,7 +370,7 @@ void Hybrid::resolve_opt_input( Field* fields, size_t index ) const
     m_data[0].base->resolve_opt_input( &fields[1], index - 1 );
 }
 
-XRefSet Hybrid::create_input_xref_set( Format* fmt ) const
+XRefSet Hybrid::create_input_xref_set( const Format* fmt ) const
 {
     XRefVec order = create_xref( fmt->get_input_fields() );
     StringVec rank_fns = fmt->get_rank_fieldnames();

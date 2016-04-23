@@ -402,7 +402,7 @@ void Base::add_opt_field( const string& fieldname )
     }
 }
 
-XRefVec Base::get_xref_order( int cnt, Format* fmt ) const
+XRefVec Base::get_xref_order( int cnt, const Format* fmt ) const
 {
     XRefSet xref_set;
     string format = fmt->get_user_input_str();
@@ -565,7 +565,7 @@ XRefVec Base::create_xref( const StringVec& fieldnames ) const
     return xref;
 }
 
-XRefSet Base::create_input_xref_set( Format* fmt ) const
+XRefSet Base::create_input_xref_set( const Format* fmt ) const
 {
     XRefVec order = create_xref( fmt->get_input_fields() );
     StringVec rank_fns = fmt->get_rank_fieldnames();
