@@ -60,6 +60,7 @@ namespace Cal {
         void remove_balanced_fields( Record* record );
 
         Field get_jdn() const;
+        Field jdn() const { return m_jdn; }
         FieldVec get_fieldvec() { return m_f; };
         std::string get_str( const std::string& fcode ) const;
 
@@ -81,9 +82,6 @@ namespace Cal {
         int get_unit_index( const std::string& unitname ) const;
 
     private:
-        void set_field_by_unit( const std::string& value, const std::string& unit );
-        void parse_units( const std::string& str );
-
         const Base* m_base;
         FieldVec    m_f;
         Field       m_jdn;

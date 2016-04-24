@@ -35,6 +35,8 @@ namespace Cal {
     class Calendars;
     class FormatText;
     class FormatIso;
+    class FormatUnit;
+
 
     class Grammar
     {
@@ -47,11 +49,14 @@ namespace Cal {
         void add_vocab( Vocab* vocab );
         FormatText* create_format_text( const std::string& code );
         FormatIso* create_format_iso( const std::string& code, const StringVec& rules );
+        FormatUnit* create_format_unit();
         bool add_format( Format* fmt );
         void add_alias( const std::string& alias, const StringVec& pairs );
 
         std::string code() const { return m_code; }
         std::string get_field_alias( const std::string& fname ) const;
+        std::string get_unit_fieldname( Field* multiple, const std::string& unit ) const;
+        std::string get_unitname( const std::string& fieldname ) const;
         std::string get_num_code_alias( const std::string& fname ) const;
         Unit get_unit_alias( const std::string& fname ) const;
         std::string get_input_format( const std::string& code ) const;
@@ -80,7 +85,8 @@ namespace Cal {
         Grammar*                   m_inherit;
         StringMap                  m_field_alias;
         StringMap                  m_num_code_alias;
-        std::map<std::string,Unit> m_unit_alias;
+        StringMap                  m_unit_alias;
+        std::map<std::string,Unit> m_unit_type_alias;
         std::vector<Vocab*>        m_vocabs;
         FormatMap                  m_formats;
         std::string                m_pref_input_fcode;

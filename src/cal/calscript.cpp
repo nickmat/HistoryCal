@@ -28,6 +28,7 @@
 #include "calscript.h"
 
 #include "cal/calendars.h"
+#include "calformatiso.h"
 #include "calformattext.h"
 #include "calgrammar.h"
 #include "calgregorian.h"

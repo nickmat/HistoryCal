@@ -30,6 +30,7 @@
 #include "cal/calendars.h"
 #include "calformatiso.h"
 #include "calformattext.h"
+#include "calformatunit.h"
 #include "calparse.h"
 #include "calvocab.h"
 
@@ -93,6 +94,18 @@ FormatIso* Grammar::create_format_iso( const string& code, const StringVec& rule
     return fmt;
 }
 
+FormatUnit* Grammar::create_format_unit()
+{
+    string code("u");
+    if( m_formats.count( code ) ) {
+        // Already there
+        return NULL;
+    }
+    FormatUnit* fmt = new FormatUnit( code, this );
+    m_formats[code] = fmt;
+    return fmt;
+}
+
 bool Grammar::add_format( Format* fmt )
 {
     assert( fmt != NULL );
@@ -125,6 +138,7 @@ void Grammar::add_alias( const string& alias, const StringVec& pairs )
         }
     } else if( alias == "unit" ) {
         for( size_t i = 0 ; i < pairs.size() ; i += 2 ) {
+            m_unit_alias[pairs[i]] = pairs[i+1];
             string name = pairs[i+1];
             Unit unit = unit_null;
             if( name == "year" ) {
@@ -139,7 +153,7 @@ void Grammar::add_alias( const string& alias, const StringVec& pairs )
                 continue;
             }
             string key = make_key( pairs[i] );
-            m_unit_alias[key] = unit;
+            m_unit_type_alias[key] = unit;
         }
     }
 }
@@ -153,6 +167,30 @@ string Grammar::get_field_alias( const string& fname ) const
         return m_inherit->get_field_alias( fname );
     }
     return fname;
+}
+
+string Grammar::get_unit_fieldname( Field* multiple, const string& unit ) const
+{
+    if( m_unit_alias.count( unit ) > 0 ) {
+        return m_unit_alias.find( unit )->second;
+    }
+    if( m_inherit ) {
+        return m_inherit->get_unit_fieldname( multiple, unit );
+    }
+    return get_field_alias( unit );
+}
+
+string Grammar::get_unitname( const string& fieldname ) const
+{
+    for( StringMap::const_iterator it = m_unit_alias.begin() ; it != m_unit_alias.end() ; it++ ) {
+        if( it->second == fieldname ) {
+            return it->first;
+        }
+    }
+    if( m_inherit ) {
+        return m_inherit->get_unitname( fieldname );
+    }
+    return fieldname;
 }
 
 string Grammar::get_num_code_alias( const string& fname ) const
@@ -169,8 +207,8 @@ string Grammar::get_num_code_alias( const string& fname ) const
 Unit Grammar::get_unit_alias( const string& str ) const
 {
     string key = make_key( str );
-    if( m_unit_alias.count( key ) > 0 ) {
-        return m_unit_alias.find( key )->second;
+    if( m_unit_type_alias.count( key ) > 0 ) {
+        return m_unit_type_alias.find( key )->second;
     }
     if( m_inherit ) {
         return m_inherit->get_unit_alias( str );
@@ -259,7 +297,6 @@ Format* Grammar::get_format( const string& code ) const
         if( m_inherit ) {
             return m_inherit->get_format( code );
         }
-        // No options left.
         return NULL;
     }
     return it->second;

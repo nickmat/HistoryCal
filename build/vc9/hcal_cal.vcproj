@@ -239,6 +239,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\cal\calformatunit.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\cal\calfrench.cpp"
 				>
 			</File>
@@ -382,6 +386,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\cal\calformattext.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\cal\calformatunit.h"
 				>
 			</File>
 			<File

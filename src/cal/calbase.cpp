@@ -28,6 +28,7 @@
 #include "calbase.h"
 
 #include "calformattext.h"
+#include "calformatunit.h"
 #include "calgrammar.h"
 #include "calmath.h"
 #include "calparse.h"
@@ -317,7 +318,11 @@ Grammar* Base::get_grammar() const
 
 Format* Base::get_format( const string& fcode ) const
 {
-    return get_grammar()->get_format( fcode );
+    Format* fmt = get_grammar()->get_format( fcode );
+    if( fmt == NULL && fcode == "u" ) {
+        fmt = m_grammar->create_format_unit();
+    }
+    return fmt;
 }
 
 void Base::set_grammar( Grammar* grammar )
