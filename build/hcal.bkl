@@ -6,7 +6,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCal is free software: you can redistribute it and/or modify
@@ -138,6 +138,7 @@
     <sources>$(LOCAL_TST)/unit/testhebrew.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testhybrid.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testislamic.cpp</sources>
+    <sources>$(LOCAL_TST)/unit/testiso.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testj325.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testjulian.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testmain.cpp</sources>
@@ -197,6 +198,7 @@
     <sources>$(LOCAL_SRC)/cal/caldefscripts.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/caldlist.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calformat.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calformatiso.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calformattext.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calfrench.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calgrammar.cpp</sources>
@@ -233,6 +235,7 @@
     <headers>$(LOCAL_SRC)/cal/caldefscripts.h</headers>
     <headers>$(LOCAL_SRC)/cal/caldlist.h</headers>
     <headers>$(LOCAL_SRC)/cal/calformat.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calformatiso.h</headers>
     <headers>$(LOCAL_SRC)/cal/calformattext.h</headers>
     <headers>$(LOCAL_SRC)/cal/calfrench.h</headers>
     <headers>$(LOCAL_SRC)/cal/calgrammar.h</headers>

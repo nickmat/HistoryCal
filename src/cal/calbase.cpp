@@ -466,9 +466,10 @@ bool Base::is_tier1( const string& fieldname, const FormatText* fmt ) const
 
 void Base::create_default_grammar() const
 {
-    assert( m_grammar == NULL );
-    Grammar* gmr = new Grammar( "" );
-    FormatText* fmt = gmr->create_format_text( "def" );
+    if( m_grammar == NULL ) {
+        m_grammar = new Grammar( "" );
+    }
+    FormatText* fmt = m_grammar->create_format_text( "def" );
     string format;
     for( size_t i = 0 ; i < extended_size() ; i++ ) {
         if( i > 0 ) {
@@ -477,7 +478,6 @@ void Base::create_default_grammar() const
         format += "(" + get_fieldname( i ) + ")";
     }
     fmt->set_format( format );
-    m_grammar = gmr;
 }
 
 XRefVec Base::create_xref( const StringVec& fieldnames ) const 

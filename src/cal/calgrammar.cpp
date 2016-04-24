@@ -28,6 +28,7 @@
 #include "calgrammar.h"
 
 #include "cal/calendars.h"
+#include "calformatiso.h"
 #include "calformattext.h"
 #include "calparse.h"
 #include "calvocab.h"
@@ -77,6 +78,17 @@ FormatText* Grammar::create_format_text( const string& code )
         return NULL;
     }
     FormatText* fmt = new FormatText( code, this );
+    m_formats[code] = fmt;
+    return fmt;
+}
+
+FormatIso* Grammar::create_format_iso( const string& code, const StringVec& rules )
+{
+    if( m_formats.count( code ) ) {
+        // Already there
+        return NULL;
+    }
+    FormatIso* fmt = new FormatIso( code, this, rules );
     m_formats[code] = fmt;
     return fmt;
 }

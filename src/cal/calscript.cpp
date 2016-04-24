@@ -865,7 +865,7 @@ bool Script::do_format( Grammar* gmr )
 {
     string code, format, informat, separators;
     FormatText::Use usefor = FormatText::Use_inout;
-    StringVec rankfields;
+    StringVec rankfields, rules;
     expr( true ).get( code );
     if( code.empty() ) {
         error( "Format code missing." );
@@ -908,6 +908,9 @@ bool Script::do_format( Grammar* gmr )
                 } else if( name == "rank" ) {
                     rankfields = do_string_list();
                     continue;
+                } else if( name == "rules" ) {
+                    rules = do_string_list();
+                    continue;
                 } else {
                     error( "Expected format sub-statement." );
                     continue;
@@ -920,38 +923,35 @@ bool Script::do_format( Grammar* gmr )
         return false;
     }
 
-    if( format.empty() ) {
-        error( "Format string not found." );
-        return false;
-    }
-    FormatText* fmt;
-    if( gmr == NULL ) {
-        fmt = m_cals->create_format_text( code, NULL );
+    if( rules.empty() || rules[0] == "text" ) {
+        if( format.empty() ) {
+            error( "Format string not found." );
+            return false;
+        }
+        FormatText* fmt = m_cals->create_format_text( code, gmr );
         if( fmt == NULL ) {
             error( "Unable to create format." );
             return false;
         }
-        gmr = fmt->get_owner();
-        if( gmr == NULL ) {
-            error( "Grammar not found." );
+        fmt->set_format( format, usefor );
+        if( informat.size() ) {
+            fmt->set_format( informat, FormatText::Use_input );
+        }
+        if( separators.size() ) {
+            fmt->set_separators( separators );
+        }
+        if( rankfields.size() ) {
+            fmt->set_rank_fieldnames( rankfields );
+        }
+    } else if( rules[0] == "iso8601" ) {
+        FormatIso* fmt = m_cals->create_format_iso( code, gmr, rules );
+        if( fmt == NULL ) {
+            error( "Unable to create ISO format." );
             return false;
         }
     } else {
-        fmt = m_cals->create_format_text( code, gmr );
-        if( fmt == NULL ) {
-            error( "Unable to create format." );
-            return false;
-        }
-    }
-    fmt->set_format( format, usefor );
-    if( informat.size() ) {
-        fmt->set_format( informat, FormatText::Use_input );
-    }
-    if( separators.size() ) {
-        fmt->set_separators( separators );
-    }
-    if( rankfields.size() ) {
-        fmt->set_rank_fieldnames( rankfields );
+        error( "Unknown rules statement." );
+        return false;
     }
     return true;
 }

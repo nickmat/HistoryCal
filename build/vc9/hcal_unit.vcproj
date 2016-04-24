@@ -305,6 +305,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\test\unit\testiso.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\test\unit\testj325.cpp"
 				>
 			</File>

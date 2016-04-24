@@ -103,6 +103,7 @@ UNIT_OBJECTS =  \
 	unit_testhebrew.o \
 	unit_testhybrid.o \
 	unit_testislamic.o \
+	unit_testiso.o \
 	unit_testj325.o \
 	unit_testjulian.o \
 	unit_testmain.o \
@@ -131,6 +132,7 @@ CAL_OBJECTS =  \
 	cal_caldefscripts.o \
 	cal_caldlist.o \
 	cal_calformat.o \
+	cal_calformatiso.o \
 	cal_calformattext.o \
 	cal_calfrench.o \
 	cal_calgrammar.o \
@@ -346,6 +348,9 @@ unit_testhybrid.o: ./../../test/unit/testhybrid.cpp
 unit_testislamic.o: ./../../test/unit/testislamic.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
+unit_testiso.o: ./../../test/unit/testiso.cpp
+	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
+
 unit_testj325.o: ./../../test/unit/testj325.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
@@ -410,6 +415,9 @@ cal_caldlist.o: ./../../src/cal/caldlist.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calformat.o: ./../../src/cal/calformat.cpp
+	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
+
+cal_calformatiso.o: ./../../src/cal/calformatiso.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calformattext.o: ./../../src/cal/calformattext.cpp

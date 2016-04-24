@@ -231,6 +231,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\cal\calformatiso.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\cal\calformattext.cpp"
 				>
 			</File>
@@ -370,6 +374,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\cal\calformat.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\cal\calformatiso.h"
 				>
 			</File>
 			<File

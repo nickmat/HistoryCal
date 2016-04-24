@@ -35,6 +35,7 @@ namespace Cal {
     class ScriptStore;
     class Record;
     class FormatText;
+    class FormatIso;
 
     enum Init_schemes { Init_script_none, Init_script_default };
 
@@ -82,6 +83,7 @@ namespace Cal {
         Vocab* create_vocab( const std::string& code );
         Vocab* get_vocab( const std::string& code ) const;
         FormatText* create_format_text( const std::string& code, Grammar* gmr );
+        FormatIso* create_format_iso( const std::string& code, Grammar* gmr, const StringVec& rules );
         void add_or_replace_mark( const std::string& name );
         bool clear_mark( const std::string& name );
         ScriptStore* get_store() const { return m_store; }

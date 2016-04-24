@@ -34,6 +34,7 @@ namespace Cal {
 
     class Calendars;
     class FormatText;
+    class FormatIso;
 
     class Grammar
     {
@@ -45,6 +46,7 @@ namespace Cal {
         void set_pref( const std::string& fcode );
         void add_vocab( Vocab* vocab );
         FormatText* create_format_text( const std::string& code );
+        FormatIso* create_format_iso( const std::string& code, const StringVec& rules );
         bool add_format( Format* fmt );
         void add_alias( const std::string& alias, const StringVec& pairs );
 

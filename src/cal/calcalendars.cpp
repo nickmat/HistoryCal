@@ -29,6 +29,7 @@
 
 #include "calbase.h"
 #include "caldefscripts.h"
+#include "calformatiso.h"
 #include "calformattext.h"
 #include "calgrammar.h"
 #include "calmark.h"
@@ -378,6 +379,34 @@ FormatText* Calendars::create_format_text( const string& code, Grammar* gmr )
         return NULL;
     }
     FormatText* fmt = new FormatText( fcode, gmr );
+    if( !gmr->add_format( fmt ) ) {
+        delete fmt;
+        return NULL;
+    }
+    assert( m_marks.size() > 0 );
+    m_marks[m_marks.size()-1]->add_format( fmt );
+    return fmt;
+}
+
+FormatIso* Calendars::create_format_iso( const string& code, Grammar* gmr, const StringVec& rules )
+{
+    size_t pos = code.find( ':' );
+    if( pos == string::npos ) {
+        if( gmr == NULL ) {
+            return NULL;
+        }
+        return gmr->create_format_iso( code, rules );
+    }
+    if( gmr != NULL ) {
+        return NULL;
+    }
+    string gcode = code.substr( 0, pos );
+    string fcode = code.substr( pos + 1 );
+    gmr = get_grammar( gcode );
+    if( gmr == NULL || gmr->get_format( fcode ) != NULL ) {
+        return NULL;
+    }
+    FormatIso* fmt = new FormatIso( fcode, gmr, rules );
     if( !gmr->add_format( fmt ) ) {
         delete fmt;
         return NULL;
