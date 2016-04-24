@@ -960,14 +960,13 @@ StringVec Script::do_string_list()
 {
     StringVec vec;
     for(;;) {
-        SValue value = expr( true );
-        string str;
-        if( ! value.get( str ) || str.empty() ) {
+        SToken token = m_ts.next();
+        if( token.type() == SToken::STT_Semicolon ) {
             break;
         }
-        vec.push_back( str );
-        if( m_ts.current().type() != SToken::STT_Comma ) {
-            break;
+        string str = get_name_or_string( token );
+        if( !str.empty() ) {
+            vec.push_back( str );
         }
     }
     return vec;
