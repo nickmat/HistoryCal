@@ -177,14 +177,14 @@ namespace Cal {
 
         size_t opt_fields_size() const { return m_opt_fields.size(); }
 
-        virtual XRefVec get_default_xref_order( int count ) const;
+        XRefVec get_default_xref_order( int count ) const;
 
         int get_ymd_fieldname_index( const std::string& fieldname ) const;
         std::string get_ymd_fieldname( size_t index ) const;
         size_t sizeof_ymd_fieldnames() const { return s_sizeof_ymd_fieldnames; }
         int get_opt_fieldname_index( const std::string& fieldname ) const;
         XRefVec create_xref( const StringVec& fieldnames ) const; 
-        virtual XRefSet create_input_xref_set( const FormatText* fmt ) const;
+        XRefSet create_input_xref_set( const FormatText* fmt ) const;
         virtual StringVec get_rank_fieldnames() const { return StringVec(0); }
 
     private:

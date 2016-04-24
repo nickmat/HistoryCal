@@ -78,7 +78,6 @@ namespace Cal {
 
     protected:
         virtual StringVec get_rank_fieldnames() const { return m_fieldnames; }
-        virtual XRefSet create_input_xref_set( const FormatText* fmt ) const;
 
     private:
         FieldVec get_xref( const Field* fields, Field sch ) const;

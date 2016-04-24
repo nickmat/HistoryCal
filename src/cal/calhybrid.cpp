@@ -370,35 +370,6 @@ void Hybrid::resolve_opt_input( Field* fields, size_t index ) const
     m_data[0].base->resolve_opt_input( &fields[1], index - 1 );
 }
 
-XRefSet Hybrid::create_input_xref_set( const FormatText* fmt ) const
-{
-    XRefVec order = create_xref( fmt->get_input_fields() );
-    StringVec rank_fns = fmt->get_rank_fieldnames();
-    if( rank_fns.empty() ) {
-        rank_fns = m_fieldnames;
-    }
-    XRefVec rank = create_xref( rank_fns );
-
-    XRefSet xrefset;
-    size_t cnt = order.size();
-    xrefset[cnt] = order;
-    while( cnt > 1 ) {
-        --cnt;
-        XRefVec x;
-        for( size_t i = 0 ; i < order.size() ; i++ ) {
-            if( rank[cnt] != order[i] ) {
-                x.push_back( order[i] );
-            }
-        }
-        // Check there are not more fields in the format than in the record.
-        // This may happen if there are errors looking up fieldnames. 
-        assert( x.size() < order.size() );
-        xrefset[cnt] = x;
-        order = x;
-    }
-    return xrefset;
-}
-
 FieldVec Hybrid::get_xref( const Field* fields, Field sch ) const
 {
     FieldVec result( m_ext_size, f_invalid );
