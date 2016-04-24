@@ -29,7 +29,7 @@
 
 #include "calbase.h"
 #include "caldefscripts.h"
-#include "calformat.h"
+#include "calformattext.h"
 #include "calgrammar.h"
 #include "calmark.h"
 #include "calparse.h"
@@ -359,19 +359,25 @@ Vocab* Calendars::get_vocab( const string& code ) const
     return NULL;
 }
 
-Format* Calendars::create_format( const string& code )
+FormatText* Calendars::create_format_text( const string& code, Grammar* gmr )
 {
     size_t pos = code.find( ':' );
     if( pos == string::npos ) {
+        if( gmr == NULL ) {
+            return NULL;
+        }
+        return gmr->create_format_text( code );
+    }
+    if( gmr != NULL ) {
         return NULL;
     }
     string gcode = code.substr( 0, pos );
     string fcode = code.substr( pos + 1 );
-    Grammar* gmr = get_grammar( gcode );
+    gmr = get_grammar( gcode );
     if( gmr == NULL || gmr->get_format( fcode ) != NULL ) {
         return NULL;
     }
-    Format* fmt = new Format( fcode, gmr );
+    FormatText* fmt = new FormatText( fcode, gmr );
     if( !gmr->add_format( fmt ) ) {
         delete fmt;
         return NULL;

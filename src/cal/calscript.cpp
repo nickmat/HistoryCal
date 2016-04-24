@@ -28,7 +28,7 @@
 #include "calscript.h"
 
 #include "cal/calendars.h"
-#include "calformat.h"
+#include "calformattext.h"
 #include "calgrammar.h"
 #include "calgregorian.h"
 #include "calparse.h"
@@ -864,7 +864,7 @@ void Script::do_grammar_inherit( Grammar* gmr )
 bool Script::do_format( Grammar* gmr )
 {
     string code, format, informat, separators;
-    Format::Use usefor = Format::Use_inout;
+    FormatText::Use usefor = FormatText::Use_inout;
     StringVec rankfields;
     expr( true ).get( code );
     if( code.empty() ) {
@@ -894,11 +894,11 @@ bool Script::do_format( Grammar* gmr )
             if( token.type() == SToken::STT_Name ) {
                 string name = token.get_str();
                 if( name == "output" ) {
-                    usefor = Format::Use_output;
+                    usefor = FormatText::Use_output;
                 } else if( name == "inout" ) {
-                    usefor = Format::Use_inout;
+                    usefor = FormatText::Use_inout;
                 } else if( name == "strict" ) {
-                    usefor = Format::Use_strict;
+                    usefor = FormatText::Use_strict;
                 } else if( name == "input" ) {
                     expr( true ).get( informat );
                     continue;
@@ -924,9 +924,9 @@ bool Script::do_format( Grammar* gmr )
         error( "Format string not found." );
         return false;
     }
-    Format* fmt;
+    FormatText* fmt;
     if( gmr == NULL ) {
-        fmt = m_cals->create_format( code );
+        fmt = m_cals->create_format_text( code, NULL );
         if( fmt == NULL ) {
             error( "Unable to create format." );
             return false;
@@ -937,7 +937,7 @@ bool Script::do_format( Grammar* gmr )
             return false;
         }
     } else {
-        fmt = gmr->create_format( code );
+        fmt = m_cals->create_format_text( code, gmr );
         if( fmt == NULL ) {
             error( "Unable to create format." );
             return false;
@@ -945,7 +945,7 @@ bool Script::do_format( Grammar* gmr )
     }
     fmt->set_format( format, usefor );
     if( informat.size() ) {
-        fmt->set_format( informat, Format::Use_input );
+        fmt->set_format( informat, FormatText::Use_input );
     }
     if( separators.size() ) {
         fmt->set_separators( separators );

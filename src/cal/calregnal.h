@@ -76,7 +76,7 @@ namespace Cal {
 
         virtual void set_fields( Field* fields, Field jdn ) const;
 
-        virtual bool is_tier1( const std::string& fieldname, const Format* fmt ) const;
+        virtual bool is_tier1( const std::string& fieldname, const FormatText* fmt ) const;
     protected:
         virtual int get_std_fieldname_index( const std::string& fieldname ) const;
         virtual std::string get_std_fieldname( size_t index ) const;

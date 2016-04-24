@@ -32,6 +32,8 @@
 
 namespace Cal {
 
+    class FormatText;
+
     typedef std::map<int,XRefVec> XRefSet;
     typedef std::map<std::string,XRefSet> XRefMap;
 
@@ -136,9 +138,6 @@ namespace Cal {
         // f_invalid if an invalid field is encountered, when comparing minor fields
         // (less than index).
         virtual Field compare_minor_fields( const Field* left, const Field* right, size_t index );
-        // Set the fields given the decoded input fields and the format code.
-        // Normally handled by the Base class, even when over ridden.
-        virtual bool resolve_input( Field* fields, const InputFieldVec& input, Format* fmt ) const;
         virtual void resolve_opt_input( Field* fields, size_t index ) const {}
 
         std::string lookup_token( Field field, const std::string& vcode, bool abbrev ) const;
@@ -159,7 +158,7 @@ namespace Cal {
         // The fieldname must match one of the OptFieldID enum's.
         void add_opt_field( const std::string& fieldname );
 
-        XRefVec get_xref_order( int count, const Format* fmt ) const;
+        XRefVec get_xref_order( int count, const FormatText* fmt ) const;
 
         FieldVec fields_to_vec( const Field* fields ) const;
         bool is_complete( const Field* fields ) const;
@@ -171,7 +170,7 @@ namespace Cal {
 
         OptFieldID opt_index_to_id( size_t index ) const { return m_opt_fields[index-record_size()]; }
         int opt_id_to_index( OptFieldID id ) const;
-        virtual bool is_tier1( const std::string& fieldname, const Format* fmt ) const;
+        virtual bool is_tier1( const std::string& fieldname, const FormatText* fmt ) const;
     protected:
         virtual int get_std_fieldname_index( const std::string& fieldname ) const { return get_ymd_fieldname_index( fieldname ); }
         virtual std::string get_std_fieldname( size_t index ) const { return get_ymd_fieldname( index ); }
@@ -185,7 +184,7 @@ namespace Cal {
         size_t sizeof_ymd_fieldnames() const { return s_sizeof_ymd_fieldnames; }
         int get_opt_fieldname_index( const std::string& fieldname ) const;
         XRefVec create_xref( const StringVec& fieldnames ) const; 
-        virtual XRefSet create_input_xref_set( const Format* fmt ) const;
+        virtual XRefSet create_input_xref_set( const FormatText* fmt ) const;
         virtual StringVec get_rank_fieldnames() const { return StringVec(0); }
 
     private:

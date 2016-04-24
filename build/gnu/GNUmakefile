@@ -131,6 +131,7 @@ CAL_OBJECTS =  \
 	cal_caldefscripts.o \
 	cal_caldlist.o \
 	cal_calformat.o \
+	cal_calformattext.o \
 	cal_calfrench.o \
 	cal_calgrammar.o \
 	cal_calgregorian.o \
@@ -409,6 +410,9 @@ cal_caldlist.o: ./../../src/cal/caldlist.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calformat.o: ./../../src/cal/calformat.cpp
+	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
+
+cal_calformattext.o: ./../../src/cal/calformattext.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calfrench.o: ./../../src/cal/calfrench.cpp

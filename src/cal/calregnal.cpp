@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     28th March 2014
- * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -233,7 +233,7 @@ string Regnal::get_std_fieldname( size_t index ) const
     return "";
 }
 
-bool Regnal::is_tier1( const string& fieldname, const Format* fmt ) const
+bool Regnal::is_tier1( const string& fieldname, const FormatText* fmt ) const
 {
     if( fieldname == "era" ) {
         return true;

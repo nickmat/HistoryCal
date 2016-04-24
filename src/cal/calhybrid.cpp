@@ -28,7 +28,7 @@
 #include "calhybrid.h"
 
 #include "cal/calendars.h"
-#include "calformat.h"
+#include "calformattext.h"
 #include "calparse.h"
 #include "calscheme.h"
 #include "calrecord.h"
@@ -370,7 +370,7 @@ void Hybrid::resolve_opt_input( Field* fields, size_t index ) const
     m_data[0].base->resolve_opt_input( &fields[1], index - 1 );
 }
 
-XRefSet Hybrid::create_input_xref_set( const Format* fmt ) const
+XRefSet Hybrid::create_input_xref_set( const FormatText* fmt ) const
 {
     XRefVec order = create_xref( fmt->get_input_fields() );
     StringVec rank_fns = fmt->get_rank_fieldnames();

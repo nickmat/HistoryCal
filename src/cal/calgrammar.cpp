@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     13th November 2013
- * Copyright:   Copyright (c) 2013 - 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@
 #include "calgrammar.h"
 
 #include "cal/calendars.h"
-#include "calformat.h"
+#include "calformattext.h"
 #include "calparse.h"
 #include "calvocab.h"
 
@@ -70,13 +70,13 @@ void Grammar::add_vocab( Vocab* vocab )
     }
 }
 
-Format* Grammar::create_format( const string& code )
+FormatText* Grammar::create_format_text( const string& code )
 {
     if( m_formats.count( code ) ) {
         // Already there
         return NULL;
     }
-    Format* fmt = new Format( code, this );
+    FormatText* fmt = new FormatText( code, this );
     m_formats[code] = fmt;
     return fmt;
 }

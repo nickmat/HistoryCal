@@ -27,7 +27,7 @@
 
 #include "calbase.h"
 
-#include "calformat.h"
+#include "calformattext.h"
 #include "calgrammar.h"
 #include "calmath.h"
 #include "calparse.h"
@@ -270,66 +270,6 @@ Field Base::compare_minor_fields( const Field* left, const Field* right, size_t 
     return 0;
 }
 
-bool Base::resolve_input(
-    Field* fields, const InputFieldVec& input, Format* fmt ) const
-{
-    size_t cnt = 0;
-    FieldVec fs( extended_size(), f_invalid );
-    if( fmt == NULL ) {
-        return false;
-    }
-    for( size_t i = 0 ; i < input.size() ; i++ ) {
-        if( input[i].type == IFT_null ) {
-            continue;
-        }
-        string fname;
-        if( input[i].type == IFT_dual2 ) {
-            fname = fmt->get_1st_input_field( IFT_dual2 );
-            if( fname.empty() ) {
-                continue; // Ignore if we can't find it.
-            }
-        }
-        if( input[i].vocab ) {
-            fname = input[i].vocab->get_fieldname();
-            if( fname.empty() ) {
-				fname = fmt->get_input_field( input[i].vocab );
-				if( fname.empty() ) {
-                    continue; // Give up.
-				}
-            }
-        }
-        if( fname.size() ) {
-            if( !is_tier1( fname, fmt ) ) {
-                int index = get_fieldname_index( fname );
-                // Input an extended field
-                fields[index] = input[i].value;
-                continue;
-            }
-        }
-        fs[cnt] = input[i].value;
-        cnt++;
-    }
-    if( cnt < 1 ) {
-        return false;
-    }
-    XRefVec xref = get_xref_order( cnt, fmt );
-    if( xref.empty() ) {
-        return false;
-    }
-    for( size_t i = 0 ; i < cnt ; i++ ) {
-        int x = xref[i];
-        if( x >= 0 && x < (int) extended_size() ) {
-            fields[x] = fs[i];
-        }
-    }
-    for( size_t i = record_size() ; i < extended_size() ; i++ ) {
-        if( fields[i] != f_invalid ) {
-            resolve_opt_input( fields, i );
-        }
-    }
-    return true;
-}
-
 string Base::lookup_token( Field field, const string& vcode, bool abbrev ) const
 {
     return get_grammar()->lookup_token( field, vcode, abbrev );
@@ -402,7 +342,7 @@ void Base::add_opt_field( const string& fieldname )
     }
 }
 
-XRefVec Base::get_xref_order( int cnt, const Format* fmt ) const
+XRefVec Base::get_xref_order( int cnt, const FormatText* fmt ) const
 {
     XRefSet xref_set;
     string format = fmt->get_user_input_str();
@@ -519,7 +459,7 @@ int Base::get_opt_fieldname_index( const string& fieldname ) const
     return -1;
 }
 
-bool Base::is_tier1( const string& fieldname, const Format* fmt ) const
+bool Base::is_tier1( const string& fieldname, const FormatText* fmt ) const
 {
     return fmt->is_tier1( fieldname );
 }
@@ -528,7 +468,7 @@ void Base::create_default_grammar() const
 {
     assert( m_grammar == NULL );
     Grammar* gmr = new Grammar( "" );
-    Format* fmt = gmr->create_format( "def" );
+    FormatText* fmt = gmr->create_format_text( "def" );
     string format;
     for( size_t i = 0 ; i < extended_size() ; i++ ) {
         if( i > 0 ) {
@@ -565,7 +505,7 @@ XRefVec Base::create_xref( const StringVec& fieldnames ) const
     return xref;
 }
 
-XRefSet Base::create_input_xref_set( const Format* fmt ) const
+XRefSet Base::create_input_xref_set( const FormatText* fmt ) const
 {
     XRefVec order = create_xref( fmt->get_input_fields() );
     StringVec rank_fns = fmt->get_rank_fieldnames();

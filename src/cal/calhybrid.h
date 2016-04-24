@@ -78,13 +78,13 @@ namespace Cal {
 
     protected:
         virtual StringVec get_rank_fieldnames() const { return m_fieldnames; }
+        virtual XRefSet create_input_xref_set( const FormatText* fmt ) const;
 
     private:
         FieldVec get_xref( const Field* fields, Field sch ) const;
         bool is_in_scheme( Field jdn, Field scheme ) const;
         size_t find_scheme( Field jdn ) const;
         void set_hybrid_fields( Field* fields, const Field* mask, Field scheme ) const;
-        XRefSet create_input_xref_set( const Format* fmt ) const;
 
         // Note: m_data.size() == m_xref_fields.size()
         std::vector<HybridData> m_data;

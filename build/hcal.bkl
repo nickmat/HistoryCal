@@ -197,6 +197,7 @@
     <sources>$(LOCAL_SRC)/cal/caldefscripts.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/caldlist.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calformat.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calformattext.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calfrench.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calgrammar.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calgregorian.cpp</sources>
@@ -232,6 +233,7 @@
     <headers>$(LOCAL_SRC)/cal/caldefscripts.h</headers>
     <headers>$(LOCAL_SRC)/cal/caldlist.h</headers>
     <headers>$(LOCAL_SRC)/cal/calformat.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calformattext.h</headers>
     <headers>$(LOCAL_SRC)/cal/calfrench.h</headers>
     <headers>$(LOCAL_SRC)/cal/calgrammar.h</headers>
     <headers>$(LOCAL_SRC)/cal/calgregorian.h</headers>
