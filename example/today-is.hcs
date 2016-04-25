@@ -1,7 +1,9 @@
-// Display todays date in various calendar formats
+// Display today's date in various calendar formats
 
 writeln "Today is :-";
 writeln "Gregorian: " + str,"g:full" today;
+writeln "    ISO Week No: " + today["isow:week"] +
+        "    Ordinal Day No: " + today["isoo:day"];
 
 writeln "Western Christian Liturgical:-";
 writeln "    " + str,"glit:wly+" today;
