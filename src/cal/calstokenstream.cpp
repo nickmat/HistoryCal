@@ -80,10 +80,14 @@ SToken STokenStream::next()
 
     // TODO: This should recognise a utf-8 alpha codepoint
     string str;
-    if( isalpha( ch ) ) {
+    if( isascii( ch ) && isalpha( ch ) ) {
         str += ch;
-        while( m_in->get( ch ) && isalnum( ch ) ) {
-            str += ch;
+        while( m_in->get( ch ) ) {
+            if( isascii( ch ) && ( isalnum( ch ) || ch == '_' || ch == ':' ) ) {
+                str += ch;
+            } else {
+                break;
+            }
         }
         m_in->putback( ch );
         if( str == "or" ) {
@@ -168,7 +172,6 @@ SToken STokenStream::next()
     case '}': set_type( SToken::STT_RCbracket ); break;
     case '[': set_type( SToken::STT_LSbracket ); break;
     case ']': set_type( SToken::STT_RSbracket ); break;
-    case ':': set_type( SToken::STT_Colon ); break;
     case ';': set_type( SToken::STT_Semicolon ); break;
     case ',': set_type( SToken::STT_Comma ); break;
     case '~': set_type( SToken::STT_Tilde ); break;

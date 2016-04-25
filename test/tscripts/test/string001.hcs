@@ -1,4 +1,4 @@
-// write01.hcs Test file to test write statement
+// string001.hcs Test file to test string literals
 
 write "String with ""quotes""";
 
