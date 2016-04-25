@@ -108,7 +108,19 @@ SToken STokenStream::next()
 
     if( ch == '"' ) {
         string text;
-        while( m_in->get( ch ) && ch != '"' ) {
+        while( m_in->get( ch ) ) {
+            if( ch == '"' ) {
+                if( m_in->peek() == '"' ) {
+                    m_in->get( ch );
+                } else {
+                    break;
+                }
+            }
+            if( ch == '\n' ) {
+                m_line++;
+                error( "Newline in string literal." );
+                break;
+            }
             text += ch;
         }
         set_current( str_token, text );

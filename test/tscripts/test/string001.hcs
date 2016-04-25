@@ -1,0 +1,7 @@
+// write01.hcs Test file to test write statement
+
+write "String with ""quotes""";
+
+/*[OUTPUT]
+String with "quotes"
+[OUTPUT]*/
