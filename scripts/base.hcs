@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -25,11 +25,11 @@
 */
 
 
-vocab "w" {
+vocab w {
     name "Weekday names";
-    fieldname "wday";
-    lang "en";
-    stylename "Weekday", "WDay";
+    fieldname wday;
+    lang en;
+    stylename Weekday,  WDay;
     tokens {
         1, "Monday",    "Mon";
         2, "Tuesday",   "Tue";

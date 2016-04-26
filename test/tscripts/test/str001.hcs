@@ -1,6 +1,6 @@
 // str001.hcs Test str cast
 
-set output g;
+set output g:dmy;
 write "Date is " + str 2432814;
 
 /*[OUTPUT]

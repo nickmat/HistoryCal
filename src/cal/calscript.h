@@ -70,7 +70,6 @@ namespace Cal {
         bool do_grammar();
         bool do_grammar_vocabs( Grammar* gmr );
         bool do_grammar_alias( Grammar* gmr );
-        void do_grammar_inherit( Grammar* gmr );
         bool do_format( Grammar* gmr );
         StringVec do_string_list();
         FieldVec do_fixed_fields( const StringVec& fieldnames );

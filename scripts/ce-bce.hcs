@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     17th June 2015
- * Copyright:   Copyright (c) 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2015 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -24,21 +24,21 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 */
 
-vocab "jce" {
+vocab jce {
     name "Historic Era";
-    fieldname "ce";
-    lang "en";
-    stylename "CommonEra",  "CE";
+    fieldname ce;
+    lang en;
+    stylename CommonEra,         CE;
     tokens {
-        0, "Before Common Era",   "BCE";
-        1, "Common Era",   "CE";
+        0, "Before Common Era", "BCE";
+        1, "Common Era",        "CE";
     }
 }
 
-grammar "jce" {
-    optional "wday", "ce", "ceyear";
-    rank "ce", "ceyear", "month", "day", "wday";
-    vocabs "m", "w", "jce";
+grammar jce {
+    optional wday, ce, ceyear;
+    rank ce, ceyear, month, day, wday;
+    vocabs m, w, jce;
     alias field {
         "WDay",  "wday";
         "Day",   "day";
@@ -58,31 +58,31 @@ grammar "jce" {
         "y", "year";
         "w", "week";
     }
-    format "dmy",   "(Day) |(Month:m.a) |(Year) |(CEra:jce.a)";
-    format "wdmy",  "(WDay:w.a) |(Day) |(Month:m.a) |(Year) |(CEra:jce.a)";
-    format "out" {
+    format  dmy,    "(Day) |(Month:m.a) |(Year) |(CEra:jce.a)";
+    format  wdmy,   "(WDay:w.a) |(Day) |(Month:m.a) |(Year) |(CEra:jce.a)";
+    format  out {
         output "(Day:+os) |(Month:m) |(Year) |(CEra:jce.a)";
     }
-    format "full" {
+    format  full {
         output "(WDay:w) |(Day:+os) |(Month:m) |(Year) |(CEra:jce)";
     }
     format "dmy+",  "(Day) |(Month:m) |(Year) |(CEra:jce)";
     format "wdmy+", "(WDay:w) |(Day) |(Month:m) |(Year) |(CEra:jce)";
-    format "mdy",   "(Month:m.a) |(Day), |(Year) |(CEra:jce.a)";
-    format "ymd",   "(Year)|(CEra:jce.a)|:(Month:m.a)|:(Day)";
-    pref "dmy";
+    format  mdy,    "(Month:m.a) |(Day), |(Year) |(CEra:jce.a)";
+    format  ymd,    "(Year)|(CEra:jce.a)|:(Month:m.a)|:(Day)";
+    pref dmy;
 }
 
-scheme "jce" {
+scheme jce {
     name "Julian Common Era";
     base julian;
-    grammar "jce";
+    grammar jce;
 }
 
-scheme "gce" {
+scheme gce {
     name "Gregorian Common Era";
     base gregorian;
-    grammar "jce";
+    grammar jce;
 }
 
 // End of scripts/julian.hcs file

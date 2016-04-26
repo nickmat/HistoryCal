@@ -35,6 +35,7 @@
 #include "calparse.h"
 #include "calregnal.h"
 #include "calscheme.h"
+#include "caltext.h"
 #include "calvocab.h"
 
 #include <cassert>
@@ -384,8 +385,7 @@ bool Script::do_writeln()
 
 bool Script::do_scheme()
 {
-    string code;
-    expr( true ).get( code );
+    string code = get_name_or_string( m_ts.next() );
     if( code.empty() ) {
         error( "Scheme code missing." );
         return false;
@@ -394,6 +394,7 @@ bool Script::do_scheme()
         error( "Scheme \"" + code + "\" already exists." );
         return false;
     }
+    m_ts.next();
     SHandle sch = do_create_scheme( code );
     return m_cals->add_scheme( sch, code );
 }
@@ -431,7 +432,8 @@ SHandle Script::do_create_scheme( const std::string& code )
             } else if( token.get_str() == "optional" ) {
                 optfields = do_string_list();
             } else if( token.get_str() == "grammar" ) {
-                expr( true ).get( gmr_code );
+                gmr_code = get_name_or_string( m_ts.next() );
+                m_ts.next();
             } else if( token.get_str() == "style" ) {
                 token = m_ts.next();
                 if( token.type() != SToken::STT_Name ) {
@@ -493,8 +495,8 @@ Base* Script::do_base()
 
 Base* Script::do_base_shift()
 {
-    string scode;
-    expr( true ).get( scode );
+    string scode = get_name_or_string( m_ts.next() );
+    m_ts.next();
     SHandle sch = m_cals->get_scheme( scode );
     Field era = f_invalid;
     if( sch && m_ts.current().type() == SToken::STT_Comma ) {
@@ -534,8 +536,8 @@ Base* Script::do_base_hybrid()
             } else if( token.get_str() == "extended" ) {
                 ext_fieldnames = do_string_list();
             } else if( token.get_str() == "scheme" ) {
-                string scode;
-                expr( true ).get( scode );
+                string scode = get_name_or_string( m_ts.next() );
+                m_ts.next();
                 Scheme* sch;
                 if( m_ts.current().type() == SToken::STT_Semicolon ) {
                     sch = m_cals->get_scheme( scode );
@@ -631,9 +633,8 @@ bool Script::do_regnal_era( RegnalEra& era, StringVec& fieldnames )
                 SValue value = expr( true );
                 range = value.get_range();
             } else if( token.get_str() == "scheme" ) {
-                SValue value = expr( true );
-                string scode;
-                value.get( scode );
+                string scode = get_name_or_string( m_ts.next() );
+                m_ts.next();
                 if( m_ts.current().type() == SToken::STT_Semicolon ) {
                     sch = m_cals->get_scheme( scode );
                     local = false;
@@ -647,6 +648,7 @@ bool Script::do_regnal_era( RegnalEra& era, StringVec& fieldnames )
             assert( matchs.size() % 2 == 0 ); // must be even number
         }
     }
+    assert( sch != NULL );
     era.begin = range.jdn1;
     era.end = range.jdn2;
     era.base = sch->get_base();
@@ -669,14 +671,18 @@ bool Script::do_regnal_era( RegnalEra& era, StringVec& fieldnames )
 
 bool Script::do_vocab()
 {
-    string code;
-    expr( true ).get( code );
+    string code = get_name_or_string( m_ts.next() );
     if( code.empty() ) {
         error( "Vocab code missing." );
         return false;
     }
     if( m_cals->get_vocab( code ) != NULL ) {
         error( "vocab \"" + code + "\" already exists." );
+        return false;
+    }
+    m_ts.next();
+    if( m_ts.current().type() != SToken::STT_LCbracket ) {
+        error( "'{' expected." );
         return false;
     }
     Vocab* voc = m_cals->create_vocab( code );
@@ -692,16 +698,20 @@ bool Script::do_vocab()
                 str = expr( true ).get_str();
                 voc->set_name( str );
             } else if( name == "fieldname" ) {
-                str = expr( true ).get_str();
+                str = get_name_or_string( m_ts.next() );
+                m_ts.next();
                 voc->set_fieldname( str );
             } else if( name == "lang" ) {
-                str = expr( true ).get_str();
+                str = get_name_or_string( m_ts.next() );
+                m_ts.next();
                 voc->set_lang( str );
             } else if( name == "stylename" ) {
-                str = expr( true ).get_str();
+                str = get_name_or_string( m_ts.next() );
+                m_ts.next();
                 voc->set_full_style_name( str );
                 if( m_ts.current().type() == SToken::STT_Comma ) {
-                    str = expr( true ).get_str();
+                    str = get_name_or_string( m_ts.next() );
+                    m_ts.next();
                 }
                 voc->set_abbrev_style_name( str );
             } else if( name == "tokens" ) {
@@ -754,14 +764,18 @@ bool Script::do_vocab_tokens( Vocab* voc )
 
 bool Script::do_grammar()
 {
-    string code;
-    expr( true ).get( code );
+    string code = get_name_or_string( m_ts.next() );
     if( code.empty() ) {
         error( "Grammar code missing." );
         return false;
     }
     if( m_cals->get_grammar( code ) != NULL ) {
         error( "grammar \"" + code + "\" already exists." );
+        return false;
+    }
+    m_ts.next();
+    if( m_ts.current().type() != SToken::STT_LCbracket ) {
+        error( "'{' expected." );
         return false;
     }
     Grammar* gmr = m_cals->create_grammar( code );
@@ -780,12 +794,15 @@ bool Script::do_grammar()
             } else if( name == "format" ) {
                 do_format( gmr );
             } else if( name == "pref" ) {
-                expr( true ).get( str );
+                str = get_name_or_string( m_ts.next() );
+                m_ts.next();
                 gmr->set_pref( str );
             } else if( name == "alias" ) {
                 do_grammar_alias( gmr );
             } else if( name == "inherit" ) {
-                do_grammar_inherit( gmr );
+                str = get_name_or_string( m_ts.next() );
+                m_ts.next();
+                gmr->set_inherit( m_cals, str );
             } else if( name == "optional" ) {
                 StringVec optfields = do_string_list();
                 gmr->set_opt_fieldnames( optfields );
@@ -850,13 +867,6 @@ bool Script::do_grammar_alias( Grammar* gmr )
     return true;
 }
 
-void Script::do_grammar_inherit( Grammar* gmr )
-{
-    string code;
-    expr( true ).get( code );
-    gmr->set_inherit( m_cals, code );
-}
-
 // If parsing the format within a grammar then gmr is not NULL
 // and the Format code just contains just the Format code, as in "fmt".
 // If parsing the format in the global space then gmr is NULL and
@@ -864,14 +874,15 @@ void Script::do_grammar_inherit( Grammar* gmr )
 // as in "gmr:fmt"
 bool Script::do_format( Grammar* gmr )
 {
-    string code, format, informat, separators;
+    string format, informat, separators;
     FormatText::Use usefor = FormatText::Use_inout;
     StringVec rankfields, rules;
-    expr( true ).get( code );
+    string code = get_name_or_string( m_ts.next() );
     if( code.empty() ) {
         error( "Format code missing." );
         return false;
     }
+    m_ts.next();
     if( m_ts.current().type() == SToken::STT_Comma ) {
         expr( true ).get( format );
         if( format.empty() ) {
@@ -977,17 +988,17 @@ FieldVec Script::do_fixed_fields( const StringVec& fieldnames )
 {
     FieldVec vec(fieldnames.size()+1,f_invalid);
     for(;;) {
-        SValue value = expr( true );
-        string name;
-        if( ! value.get( name ) || name.empty() ) {
+        string name = get_name_or_string( m_ts.next() );
+        if( name.empty() ) {
             error( "Field name expected." );
             break;
         }
+        m_ts.next();
         if( m_ts.current().type() != SToken::STT_Comma ) {
             error( "Equal sign expected." );
             break;
         }
-        value = expr( true );
+        SValue value = expr( true );
         Field field;
         if( ! value.get( field ) ) {
             error( "Number expected." );
@@ -1277,9 +1288,11 @@ SValue Script::str_cast()
     string sig, scode, fcode;
     if( token.type() == SToken::STT_Comma ) {
         // Includes scheme:format signiture
-        expr( true ).get( sig );
+        token = m_ts.next();
+        sig = get_name_or_string( token );
         split_code( &scode, &fcode, sig );
         sch = m_cals->get_scheme( scode );
+        m_ts.next();
     }
     if( sch == NULL ) {
         sch = store()->oscheme;
@@ -1307,9 +1320,11 @@ SValue Script::date_cast()
     string sig, scode, fcode;
     if( token.type() == SToken::STT_Comma ) {
         // Includes scheme:format signiture
-        expr( true ).get( sig );
+        token = m_ts.next();
+        sig = get_name_or_string( token );
         split_code( &scode, &fcode, sig );
         sch = m_cals->get_scheme( scode );
+        m_ts.next();
     }
     if( sch == NULL ) {
         sch = store()->ischeme;
@@ -1331,9 +1346,11 @@ SValue Script::record_cast()
     string sig, scode, fcode;
     if( token.type() == SToken::STT_Comma ) {
         // Includes scheme:format signiture
-        expr( true ).get( sig );
+        token = m_ts.next();
+        sig = get_name_or_string( token );
         split_code( &scode, &fcode, sig );
         sch = m_cals->get_scheme( scode );
+        m_ts.next();
     }
     if( sch == NULL ) {
         sch = store()->ischeme;
@@ -1389,6 +1406,8 @@ string Script::get_name_or_string( const SToken& token ) const
     string str;
     if( token.type() == SToken::STT_Name || token.type() == SToken::STT_String ) {
         str = token.get_str();
+    } else if( token.type() == SToken::STT_Number ) {
+        str = field_to_str( token.get_field() );
     }
     return str;
 }

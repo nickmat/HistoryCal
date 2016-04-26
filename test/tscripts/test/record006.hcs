@@ -1,0 +1,15 @@
+// record006.hcs Test file to test addition of records.
+
+set input g:dmy;
+
+let result = date,:u "1948Year 9Month 19Day";
+
+write record,"g" result;
+
+clear;
+
+/*[OUTPUT]
+{"g", 1948, 9, 19, ?}
+[OUTPUT]*/
+
+

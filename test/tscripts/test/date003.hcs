@@ -1,0 +1,7 @@
+// date003.hcs Test file to test date cast expressions
+
+write date,j:dmy "27May1199" ~ date,j:dmy "17May1200";
+
+/*[OUTPUT]
+2159139 ~ 2159495
+[OUTPUT]*/

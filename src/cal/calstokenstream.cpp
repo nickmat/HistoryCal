@@ -80,7 +80,7 @@ SToken STokenStream::next()
 
     // TODO: This should recognise a utf-8 alpha codepoint
     string str;
-    if( isascii( ch ) && isalpha( ch ) ) {
+    if( isascii( ch ) && ( isalpha( ch ) || ch == '_' || ch == ':' ) ) {
         str += ch;
         while( m_in->get( ch ) ) {
             if( isascii( ch ) && ( isalnum( ch ) || ch == '_' || ch == ':' ) ) {

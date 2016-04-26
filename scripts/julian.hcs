@@ -25,11 +25,11 @@
 */
 
 
-vocab "m" {
+vocab m {
     name "Month names";
-    fieldname "month";
-    lang "en";
-    stylename "Month",  "Mon";
+    fieldname month;
+    lang en;
+    stylename Month,  Mon;
     tokens {
         1, "January",   "Jan";
         2, "February",  "Feb";
@@ -46,9 +46,9 @@ vocab "m" {
     }
 }
 
-grammar "j" {
-    optional "wday";
-    vocabs "m", "w";
+grammar j {
+    optional wday;
+    vocabs m, w;
     alias field {
         "WDay",  "wday";
         "Day",   "day";
@@ -67,43 +67,43 @@ grammar "j" {
         "y", "year";
         "w", "week";
     }
-    format "dmy",   "(Day) |(Month:m.a) |(Year)";
-    format "wdmy",  "(WDay:w.a) |(Day) |(Month:m.a) |(Year)";
-    format "out" {
+    format dmy,   "(Day) |(Month:m.a) |(Year)";
+    format wdmy,  "(WDay:w.a) |(Day) |(Month:m.a) |(Year)";
+    format out {
         output "(Day:+os) |(Month:m) |(Year)";
     }
-    format "full" {
+    format full {
         output "(WDay:w) |(Day:+os) |(Month:m) |(Year)";
     }
     format "dmy+",  "(Day) |(Month:m) |(Year)";
     format "wdmy+", "(WDay:w) |(Day) |(Month:m) |(Year)";
-    format "mdy",   "(Month:m.a) |(Day), |(Year)";
-    format "ymd",   "(Year)|:(Month:m.a)|:(Day)";
-    pref "dmy";
+    format mdy,   "(Month:m.a) |(Day), |(Year)";
+    format ymd,   "(Year)|:(Month:m.a)|:(Day)";
+    pref dmy;
 }
 
-scheme "j" {
+scheme j {
     name "Julian";
     base julian;
-    grammar "j";
+    grammar j;
 }
 
-grammar "g" {
-    inherit "j";
-    format "iso" {
+grammar g {
+    inherit j;
+    format iso {
         separators "-";
         strict "(Year:!lp.04)|-(Month:!lp.02)|-(Day:!lp.02)";
     }
-    pref "dmy";
+    pref dmy;
 }
 
-scheme "g" {
+scheme g {
     name "Gregorian";
     base gregorian;
-    grammar "g";
+    grammar g;
 }
 
-grammar "j.sh" {
+grammar j_sh {
     optional "unshift", "wday";
     vocabs "m", "w";
     alias field {
@@ -119,44 +119,44 @@ grammar "j.sh" {
         "Year",      "yyyy";
         "Hist-Year", "y";
     }
-    format "dmy",   "(Day) |(Month:m.a) |(Year)";
-    format "dmyh",  "(Day) |(Month:m.a) |(Year/Hist-Year)";
-    format "out" {
+    format dmy,   "(Day) |(Month:m.a) |(Year)";
+    format dmyh,  "(Day) |(Month:m.a) |(Year/Hist-Year)";
+    format out {
         output "(Day:+os) |(Month:m) |(Year/Hist-Year)";
     }
-    format "full" {
+    format full {
         output "(WDay:w) |(Day:+os) |(Month:m) |(Year/Hist-Year)";
     }
-    format "wdmyh", "(WDay:w.a) |(Day) |(Month:m.a) |(Year/Hist-Year)";
-    pref "dmyh";
+    format wdmyh, "(WDay:w.a) |(Day) |(Month:m.a) |(Year/Hist-Year)";
+    pref dmyh;
 }
 
-scheme "ja" {
+scheme ja {
     name "Julian Annunciation";
-    shift "j", 1721507;    // j:dmy# 25 Mar 1
-    grammar "j.sh";
+    shift j, 1721507;    // j:dmy# 25 Mar 1
+    grammar j_sh;
 }
 
-scheme "jap" {
+scheme jap {
     name "Julian Annunciation Pisa";
-    shift "j", 1721142;    // j:dmy# 25 Mar 0
-    grammar "j.sh";
+    shift j, 1721142;    // j:dmy# 25 Mar 0
+    grammar j_sh;
 }
 
-scheme "jn" {
+scheme jn {
     name "Julian Nativity";
-    shift "j", 1721417;    // j:dmy# 25 Dec 0
-    grammar "j.sh";
+    shift j, 1721417;    // j:dmy# 25 Dec 0
+    grammar j_sh;
 }
 
-scheme "se" {
+scheme se {
     name "Spanish Era";
-    shift "j", 1707544;  // j:dmy# 1 Jan -37
-    grammar "j";
+    shift j, 1707544;  // j:dmy# 1 Jan -37
+    grammar j;
 }
 
-grammar "isow" {
-    vocabs "w";
+grammar isow {
+    vocabs w;
     alias field {
         "Day",   "wday";
         "Week",  "week";
@@ -172,19 +172,19 @@ grammar "isow" {
         "y", "year";
         "w", "week";
     }
-    format "ywd",   "(Year)| (Week)| (Day:w.a)";
-    format "ywd+",   "(Year)| (Week)| (Day:w)";
-    format "iso",   "(Year)| (Week)| (Day)";
+    format  ywd,   "(Year)| (Week)| (Day:w.a)";
+    format "ywd+", "(Year)| (Week)| (Day:w)";
+    format  iso,   "(Year)| (Week)| (Day)";
     pref "ywd";
 }
 
-scheme "isow" {
+scheme isow {
     name "ISO Week";
 	base isoweek;
-	grammar "isow";
+	grammar isow;
 }
 
-grammar "isoo" {
+grammar isoo {
     alias field {
         "Day",   "day";
         "Year",  "year";
@@ -198,14 +198,14 @@ grammar "isoo" {
         "y", "year";
         "w", "week";
     }
-    format "yd",   "(Year)| (Day)";
-    pref "yd";
+    format yd, "(Year)| (Day)";
+    pref yd;
 }
 
-scheme "isoo" {
+scheme isoo {
     name "ISO Ordinal";
 	base isoordinal;
-	grammar "isoo";
+	grammar isoo;
 }
 
 // End of scripts/julian.hcs file

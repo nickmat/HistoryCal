@@ -1,8 +1,8 @@
 // str007.hcs Test file to test let statement
 
 set output "g";
-write str,"j:wdmy+" 2432814;
+write str,j:wdmy 2432814;
 
 /*[OUTPUT]
-Sunday 6 September 1948
+Sun 6 Sep 1948
 [OUTPUT]*/

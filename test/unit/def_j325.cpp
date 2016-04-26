@@ -144,7 +144,7 @@ void TestDef_j325::testCreation()
     CPPUNIT_ASSERT_EQUAL( str, info.name );
     str = "ja";
     CPPUNIT_ASSERT_EQUAL( str, info.code );
-    str = "j.sh";
+    str = "j_sh";
     CPPUNIT_ASSERT_EQUAL( str, info.grammar_code );
     CPPUNIT_ASSERT( info.vocab_codes.size() == info.vocab_names.size() );
     for( size_t i = 0 ; i < info.vocab_codes.size() ; i++ ) {

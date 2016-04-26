@@ -1,4 +1,4 @@
-// str006.hcs Test file to test let statement
+// str006.hcs Test file to test str statement
 
 set output "g";
 write str,"j:wdmy+" 2432814;
