@@ -4,5 +4,5 @@ set output g;
 write str ( past ~ 2431090 | 2432552 ~ future );
 
 /*[OUTPUT]
-past ~ 31 Dec 1943 | 1 Jan 1948 ~ future
+past ~ 1943 | 1948 ~ future
 [OUTPUT]*/

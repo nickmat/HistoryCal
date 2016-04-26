@@ -105,6 +105,7 @@ namespace Cal {
         virtual bool set_fields_as_prev_optional( Field* fields, Field jdn, const Field* mask, size_t index ) const;
 
         virtual void remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const;
+        virtual void remove_boundary_fields( Field* left, Field* right ) const;
 
         virtual Field get_field_first( const Field* fields, size_t index ) const;
         virtual Field get_field_last( const Field* fields, size_t index ) const;

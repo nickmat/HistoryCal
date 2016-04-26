@@ -58,19 +58,14 @@ string Format::range_to_string( Base* base, Range range ) const
         return jdn_to_string( base, range.jdn1 );
     }
     string str1, str2;
-    if( range.jdn1 == f_minimum || range.jdn2 == f_maximum ) {
-        str1 = jdn_to_string( base, range.jdn1 );
-        str2 = jdn_to_string( base, range.jdn2 );
-    } else {
-        Record rec1( base, range.jdn1 );
-        Record rec2( base, range.jdn2 );
+    Record rec1( base, range.jdn1 );
+    Record rec2( base, range.jdn2 );
 
-        rec1.remove_balanced_fields( &rec2 );
-        str1 = get_output( rec1 );
-        str2 = get_output( rec2 );
-        if( str1 == str2 ) {
-            return str1;
-        }
+    rec1.remove_balanced_fields( &rec2 );
+    str1 = get_output( rec1 );
+    str2 = get_output( rec2 );
+    if( str1 == str2 ) {
+        return str1;
     }
     return str1 + " ~ " + str2;
 }
