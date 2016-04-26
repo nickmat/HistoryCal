@@ -1,0 +1,43 @@
+// Example ISO input and output calendar schemes
+
+mark "ISO";
+
+grammar ISO {
+ format ymd {
+  rules iso8601 caldate;
+ }
+ format y6md {
+  rules iso8601 caldate year6;
+ }
+ format ywd {
+  rules iso8601 week;
+ }
+ format yd {
+  rules iso8601 ordinal;
+ }
+ format set {
+  rules iso8601 dateset;
+ }
+ format set5 {
+  rules iso8601 year5 dateset;
+ }
+ pref ymd;
+}
+
+scheme ISOG {
+ name "ISO:8601 Standard Date";
+ base gregorian;
+ grammar ISO;
+}
+
+scheme ISOW {
+ name "ISO:8601 Standard Week";
+ base isoweek;
+ grammar ISO;
+}
+
+scheme ISOO {
+ name "ISO:8601 Standard Ordinal";
+ base isoordinal;
+ grammar ISO;
+}
