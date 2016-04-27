@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2014
- * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -24,21 +24,21 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 */
 
-grammar "d" {
+grammar d {
     alias field {
-        "Day", "day";
+        Day, day;
     }
     alias stylename {
-        "Day", "ddddd";
+        Day, ddddd;
     }
-    format "d", "(Day)";
-    pref "d";
+    format d, "(Day)";
+    pref d;
 }
 
-scheme "jdn" {
+scheme jdn {
     name "Julian Day Number";
     base jdn;
-    grammar "d";
+    grammar d;
 }
 
 // End of scripts/jdn.hcs file

@@ -838,30 +838,38 @@ bool Script::do_grammar_alias( Grammar* gmr )
         error( "'{' expected." );
         return false;
     }
-    string str1, str2;
     StringVec pairs;
     for(;;) {
         // Look ahead for '}'
-        if( m_ts.next().type() == SToken::STT_RCbracket ||
-            m_ts.current().type() == SToken::STT_End ) {
+        SToken token = m_ts.next();
+        if( token.type() == SToken::STT_RCbracket ||
+            token.type() == SToken::STT_End )
+        {
             break; // All done.
         }
-        SValue value = expr( false );
-        if( m_ts.current().type() != SToken::STT_Comma ) {
+        string str1 = get_name_or_string( token );
+        if( str1.empty() ) {
+            error( "Alias string or code expected." );
+            return false;
+        }
+        token = m_ts.next();
+        if( token.type() != SToken::STT_Comma ) {
             error( "',' expected." );
             return false;
         }
-        value.get( str1 );
-        value = expr( true );
-        if( m_ts.current().type() != SToken::STT_Semicolon ) {
+        token = m_ts.next();
+        string str2 = get_name_or_string( token );
+        if( str2.empty() ) {
+            error( "Original string or code expected." );
+            return false;
+        }
+        token = m_ts.next();
+        if( token.type() != SToken::STT_Semicolon ) {
             error( "';' expected." );
             return false;
         }
-        value.get( str2 );
-        if( str1.size() && str2.size() ) {
-            pairs.push_back( str1 );
-            pairs.push_back( str2 );
-        }
+        pairs.push_back( str1 );
+        pairs.push_back( str2 );
     }
     gmr->add_alias( alias, pairs );
     return true;
