@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     24th March 2015
- * Copyright:   Copyright (c) 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2015 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -67,18 +67,18 @@ vocab sr {
 grammar sr {
     optional wday;
     alias field {
-        "WDay",       "wday";
-        "Reign",      "era";
-        "Day",        "day";
-        "Month",      "month";
-        "Year",       "year";
-        "Hist-Year",  "hyear";
+        WDay,        wday;
+        Reign,       era;
+        Day,         day;
+        Month,       month;
+        Year,        year;
+        "Hist-Year", hyear;
     }
     alias stylename {
-        "Day",       "dd";
-        "Month",     "mm";
-        "Year",      "yyyy";
-        "Hist-Year", "y";
+        Day,         dd;
+        Month,       mm;
+        Year,        yyyy;
+        "Hist-Year", y;
     }
     vocabs sr, m, w;
     format dmyr,  "(Day) |(Month:m.a)| (Year/Hist-Year) |(Reign:sr)";
@@ -177,7 +177,7 @@ scheme sr {
             range 2206633 ~ 2221868;   // 7 Jun 1329 ~ 22 Feb 1370/1
             scheme 20 { shift j, 2206633; }
         }
-        era {  // David II Alt (Some documents are dated 1 year less than given above.)
+        era {  // David II Alt (Some documents are dated 1 year less than given here.)
             range 2215033 ~ 2221868;   // 6 Jun 1352 ~ 22 Feb 1370/1
             scheme 21 { shift j, 2206268; } // 7 Jun 1328
         }

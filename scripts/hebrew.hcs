@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     10th December 2014
- * Copyright:   Copyright (c) 2014-2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -24,11 +24,11 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 */
 
-vocab "hm" {
+vocab hm {
     name "Month names";
-    fieldname "month";
-    lang "en";
-    stylename "Month",   "Mon";
+    fieldname month;
+    lang en;
+    stylename  Month,     Mon;
     tokens {
         1, "Nisan",      "Nsn";
         2, "Iyyar",      "Iyr";
@@ -46,11 +46,11 @@ vocab "hm" {
     }
 }
 
-vocab "hw" {
+vocab hw {
     name "Weekday names";
-    fieldname "wsday"; // Note: Days are numbered from Sunday, unlike "wday".
-    lang "en";
-    stylename "Weekday", "WDay";
+    fieldname wsday; // Note: Days are numbered from Sunday, unlike "wday".
+    lang en;
+    stylename Weekday,      WDay;
     tokens {
         1, "Yom Rishon",   "Rish"; // Sunday
         2, "Yom Sheni",    "Shen"; // Monday
@@ -62,40 +62,40 @@ vocab "hw" {
     }
 }
 
-grammar "h" {
-    optional "wsday";
-    vocabs "hm", "hw";
+grammar h {
+    optional wsday;
+    vocabs hm, hw;
     alias field {
-        "WDay",  "wsday";
-        "Day",   "day";
-        "Month", "month";
-        "Year",  "year";
+        WDay,  wsday;
+        Day,   day;
+        Month, month;
+        Year,  year;
     }
     alias stylename {
-        "WDay",  "w";
-        "Day",   "dd";
-        "Month", "mm";
-        "Year",  "yyyy";
+        WDay,  w;
+        Day,   dd;
+        Month, mm;
+        Year,  yyyy;
     }
     alias unit {
-        "d", "day";
-        "m", "month";
-        "y", "year";
-        "w", "week";
+        d, day;
+        m, month;
+        y, year;
+        w, week;
     }
-    format "dmy",    "(Day) |(Month:hm) |(Year)";
+    format  dmy,     "(Day) |(Month:hm) |(Year)";
     format "dmy.a",  "(Day) |(Month:hm.a) |(Year)";
     format "dmy.d",  "(Day) |(Month) |(Year)";
-    format "wdmy",   "(WDay:hw) |(Day) |(Month:hm) |(Year)";
+    format  wdmy,    "(WDay:hw) |(Day) |(Month:hm) |(Year)";
     format "wdmy.a", "(WDay:hw.a) |(Day) |(Month:hm.a) |(Year)";
-    format "ymd",    "(Year)|,(Month:hm.a)|,(Day)";
-    pref "dmy";
+    format  ymd,     "(Year)|,(Month:hm.a)|,(Day)";
+    pref dmy;
 }
 
-scheme "h" {
+scheme h {
     name "Hebrew";
     base hebrew;
-    grammar "h";
+    grammar h;
 }
 
 // End of scripts/hebrew.hcs file

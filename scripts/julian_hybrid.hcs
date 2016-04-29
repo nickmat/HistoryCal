@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2014
- * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -24,47 +24,47 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 */
 
-vocab "jg" {
+vocab jg {
     name "Scheme names";
-    fieldname "scheme";
-    lang "en";
-    stylename "Scheme", "Sch";
+    fieldname scheme;
+    lang en;
+    stylename Scheme, Sch;
     tokens {
         0, "Julian",     "j";
         1, "Gregorian",  "g";
     }
 }
 
-grammar "jg" {
-    inherit "j";
-    vocabs "jg";
+grammar jg {
+    inherit j;
+    vocabs jg;
     alias field {
-        "Scheme",    "scheme";
+        Scheme, scheme;
     }
     alias stylename {
-        "Scheme",    "s";
+        Scheme, s;
     }
-    format "dmys",  "(Day) |(Month:m.a) |(Year) |(Scheme:jg.a)";
-    format "dmys+",  "(Day) |(Month:m) |(Year) |(Scheme:jg)";
-    pref "dmy";
+    format  dmys,   "(Day) |(Month:m.a) |(Year) |(Scheme:jg.a)";
+    format "dmys+", "(Day) |(Month:m) |(Year) |(Scheme:jg)";
+    pref dmy;
 }
 
-scheme "ay" {
+scheme ay {
     name "Astronomical Year";
     hybrid {
-        fields "year", "month", "day";
-        scheme "j";
+        fields year, month, day;
+        scheme j;
         change 2299161;  // g# 15 Oct 1582
-        scheme "g";
+        scheme g;
     }
-    grammar "jg";
+    grammar jg;
 }
 
-vocab "jajg" {
+vocab jajg {
     name "Scheme names";
-    fieldname "scheme";
-    lang "en";
-    stylename "Scheme", "Sch";
+    fieldname scheme;
+    lang en;
+    stylename Scheme,   Sch;
     tokens {
         0, "Julian Ann", "ja";
         1, "Julian",     "j";
@@ -72,57 +72,57 @@ vocab "jajg" {
     }
 }
 
-grammar "hy" {
-    optional "unshift", "wday";
-    vocabs "w", "m", "jajg";
+grammar hy {
+    optional unshift, wday;
+    vocabs w, m, jajg;
     alias field {
-        "WDay",      "wday";
-        "Day",       "day";
-        "Month",     "month";
-        "Year",      "year";
-        "Hist-Year", "unshift";
-        "Scheme",    "scheme";
+        WDay,        wday;
+        Day,         day;
+        Month,       month;
+        Year,        year;
+        "Hist-Year", unshift;
+        Scheme,      scheme;
     }
     alias stylename {
-        "WDay",      "w";
-        "Day",       "dd";
-        "Month",     "mm";
-        "Year",      "yyyy";
-        "Hist-Year", "y";
-        "Scheme",    "s";
+        WDay,        w;
+        Day,         dd;
+        Month,       mm;
+        Year,        yyyy;
+        "Hist-Year", y;
+        Scheme,      s;
     }
-    format "dmyh",  "(Day) |(Month:m.a) |(Year/Hist-Year)";
-    format "dmy",   "(Day) |(Month:m.a) |(Year)";
-    format "dmys",  "(Day) |(Month:m.a) |(Year) |(Scheme:jajg.a)";
-    format "wdmyh", "(WDay:w.a) |(Day) |(Month:m.a) |(Year/Hist-Year)";
-    format "wdmyhs","(WDay:w.a) |(Day) |(Month:m.a) |(Year/Hist-Year) |(Scheme:jajg)";
-    pref "dmyh";
+    format dmyh,  "(Day) |(Month:m.a) |(Year/Hist-Year)";
+    format dmy,   "(Day) |(Month:m.a) |(Year)";
+    format dmys,  "(Day) |(Month:m.a) |(Year) |(Scheme:jajg.a)";
+    format wdmyh, "(WDay:w.a) |(Day) |(Month:m.a) |(Year/Hist-Year)";
+    format wdmyhs,"(WDay:w.a) |(Day) |(Month:m.a) |(Year/Hist-Year) |(Scheme:jajg)";
+    pref dmyh;
 }
 
-scheme "eng" {
+scheme eng {
     name "English Hybrid";
     hybrid {
-        fields "year", "month", "day";
-        scheme "ja";
+        fields year, month, day;
+        scheme ja;
         change 2360976;  // j# 1 Jan 1752
-        scheme "j";
+        scheme j;
         change 2361222;  // g# 14 Sep 1752
-        scheme "g";
+        scheme g;
     }
-    grammar "hy";
+    grammar hy;
 }
 
-scheme "scot" {
+scheme scot {
     name "Scottish Hybrid";
     hybrid {
-        fields "year", "month", "day";
-        scheme "ja";
+        fields year, month, day;
+        scheme ja;
         change 2305458;  // j# 1 Jan 1600
-        scheme "j";
+        scheme j;
         change 2361222;  // g# 14 Sep 1752
-        scheme "g";
+        scheme g;
     }
-    grammar "hy";
+    grammar hy;
 }
 
 // End of scripts/julian_hybrid.hcs file

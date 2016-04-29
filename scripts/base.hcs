@@ -41,5 +41,21 @@ vocab w {
     }
 }
 
+vocab ws {
+    name "Weekday names";
+    fieldname wsday;
+    lang en;
+    stylename Weekday,  WDay;
+    tokens {
+        1, "Sunday",    "Sun";
+        2, "Monday",    "Mon";
+        3, "Tuesday",   "Tue";
+        4, "Wednesday", "Wed";
+        5, "Thursday",  "Thur";
+        6, "Friday",    "Fri";
+        7, "Saturday",  "Sat";
+    }
+}
+
 // End of scripts/base.hcs file
 

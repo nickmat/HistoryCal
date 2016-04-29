@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2014
- * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -25,11 +25,11 @@
 */
 
 
-vocab "lit" {
+vocab lit {
     name "Liturgy Weeks";
-    fieldname "litweek";
-    lang "en";
-    stylename "Week", "Wk";
+    fieldname litweek;
+    lang en;
+    stylename Week, Wk;
     tokens {
         1,  "Second Week of Christmas",          "Xmas II";
         2,  "Epiphany Week",                     "Epiph";
@@ -96,46 +96,46 @@ vocab "lit" {
     }
 }
 
-grammar "lit" {
-    optional "wday", "litweek";
-    rank "year", "litweek", "wday";
-    vocabs "m", "w", "lit";
+grammar lit {
+    optional wday, litweek;
+    rank year, litweek, wday;
+    vocabs m, w, lit;
     alias field {
-        "WDay",    "wday";
-        "Day",     "day";
-        "Month",   "month";
-        "Year",    "year";
-        "LitWeek", "litweek";
+        WDay,    wday;
+        Day,     day;
+        Month,   month;
+        Year,    year;
+        LitWeek, litweek;
     }
     alias stylename {
-        "WDay",    "w";
-        "Day",     "dd";
-        "Month",   "mm";
-        "Year",    "yyyy";
+        WDay,    w;
+        Day,     dd;
+        Month,   mm;
+        Year,    yyyy;
     }
     alias unit {
-        "d", "day";
-        "m", "month";
-        "y", "year";
-        "w", "week";
+        d, day;
+        m, month;
+        y, year;
+        w, week;
     }
-    format "wdmyl",  "(WDay:w.a) |(Day) |(Month:m.a) |(Year)| (LitWeek:lit.a)";
+    format  wdmyl,   "(WDay:w.a) |(Day) |(Month:m.a) |(Year)| (LitWeek:lit.a)";
     format "wdmyl+", "(WDay:w) |(Day) |(Month:m) |(Year)| (LitWeek:lit)";
-    format "wly",  "(WDay:w.a), |(LitWeek:lit.a) |(Year)";
-    format "wly+", "(WDay:w), |(LitWeek:lit) |(Year)";
-    pref "wdmyl";
+    format  wly,     "(WDay:w.a), |(LitWeek:lit.a) |(Year)";
+    format "wly+",   "(WDay:w), |(LitWeek:lit) |(Year)";
+    pref wdmyl;
 }
 
-scheme "jlit" {
+scheme jlit {
     name "Julian Liturgical";
     base julian;
-    grammar "lit";
+    grammar lit;
 }
 
-scheme "glit" {
+scheme glit {
     name "Gregorian Liturgical";
     base gregorian;
-    grammar "lit";
+    grammar lit;
 }
 
 // End of scripts/liturgical.hcs file

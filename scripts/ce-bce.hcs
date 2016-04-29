@@ -40,23 +40,23 @@ grammar jce {
     rank ce, ceyear, month, day, wday;
     vocabs m, w, jce;
     alias field {
-        "WDay",  "wday";
-        "Day",   "day";
-        "Month", "month";
-        "Year",  "ceyear";
-        "CEra",  "ce";
+        WDay,  wday;
+        Day,   day;
+        Month, month;
+        Year,  ceyear;
+        CEra,  ce;
     }
     alias stylename {
-        "WDay",  "w";
-        "Day",   "dd";
-        "Month", "mm";
-        "Year",  "yyyy";
+        WDay,  w;
+        Day,   dd;
+        Month, mm;
+        Year,  yyyy;
     }
     alias unit {
-        "d", "day";
-        "m", "month";
-        "y", "year";
-        "w", "week";
+        d, day;
+        m, month;
+        y, year;
+        w, week;
     }
     format  dmy,    "(Day) |(Month:m.a) |(Year) |(CEra:jce.a)";
     format  wdmy,   "(WDay:w.a) |(Day) |(Month:m.a) |(Year) |(CEra:jce.a)";
