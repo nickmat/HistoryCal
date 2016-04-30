@@ -139,7 +139,7 @@ grammar fr {
     }
     format "wcdmy-" {
         input "(Day) |(Month) |(Year)";
-        output "(WDay:w), |(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";
+        output "(WDay:w.a), |(CompDay:frcomp.a) |(NMDay) |(NMonth:frm.a) |(Year)";
     }
     pref cdmy;
 }
