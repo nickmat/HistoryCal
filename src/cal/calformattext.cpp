@@ -333,9 +333,11 @@ void FormatText::set_format( const std::string& format, Use usefor )
     }
     if( usefor_output ) {
         output += fieldout;
+        set_user_output_str( output );
     }
-    set_user_input_str( input );
-    set_user_output_str( output );
+    if( usefor_input ) {
+        set_user_input_str( input );
+    }
 }
 
 string FormatText::get_input_field( Vocab* vocab ) const
