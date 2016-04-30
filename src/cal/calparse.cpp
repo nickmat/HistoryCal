@@ -139,6 +139,7 @@ string Cal::parse_date_expr( const string& str )
         switch( *it )
         {
         case '"':
+            it++;
             while( it != str.end() && *it != '"' ) {
                 date += *it;
                 it++;
