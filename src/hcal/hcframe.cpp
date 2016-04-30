@@ -269,8 +269,8 @@ void HcFrame::UpdateSchemeLists()
     m_comboBoxOutput->Clear();
     bool from_found = false, to_found = false;
     for( size_t i = 0 ; i < m_schemes.size() ; i++ ) {
-        wxString entry = Utf8ToWxStr( m_schemes[i].name ) 
-            + "  (" + Utf8ToWxStr( m_schemes[i].code ) + ")";
+        wxString entry = Utf8ToWxStr( m_schemes[i].code ) + "#  "
+            + Utf8ToWxStr( m_schemes[i].name );
         m_comboBoxInput->Append( entry );
         if( m_schemes[i].code == m_from ) {
             m_comboBoxInput->SetSelection( i );
@@ -303,8 +303,8 @@ void HcFrame::UpdateInputFormat()
     m_comboBoxInFormat->Clear();
     m_cal.get_scheme_input( &m_input_info, m_cal.get_scheme( m_from ) );
     for( size_t i = 0 ; i < m_input_info.code.size() ; i++ ) {
-        wxString fmt = Utf8ToWxStr( m_input_info.descrip[i] )
-            + "  (" + Utf8ToWxStr( m_input_info.code[i] ) + ")";
+        wxString fmt = ":" + Utf8ToWxStr( m_input_info.code[i] ) + "#  "
+            + Utf8ToWxStr( m_input_info.descrip[i] );
         m_comboBoxInFormat->Append( fmt );
     }
     if( m_input_info.code.size() ) {
@@ -354,8 +354,8 @@ void HcFrame::UpdateOutputFormat()
     m_comboBoxOutFormat->Clear();
     m_cal.get_scheme_output( &m_output_info, m_cal.get_scheme( m_to ) );
     for( size_t i = 0 ; i < m_output_info.code.size() ; i++ ) {
-        wxString fmt = Utf8ToWxStr( m_output_info.descrip[i] )
-            + "  (" + Utf8ToWxStr( m_output_info.code[i] ) + ")";
+        wxString fmt = ":" + Utf8ToWxStr( m_output_info.code[i] ) + "#  "
+            + Utf8ToWxStr( m_output_info.descrip[i] );
         m_comboBoxOutFormat->Append( fmt );
     }
     if( m_output_info.code.size() ) {
