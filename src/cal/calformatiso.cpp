@@ -97,10 +97,9 @@ FormatIso::FormatIso( const string& code, Grammar* gmr, const StringVec& rules )
     }
     input = "ISO:8601 " + rep;
     if( !sign.empty() ) {
-        input += " Year " + sign + "YYYY";
+        input += " " + sign + "YYYY";
     }
     if( m_dateset ) {
-        input = "[" + input + "]";
         output = "[" + output + "]";
     }
     set_user_input_str( input );
