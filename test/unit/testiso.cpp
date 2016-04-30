@@ -146,9 +146,9 @@ void TestIso::testScript()
     CPPUNIT_ASSERT_EQUAL( str, info.grammar_code );
     CPPUNIT_ASSERT( info.vocab_codes.size() == 0 );
 
-    CPPUNIT_ASSERT( m_inputs.code.size() == 6 );
+    CPPUNIT_ASSERT( m_inputs.code.size() == 5 );
     CPPUNIT_ASSERT( find_format( m_inputs, "ymd" ) >= 0 );
-    CPPUNIT_ASSERT( m_outputs.code.size() == 6 ); 
+    CPPUNIT_ASSERT( m_outputs.code.size() == 5 ); 
     CPPUNIT_ASSERT( find_format( m_outputs, "ymd" ) >= 0 );
 }
 

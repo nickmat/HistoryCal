@@ -121,7 +121,7 @@ void TestDef_fr::testCreation()
     CPPUNIT_ASSERT_EQUAL( str, info.grammar_code );
     CPPUNIT_ASSERT( info.vocab_codes.size() == info.vocab_names.size() );
     for( size_t i = 0 ; i < info.vocab_codes.size() ; i++ ) {
-        str = "";
+        str.clear();
         if( info.vocab_codes[i] == "frm" ) {
             str = "Month names";
         }
@@ -136,6 +136,45 @@ void TestDef_fr::testCreation()
         }
         CPPUNIT_ASSERT( str != "" );
         CPPUNIT_ASSERT_EQUAL( str, info.vocab_names[i] );
+    }
+    SchemeFormats formats;
+    m_cal->get_scheme_input( &formats, m_sid );
+    for( size_t i = 0 ; i < formats.code.size() ; i++ ) {
+        str.clear();
+        if( formats.code[i] == "cdmy" ) {
+            str = "Day Month Year";
+        } else if( formats.code[i] == "ymd" ) {
+            str = "Year Month Day";
+        }
+        CPPUNIT_ASSERT( str != "" );
+        CPPUNIT_ASSERT_EQUAL( str, formats.descrip[i] );
+    }
+    m_cal->get_scheme_output( &formats, m_sid );
+    for( size_t i = 0 ; i < formats.code.size() ; i++ ) {
+        str.clear();
+        if( formats.code[i] == "cdmy" ) {
+            str = "CompDay dd Month yyyy";
+        } else if( formats.code[i] == "cdmy-" ) {
+            str = "CDay dd Mon yyyy";
+        } else if( formats.code[i] == "dcdmy" ) {
+            str = "DecDay CompDay dd Month yyyy";
+        } else if( formats.code[i] == "dcdmy-" ) {
+            str = "DDay CDay dd Mon yyyy";
+        } else if( formats.code[i] == "dmy" ) {
+            str = "dd Mon yyyy";
+        } else if( formats.code[i] == "dmy+" ) {
+            str = "dd Month yyyy";
+        } else if( formats.code[i] == "out" ) {
+            str = "CompDay dd Month an yyyy[X]";
+        } else if( formats.code[i] == "wcdmy" ) {
+            str = "Weekday, CompDay dd Month yyyy";
+        } else if( formats.code[i] == "wcdmy-" ) {
+            str = "WDay, CDay dd Mon yyyy";
+        } else if( formats.code[i] == "ymd" ) {
+            str = "yyyy,Mon,dd";
+        }
+        CPPUNIT_ASSERT( str != "" );
+        CPPUNIT_ASSERT_EQUAL( str, formats.descrip[i] );
     }
 }
 

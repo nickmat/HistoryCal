@@ -140,7 +140,7 @@ void TestDef_isoo::testCreation()
     CPPUNIT_ASSERT( m_sid != NULL );
     Scheme_info info;
     m_cal->get_scheme_info( &info, m_sid );
-    string str = "ISO Ordinal";
+    string str = "ISO:8601 Standard Ordinal";
     CPPUNIT_ASSERT_EQUAL( str, info.name );
     str = "isoo";
     CPPUNIT_ASSERT_EQUAL( str, info.code );
