@@ -1,0 +1,19 @@
+// Example ISO input and output calendar schemes
+
+mark "ISO5";
+
+format g:iso_y5 {
+    rules iso8601 caldate year5;
+}
+
+format g:iso_y5set {
+    rules iso8601 dateset year5;
+}
+
+format isow:y5wd {
+    rules iso8601 week year5;
+}
+
+format isoo:y5d {
+    rules iso8601 ordinal year5;
+}

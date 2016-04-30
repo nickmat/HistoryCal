@@ -91,8 +91,10 @@ scheme j {
 grammar g {
     inherit j;
     format iso {
-        separators "-";
-        strict "(Year:!lp.04)|-(Month:!lp.02)|-(Day:!lp.02)";
+        rules iso8601 caldate;
+    }
+    format iso_set {
+        rules iso8601 dateset;
     }
     pref dmy;
 }
@@ -153,59 +155,6 @@ scheme se {
     name "Spanish Era";
     shift j, 1707544;  // j:dmy# 1 Jan -37
     grammar j;
-}
-
-grammar isow {
-    vocabs w;
-    alias field {
-        Day,   wday;
-        Week,  week;
-        Year,  year;
-    }
-    alias stylename {
-        Day,   d;
-        Week,  ww;
-        Year,  yyyy;
-    }
-    alias unit {
-        d, day;
-        y, year;
-        w, week;
-    }
-    format  ywd,   "(Year)| (Week)| (Day:w.a)";
-    format "ywd+", "(Year)| (Week)| (Day:w)";
-    format  iso,   "(Year)| (Week)| (Day)";
-    pref ywd;
-}
-
-scheme isow {
-    name "ISO Week";
-	base isoweek;
-	grammar isow;
-}
-
-grammar isoo {
-    alias field {
-        Day,   day;
-        Year,  year;
-    }
-    alias stylename {
-        Day,   ddd;
-        Year,  yyyy;
-    }
-    alias unit {
-        d, day;
-        y, year;
-        w, week;
-    }
-    format yd, "(Year)| (Day)";
-    pref yd;
-}
-
-scheme isoo {
-    name "ISO Ordinal";
-	base isoordinal;
-	grammar isoo;
 }
 
 // End of scripts/julian.hcs file

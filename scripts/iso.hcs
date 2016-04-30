@@ -1,0 +1,85 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Name:        scripts/iso.hcs
+ * Project:     Cal: Programmable Historical Calendar library.
+ * Purpose:     Default script.
+ * Author:      Nick Matthews
+ * Website:     http://historycal.org
+ * Created:     29th April 2016
+ * Copyright:   Copyright (c) 2016, Nick Matthews.
+ * Licence:     GNU GPLv3
+ *
+ *  The Cal library is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The Cal library is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with the Cal library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*/
+
+grammar isow {
+    vocabs w;
+    alias field {
+        Day,   wday;
+        Week,  week;
+        Year,  year;
+    }
+    alias stylename {
+        Day,   d;
+        Week,  ww;
+        Year,  yyyy;
+    }
+    alias unit {
+        d, day;
+        y, year;
+        w, week;
+    }
+    format ywd {
+        rules iso8601 week;
+    }
+    format  hc_ywd,   "(Year)| (Week)| (Day:w.a)";
+    format "hc_ywd+", "(Year)| (Week)| (Day:w)";
+    format  hc_iso,   "(Year)| (Week)| (Day)";
+    pref hc_ywd;
+}
+
+scheme isow {
+    name "ISO:8601 Standard Week";
+    base isoweek;
+    grammar isow;
+}
+
+grammar isoo {
+    alias field {
+        Day,   day;
+        Year,  year;
+    }
+    alias stylename {
+        Day,   ddd;
+        Year,  yyyy;
+    }
+    alias unit {
+        d, day;
+        y, year;
+    }
+    format yd {
+        rules iso8601 ordinal;
+    }
+    format hc_yd, "(Year)| (Day)";
+    pref hc_yd;
+}
+
+scheme isoo {
+    name "ISO:8601 Standard Ordinal";
+    base isoordinal;
+    grammar isoo;
+}
+
+// End of scripts/iso.hcs file
