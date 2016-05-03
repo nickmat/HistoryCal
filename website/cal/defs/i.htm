@@ -105,11 +105,11 @@
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
->vocab "im" {
+>vocab im {
     name "Month names";
-    fieldname "month";
-    lang "en";
-    stylename "Month", "Mon";
+    fieldname month;
+    lang en;
+    stylename Month, Mon;
     tokens {
         1, "Muḥarram",         "Muharram";
         2, "Ṣafar",            "Safar";
@@ -126,11 +126,11 @@
     }
 }
 
-vocab "iw" {
+vocab iw {
     name "Weekday names";
-    fieldname "wsday"; // Note: Days are numbered from Sunday, unlike "wday".
-    lang "en";
-    stylename "Weekday", "WDay";
+    fieldname wsday; // Note: Days are numbered from Sunday, unlike "wday".
+    lang en;
+    stylename Weekday, WDay;
     tokens {
         1, "Yawm al-Aḥad",       "Ahad"; // Sunday
         2, "Yawm al-Ithnayn",    "Ithn"; // Monday
@@ -142,42 +142,46 @@ vocab "iw" {
     }
 }
 
-grammar "i" {
-    vocabs "im", "iw";
+grammar i {
+    optional wsday;
+    vocabs im, iw;
     alias field {
-        "WDay",  "wsday";
-        "Day",   "day";
-        "Month", "month";
-        "Year",  "year";
+        WDay,  wsday;
+        Day,   day;
+        Month, month;
+        Year,  year;
     }
     alias stylename {
-        "WDay",  "w";
-        "Day",   "dd";
-        "Month", "mm";
-        "Year",  "yyyy";
+        WDay,  w;
+        Day,   dd;
+        Month, mm;
+        Year,  yyyy;
     }
     alias unit {
-        "d", "day";
-        "m", "month";
-        "y", "year";
-        "w", "week";
+        d, day;
+        m, month;
+        y, year;
+        w, week;
     }
-    format "dmy",    "(Day) |(Month:im) |(Year)";
+    format  dmy,     "(Day) |(Month:im) |(Year)";
     format "dmy.a",  "(Day) |(Month:im.a) |(Year)";
     format "dmy.d",  "(Day) |(Month) |(Year)";
-    format "wdmy",   "(WDay:iw) |(Day) |(Month:im) |(Year)";
+    format  wdmy,    "(WDay:iw) |(Day) |(Month:im) |(Year)";
     format "wdmy.a", "(WDay:iw.a) |(Day) |(Month:im.a) |(Year)";
-    format "ymd",    "(Year)|,(Month:im.a)|,(Day)";
-    pref "dmy";
+    format  ymd,     "(Year)|,(Month:im.a)|,(Day)";
+    pref dmy;
 }
 
-scheme "i" {
+scheme i {
     name "Islamic Tabular";
     base islamic IIc;
-    grammar "i";
+    grammar i;
 }
 </td></tr>
 </table>
+<p>
+  Note, the use of optional field "<a href='7dayweek.htm'>wsday</a>" in which the week starts on Sunday (day 1).
+</p>
 
 </div>
 

@@ -69,11 +69,11 @@
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
->vocab "jajg" {
+>vocab jajg {
     name "Scheme names";
-    fieldname "scheme";
-    lang "en";
-    stylename "Scheme", "Sch";
+    fieldname scheme;
+    lang en;
+    stylename Scheme,   Sch;
     tokens {
         0, "Julian Ann", "ja";
         1, "Julian",     "j";
@@ -81,44 +81,44 @@
     }
 }
 
-grammar "hy" {
-    vocabs "w", "m", "jajg";
+grammar hy {
+    optional unshift, wday;
+    vocabs w, m, jajg;
     alias field {
-        "WDay",      "wday";
-        "Day",       "day";
-        "Month",     "month";
-        "Year",      "year";
-        "Hist-Year", "unshift";
-        "Scheme",    "scheme";
+        WDay,        wday;
+        Day,         day;
+        Month,       month;
+        Year,        year;
+        "Hist-Year", unshift;
+        Scheme,      scheme;
     }
     alias stylename {
-        "WDay",      "w";
-        "Day",       "dd";
-        "Month",     "mm";
-        "Year",      "yyyy";
-        "Hist-Year", "y";
-        "Scheme",    "s";
+        WDay,        w;
+        Day,         dd;
+        Month,       mm;
+        Year,        yyyy;
+        "Hist-Year", y;
+        Scheme,      s;
     }
-    format "dmyh",  "(Day) |(Month:m.a) |(Year/Hist-Year)";
-    format "dmy",   "(Day) |(Month:m.a) |(Year)";
-    format "dmys",  "(Day) |(Month:m.a) |(Year) |(Scheme:jajg.a)";
-    format "wdmyh", "(WDay:w.a) |(Day) |(Month:m.a) |(Year/Hist-Year)";
-    format "wdmyhs","(WDay:w.a) |(Day) |(Month:m.a) |(Year/Hist-Year) |(Scheme:jajg)";
-    pref "dmyh";
+    format dmyh,  "(Day) |(Month:m.a) |(Year/Hist-Year)";
+    format dmy,   "(Day) |(Month:m.a) |(Year)";
+    format dmys,  "(Day) |(Month:m.a) |(Year) |(Scheme:jajg.a)";
+    format wdmyh, "(WDay:w.a) |(Day) |(Month:m.a) |(Year/Hist-Year)";
+    format wdmyhs,"(WDay:w.a) |(Day) |(Month:m.a) |(Year/Hist-Year) |(Scheme:jajg)";
+    pref dmyh;
 }
 
-scheme "eng" {
+scheme eng {
     name "English Hybrid";
     hybrid {
-        fields "year", "month", "day";
-        extended "wday", "unshift";
-        scheme "ja";
+        fields year, month, day;
+        scheme ja;
         change 2360976;  // j# 1 Jan 1752
-        scheme "j";
+        scheme j;
         change 2361222;  // g# 14 Sep 1752
-        scheme "g";
+        scheme g;
     }
-    grammar "hy";
+    grammar hy;
 }
 </td></tr>
 </table>
@@ -127,7 +127,7 @@ scheme "eng" {
  to output weekdays.
 </p>
 <p>
- The "hy" grammar uses the m (<a href='j.htm'>Julian months</a>) and w (<a href='7dayweek.htm'>Weekdays</a>) vocabs.
+ The "hy" grammar uses the "m" (<a href='j.htm'>Julian months</a>) and "w" (<a href='7dayweek.htm'>Weekdays</a>) vocabs.
 </p>
 
 </div>

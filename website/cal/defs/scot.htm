@@ -67,18 +67,17 @@
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
->scheme "scot" {
+>scheme scot {
     name "Scottish Hybrid";
     hybrid {
-        fields "year", "month", "day";
-        extended "wday", "unshift";
-        scheme "ja";
+        fields year, month, day;
+        scheme ja;
         change 2305458;  // j# 1 Jan 1600
-        scheme "j";
+        scheme j;
         change 2361222;  // g# 14 Sep 1752
-        scheme "g";
+        scheme g;
     }
-    grammar "hy";
+    grammar hy;
 }
 </td></tr>
 </table>

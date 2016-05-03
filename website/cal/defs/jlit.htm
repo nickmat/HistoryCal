@@ -57,11 +57,6 @@
 </p>
 
 <h3>Definition</h3>
-<table class='record'>
-<tr><th colspan='5'>Record</th></tr>
-<tr><td>year</td><td class='rdonly'>litweek</td><td class='rdonly'>wday</td><td>month</td><td>day</td></tr>
-</table>
-
 <table class='data'>
 <tr><th colspan='4'>Liturgical Week</th></tr>
 <tr><th rowspan='2'>Number</th><th colspan='2'>Week Name</th><th rowspan='2'>Note</th></tr>
@@ -130,6 +125,15 @@
 <tr><td>62</td><td>First Week of Christmas</td><td>Xmas I</td><td>1st Sunday on or after 25 Dec.</td></tr>
 </table>
 
+<table class='record'>
+<tr><th colspan='5'>Record - Default order</th></tr>
+<tr><td>year</td><td>month</td><td>day</td><td class='rdonly'>wday</td><td class='rdonly'>litweek</td></tr>
+</table>
+<table class='record'>
+<tr><th colspan='5'>Record - Ranking order</th></tr>
+<tr><td>year</td><td class='rdonly'>litweek</td><td class='rdonly'>wday</td><td>month</td><td>day</td></tr>
+</table>
+
 <p class='clear'>
  The Julian Liturgical scheme is a variation of the <a href='j.htm'>Julian</a> scheme
  and has the same definition except that it includes the <b>Optional Fields</b> <code>litweek</code> and <code>wday.</code>
@@ -153,11 +157,11 @@
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
->vocab "lit" {
+>vocab lit {
     name "Liturgy Weeks";
-    fieldname "litweek";
-    lang "en";
-    stylename "Week", "Wk";
+    fieldname litweek;
+    lang en;
+    stylename Week, Wk;
     tokens {
         1,  "Second Week of Christmas",          "Xmas II";
         2,  "Epiphany Week",                     "Epiph";
@@ -224,40 +228,40 @@
     }
 }
 
-grammar "lit" {
-    optional "wday", "litweek";
-    rank "year", "litweek", "wday";
-    vocabs "m", "w", "lit";
+grammar lit {
+    optional wday, litweek;
+    rank year, litweek, wday;
+    vocabs m, w, lit;
     alias field {
-        "WDay",    "wday";
-        "Day",     "day";
-        "Month",   "month";
-        "Year",    "year";
-        "LitWeek", "litweek";
+        WDay,    wday;
+        Day,     day;
+        Month,   month;
+        Year,    year;
+        LitWeek, litweek;
     }
     alias stylename {
-        "WDay",    "w";
-        "Day",     "dd";
-        "Month",   "mm";
-        "Year",    "yyyy";
+        WDay,    w;
+        Day,     dd;
+        Month,   mm;
+        Year,    yyyy;
     }
     alias unit {
-        "d", "day";
-        "m", "month";
-        "y", "year";
-        "w", "week";
+        d, day;
+        m, month;
+        y, year;
+        w, week;
     }
-    format "wdmyl",  "(WDay:w.a) |(Day) |(Month:m.a) |(Year)| (LitWeek:lit.a)";
+    format  wdmyl,   "(WDay:w.a) |(Day) |(Month:m.a) |(Year)| (LitWeek:lit.a)";
     format "wdmyl+", "(WDay:w) |(Day) |(Month:m) |(Year)| (LitWeek:lit)";
-    format "wly",  "(WDay:w.a), |(LitWeek:lit.a) |(Year)";
-    format "wly+", "(WDay:w), |(LitWeek:lit) |(Year)";
-    pref "wdmyl";
+    format  wly,     "(WDay:w.a), |(LitWeek:lit.a) |(Year)";
+    format "wly+",   "(WDay:w), |(LitWeek:lit) |(Year)";
+    pref wdmyl;
 }
 
-scheme "jlit" {
+scheme jlit {
     name "Julian Liturgical";
     base julian;
-    grammar "lit";
+    grammar lit;
 }
 </td></tr>
 </table>

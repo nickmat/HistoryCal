@@ -63,40 +63,40 @@
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
->vocab "jg" {
+>vocab jg {
     name "Scheme names";
-    fieldname "scheme";
-    lang "en";
-    stylename "Scheme", "Sch";
+    fieldname scheme;
+    lang en;
+    stylename Scheme, Sch;
     tokens {
         0, "Julian",     "j";
         1, "Gregorian",  "g";
     }
 }
 
-grammar "jg" {
-    inherit "j";
-    vocabs "jg";
+grammar jg {
+    inherit j;
+    vocabs jg;
     alias field {
-        "Scheme",    "scheme";
+        Scheme, scheme;
     }
     alias stylename {
-        "Scheme",    "s";
+        Scheme, s;
     }
-    format "dmys",  "(Day) |(Month:m.a) |(Year) |(Scheme:jg.a)";
-    format "dmys+",  "(Day) |(Month:m) |(Year) |(Scheme:jg)";
-    pref "dmy";
+    format  dmys,   "(Day) |(Month:m.a) |(Year) |(Scheme:jg.a)";
+    format "dmys+", "(Day) |(Month:m) |(Year) |(Scheme:jg)";
+    pref dmy;
 }
 
-scheme "ay" {
+scheme ay {
     name "Astronomical Year";
     hybrid {
-        fields "year", "month", "day";
-        scheme "j";
+        fields year, month, day;
+        scheme j;
         change 2299161;  // g# 15 Oct 1582
-        scheme "g";
+        scheme g;
     }
-    grammar "jg";
+    grammar jg;
 }
 </td></tr>
 </table>

@@ -20,7 +20,7 @@
   <a href="../index.htm" class="m-item level1">Calendars</a>
   <a href="index.htm" class="m-item level2">Calendar List</a>
   <a href="glit.htm" class="m-item level3 thispage">glit</a>
-  <a href="gce.htm" class="m-item prev">&lt;&lt;</a>
+  <a href="isoo.htm" class="m-item prev">&lt;&lt;</a>
   <a href="ay.htm" class="m-item next">&gt;&gt;</a>
 </div>
 
@@ -54,7 +54,11 @@
 
 <h3>Definition</h3>
 <table class='record'>
-<tr><th colspan='5'>Record</th></tr>
+<tr><th colspan='5'>Record - Default order</th></tr>
+<tr><td>year</td><td>month</td><td>day</td><td class='rdonly'>wday</td><td class='rdonly'>litweek</td></tr>
+</table>
+<table class='record'>
+<tr><th colspan='5'>Record - Ranking order</th></tr>
 <tr><td>year</td><td class='rdonly'>litweek</td><td class='rdonly'>wday</td><td>month</td><td>day</td></tr>
 </table>
 
@@ -73,10 +77,10 @@
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
->scheme "glit" {
+>scheme glit {
     name "Gregorian Liturgical";
     base gregorian;
-    grammar "lit";
+    grammar lit;
 }
 </td></tr>
 </table>

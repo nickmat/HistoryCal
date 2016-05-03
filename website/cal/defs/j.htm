@@ -102,61 +102,67 @@
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
->vocab "m" {
+>vocab m {
     name "Month names";
-    fieldname "month";
-    lang "en";
-    stylename "Month",  "Mon";
+    fieldname month;
+    lang en;
+    stylename  Month,     Mon;
     tokens {
-        1, "January",   "Jan";
-        2, "February",  "Feb";
-        3, "March",     "Mar";
-        4, "April",     "Apr";
-        5, "May";
-        6, "June",      "Jun";
-        7, "July",      "Jul";
-        8, "August",    "Aug";
-        9, "September", "Sep";
-        10, "October",  "Oct";
-        11, "November", "Nov";
-        12, "December", "Dec";
+        1,  "January",   "Jan";
+        2,  "February",  "Feb";
+        3,  "March",     "Mar";
+        4,  "April",     "Apr";
+        5,  "May";
+        6,  "June",      "Jun";
+        7,  "July",      "Jul";
+        8,  "August",    "Aug";
+        9,  "September", "Sep";
+        10, "October",   "Oct";
+        11, "November",  "Nov";
+        12, "December",  "Dec";
     }
 }
 
-grammar "j" {
-    optional "wday";
-    vocabs "m", "w";
+grammar j {
+    optional wday;
+    vocabs m, w;
     alias field {
-        "WDay",  "wday";
-        "Day",   "day";
-        "Month", "month";
-        "Year",  "year";
+        WDay,  wday;
+        Day,   day;
+        Month, month;
+        Year,  year;
     }
     alias stylename {
-        "WDay",  "w";
-        "Day",   "dd";
-        "Month", "mm";
-        "Year",  "yyyy";
+        WDay,  w;
+        Day,   dd;
+        Month, mm;
+        Year,  yyyy;
     }
     alias unit {
-        "d", "day";
-        "m", "month";
-        "y", "year";
-        "w", "week";
+        d, day;
+        m, month;
+        y, year;
+        w, week;
     }
-    format "dmy",   "(Day) |(Month:m.a) |(Year)";
-    format "wdmy",  "(WDay:w.a) |(Day) |(Month:m.a) |(Year)";
+    format  dmy,    "(Day) |(Month:m.a) |(Year)";
+    format  wdmy,   "(WDay:w.a) |(Day) |(Month:m.a) |(Year)";
+    format out {
+        output      "(Day:+os) |(Month:m) |(Year)";
+    }
+    format  full {
+        output      "(WDay:w) |(Day:+os) |(Month:m) |(Year)";
+    }
     format "dmy+",  "(Day) |(Month:m) |(Year)";
     format "wdmy+", "(WDay:w) |(Day) |(Month:m) |(Year)";
-    format "mdy",   "(Month:m.a) |(Day), |(Year)";
-    format "ymd",   "(Year)|:(Month:m.a)|:(Day)";
-    pref "dmy";
+    format  mdy,    "(Month:m.a) |(Day), |(Year)";
+    format  ymd,    "(Year)|:(Month:m.a)|:(Day)";
+    pref dmy;
 }
 
-scheme "j" {
+scheme j {
     name "Julian";
     base julian;
-    grammar "j";
+    grammar j;
 }
 </td></tr>
 </table>

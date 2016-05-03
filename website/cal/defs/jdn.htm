@@ -58,7 +58,7 @@
  on which it is based, has been in use by the scientific community,
  particularly astronomers, for many years. Its main purpose is as the
  intermediate and standard date value used internally by the HistoryCal
- program. It may also be used as the base for other day count type calendars.
+ program. It may also be used as the base for other day count calendar types.
  It is also used to input date values in a HistoryCal script.
 </p>
 
@@ -92,21 +92,21 @@
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
->grammar "d" {
+>grammar d {
     alias field {
-        "Day", "day";
+        Day, day;
     }
     alias stylename {
-        "Day", "ddddd";
+        Day, ddddd;
     }
-    format "d", "(Day)";
-    pref "d";
+    format d, "(Day)";
+    pref d;
 }
 
-scheme "jdn" {
+scheme jdn {
     name "Julian Day Number";
     base jdn;
-    grammar "d";
+    grammar d;
 }
 </td></tr>
 </table>

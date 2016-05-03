@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>HistoryCal - Julian Annunciation</title>
+<title>HistoryCal - ISO Ordinal</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="icon" type="image/png" href="../../sys/logo1_32x32x32.png" />
 <link rel='stylesheet' type='text/css' href='../../sys/hcal.css' />
@@ -10,7 +10,7 @@
 
 <h1>
  <a  href="http://historycal.org/"><img id="logo" src="../../sys/logo2.png" alt="Logo" /></a>
- HistoryCal Calendar<br/>Julian Annunciation (ja)
+ HistoryCal Calendar<br/>ISO Ordinal (isoo)
 </h1>
 
 <div id="page">
@@ -19,55 +19,59 @@
   <a href="../../index.htm" class="m-item">Home</a>
   <a href="../index.htm" class="m-item level1">Calendars</a>
   <a href="index.htm" class="m-item level2">Calendar List</a>
-  <a href="ja.htm" class="m-item level3 thispage">ja</a>
-  <a href="jn.htm" class="m-item prev">&lt;&lt;</a>
-  <a href="jap.htm" class="m-item next">&gt;&gt;</a>
+  <a href="isoo.htm" class="m-item level3 thispage">isoo</a>
+  <a href="isow.htm" class="m-item prev">&lt;&lt;</a>
+  <a href="glit.htm" class="m-item next">&gt;&gt;</a>
 </div>
 
 <div id="content" class="nomenu calendar">
 
 <h2>Calendar Description</h2>
 <p>
- The Julian Annunciation calendar is a variant of the <a href='j.htm'>Julian</a> calendar obtained
- by shifting the year change forward from the 1st January to the 25th March.
- It is also known as the <i>calculus florentinus</i> since this method was used in Florence.
+ The ISO Ordinal calendar is defined in terms of the <a href='g.htm'>Gregorian</a> calendar.
+ It consists of a count of years and days.
+ The year is identical to the Gregorian year.
+ The day is the ordinal number of days since 1st of January in that year.
+ As for the Gregorian calendar, the number of days in a year is 365 or 366.
 </p>
 
 <h3>Use Case</h3>
 <p>
- The Julian Annunciation calendar has been commonly used throughout Europe and the European colonies
- since the 11th century.
+ Details of the scheme where published in 1973 by the International Standards Organisation
+ in their ISO 2711:1973 document.
+ This was superseded in 2004 by the ISO 8601:2004 and later publications.
 </p>
-<ul>
- <li>France from the 11th century until the change to the Gregorian in 1582.</li>
- <li>England and its overseas territories, from the 12th century to 1st January 1752.</li>
- <li>Scotland, from the 12th century to 1st January 1600.</li>
-</ul>
 
 <h3>Definition</h3>
 <table class='record'>
-<tr><th colspan='5'>Record</th></tr>
-<tr><td>year</td><td>month</td><td>day</td><td class='rdonly'>unshift</td><td class='rdonly'>wday</td></tr>
+<tr><th colspan='2'>Record</th></tr>
+<tr><td>year</td><td>day</td></tr>
 </table>
-<p class='clear'>
- The Julian Annunciation calendar is based on <a href='j.htm'>Julian</a> calendar and has the same
- definition as the <a href='jn.htm'>Julian Nativity</a> calendar except it has a different epoch.
+<p>
+ The ISO Week calendar is defined in terms of the <a href='g.htm'>Gregorian</a> calendar.
+ Day one is defined as 1st January.</p>
+</p>
+<p>
+  The <b>Record</b> consists of two <b>Fields</b> named <code>year,</code>
+  and <code>day</code>.
+</p>
+<p>
 </p>
 <p style='display:inline;'>
  The <b>Epoch</b> is set at
  <table class='rec-value'>
-   <tr><td rowspan='2' class='sig'>ja</td><th>year</th><th>month</th><th>day</th></tr>
-   <tr class='value'><td>1</td><td>3</td><td>25</td></tr>
+   <tr><td rowspan='2' class='sig'>isoo</td><th>year</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>1</td></tr>
  </table>
  =
  <table class='rec-value'>
-   <tr><td rowspan='2' class='sig'>j</td><th>year</th><th>month</th><th>day</th></tr>
-   <tr class='value'><td>1</td><td>3</td><td>25</td></tr>
+   <tr><td rowspan='2' class='sig'>g</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>1</td><td>1</td></tr>
  </table>
  =
  <table class='rec-value'>
   <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
-  <tr class='value'><td>1721507</td></tr>
+  <tr class='value'><td>1721426</td></tr>
  </table>.
 </p>
 
@@ -75,15 +79,52 @@
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
->scheme jn {
-    name "Julian Nativity";
-    shift j, 1721417;    // j:dmy# 25 Dec 0
-    grammar j_sh;
+>grammar isoo {
+    alias field {
+        Day,   day;
+        Year,  year;
+    }
+    alias stylename {
+        Day,   ddd;
+        Year,  yyyy;
+    }
+    alias unit {
+        d, day;
+        y, year;
+    }
+    format yd {
+        rules iso8601 ordinal;
+    }
+    format hc_yd, "(Year)| (Day)";
+    pref hc_yd;
+}
+
+scheme isoo {
+    name "ISO:8601 Standard Ordinal";
+    base isoordinal;
+    grammar isoo;
+}
+</td></tr>
+</table>
+
+<table class='code'>
+<tr><th>example/iso5.hcs Script</th></tr>
+<tr><td
+>format isoo:y5d {
+    rules iso8601 ordinal year5;
+}
+</td></tr>
+</table>
+
+<table class='code'>
+<tr><th>example/iso6.hcs Script</th></tr>
+<tr><td
+>format isoo:y6d {
+    rules iso8601 ordinal year6;
 }
 </td></tr>
 </table>
 <p>
- The scheme uses the j_sh grammar as defined for the <a href='jn.htm'>Julian Nativity</a> calendar.
 </p>
 
 </div>
@@ -97,7 +138,7 @@
   </p>
 </div>
 
-<div id='create-date'><p>28<sup>th</sup> March 2014</p></div>
+<div id='create-date'><p>19<sup>th</sup> January 2014</p></div>
 
 </div>
 

@@ -106,11 +106,11 @@
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
->vocab "w" {
+>vocab w {
     name "Weekday names";
-    fieldname "wday";
-    lang "en";
-    stylename "Weekday", "WDay";
+    fieldname wday;
+    lang en;
+    stylename Weekday,  WDay;
     tokens {
         1, "Monday",    "Mon";
         2, "Tuesday",   "Tue";
@@ -121,12 +121,24 @@
         7, "Sunday",    "Sun";
     }
 }
+
+vocab ws {
+    name "Weekday names";
+    fieldname wsday;
+    lang en;
+    stylename Weekday,  WDay;
+    tokens {
+        1, "Sunday",    "Sun";
+        2, "Monday",    "Mon";
+        3, "Tuesday",   "Tue";
+        4, "Wednesday", "Wed";
+        5, "Thursday",  "Thur";
+        6, "Friday",    "Fri";
+        7, "Saturday",  "Sat";
+    }
+}
 </td></tr>
 </table>
-<p>
- Since weekdays are only used in conjunction with others, only the
- <b>vocab</b> associated with the <code>wday</code> <b>Optional Field</b> is shown here.
-</p>
 <p>
  The script has no dependencies.
 </p>

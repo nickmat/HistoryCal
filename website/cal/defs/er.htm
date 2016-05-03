@@ -115,11 +115,11 @@
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
->vocab "er" {
+>vocab er {
     name "English Monarchs";
-    fieldname "era";
-    lang "en";
-    stylename "Reign",              "Rn";
+    fieldname era;
+    lang en;
+    stylename  Reign,                Rn;
     tokens {
         0, "English calendar",      "Eng";
         1, "William I",             "Wm I";
@@ -171,386 +171,390 @@
     }
 }
 
-vocab "on" {
+vocab on {
     name "Scheme names";
-    fieldname "scheme";
-    lang "en";
-    stylename "Scheme", "Sch";
+    fieldname scheme;
+    lang en;
+    stylename  Scheme,  Sch;
     tokens {
         0, "Old Style", "os";
         1, "New Style", "ns";
     }
 }
 
-vocab "part" {
+vocab part {
     name "Part of Reign Year";
-    fieldname "er-part";
-    lang "en";
-    stylename "Part", "Part";
+    fieldname part;
+    lang en;
+    stylename Part, Part;
     tokens {
         0, "First";
         1, "Second";
     }
 }
 
-grammar "er" {
+grammar er {
+    optional wday;
     alias field {
-        "WDay",       "wday";
-        "Reign",      "era";
-        "Day",        "day";
-        "Month",      "month";
-        "Year",       "year";
-        "Hist-Year",  "er-hyear";
-        "Part",       "er-part";
-        "Scheme",     "scheme";
+        WDay,       wday;
+        Reign,      era;
+        Day,        day;
+        Month,      month;
+        Year,       year;
+        "Hist-Year",  hyear;
+        Part,       part;
+        Scheme,     scheme;
     }
     alias stylename {
-        "Day",       "dd";
-        "Month",     "mm";
-        "Year",      "yyyy";
-        "Hist-Year", "y";
-        "Scheme",    "s";
+        Day,       dd;
+        Month,     mm;
+        Year,      yy;
+        "Hist-Year", y;
+        Scheme,    s;
     }
-    vocabs "er", "m", "w", "on", "part";
-    format "dmyr",  "(Day) |(Month:m.a)|, (Part:part)| (Year/Hist-Year) |(Reign:er)|, (Scheme:on.a)";
-    format "wdmyr", "(WDay:w.a) |(Day) |(Month:m.a)| (Year/Hist-Year) |(Reign:er)|, (Scheme:on.a)";
-    pref "dmyr";
+    vocabs er, m, w, on, part;
+    format dmyr,  "(Day) |(Month:m.a)|, (Part:part)| (Year/Hist-Year) |(Reign:er)|, (Scheme:on.a)";
+    format wdmyr, "(WDay:w.a) |(Day) |(Month:m.a)| (Year/Hist-Year) |(Reign:er)|, (Scheme:on.a)";
+    format full {
+        output "The (Day:+os) day of |(Month:m) |in the (Year:+os) year |of the reign of (Reign:er)|, (Scheme:on)";
+    }
+    pref dmyr;
 }
 
-scheme "er" {
+scheme er {
     name "English Regnal";
     regnal {
-        fields "year", "month", "day";
-        extended "er-hyear", "wday", "er-part", "scheme";
+        fields year, month, day;
+        extended hyear, part, scheme;
         era {
-            scheme "eng";
-            match "unshift", "er-hyear";
+            scheme eng;
+            match unshift, hyear;
         }
         era {  // William I
             range 2110773~2118336;
-            scheme 1 { shift "j", 2110773; }
+            scheme 1 { shift j, 2110773; }
         }
         era {  // William II
             range 2118353~2123047;
-            scheme 2 { shift "j", 2118353; }
+            scheme 2 { shift j, 2118353; }
         }
         era {  // Henry I
             range 2123050~2135951;
-            scheme 3 { shift "j", 2123050; }
+            scheme 3 { shift j, 2123050; }
         }
         era {  // Stephen
             range 2135972~2142854;
-            scheme 4 { shift "j", 2135972; }
+            scheme 4 { shift j, 2135972; }
         }
         era {  // Henry II
             range 2142909~2155527;
-            scheme 5 { shift "j", 2142909; }
+            scheme 5 { shift j, 2142909; }
         }
         era {  // Richard I
             range 2155586~2159088;
-            scheme 6 { shift "j", 2155586; }
+            scheme 6 { shift j, 2155586; }
         }
         era {  // John
             range 2159139~2165494;
             scheme 7 {
                 regnal {
-                    fields "year", "month", "day";
+                    fields year, month, day;
                     extended "john-part";
-                    fixed "year", 1;
+                    fixed year, 1;
                     era {  // Default scheme is required even if not used.
-                        scheme "j";
+                        scheme j;
                     }
                     era {  // John year 1
-                        range date "j:dmy#27May1199" ~ date "j:dmy#17May1200";
-                        scheme 1 { shift "j", date "j:dmy#27May1199"; }
+                        range 2159139 ~ 2159495;
+                        scheme 1 { shift j, 2159139; }
                     }
                     era {  // John year 2
-                        range date "j:dmy#18May1200" ~ date "j:dmy#2May1201";
-                        scheme 2 { shift "j", date "j:dmy#18May1200"; }
+                        range 2159496 ~ 2159845;
+                        scheme 2 { shift j, 2159496; }
                     }
                     era {  // John year 3
-                        range date "j:dmy#3May1201" ~ date "j:dmy#22May1202";
+                        range 2159846 ~ 2160230;
                         scheme 3 {
                             hybrid {
-                                fields "year", "month", "day";
-                                scheme 0 { shift "j", date "j:dmy#3May1201"; }
-                                change date "j:dmy#3May1202";
-                                scheme 1 { shift "j", date "j:dmy#3May1202"; }
+                                fields year, month, day;
+                                scheme 0 { shift j, 2159846; }
+                                change 2160211;
+                                scheme 1 { shift j, 2160211; }
                             }
                         }
-                        match "scheme", "john-part";
+                        match scheme, "john-part";
                     }
                     era {  // John year 4
-                        range date "j:dmy#23May1202" ~ date "j:dmy#14May1203";
-                        scheme 4 { shift "j", date "j:dmy#23May1202"; }
+                        range 2160231 ~ 2160587;
+                        scheme 4 { shift j, 2160231; }
                     }
                     era {  // John year 5
-                        range date "j:dmy#15May1203" ~ date "j:dmy#2Jun1204";
+                        range 2160588 ~ 2160972;
                         scheme 5 {
                             hybrid {
-                                fields "year", "month", "day";
-                                scheme 0 { shift "j", date "j:dmy#15May1203"; }
-                                change date "j:dmy#15May1204";
-                                scheme 1 { shift "j", date "j:dmy#15May1204"; }
+                                fields year, month, day;
+                                scheme 0 { shift j, 2160588; }
+                                change 2160954;
+                                scheme 1 { shift j, 2160954; }
                             }
                         }
-                        match "scheme", "john-part";
+                        match scheme, "john-part";
                     }
                     era {  // John year 8
-                        range date "j:dmy#3Jun1204" ~ date "j:dmy#18May1205";
-                        scheme 6 { shift "j", date "j:dmy#3Jun1204"; }
+                        range 2160973 ~ 2161322;
+                        scheme 6 { shift j, 2160973; }
                     }
                     era {  // John year 7
-                        range date "j:dmy#19May1205" ~ date "j:dmy#10May1206";
-                        scheme 7 { shift "j", date "j:dmy#19May1205"; }
+                        range 2161323 ~ 2161679;
+                        scheme 7 { shift j, 2161323; }
                     }
                     era {  // John year 8
-                        range date "j:dmy#11May1206" ~ date "j:dmy#30May1207";
+                        range 2161680 ~ 2162064;
                         scheme 8 {
                             hybrid {
-                                fields "year", "month", "day";
-                                scheme 0 { shift "j", date "j:dmy#11May1206"; }
-                                change date "j:dmy#11May1207";
-                                scheme 1 { shift "j", date "j:dmy#11May1207"; }
+                                fields year, month, day;
+                                scheme 0 { shift j, 2161680; }
+                                change 2162045;
+                                scheme 1 { shift j, 2162045; }
                             }
                         }
-                        match "scheme", "john-part";
+                        match scheme, "john-part";
                     }
                     era {  // John year 9
-                        range date "j:dmy#31May1207" ~ date "j:dmy#14May1208";
-                        scheme 9 { shift "j", date "j:dmy#31May1207"; }
+                        range 2162065 ~ 2162414;
+                        scheme 9 { shift j, 2162065; }
                     }
                     era {  // John year 10
-                        range date "j:dmy#15May1208" ~ date "j:dmy#6May1209";
-                        scheme 10 { shift "j", date "j:dmy#15May1208"; }
+                        range 2162415 ~ 2162771;
+                        scheme 10 { shift j, 2162415; }
                     }
                     era {  // John year 11
-                        range date "j:dmy#7May1209" ~ date "j:dmy#26May1210";
+                        range 2162772 ~ 2163156;
                         scheme 11 {
                             hybrid {
-                                fields "year", "month", "day";
-                                scheme 0 { shift "j", date "j:dmy#7May1209"; }
-                                change date "j:dmy#7May1210";
-                                scheme 1 { shift "j", date "j:dmy#7May1210"; }
+                                fields year, month, day;
+                                scheme 0 { shift j, 2162772; }
+                                change 2163137;
+                                scheme 1 { shift j, 2163137; }
                             }
                         }
-                        match "scheme", "john-part";
+                        match scheme, "john-part";
                     }
                     era {  // John year 12
-                        range date "j:dmy#27May1210" ~ date "j:dmy#11May1211";
-                        scheme 12 { shift "j", date "j:dmy#27May1210"; }
+                        range 2163157 ~ 2163506;
+                        scheme 12 { shift j, 2163157; }
                     }
                     era {  // John year 13
-                        range date "j:dmy#12May1211" ~ date "j:dmy#2May1212";
-                        scheme 13 { shift "j", date "j:dmy#12May1211"; }
+                        range 2163507 ~ 2163863;
+                        scheme 13 { shift j, 2163507; }
                     }
                     era {  // John year 14
-                        range date "j:dmy#3May1212" ~ date "j:dmy#22May1213";
+                        range 2163864 ~ 2164248;
                         scheme 14 {
                             hybrid {
-                                fields "year", "month", "day";
-                                scheme 0 { shift "j", date "j:dmy#3May1212"; }
-                                change date "j:dmy#3May1213";
-                                scheme 1 { shift "j", date "j:dmy#3May1213"; }
+                                fields year, month, day;
+                                scheme 0 { shift j, 2163864; }
+                                change 2164229;
+                                scheme 1 { shift j, 2164229; }
                             }
                         }
-                        match "scheme", "john-part";
+                        match scheme, "john-part";
                     }
                     era {  // John year 15
-                        range date "j:dmy#23May1213" ~ date "j:dmy#7May1214";
-                        scheme 15 { shift "j", date "j:dmy#23May1213"; }
+                        range 2164249 ~ 2164598;
+                        scheme 15 { shift j, 2164249; }
                     }
                     era {  // John year 16
-                        range date "j:dmy#8May1214" ~ date "j:dmy#27May1215";
+                        range 2164599 ~ 2164983;
                         scheme 16 {
                             hybrid {
-                                fields "year", "month", "day";
-                                scheme 0 { shift "j", date "j:dmy#8May1214"; }
-                                change date "j:dmy#8May1215";
-                                scheme 1 { shift "j", date "j:dmy#8May1215"; }
+                                fields year, month, day;
+                                scheme 0 { shift j, 2164599; }
+                                change 2164964;
+                                scheme 1 { shift j, 2164964; }
                             }
                         }
-                        match "scheme", "john-part";
+                        match scheme, "john-part";
                     }
                     era {  // John year 17
-                        range date "j:dmy#28May1215" ~ date "j:dmy#18May1216";
-                        scheme 17 { shift "j", date "j:dmy#28May1215"; }
+                        range 2164984 ~ 2165340;
+                        scheme 17 { shift j, 2164984; }
                     }
                     era {  // John year 18
-                        range date "j:dmy#19May1216" ~ date "j:dmy#19Oct1216";
-                        scheme 18 { shift "j", date "j:dmy#19May1216"; }
+                        range 2165341 ~ 2165494;
+                        scheme 18 { shift j, 2165341; }
                     }
                 }
             }
-            match "era", "year",  "john-part", "er-part";
+            match era, year, "john-part", part;
         }
         era {  // Henry III
             range 2165503~2185976;
-            scheme 8 { shift "j", 2165503; }
+            scheme 8 { shift j, 2165503; }
         }
         era {  // Edward I
             range 2185980~2198627;
-            scheme 9 { shift "j", 2185980; }
+            scheme 9 { shift j, 2185980; }
         }
         era {  // Edward II
             range 2198628~2205764;
-            scheme 10 { shift "j", 2198628; }
+            scheme 10 { shift j, 2198628; }
         }
         era {  // Edward III
             range 2205769~2224179;
-            scheme 11 { shift "j", 2205769; }
+            scheme 11 { shift j, 2205769; }
         }
         era {  // Richard II
             range 2224180~2232314;
-            scheme 12 { shift "j", 2224180; }
+            scheme 12 { shift j, 2224180; }
         }
         era {  // Henry IV
             range 2232315~2237235;
-            scheme 13 { shift "j", 2232315; }
+            scheme 13 { shift j, 2232315; }
         }
         era {  // Henry V
             range 2237236~2240686;
-            scheme 14 { shift "j", 2237236; }
+            scheme 14 { shift j, 2237236; }
         }
         era {  // Henry VI
             range 2240687~2254751;
-            scheme 15 { shift "j", 2240687; }
+            scheme 15 { shift j, 2240687; }
         }
         era {  // Edward IV
             range 2254751~2262822;
-            scheme 16 { shift "j", 2254751; }
+            scheme 16 { shift j, 2254751; }
         }
         era {  // Henry VI Restoration
             range 2258251~2258441;
-            scheme 17 { shift "j", 2240687; }
+            scheme 17 { shift j, 2240687; }
         }
         era {  // Edward V
             range 2262822~2262899;
-            scheme 18 { shift "j", 2262822; }
+            scheme 18 { shift j, 2262822; }
         }
         era {  // Richard III
             range 2262900~2263688;
-            scheme 19 { shift "j", 2262900; }
+            scheme 19 { shift j, 2262900; }
         }
         era {  // Henry VII
             range 2263688~2272331;
-            scheme 20 { shift "j", 2263688; }
+            scheme 20 { shift j, 2263688; }
         }
         era {  // Henry VIII
             range 2272332~2286127;
-            scheme 21 { shift "j", 2272332; }
+            scheme 21 { shift j, 2272332; }
         }
         era {  // Edward VI
             range 2286127~2288478;
-            scheme 22 { shift "j", 2286127; }
+            scheme 22 { shift j, 2286127; }
         }
         era {  // Jane
             range 2288478~2288491;
-            scheme 23 { shift "j", 2288478; }
+            scheme 23 { shift j, 2288478; }
         }
         era {  // Mary I
             range 2288491~2288861;
-            scheme 24 { shift "j", 2288478; }
+            scheme 24 { shift j, 2288478; }
         }
         era {  // Philip and Mary
             range 2288862~2290438;
-            scheme 25 { shift "j", 2288862; }
+            scheme 25 { shift j, 2288862; }
         }
         era {  // Elizabeth I
             range 2290438~2306636;
-            scheme 26 { shift "j", 2290438; }
+            scheme 26 { shift j, 2290438; }
         }
         era {  // James I
             range 2306636~2314675;
-            scheme 27 { shift "j", 2306636; }
+            scheme 27 { shift j, 2306636; }
         }
         era {  // Charles I
             range 2314675~2323385;
-            scheme 28 { shift "j", 2314675; }
+            scheme 28 { shift j, 2314675; }
         }
         era {  // The Commonwealth
             range 2323386~2327521;
-            scheme "ja";
-            match "unshift", "er-hyear";
+            scheme ja;
+            match unshift, hyear;
         }
         era {  // Charles II
             range 2327522~2336541;
-            scheme 30 { shift "j", 2323385; }
+            scheme 30 { shift j, 2323385; }
         }
         era {  // James II
             range 2336541~2337945;
-            scheme 31 { shift "j", 2336541; }
+            scheme 31 { shift j, 2336541; }
         }
         era {  // Interregnum
             range 2337946~2338008;
-            scheme "eng";
-            match "unshift", "er-hyear";
+            scheme eng;
+            match unshift, hyear;
         }
         era {  // William and Mary
             range 2338009~2340152;
-            scheme 33 { shift "j", 2338009; }
+            scheme 33 { shift j, 2338009; }
         }
         era {  // William III
             range 2340153~2342780;
-            scheme 34 { shift "j", 2337962; }  // j# 28 Dec 1688
+            scheme 34 { shift j, 2337962; }  // j# 28 Dec 1688
         }
         era {  // Anne
             range 2342780~2347309;
-            scheme 35 { shift "j", 2342780; }
+            scheme 35 { shift j, 2342780; }
         }
         era {  // George I
             range 2347309~2352006;
-            scheme 36 { shift "j", 2347309; }
+            scheme 36 { shift j, 2347309; }
         }
         era {  // George II
             range 2352006~2364185;
             scheme 37 {
                 hybrid {
-                    fields "year", "month", "day";
-                    scheme 0 { shift "j", 2352006; }
+                    fields year, month, day;
+                    scheme 0 { shift j, 2352006; }
                     change 2361222;
-                    scheme 1 { shift "g", 2352006; }
+                    scheme 1 { shift g, 2352006; }
                 }
             }
         }
         era {  // George III
             range 2364185~2385829;
-            scheme 38 { shift "g", 2364185; }
+            scheme 38 { shift g, 2364185; }
         }
         era {  // George IV
             range 2385829~2389630;
-            scheme 39 { shift "g", 2385829; }
+            scheme 39 { shift g, 2385829; }
         }
         era {  // William IV
             range 2389630~2392181;
-            scheme 40 { shift "g", 2389630; }
+            scheme 40 { shift g, 2389630; }
         }
         era {  // Victoria
             range 2392181~2415407;
-            scheme 41 { shift "g", 2392181; }
+            scheme 41 { shift g, 2392181; }
         }
         era {  // Edward VII
             range 2415407~2418798;
-            scheme 42 { shift "g", 2415407; }
+            scheme 42 { shift g, 2415407; }
         }
         era {  // George V
             range 2418798~2428188;
-            scheme 43 { shift "g", 2418798; }
+            scheme 43 { shift g, 2418798; }
         }
         era {  // Edward VIII
             range 2428188~2428514;
-            scheme 44 { shift "g", 2428188; }
+            scheme 44 { shift g, 2428188; }
         }
         era {  // George VI
             range 2428514~2434049;
-            scheme 45 { shift "g", 2428514; }
+            scheme 45 { shift g, 2428514; }
         }
         era {  // Elizabeth II
-            range 2434049~2457023;
-            scheme 46 { shift "g", 2434049; }
+            range 2434049~future;
+            scheme 46 { shift g, 2434049; }
         }
     }
-    grammar "er";
+    grammar er;
 }
 </td></tr>
 </table>

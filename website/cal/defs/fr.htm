@@ -151,17 +151,14 @@
 </div>
 
 <h3>Script</h3>
-<p>
- The script also requires the <a href='7dayweek.htm'>7-Day week</a> vocab.
-</p>
 <table class='code'>
 <tr><th>Default Script</th></tr>
 <tr><td
->vocab "frm" {
+>vocab frm {
     name "Month names";
-    fieldname "month";
-    lang "en";
-    stylename "Month",  "Mon";
+    fieldname month;
+    lang en;
+    stylename Month,  Mon;
     tokens {
         1, "Vendémiaire",      "Vend";
         2, "Brumaire",         "Brum";
@@ -179,11 +176,11 @@
     }
 }
 
-vocab "frdd" {
+vocab frdd {
     name "Decade Day";
-    fieldname "dday";
-    lang "en";
-    stylename "DecDay",  "DDay";
+    fieldname dday;
+    lang en;
+    stylename DecDay,  DDay;
     tokens {
         1, "Primidi",  "Prim";
         2, "Duodi",    "Duo";
@@ -198,11 +195,11 @@ vocab "frdd" {
     }
 }
 
-vocab "frcomp" {
+vocab frcomp {
     name "Complementary Days";
-    fieldname "cday";
-    lang "en";
-    stylename "CompDay",           "CDay";
+    fieldname cday;
+    lang en;
+    stylename CompDay,           CDay;
     tokens {
         1, "Fête de la Vertu",      "Ver";
         2, "Fête du Génie",         "Gen";
@@ -213,60 +210,80 @@ vocab "frcomp" {
     }
 }
 
-grammar "fr" {
-    vocabs "frm", "frcomp", "frdd", "w";
+grammar fr {
+    optional nmonth, nmday, cday, dday, wday;
+    vocabs frm, frcomp, frdd, w;
     alias field {
-        "Day",     "day";
-        "Month",   "month";
-        "Year",    "year";
-        "DecDay",  "dday";
-        "WDay",    "wday";
-        "NMonth",  "nmonth";
-        "NMDay",   "nmday";
-        "CompDay", "cday";
+        Day,     day;
+        Month,   month;
+        Year,    year;
+        DecDay,  dday;
+        WDay,    wday;
+        NMonth,  nmonth;
+        NMDay,   nmday;
+        CompDay, cday;
     }
     alias stylename {
-        "Day",     "dd";
-        "Month",   "mm";
-        "Year",    "yyyy";
-        "NMonth",  "mm";
-        "NMDay",   "dd";
-        "WDay",    "w";
-        "DecDay",  "d";
-        "CompDay", "c";
+        Day,     dd;
+        Month,   mm;
+        Year,    yyyy;
+        NMonth,  mm;
+        NMDay,   dd;
+        WDay,    w;
+        DecDay,  d;
+        CompDay, c;
     }
     alias unit {
-        "d",   "day";
-        "dec", "decade";
-        "w",   "week";
-        "m",   "month";
-        "y",   "year";
+        d,   day;
+        dec, decade;
+        w,   week;
+        m,   month;
+        y,   year;
     }
-    format "cdmy",   "(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";
-    format "dcdmy",  "(DecDay:frdd) |(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";
-    format "wcdmy",  "(WDay:w), |(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";
-    format "cdmy-",  "(CompDay:frcomp.a) |(NMDay) |(NMonth:frm.a) |(Year)";
-    format "dcdmy-", "(DecDay:frdd.a) |(CompDay:frcomp.a) |(NMDay) |(NMonth:frm.a) |(Year)";
-    format "wcdmy-", "(WDay:w), |(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";
-    format "dmy",    "(Day) |(Month:frm.a) |(Year)";
-    format "dmy+",   "(Day) |(Month:frm) |(Year)";
-    format "ymd",    "(Year)|,(Month:frm.a)|,(Day)";
-    pref "cdmy";
+    format dmy,    "(Day) |(Month:frm.a) |(Year)";
+    format "dmy+", "(Day) |(Month:frm) |(Year)";
+    format ymd,    "(Year)|,(Month:frm.a)|,(Day)";
+    format cdmy {
+        input "(Day) |(Month) |(Year)";
+        output "(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";
+    }
+    format out {
+        input "(Day) |(Month) |(Year)";
+        output "(CompDay:frcomp) |(NMDay) |(NMonth:frm) |an (Year:!rn)";
+    }
+    format dcdmy {
+        input "(Day) |(Month) |(Year)";
+        output "(DecDay:frdd) |(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";
+    }
+    format wcdmy {
+        input "(Day) |(Month) |(Year)";
+        output "(WDay:w), |(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";
+    }
+    format "cdmy-" {
+        input "(Day) |(Month) |(Year)";
+        output "(CompDay:frcomp.a) |(NMDay) |(NMonth:frm.a) |(Year)";
+    }
+    format "dcdmy-" {
+        input "(Day) |(Month) |(Year)";
+        output "(DecDay:frdd.a) |(CompDay:frcomp.a) |(NMDay) |(NMonth:frm.a) |(Year)";
+    }
+    format "wcdmy-" {
+        input "(Day) |(Month) |(Year)";
+        output "(WDay:w.a), |(CompDay:frcomp.a) |(NMDay) |(NMonth:frm.a) |(Year)";
+    }
+    pref cdmy;
 }
 
-scheme "fr" {
+scheme fr {
     name "French Republic";
     base french;
-    grammar "fr";
+    grammar fr;
 }
 </td></tr>
 </table>
-<!--
 <p>
- The script makes use of the extended field <code>wday</code>
- to output weekdays and is thus requires the <a href='7dayweek.htm'>7 Day Week</a> vocab "w".
+ The script also requires the <a href='7dayweek.htm'>7-Day week</a> vocab "w".
 </p>
--->
 
 </div>
 
