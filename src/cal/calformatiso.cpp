@@ -348,7 +348,12 @@ string FormatIso::output_year( Field year ) const
 {
     string sign;
     if( m_yplusminus ) {
-        sign = ( year < 0 ) ? "-" : "+";
+        if( year < 0 ) {
+            sign = '-';
+            year = -year;
+        } else {
+            sign = "+";
+        }
     } else {
         if( year < 0 ) {
             return "";
