@@ -116,7 +116,7 @@ void TestIso::setUp()
     m_sid = m_cal->get_scheme( "isog" );
     if( m_sid ) {
         m_cal->get_scheme_input( &m_inputs, m_sid );
-        m_cal->get_scheme_input( &m_outputs, m_sid );
+        m_cal->get_scheme_output( &m_outputs, m_sid );
     }
 }
 
@@ -148,7 +148,7 @@ void TestIso::testScript()
 
     CPPUNIT_ASSERT( m_inputs.code.size() == 5 );
     CPPUNIT_ASSERT( find_format( m_inputs, "ymd" ) >= 0 );
-    CPPUNIT_ASSERT( m_outputs.code.size() == 5 ); 
+    CPPUNIT_ASSERT( m_outputs.code.size() == 6 ); 
     CPPUNIT_ASSERT( find_format( m_outputs, "ymd" ) >= 0 );
 }
 
@@ -156,7 +156,7 @@ void TestIso::testAddFormat()
 {
     CPPUNIT_ASSERT( m_sid != NULL );
     // Confirm starting position
-    CPPUNIT_ASSERT( m_inputs.code.size() == 6 );
+    CPPUNIT_ASSERT( m_inputs.code.size() == 5 );
     CPPUNIT_ASSERT( m_outputs.code.size() == 6 );
     string expect_err = "Error (1): Unable to create format.\n";
     string err = m_cal->run_script(
@@ -169,8 +169,8 @@ void TestIso::testAddFormat()
     );
     CPPUNIT_ASSERT_EQUAL( expect_err, err );
     m_cal->get_scheme_input( &m_inputs, m_sid );
-    CPPUNIT_ASSERT( m_inputs.code.size() == 7 );
-    m_cal->get_scheme_input( &m_outputs, m_sid );
+    CPPUNIT_ASSERT( m_inputs.code.size() == 6 );
+    m_cal->get_scheme_output( &m_outputs, m_sid );
     CPPUNIT_ASSERT( m_outputs.code.size() == 7 );
 }
 
