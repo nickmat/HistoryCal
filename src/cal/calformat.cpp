@@ -39,6 +39,14 @@
 using namespace Cal;
 using std::string;
 
+Format::Format( const std::string& code, Grammar* gmr ) 
+    : m_code(code), m_owner(gmr), m_priority(gmr->next_format_priority())
+{
+}
+
+Format::~Format()
+{
+}
 
 string Format::rlist_to_string( Base* base, const RangeList& ranges ) const
 {

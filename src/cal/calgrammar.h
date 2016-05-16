@@ -80,6 +80,8 @@ namespace Cal {
         void set_rank_fieldnames( StringVec fieldnames ) { m_rank_fieldnames = fieldnames; }
         StringVec get_rank_fieldnames() const;
 
+        int next_format_priority() { return -int( m_formats.size() + 1 ); }
+
     private:
         std::string                m_code;
         Grammar*                   m_inherit;

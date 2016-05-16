@@ -38,14 +38,16 @@ namespace Cal {
     class Format
     {
     public:
-        Format( const std::string& code, Grammar* gmr ) : m_code(code), m_owner(gmr) {}
-        virtual ~Format() {}
+        Format( const std::string& code, Grammar* gmr );
+        virtual ~Format();
 
+        void set_priority( int priority ) { m_priority = priority; }
         void set_user_input_str( const std::string str ) { m_input_str = str; }
         void set_user_output_str( const std::string str ) { m_output_str = str; }
 
         std::string get_code() const { return m_code; }
         Grammar* get_owner() const { return m_owner; }
+        int get_priority() const { return m_priority; }
         std::string get_user_input_str() const { return m_input_str; }
         std::string get_user_output_str() const { return m_output_str; }
 
@@ -60,6 +62,7 @@ namespace Cal {
     private:
         std::string m_code;
         Grammar*    m_owner;
+        int         m_priority;
         std::string m_input_str;
         std::string m_output_str;
     };
