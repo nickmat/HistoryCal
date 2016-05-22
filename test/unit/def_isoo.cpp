@@ -46,9 +46,6 @@ class TestDef_isoo : public CPPUNIT_NS::TestFixture
     Cal::SHandle    m_sid; // Scheme handle
 
 public:
-    bool setInputOrder( const string& order );
-    bool setOutputFormat( const string& format );
-
     void setUp();
     void tearDown();
 
@@ -98,32 +95,6 @@ static const char* test_strs[MaxSample][1] = {
 };
 
 
-bool TestDef_isoo::setInputOrder( const string& order )
-{
-    SchemeFormats input;
-    m_cal->get_scheme_input( &input, m_sid );
-    for( size_t i = 0 ; i < input.code.size() ; i++ ) {
-        if( input.descrip[i] == order ) {
-            m_cal->set_input_format( m_sid, input.code[i] );
-            return true;
-        }
-    }
-    return false;
-}
-
-bool TestDef_isoo::setOutputFormat( const string& format )
-{
-    SchemeFormats output;
-    m_cal->get_scheme_output( &output, m_sid );
-    for( size_t i = 0 ; i < output.descrip.size() ; i++ ) {
-        if( output.descrip[i] == format ) {
-            m_cal->set_output_format( m_sid, output.code[i] );
-            return true;
-        }
-    }
-    return false;
-}
-
 void TestDef_isoo::setUp()
 {
     m_cal = new Calendars(Init_script_default);
@@ -151,7 +122,7 @@ void TestDef_isoo::testCreation()
 
 void TestDef_isoo::testStrTableInput()
 {
-    bool set = setInputOrder( "Year Day" );
+    bool set = setInputFormatFromDesc( m_cal, m_sid, "Year Day" );
     CPPUNIT_ASSERT( set == true );
     for( size_t i = 0 ; i < MaxSample ; i++ ) {
         Field jdn = m_cal->str_to_jdn( m_sid, test_strs[i][0] );
@@ -161,7 +132,7 @@ void TestDef_isoo::testStrTableInput()
 
 void TestDef_isoo::testStrTableOutput()
 {
-    bool set = setOutputFormat( "yyyy ddd" );
+    bool set = setOutputFormatFromDesc( m_cal, m_sid, "yyyy ddd" );
     CPPUNIT_ASSERT( set == true );
     for( size_t i = 0 ; i < MaxSample ; i++ ) {
         string str = m_cal->jdn_to_str( m_sid, testJdnValues[i] );
@@ -179,9 +150,9 @@ void TestDef_isoo::testRangeShorthand()
     };
     size_t count = sizeof(t) / sizeof(data);
 
-    bool set = setInputOrder( "Year Day" );
+    bool set = setInputFormatFromDesc( m_cal, m_sid, "Year Day" );
     CPPUNIT_ASSERT( set == true );
-    set = setOutputFormat( "yyyy ddd" );
+    set = setOutputFormatFromDesc( m_cal, m_sid, "yyyy ddd" );
     CPPUNIT_ASSERT( set == true );
     for( size_t i = 0 ; i < count ; i++ ) {
         RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in );

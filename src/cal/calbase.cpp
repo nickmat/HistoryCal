@@ -304,21 +304,14 @@ string Base::get_alias_fieldname( const string& alias ) const
     return get_grammar()->get_field_alias( alias );
 }
 
-
-void Base::get_input_formats( SchemeFormats* input ) const
+void Base::get_input_info( FormatInfo* info ) const
 {
-    input->descrip.clear();
-    input->code.clear();
-    input->current = 0;
-    get_grammar()->get_input_formats( input, get_input_fcode() );
+    get_grammar()->get_input_formats( info, get_input_fcode() );
 }
 
-void Base::get_output_formats( SchemeFormats* output ) const
+void Base::get_output_info( FormatInfo* info ) const
 {
-    output->descrip.clear();
-    output->code.clear();
-    output->current = 0;
-    get_grammar()->get_output_formats( output, get_output_fcode() );
+    get_grammar()->get_output_formats( info, get_output_fcode() );
 }
 
 string Base::get_input_fcode() const

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     8th October 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -44,5 +44,12 @@ extern std::string xymdToStr( Cal::Field extra, Cal::Field year, Cal::Field mont
 extern std::string ymdToStr( Cal::Field year, Cal::Field month, Cal::Field day );
 extern std::string ymToStr( Cal::Field year, Cal::Field month );
 extern std::string yToStr( Cal::Field year );
+
+extern bool setInputFormatFromDesc(
+    Cal::Calendars* cal, Cal::SHandle sid, const std::string& desc );
+extern bool setOutputFormatFromDesc(
+    Cal::Calendars* cal, Cal::SHandle sid, const std::string& desc );
+
+extern int find_format( const Cal::FormatInfo& fmts, const std::string& code );
 
 #endif // UNIT_TESTCOMMON_H_GUARD

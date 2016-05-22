@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://pcalcalc.org
  * Created:     7th October 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -32,6 +32,8 @@
 
 using namespace std;
 using namespace Cal;
+
+const char* invalid = "";
 
 Field testJdnValues[MaxSample] = {
     1507232,
@@ -97,6 +99,43 @@ string yToStr( Field year )
     return tst.str();
 }
 
-const char* invalid = "";
+bool setInputFormatFromDesc( Calendars* cal, SHandle sid, const string& desc )
+{
+    FormatInfo input;
+    cal->get_input_info( &input, sid );
+    for( size_t i = 0 ; i < input.descs.size() ; i++ ) {
+        if( input.descs[i].desc == desc ) {
+            cal->set_input_format( sid, input.descs[i].codes[0].code );
+            return true;
+        }
+    }
+    return false;
+}
+
+bool setOutputFormatFromDesc( Calendars* cal, SHandle sid, const string& desc )
+{
+    FormatInfo output;
+    cal->get_output_info( &output, sid );
+    for( size_t i = 0 ; i < output.descs.size() ; i++ ) {
+        if( output.descs[i].desc == desc ) {
+            cal->set_output_format( sid, output.descs[i].codes[0].code );
+            return true;
+        }
+    }
+    return false;
+}
+
+int find_format( const FormatInfo& fmts, const string& code )
+{
+    for( size_t i = 0 ; i < fmts.descs.size() ; i++ ) {
+        for( size_t j = 0 ; j < fmts.descs[i].codes.size() ; j++ ) {
+            if( fmts.descs[i].codes[j].code == code ) {
+                return i;
+            }
+        }
+    }
+    return -1;
+}
+
 
 // End of src/test/testcommon.h file

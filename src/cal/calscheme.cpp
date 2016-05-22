@@ -93,20 +93,6 @@ void Scheme::get_info( Scheme_info* info ) const
     }
 }
 
-void Scheme::get_input( SchemeFormats* info ) const
-{
-    if( m_base ) {
-        m_base->get_input_formats( info );
-    }
-}
-
-void Scheme::get_output( SchemeFormats* info ) const
-{
-    if( m_base ) {
-        m_base->get_output_formats( info );
-    }
-}
-
 Format* Scheme::get_output_format( const string& fcode ) const
 {
     if( fcode.empty() ) {

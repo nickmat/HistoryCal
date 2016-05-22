@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2013
- * Copyright:   Copyright (c) 2013 ~ 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCal is free software: you can redistribute it and/or modify
@@ -301,13 +301,13 @@ void HcFrame::UpdateSchemeLists()
 void HcFrame::UpdateInputFormat()
 {
     m_comboBoxInFormat->Clear();
-    m_cal.get_scheme_input( &m_input_info, m_cal.get_scheme( m_from ) );
-    for( size_t i = 0 ; i < m_input_info.code.size() ; i++ ) {
-        wxString fmt = ":" + Utf8ToWxStr( m_input_info.code[i] ) + "#  "
-            + Utf8ToWxStr( m_input_info.descrip[i] );
+    m_cal.get_input_info( &m_input_info, m_cal.get_scheme( m_from ) );
+    for( size_t i = 0 ; i < m_input_info.descs.size() ; i++ ) {
+        wxString fmt = ":" + Utf8ToWxStr( m_input_info.descs[i].codes[0].code ) + "#  "
+            + Utf8ToWxStr( m_input_info.descs[i].desc );
         m_comboBoxInFormat->Append( fmt );
     }
-    if( m_input_info.code.size() ) {
+    if( m_input_info.descs.size() ) {
         m_comboBoxInFormat->SetSelection( m_input_info.current );
     }
 }
@@ -352,13 +352,13 @@ void HcFrame::UpdateTextTokens( Scheme_info* sinfo )
 void HcFrame::UpdateOutputFormat()
 {
     m_comboBoxOutFormat->Clear();
-    m_cal.get_scheme_output( &m_output_info, m_cal.get_scheme( m_to ) );
-    for( size_t i = 0 ; i < m_output_info.code.size() ; i++ ) {
-        wxString fmt = ":" + Utf8ToWxStr( m_output_info.code[i] ) + "#  "
-            + Utf8ToWxStr( m_output_info.descrip[i] );
+    m_cal.get_output_info( &m_output_info, m_cal.get_scheme( m_to ) );
+    for( size_t i = 0 ; i < m_output_info.descs.size() ; i++ ) {
+        wxString fmt = ":" + Utf8ToWxStr( m_output_info.descs[i].codes[0].code ) + "#  "
+            + Utf8ToWxStr( m_output_info.descs[i].desc );
         m_comboBoxOutFormat->Append( fmt );
     }
-    if( m_output_info.code.size() ) {
+    if( m_output_info.descs.size() ) {
         m_comboBoxOutFormat->SetSelection( m_output_info.current );
     }
 }
@@ -369,10 +369,10 @@ void HcFrame::CalculateOutput()
     SHandle sch_from = m_cal.get_scheme( m_from );
     SHandle sch_to = m_cal.get_scheme( m_to );
 
-    int order = m_comboBoxInFormat->GetSelection();
-    m_cal.set_input_format( sch_from, m_input_info.code[order] );
-    int format = m_comboBoxOutFormat->GetSelection();
-    m_cal.set_output_format( sch_to, m_output_info.code[format] );
+    int infmt = m_comboBoxInFormat->GetSelection();
+    m_cal.set_input_format( sch_from, m_input_info.descs[infmt].codes[0].code );
+    int outfmt = m_comboBoxOutFormat->GetSelection();
+    m_cal.set_output_format( sch_to, m_output_info.descs[outfmt].codes[0].code );
     string input = WxStrToUtf8( m_textInput->GetValue() );
     if( input.size() ) {
         string age;

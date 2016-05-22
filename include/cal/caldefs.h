@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013-2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -113,11 +113,19 @@ namespace Cal {
         StringVec vocab_names;
     };
 
-    struct SchemeFormats
-    {
-        StringVec code;
-        StringVec descrip;
-        int       current;
+    struct PCode {
+        std::string code;
+        int priority;
+    };
+
+    struct PDesc {
+        std::string desc;
+        std::vector<PCode> codes;
+    };
+
+    struct FormatInfo {
+        std::vector<PDesc> descs;
+        size_t current;
     };
 
     struct Vocab_info

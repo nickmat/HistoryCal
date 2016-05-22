@@ -51,8 +51,8 @@ namespace Cal {
         DLLIMPEXP_CAL SHandle get_scheme( const std::string& code ) const;
         DLLIMPEXP_CAL SchemeList get_scheme_list() const;
         DLLIMPEXP_CAL void get_scheme_info( Scheme_info* info, SHandle scheme ) const; 
-        DLLIMPEXP_CAL void get_scheme_input( SchemeFormats* info, SHandle scheme ) const; 
-        DLLIMPEXP_CAL void get_scheme_output( SchemeFormats* info, SHandle scheme ) const;
+        DLLIMPEXP_CAL void get_input_info( FormatInfo* info, SHandle scheme ) const; 
+        DLLIMPEXP_CAL void get_output_info( FormatInfo* info, SHandle scheme ) const;
         DLLIMPEXP_CAL bool get_vocab_info( Vocab_info* info, const std::string& code ) const; 
 
         DLLIMPEXP_CAL void set_input_format( SHandle scheme, const std::string& code );

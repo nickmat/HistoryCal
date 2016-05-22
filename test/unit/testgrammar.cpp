@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     27th February 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -135,62 +135,60 @@ void TestGrammar::testScript()
 
 void TestGrammar::testSchemeInput()
 {
-    SchemeFormats input;
-    m_cal->get_scheme_input( &input, m_sid );
-    size_t size = input.descrip.size();
+    FormatInfo input;
+    m_cal->get_input_info( &input, m_sid );
+    size_t size = input.descs.size();
     CPPUNIT_ASSERT_EQUAL( 4U, size );
     for( size_t i = 0 ; i < size ; i++ ) {
-        string str;
-        if( input.code[i] == "dmy" ) {
-            str = "Day Month Year";
-            CPPUNIT_ASSERT_EQUAL( str, input.descrip[i] );
-        } else if( input.code[i] == "wdmy" ) {
-            str = "WDay Day Month Year";
-            CPPUNIT_ASSERT_EQUAL( str, input.descrip[i] );
-        } else if( input.code[i] == "mdy" ) {
-            str = "Month Day Year";
-            CPPUNIT_ASSERT_EQUAL( str, input.descrip[i] );
-        } else if( input.code[i] == "ymd" ) {
-            str = "Year Month Day";
-            CPPUNIT_ASSERT_EQUAL( str, input.descrip[i] );
-        } else {
-            CPPUNIT_ASSERT( false ); // Shouldn't be here.
+        for( size_t j = 0 ; j < input.descs[i].codes.size() ; j++ ) {
+            string str;
+            string fcode = input.descs[i].codes[j].code;
+            if( fcode == "dmy" || fcode == "dmy+" ) {
+                str = "Day Month Year";
+            } else if( fcode == "wdmy" || fcode == "wdmy+" ) {
+                str = "WDay Day Month Year";
+            } else if( fcode == "mdy" ) {
+                str = "Month Day Year";
+            } else if( fcode == "ymd" ) {
+                str = "Year Month Day";
+            } else {
+                CPPUNIT_ASSERT( false ); // Shouldn't be here.
+            }
+            CPPUNIT_ASSERT_EQUAL( str, input.descs[i].desc );
         }
     }
-    CPPUNIT_ASSERT_EQUAL( 0, input.current );
+    CPPUNIT_ASSERT_EQUAL( 0U, input.current );
 }
 
 void TestGrammar::testSchemeOutput()
 {
-    SchemeFormats output;
-    m_cal->get_scheme_output( &output, m_sid );
-    size_t size = output.descrip.size();
+    FormatInfo output;
+    m_cal->get_output_info( &output, m_sid );
+    size_t size = output.descs.size();
     CPPUNIT_ASSERT_EQUAL( 6U, size );
     for( size_t i = 0 ; i < size ; i++ ) {
         string str;
-        if( output.code[i] == "dmy" ) {
-            str = "dd Mon yyyy";
-            CPPUNIT_ASSERT_EQUAL( str, output.descrip[i] );
-        } else if( output.code[i] == "wdmy" ) {
-            str = "WDay dd Mon yyyy";
-            CPPUNIT_ASSERT_EQUAL( str, output.descrip[i] );
-        } else if( output.code[i] == "dmy+" ) {
-            str = "dd Month yyyy";
-            CPPUNIT_ASSERT_EQUAL( str, output.descrip[i] );
-        } else if( output.code[i] == "wdmy+" ) {
-            str = "Weekday dd Month yyyy";
-            CPPUNIT_ASSERT_EQUAL( str, output.descrip[i] );
-        } else if( output.code[i] == "mdy" ) {
-            str = "Mon dd, yyyy";
-            CPPUNIT_ASSERT_EQUAL( str, output.descrip[i] );
-        } else if( output.code[i] == "ymd" ) {
-            str = "yyyy:mm:dd";
-            CPPUNIT_ASSERT_EQUAL( str, output.descrip[i] );
-        } else {
-            CPPUNIT_ASSERT( false ); // Shouldn't be here.
+        for( size_t j = 0 ; j < output.descs[i].codes.size() ; j++ ) {
+            string fcode = output.descs[i].codes[j].code;
+            if( fcode == "dmy" ) {
+                str = "dd Mon yyyy";
+            } else if( fcode == "wdmy" ) {
+                str = "WDay dd Mon yyyy";
+            } else if( fcode == "dmy+" ) {
+                str = "dd Month yyyy";
+            } else if( fcode == "wdmy+" ) {
+                str = "Weekday dd Month yyyy";
+            } else if( fcode == "mdy" ) {
+                str = "Mon dd, yyyy";
+            } else if( fcode == "ymd" ) {
+                str = "yyyy:mm:dd";
+            } else {
+                CPPUNIT_ASSERT( false ); // Shouldn't be here.
+            }
+            CPPUNIT_ASSERT_EQUAL( str, output.descs[i].desc );
         }
     }
-    CPPUNIT_ASSERT_EQUAL( 0, output.current );
+    CPPUNIT_ASSERT_EQUAL( 0U, output.current );
 }
 
 // End of src/test/testgrammar.cpp file

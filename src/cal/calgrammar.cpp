@@ -228,65 +228,21 @@ string Grammar::get_input_format( const string& code ) const
     return "";
 }
 
-void Grammar::get_input_formats( SchemeFormats* input, const std::string& cur_code ) const
+void Grammar::get_input_formats( FormatInfo* info, const std::string& cur_code ) const
 {
-    int cur = input->code.size();
-    for( FormatMap::const_iterator it = m_formats.begin() ; 
-        it != m_formats.end() ; it++
-    ) {
-        Format* fmt = it->second;
-        string code = fmt->get_code();
-        string order = fmt->get_user_input_str();
-        if( order.empty() ) {
-            continue;
-        }
-        bool exists = false;
-        for( size_t i = 0 ; i < input->descrip.size() ; i++ ) {
-            if( input->descrip[i] == order ) {
-                if( code == cur_code ) {
-                    input->current = i;
-                }
-                exists = true;
-                break;
-            }
-        }
-        if( !exists ) {
-            if( code == m_pref_input_fcode ) {
-                input->current = input->code.size();
-            }
-            input->code.push_back( code );
-            input->descrip.push_back( order );
-        }
-    }
-    if( m_inherit ) {
-        m_inherit->get_input_formats( input, cur_code );
+    if( info != NULL ) {
+        info->descs.clear();
+        info->current = 0;
+        get_format_info( info, cur_code, INPUT_INFO );
     }
 }
 
-void Grammar::get_output_formats( SchemeFormats* output, const std::string& cur_code ) const
+void Grammar::get_output_formats( FormatInfo* info, const std::string& cur_code ) const
 {
-    int cur = output->code.size();
-    for( FormatMap::const_iterator it = m_formats.begin() ; 
-        it != m_formats.end() ; it++
-    ) {
-        bool exists = false;
-        for( size_t i = 0 ; i < output->code.size() ; i++ ) {
-            if( it->first == output->code[i] ) {
-                exists = true;
-            }
-        }
-        if( exists ) {
-            continue;
-        }
-        output->code.push_back( it->first );
-        output->descrip.push_back( it->second->get_user_output_str() );
-        if( it->first == cur_code ) {
-            output->current = cur;
-        }
-        cur++;
-    }
-    if( m_inherit ) {
-        m_inherit->get_output_formats( output, cur_code );
+    if( info != NULL ) {
+        info->descs.clear();
+        info->current = 0;
+        get_format_info( info, cur_code, OUTPUT_INFO );
     }
 }
 
@@ -406,5 +362,57 @@ StringVec Grammar::get_rank_fieldnames() const
     }
     return m_rank_fieldnames;
 }
+
+void Grammar::get_format_info( FormatInfo* info, const string& cur_code, INFO type ) const
+{
+    // TODO: Adjust priority for inherited grammars.
+    for( FormatMap::const_iterator it = m_formats.begin() ; it != m_formats.end() ; it++ ) {
+        Format* fmt = it->second;
+        string str = type == INPUT_INFO ? fmt->get_user_input_str() : fmt->get_user_output_str();
+        if( str.empty() ) {
+            continue;
+        }
+        PCode pcode;
+        pcode.code = fmt->get_code();
+        pcode.priority = fmt->get_priority();
+        bool found = false;
+        for( size_t i = 0 ; i < info->descs.size() ; i++ ) {
+            if( info->descs[i].desc == str ) {
+                // We are already there.
+                found = true;
+                if( pcode.code == cur_code ) {
+                    info->current = i;
+                }
+                bool inserted = false;
+                for( size_t j = 0 ; j < info->descs[i].codes.size() ; j++ ) {
+                    int p = info->descs[i].codes[j].priority;
+                    if( pcode.priority > p ) {
+                        // Insert it here.
+                        info->descs[i].codes.insert( info->descs[i].codes.begin() + j, pcode );
+                        inserted = true;
+                        break;
+                    }
+                }
+                if( !inserted ) {
+                    info->descs[i].codes.push_back( pcode );
+                }
+                break;
+            }
+        }
+        if( !found ) {
+            PDesc desc;
+            desc.desc = str;
+            desc.codes.push_back( pcode );
+            if( pcode.code == cur_code ) {
+                info->current = info->descs.size();
+            }
+            info->descs.push_back( desc );
+        }
+    }
+    if( m_inherit ) {
+        m_inherit->get_format_info( info, cur_code, type );
+    }
+}
+
 
 // End of src/cal/calgrammar.cpp file

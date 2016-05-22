@@ -54,8 +54,6 @@ namespace Cal {
         Scheme_style get_style() const { return m_style; }
         std::string get_pref_input_format() const;
         void get_info( Scheme_info* info ) const; 
-        void get_input( SchemeFormats* info ) const; 
-        void get_output( SchemeFormats* info ) const; 
         Base* get_base() const { return m_base; }
         Format* get_output_format( const std::string& fcode ) const;
 

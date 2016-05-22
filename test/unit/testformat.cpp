@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st March 2015
- * Copyright:   Copyright (c) 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2015 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -42,16 +42,14 @@ class TestFormat : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST( testUseFormat );
     CPPUNIT_TEST_SUITE_END();
 
-    Calendars*    m_cal;
-    SHandle       m_sid; // Scheme handle
-    SchemeFormats m_inputs;
-    SchemeFormats m_outputs;
+    Calendars* m_cal;
+    SHandle    m_sid; // Scheme handle
+    FormatInfo m_inputs;
+    FormatInfo m_outputs;
 
 public:
     void setUp();
     void tearDown();
-
-    int find_format( const SchemeFormats& fmts, const string& code );
 
     void testScript();
     void testAddFormat();
@@ -107,24 +105,14 @@ void TestFormat::setUp()
     );
     m_sid = m_cal->get_scheme( "jb" );
     if( m_sid ) {
-        m_cal->get_scheme_input( &m_inputs, m_sid );
-        m_cal->get_scheme_input( &m_outputs, m_sid );
+        m_cal->get_input_info( &m_inputs, m_sid );
+        m_cal->get_output_info( &m_outputs, m_sid );
     }
 }
 
 void TestFormat::tearDown()
 {
     delete m_cal;
-}
-
-int TestFormat::find_format( const SchemeFormats& fmts, const string& code )
-{
-    for( size_t i = 0 ; i < fmts.code.size() ; i++ ) {
-        if( fmts.code[i] == code ) {
-            return i;
-        }
-    }
-    return -1;
 }
 
 void TestFormat::testScript()
@@ -147,10 +135,10 @@ void TestFormat::testScript()
         CPPUNIT_ASSERT( str != "" );
         CPPUNIT_ASSERT_EQUAL( str, info.vocab_names[i] );
     }
-    CPPUNIT_ASSERT( m_inputs.code.size() == 2 );
+    CPPUNIT_ASSERT( m_inputs.descs.size() == 2 );
     CPPUNIT_ASSERT( find_format( m_inputs, "dmy" ) >= 0 );
     CPPUNIT_ASSERT( find_format( m_inputs, "wdmy" ) >= 0 );
-    CPPUNIT_ASSERT( m_outputs.code.size() == 2 ); 
+    CPPUNIT_ASSERT( m_outputs.descs.size() == 2 ); 
     CPPUNIT_ASSERT( find_format( m_outputs, "dmy" ) >= 0 );
     CPPUNIT_ASSERT( find_format( m_outputs, "wdmy" ) >= 0 );
 }
@@ -159,8 +147,8 @@ void TestFormat::testAddFormat()
 {
     CPPUNIT_ASSERT( m_sid != NULL );
     // Confirm starting position
-    CPPUNIT_ASSERT( m_inputs.code.size() == 2 );
-    CPPUNIT_ASSERT( m_outputs.code.size() == 2 );
+    CPPUNIT_ASSERT( m_inputs.descs.size() == 2 );
+    CPPUNIT_ASSERT( m_outputs.descs.size() == 2 );
     string expect_err = "Error (1): Unable to create format.\n";
     string err = m_cal->run_script(
         "format \"j:dmy\", \"|(Day) |(Month:m.a) |(Year)\";"
@@ -171,37 +159,37 @@ void TestFormat::testAddFormat()
         "format \"j:mdy\", \"|(Month:m.a) |(Day), |(Year)\";"
     );
     CPPUNIT_ASSERT_EQUAL( expect_err, err );
-    m_cal->get_scheme_input( &m_inputs, m_sid );
-    CPPUNIT_ASSERT( m_inputs.code.size() == 3 );
-    m_cal->get_scheme_input( &m_outputs, m_sid );
-    CPPUNIT_ASSERT( m_outputs.code.size() == 3 );
+    m_cal->get_input_info( &m_inputs, m_sid );
+    CPPUNIT_ASSERT( m_inputs.descs.size() == 3 );
+    m_cal->get_output_info( &m_outputs, m_sid );
+    CPPUNIT_ASSERT( m_outputs.descs.size() == 3 );
 }
 
 void TestFormat::testMarkAddFormat()
 {
     CPPUNIT_ASSERT( m_sid != NULL );
     // Confirm starting position
-    CPPUNIT_ASSERT( m_inputs.code.size() == 2 );
-    CPPUNIT_ASSERT( m_outputs.code.size() == 2 );
+    CPPUNIT_ASSERT( m_inputs.descs.size() == 2 );
+    CPPUNIT_ASSERT( m_outputs.descs.size() == 2 );
     string expect_err;
     string err = m_cal->run_script(
         "mark \"test\";"
         "format \"j:mdy\", \"|(Month:m.a) |(Day), |(Year)\";"
     );
     CPPUNIT_ASSERT_EQUAL( expect_err, err );
-    m_cal->get_scheme_input( &m_inputs, m_sid );
-    CPPUNIT_ASSERT( m_inputs.code.size() == 3 );
-    m_cal->get_scheme_input( &m_outputs, m_sid );
-    CPPUNIT_ASSERT( m_outputs.code.size() == 3 );
+    m_cal->get_input_info( &m_inputs, m_sid );
+    CPPUNIT_ASSERT( m_inputs.descs.size() == 3 );
+    m_cal->get_output_info( &m_outputs, m_sid );
+    CPPUNIT_ASSERT( m_outputs.descs.size() == 3 );
 
     err = m_cal->run_script(
         "mark \"test\";"
     );
     CPPUNIT_ASSERT_EQUAL( expect_err, err );
-    m_cal->get_scheme_input( &m_inputs, m_sid );
-    CPPUNIT_ASSERT( m_inputs.code.size() == 2 );
-    m_cal->get_scheme_input( &m_outputs, m_sid );
-    CPPUNIT_ASSERT( m_outputs.code.size() == 2 );
+    m_cal->get_input_info( &m_inputs, m_sid );
+    CPPUNIT_ASSERT( m_inputs.descs.size() == 2 );
+    m_cal->get_output_info( &m_outputs, m_sid );
+    CPPUNIT_ASSERT( m_outputs.descs.size() == 2 );
 }
 
 void TestFormat::testUseFormat()

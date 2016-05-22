@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCal is free software: you can redistribute it and/or modify
@@ -68,14 +68,14 @@ private:
         void UpdateOutputFormat();
         void CalculateOutput();
 
-        Cal::Calendars     m_cal;
-        std::string        m_from;
-        std::string        m_to;
-        Cal::SchemeList    m_schemes;
-        Cal::SchemeFormats m_input_info;
-        Cal::SchemeFormats m_output_info;
-        bool  m_show_interm;
-        bool  m_show_count;
+        Cal::Calendars   m_cal;
+        std::string      m_from;
+        std::string      m_to;
+        Cal::SchemeList  m_schemes;
+        Cal::FormatInfo  m_input_info;
+        Cal::FormatInfo  m_output_info;
+        bool             m_show_interm;
+        bool             m_show_count;
 };
 
 #endif // SRC_HCAL_HCFRAME_H_GUARD

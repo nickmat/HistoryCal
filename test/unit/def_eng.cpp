@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     6th March 2014
- * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -46,9 +46,6 @@ class TestDef_eng : public CPPUNIT_NS::TestFixture
     Cal::SHandle    m_sid; // Scheme handle
 
 public:
-    bool setInputOrder( const string& order );
-    bool setOutputFormat( const string& format );
-
     void setUp();
     void tearDown();
 
@@ -101,32 +98,6 @@ static const char* test_strs[MaxSample][2] = {
 };
 
 
-bool TestDef_eng::setInputOrder( const string& order )
-{
-    SchemeFormats input;
-    m_cal->get_scheme_input( &input, m_sid );
-    for( size_t i = 0 ; i < input.code.size() ; i++ ) {
-        if( input.descrip[i] == order ) {
-            m_cal->set_input_format( m_sid, input.code[i] );
-            return true;
-        }
-    }
-    return false;
-}
-
-bool TestDef_eng::setOutputFormat( const string& format )
-{
-    SchemeFormats output;
-    m_cal->get_scheme_output( &output, m_sid );
-    for( size_t i = 0 ; i < output.descrip.size() ; i++ ) {
-        if( output.descrip[i] == format ) {
-            m_cal->set_output_format( m_sid, output.code[i] );
-            return true;
-        }
-    }
-    return false;
-}
-
 void TestDef_eng::setUp()
 {
     m_cal = new Calendars(Init_script_default);
@@ -168,7 +139,7 @@ void TestDef_eng::testCreation()
 
 void TestDef_eng::testStrTableInput()
 {
-    bool set = setInputOrder( "Day Month Year" );
+    bool set = setInputFormatFromDesc( m_cal, m_sid, "Day Month Year" );
     CPPUNIT_ASSERT( set == true );
     for( size_t i = 0 ; i < MaxSample ; i++ ) {
         Field jdn = m_cal->str_to_jdn( m_sid, test_strs[i][0] );
@@ -183,7 +154,7 @@ void TestDef_eng::testStrTableInput()
 
 void TestDef_eng::testStrTableOutput()
 {
-    bool set = setOutputFormat( "dd Mon yyyy" );
+    bool set = setOutputFormatFromDesc( m_cal, m_sid, "dd Mon yyyy" );
     CPPUNIT_ASSERT( set == true );
     for( size_t i = 0 ; i < MaxSample ; i++ ) {
         string str = m_cal->jdn_to_str( m_sid, testJdnValues[i] );
@@ -191,7 +162,7 @@ void TestDef_eng::testStrTableOutput()
         CPPUNIT_ASSERT_EQUAL( tbl, str );
     }
 
-    set = setOutputFormat( "dd Mon yyyy/y" );
+    set = setOutputFormatFromDesc( m_cal, m_sid, "dd Mon yyyy/y" );
     CPPUNIT_ASSERT( set == true );
     for( size_t i = 0 ; i < MaxSample ; i++ ) {
         if( testJdnValues[i] == 1892732 ) {
@@ -224,16 +195,16 @@ void TestDef_eng::testRangeShorthand()
     };
     size_t count = sizeof(t) / sizeof(data);
 
-    bool set = setInputOrder( "Day Month Year" );
+    bool set = setInputFormatFromDesc( m_cal, m_sid, "Day Month Year" );
     CPPUNIT_ASSERT( set == true );
-    set = setOutputFormat( "dd Mon yyyy" );
+    set = setOutputFormatFromDesc( m_cal, m_sid, "dd Mon yyyy" );
     CPPUNIT_ASSERT( set == true );
     for( size_t i = 0 ; i < count ; i++ ) {
         RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in );
         string str = m_cal->rangelist_to_str( m_sid, rl );
         CPPUNIT_ASSERT_EQUAL( t[i].out1, str );
     }
-    set = setOutputFormat( "dd Mon yyyy/y" );
+    set = setOutputFormatFromDesc( m_cal, m_sid, "dd Mon yyyy/y" );
     CPPUNIT_ASSERT( set == true );
     for( size_t i = 0 ; i < count ; i++ ) {
         RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in );

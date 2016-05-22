@@ -46,16 +46,14 @@ class TestIso : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST( testDateSets );
     CPPUNIT_TEST_SUITE_END();
 
-    Calendars*    m_cal;
-    SHandle       m_sid; // Scheme handle
-    SchemeFormats m_inputs;
-    SchemeFormats m_outputs;
+    Calendars* m_cal;
+    SHandle    m_sid; // Scheme handle
+    FormatInfo m_inputs;
+    FormatInfo m_outputs;
 
 public:
     void setUp();
     void tearDown();
-
-    int find_format( const SchemeFormats& fmts, const string& code );
 
     void testScript();
     void testAddFormat();
@@ -115,24 +113,14 @@ void TestIso::setUp()
     );
     m_sid = m_cal->get_scheme( "isog" );
     if( m_sid ) {
-        m_cal->get_scheme_input( &m_inputs, m_sid );
-        m_cal->get_scheme_output( &m_outputs, m_sid );
+        m_cal->get_input_info( &m_inputs, m_sid );
+        m_cal->get_output_info( &m_outputs, m_sid );
     }
 }
 
 void TestIso::tearDown()
 {
     delete m_cal;
-}
-
-int TestIso::find_format( const SchemeFormats& fmts, const string& code )
-{
-    for( size_t i = 0 ; i < fmts.code.size() ; i++ ) {
-        if( fmts.code[i] == code ) {
-            return i;
-        }
-    }
-    return -1;
 }
 
 void TestIso::testScript()
@@ -146,9 +134,9 @@ void TestIso::testScript()
     CPPUNIT_ASSERT_EQUAL( str, info.grammar_code );
     CPPUNIT_ASSERT( info.vocab_codes.size() == 0 );
 
-    CPPUNIT_ASSERT( m_inputs.code.size() == 5 );
+    CPPUNIT_ASSERT( m_inputs.descs.size() == 5 );
     CPPUNIT_ASSERT( find_format( m_inputs, "ymd" ) >= 0 );
-    CPPUNIT_ASSERT( m_outputs.code.size() == 6 ); 
+    CPPUNIT_ASSERT( m_outputs.descs.size() == 6 ); 
     CPPUNIT_ASSERT( find_format( m_outputs, "ymd" ) >= 0 );
 }
 
@@ -156,8 +144,8 @@ void TestIso::testAddFormat()
 {
     CPPUNIT_ASSERT( m_sid != NULL );
     // Confirm starting position
-    CPPUNIT_ASSERT( m_inputs.code.size() == 5 );
-    CPPUNIT_ASSERT( m_outputs.code.size() == 6 );
+    CPPUNIT_ASSERT( m_inputs.descs.size() == 5 );
+    CPPUNIT_ASSERT( m_outputs.descs.size() == 6 );
     string expect_err = "Error (1): Unable to create format.\n";
     string err = m_cal->run_script(
         "format \"iso:ymd\", \"(year)|-(month)|-(day)\";"
@@ -168,10 +156,10 @@ void TestIso::testAddFormat()
         "format \"iso:mdy\", \"(month) |(day), |(year)\";"
     );
     CPPUNIT_ASSERT_EQUAL( expect_err, err );
-    m_cal->get_scheme_input( &m_inputs, m_sid );
-    CPPUNIT_ASSERT( m_inputs.code.size() == 6 );
-    m_cal->get_scheme_output( &m_outputs, m_sid );
-    CPPUNIT_ASSERT( m_outputs.code.size() == 7 );
+    m_cal->get_input_info( &m_inputs, m_sid );
+    CPPUNIT_ASSERT( m_inputs.descs.size() == 6 );
+    m_cal->get_output_info( &m_outputs, m_sid );
+    CPPUNIT_ASSERT( m_outputs.descs.size() == 7 );
 }
 
 void TestIso::testInputOutput()

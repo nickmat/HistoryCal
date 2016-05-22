@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     24th December 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -137,44 +137,53 @@ void TestDef_fr::testCreation()
         CPPUNIT_ASSERT( str != "" );
         CPPUNIT_ASSERT_EQUAL( str, info.vocab_names[i] );
     }
-    SchemeFormats formats;
-    m_cal->get_scheme_input( &formats, m_sid );
-    for( size_t i = 0 ; i < formats.code.size() ; i++ ) {
-        str.clear();
-        if( formats.code[i] == "cdmy" ) {
-            str = "Day Month Year";
-        } else if( formats.code[i] == "ymd" ) {
-            str = "Year Month Day";
+    FormatInfo formats;
+    m_cal->get_input_info( &formats, m_sid );
+    for( size_t i = 0 ; i < formats.descs.size() ; i++ ) {
+        for( size_t j = 0 ; j < formats.descs[i].codes.size() ; j++ ) {
+            string fcode = formats.descs[i].codes[j].code;
+            if( fcode == "dmy" || fcode == "dmy+" || fcode == "cdmy" ||
+                fcode == "out" || fcode == "dcdmy" || fcode == "wcdmy" ||
+                fcode == "cdmy-" || fcode == "dcdmy-" || fcode == "wcdmy-" )
+            {
+                str = "Day Month Year";
+            } else if( fcode == "ymd" ) {
+                str = "Year Month Day";
+            } else {
+                CPPUNIT_ASSERT( false ); // Shouldn't be here.
+            }
+            CPPUNIT_ASSERT_EQUAL( str, formats.descs[i].desc );
         }
-        CPPUNIT_ASSERT( str != "" );
-        CPPUNIT_ASSERT_EQUAL( str, formats.descrip[i] );
     }
-    m_cal->get_scheme_output( &formats, m_sid );
-    for( size_t i = 0 ; i < formats.code.size() ; i++ ) {
-        str.clear();
-        if( formats.code[i] == "cdmy" ) {
-            str = "CompDay dd Month yyyy";
-        } else if( formats.code[i] == "cdmy-" ) {
-            str = "CDay dd Mon yyyy";
-        } else if( formats.code[i] == "dcdmy" ) {
-            str = "DecDay CompDay dd Month yyyy";
-        } else if( formats.code[i] == "dcdmy-" ) {
-            str = "DDay CDay dd Mon yyyy";
-        } else if( formats.code[i] == "dmy" ) {
-            str = "dd Mon yyyy";
-        } else if( formats.code[i] == "dmy+" ) {
-            str = "dd Month yyyy";
-        } else if( formats.code[i] == "out" ) {
-            str = "CompDay dd Month an yyyy[X]";
-        } else if( formats.code[i] == "wcdmy" ) {
-            str = "Weekday, CompDay dd Month yyyy";
-        } else if( formats.code[i] == "wcdmy-" ) {
-            str = "WDay, CDay dd Mon yyyy";
-        } else if( formats.code[i] == "ymd" ) {
-            str = "yyyy,Mon,dd";
+    m_cal->get_output_info( &formats, m_sid );
+    for( size_t i = 0 ; i < formats.descs.size() ; i++ ) {
+        for( size_t j = 0 ; j < formats.descs[i].codes.size() ; j++ ) {
+            string fcode = formats.descs[i].codes[j].code;
+            if( fcode == "cdmy" ) {
+                str = "CompDay dd Month yyyy";
+            } else if( fcode == "cdmy-" ) {
+                str = "CDay dd Mon yyyy";
+            } else if( fcode == "dcdmy" ) {
+                str = "DecDay CompDay dd Month yyyy";
+            } else if( fcode == "dcdmy-" ) {
+                str = "DDay CDay dd Mon yyyy";
+            } else if( fcode == "dmy" ) {
+                str = "dd Mon yyyy";
+            } else if( fcode == "dmy+" ) {
+                str = "dd Month yyyy";
+            } else if( fcode == "out" ) {
+                str = "CompDay dd Month an yyyy[X]";
+            } else if( fcode == "wcdmy" ) {
+                str = "Weekday, CompDay dd Month yyyy";
+            } else if( fcode == "wcdmy-" ) {
+                str = "WDay, CDay dd Mon yyyy";
+            } else if( fcode == "ymd" ) {
+                str = "yyyy,Mon,dd";
+            } else {
+                CPPUNIT_ASSERT( false ); // Shouldn't be here.
+            }
+            CPPUNIT_ASSERT_EQUAL( str, formats.descs[i].desc );
         }
-        CPPUNIT_ASSERT( str != "" );
-        CPPUNIT_ASSERT_EQUAL( str, formats.descrip[i] );
     }
 }
 
