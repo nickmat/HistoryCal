@@ -199,11 +199,19 @@ void HcFrame::OnSelectInput( wxCommandEvent& event )
     UpdateInputFormat();
     UpdateTextVocabs();
     CalculateOutput();
+#if defined(__GNUC__) // Temporary fix for unix bug.
+    // TODO: Create permanent fix.
+    CalculateOutput();
+#endif
 }
 
 void HcFrame::OnSelectInputFormat( wxCommandEvent& event )
 {
     CalculateOutput();
+#if defined(__GNUC__) // Temporary fix for unix bug.
+    // TODO: Create permanent fix.
+    CalculateOutput();
+#endif
 }
 
 void HcFrame::OnSelectVocab( wxCommandEvent& event )
