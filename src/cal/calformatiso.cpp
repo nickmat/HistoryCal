@@ -166,7 +166,7 @@ string FormatIso::get_output( const Record& record ) const
         if( isow == NULL ) {
             isoo = dynamic_cast<const IsoOrdinal*>( record.get_base() );
             if( isoo == NULL ) {
-                return false;
+                return "";
             }
         }
     }
