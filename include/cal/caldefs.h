@@ -29,7 +29,7 @@
 #define CAL_CALDEFS_H_GUARD
 
 #if defined(_WIN32) || defined(__WIN32__)
-  #if defined(MAKINGLIB_CAL)
+  #if defined(MAKINGLIB_CAL) || defined(cal_EXPORTS)
     #define  DLLIMPEXP_CAL  __declspec(dllexport)
   #else
     #define  DLLIMPEXP_CAL  __declspec(dllimport)
