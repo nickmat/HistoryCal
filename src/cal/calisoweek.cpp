@@ -170,7 +170,7 @@ int IsoWeek::get_std_fieldname_index( const string& fieldname ) const
 
 string IsoWeek::get_std_fieldname( size_t index ) const
 {
-    static char* names[] = { "year", "week", "wday" };
+    static const char* names[] = { "year", "week", "wday" };
     if( index < sizeof( names ) ) {
         return names[index];
     }

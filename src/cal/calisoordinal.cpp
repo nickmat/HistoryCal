@@ -150,7 +150,7 @@ int IsoOrdinal::get_std_fieldname_index( const string& fieldname ) const
 
 string IsoOrdinal::get_std_fieldname( size_t index ) const
 {
-    static char* names[] = { "year", "day" };
+    static const char* names[] = { "year", "day" };
     if( index < sizeof( names ) ) {
         return names[index];
     }
