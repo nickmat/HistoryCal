@@ -375,19 +375,7 @@ void HcFrame::CalculateOutput()
     m_cal.set_output_format( sch_to, m_output_info.descs[outfmt].codes[0].code );
     string input = WxStrToUtf8( m_textInput->GetValue() );
     if( input.size() ) {
-        string age;
-        size_t pos = input.find( " age " );
-        if( pos != string::npos ) {
-            age = input.substr( pos+1 );
-            input = input.substr( 0, pos );
-        }
         RangeList ranges = m_cal.expr_str_to_rangelist( sch_from, input );
-        if( age.size() ) {
-            Rel_info info;
-            if( m_cal.str_to_rel_info( sch_from, age, &info ) ) {
-                ranges = m_cal.rel_rangelist( sch_from, ranges, &info );
-            }
-        }
 
         inter << RangesToString( ranges );
 
