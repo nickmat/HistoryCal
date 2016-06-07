@@ -30,7 +30,7 @@
 #define UTF8API_H_GUARD
 
 #if defined(_WIN32) || defined(__WIN32__)
-  #if defined(MAKINGLIB_UTF8API)
+  #if defined(MAKINGLIB_UTF8API) || defined(utf8api_EXPORTS)
     #define  DLLIMPEXP_UTF8API  __declspec(dllexport)
   #else
     #define  DLLIMPEXP_UTF8API  __declspec(dllimport)
