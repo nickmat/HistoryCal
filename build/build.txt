@@ -7,6 +7,10 @@ I should point out that I have little experience in with either the Mac OSX or
 the Gnu/Linux systems. This is more of a "How I did it" than a "How to"
 document. If you can improve on it, please do.
 
+I have also included an experimental CMakeLists.txt file for cmake. If anyone
+finds this useful and/or can recommend improvements to this - please let me
+know.
+
 The following assume you have the HistoryCal files in a directory called hcal.
 
 Windows Build
