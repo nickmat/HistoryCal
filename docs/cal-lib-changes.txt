@@ -1,4 +1,28 @@
-Cal Library Change History
+Cal Library Change History. 
+
+For full details see git log.
+
+24 Jun 2016 Version 0.2.7
+- Replace the SchemeFormats struct with the more complex FormatInfo struct.
+- Add priority value to Format class.
+- Default script, fix French Republic "wcdmy-" format not using abbreviations.
+- Script, remove unnecessary quoting from 'alias' sub-statements.
+- Date output strings will now be balanced if the include past or future keywords.
+- Script, codes and signatures do not need quoting unless they are not not valid names.
+- Script, name tokens may now include '_' and ':' characters.
+- Script, allow escaping a quote inside quotes by using "" (two quotes).
+- Support for ISO:8601 and (some) EDTF standard formatting added.
+- Script, statements that consist of a list of strings no longer need quotes.
+- Add enum Boundary and use to indicate which part of a range is required.
+- Date expressions can now use quotes to pass operator tokens as text.
+- Add ISO Week and Ordinal calendars.
+- Script, replace 'mask' cast keyword with 'record'.
+- Script the Value Fields type to Record type and add a scheme code.
+- Script, change precedence of the date cast.
+- Fix bug on Calendar class destructor when deleting mark list.
+- Add "u", a default format, to all schemes. Used to list values and units.
+- Fix bug with date parser, non-ascii characters and hyphens.
+- Script clear statement extended to clear to (and include) a mark;
 
 18 Nov 2015 Version 0.2.6
 - Add Astronomical Year ("ay") calendar scheme.

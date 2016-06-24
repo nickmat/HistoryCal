@@ -1,4 +1,13 @@
-HistoryCal Calulator Changes History
+HistoryCal Calculator Changes History
+
+For full details see git log.
+
+24 Jun 2016 Version 0.0.6 alpha
+- Use the more complex FormatInfo struct (replaces SchemeFormats struct).
+- Scheme and Format codes are displayed before their descriptions. 
+- New and updated example scripts.
+- Use Cal library v0.2.7
+- Fix bug displaying intermediate multiple ranges.
 
 18 Nov 2015 Version 0.0.5 alpha
 - Use Cal library v0.2.6
