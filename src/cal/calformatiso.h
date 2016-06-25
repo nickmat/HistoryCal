@@ -64,6 +64,7 @@ namespace Cal {
         DateRep  m_daterep;
         bool     m_extended;
         bool     m_yplusminus;
+        bool     m_yminus; // Ignored if m_plusminus is true
         bool     m_dateset;
         size_t   m_ydigits;
     };

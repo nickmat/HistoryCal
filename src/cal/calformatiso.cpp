@@ -43,7 +43,7 @@ using std::string;
 
 FormatIso::FormatIso( const string& code, Grammar* gmr, const StringVec& rules )
     : Format( code, gmr ), m_daterep(DR_gregorian), m_extended(true),
-    m_yplusminus(false), m_dateset(false), m_ydigits(4)
+    m_yplusminus(false), m_yminus(false), m_dateset(false), m_ydigits(4)
 {
     for( size_t i = 1 ; i < rules.size() ; i++ ) {
         if( rules[i] == "caldate" ) {
@@ -58,8 +58,13 @@ FormatIso::FormatIso( const string& code, Grammar* gmr, const StringVec& rules )
             m_extended = true;
         } else if( rules[i] == "sign" ) {
             m_yplusminus = true;
+            m_yminus = false;
+        } else if( rules[i] == "minus" ) {
+            m_yplusminus = false;
+            m_yminus = true;
         } else if( rules[i] == "nosign" ) {
             m_yplusminus = false;
+            m_yminus = false;
         } else if( rules[i] == "year4" ) {
             m_ydigits = 4;
         } else if( rules[i] == "year5" ) {
@@ -75,6 +80,8 @@ FormatIso::FormatIso( const string& code, Grammar* gmr, const StringVec& rules )
     string input, output, rep, sign, sep;
     if( m_yplusminus ) {
         sign = "\302\261";
+    } else if( m_yminus ) {
+        sign = "-";
     }
     if( m_ydigits == 5 ) {
         sign += "Y";
@@ -347,16 +354,15 @@ bool FormatIso::set_input( Record* record, const string& input, Boundary rb ) co
 string FormatIso::output_year( Field year ) const
 {
     string sign;
-    if( m_yplusminus ) {
-        if( year < 0 ) {
-            sign = '-';
-            year = -year;
-        } else {
-            sign = "+";
-        }
-    } else {
-        if( year < 0 ) {
+    if( year < 0 ) {
+        if( !m_yplusminus && !m_yminus ) {
             return "";
+        }
+        sign = '-';
+        year = -year;
+    } else {
+        if( m_yplusminus ) {
+            sign = '+';
         }
     }
     string value = get_left_padded( year, "0", m_ydigits );
