@@ -46,11 +46,6 @@ namespace Cal {
         virtual RangeList string_to_rlist( Base* base, const std::string& input ) const;
         virtual bool set_input( Record* record, const std::string& input, Boundary rb ) const;
 
-        void set_daterep( DateRep dr ) { m_daterep = dr; }
-        void set_extended( bool ext ) { m_extended = ext; }
-        void set_yplusminus( bool ypm ) { m_yplusminus = ypm; }
-        void set_ydigits( size_t yd ) { m_ydigits = yd; }
-
     private:
         std::string output_year( Field year ) const;
 
