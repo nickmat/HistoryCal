@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     19th September 2013
- * Copyright:   Copyright (c) 2013-2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -65,7 +65,13 @@ const char* Cal::cal_version = VERSION_NUM VERSION_CONFIG;
                   Add "jce", "gce" and "ay" default calendars.
                   Add "if/endif" and "do/loop" statements to script language.
 
-  active  v0.2.7  Improve "mark" and "clear" script statements
+ 26jun16  v0.2.7  Added ISO Week and Ordinal calendar schemes.
+                  Improve "mark" and "clear" script statements
+                  Replace the SchemeFormats struct with FormatInfo struct.
+                  Script, the amount of quoting required has been reduced.
+                  Script, cast operators improved.
+                  Support for ISO:8601 and some EDTF formatting added.
+                  Other changes, see docs/cal-lib-changes.txt
 
 *****************************************************************************/
 
