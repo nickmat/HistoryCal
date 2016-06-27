@@ -33,14 +33,18 @@ mkdir hcal\util\file2cpp
 
 copy ..\..\readme.txt hcal\readme.txt > nul
 copy ..\..\license.txt hcal\license.txt > nul
+attrib -H ..\..\.gitignore > nul
 copy ..\..\.gitignore hcal\.gitignore > nul
 
 rem ==================[ Build ]=====================
 copy ..\..\build\build.txt hcal\build > nul
+copy ..\..\build\hcal.bkl hcal\build > nul
+copy ..\..\build\bake.bat hcal\build > nul
 copy ..\..\build\gnu\*.* hcal\build\gnu > nul
 copy ..\..\build\gnu_eu\*.* hcal\build\gnu_eu > nul
 copy ..\..\build\vc9\*.sln hcal\build\vc9 > nul
 copy ..\..\build\vc9\*.vcproj hcal\build\vc9 > nul
+copy ..\..\build\CMakeLists.txt hcal\build > nul
 
 rem ==================[ Docs ]======================
 copy ..\..\docs\*.* hcal\docs > nul
@@ -79,5 +83,3 @@ dtou -v -I hcal -E .;c;cpp;css;f2c;fbp;h;hcs;htm;txt;xpm > convert-rpt.txt
 
 del hcal.tar
 rmdir /S /Q hcal
-
-

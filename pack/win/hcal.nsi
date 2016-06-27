@@ -31,11 +31,11 @@
 
 !define HCALNAME      "HistoryCal"
 !define APP_EXE       "hcal.exe"
-!define VERSION_DOT   "0.0.5.0"
+!define VERSION_DOT   "0.0.6.0"
 !define VERSION_TXT   "V${VERSION_DOT} alpha"
 !define LICENSE       "license.txt"
 !define DESCRIPTION   "HistoryCal Application Installer"
-!define COPYRIGHT     "2014 ~ 2015 @ Nick Matthews"
+!define COPYRIGHT     "2014 ~ 2016 @ Nick Matthews"
 
 !define DOC_PATH      "$DOCUMENTS\${HCALNAME}"
 !define EXAMPLE_PATH  "$DOCUMENTS\${HCALNAME}"
@@ -165,6 +165,8 @@ Section "Examples" InstallExamples
   File "Islamic-IIIc.hcs"
   File "Islamic-IVa.hcs"
   File "Islamic-IVc.hcs"
+  File "iso5.hcs"
+  File "iso6.hcs"
   File "misc-calc.hcs"
   File "today-is.hcs"
 

@@ -10,7 +10,9 @@ Check the program release version running on Windows, Ubuntu (Unity and Mint) (a
 
 -) Edit the src/cal/calversion.cpp file. Replace "Actitive" with the date for the current version.
 
--) Do a final release build and check startup page version number and About Box text (version & (c) date).
+-) Run scripts/makedefault.bat file.
+
+-) Do a final release build and check the About Box text (version & (c) date).
 
 -) Ensure docs/cal-lib-changes.txt and docs/hcal-changes.txt are up to date.
 
@@ -32,7 +34,7 @@ Check the program release version running on Windows, Ubuntu (Unity and Mint) (a
 
 -) Test resultant windows installer.
 
--) Check pack/tfp_*_src.gz by compiling on Unbuntu/Mac (as per build/build.txt).
+-) Check pack/tfp_*_src.gz by compiling on Linux/Mac (as per build/build.txt).
 
 -) Commit, tag and push the git rep.
 

@@ -8,7 +8,7 @@ A default format for writing dates as a sequence of 'value unit' pairs, it's bee
 
 Changes to the date expression syntax. Allow characters used as operators to be passed as text by enclosing in double quotes.
 
-A number of changes to the HistoryCal Script Language. The clear statement extended. The record value type has been created, it replaces the mask value type. Increase precedence and change operation of the cast operators. Scheme, grammar, format and vocab codes do not need to be quoted unless they contain characters not allowed in names.
+A number of changes to the HistoryCal Script Language. The clear statement extended. The 'record' value type has been created, it replaces the mask value type. Increase precedence and change operation of the cast operators. The 'scheme', 'grammar', 'format' and 'vocab' codes do not need to be quoted unless they contain characters not allowed in names. Added the 'rules' sub-statement to the 'format' statement, use this to control the ISO:8601 formats.
 
 A number of bug fixes, full details are available in the git repository.
 
