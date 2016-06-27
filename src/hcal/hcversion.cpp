@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2013
- * Copyright:   Copyright (c) 2013-2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCal is free software: you can redistribute it and/or modify
@@ -57,7 +57,7 @@ const char* hcVersion = VERSION;
 /*! A string containing a long hand version name and copyright message.
  */
 const char* hcTitle = "HistoryCal - V" VERSION "\n"
-                      "Copyright (c) 2013-2016 Nick Matthews\n\n";
+                      "Copyright (c) 2013 ~ 2016  Nick Matthews\n\n";
 
 /*************************************************************************//**
 
@@ -81,7 +81,7 @@ const char* hcTitle = "HistoryCal - V" VERSION "\n"
 
  18nov15  v0.0.5   Use Cal library version 0.2.6.
 
-  active  v0.0.6   Use Cal library version 0.2.7.
+ 26jun16  v0.0.6   Use Cal library version 0.2.7. See docs/hcal-changes.txt
 
  See also website http://historycal.org
 
