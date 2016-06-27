@@ -66,8 +66,8 @@
  The script is designed to serve two main purposes.
 </p>
 <ul>
+ <li>Define the calendar schemes and their associated grammar.</li>
  <li>Calculate and output complex calendar expressions.</li>
- <li>Define the calendar schemes and associated grammars that can be used</li>
 </ul>
 <p>
  The scripts for the default calendar definitions are shown in the
@@ -98,8 +98,7 @@ writeln "Hello world!";
 <h3 class='clear'>Comments and White Space</h3>
 <p>
  The first line in the above script is a single line comment.
- Every thing from the "//" token to the end of the line is ignored
- (or alternatively, treated as white space).
+ Every thing from the "//" token to the end of the line taken to be a comment.
 </p>
 <p>
  Multi-line comments can be included by placing them between the
@@ -129,7 +128,7 @@ writeln "Hello world!";
  <li><b>Field</b> - An integer number, a date or part of a date.</li>
  <li><b>Range</b> - One or more consecutive dates.</li>
  <li><b>RList</b> - A <a href='../calculate.htm#well-ordered'>well-ordered list</a> of dates.</li>
- <li><b>Record</b> - An sequence of Fields which describe a date.</li>
+ <li><b>Record</b> - A scheme code and sequence of Fields which describe a date.</li>
  <li><b>Boolean</b> - The value <b>true</b> or <b>false</b>.</li>
 </ul>
 <p>
@@ -147,15 +146,15 @@ writeln "Hello world!";
 <tr><th colspan='3'>Statement List</th></tr>
 <tr><th>Statement</th><th>Use</th><th>Example</th></tr>
 <tr><td class='code'>clear</td><td>Delete all variables.</td><td class='example'>clear;</td></tr>
-<tr><td class='code'>do</td><td>Run script until a condition is met.</td><td class='example'>do while y <= 2015
+<tr><td class='code'>do</td><td>Run script until a condition is met.</td><td class='example'>do while y &lt;= 2015
   writeln "1 Jan " + y;
   y += 1;
 loop</td></tr>
 <tr><td class='code'>end</td><td>Stop running the script.</td><td class='example'>end;</td></tr>
-<tr><td class='code'>format</td><td>Define a Format for a grammar</td><td class='example'>format "j:ydm", "(Year)| (Day)| (Month:m)";</td></tr>
-<tr><td class='code'>grammar</td><td>Define a Grammar for a calendar.</td><td class='example'>grammar "J" {
-  inherit "j";
-  format "ydm", "(Year)| (Day)| (Month:m)";
+<tr><td class='code'>format</td><td>Define a Format for a grammar</td><td class='example'>format j:ydm, "(Year)| (Day)| (Month:m)";</td></tr>
+<tr><td class='code'>grammar</td><td>Define a Grammar for a calendar.</td><td class='example'>grammar J {
+  inherit j;
+  format ydm, "(Year)| (Day)| (Month:m)";
 }</td></tr>
 <tr><td class='code'>if</td><td>Run code depending on condition.</td><td class='example'>if value = today
   write "&lt;b&gt;" + str value + "&lt;/b&gt;";
@@ -164,12 +163,12 @@ else
 endif</td></tr>
 <tr><td class='code'>let</td><td>Initialise or change a variable.</td><td class='example'>let d = 1;</td></tr>
 <tr><td class='code'>mark</td><td>Set a named mark in the script.</td><td class='example'>mark "test1";</td></tr>
-<tr><td class='code'>scheme</td><td>Define a calendar Scheme.</td><td class='example'>scheme "j" {
+<tr><td class='code'>scheme</td><td>Define a calendar Scheme.</td><td class='example'>scheme j {
   name "Julian";
   base julian;
 }</td></tr>
-<tr><td class='code'>set</td><td>Set a global default setting.</td><td class='example'>set output "g:iso";</td></tr>
-<tr><td class='code'>vocab</td><td>Define a Vocabulary for a calendar field.</td><td class='example'>vocab "ce" {
+<tr><td class='code'>set</td><td>Set a global default setting.</td><td class='example'>set output g:iso;</td></tr>
+<tr><td class='code'>vocab</td><td>Define a Vocabulary for a calendar field.</td><td class='example'>vocab ce {
   name "Historic Era";
   tokens {
     0, "Before Christ", "BC";
