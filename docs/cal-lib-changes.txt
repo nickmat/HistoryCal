@@ -2,6 +2,8 @@ Cal Library Change History.
 
 For full details see git log.
 
+ Version 0.2.8 alpha
+
 24 Jun 2016 Version 0.2.7
 - Replace the SchemeFormats struct with the more complex FormatInfo struct.
 - Add priority value to Format class.

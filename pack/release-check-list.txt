@@ -50,6 +50,7 @@ Check the program release version running on Windows, Ubuntu (Unity and Mint) (a
    -) pack/pack-all.bat
    -) doc/cal-lib-changes.txt
    -) doc/hcal-changes.txt
+   -) readme.txt
 
 <>
 

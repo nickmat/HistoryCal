@@ -2,6 +2,8 @@ HistoryCal Calculator Changes History
 
 For full details see git log.
 
+ Version 0.0.7 alpha
+
 24 Jun 2016 Version 0.0.6 alpha
 - Use the more complex FormatInfo struct (replaces SchemeFormats struct).
 - Scheme and Format codes are displayed before their descriptions. 

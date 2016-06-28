@@ -1,4 +1,4 @@
-                    HistoryCal V0.0.6
+                    HistoryCal V0.0.7
                     =================
 
 Welcome to the latest alpha release of HistoryCal, an ambitious multi-platform

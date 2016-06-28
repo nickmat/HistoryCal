@@ -1,4 +1,4 @@
-set hcalver=0-0-6
+set hcalver=0-0-7
 
 cd win
 call createpack.bat

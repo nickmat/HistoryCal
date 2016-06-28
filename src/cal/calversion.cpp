@@ -27,7 +27,7 @@
 
 #include "calversion.h"
 
-#define VERSION_NUM      "0.2.7"
+#define VERSION_NUM      "0.2.8"
 
 #if defined(NDEBUG) || !defined(_DEBUG)
 #define VERSION_CONFIG   ""
@@ -72,6 +72,8 @@ const char* Cal::cal_version = VERSION_NUM VERSION_CONFIG;
                   Script, cast operators improved.
                   Support for ISO:8601 and some EDTF formatting added.
                   Other changes, see docs/cal-lib-changes.txt
+
+  active  v0.2.8  Add Chinese calendar.
 
 *****************************************************************************/
 
