@@ -50,6 +50,6 @@ extern bool setInputFormatFromDesc(
 extern bool setOutputFormatFromDesc(
     Cal::Calendars* cal, Cal::SHandle sid, const std::string& desc );
 
-extern int find_format( const Cal::FormatInfo& fmts, const std::string& code );
+extern int find_format( const Cal::SchemeFormatInfo& fmts, const std::string& code );
 
 #endif // UNIT_TESTCOMMON_H_GUARD

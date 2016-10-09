@@ -304,12 +304,12 @@ string Base::get_alias_fieldname( const string& alias ) const
     return get_grammar()->get_field_alias( alias );
 }
 
-void Base::get_input_info( FormatInfo* info ) const
+void Base::get_input_info( SchemeFormatInfo* info ) const
 {
     get_grammar()->get_input_formats( info, get_input_fcode() );
 }
 
-void Base::get_output_info( FormatInfo* info ) const
+void Base::get_output_info( SchemeFormatInfo* info ) const
 {
     get_grammar()->get_output_formats( info, get_output_fcode() );
 }

@@ -228,7 +228,7 @@ string Grammar::get_input_format( const string& code ) const
     return "";
 }
 
-void Grammar::get_input_formats( FormatInfo* info, const std::string& cur_code ) const
+void Grammar::get_input_formats( SchemeFormatInfo* info, const std::string& cur_code ) const
 {
     if( info != NULL ) {
         info->descs.clear();
@@ -237,7 +237,7 @@ void Grammar::get_input_formats( FormatInfo* info, const std::string& cur_code )
     }
 }
 
-void Grammar::get_output_formats( FormatInfo* info, const std::string& cur_code ) const
+void Grammar::get_output_formats( SchemeFormatInfo* info, const std::string& cur_code ) const
 {
     if( info != NULL ) {
         info->descs.clear();
@@ -363,7 +363,7 @@ StringVec Grammar::get_rank_fieldnames() const
     return m_rank_fieldnames;
 }
 
-void Grammar::get_format_info( FormatInfo* info, const string& cur_code, INFO type ) const
+void Grammar::get_format_info( SchemeFormatInfo* info, const string& cur_code, INFO type ) const
 {
     // TODO: Adjust priority for inherited grammars.
     for( FormatMap::const_iterator it = m_formats.begin() ; it != m_formats.end() ; it++ ) {

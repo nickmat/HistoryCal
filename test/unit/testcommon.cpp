@@ -101,7 +101,7 @@ string yToStr( Field year )
 
 bool setInputFormatFromDesc( Calendars* cal, SHandle sid, const string& desc )
 {
-    FormatInfo input;
+    SchemeFormatInfo input;
     cal->get_input_info( &input, sid );
     for( size_t i = 0 ; i < input.descs.size() ; i++ ) {
         if( input.descs[i].desc == desc ) {
@@ -114,7 +114,7 @@ bool setInputFormatFromDesc( Calendars* cal, SHandle sid, const string& desc )
 
 bool setOutputFormatFromDesc( Calendars* cal, SHandle sid, const string& desc )
 {
-    FormatInfo output;
+    SchemeFormatInfo output;
     cal->get_output_info( &output, sid );
     for( size_t i = 0 ; i < output.descs.size() ; i++ ) {
         if( output.descs[i].desc == desc ) {
@@ -125,7 +125,7 @@ bool setOutputFormatFromDesc( Calendars* cal, SHandle sid, const string& desc )
     return false;
 }
 
-int find_format( const FormatInfo& fmts, const string& code )
+int find_format( const SchemeFormatInfo& fmts, const string& code )
 {
     for( size_t i = 0 ; i < fmts.descs.size() ; i++ ) {
         for( size_t j = 0 ; j < fmts.descs[i].codes.size() ; j++ ) {

@@ -123,7 +123,7 @@ namespace Cal {
         std::vector<PCode> codes;
     };
 
-    struct FormatInfo {
+    struct SchemeFormatInfo {
         std::vector<PDesc> descs;
         size_t current;
     };

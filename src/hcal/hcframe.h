@@ -72,8 +72,8 @@ private:
         std::string      m_from;
         std::string      m_to;
         Cal::SchemeList  m_schemes;
-        Cal::FormatInfo  m_input_info;
-        Cal::FormatInfo  m_output_info;
+        Cal::SchemeFormatInfo  m_input_info;
+        Cal::SchemeFormatInfo  m_output_info;
         bool             m_show_interm;
         bool             m_show_count;
 };

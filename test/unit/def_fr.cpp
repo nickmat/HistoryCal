@@ -137,7 +137,7 @@ void TestDef_fr::testCreation()
         CPPUNIT_ASSERT( str != "" );
         CPPUNIT_ASSERT_EQUAL( str, info.vocab_names[i] );
     }
-    FormatInfo formats;
+    SchemeFormatInfo formats;
     m_cal->get_input_info( &formats, m_sid );
     for( size_t i = 0 ; i < formats.descs.size() ; i++ ) {
         for( size_t j = 0 ; j < formats.descs[i].codes.size() ; j++ ) {

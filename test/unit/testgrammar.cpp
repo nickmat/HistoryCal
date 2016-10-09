@@ -135,7 +135,7 @@ void TestGrammar::testScript()
 
 void TestGrammar::testSchemeInput()
 {
-    FormatInfo input;
+    SchemeFormatInfo input;
     m_cal->get_input_info( &input, m_sid );
     size_t size = input.descs.size();
     CPPUNIT_ASSERT_EQUAL( 4U, size );
@@ -162,7 +162,7 @@ void TestGrammar::testSchemeInput()
 
 void TestGrammar::testSchemeOutput()
 {
-    FormatInfo output;
+    SchemeFormatInfo output;
     m_cal->get_output_info( &output, m_sid );
     size_t size = output.descs.size();
     CPPUNIT_ASSERT_EQUAL( 6U, size );

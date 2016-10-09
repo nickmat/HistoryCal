@@ -130,7 +130,7 @@ void Calendars::get_scheme_info( Scheme_info* info, SHandle scheme ) const
     }
 }
 
-void Calendars::get_input_info( FormatInfo* info, SHandle scheme ) const
+void Calendars::get_input_info( SchemeFormatInfo* info, SHandle scheme ) const
 {
     if( scheme ) {
         Base* base = scheme->get_base();
@@ -138,7 +138,7 @@ void Calendars::get_input_info( FormatInfo* info, SHandle scheme ) const
     }
 }
 
-void Calendars::get_output_info( FormatInfo* info, SHandle scheme ) const
+void Calendars::get_output_info( SchemeFormatInfo* info, SHandle scheme ) const
 {
     if( scheme ) {
         Base* base = scheme->get_base();

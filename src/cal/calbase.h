@@ -144,8 +144,8 @@ namespace Cal {
         std::string lookup_token( Field field, const std::string& vcode, bool abbrev ) const;
         std::string get_alias_fieldname( const std::string& alias ) const;
 
-        void get_input_info( FormatInfo* info ) const;
-        void get_output_info( FormatInfo* info ) const;
+        void get_input_info( SchemeFormatInfo* info ) const;
+        void get_output_info( SchemeFormatInfo* info ) const;
         std::string get_input_fcode() const;
         std::string get_output_fcode() const;
         Grammar* get_grammar() const;

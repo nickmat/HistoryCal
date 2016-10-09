@@ -48,8 +48,8 @@ class TestIso : public CPPUNIT_NS::TestFixture
 
     Calendars* m_cal;
     SHandle    m_sid; // Scheme handle
-    FormatInfo m_inputs;
-    FormatInfo m_outputs;
+    SchemeFormatInfo m_inputs;
+    SchemeFormatInfo m_outputs;
 
 public:
     void setUp();

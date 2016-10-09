@@ -60,8 +60,8 @@ namespace Cal {
         std::string get_num_code_alias( const std::string& fname ) const;
         Unit get_unit_alias( const std::string& fname ) const;
         std::string get_input_format( const std::string& code ) const;
-        void get_input_formats( FormatInfo* info, const std::string& cur_code ) const;
-        void get_output_formats( FormatInfo* info, const std::string& cur_code ) const;
+        void get_input_formats( SchemeFormatInfo* info, const std::string& cur_code ) const;
+        void get_output_formats( SchemeFormatInfo* info, const std::string& cur_code ) const;
         Format* get_format( const std::string& code ) const;
         std::string get_pref_input_fcode() const { return m_pref_input_fcode; }
         std::string get_pref_output_fcode() const { return m_pref_output_fcode; }
@@ -84,7 +84,7 @@ namespace Cal {
 
     private:
         enum INFO { INPUT_INFO, OUTPUT_INFO };
-        void get_format_info( FormatInfo* info, const std::string& cur_code, INFO type ) const;
+        void get_format_info( SchemeFormatInfo* info, const std::string& cur_code, INFO type ) const;
 
 
         std::string                m_code;
