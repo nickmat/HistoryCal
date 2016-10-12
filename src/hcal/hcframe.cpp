@@ -37,6 +37,9 @@
 
 #include "hcframe.h"
 
+#include "hcconvert.h"
+#include "hcformatdlg.h"
+#include "hcnewformatdlg.h"
 #include "hcversion.h"
 
 #include <utf8/utf8api.h>
@@ -47,16 +50,6 @@ using namespace Cal;
 #ifndef wxHAS_IMAGES_IN_RESOURCES
     #include "hcal.xpm"
 #endif
-
-inline wxString Utf8ToWxStr( const std::string& stdstr )
-{
-    return wxString( stdstr.c_str(), wxConvUTF8 );
-}
-
-inline std::string WxStrToUtf8( const wxString& wxstr )
-{
-    return std::string( wxstr.mb_str( wxConvUTF8 ) );
-}
 
 wxString RangesToString( RangeList rlist )
 {

@@ -61,6 +61,7 @@
     <sources>$(LOCAL_SRC)/hcal/hcversion.cpp</sources>
 
     <headers>$(LOCAL_SRC)/hcal/hcapp.h</headers>
+    <headers>$(LOCAL_SRC)/hcal/hcconvert.h</headers>
     <headers>$(LOCAL_SRC)/hcal/hcfbframe.h</headers>
     <headers>$(LOCAL_SRC)/hcal/hcframe.h</headers>
     <headers>$(LOCAL_SRC)/hcal/hcversion.h</headers>
