@@ -66,8 +66,11 @@ HCAL_CXXFLAGS = $(VAR) $(VAR_9) -I../../include -I../../src `$(WX_CONFIG) \
 	--cxxflags $(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
 HCAL_OBJECTS =  \
 	hcal_hcapp.o \
+	hcal_hcfbformatdlg.o \
 	hcal_hcfbframe.o \
+	hcal_hcformatdlg.o \
 	hcal_hcframe.o \
+	hcal_hcnewformatdlg.o \
 	hcal_hcversion.o \
 	hcal_dummy.o
 HCS_CXXFLAGS =  $(VAR) $(VAR_9) -I../../include  $(CPPFLAGS) $(CXXFLAGS)
@@ -259,10 +262,19 @@ file2cpp: $(FILE2CPP_OBJECTS)
 hcal_hcapp.o: ./../../src/hcal/hcapp.cpp
 	$(CXX) -c -o $@ $(HCAL_CXXFLAGS) $(CPPDEPS) $<
 
+hcal_hcfbformatdlg.o: ./../../src/hcal/hcfbformatdlg.cpp
+	$(CXX) -c -o $@ $(HCAL_CXXFLAGS) $(CPPDEPS) $<
+
 hcal_hcfbframe.o: ./../../src/hcal/hcfbframe.cpp
 	$(CXX) -c -o $@ $(HCAL_CXXFLAGS) $(CPPDEPS) $<
 
+hcal_hcformatdlg.o: ./../../src/hcal/hcformatdlg.cpp
+	$(CXX) -c -o $@ $(HCAL_CXXFLAGS) $(CPPDEPS) $<
+
 hcal_hcframe.o: ./../../src/hcal/hcframe.cpp
+	$(CXX) -c -o $@ $(HCAL_CXXFLAGS) $(CPPDEPS) $<
+
+hcal_hcnewformatdlg.o: ./../../src/hcal/hcnewformatdlg.cpp
 	$(CXX) -c -o $@ $(HCAL_CXXFLAGS) $(CPPDEPS) $<
 
 hcal_hcversion.o: ./../../src/hcal/hcversion.cpp

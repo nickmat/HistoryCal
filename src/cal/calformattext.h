@@ -39,6 +39,7 @@ namespace Cal {
 
         FormatText( const std::string& code, Grammar* gmr );
 
+        virtual FormatType get_format_type() const { return FT_text; };
         virtual std::string get_output( const Record& record ) const;
         virtual RangeList string_to_rlist( Base* base, const std::string& input ) const;
         virtual bool set_input( Record* record, const std::string& input, Boundary rb ) const;
@@ -46,8 +47,9 @@ namespace Cal {
         bool resolve_input(
             const Base* base, Field* fields, const InputFieldVec& input ) const;
 
-        void set_format( const std::string& format, Use usefor = Use_inout );
+        void set_control( const std::string& format, Use usefor = Use_inout );
         void set_separators( const std::string& sep ) { m_separators = sep; }
+        std::string get_control() const { return m_control; }
 
         StringVec get_input_fields() const { return m_input_fields; }
 
@@ -76,7 +78,7 @@ namespace Cal {
         bool set_range_as_begin( Range* range, const Record& mask ) const;
         bool set_range_as_next( Range* range, const Record& mask ) const;
 
-        std::string m_format;
+        std::string m_control;
         std::string m_separators;
 
         std::vector<Vocab*> m_vocabs;

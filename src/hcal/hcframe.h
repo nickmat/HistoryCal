@@ -48,6 +48,7 @@ private:
 		virtual void OnExit( wxCommandEvent& event );
 		virtual void OnToggleInterm( wxCommandEvent& event );
 		virtual void OnToggleCount( wxCommandEvent& event );
+		virtual void OnNewFormat( wxCommandEvent& event );
 		virtual void OnWebsite( wxCommandEvent& event );
 		virtual void OnAbout( wxCommandEvent& event );
 

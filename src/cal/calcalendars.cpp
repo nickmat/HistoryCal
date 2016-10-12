@@ -146,6 +146,29 @@ void Calendars::get_output_info( SchemeFormatInfo* info, SHandle scheme ) const
     }
 }
 
+void Calendars::get_format_info( Format_info* info, SHandle scheme, const string& fcode ) const
+{
+    if( scheme ) {
+        Base* base = scheme->get_base();
+        Format* fmt = base->get_format( fcode );
+        if( fmt ) {
+            fmt->get_info( info );
+        }
+    }
+}
+
+void Calendars::get_format_text_info( FormatText_info* info, SHandle scheme, const string& fcode ) const
+{
+    if( scheme ) {
+        Base* base = scheme->get_base();
+        FormatText* fmt = dynamic_cast<FormatText*>( base->get_format( fcode ) );
+        if( fmt ) {
+            fmt->get_info( &info->info );
+            info->control_str = fmt->get_control();
+        }
+    }
+}
+
 bool Calendars::get_vocab_info( Vocab_info* info, const string& code ) const
 {
     Vocab* voc = get_vocab( code );

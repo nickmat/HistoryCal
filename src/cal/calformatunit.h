@@ -37,6 +37,7 @@ namespace Cal {
     public:
         FormatUnit( const std::string& code, Grammar* gmr ) : Format( code, gmr ) {}
 
+        virtual FormatType get_format_type() const { return FT_unit; };
         virtual std::string get_output( const Record& record ) const;
         virtual RangeList string_to_rlist( Base* base, const std::string& input ) const;
         virtual bool set_input( Record* record, const std::string& input, Boundary rb ) const;

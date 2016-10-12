@@ -128,6 +128,24 @@ namespace Cal {
         size_t current;
     };
 
+    enum FormatType { FT_null, FT_text, FT_unit, FT_iso };
+
+    struct Format_info {
+        Format_info() : type(FT_null), priority(0) {}
+
+        std::string code;
+        FormatType  type;
+        std::string gmr_code;
+        std::string input_str;
+        std::string output_str;
+        int         priority;
+    };
+
+    struct FormatText_info {
+        Format_info info;
+        std::string control_str;
+    };
+
     struct Vocab_info
     {
         std::string name;

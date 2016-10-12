@@ -59,6 +59,7 @@ class hcFbFrame : public wxFrame
 		virtual void OnExit( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnToggleInterm( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnToggleCount( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnNewFormat( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnWebsite( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAbout( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSelectInput( wxCommandEvent& event ) { event.Skip(); }

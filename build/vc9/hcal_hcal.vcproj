@@ -245,11 +245,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\hcal\hcfbformatdlg.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\hcal\hcfbframe.cpp"
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\hcal\hcformatdlg.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\hcal\hcframe.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\hcal\hcnewformatdlg.cpp"
 				>
 			</File>
 			<File
@@ -271,11 +283,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\hcal\hcfbformatdlg.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\hcal\hcfbframe.h"
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\hcal\hcformatdlg.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\hcal\hcframe.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\hcal\hcnewformatdlg.h"
 				>
 			</File>
 			<File

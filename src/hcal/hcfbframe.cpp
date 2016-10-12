@@ -42,11 +42,17 @@ hcFbFrame::hcFbFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	
 	wxMenu* m_menuView;
 	m_menuView = new wxMenu();
-	m_menuViewInterm = new wxMenuItem( m_menuView, wxID_ANY, wxString( _("Show Intermediate") ) , wxEmptyString, wxITEM_CHECK );
+	m_menuViewInterm = new wxMenuItem( m_menuView, wxID_ANY, wxString( _("Show &Intermediate") ) , wxEmptyString, wxITEM_CHECK );
 	m_menuView->Append( m_menuViewInterm );
 	
-	m_menuViewCount = new wxMenuItem( m_menuView, wxID_ANY, wxString( _("Add Day Count") ) , wxEmptyString, wxITEM_CHECK );
+	m_menuViewCount = new wxMenuItem( m_menuView, wxID_ANY, wxString( _("Add Day &Count") ) , wxEmptyString, wxITEM_CHECK );
 	m_menuView->Append( m_menuViewCount );
+	
+	m_menuView->AppendSeparator();
+	
+	wxMenuItem* m_menuViewFormat;
+	m_menuViewFormat = new wxMenuItem( m_menuView, wxID_ANY, wxString( _("Create &Format ...") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuView->Append( m_menuViewFormat );
 	
 	m_menubar1->Append( m_menuView, _("&View") ); 
 	
@@ -204,6 +210,7 @@ hcFbFrame::hcFbFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	this->Connect( m_menuExit->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( hcFbFrame::OnExit ) );
 	this->Connect( m_menuViewInterm->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( hcFbFrame::OnToggleInterm ) );
 	this->Connect( m_menuViewCount->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( hcFbFrame::OnToggleCount ) );
+	this->Connect( m_menuViewFormat->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( hcFbFrame::OnNewFormat ) );
 	this->Connect( m_menuHelpWebsite->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( hcFbFrame::OnWebsite ) );
 	this->Connect( m_menuHelpAbout->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( hcFbFrame::OnAbout ) );
 	m_comboBoxInput->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( hcFbFrame::OnSelectInput ), NULL, this );
@@ -224,6 +231,7 @@ hcFbFrame::~hcFbFrame()
 	this->Disconnect( wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( hcFbFrame::OnExit ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( hcFbFrame::OnToggleInterm ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( hcFbFrame::OnToggleCount ) );
+	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( hcFbFrame::OnNewFormat ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( hcFbFrame::OnWebsite ) );
 	this->Disconnect( wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( hcFbFrame::OnAbout ) );
 	m_comboBoxInput->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( hcFbFrame::OnSelectInput ), NULL, this );

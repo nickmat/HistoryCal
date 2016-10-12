@@ -39,6 +39,7 @@ namespace Cal {
 
         FormatIso( const std::string& code, Grammar* gmr, const StringVec& rules );
 
+        virtual FormatType get_format_type() const { return FT_iso; };
         virtual std::string rlist_to_string( Base* base, const RangeList& ranges ) const;
         virtual std::string range_to_string( Base* base, Range range ) const;
         virtual std::string jdn_to_string( Base* base, Field jdn ) const;

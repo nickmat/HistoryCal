@@ -498,7 +498,7 @@ void Base::create_default_grammar() const
         }
         format += "(" + get_fieldname( i ) + ")";
     }
-    fmt->set_format( format );
+    fmt->set_control( format );
 }
 
 XRefVec Base::create_xref( const StringVec& fieldnames ) const 

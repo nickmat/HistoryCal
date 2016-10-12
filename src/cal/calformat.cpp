@@ -48,6 +48,16 @@ Format::~Format()
 {
 }
 
+void Format::get_info( Format_info* info ) const
+{
+    info->code = m_code;
+    info->gmr_code = m_owner->code();
+    info->input_str = m_input_str;
+    info->output_str = m_output_str;
+    info->priority = m_priority;
+    info->type = get_format_type();
+}
+
 string Format::rlist_to_string( Base* base, const RangeList& ranges ) const
 {
     string str;

@@ -51,7 +51,7 @@ string FormatText::get_output( const Record& record ) const
     string output, fieldout, fname, dname, vocab, abbrev, value;
     enum State { ignore, dooutput, dofname, dodname, dovocab, doabbrev };
     State state = dooutput;
-    for( string::const_iterator it = m_format.begin() ; it != m_format.end() ; it++ ) {
+    for( string::const_iterator it = m_control.begin() ; it != m_control.end() ; it++ ) {
         switch( state )
         {
         case ignore:
@@ -199,7 +199,7 @@ bool FormatText::resolve_input(
     return true;
 }
 
-void FormatText::set_format( const std::string& format, Use usefor )
+void FormatText::set_control( const std::string& format, Use usefor )
 {
     assert( get_owner() );
     enum State { dooutput, dofname, dodname, dovocab, doabbrev };
@@ -231,7 +231,7 @@ void FormatText::set_format( const std::string& format, Use usefor )
         break;
     }
     if( usefor_output ) {
-        m_format = format;
+        m_control = format;
     }
     for( string::const_iterator it = format.begin() ; it != format.end() ; it++ ) {
         if( state == dooutput ) {

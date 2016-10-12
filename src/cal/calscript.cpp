@@ -953,9 +953,9 @@ bool Script::do_format( Grammar* gmr )
             error( "Unable to create format." );
             return false;
         }
-        fmt->set_format( format, usefor );
+        fmt->set_control( format, usefor );
         if( informat.size() ) {
-            fmt->set_format( informat, FormatText::Use_input );
+            fmt->set_control( informat, FormatText::Use_input );
         }
         if( separators.size() ) {
             fmt->set_separators( separators );

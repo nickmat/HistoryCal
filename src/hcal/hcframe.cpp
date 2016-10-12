@@ -147,6 +147,32 @@ void HcFrame::OnToggleCount( wxCommandEvent& event )
     CalculateOutput();
 }
 
+void HcFrame::OnNewFormat( wxCommandEvent& event )
+{
+    string script;
+    hcNewFormatDlg nfdlg = hcNewFormatDlg( this, &m_cal, m_from, m_to );
+    if( nfdlg.ShowModal() == wxID_OK ) {
+        SHandle sh = nfdlg.GetScheme();
+        string fcode = nfdlg.GetFCode();
+        string init = nfdlg.GetBasedFCode();
+        if( sh && !fcode.empty() ) {
+            if( nfdlg.GetIsoFlag() ) {
+                // TODO: ISO Format dialog
+            } else {
+                hcFormatDlg fdlg = hcFormatDlg( this, &m_cal, sh, fcode, init );
+                if( fdlg.ShowModal() == wxID_OK ) {
+                    script = fdlg.get_script();
+                }
+            }
+        }
+    }
+    if( !script.empty() ) {
+        m_cal.run_script( script );
+        UpdateSchemeLists();
+        wxMessageBox( "Edit format OK" );
+    }
+}
+
 /*! \brief Called on a Help, TFP Website menu option event.
  *
  */

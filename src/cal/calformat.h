@@ -50,7 +50,9 @@ namespace Cal {
         int get_priority() const { return m_priority; }
         std::string get_user_input_str() const { return m_input_str; }
         std::string get_user_output_str() const { return m_output_str; }
+        void get_info( Format_info* info ) const;
 
+        virtual FormatType get_format_type() const = 0;
         virtual std::string rlist_to_string( Base* base, const RangeList& ranges ) const;
         virtual std::string range_to_string( Base* base, Range range ) const;
         virtual std::string jdn_to_string( Base* base, Field jdn ) const;

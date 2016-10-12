@@ -56,14 +56,20 @@
     <runtime-libs>dynamic</runtime-libs>
 
     <sources>$(LOCAL_SRC)/hcal/hcapp.cpp</sources>
+    <sources>$(LOCAL_SRC)/hcal/hcfbformatdlg.cpp</sources>
     <sources>$(LOCAL_SRC)/hcal/hcfbframe.cpp</sources>
+    <sources>$(LOCAL_SRC)/hcal/hcformatdlg.cpp</sources>
     <sources>$(LOCAL_SRC)/hcal/hcframe.cpp</sources>
+    <sources>$(LOCAL_SRC)/hcal/hcnewformatdlg.cpp</sources>
     <sources>$(LOCAL_SRC)/hcal/hcversion.cpp</sources>
 
     <headers>$(LOCAL_SRC)/hcal/hcapp.h</headers>
     <headers>$(LOCAL_SRC)/hcal/hcconvert.h</headers>
+    <headers>$(LOCAL_SRC)/hcal/hcfbformatdlg.h</headers>
     <headers>$(LOCAL_SRC)/hcal/hcfbframe.h</headers>
+    <headers>$(LOCAL_SRC)/hcal/hcformatdlg.h</headers>
     <headers>$(LOCAL_SRC)/hcal/hcframe.h</headers>
+    <headers>$(LOCAL_SRC)/hcal/hcnewformatdlg.h</headers>
     <headers>$(LOCAL_SRC)/hcal/hcversion.h</headers>
 
     <win32-res>$(LOCAL_SRC)/hcal/hcal.rc</win32-res>
