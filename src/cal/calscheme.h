@@ -69,7 +69,6 @@ namespace Cal {
         Field str_to_jdn( const std::string& str, const std::string& fmt );
         std::string jdn_to_str( Field jdn, const std::string& fcode );
         std::string range_to_str( Range range, const std::string& fcode );
-        RangeList rlist_str_to_rangelist( const std::string& str );
         std::string rangelist_to_str( const RangeList& ranges, const std::string& fcode );
 
         Field add_to_jdn( Field jdn, Field value, Unit unit, Norm norm );
