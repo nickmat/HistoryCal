@@ -1,4 +1,4 @@
-// record002.hcs   Test file to test record cast.
+// record002.hcs   Test file to test pattern record cast.
 
 write record,"g:dmy" "21??";
 

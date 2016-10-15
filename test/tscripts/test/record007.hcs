@@ -2,14 +2,14 @@
 
 set input g:dmy;
 
-let result = date,:u "1948Year 9Month 19Day";
+let result = record,:u "1948Year 9Month 7WDay";
 
-write record,"g" result;
+write result;
 
 clear;
 
 /*[OUTPUT]
-{"g", 1948, 9, 19, ?}
+{"g", 1948, 9, ?, 7}
 [OUTPUT]*/
 
 

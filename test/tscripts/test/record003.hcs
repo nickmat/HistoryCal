@@ -1,4 +1,4 @@
-// record003.hcs Test file to test addition of records.
+// record003.hcs Test file to test input as units.
 
 set input "g:dmy";
 
