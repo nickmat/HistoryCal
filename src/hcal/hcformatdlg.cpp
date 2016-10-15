@@ -71,12 +71,13 @@ bool hcFormatDlg::TransferDataToWindow()
 
 bool hcFormatDlg::TransferDataFromWindow()
 {
-    string control( WxStrToUtf8( m_textCtrlControl->GetValue() ) );
+    string control = WxStrToUtf8( m_textCtrlControl->GetValue() );
+    string use_as = m_checkBoxUseInput->GetValue() ? "inout" : "output";
     if( !control.empty() ) {
         m_script =
-            "format \"" + m_gcode + ":" + m_fcode + "\" {\n"
-            "output \"" + control + "\";\n"
-            "}"
+            "format \"" + m_gcode + ":" + m_fcode + "\" {\n " +
+            use_as + " \"" + control + "\";\n"
+            "}\n"
         ;
     }
     return true;
