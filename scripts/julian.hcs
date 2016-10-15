@@ -62,10 +62,11 @@ grammar j {
         Year,  yyyy;
     }
     alias unit {
-        d, day;
-        m, month;
-        y, year;
-        w, week;
+        d,  day;
+        m,  month;
+        y,  year;
+        wd, wday;
+        w,  week;
     }
     format  dmy,    "(Day) |(Month:m.a) |(Year)";
     format  wdmy,   "(WDay:w.a) |(Day) |(Month:m.a) |(Year)";
