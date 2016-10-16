@@ -1402,17 +1402,21 @@ SValue Script::rlist_cast()
         m_ts.next();
     }
     SValue value = primary( false );
+    RangeList rlist;
     if( sch == NULL ) {
         sch = store()->ischeme;
-        if( sch == NULL ) {
-            error( "Scheme not set." );
-            return value;
+        if( sch != NULL ) {
+            scode = sch->get_code();
         }
-        scode = sch->get_code();
     }
-    RangeList rlist;
     if( value.type() == SValue::SVT_Str ) {
         rlist = m_cals->str_to_rangelist( sch, value.get_str(), fcode );
+    } else if ( value.type() == SValue::SVT_Record ) {
+        SHandle rsch = m_cals->get_scheme( value.get_str() );
+        if( rsch == NULL ) {
+            rsch = sch;
+        }
+        rlist = m_cals->fieldvec_to_rlist( rsch, value.get_record() );
     } else {
         error( "Expected a string value." );
         return value;

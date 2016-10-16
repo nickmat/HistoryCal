@@ -256,6 +256,106 @@ bool Record::correct_fields_as_last( const Field* mask )
     return true;
 }
 
+// Treat the record as a mask and generate rlist
+RangeList Record::get_rlist_from_mask() const
+{
+    RangeList rlist;
+    Range range;
+    bool ret = set_range_as_begin( &range );
+    while( range.jdn1 != f_invalid ) {
+        if( ret ) {
+            if( rlist.size() && rlist[rlist.size()-1].jdn2+1 >= range.jdn1 ) {
+                rlist[rlist.size()-1].jdn2 = range.jdn2;
+            } else {
+                rlist.push_back( range );
+            }
+        }
+        ret = set_range_as_next( &range );
+    }
+    return rlist;
+}
+
+// Sets range and returns true if the masks can create a valid range.
+// Sets up range but returns false if the masks can create a valid range only
+// by ignoring optional fields.
+// Sets range to invalid and returns false if the masks cannot create a valid
+// range.
+bool Record::set_range_as_begin( Range* range ) const
+{
+    assert( range != NULL );
+    Record rec1(m_base);
+    Record rec2(m_base);
+    bool ret1 = rec1.set_fields_as_begin_first( &m_f[0], false );
+    bool ret2 = rec2.set_fields_as_begin_last( &m_f[0], false );
+    if( !ret1 || !ret2 ) {
+        range->jdn1 = f_invalid;
+        return false;
+    }
+    range->jdn1 = rec1.get_jdn();
+    range->jdn2 = rec2.get_jdn();
+    if( range->jdn1 == f_invalid || range->jdn2 == f_invalid ) {
+        range->jdn1 = f_invalid;
+        return false;
+    }
+    // Adjust for extended fields restricting the range.
+    ret1 = rec1.set_fields_as_begin_first( &m_f[0], true );
+    ret2 = rec2.set_fields_as_begin_last( &m_f[0], true );
+    if( ret1 && ret2 ) {
+        Range r;
+        r.jdn1 = rec1.get_jdn();
+        r.jdn2 = rec2.get_jdn();
+        if( r.jdn1 != range->jdn1 || r.jdn2 != range->jdn2 ) {
+            if( r.jdn1 > r.jdn2 ) {
+                return false;
+            }
+            *range = r;
+            return true;
+        }
+    }
+    return ret1 && ret2;
+}
+
+// Using the initial value of range, attempts to adjust the value of range
+// to the next value.
+// If it fails, it sets the range invalid and returns false.
+// If it succeeds, it will attempt to correct for optional fields - if this
+// fails, the uncorrected range is set and the the function returns false.
+bool Record::set_range_as_next( Range* range ) const
+{
+    assert( range != NULL );
+    Record rec1( m_base, range->jdn1 );
+    Record rec2( m_base, range->jdn2 );
+    bool ret1 = rec1.set_fields_as_next_first( &m_f[0] );
+    bool ret2 = rec2.set_fields_as_next_last( &m_f[0] );
+    if( !ret1 || !ret2 ) {
+        range->jdn1 = f_invalid;
+        return false;
+    }
+    range->jdn1 = rec1.get_jdn();
+    range->jdn2 = rec2.get_jdn();
+    if( range->jdn1 > range->jdn2 ||
+        range->jdn1 == f_invalid || range->jdn2 == f_invalid )
+    {
+        range->jdn1 = f_invalid;
+        return false;
+    }
+    ret1 = rec1.correct_fields_as_first( &m_f[0] );
+    ret2 = rec2.correct_fields_as_last( &m_f[0] );
+    if( ret1 && ret2 ) {
+        Range r;
+        r.jdn1 = rec1.get_jdn();
+        r.jdn2 = rec2.get_jdn();
+        if( r.jdn1 != range->jdn1 || r.jdn2 != range->jdn2 ) {
+            if( r.jdn1 > r.jdn2 ) {
+                return false;
+            }
+            *range = r;
+            return true;
+        }
+    }
+    return ret1 && ret2;
+}
+
 void Record::remove_balanced_fields( Record* rec )
 {
     // Both must have the same Base and not be identical.

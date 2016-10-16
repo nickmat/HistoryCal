@@ -75,8 +75,6 @@ namespace Cal {
 
         RangeList multirange_str_to_rlist( Base* base, const std::string& input ) const;
         RangeList bare_str_to_rlist( Base* base, const std::string& input ) const;
-        bool set_range_as_begin( Range* range, const Record& mask ) const;
-        bool set_range_as_next( Range* range, const Record& mask ) const;
 
         std::string m_control;
         std::string m_separators;

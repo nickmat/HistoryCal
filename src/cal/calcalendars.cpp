@@ -201,6 +201,14 @@ Field Calendars::fieldvec_to_jdn( SHandle scheme, const FieldVec& fieldv )
     return f_invalid;
 }
 
+RangeList Calendars::fieldvec_to_rlist( SHandle scheme, const FieldVec& fieldv )
+{
+    if( scheme ) {
+        return scheme->fieldvec_to_rlist( fieldv );
+    }
+    return RangeList();
+}
+
 FieldVec Calendars::jdn_to_fieldvec( SHandle scheme, Field jdn )
 {
     if( scheme ) {

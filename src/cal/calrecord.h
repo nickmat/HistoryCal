@@ -57,6 +57,10 @@ namespace Cal {
         bool set_fields_as_next_last( const Field* mask );
         bool correct_fields_as_last( const Field* mask );
 
+        RangeList get_rlist_from_mask() const;
+        bool set_range_as_begin( Range* range ) const;
+        bool set_range_as_next( Range* range ) const;
+
         void remove_balanced_fields( Record* record );
 
         Field get_jdn() const;

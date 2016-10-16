@@ -131,6 +131,12 @@ FieldVec Scheme::jdn_to_fieldvec( Field jdn )
     return rec.get_fieldvec();
 }
 
+RangeList Scheme::fieldvec_to_rlist( const FieldVec& fieldv )
+{
+    Record rec( m_base, &fieldv[0], fieldv.size() ); 
+    return rec.get_rlist_from_mask();
+}
+
 Field Scheme::jdn_fieldname_to_field( Field jdn, const string& fieldname ) const
 {
     Record rec( m_base, jdn );

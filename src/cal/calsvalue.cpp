@@ -99,7 +99,7 @@ void SValue::set( const RangeList& rlist )
 
 string SValue::get_str() const
 {
-    assert( m_type == SVT_Str || m_type == SVT_Error );
+    assert( m_type == SVT_Str || m_type == SVT_Record || m_type == SVT_Error );
     return m_str;
 }
 
