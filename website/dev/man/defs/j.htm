@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - j</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../sys/logo1_32x32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../sys/hcal.css' />
+</head>
+<body>
+
+ <h1>
+  <a  href='http://historycal.org'>
+   <img id='logo' src='../../../sys/logo2.png' alt='Logo' />
+  </a>
+  HistoryCal - V0.0.7 Manual<br />j# Julian
+ </h1>
+
+ <div id='page'>
+
+  <div id='crumbs'>
+   <a href='../../../index.htm' class='m-item'>Home</a>
+   <a href='../../../dev/index.htm' class='m-item level1'>Development</a>
+   <a href='../../../dev/man/index.htm' class='m-item level2'>V0.0.7 Manual</a>
+   <a href='../../../dev/man/defs/index.htm' class='m-item level3'>Cal. Definitions</a>
+   <a href='j.htm' class='m-item thispage level4'>j</a>
+   <a href='../../../dev/man/defs/7dayweek.htm' class='m-item prev'>&lt;&lt;</a>
+   <a href='../../../dev/man/defs/jce.htm' class='m-item next'>&gt;&gt;</a>
+  </div>
+
+<div id='content' class='nomenu'>
+
+
+
+
+<h2>Calendar Description</h2>
+<p>
+ This Julian calendar is the simplest possible interpretation of the
+ calendar introduced by Julius Caesar, amended by Augustus Caesar and using the
+ Current Era (also known as Common Era or Christian Era) year count.
+ This version is also known as Julian Astronomical calendar as it is the version
+ generally used by astronomers. The year change is the 1st January, the year
+ zero is included, years before year zero are given as negative. There is no
+ attempt to allow for the irregular leap years that occurred when the calendar
+ was first introduced.
+</p>
+
+<h3>Use Case</h3>
+<p>
+ The Julian calendar has been used throughout Europe and the European colonies
+ since its introduction by Julius Caesar, but in many different variants. In this
+ form, some of its known uses are:
+</p>
+<ul>
+ <li>Scotland, from 1 Jan 1600 to 2 Sep 1752.</li>
+ <li>England and its overseas territories, from 1 Jan 1752 to 2 Sep 1752.</li>
+ <li>Astronomers, for all dates before 31 Dec 1582 (Gregorian).</li>
+ <li>In HistoryCal, it is the base calendar for many variants.</li>
+</ul>
+
+<h3>Definition</h3>
+<table class='record'>
+<tr><th colspan='4'>Record</th></tr>
+<tr><td>year</td><td>month</td><td>day</td><td class='rdonly'>wday</td></tr>
+</table>
+<table class='data'>
+<tr><th rowspan='2'>Number</th><th rowspan='2'>Name</th><th colspan='2'>Number of Days</th></tr>
+<tr><th>Common</th><th>Leap</th></tr>
+<tr><td>1</td><td>January</td><td>31</td><td>31</td></tr>
+<tr><td>2</td><td>February</td><td>28</td><td>29</td></tr>
+<tr><td>3</td><td>March</td><td>31</td><td>31</td></tr>
+<tr><td>4</td><td>April</td><td>30</td><td>30</td></tr>
+<tr><td>5</td><td>May</td><td>31</td><td>31</td></tr>
+<tr><td>6</td><td>June</td><td>30</td><td>30</td></tr>
+<tr><td>7</td><td>July</td><td>31</td><td>31</td></tr>
+<tr><td>8</td><td>August</td><td>31</td><td>31</td></tr>
+<tr><td>9</td><td>September</td><td>30</td><td>30</td></tr>
+<tr><td>10</td><td>October</td><td>31</td><td>31</td></tr>
+<tr><td>11</td><td>November</td><td>30</td><td>30</td></tr>
+<tr><td>12</td><td>December</td><td>31</td><td>31</td></tr>
+</table>
+<p style='clear: left'>
+ The Julian calendar is based on a solar year of 365.25 days.
+ Days start at midnight.
+</p>
+<p>
+ The <b>Record</b> consists of three <b>Fields</b> named <code>year,</code>
+ <code>month,</code> and <code>day</code> and the <b>Optional Field</b> 
+ <code>wday.</code> There are two types of years, a common year and a leap year,
+ which follow the repeating pattern of three common years then one leap year.
+ There are twelve <code>months</code> in a <code>year</code> numbered 1 to 12.
+ The number of <code>days</code> in a <code>month</code> varies between 28 and 31, and are numbered from 1,
+ as shown in the table opposite. This gives a total of 365 days in a common year and 366 in a leap year.
+</p>
+<div>
+ The <b>Epoch</b> is set at
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>j</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>1</td><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>1721424</td></tr>
+ </table>.
+</div>
+
+<h3>Script</h3>
+<table class='code'>
+<tr><th>Default Script</th></tr>
+<tr><td
+>vocab m {
+    name "Month names";
+    fieldname month;
+    lang en;
+    stylename  Month,     Mon;
+    tokens {
+        1,  "January",   "Jan";
+        2,  "February",  "Feb";
+        3,  "March",     "Mar";
+        4,  "April",     "Apr";
+        5,  "May";
+        6,  "June",      "Jun";
+        7,  "July",      "Jul";
+        8,  "August",    "Aug";
+        9,  "September", "Sep";
+        10, "October",   "Oct";
+        11, "November",  "Nov";
+        12, "December",  "Dec";
+    }
+}
+
+grammar j {
+    optional wday;
+    vocabs m, w;
+    alias field {
+        WDay,  wday;
+        Day,   day;
+        Month, month;
+        Year,  year;
+    }
+    alias stylename {
+        WDay,  w;
+        Day,   dd;
+        Month, mm;
+        Year,  yyyy;
+    }
+    alias unit {
+        d, day;
+        m, month;
+        y, year;
+        w, week;
+    }
+    format  dmy,    "(Day) |(Month:m.a) |(Year)";
+    format  wdmy,   "(WDay:w.a) |(Day) |(Month:m.a) |(Year)";
+    format out {
+        output      "(Day:+os) |(Month:m) |(Year)";
+    }
+    format  full {
+        output      "(WDay:w) |(Day:+os) |(Month:m) |(Year)";
+    }
+    format "dmy+",  "(Day) |(Month:m) |(Year)";
+    format "wdmy+", "(WDay:w) |(Day) |(Month:m) |(Year)";
+    format  mdy,    "(Month:m.a) |(Day), |(Year)";
+    format  ymd,    "(Year)|:(Month:m.a)|:(Day)";
+    pref dmy;
+}
+
+scheme j {
+    name "Julian";
+    base julian;
+    grammar j;
+}
+</td></tr>
+</table>
+<p>
+ The script makes use of the optional field <code>wday</code>
+ to output weekdays and is thus requires the <a href='7dayweek.htm'>7 Day Week</a> vocab "w".
+</p>
+
+</div><!--id=content-->
+
+ <hr />
+
+ <div id='valid'>
+  <p>
+   <a href='http://validator.w3.org/check?uri=referer'>
+    <img src='../../../sys/valid-xhtml10.png' alt='Valid XHTML 1.0 Strict' height='31' width='88' />
+   </a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>19<sup>th</sup> January 2014</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+ </div>
+
+</body>
+</html>

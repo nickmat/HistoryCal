@@ -1,0 +1,124 @@
+{
+  "project": "HistoryCal",
+  "unix-name": "historycal",
+  "favicon": "sys/logo1_32x32x32.png",
+  "livery-css": "sys/hcal.css",
+  "home-url": "http://historycal.org",
+  "full-icon": "sys/logo2.png",
+  "stats-text": "statistics.txt",
+  "site": { "folder": "web-new", "name": "index", "subtitle": "Home Page", "label": "Home", "content": [
+    { "folder": "new", "name": "news", "label": "News" },
+    { "folder": "man", "name": "index", "label": "Manual", "title": "Manual", "subtitle": "Introduction", "content": [
+      { "name": "convert", "label": "Conversions", "subtitle": "Date Conversions" },
+      { "name": "ranges", "label": "Date Ranges" },
+      { "name": "calculate", "label": "Calculations", "subtitle": "Date Calculations" },
+      { "name": "types", "label": "Calendar Types" },
+      { "folder": "script", "name": "index", "label": "Script", "subtitle": "Script Language", "content": [
+        { "name": "expr", "label": "Expressions", "subtitle": "Script Expressions" },
+        { "label": "Write Statement" },
+        { "label": "Let Statement" },
+        { "label": "End Statement" },
+        { "label": "If Statement" },
+        { "label": "Do ... Loop" },
+        { "label": "Mark & Clear" },
+        { "label": "Define Vocab" },
+        { "label": "Define Grammar" },
+        { "label": "Define Format" },
+        { "label": "Define Scheme" },
+        { "label": "Set Statement" }
+      ]}
+    ]},
+    { "folder": "cal", "name": "index", "label": "Calendars", "title": "Calendars", "subtitle": "Introduction", "content": [
+      { "folder": "defs", "name": "index", "label": "Calendar List", "subtitle": "Full List", "menu": false, "css": "sys/list.css", "content": [
+        { "name": "jdn", "subtitle": "jdn# Julian Day Number", "map-label": false, "title": "Definition" },
+        { "name": "7dayweek", "label": "7 Day Week" },
+        { "name": "j", "subtitle": "j# Julian", "map-label": false },
+        { "name": "jce", "subtitle": "jce# Julian Common Era", "map-label": false },
+        { "name": "jlit", "subtitle": "jlit# Julian Liturgical", "map-label": false },
+        { "name": "jn", "subtitle": "jn# Julian Nativity", "map-label": false },
+        { "name": "ja", "subtitle": "ja# Julian Annunciation", "map-label": false },
+        { "name": "jap", "subtitle": "jap# Julian Annunciation Pisa", "map-label": false },
+        { "name": "se", "subtitle": "se# Julian Spanish Era", "map-label": false },
+        { "name": "g", "subtitle": "g# Gregorian", "map-label": false },
+        { "name": "gce", "subtitle": "gce# Gregorian Common Era", "map-label": false },
+        { "name": "isow", "subtitle": "isow# ISO Week", "map-label": false },
+        { "name": "isoo", "subtitle": "isoo# ISO Ordinal", "map-label": false },
+        { "name": "glit", "subtitle": "glit# Gregorian Liturgical", "map-label": false },
+        { "name": "ay", "subtitle": "ay# Astronomical Year", "map-label": false },
+        { "name": "eng", "subtitle": "eng# English Hybrid", "map-label": false },
+        { "name": "er", "subtitle": "er# English Regnal", "map-label": false },
+        { "name": "scot", "subtitle": "scot# Scottish Hybrid", "map-label": false },
+        { "name": "sr", "subtitle": "sr# Scottish Regnal", "map-label": false },
+        { "name": "fr", "subtitle": "fr# French Republican", "map-label": false },
+        { "name": "h", "subtitle": "h# Hebrew", "map-label": false },
+        { "name": "i", "subtitle": "i# Islamic Tabular", "map-label": false },
+        { "name": "ims", "subtitle": "ims# Islamic Microsoft Hijri", "map-label": false },
+        { "name": "if", "subtitle": "if# Islamic Fātimid", "map-label": false }
+      ]},
+      { "name": "roman", "label": "Roman", "title": "Calendars" },
+      { "label": "French Republic" },
+      { "label": "Hebrew" },
+      { "label": "Islamic" }
+    ]},
+    { "folder": "dev", "name": "index", "label": "Development", "title": "Development", "subtitle": "Introduction", "content": [
+      { "folder": "man", "name": "index", "label": "V0.0.7 Manual", "title": "V0.0.7 Manual", "subtitle": "Introduction", "content": [
+        { "name": "convert", "label": "Conversions", "subtitle": "Date Conversions" },
+        { "name": "ranges", "label": "Date Ranges" },
+        { "name": "calculate", "label": "Calculations", "subtitle": "Date Calculations" },
+        { "folder": "cal", "name": "index", "label": "Calendars", "content": [
+          { "name": "roman", "label": "Roman", "subtitle": "Roman Calendars" },
+          { "label": "French Republic", "subtitle": "French Republic Calendar" },
+          { "label": "Hebrew", "subtitle": "Hebrew Calendar" },
+          { "label": "Islamic", "subtitle": "Islamic Calendars" }
+        ]},
+        { "folder": "script", "name": "index", "label": "Script", "subtitle": "Script Language", "content": [
+          { "name": "expr", "label": "Expressions", "subtitle": "Script Expressions" },
+          { "name": "write", "label": "Write Statement" },
+          { "name": "let", "label": "Let Statement" },
+          { "name": "end", "label": "End Statement" },
+          { "name": "if", "label": "If Statement" },
+          { "name": "do", "label": "Do ... Loop" },
+          { "name": "mark", "label": "Mark & Clear" },
+          { "name": "vocab", "label": "Define Vocab" },
+          { "name": "grammar", "label": "Define Grammar" },
+          { "name": "format", "label": "Define Format" },
+          { "name": "scheme", "label": "Define Scheme" },
+          { "name": "set", "label": "Set Statement" }
+        ]},
+        { "folder": "defs", "name": "index", "label": "Cal. Definitions", "subtitle": "Calendar Index", "menu": false, "css": "sys/list.css", "content": [
+          { "name": "jdn", "subtitle": "jdn# Julian Day Number", "map-label": false },
+          { "name": "7dayweek", "label": "7 Day Week" },
+          { "name": "j", "subtitle": "j# Julian", "map-label": false },
+          { "name": "jce", "subtitle": "jce# Julian Common Era", "map-label": false },
+          { "name": "jlit", "subtitle": "jlit# Julian Liturgical", "map-label": false },
+          { "name": "jn", "subtitle": "jn# Julian Nativity", "map-label": false },
+          { "name": "ja", "subtitle": "ja# Julian Annunciation", "map-label": false },
+          { "name": "jap", "subtitle": "jap# Julian Annunciation Pisa", "map-label": false },
+          { "name": "se", "subtitle": "se# Julian Spanish Era", "map-label": false },
+          { "name": "g", "subtitle": "g# Gregorian", "map-label": false },
+          { "name": "gce", "subtitle": "gce# Gregorian Common Era", "map-label": false },
+          { "name": "isow", "subtitle": "isow# ISO Week", "map-label": false },
+          { "name": "isoo", "subtitle": "isoo# ISO Ordinal", "map-label": false },
+          { "name": "glit", "subtitle": "glit# Gregorian Liturgical", "map-label": false },
+          { "name": "ay", "subtitle": "ay# Astronomical Year", "map-label": false },
+          { "name": "eng", "subtitle": "eng# English Hybrid", "map-label": false },
+          { "name": "er", "subtitle": "er# English Regnal", "map-label": false },
+          { "name": "scot", "subtitle": "scot# Scottish Hybrid", "map-label": false },
+          { "name": "sr", "subtitle": "sr# Scottish Regnal", "map-label": false },
+          { "name": "fr", "subtitle": "fr# French Republican", "map-label": false },
+          { "name": "h", "subtitle": "h# Hebrew", "map-label": false },
+          { "name": "i", "subtitle": "i# Islamic Tabular", "map-label": false },
+          { "name": "ims", "subtitle": "ims# Islamic Microsoft Hijri", "map-label": false },
+          { "name": "if", "subtitle": "if# Islamic Fātimid", "map-label": false }
+        ]},
+        { "name": "gloss", "label": "Glossary" }
+      ]},    
+      { "folder": "lib", "name": "index", "label": "Cal Library", "title": "Cal Library", "subtitle": "Introduction" },
+      { "folder": "scripts", "name": "index", "label": "Scripts", "title": "Scripts", "subtitle": "Introduction", "content": [
+        { "name": "codes", "label": "Codes" }
+      ]}
+    ]},
+    { "name": "gloss", "label": "Glossary", "title": "" },
+    { "name": "support", "label": "Support" }
+  ]}
+}

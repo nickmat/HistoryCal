@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - if</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../sys/logo1_32x32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../sys/hcal.css' />
+</head>
+<body>
+
+ <h1>
+  <a  href='http://historycal.org'>
+   <img id='logo' src='../../../sys/logo2.png' alt='Logo' />
+  </a>
+  HistoryCal - V0.0.7 Manual<br />if# Islamic Fātimid
+ </h1>
+
+ <div id='page'>
+
+  <div id='crumbs'>
+   <a href='../../../index.htm' class='m-item'>Home</a>
+   <a href='../../../dev/index.htm' class='m-item level1'>Development</a>
+   <a href='../../../dev/man/index.htm' class='m-item level2'>V0.0.7 Manual</a>
+   <a href='../../../dev/man/defs/index.htm' class='m-item level3'>Cal. Definitions</a>
+   <a href='if.htm' class='m-item thispage level4'>if</a>
+   <a href='../../../dev/man/defs/ims.htm' class='m-item prev'>&lt;&lt;</a>
+   <a href='../../../dev/man/gloss.htm' class='m-item next'>&gt;&gt;</a>
+  </div>
+
+<div id='content' class='nomenu'>
+
+
+
+
+<h2>Calendar Description</h2>
+<p>
+ The Islamic calendar is a lunar calendar used throughout the Arabic and Muslim areas.
+</p>
+
+<h3>Use Case</h3>
+<p>
+  Used by the Fātimid Islamic sect.
+</p>
+
+<h3>Definition</h3>
+<table class='record'>
+<tr><th colspan='4'>Record</th></tr>
+<tr><td>year</td><td>month</td><td>day</td><td class='rdonly'>wsday</td></tr>
+</table>
+
+<p>
+ The year consists of twelve lunar months which in a common year alternate between of 30 and 29 days.
+ In a leap year, the 12<sup>th</sup> month has 30 days instead of the usual 29. 
+ A common year has 354 days and a leap year 355 days.
+</p>
+<p>
+ Leap years occur on a 30 year cycle in years 2, 5, 8, 10, 13, 16, 19, 21, 24, 27 and 29.
+</p>
+
+<div class='p'>
+ The <b>Epoch</b> is set at the astronomical epoch, which is:-
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>i</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>1</td><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>j</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>622</td><td>7</td><td>15</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>1948439</td></tr>
+ </table>.
+</div>
+<h3>Script</h3>
+<table class='code'>
+<tr><th>Default Script</th></tr>
+<tr><td
+>scheme if {
+    name "Islamic Fātimid";
+    base islamic IIIa;
+    grammar i;
+}
+</td></tr>
+</table>
+
+<p>
+ The scheme uses the i grammar as defined for the <a href='i.htm'>Islamic Tabular</a> calendar.
+</p>
+
+</div><!--id=content-->
+
+ <hr />
+
+ <div id='valid'>
+  <p>
+   <a href='http://validator.w3.org/check?uri=referer'>
+    <img src='../../../sys/valid-xhtml10.png' alt='Valid XHTML 1.0 Strict' height='31' width='88' />
+   </a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>18<sup>th</sup> December 2014</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+ </div>
+
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - Expressions</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../sys/logo1_32x32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../sys/hcal.css' />
+</head>
+<body>
+
+ <h1>
+  <a  href='http://historycal.org'>
+   <img id='logo' src='../../../sys/logo2.png' alt='Logo' />
+  </a>
+  HistoryCal - V0.0.7 Manual<br />Script Expressions
+ </h1>
+
+ <div id='page'>
+
+  <div id='crumbs'>
+   <a href='../../../index.htm' class='m-item'>Home</a>
+   <a href='../../../dev/index.htm' class='m-item level1'>Development</a>
+   <a href='../../../dev/man/index.htm' class='m-item level2'>V0.0.7 Manual</a>
+   <a href='../../../dev/man/script/index.htm' class='m-item level3'>Script</a>
+   <a href='expr.htm' class='m-item thispage level4'>Expressions</a>
+   <a href='../../../dev/man/script/index.htm' class='m-item prev'>&lt;&lt;</a>
+   <a href='../../../dev/man/script/write.htm' class='m-item next'>&gt;&gt;</a>
+  </div>
+
+<div id='content' class='nomenu'>
+
+
+<h2>Under Construction</h2>
+<p>
+ 
+</p>
+
+
+<h3>Value Types</h3>
+<p>
+ Expressions use the following value types.
+</p>
+
+
+<h3>Operator Precedence</h3>
+<p>
+ Expresions are evaluated according to the operators detailed in the table.
+ Operators with higher precedence are listed first.
+</p>
+<table class='list' id='operator-list'>
+<tr><th colspan='4'>Operator List</th></tr>
+<tr><th>Operator</th><th>Name</th><th>Use</th><th>Result</th></tr>
+<tr><td class='code'>()</td><td>Parenthesized expression</td><td class='example'><b>(</b> expr <b>)</b></td><td class='example'>value</td></tr>
+<tr><td class='code' colspan='4'></td></tr>
+<tr><td class='code'>[]</td><td>Subscript</td><td class='example'>date_expr <b>[</b>str_expr<b>]</b></td><td class='example'>field_value</td></tr>
+<tr><td class='code' colspan='4'></td></tr>
+<tr><td class='code'>{}</td><td>Record</td><td class='example'><b>{</b>str_name,field_expr,...<b>}</b></td><td class='example'>record_value</td></tr>
+<tr><td class='code'>-</td><td>Unitary minus</td><td class='example'><b>-</b>expr</td><td class='example'>value</td></tr>
+<tr><td class='code'>date</td><td>Date cast</td><td class='example'><b>date</b> str_expr<br /><b>date</b> record_expr</td><td class='example'>field_value</td></tr>
+<tr><td class='code'>str</td><td>String cast</td><td class='example'><b>str</b> field_expr<br /><b>str</b> record_expr</td><td class='example'>str_value</td></tr>
+<tr><td class='code'>record</td><td>Record cast</td><td class='example'><b>record</b> str_expr<br /><b>record</b> field_expr</td><td class='example'>record_value</td></tr>
+<tr><td class='code' colspan='4'></td></tr>
+<tr><td class='code'>*</td><td>Multiply</td><td class='example'>field_expr <b>*</b> field_expr</td><td class='example'>field_value</td></tr>
+<tr><td class='code'>/</td><td>Divide</td><td class='example'>field_expr <b>/</b> field_expr</td><td class='example'>field_value</td></tr>
+<tr><td class='code' colspan='4'></td></tr>
+<tr><td class='code'>+</td><td>Plus</td>
+ <td class='example'>field_expr <b>+</b> field_expr<br />range_expr <b>+</b> field_expr<br />rlist_expr <b>+</b> range_expr<br />record_expr <b>+</b> record_expr<br />str_expr <b>+</b> str_expr</td>
+ <td class='example'>field_value<br />range_value<br />rlist_value<br />record_value<br />str_value</td>
+</tr>
+<tr><td class='code'>-</td><td>Minus</td><td class='example'>field_expr <b>-</b> field_expr</td><td class='example'>field_value</td></tr>
+<tr><td class='code' colspan='4'></td></tr>
+<tr><td class='code'>~</td><td>Range</td><td class='example'>date_expr <b>~</b> date_expr</td><td class='example'>range_value</td></tr>
+<tr><td class='code' colspan='4'></td></tr>
+<tr><td class='code'>|</td><td>Union</td><td class='example'>rlist_expr <b>|</b> range_expr</td><td class='example'>rlist_value</td></tr>
+<tr><td class='code'>&amp;</td><td>Intersection</td><td class='example'>rlist_expr <b>&amp;</b> range_expr</td><td class='example'>rlist_value</td></tr>
+<tr><td class='code'>^</td><td>Symmetric difference</td><td class='example'>rlist_expr <b>^</b> range_expr</td><td class='example'>rlist_value</td></tr>
+<tr><td class='code'>\</td><td>Relative complement</td><td class='example'>rlist_expr <b>\</b> range_expr</td><td class='example'>rlist_value</td></tr>
+<tr><td class='code' colspan='4'></td></tr>
+<tr><td class='code'>&lt;</td><td>Less than</td><td class='example'>expr <b>&lt;</b> expr</td><td class='example'>bool_value</td></tr>
+<tr><td class='code'>&lt;=</td><td>Less than or equal</td><td class='example'>expr <b>&lt;=</b> expr</td><td class='example'>bool_value</td></tr>
+<tr><td class='code'>&gt;</td><td>Greater than</td><td class='example'>expr <b>&gt;</b> expr</td><td class='example'>bool_value</td></tr>
+<tr><td class='code'>&gt;=</td><td>Greater than or equal</td><td class='example'>expr <b>&gt;=</b> expr</td><td class='example'>bool_value</td></tr>
+<tr><td class='code'>=</td><td>Equal</td><td class='example'>expr <b>=</b> expr</td><td class='example'>bool_value</td></tr>
+<tr><td class='code'>&lt;&gt;</td><td>Not equal</td><td class='example'>expr <b>&lt;&gt;</b> expr</td><td class='example'>bool_value</td></tr>
+<tr><td class='code' colspan='4'></td></tr>
+<tr><td class='code'>and</td><td>Logical and</td><td class='example'>bool_expr <b>and</b> bool_expr</td><td class='example'>bool_value</td></tr>
+<tr><td class='code'>or</td><td>Logical inclusive or</td><td class='example'>bool_expr <b>or</b> bool_expr</td><td class='example'>bool_value</td></tr>
+</table>
+
+
+</div><!--id=content-->
+
+ <hr />
+
+ <div id='valid'>
+  <p>
+   <a href='http://validator.w3.org/check?uri=referer'>
+    <img src='../../../sys/valid-xhtml10.png' alt='Valid XHTML 1.0 Strict' height='31' width='88' />
+   </a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>21<sup>st</sup> October 2015</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+ </div>
+
+</body>
+</html>

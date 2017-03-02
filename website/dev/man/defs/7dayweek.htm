@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - 7 Day Week</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../sys/logo1_32x32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../sys/hcal.css' />
+</head>
+<body>
+
+ <h1>
+  <a  href='http://historycal.org'>
+   <img id='logo' src='../../../sys/logo2.png' alt='Logo' />
+  </a>
+  HistoryCal - V0.0.7 Manual<br />7 Day Week
+ </h1>
+
+ <div id='page'>
+
+  <div id='crumbs'>
+   <a href='../../../index.htm' class='m-item'>Home</a>
+   <a href='../../../dev/index.htm' class='m-item level1'>Development</a>
+   <a href='../../../dev/man/index.htm' class='m-item level2'>V0.0.7 Manual</a>
+   <a href='../../../dev/man/defs/index.htm' class='m-item level3'>Cal. Definitions</a>
+   <a href='7dayweek.htm' class='m-item thispage level4'>7 Day Week</a>
+   <a href='../../../dev/man/defs/jdn.htm' class='m-item prev'>&lt;&lt;</a>
+   <a href='../../../dev/man/defs/j.htm' class='m-item next'>&gt;&gt;</a>
+  </div>
+
+<div id='content' class='nomenu'>
+
+
+
+
+<h2>Calendar Description</h2>
+<p>
+ The 7 day week is a cyclic calendar with no major count and so can only be
+ used in conjunction with other calendars.
+</p>
+
+<h3>Use Case</h3>
+<p>
+ Thought to have originated in ancient Babylonia around 600 BCE.
+ It is used with the Julian, Gregorian, Hebrew, Islamic and other calendars.
+</p>
+<p>
+ There are more than one way of numbering the week days. If the scheme only uses text names for the week days, any numbering system can be used since they will not normally be visible. However, some calendars routinely use the weekday number (i.e. ISO, Hebrew and Islamic calendars) and so the numbering system can be selected depending on the optional field specified.
+</p>
+<p>
+ The Julian, Gregorian and variants use the <code>wday</code> field.
+</p>
+<p>
+ The Hebrew, Islamic and variants use the <code>wsday</code> field.
+</p>
+
+<h3>Definition</h3>
+<table class='record'>
+<tr><th>Record</th></tr>
+<tr><td class='rdonly'>wday</td></tr>
+</table>
+<table class='record'>
+<tr><th>Record</th></tr>
+<tr><td class='rdonly'>wsday</td></tr>
+</table>
+<table class='data'>
+<tr><th colspan='2'>Number</th><th rowspan='2'>Name</th></tr>
+<tr><th><code>wday</code></th><th><code>wsday</code></th></tr>
+<tr><td>7</td><td>1</td><td>Sunday</td></tr>
+<tr><td>1</td><td>2</td><td>Monday</td></tr>
+<tr><td>2</td><td>3</td><td>Tuesday</td></tr>
+<tr><td>3</td><td>4</td><td>Wednesday</td></tr>
+<tr><td>4</td><td>5</td><td>Thursday</td></tr>
+<tr><td>5</td><td>6</td><td>Friday</td></tr>
+<tr><td>6</td><td>7</td><td>Saturday</td></tr>
+</table>
+<p style='clear: left'>
+ The weekday is implemented by using an <b>Optional Field</b>,
+ <code>wday</code> for weeks beginning Monday or 
+ <code>wsday</code> for weeks beginning Sunday.
+</p>
+<p>
+ Only one of these <b>Optional Fields</b> should be used in any given scheme.
+</p>
+<div>
+ The <b>Epoch</b> for <code>wday</code> is set at
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>&nbsp;</td><th>wday</th></tr>
+  <tr class='value'><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>1</td></tr>
+ </table>
+ a Monday.
+</div>
+<div>
+ The <b>Epoch</b> for <code>wsday</code> is set at
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>&nbsp;</td><th>wsday</th></tr>
+  <tr class='value'><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>0</td></tr>
+ </table>
+ a Sunday.
+</div>
+
+<h3>Script</h3>
+<table class='code'>
+<tr><th>Default Script</th></tr>
+<tr><td
+>vocab w {
+    name "Weekday names";
+    fieldname wday;
+    lang en;
+    stylename Weekday,  WDay;
+    tokens {
+        1, "Monday",    "Mon";
+        2, "Tuesday",   "Tue";
+        3, "Wednesday", "Wed";
+        4, "Thursday",  "Thur";
+        5, "Friday",    "Fri";
+        6, "Saturday",  "Sat";
+        7, "Sunday",    "Sun";
+    }
+}
+
+vocab ws {
+    name "Weekday names";
+    fieldname wsday;
+    lang en;
+    stylename Weekday,  WDay;
+    tokens {
+        1, "Sunday",    "Sun";
+        2, "Monday",    "Mon";
+        3, "Tuesday",   "Tue";
+        4, "Wednesday", "Wed";
+        5, "Thursday",  "Thur";
+        6, "Friday",    "Fri";
+        7, "Saturday",  "Sat";
+    }
+}
+</td></tr>
+</table>
+<p>
+ The script has no dependencies.
+</p>
+
+</div><!--id=content-->
+
+ <hr />
+
+ <div id='valid'>
+  <p>
+   <a href='http://validator.w3.org/check?uri=referer'>
+    <img src='../../../sys/valid-xhtml10.png' alt='Valid XHTML 1.0 Strict' height='31' width='88' />
+   </a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>27<sup>th</sup> October 2014</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+ </div>
+
+</body>
+</html>

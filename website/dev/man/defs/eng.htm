@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - eng</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../sys/logo1_32x32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../sys/hcal.css' />
+</head>
+<body>
+
+ <h1>
+  <a  href='http://historycal.org'>
+   <img id='logo' src='../../../sys/logo2.png' alt='Logo' />
+  </a>
+  HistoryCal - V0.0.7 Manual<br />eng# English Hybrid
+ </h1>
+
+ <div id='page'>
+
+  <div id='crumbs'>
+   <a href='../../../index.htm' class='m-item'>Home</a>
+   <a href='../../../dev/index.htm' class='m-item level1'>Development</a>
+   <a href='../../../dev/man/index.htm' class='m-item level2'>V0.0.7 Manual</a>
+   <a href='../../../dev/man/defs/index.htm' class='m-item level3'>Cal. Definitions</a>
+   <a href='eng.htm' class='m-item thispage level4'>eng</a>
+   <a href='../../../dev/man/defs/ay.htm' class='m-item prev'>&lt;&lt;</a>
+   <a href='../../../dev/man/defs/er.htm' class='m-item next'>&gt;&gt;</a>
+  </div>
+
+<div id='content' class='nomenu'>
+
+
+
+
+<h2>Calendar Description</h2>
+<p>
+ The English Hybrid calendar is a hybrid variant combining the <a href='ja.htm'>Julian Annunciation</a>,
+ the <a href='j.htm'>Julian</a> and the <a href='g.htm'>Gregorian</a> calendars.
+</p>
+
+<h3>Use Case</h3>
+<ul>
+ <li>England and Wales from about the 12th century to the current day.</li>
+ <li>
+  Former English overseas colonies and territories, for the time they were under
+  English or British control to the current day.
+ </li>
+</ul>
+
+<h3>Definition</h3>
+<table class='record'>
+<tr><th colspan='6'>Record</th></tr>
+<tr><td>scheme</td><td>year</td><td>month</td><td>day</td><td class='rdonly'>wday</td><td class='rdonly'>unshift</td></tr>
+</table>
+<p>
+</p>
+<p>
+ The <b>Record</b> consists of four <b>Fields</b> named <code>scheme,</code> <code>year,</code>
+ <code>month,</code> and <code>day</code> and two read only <b>Fields</b> <code>wday,</code> and
+ <code>unshift.</code>
+ The unshift field holds the historical year as calculated by the underlying
+ Julian calendar.
+</p>
+<table class='data'>
+<tr><th colspan='2'>Calendar</th><th>Start</th><th>Finish</th><th>Notes</th></tr>
+<tr><td><a href='ja.htm'>ja</a></td><td>Julian Annunciation</td><td>past</td><td>31 Dec 1751</td><td>Year 1751 is 282 days long</td></tr>
+<tr><td><a href='j.htm'>j</a></td><td>Julian</td><td>1 Jan 1752</td><td>2 Sep 1752</td><td></td></tr>
+<tr><td><a href='g.htm'>g</a></td><td>Gregorian</td><td>14 Sep 1752</td><td>future</td><td>Year 1752 is 355 days long</td></tr>
+</table>
+<p>
+ As a Hybrid calendar, it has no single epoch.
+</p>
+
+<h3>Script</h3>
+<table class='code'>
+<tr><th>Default Script</th></tr>
+<tr><td
+>vocab jajg {
+    name "Scheme names";
+    fieldname scheme;
+    lang en;
+    stylename Scheme,   Sch;
+    tokens {
+        0, "Julian Ann", "ja";
+        1, "Julian",     "j";
+        2, "Gregorian",  "g";
+    }
+}
+
+grammar hy {
+    optional unshift, wday;
+    vocabs w, m, jajg;
+    alias field {
+        WDay,        wday;
+        Day,         day;
+        Month,       month;
+        Year,        year;
+        "Hist-Year", unshift;
+        Scheme,      scheme;
+    }
+    alias stylename {
+        WDay,        w;
+        Day,         dd;
+        Month,       mm;
+        Year,        yyyy;
+        "Hist-Year", y;
+        Scheme,      s;
+    }
+    format dmyh,  "(Day) |(Month:m.a) |(Year/Hist-Year)";
+    format dmy,   "(Day) |(Month:m.a) |(Year)";
+    format dmys,  "(Day) |(Month:m.a) |(Year) |(Scheme:jajg.a)";
+    format wdmyh, "(WDay:w.a) |(Day) |(Month:m.a) |(Year/Hist-Year)";
+    format wdmyhs,"(WDay:w.a) |(Day) |(Month:m.a) |(Year/Hist-Year) |(Scheme:jajg)";
+    pref dmyh;
+}
+
+scheme eng {
+    name "English Hybrid";
+    hybrid {
+        fields year, month, day;
+        scheme ja;
+        change 2360976;  // j# 1 Jan 1752
+        scheme j;
+        change 2361222;  // g# 14 Sep 1752
+        scheme g;
+    }
+    grammar hy;
+}
+</td></tr>
+</table>
+<p>
+ The script makes use of the globally available read-only field <code>wday</code>
+ to output weekdays.
+</p>
+<p>
+ The "hy" grammar uses the "m" (<a href='j.htm'>Julian months</a>) and "w" (<a href='7dayweek.htm'>Weekdays</a>) vocabs.
+</p>
+
+</div><!--id=content-->
+
+ <hr />
+
+ <div id='valid'>
+  <p>
+   <a href='http://validator.w3.org/check?uri=referer'>
+    <img src='../../../sys/valid-xhtml10.png' alt='Valid XHTML 1.0 Strict' height='31' width='88' />
+   </a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>28<sup>th</sup> March 2014</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+ </div>
+
+</body>
+</html>

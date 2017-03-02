@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - g</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../sys/logo1_32x32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../sys/hcal.css' />
+</head>
+<body>
+
+ <h1>
+  <a  href='http://historycal.org'>
+   <img id='logo' src='../../../sys/logo2.png' alt='Logo' />
+  </a>
+  HistoryCal - V0.0.7 Manual<br />g# Gregorian
+ </h1>
+
+ <div id='page'>
+
+  <div id='crumbs'>
+   <a href='../../../index.htm' class='m-item'>Home</a>
+   <a href='../../../dev/index.htm' class='m-item level1'>Development</a>
+   <a href='../../../dev/man/index.htm' class='m-item level2'>V0.0.7 Manual</a>
+   <a href='../../../dev/man/defs/index.htm' class='m-item level3'>Cal. Definitions</a>
+   <a href='g.htm' class='m-item thispage level4'>g</a>
+   <a href='../../../dev/man/defs/se.htm' class='m-item prev'>&lt;&lt;</a>
+   <a href='../../../dev/man/defs/gce.htm' class='m-item next'>&gt;&gt;</a>
+  </div>
+
+<div id='content' class='nomenu'>
+
+
+
+
+<h2>Calendar Description</h2>
+<p>
+ This Gregorian calendar implements the changes made to the <a href='j.htm'>Julian</a> calendar by
+ Pope Gregory XIII. There were three changes made, a change to the way leap
+ years are determined, the year number change date (New Year) fixed to
+ 1st January, and the removal of excess days (compared to the solar year) that
+ had built up since AD 325 (the year the First Council of Nicaea was held).
+</p>
+<p>
+ The proleptic Gregorian calendar follows the ISO 8601 standard.
+ The year zero is included, years before year zero are given as negative.
+</p>
+
+<h3>Use Case</h3>
+<p>
+ The Gregorian calendar was first introduced in Catholic
+ countries in 1582 and has since be adopted by most of the world and has
+ become the most commonly used calendar today.
+</p>
+
+<h3>Definition</h3>
+<table class='record'>
+<tr><th colspan='4'>Record</th></tr>
+<tr><td>year</td><td>month</td><td>day</td><td class='rdonly'>wday</td></tr>
+</table>
+<p>
+ The Gregorian calendar is based on a solar year of 365.2425 days.
+ Days start at midnight.
+</p>
+<p>
+  The <b>Record</b> consists of three <b>Fields</b> named <code>year,</code>
+ <code>month,</code> and <code>day</code> and the extended <b>Field</b> named
+ <code>wday</code>.
+</p>
+<p>
+ There are two types of years, a
+ common year and a leap year. Years are leap years when the current era
+ year is divisible by 4 but not by 100 unless divisible by 400.
+</p>
+<p style='display:inline;'>
+ The <b>Epoch</b> is set at
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>g</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>1</td><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>j</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>1</td><td>3</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>1721426</td></tr>
+ </table>.
+</p>
+<p>
+ In all other respects, the calendar is the same as the <a href='j.htm'>Julian</a> calendar.
+</p>
+
+<h3>Script</h3>
+<table class='code'>
+<tr><th>Default Script</th></tr>
+<tr><td
+>grammar g {
+    inherit j;
+    format iso {
+        rules iso8601 caldate;
+    }
+    format iso_set {
+        rules iso8601 dateset;
+    }
+    pref dmy;
+}
+
+scheme g {
+    name "Gregorian";
+    base gregorian;
+    grammar g;
+}
+</td></tr>
+</table>
+<p>
+ The grammar "g" inherits from the grammar "j" used by the <a href='j.htm'>Julian</a> scheme.
+</p>
+
+<table class='code'>
+<tr><th>example/iso5.hcs Script</th></tr>
+<tr><td
+>format g:iso_y5 {
+    rules iso8601 caldate year5;
+}
+
+format g:iso_y5set {
+    rules iso8601 dateset year5;
+}
+</td></tr>
+</table>
+
+<table class='code'>
+<tr><th>example/iso6.hcs Script</th></tr>
+<tr><td
+>format g:iso_y6 {
+    rules iso8601 caldate year6;
+}
+
+format g:iso_y6set {
+    rules iso8601 dateset year6;
+}
+</td></tr>
+</table>
+
+</div><!--id=content-->
+
+ <hr />
+
+ <div id='valid'>
+  <p>
+   <a href='http://validator.w3.org/check?uri=referer'>
+    <img src='../../../sys/valid-xhtml10.png' alt='Valid XHTML 1.0 Strict' height='31' width='88' />
+   </a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>19<sup>th</sup> January 2014</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+ </div>
+
+</body>
+</html>

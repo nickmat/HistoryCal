@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - isoo</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../sys/logo1_32x32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../sys/hcal.css' />
+</head>
+<body>
+
+ <h1>
+  <a  href='http://historycal.org'>
+   <img id='logo' src='../../../sys/logo2.png' alt='Logo' />
+  </a>
+  HistoryCal - V0.0.7 Manual<br />isoo# ISO Ordinal
+ </h1>
+
+ <div id='page'>
+
+  <div id='crumbs'>
+   <a href='../../../index.htm' class='m-item'>Home</a>
+   <a href='../../../dev/index.htm' class='m-item level1'>Development</a>
+   <a href='../../../dev/man/index.htm' class='m-item level2'>V0.0.7 Manual</a>
+   <a href='../../../dev/man/defs/index.htm' class='m-item level3'>Cal. Definitions</a>
+   <a href='isoo.htm' class='m-item thispage level4'>isoo</a>
+   <a href='../../../dev/man/defs/isow.htm' class='m-item prev'>&lt;&lt;</a>
+   <a href='../../../dev/man/defs/glit.htm' class='m-item next'>&gt;&gt;</a>
+  </div>
+
+<div id='content' class='nomenu'>
+
+
+
+
+<h2>Calendar Description</h2>
+<p>
+ The ISO Ordinal calendar is defined in terms of the <a href='g.htm'>Gregorian</a> calendar.
+ It consists of a count of years and days.
+ The year is identical to the Gregorian year.
+ The day is the ordinal number of days since 1st of January in that year.
+ As for the Gregorian calendar, the number of days in a year is 365 or 366.
+</p>
+
+<h3>Use Case</h3>
+<p>
+ Details of the scheme where published in 1973 by the International Standards Organisation
+ in their ISO 2711:1973 document.
+ This was superseded in 2004 by the ISO 8601:2004 and later publications.
+</p>
+
+<h3>Definition</h3>
+<table class='record'>
+<tr><th colspan='2'>Record</th></tr>
+<tr><td>year</td><td>day</td></tr>
+</table>
+<p>
+ The ISO Week calendar is defined in terms of the <a href='g.htm'>Gregorian</a> calendar.
+ Day one is defined as 1st January.</p>
+</p>
+<p>
+  The <b>Record</b> consists of two <b>Fields</b> named <code>year,</code>
+  and <code>day</code>.
+</p>
+<p>
+</p>
+<p style='display:inline;'>
+ The <b>Epoch</b> is set at
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>isoo</td><th>year</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>g</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>1</td><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>1721426</td></tr>
+ </table>.
+</p>
+
+<h3>Script</h3>
+<table class='code'>
+<tr><th>Default Script</th></tr>
+<tr><td
+>grammar isoo {
+    alias field {
+        Day,   day;
+        Year,  year;
+    }
+    alias stylename {
+        Day,   ddd;
+        Year,  yyyy;
+    }
+    alias unit {
+        d, day;
+        y, year;
+    }
+    format yd {
+        rules iso8601 ordinal;
+    }
+    format hc_yd, "(Year)| (Day)";
+    pref hc_yd;
+}
+
+scheme isoo {
+    name "ISO:8601 Standard Ordinal";
+    base isoordinal;
+    grammar isoo;
+}
+</td></tr>
+</table>
+
+<table class='code'>
+<tr><th>example/iso5.hcs Script</th></tr>
+<tr><td
+>format isoo:y5d {
+    rules iso8601 ordinal year5;
+}
+</td></tr>
+</table>
+
+<table class='code'>
+<tr><th>example/iso6.hcs Script</th></tr>
+<tr><td
+>format isoo:y6d {
+    rules iso8601 ordinal year6;
+}
+</td></tr>
+</table>
+<p>
+</p>
+
+</div><!--id=content-->
+
+ <hr />
+
+ <div id='valid'>
+  <p>
+   <a href='http://validator.w3.org/check?uri=referer'>
+    <img src='../../../sys/valid-xhtml10.png' alt='Valid XHTML 1.0 Strict' height='31' width='88' />
+   </a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>19<sup>th</sup> January 2014</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+ </div>
+
+</body>
+</html>

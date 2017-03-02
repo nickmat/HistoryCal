@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - jdn</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../sys/logo1_32x32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../sys/hcal.css' />
+</head>
+<body>
+
+ <h1>
+  <a  href='http://historycal.org'>
+   <img id='logo' src='../../../sys/logo2.png' alt='Logo' />
+  </a>
+  HistoryCal - V0.0.7 Manual<br />jdn# Julian Day Number
+ </h1>
+
+ <div id='page'>
+
+  <div id='crumbs'>
+   <a href='../../../index.htm' class='m-item'>Home</a>
+   <a href='../../../dev/index.htm' class='m-item level1'>Development</a>
+   <a href='../../../dev/man/index.htm' class='m-item level2'>V0.0.7 Manual</a>
+   <a href='../../../dev/man/defs/index.htm' class='m-item level3'>Cal. Definitions</a>
+   <a href='jdn.htm' class='m-item thispage level4'>jdn</a>
+   <a href='../../../dev/man/defs/index.htm' class='m-item prev'>&lt;&lt;</a>
+   <a href='../../../dev/man/defs/7dayweek.htm' class='m-item next'>&gt;&gt;</a>
+  </div>
+
+<div id='content' class='nomenu'>
+
+
+
+
+<h2>Calendar Description</h2>
+<p>
+ The Julian Day Number calendar is a simple count of days and is the system
+ used internally by HistoryCal. It is closely related to the Julian Day (or
+ Julian Astronomical Days) but the time element is missing and the day is
+ considered to start at midnight.
+</p>
+<div class='p'>
+ Note that the terms "Julian Day Number", "Julian Day" and "Julian Astronomical
+ Day" are often used interchangeably in the academic world. However, this
+ project will use the term "Julian Day Number" (signature <b>jdn</b>) to
+ describe the above definition of the calendar and the term "Julian Day"
+ (signature <b>jd</b>) to describe the more common academic definition, where
+ the day begins at midday.
+ Thus:-
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+   <tr class='value'><td><span class='var'>x</span></td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>jd</td><th>day</th></tr>
+   <tr class='value'><td><span class='var'>x</span> - 0.5</td></tr>
+ </table>.
+</div>
+
+<h3>Use Case</h3>
+<p>
+ There is no known historical use of calendar, although the Julian Day scheme,
+ on which it is based, has been in use by the scientific community,
+ particularly astronomers, for many years. Its main purpose is as the
+ intermediate and standard date value used internally by the HistoryCal
+ program. It may also be used as the base for other day count calendar types.
+ It is also used to input date values in a HistoryCal script.
+</p>
+
+<h3>Definition</h3>
+<table class='record'>
+<tr><th>Record</th></tr>
+<tr><td>day</td></tr>
+</table>
+<p>
+ Since the Julian Day Number calendar is the same as the internal Cal library
+ calendar, the definition is trivial. Days start at midnight.
+</p>
+<p>
+ The <b>Record</b> consists of a single <b>Field</b> named <code>day.</code>
+</p>
+
+<div class='p'>
+ The <b>Epoch</b> is the same as the internal version, so
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+   <tr class='value'><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+   <tr class='value'><td>1</td></tr>
+ </table>.
+</div>
+
+<h3>Script</h3>
+<table class='code'>
+<tr><th>Default Script</th></tr>
+<tr><td
+>grammar d {
+    alias field {
+        Day, day;
+    }
+    alias stylename {
+        Day, ddddd;
+    }
+    format d, "(Day)";
+    pref d;
+}
+
+scheme jdn {
+    name "Julian Day Number";
+    base jdn;
+    grammar d;
+}
+</td></tr>
+</table>
+<p>
+ Although this calendar has no historical uses, it is included in the default
+ script because it is used as the intermediate form when converting between
+ other calendars. It may also be used to derive other day count calendars.
+</p>
+<p>
+ The script has no dependencies.
+</p>
+
+</div><!--id=content-->
+
+ <hr />
+
+ <div id='valid'>
+  <p>
+   <a href='http://validator.w3.org/check?uri=referer'>
+    <img src='../../../sys/valid-xhtml10.png' alt='Valid XHTML 1.0 Strict' height='31' width='88' />
+   </a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>19<sup>th</sup> January 2014</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+ </div>
+
+</body>
+</html>

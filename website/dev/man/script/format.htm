@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - Define Format</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../sys/logo1_32x32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../sys/hcal.css' />
+</head>
+<body>
+
+ <h1>
+  <a  href='http://historycal.org'>
+   <img id='logo' src='../../../sys/logo2.png' alt='Logo' />
+  </a>
+  HistoryCal - V0.0.7 Manual<br />Define Format
+ </h1>
+
+ <div id='page'>
+
+  <div id='crumbs'>
+   <a href='../../../index.htm' class='m-item'>Home</a>
+   <a href='../../../dev/index.htm' class='m-item level1'>Development</a>
+   <a href='../../../dev/man/index.htm' class='m-item level2'>V0.0.7 Manual</a>
+   <a href='../../../dev/man/script/index.htm' class='m-item level3'>Script</a>
+   <a href='format.htm' class='m-item thispage level4'>Define Format</a>
+   <a href='../../../dev/man/script/grammar.htm' class='m-item prev'>&lt;&lt;</a>
+   <a href='../../../dev/man/script/scheme.htm' class='m-item next'>&gt;&gt;</a>
+  </div>
+
+<div id='content' class='nomenu'>
+
+
+
+<h2>Under Construction</h2>
+<p>
+ 
+</p>
+
+<h3>Sub-Statements</h3>
+<p>
+ A format statement may contain of one or more of the following sub-statements:-
+</p>
+<table class='list'>
+<tr><th colspan='3'>Sub-Statement List</th></tr>
+<tr><th>Sub-Statement</th><th>Use</th><th>Example</th></tr>
+<tr><td class='code'>inout</td><td>Format string used for both input and output.</td><td class='example'>inout "(Day) |(Month:m.a) |(Year)";</td></tr>
+<tr><td class='code'>input</td><td>Format string used for just input.</td><td class='example'>input "(Day) |(Month) |(Year)";</td></tr>
+<tr><td class='code'>attributes</td><td>List of attributes to define the output.</td><td class='example'>output "(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";</td></tr>
+<tr><td class='code'>output</td><td>Format string used for just output.</td><td class='example'>output "(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";</td></tr>
+<tr><td class='code'>rank</td><td>Set the major to minor order of the fields to use when reading text input.</td><td class='example'>rank "ce", "ceyear", "month", "day", "wday";</td></tr>
+<tr><td class='code'>rules</td><td>Define the rules used to interpret the format</td><td class='example'>rules iso8601;</td></tr>
+<tr><td class='code'>separators</td><td>Run code depending on condition.</td><td class='example'>separators "-";</td></tr>
+<tr><td class='code'>strict</td><td>Format string used for both input and output, input includes the inter-field text.</td><td class='example'>strict "(Year:!lp.04)|-(Month:!lp.02)|-(Day:!lp.02)";</td></tr>
+</table>
+
+<h3>Sub-Statement attributes</h3>
+<p>
+ The values given by the attribute list can affect either input, output or both.  Currently attributes are only defined under <b>rules iso8601</b>.
+</p>
+<h4>Style attribute</h4>
+<p>
+ One of the following values. If none are given <b>calendar</b> is assumed.
+</p>
+<ul>
+ <li><b>calendar</b> - Dates are output as Year, Month and Day of month.</li> 
+ <li><b>ordinal</b> - Dates are output as Year and Day of year.</li> 
+ <li><b>week</b> - Dates are output as Year, Week number and Day of week.</li> 
+</ul>
+
+<h4>Extended attribute</h4>
+<p>
+ One of the two following values. If neither are given <b>extended</b> is assumed.
+</p>
+<ul>
+ <li><b>basic</b> - Dates are output without any separators between the elements.</li> 
+ <li><b>extended</b> - Dates are output with '-' (hyphen) separators between the elements.</li> 
+</ul>
+
+<h4>Expanded attribute</h4>
+<p>
+ One of the following values. If none are given <b>year</b> is assumed.
+</p>
+<ul>
+ <li><b>year</b> - Year are input and output as 4 positive digits without a leading '+'.</li> 
+ <li><b>year4</b> - Year are input and output as 4 digits with a leading '+' or '-'.</li> 
+ <li><b>year5</b> - Year are input and output as 5 digits with a leading '+' or '-'.</li> 
+ <li><b>year6</b> - Year are input and output as 6 digits with a leading '+' or '-'.</li> 
+</ul>
+
+<h4>Error handling attribute</h4>
+<p>
+ If the year cannot be output with the given attributes then the output is determined by one of the two following values. If neither are given <b>error</b> is assumed.
+</p>
+<ul>
+ <li><b>auto</b> - The year is extended and output with a leading '+' or '-'.</li> 
+ <li><b>error</b> - The string "Year length error." is output.</li> 
+</ul>
+
+
+</div><!--id=content-->
+
+ <hr />
+
+ <div id='valid'>
+  <p>
+   <a href='http://validator.w3.org/check?uri=referer'>
+    <img src='../../../sys/valid-xhtml10.png' alt='Valid XHTML 1.0 Strict' height='31' width='88' />
+   </a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>11<sup>th</sup> March 2016</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+ </div>
+
+</body>
+</html>

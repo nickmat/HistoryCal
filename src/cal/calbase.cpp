@@ -122,6 +122,69 @@ Field Base::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const
     return f_invalid;
 }
 
+#if 0
+Field Base::get_field_width( const Field* fields, size_t index ) const
+{
+    if( fields[0] == f_invalid ) {
+        return f_invalid;
+    }
+    for( size_t i = 1 ; i < extended_size() ; i++ ) {
+        if( fields[i] != f_invalid ) {
+            continue;
+        }
+        if( i < record_size() ) {
+            return get_field_last( fields, i ) - get_field_first( fields, i ) + 1; 
+        } else {
+            OptFieldID id = opt_index_to_id( i );
+            return get_opt_field_width( fields, id );
+        }
+    }
+    return f_invalid;
+}
+#endif
+Field Base::get_field_width( const Field* fields, size_t index ) const
+{
+    if( index < record_size() ) {
+        return get_field_last( fields, index ) - get_field_first( fields, index ) + 1; 
+    } else {
+        OptFieldID id = opt_index_to_id( index );
+        return get_opt_field_width( fields, id );
+    }
+}
+
+Field Base::get_opt_field_width( const Field* fields, OptFieldID id ) const
+{
+    switch( id )
+    {
+    case OFID_wday:
+    case OFID_wsday:
+        return 1;
+    }
+    return f_invalid;
+}
+
+bool Base::is_mask_a_pattern( const Field* fields ) const
+{
+    return false;
+#if 0
+    if( fields[0] == f_invalid ) {
+        return f_invalid;
+    }
+    for( size_t i = 1 ; i < extended_size() ; i++ ) {
+        if( fields[i] != f_invalid ) {
+            continue;
+        }
+        if( i < record_size() ) {
+            return get_field_last( fields, i ) - get_field_first( fields, i ) + 1; 
+        } else {
+            OptFieldID id = opt_index_to_id( i );
+            return get_opt_field_width( fields, id );
+        }
+    }
+    return f_invalid;
+#endif
+}
+
 bool Base::set_fields_as_next_optional( Field* fields, Field jdn, const Field* mask, size_t index ) const
 {
     if( index >= (extended_size() - m_opt_fields.size() ) ) {

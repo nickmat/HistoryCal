@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - isow</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../sys/logo1_32x32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../sys/hcal.css' />
+</head>
+<body>
+
+ <h1>
+  <a  href='http://historycal.org'>
+   <img id='logo' src='../../../sys/logo2.png' alt='Logo' />
+  </a>
+  HistoryCal - V0.0.7 Manual<br />isow# ISO Week
+ </h1>
+
+ <div id='page'>
+
+  <div id='crumbs'>
+   <a href='../../../index.htm' class='m-item'>Home</a>
+   <a href='../../../dev/index.htm' class='m-item level1'>Development</a>
+   <a href='../../../dev/man/index.htm' class='m-item level2'>V0.0.7 Manual</a>
+   <a href='../../../dev/man/defs/index.htm' class='m-item level3'>Cal. Definitions</a>
+   <a href='isow.htm' class='m-item thispage level4'>isow</a>
+   <a href='../../../dev/man/defs/gce.htm' class='m-item prev'>&lt;&lt;</a>
+   <a href='../../../dev/man/defs/isoo.htm' class='m-item next'>&gt;&gt;</a>
+  </div>
+
+<div id='content' class='nomenu'>
+
+
+
+
+<h2>Calendar Description</h2>
+<p>
+ The ISO Week calendar scheme is a system of numbering the weeks of the year
+ and is based on the Gregorian calendar.
+ A week is defined as Monday being day 1 through to Sunday day 7.
+ The first week of the year is defined as the week containing the first Thursday
+ of the Gregorian year.
+ The ISO Week year thus has 52 or 53 weeks (364 or 371 days).
+ The ISO Week year does not quite match the Gregorian year,
+ with the year change occurring on the 29th, 30th or 31st of December,
+ or the 1st, 2nd, 3rd or 4th of January - whichever day Monday falls.
+</p>
+
+<h3>Use Case</h3>
+<p>
+ Details of the scheme where published in 1976 by the International Standards Organisation
+ in their ISO 2015:1976 document.
+ This was superseded in 2004 by the ISO 8601:2004 and later publications.
+</p>
+
+<h3>Definition</h3>
+<table class='record'>
+<tr><th colspan='3'>Record</th></tr>
+<tr><td>year</td><td>week</td><td>wday</td></tr>
+</table>
+<p>
+ The ISO Week calendar is defined in terms of the <a href='g.htm'>Gregorian</a> calendar.
+ The week is as defined for the <code>wday</code> field in the 
+ <a href='7dayweek.htm'>Seven Day Week</a> page.
+ The first week of the year is defined as the week containing the first Thursday
+ of the Gregorian year.</p>
+<p>
+  The <b>Record</b> consists of three <b>Fields</b> named <code>year,</code>
+ <code>week,</code> and <code>wday</code>.
+</p>
+<p>
+</p>
+<div class='p'>
+ The <b>Epoch</b> is set at
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>isow</td><th>year</th><th>week</th><th>wday</th></tr>
+   <tr class='value'><td>1</td><td>1</td><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>g</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>1</td><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>1721426</td></tr>
+ </table>.
+</div>
+
+<h3>Script</h3>
+<table class='code'>
+<tr><th>Default Script</th></tr>
+<tr><td
+>grammar isow {
+    vocabs w;
+    alias field {
+        Day,   wday;
+        Week,  week;
+        Year,  year;
+    }
+    alias stylename {
+        Day,   d;
+        Week,  ww;
+        Year,  yyyy;
+    }
+    alias unit {
+        d, day;
+        y, year;
+        w, week;
+    }
+    format ywd {
+        rules iso8601 week;
+    }
+    format  hc_ywd,   "(Year)| (Week)| (Day:w.a)";
+    format "hc_ywd+", "(Year)| (Week)| (Day:w)";
+    format  hc_iso,   "(Year)| (Week)| (Day)";
+    pref hc_ywd;
+}
+
+scheme isow {
+    name "ISO:8601 Standard Week";
+    base isoweek;
+    grammar isow;
+}
+</td></tr>
+</table>
+
+<table class='code'>
+<tr><th>example/iso5.hcs Script</th></tr>
+<tr><td
+>format isow:y5wd {
+    rules iso8601 week year5;
+}
+</td></tr>
+</table>
+
+<table class='code'>
+<tr><th>example/iso6.hcs Script</th></tr>
+<tr><td
+>format isow:y6wd {
+    rules iso8601 week year6;
+}
+</td></tr>
+</table>
+<p>
+</p>
+
+</div><!--id=content-->
+
+ <hr />
+
+ <div id='valid'>
+  <p>
+   <a href='http://validator.w3.org/check?uri=referer'>
+    <img src='../../../sys/valid-xhtml10.png' alt='Valid XHTML 1.0 Strict' height='31' width='88' />
+   </a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>28<sup>th</sup> April 2016</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+ </div>
+
+</body>
+</html>

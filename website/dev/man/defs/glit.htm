@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - glit</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../sys/logo1_32x32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../sys/hcal.css' />
+</head>
+<body>
+
+ <h1>
+  <a  href='http://historycal.org'>
+   <img id='logo' src='../../../sys/logo2.png' alt='Logo' />
+  </a>
+  HistoryCal - V0.0.7 Manual<br />glit# Gregorian Liturgical
+ </h1>
+
+ <div id='page'>
+
+  <div id='crumbs'>
+   <a href='../../../index.htm' class='m-item'>Home</a>
+   <a href='../../../dev/index.htm' class='m-item level1'>Development</a>
+   <a href='../../../dev/man/index.htm' class='m-item level2'>V0.0.7 Manual</a>
+   <a href='../../../dev/man/defs/index.htm' class='m-item level3'>Cal. Definitions</a>
+   <a href='glit.htm' class='m-item thispage level4'>glit</a>
+   <a href='../../../dev/man/defs/isoo.htm' class='m-item prev'>&lt;&lt;</a>
+   <a href='../../../dev/man/defs/ay.htm' class='m-item next'>&gt;&gt;</a>
+  </div>
+
+<div id='content' class='nomenu'>
+
+
+
+
+<h2>Calendar Description</h2>
+<p>
+ This is a work in progress and the results are still being assessed.
+</p>
+<p>
+ The Christian Liturgical year is a cyclic calendar of feast days.
+ It is comprised of fixed and moveable seasons, the moveable seasons
+ being based on the calculation of Easter Sunday for that year.
+</p>
+<p>
+ Each Sunday throughout the year is named. A number is assigned to each possible
+ week. Because the seasons vary in length, some numbers will be skipped
+ in any given year. This numbering system is unique to the Cal library - input
+ and output would normally be through the text descriptions.
+</p>
+<p>
+ This version is based on the <a href='g.htm'>Gregorian Calendar</a>. 
+</p>
+
+<h3>Use Case</h3>
+<p>
+ This version of the Christian Liturgical calendar was used to replace
+ the <a href='jlit.htm'>Julian Liturgical Calendar</a>  
+ as the Gregorian calendar replaced the Julian one.
+</p>
+
+<h3>Definition</h3>
+<table class='record'>
+<tr><th colspan='5'>Record - Default order</th></tr>
+<tr><td>year</td><td>month</td><td>day</td><td class='rdonly'>wday</td><td class='rdonly'>litweek</td></tr>
+</table>
+<table class='record'>
+<tr><th colspan='5'>Record - Ranking order</th></tr>
+<tr><td>year</td><td class='rdonly'>litweek</td><td class='rdonly'>wday</td><td>month</td><td>day</td></tr>
+</table>
+
+<p class='clear'>
+ The Gregorian Liturgical scheme is a variation of the <a href='g.htm'>Gregorian</a> scheme
+ and has the same definition except that it includes the <b>Optional Fields</b> <code>litweek</code> and <code>wday.</code>
+ These, together with the standard <b>Fields</b> <code>year,</code> <code>month</code> and <code>day</code>
+ are ranked into the order shown in the <b>Record</b> above.
+</p>
+<p>
+ The <code>litweek</code> <b>Field</b> is detailed in the <a href='jlit.htm'>Julian Liturgical</a> scheme.
+ All other details of the scheme are the same as the <a href='g.htm'>Gregorian</a> scheme.
+</p>
+
+<h3>Script</h3>
+<table class='code'>
+<tr><th>Default Script</th></tr>
+<tr><td
+>scheme glit {
+    name "Gregorian Liturgical";
+    base gregorian;
+    grammar lit;
+}
+</td></tr>
+</table>
+<p>
+ The scheme uses the lit grammar as defined for the <a href='jlit.htm'>Julian Liturgical Week</a> scheme.
+</p>
+
+</div><!--id=content-->
+
+ <hr />
+
+ <div id='valid'>
+  <p>
+   <a href='http://validator.w3.org/check?uri=referer'>
+    <img src='../../../sys/valid-xhtml10.png' alt='Valid XHTML 1.0 Strict' height='31' width='88' />
+   </a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>26<sup>th</sup> August 2015</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+ </div>
+
+</body>
+</html>
