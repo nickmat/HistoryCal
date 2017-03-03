@@ -259,7 +259,6 @@ bool Record::correct_fields_as_last( const Field* mask )
 // Treat the record as a mask and generate rlist
 RangeList Record::get_rlist_from_mask() const
 {
-    bool test = m_base->is_mask_pattern( &m_f[0] );
     RangeList rlist;
     Range range;
     bool ret = set_range_as_begin( &range );

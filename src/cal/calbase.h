@@ -89,12 +89,6 @@ namespace Cal {
         // Get an optional field value.
         virtual Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const;
 
-        // Get field width
-        virtual Field get_field_width( const Field* fields, size_t index ) const;
-        virtual Field get_opt_field_width( const Field* fields, OptFieldID id ) const;
-
-        virtual bool is_mask_a_pattern( const Field* fields ) const;
-
         // Give the chance to set a field to a fixed value.
         virtual void set_fixed_fields( Field* fields ) const {}
 
