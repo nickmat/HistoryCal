@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -80,11 +80,11 @@ namespace Cal {
     typedef std::map<std::string,std::string> StringMap;
     typedef std::vector<int> XRefVec;
 
-    const Field f_invalid  = INT_MIN;     // -2147483648;
-    const Field f_minimum  = INT_MIN + 1; // -2147483647;
-    const Field f_maximum  = INT_MAX - 2; //  2147483645;
-    const Field f_end      = INT_MAX - 1; //  2147483646;
-    const Field f_invalid2 = INT_MAX;     //  2147483647;
+    const Field f_invalid  = INT_MIN;      // -2147483648;
+    const Field f_minimum  = -(INT_MAX-2); // -2147483645;
+    const Field f_maximum  = INT_MAX - 2;  //  2147483645;
+    const Field f_end      = INT_MAX - 1;  //  2147483646;
+    const Field f_invalid2 = INT_MAX;      //  2147483647;
     const char spec_sep = '#';     // Separates date specification from date string.
     const char range_sep = '~';    // Separates the two range values.
     const char range_div = '|';    // Used to separate ranges in range list.
