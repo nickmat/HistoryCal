@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     24th June 2014
- * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -606,13 +606,29 @@ void SValue::negate()
     }
     switch( m_type )
     {
+    case SVT_Record:
+    case SVT_RList:
+        for( size_t i = 0 ; i < m_rlist.size() ; i++ ) {
+            if( m_range.jdn1 != f_invalid ) {
+                m_range.jdn1 = -m_range.jdn1;
+            }
+            if( m_type == SVT_RList && m_range.jdn2 != f_invalid ) {
+                m_range.jdn2 = -m_range.jdn2;
+            }
+        }
+        break;
+    case SVT_Range:
+        if( m_range.jdn2 != f_invalid ) {
+            m_range.jdn2 = -m_range.jdn2;
+        }
+        // Fall thru
     case SVT_Field:
         if( m_range.jdn1 != f_invalid ) {
-            m_range.jdn1 = add( -m_range.jdn1, 0 );
+            m_range.jdn1 = -m_range.jdn1;
         }
         return;
     }
-    set_error( "Can only negate numbers." );
+    set_error( "Can only negate numbers types." );
 }
 
 void SValue::logical_not()
