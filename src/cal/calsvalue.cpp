@@ -31,6 +31,7 @@
 #include "calstokenstream.h"
 #include "caltext.h"
 
+#include <algorithm>
 #include <cassert>
 
 using namespace std;
@@ -601,31 +602,31 @@ void SValue::subscript_op( const SValue& value )
 
 void SValue::negate()
 {
-    if( is_error() ) {
-        return;
-    }
     switch( m_type )
     {
-    case SVT_Record:
-    case SVT_RList:
-        for( size_t i = 0 ; i < m_rlist.size() ; i++ ) {
-            if( m_range.jdn1 != f_invalid ) {
-                m_range.jdn1 = -m_range.jdn1;
-            }
-            if( m_type == SVT_RList && m_range.jdn2 != f_invalid ) {
-                m_range.jdn2 = -m_range.jdn2;
-            }
-        }
-        break;
-    case SVT_Range:
-        if( m_range.jdn2 != f_invalid ) {
-            m_range.jdn2 = -m_range.jdn2;
-        }
-        // Fall thru
+    case SVT_Error:
+        return;
     case SVT_Field:
         if( m_range.jdn1 != f_invalid ) {
             m_range.jdn1 = -m_range.jdn1;
         }
+        return;
+    case SVT_Range:
+        if( m_range.jdn1 != f_invalid && m_range.jdn2 != f_invalid ) {
+            Field jdn = -m_range.jdn1;
+            m_range.jdn1 = -m_range.jdn2;
+            m_range.jdn2 = jdn;
+        }
+        return;
+    case SVT_RList:
+        for( size_t i = 0 ; i < m_rlist.size() ; i++ ) {
+            if( m_rlist[i].jdn1 != f_invalid && m_rlist[i].jdn2 != f_invalid ) {
+                Field jdn = -m_rlist[i].jdn1;
+                m_rlist[i].jdn1 = -m_rlist[i].jdn2;
+                m_rlist[i].jdn2 = jdn;
+            }
+        }
+        std::reverse( m_rlist.begin(), m_rlist.end() );
         return;
     }
     set_error( "Can only negate numbers types." );
