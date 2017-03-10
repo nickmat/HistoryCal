@@ -1,0 +1,14 @@
+// range003.hcs Test range operator with empty rlist error
+
+let a = !(past~future);
+
+let b = a ~ 16;
+
+clear;
+
+/*[OUTPUT]
+Error (5): Range operator cannot use empty rlist.
+
+[OUTPUT]*/
+
+

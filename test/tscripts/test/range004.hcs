@@ -1,0 +1,14 @@
+// range004.hcs Test range operator with string error
+
+let a = "Test";
+
+let b = a ~ 16;
+
+clear;
+
+/*[OUTPUT]
+Error (5): Range operator requires number types.
+
+[OUTPUT]*/
+
+

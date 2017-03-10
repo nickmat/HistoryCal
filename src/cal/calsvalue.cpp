@@ -27,6 +27,7 @@
 
 #include "calsvalue.h"
 
+#include "calmath.h"
 #include "calsetmath.h"
 #include "calstokenstream.h"
 #include "caltext.h"
@@ -563,20 +564,59 @@ void SValue::range_op( const SValue& value )
     if( propagate_error( value ) ) {
         return;
     }
-    Range range( f_invalid, f_invalid );
-    if( m_type == SVT_Field || m_type == SVT_Range ) {
-        range.jdn1 = m_range.jdn1;
-    }
-    if( value.m_type == SVT_Field ) {
-        range.jdn2 = value.m_range.jdn1;
-    } else if( value.m_type == SVT_Range ) {
-        range.jdn2 = value.m_range.jdn2;
-    }
-    if( range.jdn1 == f_invalid || range.jdn2 == f_invalid ) {
-        set_error( "Can only set range with a number or another range." );
+    Range lhs, rhs;
+    const char* type_err_mess = "Range operator requires number types.";
+    const char* empty_err_mess = "Range operator cannot use empty rlist.";
+    const char* invalid_err_mess = "Range invalid.";
+    switch( m_type )
+    {
+    case SVT_RList:
+        if( m_rlist.empty() ) {
+            set_error( empty_err_mess );
+            return;
+        }
+        lhs = enclosing_range( m_rlist );
+        break;
+    case SVT_Field:
+        lhs.jdn1 = lhs.jdn2 = m_range.jdn1;
+        break;
+    case SVT_Range:
+        lhs = m_range;
+        break;
+    default:
+        set_error( type_err_mess );
         return;
     }
-    set_range( range );
+    switch( value.m_type )
+    {
+    case SVT_RList:
+        if( value.m_rlist.empty() ) {
+            set_error( empty_err_mess );
+            return;
+        }
+        rhs = enclosing_range( value.m_rlist );
+        break;
+    case SVT_Field:
+        rhs.jdn1 = rhs.jdn2 = value.m_range.jdn1;
+        break;
+    case SVT_Range:
+        rhs = value.m_range;
+        break;
+    default:
+        set_error( type_err_mess );
+        return;
+    }
+    if( lhs.jdn1 > rhs.jdn1 ) {
+        lhs.jdn1 = rhs.jdn1;
+    }
+    if( lhs.jdn2 < rhs.jdn2 ) {
+        lhs.jdn2 = rhs.jdn2;
+    }
+    if( lhs.jdn1 == f_invalid ) {
+        set_error( invalid_err_mess );
+        return;
+    }
+    set_range( lhs );
 }
 
 void SValue::subscript_op( const SValue& value )
