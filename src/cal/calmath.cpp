@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -98,5 +98,18 @@ Field Cal::cal_round( double x )
   }
   return (-x+i >= 0.5) ? i - 1 : i;
 }
+
+Range Cal::enclosing_range( const RangeList& rlist )
+{
+    if( rlist.empty() ) {
+        return Range( f_invalid, f_invalid );
+    }
+    Range range;
+    range.jdn1 = rlist[0].jdn1;
+    range.jdn2 = rlist[rlist.size()-1].jdn2;
+    return range;
+}
+
+
 
 // End of src/cal/calmath.cpp
