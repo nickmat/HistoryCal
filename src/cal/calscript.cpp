@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     7th May 2014
- * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -1199,7 +1199,14 @@ SValue Script::primary( bool get )
     switch( token.type() )
     {
     case SToken::STT_Number:
-        value.set_field( token.get_field() );
+        {
+            Field field = token.get_field();
+            assert( field >= 0 ); // Literals are always positive.
+            if( field > f_maximum ) {
+                field = f_maximum;
+            }
+            value.set_field( field );
+        }
         m_ts.next();
         break;
     case SToken::STT_Bool:
