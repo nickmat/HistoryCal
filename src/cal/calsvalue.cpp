@@ -117,7 +117,7 @@ bool SValue::get( string& str ) const
         str = get_bool() ? "true" : "false";
         return true;
     case SVT_Field:
-        str = field_to_str( m_range.jdn1 );
+        str = field_to_str( m_range.jdn1, SI_qmark );
         return true;
     case SVT_Range:
         str = field_to_str( m_range.jdn1 );

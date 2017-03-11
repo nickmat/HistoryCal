@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     6th May 2015
- * Copyright:   Copyright (c) 2015 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2015 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -33,8 +33,9 @@
 namespace Cal {
 
     enum StringStyle { SS_undefined, SS_lowercase, SS_uppercase };
+    enum ShowInvalid { SI_blank, SI_qmark };
 
-    extern std::string field_to_str( Field field );
+    extern std::string field_to_str( Field field, ShowInvalid si = SI_blank );
     extern std::string dual_fields_to_str( Field field, Field dual );
     extern std::string get_ordinal_suffix( Field field, StringStyle style = SS_lowercase );
     extern std::string get_ordinal_suffix_style( StringStyle style = SS_lowercase );
