@@ -1,0 +1,8 @@
+// minus002.hcs Test negation of binary type error
+
+let a = -true;
+
+/*[OUTPUT]
+Error (3): Can only negate number types.
+
+[OUTPUT]*/

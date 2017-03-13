@@ -1,0 +1,15 @@
+// minus006.hcs Test subtraction expressions with rlists
+
+let a = (8 ~ 10 | 12 ~ 25) - 11;
+
+let b = 11 - (8 ~ 10 | 12 ~ 25);
+
+let c = a = -b;
+
+write a +", "+ b +", "+ c;
+
+clear;
+
+/*[OUTPUT]
+-3 ~ -1 | 1 ~ 14, -14 ~ -1 | 1 ~ 3, true
+[OUTPUT]*/

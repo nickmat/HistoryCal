@@ -1,0 +1,13 @@
+// plus006.hcs Test file for addition with rlists and ranges
+
+let a = 5 ~ 8 | (12 ~ 15) + (20 ~ 22);
+let b = (5 ~ 8 | 12 ~ 15) + (20 ~ 22);
+let c = (20 ~ 22) + (5 ~ 8 | 12 ~ 15);
+
+write a +", "+ b +", "+ c +", "+ (b=c);
+
+clear;
+
+/*[OUTPUT]
+5 ~ 8 | 32 ~ 37, 25 ~ 30 | 32 ~ 37, 25 ~ 30 | 32 ~ 37, true
+[OUTPUT]*/

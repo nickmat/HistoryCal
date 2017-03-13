@@ -1,0 +1,10 @@
+// plus013.hcs Test file to test addition of special values.
+
+let a = (future ~ 500 | 100 ~ 111) + past;
+
+clear;
+
+/*[OUTPUT]
+Error (3): Invalid rlist.
+
+[OUTPUT]*/

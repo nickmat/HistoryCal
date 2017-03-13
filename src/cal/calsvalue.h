@@ -53,8 +53,8 @@ namespace Cal {
         void set_str( const std::string& str ) { m_type = SVT_Str; m_str = str; }
         void set_bool( bool b ) { m_type = SVT_Bool; m_range.jdn1 = b ? 1 : 0; }
         void set_field( Field field ) { m_type = SVT_Field; m_range.jdn1 = field; }
-        void set_range( Range range ) { m_type = SVT_Range; m_range = range; }
-        void set_rlist( RangeList rlist ) { m_type = SVT_RList; m_rlist = rlist; }
+        void set_range( Range range );
+        void set_rlist( RangeList rlist );
         void set_record( const std::string& scode, const FieldVec& fields );
 
         void set_error( const std::string& str );

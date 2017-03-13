@@ -1,0 +1,17 @@
+// plus010.hcs Test file to test addition of special values.
+
+let a = 5 + past;
+
+let b = future + 10;
+
+let c = ? + 100;
+
+let d = past + future;
+
+write a + ", " + b + ", " + c + ", " + d;
+
+clear;
+
+/*[OUTPUT]
+past, future, ?, ?
+[OUTPUT]*/

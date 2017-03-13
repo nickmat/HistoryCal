@@ -1,0 +1,8 @@
+// minus003.hcs Test negation of record type error
+
+let a = -{"g", 1948, 9, 19};
+
+/*[OUTPUT]
+Error (3): Can only negate number types.
+
+[OUTPUT]*/

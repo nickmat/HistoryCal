@@ -1,0 +1,8 @@
+// minus003.hcs Test negation of string type error
+
+let a = -"Hello";
+
+/*[OUTPUT]
+Error (3): Can only negate number types.
+
+[OUTPUT]*/

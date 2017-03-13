@@ -63,6 +63,30 @@ SValue::SValue( const SValue& value )
     }
 }
 
+void SValue::set_range( Range range )
+{
+    m_type = SVT_Range;
+    m_range = range;
+    if( m_range.jdn1 < f_minimum || m_range.jdn2 > f_maximum ||
+        m_range.jdn1 > m_range.jdn2
+    ) {
+        set_error( "Invalid range." );
+    }
+}
+
+void SValue::set_rlist( RangeList rlist )
+{
+    m_type = SVT_RList;
+    m_rlist = rlist;
+    if( !m_rlist.empty() ) {
+        Field lo = m_rlist[0].jdn1;
+        Field hi = m_rlist[m_rlist.size()-1].jdn2;
+        if( lo < f_minimum || hi > f_maximum || lo > hi ) {
+            set_error( "Invalid rlist." );
+        }
+    }
+}
+
 void SValue::set_record( const string& scode, const FieldVec& fields )
 {
     m_type = SVT_Record;
@@ -426,42 +450,55 @@ void SValue::plus( const SValue& value )
             set_str( str1 + str2 );
             return;
         }
-        set_error( "Unable to add string." );
+        set_error( "Unable to combine strings." );
         return;
     }
-    if( type() == SVT_Field || value.type() == SVT_Field ) {
-        if( type() == value.type() ) {
-            set_field( add( get_field(), value.get_field() ) );
-        } else if( type() == SVT_Range ) {
-            set_range( add( get_range(), value.get_field() ) );
-        } else if( value.type() == SVT_Range ) {
-            set_range( add( value.get_range(), get_field() ) );
-        } else if( type() == SVT_RList ) {
-            set_rlist( add( get_rlist(), value.get_field() ) );
-        } else if( value.type() == SVT_RList ) {
-            set_rlist( add( value.get_rlist(), get_field() ) );
-        } else {
-            set_error( "Unable to add number." );
+    switch( m_type )
+    {
+    case SVT_Field:
+        switch( value.m_type )
+        {
+        case SVT_Field:
+            set_field( add( m_range.jdn1, value.m_range.jdn1 ) );
+            return;
+        case SVT_Range:
+            set_range( add( value.m_range, m_range.jdn1 ) );
+            return;
+        case SVT_RList:
+            set_rlist( add( value.m_rlist, m_range.jdn1 ) );
+            return;
         }
-        return;
-    }
-    if( type() == SVT_Range || value.type() == SVT_Range ) {
-        if( type() == value.type() ) {
-            set_range( add( get_range(), value.get_range() ) );
-        } else if( type() == SVT_RList ) {
-            set_rlist( add( get_rlist(), value.get_range() ) );
-        } else if( value.type() == SVT_RList ) {
-            set_rlist( add( value.get_rlist(), get_range() ) );
-        } else {
-            set_error( "Unable to add range." );
+        break;
+    case SVT_Range:
+        switch( value.m_type )
+        {
+        case SVT_Field:
+            set_range( add( m_range, value.m_range.jdn1 ) );
+            return;
+        case SVT_Range:
+            set_range( add( value.m_range, m_range ) );
+            return;
+        case SVT_RList:
+            set_rlist( add( value.m_rlist, m_range ) );
+            return;
         }
-        return;
+        break;
+    case SVT_RList:
+        switch( value.m_type )
+        {
+        case SVT_Field:
+            set_rlist( add( m_rlist, value.m_range.jdn1 ) );
+            return;
+        case SVT_Range:
+            set_rlist( add( m_rlist, value.m_range ) );
+            return;
+        case SVT_RList:
+            set_error( "Unable to add or subtract rlists." );
+            return;
+        }
+        break;
     }
-    if( type() == SVT_Record && value.type() == SVT_Record ) {
-        set_record( m_str, add( get_record(), value.get_record() ) );
-        return;
-    }
-    set_error( "Not able to add types." );
+    set_error( "Unable to add or subtract types." );
 }
 
 void SValue::minus( const SValue& value )
@@ -469,15 +506,15 @@ void SValue::minus( const SValue& value )
     if( propagate_error( value ) ) {
         return;
     }
-    if( type() == SVT_Field || value.type() == SVT_Field || 
-        type() == SVT_Range || value.type() == SVT_Range
+    if( ( m_type == SVT_Field || m_type == SVT_Range || m_type == SVT_RList ) &&
+        ( value.m_type == SVT_Field || value.m_type == SVT_Range || value.m_type == SVT_RList )        
     ) {
         SValue v( value );
         v.negate();
         plus( v );
         return;
     }
-    set_error( "Not able to subtract types." );
+    set_error( "Unable to subtract types." );
 }
 
 void SValue::multiply( const SValue& value )
@@ -669,7 +706,7 @@ void SValue::negate()
         std::reverse( m_rlist.begin(), m_rlist.end() );
         return;
     }
-    set_error( "Can only negate numbers types." );
+    set_error( "Can only negate number types." );
 }
 
 void SValue::logical_not()

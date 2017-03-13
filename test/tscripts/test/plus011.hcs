@@ -1,0 +1,10 @@
+// plus011.hcs Test file to test addition of special values.
+
+let a = (past ~ 5) + future;
+
+clear;
+
+/*[OUTPUT]
+Error (3): Invalid range.
+
+[OUTPUT]*/

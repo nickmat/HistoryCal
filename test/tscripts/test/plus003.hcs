@@ -1,11 +1,10 @@
 // plus003.hcs Test file to test addition of records.
 
-set input "g:dmy";
+let a = record,g:dmy "19sep1948" + record,:u "1Year 2Month -3Day";
 
-write record "19sep1948" + record,":u" "1Year 2Month -3Day";
+clear;
 
 /*[OUTPUT]
-{"g", 1949, 11, 16, ?}
+Error (3): Unable to add or subtract types.
+
 [OUTPUT]*/
-
-

@@ -1,13 +1,13 @@
-// plus001.hcs Test file to test addition
+// plus001.hcs Test file to test addition of fields
 
-let f = 2432814 + 3;
+let a = 5 + 3;
 
-let m = { "g", 1948, 9, 19 } + { "g", 1, 2, 3 };
+let b = 10 + 5 + a;
 
-write f + ", " + m;
+write a + ", " + b;
+
+clear;
 
 /*[OUTPUT]
-2432817, {"g", 1949, 11, 22}
+8, 23
 [OUTPUT]*/
-
-

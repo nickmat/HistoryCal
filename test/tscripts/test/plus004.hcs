@@ -1,0 +1,19 @@
+// plus004.hcs Test file for addition with ranges
+
+let a = 5 ~ 9 + 3;
+
+let b = (5 ~ 9) + 3;
+
+let c = 3 + 5 ~ 9;
+
+let d = 3 + (5 ~ 9);
+
+let e = (12 ~ 11) + (5 ~ 9);
+
+write a +", "+ b +", "+ c +", "+ d +", "+ e;
+
+clear;
+
+/*[OUTPUT]
+5 ~ 12, 8 ~ 12, 8 ~ 9, 8 ~ 12, 16 ~ 21
+[OUTPUT]*/
