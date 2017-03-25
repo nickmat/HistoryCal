@@ -522,19 +522,11 @@ void SValue::multiply( const SValue& value )
     if( propagate_error( value ) ) {
         return;
     }
-    // TODO: check for f_invalid etc and for overflow.
-    if( m_type == value.type() ) {
-        switch( m_type )
-        {
-        case SVT_Field:
-            set_field( multiply( get_field(), value.get_field() ) );
-            return;
-        default:
-           set_error( "Can only multiply numbers." );
-           return;
-        }
+    if( m_type == SVT_Field && value.m_type == SVT_Field ) {
+        set_field( multiply( m_range.jdn1, value.m_range.jdn1 ) );
+        return;
     }
-    set_error( "Must subtract the same types." );
+    set_error( "Can only multiply fields." );
 }
 
 void SValue::divide( const SValue& value )
@@ -542,26 +534,15 @@ void SValue::divide( const SValue& value )
     if( propagate_error( value ) ) {
         return;
     }
-    // TODO: check for f_invalid etc and for overflow.
-    if( m_type == value.type() ) {
-        switch( m_type )
-        {
-        case SVT_Field:
-            {
-                Field right = value.get_field();
-                if( right == 0 ) {
-                    set_error( "Division by zero." );
-                    return;
-                }
-                set_field( divide( get_field(), value.get_field() ) );
-            }
+    if( m_type == SVT_Field && value.m_type == SVT_Field ) {
+        if( value.m_range.jdn1 == 0 ) {
+            set_error( "Division by zero." );
             return;
-        default:
-           set_error( "Can only divide numbers." );
-           return;
         }
+        set_field( divide( m_range.jdn1, value.m_range.jdn1 ) );
+        return;
     }
-    set_error( "Must divide the same types." );
+    set_error( "Can only divide fields." );
 }
 
 void SValue::rlist_union( const SValue& value )
@@ -865,7 +846,7 @@ Field SValue::divide( Field left, Field right ) const
         // This should really be checked before reaching this far.
         return f_invalid;
     }
-    return left / right; // Can't overflow
+    return floor_div( left, right); // Can't overflow
 }
 
 // End of src/cal/calsvalue.cpp file

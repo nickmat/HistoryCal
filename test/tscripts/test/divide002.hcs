@@ -1,0 +1,20 @@
+// divide002.hcs Test file to test division of negative fields
+
+let a = 4/2;
+let b = 3/2;
+let c = 2/2;
+let d = 1/2;
+let e = 0/2;
+let f = -1/2;
+let g = -2/2;
+let h = -3/2;
+let i = -4/2;
+
+write a + ", " + b + ", " + c + ", " + d + ", " + e
+  + ", " + f + ", " + g + ", " + h + ", " + i;
+
+clear;
+
+/*[OUTPUT]
+2, 1, 1, 0, 0, -1, -1, -2, -2
+[OUTPUT]*/
