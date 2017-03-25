@@ -49,11 +49,27 @@ Field Cal::latin_length_of_month[3][12] = {
 
 // Helper function.
 // Integer function to return floor( a / b )
+// Note, c/c++ standard has integer division by negative values as undefined.
 Field Cal::floor_div( Field a, Field b )
 {
-    Field q = a / b;
-    if( a % b < 0 ) --q;
-    return q;
+    if( a >= 0 && b > 0 ) {
+        return a / b; // Optimize for positive values.
+    }
+    if( b == 0 ) {
+        return f_invalid; // This really should not happen here, consider an assert?
+    }
+    Field dd = -a, dr = -b;
+    int s = -1;
+    if( a < 0 && b < 0 ) {
+        s = 1;
+    } else if( a < 0 && b > 0 ) {
+        dd = a;
+    } else if( a > 0 && b < 0 ) {
+        dr = b;
+    }
+    Field q = dd / dr;
+    if( s == -1 && a % b != 0 ) q++;
+    return s * q;
 }
 
 // Helper function.
