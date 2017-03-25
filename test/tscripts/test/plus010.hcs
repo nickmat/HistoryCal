@@ -8,10 +8,14 @@ let c = ? + 100;
 
 let d = past + future;
 
-write a + ", " + b + ", " + c + ", " + d;
+let e = past + ?;
+
+let f = past + past;
+
+write a + ", " + b + ", " + c + ", " + d + ", " + e + ", " + f;
 
 clear;
 
 /*[OUTPUT]
-past, future, ?, ?
+past, future, ?, ?, ?, past
 [OUTPUT]*/
