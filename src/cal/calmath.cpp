@@ -27,6 +27,7 @@
 
 #include "calmath.h"
 
+#include <cassert>
 #include <cmath>
 
 using namespace Cal;
@@ -50,14 +51,13 @@ Field Cal::latin_length_of_month[3][12] = {
 // Helper function.
 // Integer function to return floor( a / b )
 // Note, c/c++ standard has integer division by negative values as undefined.
+// Function based on Euclidean division.
 Field Cal::floor_div( Field a, Field b )
 {
-    if( a >= 0 && b > 0 ) {
-        return a / b; // Optimize for positive values.
+    if( a >= 0 && b > 0 ) { // Optimize for positive values.
+        return a / b;
     }
-    if( b == 0 ) {
-        return f_invalid; // This really should not happen here, consider an assert?
-    }
+    assert( b != 0 );
     Field dd = -a, dr = -b;
     int s = -1;
     if( a < 0 && b < 0 ) {
@@ -68,16 +68,18 @@ Field Cal::floor_div( Field a, Field b )
         dr = b;
     }
     Field q = dd / dr;
-    if( s == -1 && a % b != 0 ) q++;
+    if( a < 0 && a % b != 0 ) q++;
     return s * q;
 }
 
 // Helper function.
 // Integer function to return positive value of ( a % b )
+// Function based on Euclidean division.
 Field Cal::pos_mod( Field a, Field b )
 {
+    assert( b != 0 );
     Field r = a % b;
-    if( r < 0 ) r += b;
+    if( r < 0 ) r += abs( b );
     return r;
 }
 
