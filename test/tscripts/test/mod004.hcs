@@ -1,0 +1,97 @@
+// mod004.hcs Test file to test division and mod.
+
+writeln "";
+
+let a = 15;
+let n = 4;
+let q = a / n;
+let r = a mod n;
+let b = (a = n * q + r);
+write b + ", " + q + ", " + r;
+
+let a = -15;
+let n = 4;
+let q = a / n;
+let r = a mod n;
+let b = (a = n * q + r);
+write ", " + b + ", " + q + ", " + r;
+
+let a = 15;
+let n = -4;
+let q = a / n;
+let r = a mod n;
+let b = (a = n * q + r);
+write ", " + b + ", " + q + ", " + r;
+
+let a = -15;
+let n = -4;
+let q = a / n;
+let r = a mod n;
+let b = (a = n * q + r);
+writeln ", " + b + ", " + q + ", " + r;
+
+let a = 16;
+let n = 4;
+let q = a / n;
+let r = a mod n;
+let b = (a = n * q + r);
+write b + ", " + q + ", " + r;
+
+let a = -16;
+let n = 4;
+let q = a / n;
+let r = a mod n;
+let b = (a = n * q + r);
+write ", " + b + ", " + q + ", " + r;
+
+let a = 16;
+let n = -4;
+let q = a / n;
+let r = a mod n;
+let b = (a = n * q + r);
+write ", " + b + ", " + q + ", " + r;
+
+let a = -16;
+let n = -4;
+let q = a / n;
+let r = a mod n;
+let b = (a = n * q + r);
+writeln ", " + b + ", " + q + ", " + r;
+
+let a = 17;
+let n = 4;
+let q = a / n;
+let r = a mod n;
+let b = (a = n * q + r);
+write b + ", " + q + ", " + r;
+
+let a = -17;
+let n = 4;
+let q = a / n;
+let r = a mod n;
+let b = (a = n * q + r);
+write ", " + b + ", " + q + ", " + r;
+
+let a = 17;
+let n = -4;
+let q = a / n;
+let r = a mod n;
+let b = (a = n * q + r);
+write ", " + b + ", " + q + ", " + r;
+
+let a = -17;
+let n = -4;
+let q = a / n;
+let r = a mod n;
+let b = (a = n * q + r);
+writeln ", " + b + ", " + q + ", " + r;
+
+clear;
+
+/*[OUTPUT]
+
+true, 3, 3, true, -4, 1, true, -3, 3, true, 4, 1
+true, 4, 0, true, -4, 0, true, -4, 0, true, 4, 0
+true, 4, 1, true, -5, 3, true, -4, 1, true, 5, 3
+
+[OUTPUT]*/

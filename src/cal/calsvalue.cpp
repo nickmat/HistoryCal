@@ -545,6 +545,22 @@ void SValue::divide( const SValue& value )
     set_error( "Can only divide fields." );
 }
 
+void SValue::modulus( const SValue& value )
+{
+    if( propagate_error( value ) ) {
+        return;
+    }
+    if( m_type == SVT_Field && value.m_type == SVT_Field ) {
+        if( value.m_range.jdn1 == 0 ) {
+            set_error( "Modulus of zero." );
+            return;
+        }
+        set_field( modulus( m_range.jdn1, value.m_range.jdn1 ) );
+        return;
+    }
+    set_error( "Can only use modulus with fields." );
+}
+
 void SValue::rlist_union( const SValue& value )
 {
     RangeList left, right;
@@ -846,7 +862,25 @@ Field SValue::divide( Field left, Field right ) const
         // This should really be checked before reaching this far.
         return f_invalid;
     }
-    return floor_div( left, right); // Can't overflow
+    return floor_div( left, right ); // Can't overflow
+}
+
+Field SValue::modulus( Field left, Field right ) const
+{
+    // Checks for f_invalid and for overflow.
+    if( left == f_invalid || right == f_invalid ) {
+        return f_invalid;
+    }
+    if( left == f_minimum || right == f_minimum ||
+        left == f_maximum || right == f_maximum
+    ) {
+        return f_invalid; // past or future arguments are invalid.
+    }
+    if( right == 0 ) {
+        // This should really be checked before reaching this far.
+        return f_invalid;
+    }
+    return pos_mod( left, right );
 }
 
 // End of src/cal/calsvalue.cpp file

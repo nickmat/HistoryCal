@@ -1154,6 +1154,9 @@ SValue Script::term( bool get )
         case SToken::STT_Divide:
             left.divide( subscript( true ) );
             break;
+        case SToken::STT_mod:
+            left.modulus( subscript( true ) );
+            break;
         default:
             return left;
         }

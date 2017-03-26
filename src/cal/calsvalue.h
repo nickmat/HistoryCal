@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     24th June 2014
- * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -87,6 +87,7 @@ namespace Cal {
         void minus( const SValue& value );
         void multiply( const SValue& value );
         void divide( const SValue& value );
+        void modulus( const SValue& value );
 
         void rlist_union( const SValue& value );
         void intersection( const SValue& value );
@@ -112,6 +113,7 @@ namespace Cal {
         RangeList add( RangeList rlist, Range range ) const;
         Field multiply( Field left, Field right ) const;
         Field divide( Field left, Field right ) const;
+        Field modulus( Field left, Field right ) const;
 
         Type        m_type;
         std::string m_str;
