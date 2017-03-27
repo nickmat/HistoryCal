@@ -862,7 +862,7 @@ Field SValue::divide( Field left, Field right ) const
         // This should really be checked before reaching this far.
         return f_invalid;
     }
-    return floor_div( left, right ); // Can't overflow
+    return div_e( left, right ); // Can't overflow
 }
 
 Field SValue::modulus( Field left, Field right ) const
@@ -880,7 +880,7 @@ Field SValue::modulus( Field left, Field right ) const
         // This should really be checked before reaching this far.
         return f_invalid;
     }
-    return pos_mod( left, right );
+    return mod_e( left, right );
 }
 
 // End of src/cal/calsvalue.cpp file

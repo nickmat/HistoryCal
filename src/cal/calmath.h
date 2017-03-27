@@ -39,10 +39,14 @@ namespace Cal {
     extern Field latin_length_of_month[3][12];
 
     //! Integer function to return floor( a / b )
-    extern Field floor_div( Field a, Field b );
+    extern Field div_f( Field a, Field b );
+    //! Integer function to return (a modulo b) that has the same sign as b.  
+    extern Field mod_f( Field a, Field b );
 
-    //! Integer function to return positive value of ( a % b )
-    extern Field pos_mod( Field a, Field b );
+    //! Integer function to return Euclidean division
+    extern Field div_e( Field a, Field b );
+    //! Integer function to return positive value for (a modulo b).
+    extern Field mod_e( Field a, Field b );
 
     typedef bool (*calSearchFunc)( Field value, const void* data );
 

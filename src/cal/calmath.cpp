@@ -48,38 +48,57 @@ Field Cal::latin_length_of_month[3][12] = {
     { 31, 30, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }  // For the Swedish calendar scheme
 };
 
-// Helper function.
 // Integer function to return floor( a / b )
-// Note, c/c++ standard has integer division by negative values as undefined.
-// Function based on Euclidean division.
-Field Cal::floor_div( Field a, Field b )
+Field Cal::div_f( Field a, Field b )
 {
-    if( a >= 0 && b > 0 ) { // Optimize for positive values.
-        return a / b;
-    }
     assert( b != 0 );
-    Field dd = -a, dr = -b;
-    int s = -1;
-    if( a < 0 && b < 0 ) {
-        s = 1;
-    } else if( a < 0 && b > 0 ) {
-        dd = a;
-    } else if( a > 0 && b < 0 ) {
-        dr = b;
+    Field q = a / b;
+    if( ( a >= 0 && b > 0 ) || ( a < 0 && b < 0 ) || a % b == 0 ) {
+        return q;
     }
-    Field q = dd / dr;
-    if( a < 0 && a % b != 0 ) q++;
-    return s * q;
+    return q - 1;
 }
 
-// Helper function.
-// Integer function to return positive value of ( a % b )
-// Function based on Euclidean division.
-Field Cal::pos_mod( Field a, Field b )
+// Integer function to return (a modulo b) that has the same sign as b.  
+// Function based on Floored division.
+Field Cal::mod_f( Field a, Field b )
 {
     assert( b != 0 );
     Field r = a % b;
-    if( r < 0 ) r += abs( b );
+    if( ( r > 0 && b < 0 ) || ( r < 0 && b > 0 ) ) {
+        r += b;
+    }
+    return r;
+}
+
+// Integer function to return Euclidean division
+Field Cal::div_e( Field a, Field b )
+{
+    assert( b != 0 );
+    Field q = a / b;
+    if( a % b < 0 ) {
+        if( b > 0 ) {
+            q -= 1;
+        } else {
+            q += 1;
+        }
+    }
+    return q;
+}
+
+// Integer function to return positive value for (a modulo b).
+// Function based on Euclidean division.
+Field Cal::mod_e( Field a, Field b )
+{
+    assert( b != 0 );
+    Field r = a % b;
+    if( r < 0 ) {
+        if( b > 0 ) { 
+            r += b;
+        } else {
+            r -= b;
+        }
+    }
     return r;
 }
 

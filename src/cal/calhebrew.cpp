@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     10th December 2014
- * Copyright:   Copyright (c) 2014-2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -40,8 +40,8 @@ namespace {
 
     Field hebrew_elapsed_days( Field year )
     {
-        Field months = floor_div( 235 * year - 234, 19 );
-        Field days = 29 * months + floor_div( 12084L + 13753L * months, 25920 );
+        Field months = div_f( 235 * year - 234, 19 );
+        Field days = 29 * months + div_f( 12084L + 13753L * months, 25920 );
         if( ( ( 3 * ( days + 1 ) ) % 7 ) < 3 ) {
             return days + 1;
         }
@@ -73,7 +73,7 @@ namespace {
      */
     bool hebrew_is_leap_year( Field year )
     {
-        return pos_mod( 1 + 7 * year, 19 ) < 7;
+        return mod_f( 1 + 7 * year, 19 ) < 7;
     }
 
     /*! Returns the last day of the month for the given year and month
@@ -166,7 +166,7 @@ namespace {
      */
     void hebrew_from_jdn( Field* year, Field* month, Field* day, Field jdn )
     {
-        Field y = floor_div( 4L * ( jdn - BASEDATE_Hebrew ), 1461 );
+        Field y = div_f( 4L * ( jdn - BASEDATE_Hebrew ), 1461 );
         for(;;) {
             if( hebrew_new_year( y ) > jdn ) {
                 --y;

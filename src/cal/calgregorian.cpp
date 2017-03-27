@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -42,8 +42,8 @@ namespace {
     void gregorian_from_jdn( Field* year, Field* month, Field* day, Field jdn )
     {
         Field date = jdn - BASEDATE_Gregorian;
-        *year = floor_div( date, 146097 ) * 400;
-        date = pos_mod( date, 146097 );
+        *year = div_f( date, 146097 ) * 400;
+        date = mod_f( date, 146097 );
 
         if( date < 60 )
         {
@@ -155,11 +155,11 @@ Field Gregorian::easter( Field year ) const
 Field Gregorian::to_jdn( Field year, Field month, Field day )
 {
     Field jdn =
-        floor_div( year, 400 )*146097         //     days in 400 year cycles
-        + (pos_mod( year, 400 )/100)*36524    // - 1 days in 100 year cycles
-        + (pos_mod( year, 100 )/4)*1461       // + 1 days in 4 year cycles
-        + pos_mod( year, 4 )*365              // + 1 days in year
-        + latin_diy[month] + day              // - 1 days numbered from 1 not 0
+        div_f( year, 400 )*146097           //     days in 400 year cycles
+        + (mod_f( year, 400 )/100)*36524    // - 1 days in 100 year cycles
+        + (mod_f( year, 100 )/4)*1461       // + 1 days in 4 year cycles
+        + mod_f( year, 4 )*365              // + 1 days in year
+        + latin_diy[month] + day            // - 1 days numbered from 1 not 0
         + BASEDATE_Gregorian;
 
     // Adjust if in the 1st 2 months of 4 year cycle

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013-2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -47,8 +47,8 @@ namespace {
     {
         jdn -= BASEDATE_Julian;
 
-        *year = floor_div( jdn, 1461 ) * 4;
-        jdn = pos_mod( jdn, 1461 );
+        *year = div_f( jdn, 1461 ) * 4;
+        jdn = mod_f( jdn, 1461 );
 
         if( jdn < 60 )
         {
@@ -424,7 +424,7 @@ void Julian::resolve_opt_input( Field* fields, size_t index ) const
 Field Julian::jdn( Field year, Field month, Field day ) const
 {
     Field jdn =
-        floor_div( year, 4 ) * 1461 + pos_mod( year, 4 ) * 365
+        div_f( year, 4 ) * 1461 + mod_f( year, 4 ) * 365
         + latin_diy[month] + day + BASEDATE_Julian;
 
     // Adjust if in the 1st 2 months of 4 year cycle

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     17th March 2016
- * Copyright:   Copyright (c) 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2016 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -139,7 +139,7 @@ void IsoWeek::from_jdn( Field* year, Field* week, Field* day, Field jdn )
         }
         if( week ) {
             Field y = year ? *year : year_from_jdn( jdn );
-            *week = floor_div( jdn - to_jdn( y, 1, 1 ), 7 ) + 1;
+            *week = div_f( jdn - to_jdn( y, 1, 1 ), 7 ) + 1;
         }
         if( day ) {
             *day = day_of_week( jdn ) + 1; // Mon=1, Sun=7
