@@ -1,0 +1,19 @@
+// multiply002.hcs Test file for multiplication of fields
+
+writeln "";
+
+let a = 3 * ?;
+let b = ? * past;
+let c = ? * future;
+let d = past * future;
+
+clear;
+
+/*[OUTPUT]
+
+Error (5): Multiply has invalid result.
+Error (6): Multiply has invalid result.
+Error (7): Multiply has invalid result.
+Error (8): Multiply has invalid result.
+
+[OUTPUT]*/

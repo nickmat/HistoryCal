@@ -1,0 +1,21 @@
+// divide005.hcs Test file to test division of special field errors
+
+writeln "";
+
+let a = 10 / 0;
+let b = 10 / ?;
+let c = 10 / past;
+let d = 10 / future;
+let e = ? / 2;
+
+clear;
+
+/*[OUTPUT]
+
+Error (5): Division by zero.
+Error (6): Division by invalid.
+Error (7): Division by past.
+Error (8): Division by future.
+Error (9): Division has invalid result.
+
+[OUTPUT]*/

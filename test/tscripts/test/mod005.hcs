@@ -1,0 +1,25 @@
+// mod005.hcs Test file to test modulus of invalid fields
+
+writeln "";
+
+let a = 9 mod 0;
+let b = 9 mod ?;
+let c = ? mod 3;
+let d = 9 mod past;
+let e = past mod 3;
+let f = 9 mod future;
+let g = future mod 3;
+
+clear;
+
+/*[OUTPUT]
+
+Error (5): Modulo by zero.
+Error (6): Modulus has invalid value.
+Error (7): Modulus has invalid value.
+Error (8): Modulus has invalid value.
+Error (9): Modulus has invalid value.
+Error (10): Modulus has invalid value.
+Error (11): Modulus has invalid value.
+
+[OUTPUT]*/

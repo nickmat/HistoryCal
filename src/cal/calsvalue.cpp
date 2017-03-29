@@ -523,10 +523,15 @@ void SValue::multiply( const SValue& value )
         return;
     }
     if( m_type == SVT_Field && value.m_type == SVT_Field ) {
-        set_field( multiply( m_range.jdn1, value.m_range.jdn1 ) );
-        return;
+        Field result = multiply( m_range.jdn1, value.m_range.jdn1 );
+        if( result != f_invalid ) {
+            set_field( result );
+        } else {
+            set_error( "Multiply has invalid result." );
+        }
+    } else {
+        set_error( "Can only multiply fields." );
     }
-    set_error( "Can only multiply fields." );
 }
 
 void SValue::divide( const SValue& value )
@@ -535,14 +540,30 @@ void SValue::divide( const SValue& value )
         return;
     }
     if( m_type == SVT_Field && value.m_type == SVT_Field ) {
-        if( value.m_range.jdn1 == 0 ) {
+        switch( value.m_range.jdn1 )
+        {
+        case 0:
             set_error( "Division by zero." );
             return;
+        case f_invalid:
+            set_error( "Division by invalid." );
+            return;
+        case f_maximum:
+            set_error( "Division by future." );
+            return;
+        case f_minimum:
+            set_error( "Division by past." );
+            return;
         }
-        set_field( divide( m_range.jdn1, value.m_range.jdn1 ) );
-        return;
+        Field result = divide( m_range.jdn1, value.m_range.jdn1 );
+        if( result != f_invalid ) {
+            set_field( result );
+        } else {
+            set_error( "Division has invalid result." );
+        }
+    } else {
+        set_error( "Can only divide fields." );
     }
-    set_error( "Can only divide fields." );
 }
 
 void SValue::modulus( const SValue& value )
@@ -551,14 +572,22 @@ void SValue::modulus( const SValue& value )
         return;
     }
     if( m_type == SVT_Field && value.m_type == SVT_Field ) {
-        if( value.m_range.jdn1 == 0 ) {
-            set_error( "Modulus of zero." );
+        Field left = m_range.jdn1, right = value.m_range.jdn1;
+        if( right == 0 ) {
+            set_error( "Modulo by zero." );
             return;
         }
-        set_field( modulus( m_range.jdn1, value.m_range.jdn1 ) );
-        return;
+        if( left == f_invalid || right == f_invalid ||
+            left == f_maximum || right == f_maximum ||
+            left == f_minimum || right == f_minimum
+        ) {
+            set_error( "Modulus has invalid value." );
+            return;
+        }
+        set_field( modulus( left, right ) );
+    } else {
+        set_error( "Can only use modulus with fields." );
     }
-    set_error( "Can only use modulus with fields." );
 }
 
 void SValue::rlist_union( const SValue& value )

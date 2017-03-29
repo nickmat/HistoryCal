@@ -1,0 +1,24 @@
+// multiply001.hcs Test file for multiplication of fields
+
+let a = 15 * 3;
+let b = -15 * 3;
+let c = 15 * -3;
+let d = -15 * -3;
+let e = 0 * 3;
+
+let f = past * 3;
+let g = future * 3;
+let h = 15 * past;
+let i = 15 * future;
+
+let j = past * past;
+let k = future * future;
+
+write a + ", " + b + ", " + c + ", " + d + ", " + e
+ + ", " + f + ", " + g + ", " + h + ", " + i + ", " + j + ", " + k;
+
+clear;
+
+/*[OUTPUT]
+45, -45, -45, 45, 0, past, future, past, future, past, future
+[OUTPUT]*/
