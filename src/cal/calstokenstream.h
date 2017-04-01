@@ -45,7 +45,7 @@ namespace Cal {
             STT_Equal, STT_Plus, STT_Minus, STT_Divide, STT_Star,
             STT_PlusEq, STT_MinusEq, STT_DivideEq, STT_StarEq,
             STT_Percent, STT_Backslash, STT_Tilde,
-            STT_Comma, STT_Semicolon, STT_Qmark,
+            STT_Dot, STT_Comma, STT_Semicolon, STT_Qmark,
             STT_Vline, STT_Ampersand, STT_Exclamation, STT_Carrot,
             STT_Lbracket, STT_Rbracket, STT_LCbracket, STT_RCbracket,
             STT_LSbracket, STT_RSbracket, 

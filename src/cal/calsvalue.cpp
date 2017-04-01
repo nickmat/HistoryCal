@@ -708,6 +708,93 @@ void SValue::subscript_op( const SValue& value )
     set_error( "Use subscript on record or rlist types." );
 }
 
+void SValue::property_op( const SValue& value )
+{
+    if( propagate_error( value ) ) {
+        return;
+    }
+    if( value.m_type != SVT_Str ) {
+        set_error( "Subscript property must be string type." );
+        return;
+    }
+    const char* type_err_mess = "Property not available or this type.";
+    const char* empty_rlist_err_mess = "Empty rlist.";
+    if( value.m_str == "low" ) {
+        if( m_type == SVT_Field || m_type == SVT_Range ) {
+            set_field( m_range.jdn1 );
+        } else {
+            set_error( type_err_mess );
+        }
+        return;
+    }
+    if( value.m_str == "high" ) {
+        if( m_type == SVT_Field ) {
+            set_field( m_range.jdn1 );
+        } else if( m_type == SVT_Range ) {
+            set_field( m_range.jdn2 );
+        } else {
+            set_error( type_err_mess );
+        }
+        return;
+    }
+    if( value.m_str == "span" ) {
+        if( m_type == SVT_Field ) {
+            set_field( 1 );
+        } else if( m_type == SVT_Range ) {
+            if( m_range.jdn1 <= f_minimum || m_range.jdn2 >= f_maximum ) {
+                set_field( f_invalid );
+            } else {
+                set_field( m_range.jdn2 - m_range.jdn1 + 1 );
+            }
+        } else if( m_type == SVT_RList ) {
+            if( m_rlist.empty() ) {
+                set_field( f_invalid );
+            } else {
+                Field jdn1 = m_rlist[0].jdn1;
+                Field jdn2 = m_rlist[m_rlist.size()-1].jdn2;
+                if( jdn1 <= f_minimum || jdn2 >= f_maximum ) {
+                    set_field( f_invalid );
+                } else {
+                    set_field( jdn2 - jdn1 + 1 );
+                }
+            }
+        } else {
+            set_error( type_err_mess );
+        }
+        return;
+    }
+    if( value.m_str == "size" ) {
+        if( m_type == SVT_RList || m_type == SVT_Record ) {
+            set_field( m_rlist.size() );
+        } else {
+            set_error( type_err_mess );
+        }
+        return;
+    }
+    if( value.m_str == "envelope" ) {
+        if( m_type == SVT_RList ) {
+            if( m_rlist.empty() ) {
+                set_error( empty_rlist_err_mess );
+            } else {
+                Range range( m_rlist[0].jdn1, m_rlist[m_rlist.size()-1].jdn2 );
+                set_range( range );
+            }
+        } else {
+            set_error( type_err_mess );
+        }
+        return;
+    }
+    if( value.m_str == "scheme" ) {
+        if( m_type == SVT_Record ) {
+            set_str( m_str );
+        } else {
+            set_error( type_err_mess );
+        }
+        return;
+    }
+    set_error( "Property not recognised." );
+}
+
 void SValue::negate()
 {
     switch( m_type )

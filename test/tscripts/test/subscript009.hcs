@@ -1,0 +1,19 @@
+// subscript009.hcs Test file to test subscript property errors.
+
+writeln "";
+
+let a = 4.size;
+let b = (7 ~ 16).1;
+let c = 10.xxx;
+let d = (!past~future).envelope;
+
+clear;
+
+/*[OUTPUT]
+
+Error (5): Property not available or this type.
+Error (6): Subscript property must be string type.
+Error (7): Property not recognised.
+Error (8): Property not available or this type.
+
+[OUTPUT]*/

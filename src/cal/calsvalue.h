@@ -96,6 +96,7 @@ namespace Cal {
 
         void range_op( const SValue& value );
         void subscript_op( const SValue& value );
+        void property_op( const SValue& value );
 
         void negate(); // Unitary minus
         void logical_not();

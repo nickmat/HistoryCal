@@ -178,6 +178,7 @@ SToken STokenStream::next()
     case ']': set_type( SToken::STT_RSbracket ); break;
     case ';': set_type( SToken::STT_Semicolon ); break;
     case ',': set_type( SToken::STT_Comma ); break;
+    case '.': set_type( SToken::STT_Dot ); break;
     case '~': set_type( SToken::STT_Tilde ); break;
     case '|': set_type( SToken::STT_Vline ); break;
     case '&': set_type( SToken::STT_Ampersand ); break;
