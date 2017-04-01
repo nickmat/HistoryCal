@@ -78,13 +78,13 @@
 </ul>
 <p>
  The scripts for the default calendar definitions are shown in the
- <a href='../../cal/defs/index.htm'>calendar definitions</a> section.
+ <a href='../defs/index.htm'>calendar definitions</a> section.
 </p>
 
 <h3>Hello World</h3>
 <p>
  A script consists of one or more statements.
- As is obligatory in these circumstances, we present a hello world script.
+ As is usual in these circumstances, we present a hello world script.
 </p>
 <table class='code'>
 <tr><th>Hello Script</th></tr>
@@ -94,23 +94,18 @@
 writeln "Hello world!";
 </td></tr>
 </table>
-<img class='scrnprnt' src='../../sp/hello.png' alt='Screen Print 1' />
+<img class='scrnprnt' src='../sp/hello.png' alt='Hello World message screen print' />
 <p>
  Using a text editor, copy the script and save as "hello.hcs".
  Run the HistoryCal Script by starting the HistoryCal program.
  Under the menu option "File &gt; Run Script ..." find the file and select it.
  This should then result in the message shown.
 </p>
+<p>
+ Scripts should always use the UTF-8 character set.
+</p>
 
 <h3 class='clear'>Comments and White Space</h3>
-<p>
- The first line in the above script is a single line comment.
- Every thing from the "//" token to the end of the line taken to be a comment.
-</p>
-<p>
- Multi-line comments can be included by placing them between the
- "/*" and "*/" tokens. Multi-line comments cannot be nested.
-</p>
 <table class='code'>
 <tr><td
 >// A single line comment
@@ -122,8 +117,16 @@ writeln "Hello world!";
 </td></tr>
 </table>
 <p>
+ The first line is a single line comment.
+ Every thing from the "//" token to the end of the line taken to be a comment.
+</p>
+<p>
+ Multi-line comments are included by placing them between the
+ "/*" and "*/" tokens. Multi-line comments cannot be nested.
+</p>
+<p>
  Tabs, spaces, newlines and comments can appear anywhere within a script
- without affecting its meaning.
+ without its meaning being affecting.
  They are required only when necessary to separate tokens.
 </p>
 
@@ -175,7 +178,7 @@ writeln "Hello world!";
  When the HistoryCal program starts, it reads the default script
  which make the default schemes available to the program.
  The default script for the various schemes are shown with their technical descriptions
- <a href='../../cal/defs/index.htm'>here</a>.
+ <a href='../defs/index.htm'>here</a>.
 </p>
 <p>
 </p>
@@ -196,7 +199,7 @@ writeln "Hello world!";
  Variables are defined by using the <code>let</code> statement,
  but their type is determined by their context.
  There are a number of operators which are used in expressions and
- the values in these expressions are automatically converted, wherever possible.
+ the types of these expressions are automatically converted, wherever possible.
 </p>
 
 <h3>Statements</h3>
