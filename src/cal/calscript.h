@@ -84,6 +84,7 @@ namespace Cal {
         SValue primary( bool get );
         SValue fields_expr( bool get );
 
+        SValue do_subscript( const SValue& left, const SValue& right );
         SValue str_cast();
         SValue date_cast();
         SValue record_cast();

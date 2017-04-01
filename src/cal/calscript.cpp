@@ -1169,30 +1169,29 @@ SValue Script::subscript( bool get )
 
     for(;;) {
         SToken token = m_ts.current();
-        if( token.type() == SToken::STT_LSbracket ) {
-            SValue right = primary( true );
-            if( left.type() == SValue::SVT_Field && right.type() == SValue::SVT_Str ) {
-                string scode, fname;
-                split_code( &scode, &fname, right.get_str() );
-                Field jdn = left.get_field();
-                SHandle sch = m_cals->get_scheme( scode );
-                Field field = f_invalid;
-                if( sch ) {
-                    field = sch->jdn_fieldname_to_field( jdn, fname );
+        switch( token.type() )
+        {
+        case SToken::STT_LSbracket:
+            {
+                SValue right;
+                token = m_ts.next();
+                if ( token.type() == SToken::STT_Name ) {
+                    right.set_str( token.get_str() );
+                    m_ts.next();
+                } else {
+                    right = expr( false );
                 }
-                left.set_field( field );
-            } else {
-                left.subscript_op( right );
+                left = do_subscript( left, right );
+                if( m_ts.current().type() != SToken::STT_RSbracket ) {
+                    error( "']' expected." );
+                }
+                m_ts.next();
             }
-            if( m_ts.current().type() != SToken::STT_RSbracket ) {
-                error( "']' expected." );
-            }
-            m_ts.next();
-        } else {
             break;
+        default:
+            return left;
         }
     }
-    return left;
 }
 
 SValue Script::primary( bool get )
@@ -1300,6 +1299,39 @@ SValue Script::fields_expr( bool get )
         }
         token = m_ts.next();
     }
+}
+
+SValue Script::do_subscript( const SValue& left, const SValue& right )
+{
+    SValue value(left);
+    if( right.type() == SValue::SVT_Str ) {
+        if( left.type() == SValue::SVT_Field ) {
+            string scode, fname;
+            split_code( &scode, &fname, right.get_str() );
+            SHandle sch = m_cals->get_scheme( scode );
+            Field jdn = left.get_field();
+            if( sch ) {
+                value.set_field( sch->jdn_fieldname_to_field( jdn, fname ) );
+                return value;
+            }
+        }
+        if( left.type() == SValue::SVT_Record ) {
+            SHandle sch = m_cals->get_scheme( left.get_str() );
+            int index = -1;
+            if( sch ) {
+                Base* base = sch->get_base();
+                index = base->get_fieldname_index( right.get_str() );
+            }
+            if( index >= 0 ) {
+                value.subscript_op( SValue(index) );
+                return value;
+            }
+        }
+        value.set_error( "Cannot determine subscript index." );
+        return value;
+    }
+    value.subscript_op( right );
+    return value;
 }
 
 SValue Script::str_cast()

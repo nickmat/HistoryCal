@@ -687,10 +687,15 @@ void SValue::subscript_op( const SValue& value )
     if( propagate_error( value ) ) {
         return;
     }
+    if( value.m_type != SVT_Field ) {
+        set_error( "Subscript index must be field type." );
+        return;
+    }
     if( m_type == SVT_RList || m_type == SVT_Record ) {
         Field index = value.get_field();
         if( index < 0 || index >= (Field) m_rlist.size() ) {
             set_error( "Subscript out of range." );
+            return;
         }
         if( m_type == SVT_RList ) {
             set_range( m_rlist[index] );
@@ -700,7 +705,7 @@ void SValue::subscript_op( const SValue& value )
         m_rlist.clear();
         return;
     }
-    set_error( "Unable to use subscript." );
+    set_error( "Use subscript on record or rlist types." );
 }
 
 void SValue::negate()

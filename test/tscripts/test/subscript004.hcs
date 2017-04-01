@@ -1,0 +1,8 @@
+// subscript004.hcs Test file to test subscript expression
+
+write 2432814["er:"+"wday"];
+
+*/
+/*[OUTPUT]
+7
+[OUTPUT]*/
