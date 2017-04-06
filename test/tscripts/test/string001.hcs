@@ -1,7 +1,8 @@
-// string001.hcs Test file to test string literals
+// string001.hcs Test str cast
 
-write "String with ""quotes""";
+set output g:dmy;
+write "Date is " + string 2432814;
 
 /*[OUTPUT]
-String with "quotes"
+Date is 19 Sep 1948
 [OUTPUT]*/

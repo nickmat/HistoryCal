@@ -100,7 +100,7 @@ SToken STokenStream::next()
             set_type( SToken::STT_mod );
         } else if( str == "match" ) {
             set_type( SToken::STT_match );
-        } else if( str == "str" ) {
+        } else if( str == "string" ) {
             set_type( SToken::STT_str_cast );
         } else if( str == "date" ) {
             set_type( SToken::STT_date );

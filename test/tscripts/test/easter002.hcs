@@ -11,7 +11,7 @@ scheme "GEASTER" {
   optional "eastermonth", "easterday";
 }
 
-write "Easter Day is: " + str,"g:dmy" { "g", d["g:year"], d["GEASTER:eastermonth"], d["GEASTER:easterday"] };
+write "Easter Day is: " + string,"g:dmy" { "g", d["g:year"], d["GEASTER:eastermonth"], d["GEASTER:easterday"] };
 
 clear "test-easter";
 

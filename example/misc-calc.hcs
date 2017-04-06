@@ -6,7 +6,7 @@ writeln "";
 writeln "set input ""g"";";
 writeln "let answer = date,""er"" ""vic"" & date ""1890~1910"" & ! date ""1899"";";
 writeln "";
-writeln "write ""Answer = "" + str,""g:dmy"" answer;";
+writeln "write ""Answer = "" + string,""g:dmy"" answer;";
 writeln "";
 
 /* A Gregorian date in the year 1890 to 1901
@@ -15,4 +15,4 @@ writeln "";
 set input "g";
 let answer = date,"er" "vic" & date "1890~1910" & ! date "1899";
 
-write "Answer = " + str,"g:dmy" answer;
+write "Answer = " + string,"g:dmy" answer;

@@ -1,8 +1,0 @@
-// str004.hcs Test complement operator.
-
-set output g;
-write str ! ( past ~ 2431090 | 2432552 ~ future );
-
-/*[OUTPUT]
-1944 ~ 1947
-[OUTPUT]*/

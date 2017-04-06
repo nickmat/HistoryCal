@@ -11,7 +11,7 @@ scheme "easter-test" {
   optional "eastermonth", "easterday";
 }
 
-write str,"easter-test" d;
+write string,"easter-test" d;
 
 mark "test-easter";
 clear;

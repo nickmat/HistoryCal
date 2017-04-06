@@ -1,8 +1,0 @@
-// str001.hcs Test str cast
-
-set output g:dmy;
-write "Date is " + str 2432814;
-
-/*[OUTPUT]
-Date is 19 Sep 1948
-[OUTPUT]*/

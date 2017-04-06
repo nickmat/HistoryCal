@@ -24,7 +24,7 @@ writeln "";
 do
   let d = date,"g:ymd" ( "" + start + " 1 1" );
   let e = d["G-EASTER:easter"];
-  writeln str,"g:dmy+" e;
+  writeln string,"g:dmy+" e;
   until start = finish;
   start += 1;
 loop
