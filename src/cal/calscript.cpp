@@ -1368,28 +1368,29 @@ SValue Script::str_cast()
     string sig, scode, fcode;
     if( token.type() == SToken::STT_Comma ) {
         // Includes scheme:format signiture
-        token = m_ts.next();
-        sig = get_name_or_string( token );
+        sig = get_name_or_primary( true );
         split_code( &scode, &fcode, sig );
         sch = m_cals->get_scheme( scode );
-        m_ts.next();
+    }
+    SValue value = primary( false );
+    RangeList rlist;
+    if( value.type() == SValue::SVT_Record ) {
+        SHandle r_sch = m_cals->get_scheme( value.get_record_scode() );
+        rlist = m_cals->fieldvec_to_rlist( r_sch, value.get_record() );
+        if( sch == NULL ) {
+            sch = r_sch;
+        }
+    } else {
+        bool result = value.get_rlist( rlist );
+        if( result == false ) {
+            value.set_error( "Expected field, range, rlist or record type." );
+            return value;
+        }
     }
     if( sch == NULL ) {
         sch = store()->oscheme;
     }
-    SValue value = primary( false );
-    if( sch == NULL ) {
-        error( "Valid scheme not set." );
-        return value;
-    }
-    if( value.type() == SValue::SVT_Record ) {
-        Field jdn = sch->fieldvec_to_jdn( value.get_record() );
-        value.set_str( sch->jdn_to_str( jdn, fcode ) );
-    } else {
-        RangeList rlist;
-        value.get_rlist( rlist );
-        value.set_str( sch->rangelist_to_str( rlist, fcode ) );
-    }
+    value.set_str( m_cals->rangelist_to_str( sch, rlist, fcode ) );
     return value;
 }
 

@@ -1,4 +1,4 @@
-// string007.hcs Test file to test let statement
+// string007.hcs Test file to test string cast
 
 set output "g";
 write string,j:wdmy 2432814;

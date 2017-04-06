@@ -1,4 +1,4 @@
-// string001.hcs Test str cast
+// string001.hcs Test string cast
 
 set output g:dmy;
 write "Date is " + string 2432814;

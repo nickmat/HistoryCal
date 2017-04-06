@@ -1,4 +1,4 @@
-// string006.hcs Test file to test str statement
+// string006.hcs Test file to test string cast
 
 set output "g";
 write string,"j:wdmy+" 2432814;

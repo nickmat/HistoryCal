@@ -1,0 +1,7 @@
+// string009.hcs Test file for string cast with record.
+
+write string,j:dmy {"g",1948,9,19};
+
+/*[OUTPUT]
+6 Sep 1948
+[OUTPUT]*/

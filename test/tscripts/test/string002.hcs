@@ -1,4 +1,4 @@
-// string002.hcs Test str cast
+// string002.hcs Test string cast
 
 set output g;
 write "Date ranges are " + string ( 2430726 ~ 2431090 | 2432552 ~ 2432917 ) + ".";
