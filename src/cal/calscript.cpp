@@ -1282,6 +1282,20 @@ SValue Script::primary( bool get )
     return value;
 }
 
+string Script::get_name_or_primary( bool get )
+{
+    string str;
+    SToken token = get ? m_ts.next() : m_ts.current();
+    if( token.type() == SToken::STT_Name ) {
+        str = token.get_str();
+        m_ts.next();
+    } else {
+        SValue value = primary( false );
+        value.get( str );
+    }
+    return str;
+}
+
 SValue Script::fields_expr( bool get )
 {
     string scode;
@@ -1386,22 +1400,23 @@ SValue Script::date_cast()
     string sig, scode, fcode;
     if( token.type() == SToken::STT_Comma ) {
         // Includes scheme:format signiture
-        token = m_ts.next();
-        sig = get_name_or_string( token );
+        sig = get_name_or_primary( true );
         split_code( &scode, &fcode, sig );
         sch = m_cals->get_scheme( scode );
-        m_ts.next();
     }
-    if( sch == NULL ) {
-        sch = store()->ischeme;
-    }
-    string str;
     SValue value = primary( false );
-    if( !value.get( str ) ) {
-        error( "Expected a string expression." );
-        return value;
+    if( value.type() == SValue::SVT_Str ) {
+        if( sch == NULL ) {
+            sch = store()->ischeme;
+        }
+        value.set( m_cals->str_to_rangelist( sch, value.get_str(), fcode ) );
+    } else if( value.type() == SValue::SVT_Record ) {
+        scode = value.get_record_scode();
+        sch = m_cals->get_scheme( scode );
+        value.set( m_cals->fieldvec_to_rlist( sch, value.get_record() ) );
+    } else {
+        value.set_error( "Expected string or record type." );
     }
-    value.set( m_cals->str_to_rangelist( sch, str, fcode ) );
     return value;
 }
 

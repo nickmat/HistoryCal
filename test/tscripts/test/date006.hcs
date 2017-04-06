@@ -1,0 +1,13 @@
+// date006.hcs Test file to test date cast expressions
+
+let a = date {"g", 1948, 9, 19};
+
+let b = date {"g", 1948};
+
+write a + ", " + b;
+
+clear;
+
+/*[OUTPUT]
+2432814, 2432552 ~ 2432917
+[OUTPUT]*/

@@ -82,6 +82,7 @@ namespace Cal {
         SValue term( bool get );
         SValue subscript( bool get );
         SValue primary( bool get );
+        std::string get_name_or_primary( bool get );
         SValue fields_expr( bool get );
 
         SValue do_subscript( const SValue& left, const SValue& right );
