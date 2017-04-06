@@ -1,0 +1,15 @@
+// date009.hcs Test file to test date cast expressions
+
+set input "g";
+
+let r1 = date"1940"~date"1950"|date"1945"~date"1955";
+
+let r2 = date"1940~1950|1945~1955";
+
+write r1 + ", " + (r1 = r2);
+
+clear;
+
+/*[OUTPUT]
+2429630 ~ 2435473, true
+[OUTPUT]*/

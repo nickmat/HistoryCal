@@ -1,4 +1,4 @@
-// date007.hcs Test file to test date cast expressions
+// date008.hcs Test file to test date cast expressions
 
 set input "g";
 

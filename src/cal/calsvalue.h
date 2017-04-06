@@ -59,7 +59,8 @@ namespace Cal {
 
         void set_error( const std::string& str );
 
-        void set( const RangeList& rlist ); 
+        // Automatically demotes rlist to range or field if possible.
+        void set( const RangeList& rlist );
 
         std::string get_str() const;
         bool get_bool() const;

@@ -594,7 +594,7 @@ void SValue::rlist_union( const SValue& value )
 {
     RangeList left, right;
     if( obtain_rlists( left, right, value ) ) {
-        set_rlist( op_set_union( left, right ) );
+        set( op_set_union( left, right ) );
     }
 }
 
@@ -602,7 +602,7 @@ void SValue::intersection( const SValue& value )
 {
     RangeList left, right;
     if( obtain_rlists( left, right, value ) ) {
-        set_rlist( op_set_intersection( left, right ) );
+        set( op_set_intersection( left, right ) );
     }
 }
 
@@ -610,7 +610,7 @@ void SValue::rel_complement( const SValue& value )
 {
     RangeList left, right;
     if( obtain_rlists( left, right, value ) ) {
-        set_rlist( op_set_rel_complement( left, right ) );
+        set( op_set_rel_complement( left, right ) );
     }
 }
 
@@ -618,7 +618,7 @@ void SValue::sym_difference( const SValue& value )
 {
     RangeList left, right;
     if( obtain_rlists( left, right, value ) ) {
-        set_rlist( op_set_sym_difference( left, right ) );
+        set( op_set_sym_difference( left, right ) );
     }
 }
 
