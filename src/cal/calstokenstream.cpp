@@ -106,8 +106,6 @@ SToken STokenStream::next()
             set_type( SToken::STT_date );
         } else if( str == "record" ) {
             set_type( SToken::STT_record );
-        } else if( str == "rlist" ) {
-            set_type( SToken::STT_rlist );
         } else {
             set_current( SToken::STT_Name, str );
         }

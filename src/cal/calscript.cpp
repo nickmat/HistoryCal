@@ -1258,9 +1258,6 @@ SValue Script::primary( bool get )
     case SToken::STT_record:
         value = record_cast();
         break;
-    case SToken::STT_rlist:
-        value = rlist_cast();
-        break;
     case SToken::STT_str_cast:
         value = str_cast();
         break;
@@ -1456,43 +1453,6 @@ SValue Script::record_cast()
     if( !fields.empty() ) {
         value.set_record( scode, fields );
     }
-    return value;
-}
-
-SValue Script::rlist_cast()
-{
-    SToken token = m_ts.next();
-    SHandle sch = NULL;
-    string sig, scode, fcode;
-    if( token.type() == SToken::STT_Comma ) {
-        // Includes scheme:format signiture
-        token = m_ts.next();
-        sig = get_name_or_string( token );
-        split_code( &scode, &fcode, sig );
-        sch = m_cals->get_scheme( scode );
-        m_ts.next();
-    }
-    SValue value = primary( false );
-    RangeList rlist;
-    if( sch == NULL ) {
-        sch = store()->ischeme;
-        if( sch != NULL ) {
-            scode = sch->get_code();
-        }
-    }
-    if( value.type() == SValue::SVT_Str ) {
-        rlist = m_cals->str_to_rangelist( sch, value.get_str(), fcode );
-    } else if ( value.type() == SValue::SVT_Record ) {
-        SHandle rsch = m_cals->get_scheme( value.get_str() );
-        if( rsch == NULL ) {
-            rsch = sch;
-        }
-        rlist = m_cals->fieldvec_to_rlist( rsch, value.get_record() );
-    } else {
-        error( "Expected a string value." );
-        return value;
-    }
-    value.set_rlist( rlist );
     return value;
 }
 

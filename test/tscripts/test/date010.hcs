@@ -1,0 +1,9 @@
+// date010.hcs   Test file to test a date cast with a string range list
+
+write date,g:dmy "1954|1948";
+
+/*[OUTPUT]
+2432552 ~ 2432917 | 2434744 ~ 2435108
+[OUTPUT]*/
+
+
