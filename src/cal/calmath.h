@@ -51,6 +51,7 @@ namespace Cal {
     typedef bool (*calSearchFunc)( Field value, const void* data );
 
     extern Field min_search( Field start, calSearchFunc func, const void* data );
+    extern Field max_search( Field start, calSearchFunc func, const void* data );
 
     extern int cal_signum( double n );
 

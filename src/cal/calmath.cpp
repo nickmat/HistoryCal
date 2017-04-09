@@ -112,6 +112,19 @@ Field Cal::min_search( Field start, calSearchFunc func, const void* data )
             return d;
         }
     }
+    assert( false ); // Should not be here! Increase calSEARCH_MAX?
+    return f_invalid;
+}
+
+// CC3 p20
+Field Cal::max_search( Field start, calSearchFunc func, const void* data )
+{
+    for( Field i = 0, d = start ; i < calSEARCH_MAX ; i++, d++ ) {
+        if( !func( d, data ) ) {
+            return d - 1;
+        }
+    }
+    assert( false ); // Should not be here! Increase calSEARCH_MAX?
     return f_invalid;
 }
 
