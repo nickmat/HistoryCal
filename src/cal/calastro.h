@@ -15,7 +15,7 @@ namespace Cal {
 
     double equation_of_time( double moment );
 
-    double solar_longtitude( double moment );
+    double solar_longitude( double moment );
 
     double estimate_prior_solar_longitude( double season, double moment );
 

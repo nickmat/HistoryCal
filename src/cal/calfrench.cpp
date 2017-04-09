@@ -56,7 +56,7 @@ namespace {
     bool fnyoob_min_func( Field jdn, const void* data )
     {
         double constant = *static_cast<const double*>(data);
-        return constant <= solar_longtitude( midnight_in_paris( jdn ) );
+        return constant <= solar_longitude( midnight_in_paris( jdn ) );
     }
 
     Field french_new_year_on_or_before( Field jdn )

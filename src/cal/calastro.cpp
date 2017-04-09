@@ -153,7 +153,7 @@ double Cal::equation_of_time( double moment )
 }
 
 // CC3 p189
-double Cal::solar_longtitude( double moment )
+double Cal::solar_longitude( double moment )
 {
     struct Args {
         double x; double y; double z;
@@ -224,8 +224,8 @@ double Cal::estimate_prior_solar_longitude( double lambda, double moment )
 {
     double rate = mean_tropical_year / 360;
     double tau = 
-        moment - rate * cal_mod( solar_longtitude( moment ) - lambda, 360 );
-    double delta = cal_mod( solar_longtitude( tau ) - lambda + 180, 360 ) - 180;
+        moment - rate * cal_mod( solar_longitude( moment ) - lambda, 360 );
+    double delta = cal_mod( solar_longitude( tau ) - lambda + 180, 360 ) - 180;
     return std::min( moment, tau - rate * delta );
 }
 
