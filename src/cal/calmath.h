@@ -29,6 +29,7 @@
 #define CAL_CALMATH_H_GUARD
 
 #include "cal/caldefs.h"
+#include <cmath>
 
 namespace Cal {
 
@@ -64,6 +65,13 @@ namespace Cal {
     double inline deg_to_rad( double deg ) { return deg * cal_pi / 180; }
 
     double inline rad_to_deg( double rad ) { return rad * 180 / cal_pi; }
+
+    double inline sin_d( double deg ) { return sin( deg_to_rad( deg ) ); }
+    double inline cos_d( double deg ) { return cos( deg_to_rad( deg ) ); }
+    double inline tan_d( double deg ) { return tan( deg_to_rad( deg ) ); }
+    double inline asin_d( double n ) { return rad_to_deg( asin( n ) ); }
+    double inline acos_d( double n ) { return rad_to_deg( acos( n ) ); }
+    double inline atan_d( double n ) { return rad_to_deg( atan( n ) ); }
 
     enum Weekday { 
         WDAY_Monday, WDAY_Tuesday, WDAY_Wednesday,
