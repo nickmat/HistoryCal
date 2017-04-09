@@ -116,6 +116,26 @@
  the error was created.
 </p>
 
+<h3>Date</h3>
+<p>
+ A date type is not a separate type
+ but a convenient way to refer to one of the three ways of holding a date,
+ a field, a range or an rlist.
+ A date value can promote or demote a value between these types as required.
+ An error should only occur if a demotion is required
+ but the value is such that it can not take place.
+</p>
+<p>
+ A date type strongly implies that the values are julian day numbers.
+</p>
+
+<h3>Number</h3>
+<p>
+ A number type is similar to a date type,
+ but there is no implied promotion or demotion.
+ Not all the field, range or rlist types may be valid in any given context. 
+</p>
+
 <h2>Names</h2>
 <p>
  Any text in the script which is not an operator, literal or keyword is termed a 'name'.
@@ -159,20 +179,20 @@
 </p>
 <table class='list' id='operator-list'>
 <tr><th>Signature</th><th>Example</th></tr>
-<tr><td class='code'>scheme</td><td class='example'>write str,j today;</td></tr>
-<tr><td class='code'>scheme:format</td><td class='example'>write str,"g:dmy+" today;</td></tr>
-<tr><td class='code'>:format</td><td class='example'>write str,:iso today;</td></tr>
+<tr><td class='code'>scheme</td><td class='example'>write string,j today;</td></tr>
+<tr><td class='code'>scheme:format</td><td class='example'>write string,"g:dmy+" today;</td></tr>
+<tr><td class='code'>:format</td><td class='example'>write string,:iso today;</td></tr>
 </table>
 
 <h2>Operators</h2>
 <h3>Arithmetic Operations</h3>
 <table class='list' id='operator-list'>
 <tr><th>Operator</th><th>Name</th><th>Use</th><th>Result</th></tr>
-<tr><td class='code'>-</td><td>Unary minus</td><td class='example'><b>-</b> num_value</td><td class='example'>num_value</td></tr>
-<tr><td class='code'>+</td><td>Plus</td><td class='example'>num_value <b>+</b> num_value</td><td class='example'>num_value</td></tr>
-<tr><td class='code'>-</td><td>Minus</td><td class='example'>num_value <b>-</b> num_value</td><td class='example'>num_value</td></tr>
-<tr><td class='code'>*</td><td>Multiply</td><td class='example'>num_value <b>*</b> num_value</td><td class='example'>num_value</td></tr>
-<tr><td class='code'>/</td><td>Divide</td><td class='example'>num_value <b>/</b> num_value</td><td class='example'>num_value</td></tr>
+<tr><td class='code'>-</td><td>Unary minus</td><td class='example'><b>-</b> number_type</td><td class='example'>number_type</td></tr>
+<tr><td class='code'>+</td><td>Plus</td><td class='example'>number_type <b>+</b> number_type</td><td class='example'>number_type</td></tr>
+<tr><td class='code'>-</td><td>Minus</td><td class='example'>number_type <b>-</b> number_type</td><td class='example'>number_type</td></tr>
+<tr><td class='code'>*</td><td>Multiply</td><td class='example'>field_type <b>*</b> field_type</td><td class='example'>field_type</td></tr>
+<tr><td class='code'>/</td><td>Divide</td><td class='example'>field_type <b>/</b> field_type</td><td class='example'>field_type</td></tr>
 </table>
 <p>
  For field values,
@@ -209,24 +229,24 @@
 </p>
 <table class='list' id='operator-list'>
 <tr><th>Expression</th><th>Example</th><th>Result</th></tr>
-<tr><td class='code'>field_value + field_value</td><td class='example'>5 + 10<br />past + 123<br />past + future</td><td class='example'>15<br />past<br />Error</td></tr>
+<tr><td class='code'>field_type + field_type</td><td class='example'>5 + 10<br />past + 123<br />past + future</td><td class='example'>15<br />past<br />Error</td></tr>
 <tr>
- <td class='code'>range_value + field_value<br />field_value + range_value</td>
+ <td class='code'>range_type + field_type<br />field_type + range_type</td>
  <td class='example'>(8 ~ 16) + 20<br />250 + (500 ~ future)<br />past + (500 ~ future)</td>
  <td class='example'>28 ~ 36<br />750 ~ future<br />Error</td>
  </tr>
-<tr><td class='code'>range_value + range_value</td><td class='example'>(8 ~ 16) + (10 ~ 20)</td><td class='example'>18 ~ 36</td></tr>
+<tr><td class='code'>range_type + range_type</td><td class='example'>(8 ~ 16) + (10 ~ 20)</td><td class='example'>18 ~ 36</td></tr>
 <tr>
- <td class='code'>rlist_value + field_value<br />field_value + rlist_value</td>
+ <td class='code'>rlist_type + field_type<br />field_type + rlist_type</td>
  <td class='example'>(8 ~ 16 | 20 ~ 50) + 20<br />250 + (past ~ 90 | 500 ~ future)</td>
  <td class='example'>28 ~ 36 | 40 ~ 70<br />past ~ 340 | 750 ~ future</td>
 </tr>
 <tr>
- <td class='code'>rlist_value + range_value<br />range_value + rlist_value</td>
+ <td class='code'>rlist_type + range_type<br />range_type + rlist_type</td>
  <td class='example'>(8 ~ 16 | 20 ~ 50) + (10 ~ 20)<br />(10 ~ 25) + (past ~ 9 | 50 ~ future)</td>
  <td class='example'>18 ~ 36 | 30 ~ 70<br />past ~ 34 | 60 ~ future</td>
 </tr>
-<tr><td class='code'>rlist_value + rlist_value</td><td class='example'>(8 ~ 16 | 20 ~ 50) + (15 ~ 18 | 25 ~ 27)</td><td class='example'>Error. Unable to add or subtract rlists.</td></tr>
+<tr><td class='code'>rlist_type + rlist_type</td><td class='example'>(8 ~ 16 | 20 ~ 50) + (15 ~ 18 | 25 ~ 27)</td><td class='example'>Error. Unable to add or subtract rlists.</td></tr>
 </table>
 
 <h4>Multiplication, Division and Modulo</h4>
@@ -255,23 +275,23 @@
 <table class='list' id='operator-list'>
 <tr><th>Expression</th><th>Example</th><th>Result</th></tr>
 <tr>
- <td class='code'>field_value * field_value</td>
+ <td class='code'>field_type * field_type</td>
  <td class='example'>5 * 10<br />past * 123<br />past * future</td>
  <td class='example'>50<br />past<br />Error</td>
 </tr>
 <tr>
- <td class='code'>field_value / field_value</td>
+ <td class='code'>field_type / field_type</td>
  <td class='example'>10 / 5<br />past / 123<br />123 / future</td>
  <td class='example'>2<br />past<br />Error</td>
 </tr>
 <tr>
- <td class='code'>field_value <b>mod</b> field_value</td>
+ <td class='code'>field_type <b>mod</b> field_type</td>
  <td class='example'>21 <b>mod</b> 5<br />-100 <b>mod</b> -6<br />past <b>mod</b> 2</td>
  <td class='example'>1<br />2<br />Error</td>
 </tr>
 </table>
 
-<h4>Range Operator</h4>
+<h3>Range Operator</h3>
 <p>
  The binary range operator creates a range value which is just large enough to include
  both its operands.<br />
@@ -290,7 +310,7 @@
  <tr><td class='example'>48 ~ 25 ~ 5 ~ 10</td><td class='example'>5 ~ 48</tr>
 </table>
 
-<h4>Set Operators</h4>
+<h3>Set Operators</h3>
 <p>
  The Complement '!' is a unary prefix operator which operates on a rlist.
  The Union '|', Intersection '&', Symmetric difference '^' and Relative complement '\'
@@ -302,7 +322,7 @@
  Details of the set operators are found <a href='../calculate.htm'>here</a>.
 </p>
 
-<h4>Comparison Operators</h4>
+<h3>Comparison Operators</h3>
 <p>
  The comparison operators must have operands of the same type,
  after type allowing for type promotion.
@@ -316,13 +336,17 @@
  Use with any other type results in an error.
 </p>
 
-<h4>Boolean Operators</h4>
+<h3>Boolean Operators</h3>
 <p>
  The unary prefix operator 'not' and the binary operators 'and' and 'or'
  can be used with boolean types only. Any other type will produce an error.
 </p>
 
-<h4>Subscript operator</h4>
+<h3>Subscript operators</h3>
+<p>
+ The subscript operators allow access to to the various parts of the more complex value types.
+</p>
+<h4>Index operator</h4>
 <p>
  Used in the form <b>Value[ Index ]</b>,
  the square brackets are used to enclose an index into left hand value.
@@ -363,12 +387,90 @@
 <tr><th>Property</th><th>Use</th><th>Result</th><th>Comment</th></tr>
 <tr><td class='code'>low</td><td class='example'>(7~16).low</td><td class='example'>7</td><td>Return the lower bound of a range or rlist.</td></tr>
 <tr><td class='code'>high</td><td class='example'>(7~16).high</td><td class='example'>16</td><td>Return the upper bound of a range or rlist.</td></tr>
-<tr><td class='code'>span</td><td class='example'>(7~16).span</td><td class='example'></td><td rowspan='2'>Return the inclusive count between upper and lower bounds of a range or rlist.</td></tr>
+<tr><td class='code'>span</td><td class='example'>(7~16).span</td><td class='example'>10</td><td rowspan='2'>Return the inclusive count between upper and lower bounds of a range or rlist.</td></tr>
 <tr><td class='code'>span</td><td class='example'>(21|79~88|100~120|200~210).span</td><td class='example'>190</td></tr>
 <tr><td class='code'>size</td><td class='example'>(21|79~88|100~120|200~210).size</td><td class='example'>4</td><td rowspan='2'>Return the number of elements in a rlist or record.</td></tr>
 <tr><td class='code'>size</td><td class='example'>{"g",1948,9,19}.size</td><td class='example'>3</td></tr>
 <tr><td class='code'>envelope</td><td class='example'>(21|79~88|100~120|200~210).envelope</td><td class='example'>21 ~ 210</td><td>Return the enclosing range af an rlist.</td></tr>
 <tr><td class='code'>scheme</td><td class='example'>{"g",1948,9,19}.scheme</td><td class='example'>"g"</td><td>Return the scheme code string of a record.</td></tr>
+</table>
+
+<h3>Type Conversions</h3>
+<p>
+ The cast operators are used to covert values between different types.
+ If additional information is required (such as scheme and/or format)
+ then a comma and signature can be added to the cast.
+ If it is omitted, the system wide default values are assumed.  
+</p>
+
+<h4>Date Cast</h4>
+<p>
+ A date, in this context, means a rlist or an well ordered list of ranges.
+ As well as an rlist, a date may be encapsulated as a text string or a record type.
+ The date cast puts these two record types into a consistent rlist type.
+ The rlist will then be demoted to a range or field if appropriate.
+</p>
+<p>
+ If the original type is a string,
+ then the cast operation will need to know the scheme and format to be used,
+ and so a signature can be added or else the system output default settings are used.
+ Note the a string description of an rlist may include embedded range and union symbols,
+ but this is different from a HistoryCal Date Expression.
+ One significant difference is that only one scheme format can be used for the conversion.
+</p>
+<table class='list' id='operator-list'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>date "19sep1948"</td><td class='example'>2432814</tr>
+ <tr><td class='example'>date "1940~1950|1945~1955"</td><td class='example'>2429630 ~ 2435473</td></tr>
+ <tr><td class='example'>date,g:iso "[1940..1950,1945..1955]"</td><td class='example'>2429630 ~ 2435473</td></tr>
+ <tr><td class='example'>date {"g", 1948, 9, 19}</td><td class='example'>2432814</tr>
+ <tr><td class='example'>date {"g", 1948}</td><td class='example'>2432552 ~ 2432917</tr>
+ <tr><td colspan='2'>The above examples assume a system input setting of "g:dmy".</td></tr>
+</table>
+
+<h4>String Cast</h4>
+<p>
+ The string cast operator converts a field, range, rlist or record type into a string type.
+</p>
+<p>
+ Except for a record type, the scheme code signature must be provided.
+ If the format code is not included in the signature,
+ then the default for that scheme is used.
+</p>
+<table class='list' id='operator-list'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>string,"g:dmy+" 2432814</td><td class='example'>"19 September 1948"</tr>
+ <tr><td class='example'>string,g 2429630~2435473</td><td class='example'>"1940 ~ 1955"</td></tr>
+ <tr><td class='example'>string,g:iso 2429630 ~ 2429995 | 2433283 ~ 2435473</td><td class='example'>"[1940,1950..1955]"</td></tr>
+ <tr><td class='example'>string {"g", 1948, 9, 19}</td><td class='example'>"19 Sep 1948"</tr>
+ <tr><td class='example'>string {"j", 1948}</td><td class='example'>"1948"</tr>
+ <tr><td colspan='2'>The above examples assume a system output setting of "g:dmy".</td></tr>
+</table>
+
+<h4>Record Cast</h4>
+<p>
+ The record cast operator converts a field (as a julian day number) or string type into a record type.
+ At this time, using the record cast with a range or rlist type is an error.
+</p>
+<p>
+ If a scheme:format signature is not given,
+ then to cast a field the output default setting is used,
+ whereas if casting a string, the input default is used.
+</p>
+<p>
+ Note that a record created from a cast always has all the fields included, even the optional ones.
+ Only main fields are given values though.
+ Records created using the record operator '{}' only include the given fields,
+ even if this does not fully qualify a date.
+</p>
+<table class='list' id='operator-list'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>record,g:dmy "19sep1948"</td><td class='example'>{"g", 1948, 9, 19, ?}</tr>
+ <tr><td class='example'>record "21??"</td><td class='example'>{"g", ?, ?, 21, ?}</td></tr>
+ <tr><td class='example'>record,:u "1948Year 9Month 19Day"</td><td class='example'>{"g", 1948, 9, 19, ?}</td></tr>
+ <tr><td class='example'>record,j 2432814</td><td class='example'>{"j", 1948, 9, 6, ?}</tr>
+ <tr><td class='example'>record 2429630~2435473</td><td class='example'>Error</td></tr>
+ <tr><td colspan='2'>The above examples assume a system input and output setting of "g:dmy".</td></tr>
 </table>
 
 <h2>Operator Precedence</h2>
@@ -385,13 +487,12 @@
 <tr><td class='code'>{}</td><td>Record</td><td class='example'><b>{</b>sig,field_value,...<b>}</b></td><td class='example'>record_value</td></tr>
 <tr><td class='code'>!</td><td>Complement</td><td class='example'><b>!</b>rlist_value</td><td class='example'>rlist_value</td></tr>
 <tr><td class='code'>not</td><td>Logical not</td><td class='example'><b>not </b>bool_value</td><td class='example'>bool_value</td></tr>
-<tr><td class='code'>-</td><td>Unary minus</td><td class='example'><b>-</b>num_value</td><td class='example'>num_value</td></tr>
-<tr><td class='code'>date</td><td>Date cast</td><td class='example'><b>date,sig</b> str_value<br /><b>date</b> record_value</td><td class='example'>field_value</td></tr>
-<tr><td class='code'>record</td><td>Record cast</td><td class='example'><b>record,sig</b> str_value<br /><b>record</b> field_value</td><td class='example'>record_value</td></tr>
-<tr><td class='code'>rlist</td><td>Rlist cast</td><td class='example'><b>rlist,sig</b> str_value<br /><b>rlist</b> record_value</td><td class='example'>rlist_value</td></tr>
-<tr><td class='code'>str</td><td>String cast</td><td class='example'><b>str,sig</b> field_value<br /><b>str,sig</b> record_value</td><td class='example'>str_value</td></tr>
+<tr><td class='code'>-</td><td>Unary minus</td><td class='example'><b>-</b>number_value</td><td class='example'>number_value</td></tr>
+<tr><td class='code'>date</td><td>Date cast</td><td class='example'><b>date,sig</b> string_value<br /><b>date</b> record_value</td><td class='example'>date_value</td></tr>
+<tr><td class='code'>record</td><td>Record cast</td><td class='example'><b>record,sig</b> string_value<br /><b>record</b> field_value</td><td class='example'>record_value</td></tr>
+<tr><td class='code'>string</td><td>String cast</td><td class='example'><b>string,sig</b> date_value<br /><b>string,sig</b> record_value</td><td class='example'>string_value</td></tr>
 <tr><td class='code' colspan='4'></td></tr>
-<tr><td class='code'>[]</td><td>Subscript</td><td class='example'>date_value<b>[</b>str_value<b>]</b></td><td class='example'>field_value</td></tr>
+<tr><td class='code'>[]</td><td>Subscript</td><td class='example'>date_value<b>[</b>string_value<b>]</b></td><td class='example'>field_value</td></tr>
 <tr><td class='code'>.</td><td>Property</td><td class='example'>value<b>.</b>name</td><td class='example'>value</td></tr>
 <tr><td class='code' colspan='4'></td></tr>
 <tr><td class='code'>*</td><td>Multiply</td><td class='example'>field_value <b>*</b> field_value</td><td class='example'>field_value</td></tr>
@@ -399,10 +500,10 @@
 <tr><td class='code'>mod</td><td>Modulo</td><td class='example'>field_value <b>mod</b> field_value</td><td class='example'>field_value</td></tr>
 <tr><td class='code' colspan='4'></td></tr>
 <tr><td class='code'>+</td><td>Plus</td>
- <td class='example'>num_value <b>+</b> num_value<br />str_value <b>+</b> value<br />value <b>+</b> str_value</td>
- <td class='example'>num_value<br />str_value<br />str_value</td>
+ <td class='example'>number_value <b>+</b> number_value<br />string_value <b>+</b> value<br />value <b>+</b> string_value</td>
+ <td class='example'>number_value<br />string_value<br />string_value</td>
 </tr>
-<tr><td class='code'>-</td><td>Minus</td><td class='example'>num_value <b>-</b> num_value</td><td class='example'>num_value</td></tr>
+<tr><td class='code'>-</td><td>Minus</td><td class='example'>number_value <b>-</b> number_value</td><td class='example'>number_value</td></tr>
 <tr><td class='code' colspan='4'></td></tr>
 <tr><td class='code'>~</td><td>Range</td>
  <td class='example'>field_value <b>~</b> field_value<br />range_value <b>~</b> range_value</td>
