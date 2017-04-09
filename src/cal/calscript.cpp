@@ -1425,20 +1425,18 @@ SValue Script::record_cast()
     string sig, scode, fcode;
     if( token.type() == SToken::STT_Comma ) {
         // Includes scheme:format signiture
-        token = m_ts.next();
-        sig = get_name_or_string( token );
+        sig = get_name_or_primary( true );
         split_code( &scode, &fcode, sig );
         sch = m_cals->get_scheme( scode );
-        m_ts.next();
     }
     SValue value = primary( false );
     if( sch == NULL ) {
         sch = store()->ischeme;
-        if( sch == NULL ) {
-            error( "Scheme not set." );
-            return value;
-        }
         scode = sch->get_code();
+    }
+    if( scode.empty() ) {
+        value.set_error( "No scheme set." );
+        return value;
     }
     FieldVec fields;
     string str;
@@ -1447,10 +1445,12 @@ SValue Script::record_cast()
     } else if( value.get( str ) ) {
         fields = m_cals->str_to_fieldvec( sch, str, fcode );
     } else {
-        error( "Expected a string expression." );
+        value.set_error( "Expected a field or string type." );
         return value;
     }
-    if( !fields.empty() ) {
+    if( fields.empty() ) {
+        value.set_error( "Unable to create record." );
+    } else {
         value.set_record( scode, fields );
     }
     return value;

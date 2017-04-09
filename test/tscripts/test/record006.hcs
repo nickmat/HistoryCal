@@ -1,15 +1,15 @@
-// record006.hcs Convert unit format string to record.
+// record006.hcs Convert field to record using a signature.
 
 set input g:dmy;
 
-let result = date,:u "1948Year 9Month 19Day";
+let a = record,j 2432814;
 
-write record,"g" result;
+write a;
 
 clear;
 
 /*[OUTPUT]
-{"g", 1948, 9, 19, ?}
+{"j", 1948, 9, 6, ?}
 [OUTPUT]*/
 
 
