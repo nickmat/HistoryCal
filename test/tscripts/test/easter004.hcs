@@ -1,4 +1,6 @@
-// easter.hcs example file to display a list of Easter Sundays.
+// easter003.hcs Test file to test Easter example script
+
+writeln "";
 
 mark "test-easter";
 clear;
@@ -32,3 +34,18 @@ do
 loop
 
 clear "test-easter";
+
+/*[OUTPUT]
+
+Easter Sunday for years 1950 to 1955:
+
+Catholic, Orthodox
+
+9 April 1950, 9 April 1950
+25 March 1951, 29 April 1951
+13 April 1952, 20 April 1952
+5 April 1953, 5 April 1953
+18 April 1954, 25 April 1954
+10 April 1955, 17 April 1955
+
+[OUTPUT]*/

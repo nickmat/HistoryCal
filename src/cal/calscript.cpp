@@ -1295,9 +1295,8 @@ string Script::get_name_or_primary( bool get )
 
 SValue Script::fields_expr( bool get )
 {
-    string scode;
+    string scode = get_name_or_primary( get );
     FieldVec fields;
-    expr( get ).get( scode );
     SToken token = m_ts.current();
 
     for(;;) {

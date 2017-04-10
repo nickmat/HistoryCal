@@ -1,4 +1,4 @@
-// easter003.hcs Test file to test let statement
+// easter003.hcs Test file to test Easter optional field.
 
 mark "test-easter";
 clear;
