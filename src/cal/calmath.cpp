@@ -135,6 +135,16 @@ int Cal::cal_signum( double n )
     return 0;
 }
 
+double Cal::fmod_r( double x, double y )
+{
+    double f = floor( x / y );
+    double r = x - y * f;
+    if( r > y / 2 ) {
+        return r - y;
+    }
+    return r;
+} 
+
 double Cal::cal_mod( double x, double y )
 {
     return x - y * floor( x / y ); 

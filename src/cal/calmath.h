@@ -57,6 +57,8 @@ namespace Cal {
     extern int cal_signum( double n );
 
     extern double cal_mod( double x, double y );
+    // Modulus rounded towards zero
+    extern double fmod_r( double x, double y );
 
     extern Field cal_round( double x );
 
