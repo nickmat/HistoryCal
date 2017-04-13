@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     20th September 2013
- * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -88,6 +88,11 @@ Field Cal::str_to_dual2( Field dual1, const string& str2 )
         }
     }
     return str_to_field( result );
+}
+
+double Cal::str_to_double( const std::string& str )
+{
+    return std::strtod( str.c_str(), NULL );
 }
 
 string Cal::make_key( const string& str )
