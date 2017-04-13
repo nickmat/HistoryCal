@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -46,6 +46,11 @@ namespace Cal {
         OFID_wsday,     // 7 Day week Sun=1 (1 to 7)
         OFID_dayinyear, // Day in year (1 to about 366, dep. on scheme)
         OFID_unshift,   // Value before being shifted, (year or day)
+        // Astronomy values that return the next event (as a jdn) after a given jdn.
+        OFID_nequinox,  // The jdn day of the Next Northward (Mar) Equinox.
+        OFID_nsolstice, // The jdn day of the Next Northern (Jun) Solstice.
+        OFID_sequinox,  // The jdn day of the Next Southward (Sep) Equinox.
+        OFID_ssolstice, // The jdn day of the Next Southern (Dec) Solstice.
         // Julian, Gregorian
         OFID_j_litweek, // See calliturgical.cpp
         OFID_j_ce,      // 0 = BCE, 1 = CE
@@ -67,8 +72,8 @@ namespace Cal {
     {
     public:
         Base();
+        Base( const std::string& data );
         virtual ~Base();
-
 
         // Return true if in a usable state.
         virtual bool is_ok() const { return true; }
@@ -203,6 +208,7 @@ namespace Cal {
         mutable XRefMap  m_xref_inputs;
 
         std::vector<OptFieldID> m_opt_fields;
+        LocaleData m_locale;
     };
 
 }

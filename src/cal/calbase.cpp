@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@
 
 #include "calbase.h"
 
+#include "calastro.h"
 #include "calformattext.h"
 #include "calformatunit.h"
 #include "calgrammar.h"
@@ -42,9 +43,20 @@ using std::string;
 const char* Base::s_ymd_fieldnames[] = { "year", "month", "day" };
 size_t Base::s_sizeof_ymd_fieldnames = sizeof(s_ymd_fieldnames) / sizeof(const char*);
 
-Base::Base()
-    : m_grammar(NULL)
+Base::Base() : m_grammar(NULL)
 {
+}
+
+Base::Base( const std::string& data ) : m_grammar(NULL)
+{
+    string code, tail;
+    split_code( &code, &tail, data );
+    if( code == "loc" ) {
+        split_code( &code, &tail, tail );
+        m_locale.lat = str_to_double( code );
+        split_code( &code, &tail, tail );
+        m_locale.lon = str_to_double( code );
+    }
 }
 
 Base::~Base()
@@ -83,12 +95,27 @@ OptFieldID Base::get_opt_field_id( const std::string& fieldname ) const
 {
     if( fieldname == "wday" ) {
         return OFID_wday;
-    } else if( fieldname == "wsday" ) {
+    } 
+    if( fieldname == "wsday" ) {
         return OFID_wsday;
-    } else if( fieldname == "dayinyear" ) {
+    }
+    if( fieldname == "dayinyear" ) {
         return OFID_dayinyear;
-    } else if( fieldname == "unshift" ) {
+    }
+    if( fieldname == "unshift" ) {
         return OFID_unshift;
+    }
+    if( fieldname == "nequinox" ) {  // 0 = BCE, 1 = CE
+        return OFID_nequinox;
+    }
+    if( fieldname == "nsolstice" ) {  // Positive CE or BCE year
+        return OFID_nsolstice;
+    }
+    if( fieldname == "sequinox" ) {
+        return OFID_sequinox;
+    }
+    if( fieldname == "ssolstice" ) {
+        return OFID_ssolstice;
     }
     return OFID_NULL;
 }
@@ -105,6 +132,14 @@ std::string Base::get_opt_fieldname( OptFieldID field_id ) const
         return "dayinyear";
     case OFID_unshift:
         return "unshift";
+    case OFID_nequinox:
+        return "nequinox";
+    case OFID_nsolstice:
+        return "nsolstice";
+    case OFID_sequinox:
+        return "sequinox";
+    case OFID_ssolstice:
+        return "ssolstice";
     default:
         return "";
     }
@@ -118,6 +153,14 @@ Field Base::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const
         return day_of_week( jdn ) + 1; // Mon=1, Sun=7
     case OFID_wsday:
         return day_of_week( jdn + 1 ) + 1; // Sun=1, Sun=7
+    case OFID_nequinox: // Northward/Spring equinox.
+        return int( solar_longitude_after( spring, jdn ) + m_locale.lon / 360 );
+    case OFID_nsolstice: // Northern/Summer solstice.
+        return int( solar_longitude_after( summer, jdn ) + m_locale.lon / 360 );
+    case OFID_sequinox: // Southward/Autumn equinox.
+        return int( solar_longitude_after( autumn, jdn ) + m_locale.lon / 360 );
+    case OFID_ssolstice: // Soutern/Winter solstice.
+        return int( solar_longitude_after( winter, jdn ) + m_locale.lon / 360 );
     }
     return f_invalid;
 }
