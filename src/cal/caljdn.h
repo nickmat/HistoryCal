@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th December 2013
- * Copyright:   Copyright (c) 2013-2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -35,6 +35,9 @@ namespace Cal {
     class Jdn : public Base
     {
     public:
+        Jdn() {}
+        Jdn( const std::string& data ) : Base( data ) {}
+
         virtual size_t record_size() const { return 1; }
 
         virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) const;

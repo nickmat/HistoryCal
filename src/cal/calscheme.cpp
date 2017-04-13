@@ -267,7 +267,7 @@ Base* Scheme::create_base( BaseScheme bs, const std::string& data )
     switch( bs )
     {
     case BS_jdn: 
-        return new Jdn;
+        return new Jdn( data );
     case BS_julian: 
         return new Julian;
     case BS_gregorian: 
