@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     20th September 2013
- * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -262,7 +262,7 @@ Unit Scheme::str_to_unit( const std::string& str ) const
     return unit;
 }
 
-Base* Scheme::create_base( BaseScheme bs ) 
+Base* Scheme::create_base( BaseScheme bs, const std::string& data ) 
 {
     switch( bs )
     {
@@ -280,15 +280,6 @@ Base* Scheme::create_base( BaseScheme bs )
         return new French;
     case BS_hebrew: 
         return new Hebrew;
-    default:
-        return NULL;
-    }
-}
-
-Base* Scheme::create_base( BaseScheme bs, const std::string& data )
-{
-    switch( bs )
-    {
     case BS_islamic:
         return new Islamic( data );
     default:

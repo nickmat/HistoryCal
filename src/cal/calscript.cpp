@@ -462,6 +462,7 @@ SHandle Script::do_create_scheme( const std::string& code )
 Base* Script::do_base()
 {
     Scheme::BaseScheme bs = Scheme::BS_NULL;
+    string data;
     SToken token = m_ts.next();
     if( token.type() == SToken::STT_Name ) {
         if( token.get_str() == "jdn" ) {
@@ -479,18 +480,19 @@ Base* Script::do_base()
         } else if( token.get_str() == "hebrew" ) {
             bs = Scheme::BS_hebrew;
         } else if( token.get_str() == "islamic" ) {
-            token = m_ts.next();
             bs = Scheme::BS_islamic;
-            if( token.type() == SToken::STT_Name ) {
-                return Scheme::create_base( bs, token.get_str() );
-            } 
         } else {
             error( "Base scheme not recognised." );
+            return NULL;
+        }
+        token = m_ts.next();
+        if( token.type() != SToken::STT_Semicolon ) {
+            data = get_name_or_string( token );
         }
     } else {
         error( "Base name expected." );
     }
-    return Scheme::create_base( bs );
+    return Scheme::create_base( bs, data );
 }
 
 Base* Script::do_base_shift()
