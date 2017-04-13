@@ -5,8 +5,9 @@
 #include "calbase.h"
 #include "calgregorian.h"
 
-#include <cmath>
 #include <algorithm>
+#include <cassert>
+#include <cmath>
 
 using namespace Cal;
 
@@ -217,6 +218,39 @@ double Cal::solar_longitude( double moment )
     double lambda = 282.7771834 + 36000.76953744 * c + 0.000005729577951308232 * sum;
 
     return cal_mod( lambda + aberration_from_jc( c ) + nutation_from_jc( c ), 360 );
+}
+
+// Based on CC p21
+static double solar_longitude_inverted( double angle, double a, double b )
+{
+    assert( a < b );
+    const double epsilon = 1e-5;
+    const int maxSearch = 1000;
+    for( int i = 0 ; i < maxSearch ; i++ ) {
+        double x = ( a + b ) / 2;
+        double y = solar_longitude( x );
+        double e = fmod_r( y - angle, 360 );
+        if( std::abs( e ) < epsilon ) {
+            return x;
+        }
+        if( e < 0 ) {
+            a = x;
+        } else {
+            b = x;
+        }
+    }
+    assert( false ); // Should not be here. Increase maxSearch?
+    return ( a + b ) / 2;
+}
+
+// CC3 p190
+double Cal::solar_longitude_after( double season, double moment )
+{
+    double rate = mean_tropical_year / 360;
+    double tau = moment + rate * cal_mod( season - solar_longitude( moment ), 360 );
+    double a = std::max( moment, tau - 5 );
+    double b = tau + 5;
+    return solar_longitude_inverted( season, a, b );
 }
 
 // CC3 p193
