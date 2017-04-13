@@ -105,10 +105,10 @@ OptFieldID Base::get_opt_field_id( const std::string& fieldname ) const
     if( fieldname == "unshift" ) {
         return OFID_unshift;
     }
-    if( fieldname == "nequinox" ) {  // 0 = BCE, 1 = CE
+    if( fieldname == "nequinox" ) {
         return OFID_nequinox;
     }
-    if( fieldname == "nsolstice" ) {  // Positive CE or BCE year
+    if( fieldname == "nsolstice" ) {
         return OFID_nsolstice;
     }
     if( fieldname == "sequinox" ) {

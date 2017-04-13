@@ -4,7 +4,7 @@ mark "astro-test";
 
 scheme astro {
   name "Astronomy Day Calendar";
-  base jdn;
+  base jdn;  // location defaults to Greenwich
   optional nequinox, nsolstice, sequinox, ssolstice;
 }
 
