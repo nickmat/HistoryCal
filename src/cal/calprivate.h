@@ -50,6 +50,14 @@ namespace Cal {
     typedef std::vector<InputField> InputFieldVec;
 
     enum Boundary { RB_none, RB_begin, RB_end };
+
+    struct LocaleData {
+        LocaleData() : lat(51.4772), lon(0.0) {} // Default to Greenwich, England.
+
+        double lat; // Degrees latitude from equator, positive North.
+        double lon; // Degrees longtitude from Greenwich Meridian, positive East.
+    };
+
 }
 
 #endif // CAL_CALPRIVATE_H_GUARD
