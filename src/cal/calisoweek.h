@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     17th March 2016
- * Copyright:   Copyright (c) 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2016 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -35,6 +35,9 @@ namespace Cal {
     class IsoWeek : public Base
     {
     public:
+        IsoWeek() {}
+        IsoWeek( const std::string& data ) : Base( data ) {}
+
         virtual size_t record_size() const { return 3; }
 
         virtual Field get_jdn( const Field* fields ) const;

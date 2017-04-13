@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -35,6 +35,9 @@ namespace Cal {
     class Gregorian : public Julian
     {
     public:
+        Gregorian() {}
+        Gregorian( const std::string& data ) : Julian( data ) {}
+
         virtual Field get_jdn( const Field* fields ) const;
 
         virtual void set_fields( Field* fields, Field jdn ) const;

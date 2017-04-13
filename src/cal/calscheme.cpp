@@ -269,17 +269,17 @@ Base* Scheme::create_base( BaseScheme bs, const std::string& data )
     case BS_jdn: 
         return new Jdn( data );
     case BS_julian: 
-        return new Julian;
+        return new Julian( data );
     case BS_gregorian: 
-        return new Gregorian;
+        return new Gregorian( data );
     case BS_isoweek: 
-        return new IsoWeek;
+        return new IsoWeek( data );
     case BS_isoordinal: 
-        return new IsoOrdinal;
+        return new IsoOrdinal( data );
     case BS_french: 
-        return new French;
+        return new French( data );
     case BS_hebrew: 
-        return new Hebrew;
+        return new Hebrew( data );
     case BS_islamic:
         return new Islamic( data );
     default:

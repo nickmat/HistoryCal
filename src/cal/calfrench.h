@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     8th December 2014
- * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -35,6 +35,9 @@ namespace Cal {
     class French : public Base
     {
     public:
+        French() {}
+        French( const std::string& data ) : Base( data ) {}
+
         virtual size_t record_size() const { return 3; }
 
         virtual OptFieldID get_opt_field_id( const std::string& fieldname ) const;
