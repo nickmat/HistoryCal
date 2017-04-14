@@ -40,6 +40,9 @@ using namespace Cal;
 // CC3 p187
 const double Cal::mean_tropical_year = 365.242189; // days
 
+// CC3 p193
+const double Cal::mean_synodic_month = 29.530588853; // days
+
 // CC3 p191
 const double Cal::spring = 0.0; // degrees
 const double Cal::summer = 90.0; 
@@ -115,6 +118,12 @@ double ephemeris_correction( double moment )
     Field jdn3 = Gregorian::to_jdn( year, 1, 1 );
     double x = 0.5 + (double) date_difference( 2382149L, jdn3 );
     return daypersec * ( ( x * x ) / 41048480.0 - 15.0 );
+}
+
+// CC3 p179
+inline double universal_from_dynamical( double moment )
+{
+    return moment - ephemeris_correction( moment );
 }
 
 // CC3 p179
@@ -287,6 +296,320 @@ double Cal::estimate_prior_solar_longitude( double lambda, double moment )
         moment - rate * cal_mod( solar_longitude( moment ) - lambda, 360 );
     double delta = cal_mod( solar_longitude( tau ) - lambda + 180, 360 ) - 180;
     return std::min( moment, tau - rate * delta );
+}
+
+// CC3 p195 nth-new-moon
+// Centered on g# 1 Jan 2000,
+// nth_new_moon was based on new moon of g:dmy# 11 Jan 1.
+static
+double nth_new_moon_since_j2000( Field n )
+{
+    static const struct Arg1s { // Table 13.3
+        double v; int w; double x, y, z;
+    } a1[] = {
+        { -0.40720, 0,  0, 1,  0 },
+        {  0.17241, 1,  1, 0,  0 },
+        {  0.01608, 0,  0, 2,  0 },
+        {  0.01039, 0,  0, 0,  2 },
+        {  0.00739, 1, -1, 1,  0 },
+        { -0.00514, 1,  1, 1,  0 },
+        {  0.00208, 2,  2, 0,  0 },
+        { -0.00111, 0,  0, 1, -2 },
+        { -0.00057, 0,  0, 1,  2 },
+        {  0.00056, 1,  1, 2,  0 },
+        { -0.00042, 0,  0, 3,  0 },
+        {  0.00042, 1,  1, 0,  2 },
+        {  0.00038, 1,  1, 0, -2 },
+        { -0.00024, 1, -1, 2,  0 },
+        { -0.00007, 0,  2, 1,  0 },
+        {  0.00004, 0,  0, 2, -2 },
+        {  0.00004, 0,  3, 0,  0 },
+        {  0.00003, 0,  1, 1, -2 },
+        {  0.00003, 0,  0, 2,  2 },
+        { -0.00003, 0,  1, 1,  2 },
+        {  0.00003, 0, -1, 1,  2 },
+        { -0.00002, 0, -1, 1, -2 },
+        { -0.00002, 0,  1, 3,  0 },
+        {  0.00002, 0,  0, 4,  0 }
+    };
+    static const size_t size1 = sizeof( a1 ) / sizeof( Arg1s );
+
+    static const struct Arg2s { // Table 13.4
+        double h, j, l; // Yes, that really is a lowercase L
+    } a2[] = {
+        { 251.88,  0.016321, 0.000165 },
+        { 251.83, 26.641886, 0.000164 },
+        { 349.42, 36.412478, 0.000126 },
+        {  84.66, 18.206239, 0.000110 },
+        { 141.74, 53.303771, 0.000062 },
+        { 207.14,  2.453732, 0.000060 },
+        { 154.84,  7.306860, 0.000056 },
+        {  34.52, 27.261239, 0.000047 },
+        { 207.19,  0.121824, 0.000042 },
+        { 291.34,  1.844379, 0.000040 },
+        { 161.72, 24.198154, 0.000037 },
+        { 239.56, 25.513099, 0.000035 },
+        { 331.55,  3.592518, 0.000023 }
+    };
+    static const size_t size2 = sizeof( a2 ) / sizeof( Arg2s );
+
+    double c = double( n ) / 1236.85;
+    double c2 = c * c;
+    double c3 = c2 * c;
+    double c4 = c3 * c;
+    double approx = j2000 + 5.09765 + mean_synodic_month * 1236.85 * c
+        + 0.0001337 * c2 - 0.00000015 * c3 + 0.00000000073 * c4;
+
+    double E = 1.0 - 0.002516 * c - 0.0000074 * c2;
+    double solar_a = 2.5534 + 1236.85 * 29.10535669 * c
+        - 0.0000218 * c2 - 0.00000011 * c3;
+    double lunar_a = 201.5643 + 385.81693528 * 1236.85 * c
+        + 0.0107438 * c2 + 0.00001239 * c3 - 0.000000058 * c4;
+    double moon_arg = 160.7108 + 390.67050274 * 1236.85 * c
+        - 0.0016341 * c2 - 0.00000227 * c3 + 0.000000011 * c4;
+    double omega = 124.7746 - 1.56375580 * 1236.85 * c
+        + 0.0020691 * c2 + 0.00000215 * c3;
+
+    double sum1 = 0.0;
+    for( size_t i = 0 ; i < size1 ; i++ ) {
+        double vEw = a1[i].v;
+        switch( a1[i].w )
+        {
+        case 2:
+            vEw *= E; // fall thru
+        case 1:
+            vEw *= E;
+        }
+        sum1 += vEw * sin_d(
+            a1[i].x * solar_a + a1[i].y * lunar_a + a1[i].z * moon_arg );
+    }
+    double correction = -0.00017 * sin_d( omega ) + sum1;
+
+    double extra = 0.000325 * 
+        sin_d( 299.77 + 132.8475848 * c - 0.009173 * c2 );
+
+    double additional = 0.0;
+    for( size_t i = 0 ; i < size2 ; i++ ) {
+        additional =+ a2[i].l * sin_d( a2[i].h + a2[i].j * n );
+    }
+
+    return universal_from_dynamical(
+        approx + correction + extra + additional );
+}
+
+// CC3 p198 required for new_moon_before
+static
+bool new_moon_before_max_func( Field jdn, const void* data )
+{
+    double constant = *static_cast<const double*>(data);
+    return nth_new_moon_since_j2000( jdn ) < constant;
+}
+
+static double lunar_phase( double moment );
+
+// CC3 p198
+double Cal::new_moon_before( double moment )
+{
+    double t0 = nth_new_moon_since_j2000( 0 ); // TODO: make constant
+    double phi = lunar_phase( moment );
+    Field n = Field( ( ( moment - t0 ) / mean_synodic_month ) - ( phi / 360 ) + 0.5 );
+
+    return nth_new_moon_since_j2000( max_search( n - 1, new_moon_before_max_func, &moment ) );
+}
+
+// CC3 p198 required for new_moon_before
+static
+bool new_moon_at_or_after_min_func( Field jdn, const void* data )
+{
+    double constant = *static_cast<const double*>(data);
+    return nth_new_moon_since_j2000( jdn ) >= constant;
+}
+
+// CC3 p198
+double Cal::new_moon_at_or_after( double moment )
+{
+    double t0 = nth_new_moon_since_j2000( 0 ); // TODO: make constant
+    double phi = lunar_phase( moment );
+    Field n = Field( ( ( moment - t0 ) / mean_synodic_month ) - ( phi / 360 ) + 0.5 );
+
+    return nth_new_moon_since_j2000(
+        min_search( n, new_moon_at_or_after_min_func, &moment )
+    );
+}
+
+static double mean_lunar_longitude( double c );
+static double lunar_elongation( double c );
+static double solar_anomaly( double c );
+static double lunar_anomaly( double c );
+static double moon_node( double c );
+
+// CC3 p199
+static
+double lunar_longitude( double moment )
+{
+    static const struct Args {
+        double v, w; int x; double y, z;
+    } a[] = { // Table 13.5
+        { 6288774, 0,  0,  1,  0 },
+        { 1274027, 2,  0, -1,  0 },
+        {  658314, 2,  0,  0,  0 },
+        {  213618, 0,  0,  2,  0 },
+        { -185116, 0,  1,  0,  0 },
+        { -114332, 0,  0,  0,  2 },
+        {   58793, 2,  0, -2,  0 },
+        {   57066, 2, -1, -1,  0 },
+        {   53322, 2,  0,  1,  0 },
+        {   45758, 2, -1,  0,  0 },
+        {  -40923, 0,  1, -1,  0 },
+        {  -34720, 1,  0,  0,  0 },
+        {  -30383, 0,  1,  1,  0 },
+        {   15327, 2,  0,  0, -2 },
+        {  -12528, 0,  0,  1,  2 },
+        {   10980, 0,  0,  1, -2 },
+        {   10675, 4,  0, -1,  0 },
+        {   10034, 0,  0,  3,  0 },
+        {    8548, 4,  0, -2,  0 },
+        {   -7888, 2,  1, -1,  0 },
+        {   -6766, 2,  1,  0,  0 },
+        {   -5163, 1,  0, -1,  0 },
+        {    4987, 1,  1,  0,  0 },
+        {    4036, 2, -1,  1,  0 },
+        {    3994, 2,  0,  2,  0 },
+        {    3861, 4,  0,  0,  0 },
+        {    3665, 2,  0, -3,  0 },
+        {   -2689, 0,  1, -2,  0 },
+        {   -2602, 2,  0, -1,  2 },
+        {    2390, 2, -1, -2,  0 },
+        {   -2348, 1,  0,  1,  0 },
+        {    2236, 2, -2,  0,  0 },
+        {   -2120, 0,  1,  2,  0 },
+        {   -2069, 0,  2,  0,  0 },
+        {    2048, 2, -2, -1,  0 },
+        {   -1773, 2,  0,  1, -2 },
+        {   -1595, 2,  0,  0,  2 },
+        {    1215, 4, -1, -1,  0 },
+        {   -1110, 0,  0,  2,  2 },
+        {    -892, 3,  0, -1,  0 },
+        {    -810, 2,  1,  1,  0 },
+        {     759, 4, -1, -2,  0 },
+        {    -713, 0,  2, -1,  0 },
+        {    -700, 2,  2, -1,  0 },
+        {     691, 2,  1, -2,  0 },
+        {     596, 2, -1,  0, -2 },
+        {     549, 4,  0,  1,  0 },
+        {     537, 0,  0,  4,  0 },
+        {     520, 4, -1,  0,  0 },
+        {    -487, 1,  0, -2,  0 },
+        {    -399, 2,  1,  0, -2 },
+        {    -381, 0,  0,  2, -2 },
+        {     351, 1,  1,  1,  0 },
+        {    -340, 3,  0, -2,  0 },
+        {     330, 4,  0, -3,  0 },
+        {     327, 2, -1,  2,  0 },
+        {    -323, 0,  2,  1,  0 },
+        {     299, 1,  1, -1,  0 },
+        {     294, 2,  0,  3,  0 }
+    };
+    static const size_t size = sizeof( a ) / sizeof( Args );
+
+    double c = julian_centries( moment );
+    double Ld = mean_lunar_longitude( c );
+    double D = lunar_elongation( c );
+    double M = solar_anomaly( c );
+    double Md = lunar_anomaly( c );
+    double F = moon_node( c );
+    double E = 1.0 - 0.002516 * c - 0.0000074 * c * c;
+
+    double sum = 0.0;
+    for( size_t i = 0 ; i < size ; i++ ) {
+        double vEx = a[i].v;
+        switch( a[i].x )
+        {
+        case 2: case -2:
+            vEx *= E; // fall thru
+        case 1: case -1:
+            vEx *= E;
+        }
+        sum += vEx * sin_d(
+            a[i].w * D + double( a[i].x ) * M + a[i].y * Md + a[i].z * F );
+
+    }
+    double correction = 0.000001 * sum;
+
+    double venus = 0.003958 * sin_d( 119.75 + c * 131.849 );
+    double jupiter = 0.000318 * sin_d( 53.09 + c * 479264.29 );
+    double flat_earth = 0.001962 * sin_d( Ld - F );
+    double n = nutation_from_jc( c );
+
+    return cal_mod( Ld + correction + venus + jupiter + flat_earth + n, 360 );
+}
+
+// CC3 p200
+double mean_lunar_longitude( double c )
+{
+    double c2 = c * c;
+    double c3 = c2 * c;
+    double c4 = c3 * c;
+    return 218.3164477 + c * 481267.88123421 - c2 * 0.0015786
+        + c3 / 538841 - c4 / 65194000;
+}
+
+// CC3 p201
+double lunar_elongation( double c )
+{
+    double c2 = c * c;
+    double c3 = c2 * c;
+    double c4 = c3 * c;
+    return 297.8501921 + c * 445267.1114034 - c2 * 0.0018819
+        + c3 / 545868 - c4 / 113065000;
+}
+
+// CC3 p201
+double solar_anomaly( double c )
+{
+    double c2 = c * c;
+    double c3 = c2 * c;
+    return 357.5291092 + c * 35999.0502909 - c2 * 0.0001536
+        + c3 / 24490000;
+}
+
+// CC3 p201
+double lunar_anomaly( double c )
+{
+    double c2 = c * c;
+    double c3 = c2 * c;
+    double c4 = c3 * c;
+    return 134.9633964 + c * 477198.8675055 + c2 * 0.0087414
+        + c3 / 69699 - c4 / 14712000;
+}
+
+// CC3 p201
+double moon_node( double c )
+{
+    double c2 = c * c;
+    double c3 = c2 * c;
+    double c4 = c3 * c;
+    return 93.2720950 + c * 483202.0175233 - c2 * 0.0036539
+        - c3 / 3526000 + c4 / 863310000;
+}
+
+// CC3 p201
+double lunar_phase( double moment )
+{
+    double phi = cal_mod(
+        lunar_longitude( moment ) - solar_longitude( moment ), 360 );
+    double t0 = nth_new_moon_since_j2000( 0 ); // TODO: make constant
+    Field n = Field( ( moment - t0 ) / mean_synodic_month + 0.5 );
+    double phi_dash = 360 *
+        cal_mod( 
+            ( moment - nth_new_moon_since_j2000( n ) ) / mean_synodic_month, 1
+        )
+    ;
+
+    if( abs( phi - phi_dash ) > 180 ) {
+        return phi_dash;
+    }
+    return phi;
 }
 
 // End of src/cal/calAstro.cpp

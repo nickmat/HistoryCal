@@ -117,6 +117,9 @@ OptFieldID Base::get_opt_field_id( const std::string& fieldname ) const
     if( fieldname == "ssolstice" ) {
         return OFID_ssolstice;
     }
+    if( fieldname == "newmoon" ) {
+        return OFID_newmoon;
+    }
     return OFID_NULL;
 }
 
@@ -140,6 +143,8 @@ std::string Base::get_opt_fieldname( OptFieldID field_id ) const
         return "sequinox";
     case OFID_ssolstice:
         return "ssolstice";
+    case OFID_newmoon:
+        return "newmoon";
     default:
         return "";
     }
@@ -161,6 +166,8 @@ Field Base::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const
         return int( solar_longitude_after( autumn, jdn ) + m_locale.lon / 360 );
     case OFID_ssolstice: // Soutern/Winter solstice.
         return int( solar_longitude_after( winter, jdn ) + m_locale.lon / 360 );
+    case OFID_newmoon:
+        return int( new_moon_at_or_after( jdn ) + m_locale.lon / 360 );
     }
     return f_invalid;
 }

@@ -51,6 +51,7 @@ namespace Cal {
         OFID_nsolstice, // The jdn day of the Next Northern (Jun) Solstice.
         OFID_sequinox,  // The jdn day of the Next Southward (Sep) Equinox.
         OFID_ssolstice, // The jdn day of the Next Southern (Dec) Solstice.
+        OFID_newmoon,   // The jdn day of the next New Moon.
         // Julian, Gregorian
         OFID_j_litweek, // See calliturgical.cpp
         OFID_j_ce,      // 0 = BCE, 1 = CE

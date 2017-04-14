@@ -30,7 +30,8 @@
 
 namespace Cal {
 
-    extern const double mean_tropical_year;
+    extern const double mean_tropical_year; // 365.242189 days
+    extern const double mean_synodic_month; // 29.530588853;
 
     extern const double spring; // 0 degrees
     extern const double summer; // 90 degrees
@@ -75,6 +76,9 @@ namespace Cal {
     double solar_longitude_after( double season, double moment );
 
     double estimate_prior_solar_longitude( double season, double moment );
+
+    double new_moon_before( double moment );
+    double new_moon_at_or_after( double moment );
 
 }
 
