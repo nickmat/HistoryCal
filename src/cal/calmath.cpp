@@ -102,6 +102,16 @@ Field Cal::mod_e( Field a, Field b )
     return r;
 }
 
+Field Cal::round_f( double r )
+{
+    return Field( r > 0.0 ? r + 0.5 : r - 0.5 );
+}
+
+Field Cal::floor_f( double r )
+{
+    return Field( floor( r ) );
+}
+
 #define calSEARCH_MAX 30
 
 // CC3 p20
@@ -135,6 +145,11 @@ int Cal::cal_signum( double n )
     return 0;
 }
 
+double Cal::fmod_f( double x, double y )
+{
+    return x - y * floor( x / y ); 
+} 
+
 double Cal::fmod_r( double x, double y )
 {
     double f = floor( x / y );
@@ -144,20 +159,6 @@ double Cal::fmod_r( double x, double y )
     }
     return r;
 } 
-
-double Cal::cal_mod( double x, double y )
-{
-    return x - y * floor( x / y ); 
-} 
-
-Field Cal::cal_round( double x )
-{
-  Field i = Field( x );
-  if( x >= 0.0 ) {
-      return (x-i >= 0.5) ? i + 1 : i;
-  }
-  return (-x+i >= 0.5) ? i - 1 : i;
-}
 
 Range Cal::enclosing_range( const RangeList& rlist )
 {
@@ -169,7 +170,5 @@ Range Cal::enclosing_range( const RangeList& rlist )
     range.jdn2 = rlist[rlist.size()-1].jdn2;
     return range;
 }
-
-
 
 // End of src/cal/calmath.cpp

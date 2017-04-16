@@ -33,7 +33,7 @@
 
 namespace Cal {
 
-    // We use our own value of pi for consistancy.
+    //! We use our own value of pi for consistancy.
     extern const double cal_pi;
 
     extern Field latin_diy[14];
@@ -43,11 +43,18 @@ namespace Cal {
     extern Field div_f( Field a, Field b );
     //! Integer function to return (a modulo b) that has the same sign as b.  
     extern Field mod_f( Field a, Field b );
+    //! Modulus of a multiple of divisor equals the divisor (not zero)
+    inline Field amod_f( Field a, Field b ) { return mod_f( a - 1, b ) + 1; }
 
     //! Integer function to return Euclidean division
     extern Field div_e( Field a, Field b );
     //! Integer function to return positive value for (a modulo b).
     extern Field mod_e( Field a, Field b );
+
+    //! Convert double to Field by rounding.
+    extern Field round_f( double r );
+    //! Convert double to Field with floor.
+    extern Field floor_f( double r );
 
     typedef bool (*calSearchFunc)( Field value, const void* data );
 
@@ -56,11 +63,10 @@ namespace Cal {
 
     extern int cal_signum( double n );
 
-    extern double cal_mod( double x, double y );
-    // Modulus rounded towards zero
+    //! Modulus with return the same sign as y (divisor).
+    extern double fmod_f( double x, double y );
+    //! Modulus rounded towards zero.
     extern double fmod_r( double x, double y );
-
-    extern Field cal_round( double x );
 
     // Inline functions
 

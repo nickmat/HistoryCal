@@ -219,6 +219,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\cal\calchinese.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\cal\caldefscripts.cpp"
 				>
 			</File>
@@ -358,6 +362,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\cal\calbase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\cal\calchinese.h"
 				>
 			</File>
 			<File

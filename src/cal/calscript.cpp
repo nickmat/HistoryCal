@@ -481,6 +481,8 @@ Base* Script::do_base()
             bs = Scheme::BS_hebrew;
         } else if( token.get_str() == "islamic" ) {
             bs = Scheme::BS_islamic;
+        } else if( token.get_str() == "chinese" ) {
+            bs = Scheme::BS_chinese;
         } else {
             error( "Base scheme not recognised." );
             return NULL;

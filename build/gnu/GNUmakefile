@@ -98,6 +98,7 @@ UNIT_OBJECTS =  \
 	unit_def_jce.o \
 	unit_def_jlit.o \
 	unit_testcal.o \
+	unit_testchinese.o \
 	unit_testcommon.o \
 	unit_testformat.o \
 	unit_testfrenchrep.o \
@@ -132,6 +133,7 @@ CAL_OBJECTS =  \
 	cal_calastro.o \
 	cal_calbase.o \
 	cal_calcalendars.o \
+	cal_calchinese.o \
 	cal_caldefscripts.o \
 	cal_caldlist.o \
 	cal_calformat.o \
@@ -337,6 +339,9 @@ unit_def_jlit.o: ./../../test/unit/def_jlit.cpp
 unit_testcal.o: ./../../test/unit/testcal.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
+unit_testchinese.o: ./../../test/unit/testchinese.cpp
+	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
+
 unit_testcommon.o: ./../../test/unit/testcommon.cpp
 	$(CXX) -c -o $@ $(UNIT_CXXFLAGS) $(CPPDEPS) $<
 
@@ -419,6 +424,9 @@ cal_calbase.o: ./../../src/cal/calbase.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calcalendars.o: ./../../src/cal/calcalendars.cpp
+	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
+
+cal_calchinese.o: ./../../src/cal/calchinese.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_caldefscripts.o: ./../../src/cal/caldefscripts.cpp

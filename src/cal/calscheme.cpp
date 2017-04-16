@@ -29,6 +29,7 @@
 
 #include "cal/calendars.h"
 #include "calbase.h"
+#include "calchinese.h"
 #include "calformat.h"
 #include "calfrench.h"
 #include "calgrammar.h"
@@ -191,7 +192,7 @@ Field Scheme::add_to_jdn( Field jdn, Field value, Unit unit, Norm norm )
     }
     double ddays = rec.get_average_days( unit );
     if( ddays > 0.0 ) {
-        return jdn + cal_round( ddays * (double) value );
+        return jdn + round_f( ddays * (double) value );
     }
     assert( false ); // Run out of ideas!
     return jdn;
@@ -282,6 +283,8 @@ Base* Scheme::create_base( BaseScheme bs, const std::string& data )
         return new Hebrew( data );
     case BS_islamic:
         return new Islamic( data );
+    case BS_chinese:
+        return new Chinese( data );
     default:
         return NULL;
     }

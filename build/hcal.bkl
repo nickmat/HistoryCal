@@ -6,7 +6,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2013
- * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCal is free software: you can redistribute it and/or modify
@@ -137,6 +137,7 @@
     <sources>$(LOCAL_TST)/unit/def_jce.cpp</sources>
     <sources>$(LOCAL_TST)/unit/def_jlit.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testcal.cpp</sources>
+    <sources>$(LOCAL_TST)/unit/testchinese.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testcommon.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testformat.cpp</sources>
     <sources>$(LOCAL_TST)/unit/testfrenchrep.cpp</sources>
@@ -202,6 +203,7 @@
     <sources>$(LOCAL_SRC)/cal/calastro.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calbase.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calcalendars.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calchinese.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/caldefscripts.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/caldlist.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calformat.cpp</sources>
@@ -240,6 +242,7 @@
 
     <headers>$(LOCAL_SRC)/cal/calastro.h</headers>
     <headers>$(LOCAL_SRC)/cal/calbase.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calchinese.h</headers>
     <headers>$(LOCAL_SRC)/cal/caldefscripts.h</headers>
     <headers>$(LOCAL_SRC)/cal/caldlist.h</headers>
     <headers>$(LOCAL_SRC)/cal/calformat.h</headers>

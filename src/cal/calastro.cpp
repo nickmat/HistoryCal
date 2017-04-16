@@ -49,12 +49,10 @@ const double Cal::summer = 90.0;
 const double Cal::autumn = 180.0; 
 const double Cal::winter = 270.0;
 
-//
-double const Cal::j2000 = 2451545.5; // 1 Jan 2000 (G) plus 12 hours
+// CC3 p179
+double const Cal::j2000 = 2451545.5; // g# 1 Jan 2000 plus 12 hours
 
 namespace {
-
-inline long date_difference( long jdn1, long jdn2 ) { return jdn2 - jdn1; } 
 
 // NOTE: 
 // 1 Jan 2000 (G) = 2451545 (JDN)
@@ -65,7 +63,7 @@ inline long date_difference( long jdn1, long jdn2 ) { return jdn2 - jdn1; }
 double ephemeris_correction( double moment )
 {
     const double daypersec = 1.0 / 86400.0;
-    Field jdn = (Field) moment;
+    Field jdn = floor_f( moment );
     Field year = Gregorian::year_from_jdn( jdn );
 
     if( year <= 2019 ) {
@@ -74,9 +72,7 @@ double ephemeris_correction( double moment )
         }
         if( year >= 1800 ) {
             Field jdn2 = Gregorian::to_jdn( year, 7, 1 );
-            double c = 
-                ( 1.0 / 36525.0 ) * (double) date_difference( 2415021L, jdn2 )
-            ;
+            double c = ( 1.0 / 36525.0 ) * double( jdn2 - 2415021 /* g# 1900 1 1 */ );
             double c2 = c * c;
             double c3 = c2 * c;
             double c4 = c3 * c;
@@ -101,7 +97,7 @@ double ephemeris_correction( double moment )
             ;
         }
         if( year >= 1700 ) {
-            double ya = (double) ( year - 1700 );
+            double ya = double( year - 1700 );
             double ya2 = ya * ya;
             double ya3 = ya2 * ya;
             return 
@@ -110,14 +106,19 @@ double ephemeris_correction( double moment )
             ;
         }
         if( year >= 1620 ) {
-            double yb = (double) ( year - 1600 );
+            double yb = double( year - 1600 );
             double yb2 = yb * yb;
             return daypersec * ( 196.58333 - 4.0675 * yb + 0.0219167 * yb2 );
         }
     }
     Field jdn3 = Gregorian::to_jdn( year, 1, 1 );
-    double x = 0.5 + (double) date_difference( 2382149L, jdn3 );
+    double x = 0.5 + double( jdn3 - 2382149 /* g# 1810 1 1 */ );
     return daypersec * ( ( x * x ) / 41048480.0 - 15.0 );
+}
+
+inline double dynamical_from_universal( double moment )
+{
+    return moment + ephemeris_correction( moment );
 }
 
 // CC3 p179
@@ -129,8 +130,7 @@ inline double universal_from_dynamical( double moment )
 // CC3 p179
 double julian_centries( double moment )
 {
-    double dynamictime = moment + ephemeris_correction( moment );
-    return ( 1.0 / 36525.0 ) * ( dynamictime - j2000 );
+    return ( dynamical_from_universal( moment ) - j2000 ) / 36525.0;
 }
 
 // CC3 p186
@@ -144,7 +144,7 @@ double obliquity_from_jc( double c )
 // CC3 p189
 double aberration_from_jc( double c )
 {
-    return 0.000974 * cos( ( 177.63 + 35999.01848 * c ) * cal_pi / 180 ) - 0.005575;
+    return 0.000974 * cos_d( 177.63 + 35999.01848 * c ) - 0.005575;
 }
 
 // CC3 p189
@@ -153,7 +153,7 @@ double nutation_from_jc( double c )
     double c2 = c * c;
     double A = 124.9 - 1934.134 * c + 0.002063 * c2;
     double B = 201.11 + 72001.5377 * c + 0.00057 * c2;
-    return - 0.004778 * sin( A * cal_pi / 180 ) - 0.0003667 * sin( B * cal_pi / 180 );
+    return - 0.004778 * sin_d( A ) - 0.0003667 * sin_d( B );
 }
 
 } // namespace
@@ -165,27 +165,21 @@ double Cal::equation_of_time( double moment )
     double c2 = c * c;
     double c3 = c2 * c;
     double lambda = 280.46645 + 36000.76983 * c + 0.0003032 * c2;
-    double anomaly = 357.52910 + 35999.050303 * c - 0.0001559 * c2 - 0.00000048 * c3;
+    double anomaly = 357.52910 + 35999.05030 * c - 0.0001559 * c2 - 0.00000048 * c3;
     double eccentricity = 0.016708617 - 0.000042037 * c - 0.0000001236 * c2;
     double epsilon = obliquity_from_jc( c );
-    double y = tan( deg_to_rad( epsilon / 2 ) );
+    double y = tan_d( epsilon / 2 );
     y *= y;
 
     double equation = 
         ( 1.0 / ( 2 * cal_pi ) ) * (
-        y * sin( 2 * lambda * cal_pi / 180 ) 
-        - 2 * eccentricity * sin( deg_to_rad( anomaly ) )
-        + 4 * eccentricity * y * sin( deg_to_rad( anomaly ) ) * cos( 2 * deg_to_rad( lambda ) )
-        - 0.5 * y * y * sin( 4 * lambda * cal_pi / 180 )
-        - 1.25 * eccentricity * eccentricity * sin( 2 * deg_to_rad( anomaly ) ) )
+        y * sin_d( 2 * lambda ) 
+        - 2 * eccentricity * sin_d( anomaly )
+        + 4 * eccentricity * y * sin_d( anomaly ) * cos_d( 2 * lambda )
+        - 0.5 * y * y * sin_d( 4 * lambda )
+        - 1.25 * eccentricity * eccentricity * sin_d( 2 * anomaly ) )
     ;
-    double t1 = y * sin( 2 * lambda * cal_pi / 180 );
-    double t2 = - 2 * eccentricity * sin( anomaly * cal_pi / 180 );
-    double t3 = 4 * eccentricity * y * sin( anomaly * cal_pi / 180 ) * cos( 2 * lambda * cal_pi / 180 );
-    double t4 = - 0.5 * y * y * sin( 4 * lambda * cal_pi / 180 );
-    double t5 = - 1.25 * eccentricity * eccentricity * sin( 2 * anomaly * cal_pi / 180 );
-    double equation2 = ( 1.0 / ( 2 * cal_pi ) ) * ( t1 + t2 + t3 + t4 + t5 );
-    return cal_signum( equation ) * std::min( (double) abs( equation ), 0.5 );
+    return cal_signum( equation ) * std::min( abs( equation ), 0.5 );
 }
 
 // CC3 p189
@@ -248,11 +242,11 @@ double Cal::solar_longitude( double moment )
     double c = julian_centries( moment );
     double sum = 0.0;
     for( size_t i = 0 ; i < size ; i++ ) {
-        sum += a[i].x * sin( deg_to_rad( a[i].y + a[i].z * c ) );
+        sum += a[i].x * sin_d( a[i].y + a[i].z * c );
     }
     double lambda = 282.7771834 + 36000.76953744 * c + 0.000005729577951308232 * sum;
 
-    return cal_mod( lambda + aberration_from_jc( c ) + nutation_from_jc( c ), 360 );
+    return fmod_f( lambda + aberration_from_jc( c ) + nutation_from_jc( c ), 360 );
 }
 
 // Based on CC p21
@@ -282,7 +276,7 @@ static double solar_longitude_inverted( double angle, double a, double b )
 double Cal::solar_longitude_after( double season, double moment )
 {
     double rate = mean_tropical_year / 360;
-    double tau = moment + rate * cal_mod( season - solar_longitude( moment ), 360 );
+    double tau = moment + rate * fmod_f( season - solar_longitude( moment ), 360 );
     double a = std::max( moment, tau - 5 );
     double b = tau + 5;
     return solar_longitude_inverted( season, a, b );
@@ -292,15 +286,14 @@ double Cal::solar_longitude_after( double season, double moment )
 double Cal::estimate_prior_solar_longitude( double lambda, double moment )
 {
     double rate = mean_tropical_year / 360;
-    double tau = 
-        moment - rate * cal_mod( solar_longitude( moment ) - lambda, 360 );
-    double delta = cal_mod( solar_longitude( tau ) - lambda + 180, 360 ) - 180;
+    double tau = moment - rate * fmod_f( solar_longitude( moment ) - lambda, 360 );
+    double delta = fmod_f( solar_longitude( tau ) - lambda + 180, 360 ) - 180;
     return std::min( moment, tau - rate * delta );
 }
 
 // CC3 p195 nth-new-moon
 // Centered on g# 1 Jan 2000,
-// nth_new_moon was based on new moon of g:dmy# 11 Jan 1.
+// nth_new_moon was based on new moon of g:dmy# 11 Jan 1 (1721436).
 static
 double nth_new_moon_since_j2000( Field n )
 {
@@ -412,7 +405,7 @@ double Cal::new_moon_before( double moment )
 {
     double t0 = nth_new_moon_since_j2000( 0 ); // TODO: make constant
     double phi = lunar_phase( moment );
-    Field n = Field( ( ( moment - t0 ) / mean_synodic_month ) - ( phi / 360 ) + 0.5 );
+    Field n = round_f( ( ( moment - t0 ) / mean_synodic_month ) - ( phi / 360 ) );
 
     return nth_new_moon_since_j2000( max_search( n - 1, new_moon_before_max_func, &moment ) );
 }
@@ -430,7 +423,7 @@ double Cal::new_moon_at_or_after( double moment )
 {
     double t0 = nth_new_moon_since_j2000( 0 ); // TODO: make constant
     double phi = lunar_phase( moment );
-    Field n = Field( ( ( moment - t0 ) / mean_synodic_month ) - ( phi / 360 ) + 0.5 );
+    Field n = round_f( ( ( moment - t0 ) / mean_synodic_month ) - ( phi / 360 ) );
 
     return nth_new_moon_since_j2000(
         min_search( n, new_moon_at_or_after_min_func, &moment )
@@ -541,7 +534,7 @@ double lunar_longitude( double moment )
     double flat_earth = 0.001962 * sin_d( Ld - F );
     double n = nutation_from_jc( c );
 
-    return cal_mod( Ld + correction + venus + jupiter + flat_earth + n, 360 );
+    return fmod_f( Ld + correction + venus + jupiter + flat_earth + n, 360 );
 }
 
 // CC3 p200
@@ -596,15 +589,11 @@ double moon_node( double c )
 // CC3 p201
 double lunar_phase( double moment )
 {
-    double phi = cal_mod(
-        lunar_longitude( moment ) - solar_longitude( moment ), 360 );
+    double phi = fmod_f( lunar_longitude( moment ) - solar_longitude( moment ), 360 );
     double t0 = nth_new_moon_since_j2000( 0 ); // TODO: make constant
-    Field n = Field( ( moment - t0 ) / mean_synodic_month + 0.5 );
+    Field n = round_f( ( moment - t0 ) / mean_synodic_month );
     double phi_dash = 360 *
-        cal_mod( 
-            ( moment - nth_new_moon_since_j2000( n ) ) / mean_synodic_month, 1
-        )
-    ;
+        fmod_f( ( moment - nth_new_moon_since_j2000( n ) ) / mean_synodic_month, 1 );
 
     if( abs( phi - phi_dash ) > 180 ) {
         return phi_dash;
