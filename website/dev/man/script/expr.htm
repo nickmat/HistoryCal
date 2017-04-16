@@ -193,11 +193,15 @@
 <tr><td class='code'>-</td><td>Minus</td><td class='example'>number_type <b>-</b> number_type</td><td class='example'>number_type</td></tr>
 <tr><td class='code'>*</td><td>Multiply</td><td class='example'>field_type <b>*</b> field_type</td><td class='example'>field_type</td></tr>
 <tr><td class='code'>/</td><td>Divide</td><td class='example'>field_type <b>/</b> field_type</td><td class='example'>field_type</td></tr>
+<tr><td class='code'>mod</td><td>Modulo</td><td class='example'>field_type <b>mod</b> field_type</td><td class='example'>field_type</td></tr>
 </table>
 <p>
  For field values,
- the arithmetic operators '+' (addition), '-' (subtraction, negation) and '*' (multiplication) retain their normal mathematical meanings,
- division '/' provides integer division.
+ the arithmetic operators '+' (addition), '-' (subtraction, negation)
+ and '*' (multiplication) retain their normal mathematical meanings,
+ division '/' and 'mod' provides integer division and modulus (remainder).
+ Note that the modulo operator always returns a positive value
+ and that if q = a / b and r = a mod b then a = b * q + r.
 </p>
 
 <h4>Unary Minus</h4>
@@ -372,8 +376,8 @@
 <table class='list' id='operator-list'> <!-- See test file subscript006.hcs -->
 <tr><th>Example</th><th>Result</th></tr>
  <tr><td class='example'>(8~16|20~50|75~99)[1]</td><td class='example'>20 ~ 50</tr>
- <tr><td class='example'>{"g",1948,9,19}[0]</td><td class='example'>1948</td></tr>
- <tr><td class='example'>{"g",1948,9,19,?}[wday]</td><td class='example'>?</td></tr>
+ <tr><td class='example'>{g,1948,9,19}[0]</td><td class='example'>1948</td></tr>
+ <tr><td class='example'>{g,1948,9,19,?}[wday]</td><td class='example'>?</td></tr>
  <tr><td class='example'>2432814[g:wday]</td><td class='example'>7</tr>
  <tr><td class='example'>let i="g:Month"; 2432814[(i)]</td><td class='example'>9</tr>
 </table>
@@ -390,9 +394,9 @@
 <tr><td class='code'>span</td><td class='example'>(7~16).span</td><td class='example'>10</td><td rowspan='2'>Return the inclusive count between upper and lower bounds of a range or rlist.</td></tr>
 <tr><td class='code'>span</td><td class='example'>(21|79~88|100~120|200~210).span</td><td class='example'>190</td></tr>
 <tr><td class='code'>size</td><td class='example'>(21|79~88|100~120|200~210).size</td><td class='example'>4</td><td rowspan='2'>Return the number of elements in a rlist or record.</td></tr>
-<tr><td class='code'>size</td><td class='example'>{"g",1948,9,19}.size</td><td class='example'>3</td></tr>
+<tr><td class='code'>size</td><td class='example'>{g,1948,9,19}.size</td><td class='example'>3</td></tr>
 <tr><td class='code'>envelope</td><td class='example'>(21|79~88|100~120|200~210).envelope</td><td class='example'>21 ~ 210</td><td>Return the enclosing range af an rlist.</td></tr>
-<tr><td class='code'>scheme</td><td class='example'>{"g",1948,9,19}.scheme</td><td class='example'>"g"</td><td>Return the scheme code string of a record.</td></tr>
+<tr><td class='code'>scheme</td><td class='example'>{g,1948,9,19}.scheme</td><td class='example'>"g"</td><td>Return the scheme code string of a record.</td></tr>
 </table>
 
 <h3>Type Conversions</h3>
@@ -423,8 +427,8 @@
  <tr><td class='example'>date "19sep1948"</td><td class='example'>2432814</tr>
  <tr><td class='example'>date "1940~1950|1945~1955"</td><td class='example'>2429630 ~ 2435473</td></tr>
  <tr><td class='example'>date,g:iso "[1940..1950,1945..1955]"</td><td class='example'>2429630 ~ 2435473</td></tr>
- <tr><td class='example'>date {"g", 1948, 9, 19}</td><td class='example'>2432814</tr>
- <tr><td class='example'>date {"g", 1948}</td><td class='example'>2432552 ~ 2432917</tr>
+ <tr><td class='example'>date {g, 1948, 9, 19}</td><td class='example'>2432814</tr>
+ <tr><td class='example'>date {g, 1948}</td><td class='example'>2432552 ~ 2432917</tr>
  <tr><td colspan='2'>The above examples assume a system input setting of "g:dmy".</td></tr>
 </table>
 
@@ -442,8 +446,8 @@
  <tr><td class='example'>string,"g:dmy+" 2432814</td><td class='example'>"19 September 1948"</tr>
  <tr><td class='example'>string,g 2429630~2435473</td><td class='example'>"1940 ~ 1955"</td></tr>
  <tr><td class='example'>string,g:iso 2429630 ~ 2429995 | 2433283 ~ 2435473</td><td class='example'>"[1940,1950..1955]"</td></tr>
- <tr><td class='example'>string {"g", 1948, 9, 19}</td><td class='example'>"19 Sep 1948"</tr>
- <tr><td class='example'>string {"j", 1948}</td><td class='example'>"1948"</tr>
+ <tr><td class='example'>string {g, 1948, 9, 19}</td><td class='example'>"19 Sep 1948"</tr>
+ <tr><td class='example'>string {j, 1948}</td><td class='example'>"1948"</tr>
  <tr><td colspan='2'>The above examples assume a system output setting of "g:dmy".</td></tr>
 </table>
 
@@ -526,6 +530,14 @@
 <tr><td class='code'>or</td><td>Logical inclusive or</td><td class='example'>bool_value <b>or</b> bool_value</td><td class='example'>bool_value</td></tr>
 </table>
 
+<h2>Keywords</h2>
+<p>
+ The following is a complete list of keywords.
+ These words cannot be used as variable names or signature codes.
+</p>
+<p>
+ <b>and, date, false, future, invalid, match, mod, not, or, past, record, string, today, true</b>
+</p>
 
 </div><!--id=content-->
 
