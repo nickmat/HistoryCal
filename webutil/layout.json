@@ -69,7 +69,8 @@
           { "name": "roman", "label": "Roman", "subtitle": "Roman Calendars" },
           { "label": "French Republic", "subtitle": "French Republic Calendar" },
           { "label": "Hebrew", "subtitle": "Hebrew Calendar" },
-          { "label": "Islamic", "subtitle": "Islamic Calendars" }
+          { "label": "Islamic", "subtitle": "Islamic Calendars" },
+          { "label": "Chinese", "subtitle": "Chinese Calendars" }
         ]},
         { "folder": "script", "name": "index", "label": "Script", "subtitle": "Script Language", "content": [
           { "name": "expr", "label": "Expressions", "subtitle": "Script Expressions" },
@@ -109,7 +110,8 @@
           { "name": "h", "subtitle": "h# Hebrew", "map-label": false },
           { "name": "i", "subtitle": "i# Islamic Tabular", "map-label": false },
           { "name": "ims", "subtitle": "ims# Islamic Microsoft Hijri", "map-label": false },
-          { "name": "if", "subtitle": "if# Islamic Fātimid", "map-label": false }
+          { "name": "if", "subtitle": "if# Islamic Fātimid", "map-label": false },
+          { "name": "c", "subtitle": "c# Chinese", "map-label": false }
         ]},
         { "name": "gloss", "label": "Glossary" }
       ]},    

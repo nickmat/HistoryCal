@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - c</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../sys/logo1_32x32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../sys/hcal.css' />
+</head>
+<body>
+
+ <h1>
+  <a  href='http://historycal.org'>
+   <img id='logo' src='../../../sys/logo2.png' alt='Logo' />
+  </a>
+  HistoryCal - V0.0.7 Manual<br />c# Chinese
+ </h1>
+
+ <div id='page'>
+
+  <div id='crumbs'>
+   <a href='../../../index.htm' class='m-item'>Home</a>
+   <a href='../../../dev/index.htm' class='m-item level1'>Development</a>
+   <a href='../../../dev/man/index.htm' class='m-item level2'>V0.0.7 Manual</a>
+   <a href='../../../dev/man/defs/index.htm' class='m-item level3'>Cal. Definitions</a>
+   <a href='c.htm' class='m-item thispage level4'>c</a>
+   <a href='../../../dev/man/defs/if.htm' class='m-item prev'>&lt;&lt;</a>
+   <a href='../../../dev/man/gloss.htm' class='m-item next'>&gt;&gt;</a>
+  </div>
+
+<div id='content' class='nomenu'>
+
+<h3>Under Construction</h3>
+
+<h2>Calendar Description</h2>
+<p>
+ The Chinese calendar is a lunisolar calendar with 12 lunar months in a common year and 13 in a leap year.
+ The start of the year occurs just before the Northward/Spring equinox and is tied to the Southern/Winter solstice.
+ Months start on the day of the new moon and have 39 or 30 days.
+</p>
+
+<h3>Use Case</h3>
+<p>
+</p>
+<ul>
+ <li>China. This version of the calendar has been in use since 1645.</li>
+</ul>
+
+<h3>Definition</h3>
+<table class='record'>
+<tr><th colspan='5'>Record</th></tr>
+<tr><td>cycle</td><td>year</td><td>month</td><td>lmonth</td><td>day</td></tr>
+</table>
+<table class='data'>
+<tr><th colspan='2'>Branch</th></tr>
+<tr><th>Value</th><th>Name</th></tr>
+<tr><td>1</td><td>zǐ</td></tr>
+<tr><td>2</td><td>chǒu</td></tr>
+<tr><td>3</td><td>yín</td></tr>
+<tr><td>4</td><td>mǎo</td></tr>
+<tr><td>5</td><td>chén</td></tr>
+<tr><td>6</td><td>sì</td></tr>
+<tr><td>7</td><td>wǔ</td></tr>
+<tr><td>8</td><td>wèi</td></tr>
+<tr><td>9</td><td>shēn</td></tr>
+<tr><td>10</td><td>yǒu</td></tr>
+<tr><td>11</td><td>xū</td></tr>
+<tr><td>12</td><td>hài</td></tr>
+</table>
+<table class='data'>
+<tr><th colspan='2'>Stem</th></tr>
+<tr><th>Value</th><th>Name</th></tr>
+<tr><td>1</td><td>Jiǎ</td></tr>
+<tr><td>2</td><td>Yǐ</td></tr>
+<tr><td>3</td><td>Bǐng</td></tr>
+<tr><td>4</td><td>Dīng</td></tr>
+<tr><td>5</td><td>Wù</td></tr>
+<tr><td>6</td><td>Jǐ</td></tr>
+<tr><td>7</td><td>Gēng</td></tr>
+<tr><td>8</td><td>Xīn</td></tr>
+<tr><td>9</td><td>Rén</td></tr>
+<tr><td>10</td><td>Guì</td></tr>
+</table>
+<table class='data'>
+<tr><th colspan='3'>Field lmonth</th></tr>
+<tr><th>Value</th><th>Name</th><th>Abbrev.</th></tr>
+<tr><td>0</td><td>Common Month</td><td>Month</td></tr>
+<tr><td>1</td><td>Leap Month</td><td>Leap</td></tr>
+</table>
+<p style='clear: left'>
+ 
+</p>
+<p>
+ The <b>Record</b> consists of five <b>Fields</b> named <code>cycle,</code> <code>year,</code>
+ <code>lmonth,</code> <code>month,</code> and <code>day.</code>
+ There are twelve common months in a year numbered 1 to 12.
+ The lmonth field is set to 0 for these months.
+ In a leap year, one of the months will be repeated with the lmonth field set to 1.
+ Each month starts on day 1, the day of the new moon, and will be 29 or 30 days long.
+</p>
+<div>
+ The <b>Epoch</b> is set at
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>c</td><th>cycle</th><th>year</th><th>month</th><th>lmonth</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>g</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>-2636</td><td>2</td><td>15</td></tr>
+ </table>
+  =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>758326</td></tr>
+ </table>.
+</div>
+
+<h3>Script</h3>
+<table class='code'>
+<tr><th>Default Script</th></tr>
+<tr><td
+>vocab cyear {
+    name "Year names";
+    fieldname year;
+    lang en;
+    stylename  Year,       Yr;
+    tokens {
+        1,  "Jiǎ-zǐ",     "Jia-zi";
+        2,  "Yǐ-chǒu",    "Yi-chou";
+        3,  "Bǐng-yín",   "Bing-yin";
+        4,  "Dīng-mǎo",   "Ding-mao";
+        5,  "Wù-chén",    "Wu-chen";
+        6,  "Jǐ-sì",      "Ji-si";
+        7,  "Gēng-wǔ",    "Geng-wu";
+        8,  "Xīn-wèi",    "Xin-wei";
+        9,  "Rén-shēn",   "Ren-shen";
+        10, "Guì-yǒu",    "Gui-you";
+        11, "Jiǎ-xū",     "Jia-xu";
+        12, "Yǐ-hài",     "Yi-hai";
+        13, "Bǐng-zǐ",    "Bing-zi";
+        14, "Dīng-chǒu",  "Ding-chou";
+        15, "Wù-yín",     "Wu-yin";
+        16, "Jǐ-mǎo",     "Ji-mao";
+        17, "Gēng-chén",  "Geng-chen";
+        18, "Xīn-sì",     "Xin-si";
+        19, "Rén-wǔ",     "Ren-wu";
+        20, "Guì-wèi",    "Gui-wei";
+        21, "Jiǎ-shēn",   "Jia-shen";
+        22, "Yǐ-yǒu",     "Yi-you";
+        23, "Bǐng-xū",    "Bing-xu";
+        24, "Dīng-hài",   "Ding-hai";
+        25, "Wù-zǐ",      "Wu-zi";
+        26, "Jǐ-chǒu",    "Ji-chou";
+        27, "Gēng-yín",   "Geng-yin";
+        28, "Xīn-mǎo",    "Xin-mao";
+        29, "Rén-chén",   "Ren-chen";
+        30, "Guì-sì",     "Gui-si";
+        31, "Jiǎ-wǔ",     "Jia-wu";
+        32, "Yǐ-wèi",     "Yi-wei";
+        33, "Bǐng-shēn",  "Bing-shen";
+        34, "Dīng-yǒu",   "Ding-you";
+        35, "Wù-xū",      "Wu-xu";
+        36, "Jǐ-hài",     "Ji-hai";
+        37, "Gēng-zǐ",    "Geng-zi";
+        38, "Xīn-chǒu",   "Xin-chou";
+        39, "Rén-yín",    "Ren-yin";
+        40, "Guì-mǎo",    "Gui-mao";
+        41, "Jiǎ-chén",   "Jia-chen";
+        42, "Yǐ-sì",      "Yi-si";
+        43, "Bǐng-wǔ",    "Bing-wu";
+        44, "Dīng-wèi",   "Ding-wei";
+        45, "Wù-shēn",    "Wu-shen";
+        46, "Jǐ-yǒu",     "Ji-you";
+        47, "Gēng-xū",    "Geng-xu";
+        48, "Xīn-hài",    "Xin-hai";
+        49, "Rén-zǐ",     "Ren-zi";
+        50, "Guì-chǒu",   "Gui-chou";
+        51, "Jiǎ-yín",    "Jia-yin";
+        52, "Yǐ-mǎo",     "Yi-mao";
+        53, "Bǐng-chén",  "Bing-chen";
+        54, "Dīng-sì",    "Ding-si";
+        55, "Wù-wǔ",      "Wu-wu";
+        56, "Jǐ-wèi",     "Ji-wei";
+        57, "Gēng-shēn",  "Geng-shen";
+        58, "Xīn-yǒu",    "Xin-you";
+        59, "Rén-xū",     "Ren-xu";
+        60, "Guì-hài",    "Gui-hai";
+    }
+}
+
+vocab clmon {
+    name "Leap month";
+    fieldname lmonth;
+    lang en;
+    stylename  LeapMon,     LM;
+    tokens {
+        0,  "Month",       "Month";
+        1,  "Leap month",  "Leap";
+    }
+}
+
+grammar c {
+    vocabs cyear, clmon;
+    alias field {
+        Day,   day;
+        Leap,  lmonth;
+        Month, month;
+        Year,  year;
+        Cycle, cycle;
+    }
+    alias stylename {
+        Day,   dd;
+        Month, mm;
+        Leap,  lm;
+        Year,  yy;
+        Cycle, cc;
+    }
+    format cylmd, "(Cycle),| (Year),| (Leap:clmon.a)| (Month),| (Day)";
+    format "cylmd+", "(Cycle),| (Year:cyear),| (Leap:clmon.a)| (Month),| (Day)";
+    format full {
+        output "Cycle (Cycle),| Year (Year:cyear),| (Leap:clmon)| (Month),| Day (Day)";
+    }
+}
+
+scheme c {
+  name "Chinese";
+  base chinese;
+  grammar c;
+}
+</td></tr>
+</table>
+<p>
+ The script is independent of other scripts at this time
+</p>
+
+</div><!--id=content-->
+
+ <hr />
+
+ <div id='valid'>
+  <p>
+   <a href='http://validator.w3.org/check?uri=referer'>
+    <img src='../../../sys/valid-xhtml10.png' alt='Valid XHTML 1.0 Strict' height='31' width='88' />
+   </a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>19<sup>th</sup> January 2014</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+ </div>
+
+</body>
+</html>
