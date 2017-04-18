@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2013
- * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCal is free software: you can redistribute it and/or modify
@@ -150,7 +150,7 @@ void HcFrame::OnToggleCount( wxCommandEvent& event )
 void HcFrame::OnNewFormat( wxCommandEvent& event )
 {
     string script;
-    hcNewFormatDlg nfdlg = hcNewFormatDlg( this, &m_cal, m_from, m_to );
+    hcNewFormatDlg nfdlg( this, &m_cal, m_from, m_to );
     if( nfdlg.ShowModal() == wxID_OK ) {
         SHandle sh = nfdlg.GetScheme();
         string fcode = nfdlg.GetFCode();
@@ -159,7 +159,7 @@ void HcFrame::OnNewFormat( wxCommandEvent& event )
             if( nfdlg.GetIsoFlag() ) {
                 // TODO: ISO Format dialog
             } else {
-                hcFormatDlg fdlg = hcFormatDlg( this, &m_cal, sh, fcode, init );
+                hcFormatDlg fdlg( this, &m_cal, sh, fcode, init );
                 if( fdlg.ShowModal() == wxID_OK ) {
                     script = fdlg.get_script();
                 }

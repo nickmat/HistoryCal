@@ -21,3 +21,5 @@ writeln "French Republic: " + string,fr:out today;
 writeln "Hebrew: " + string,h:wdmy today;
 
 writeln "Islamic Tabular: " + string,i:wdmy today;
+
+writeln "Chinese: " + string,c:full today;
