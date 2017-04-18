@@ -1,3 +1,4 @@
 @echo off
-cd scripts
-..\..\build\vc9\debug\hctest.exe
+cd tscripts
+..\..\build\vc12\debug\hctest.exe
+pause

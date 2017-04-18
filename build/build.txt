@@ -17,10 +17,11 @@ Windows Build
 ~~~~~~~~~~~~~
 
 The HistoryCal program together with the libraries and test programs can be
-built using the MS Visual C++ 2008 express IDE with the files provided in
-the folder hcal\build\vc9. Later versions of MS Visual C++ should work
-by updating these files. If anyone would prefer to use the command line
-and nmake, please let me know and I will provide a suitable makefile.
+built using the MS Visual C++ 2015 express IDE with the files provided in
+the folder hcal\build\vc12. Other versions of MS Visual C++ should work
+by using or updating the files in hcal\build\vc9. If anyone would prefer to
+use the command line and nmake, please let me know and I can provide a
+suitable makefile.
 
 1) Download and install wxWidgets version 3.0.0.
    Ensure the environment variable WXWIN is set to the wxWidgets root folder.
@@ -28,7 +29,7 @@ and nmake, please let me know and I will provide a suitable makefile.
 2) To compile the test program, download and install the CppUnit framework.
    Set the environment variable CPPUNIT to the library folder.
 
-3) To start the IDE, open the hcal\build\vc9 folder and double click the
+3) To start the IDE, open the hcal\build\vc12 folder and double click the
    hcal.sln file.
 
 
