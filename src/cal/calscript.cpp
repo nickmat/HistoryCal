@@ -1179,30 +1179,28 @@ SValue Script::subscript( bool get )
             {
                 SValue right;
                 token = m_ts.next();
-                if ( token.type() == SToken::STT_Name ) {
-                    right.set_str( token.get_str() );
-                    m_ts.next();
+                if( token.type() == SToken::STT_Dot ) {
+                    token = m_ts.next();
+                    if( token.type() == SToken::STT_Name ) {
+                        right.set_str( token.get_str() );
+                        m_ts.next();
+                    } else {
+                        right = expr( false );
+                    }
+                    left.property_op( right );
                 } else {
-                    right = expr( false );
+                    if( token.type() == SToken::STT_Name ) {
+                        right.set_str( token.get_str() );
+                        m_ts.next();
+                    } else {
+                        right = expr( false );
+                    }
+                    left = do_subscript( left, right );
                 }
-                left = do_subscript( left, right );
                 if( m_ts.current().type() != SToken::STT_RSbracket ) {
                     error( "']' expected." );
                 }
                 m_ts.next();
-            }
-            break;
-        case SToken::STT_Dot:
-            {
-                SValue right;
-                token = m_ts.next();
-                if ( token.type() == SToken::STT_Name ) {
-                    right.set_str( token.get_str() );
-                    m_ts.next();
-                } else {
-                    right = expr( false );
-                }
-                left.property_op( right );
             }
             break;
         default:

@@ -4,8 +4,8 @@ let list = 21|79~88|100~120|200~210;
 let cnt = 0;
 let total = 0;
 
-do while cnt < list.size
-    total += list[(cnt)].span;
+do while cnt < list[.size]
+    total += list[(cnt)][.span];
     cnt += 1;
 loop;
 

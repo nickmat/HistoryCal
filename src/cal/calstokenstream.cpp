@@ -83,7 +83,9 @@ SToken STokenStream::next()
     if( isascii( ch ) && ( isalpha( ch ) || ch == '_' || ch == ':' ) ) {
         str += ch;
         while( m_in->get( ch ) ) {
-            if( isascii( ch ) && ( isalnum( ch ) || ch == '_' || ch == ':' ) ) {
+            if( isascii( ch ) && ( isalnum( ch ) ||
+                ch == '_' || ch == ':' || ch == '.' ) )
+            {
                 str += ch;
             } else {
                 break;

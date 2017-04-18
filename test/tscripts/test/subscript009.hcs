@@ -2,10 +2,10 @@
 
 writeln "";
 
-let a = 4.size;
-let b = (7 ~ 16).1;
-let c = 10.xxx;
-let d = (!past~future).envelope;
+let a = 4[.size];
+let b = (7 ~ 16)[.1];
+let c = 10[.xxx];
+let d = (!past~future)[.envelope];
 
 clear;
 

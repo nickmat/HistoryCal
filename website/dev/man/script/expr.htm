@@ -142,8 +142,8 @@
  How a name is treated depends upon the context, as detailed below.
 </p>
 <p>
- Names are constructed from alphanumeric, '_' underline and ':' colon characters.
- They can not start with a numeric character.
+ Names are constructed from alphanumeric, '_' underline, ':' colon and '.' dot characters.
+ They can not start with a numeric or dot character.
 </p>
 <p>
  In some cases the script may accept either a name or a literal string. 
@@ -384,19 +384,19 @@
 
 <h4>Property operator</h4>
 <p>
- A value followed by a dot '.' and a name will return a property of the value,
+ A subscript starting with a dot '.' and followed by a name will return a property of the value,
  as listed below.
 </p>
 <table class='list' id='operator-list'>
 <tr><th>Property</th><th>Use</th><th>Result</th><th>Comment</th></tr>
-<tr><td class='code'>low</td><td class='example'>(7~16).low</td><td class='example'>7</td><td>Return the lower bound of a range or rlist.</td></tr>
-<tr><td class='code'>high</td><td class='example'>(7~16).high</td><td class='example'>16</td><td>Return the upper bound of a range or rlist.</td></tr>
-<tr><td class='code'>span</td><td class='example'>(7~16).span</td><td class='example'>10</td><td rowspan='2'>Return the inclusive count between upper and lower bounds of a range or rlist.</td></tr>
-<tr><td class='code'>span</td><td class='example'>(21|79~88|100~120|200~210).span</td><td class='example'>190</td></tr>
-<tr><td class='code'>size</td><td class='example'>(21|79~88|100~120|200~210).size</td><td class='example'>4</td><td rowspan='2'>Return the number of elements in a rlist or record.</td></tr>
-<tr><td class='code'>size</td><td class='example'>{g,1948,9,19}.size</td><td class='example'>3</td></tr>
-<tr><td class='code'>envelope</td><td class='example'>(21|79~88|100~120|200~210).envelope</td><td class='example'>21 ~ 210</td><td>Return the enclosing range af an rlist.</td></tr>
-<tr><td class='code'>scheme</td><td class='example'>{g,1948,9,19}.scheme</td><td class='example'>"g"</td><td>Return the scheme code string of a record.</td></tr>
+<tr><td class='code'>low</td><td class='example'>(7~16)[.low]</td><td class='example'>7</td><td>Return the lower bound of a range or rlist.</td></tr>
+<tr><td class='code'>high</td><td class='example'>(7~16)[.high]</td><td class='example'>16</td><td>Return the upper bound of a range or rlist.</td></tr>
+<tr><td class='code'>span</td><td class='example'>(7~16)[.span]</td><td class='example'>10</td><td rowspan='2'>Return the inclusive count between upper and lower bounds of a range or rlist.</td></tr>
+<tr><td class='code'>span</td><td class='example'>(21|79~88|100~120|200~210)[.span]</td><td class='example'>190</td></tr>
+<tr><td class='code'>size</td><td class='example'>(21|79~88|100~120|200~210)[.size]</td><td class='example'>4</td><td rowspan='2'>Return the number of elements in a rlist or record.</td></tr>
+<tr><td class='code'>size</td><td class='example'>{g,1948,9,19}[.size]</td><td class='example'>3</td></tr>
+<tr><td class='code'>envelope</td><td class='example'>(21|79~88|100~120|200~210)[.envelope]</td><td class='example'>21 ~ 210</td><td>Return the enclosing range af an rlist.</td></tr>
+<tr><td class='code'>scheme</td><td class='example'>{g,1948,9,19}[.scheme]</td><td class='example'>"g"</td><td>Return the scheme code string of a record.</td></tr>
 </table>
 
 <h3>Type Conversions</h3>
@@ -497,7 +497,7 @@
 <tr><td class='code'>string</td><td>String cast</td><td class='example'><b>string,sig</b> date_value<br /><b>string,sig</b> record_value</td><td class='example'>string_value</td></tr>
 <tr><td class='code' colspan='4'></td></tr>
 <tr><td class='code'>[]</td><td>Subscript</td><td class='example'>date_value<b>[</b>string_value<b>]</b></td><td class='example'>field_value</td></tr>
-<tr><td class='code'>.</td><td>Property</td><td class='example'>value<b>.</b>name</td><td class='example'>value</td></tr>
+<tr><td class='code'>[.<i>name</i>]</td><td>Property</td><td class='example'>value<b>[.</b>name<b>]</b></td><td class='example'>value</td></tr>
 <tr><td class='code' colspan='4'></td></tr>
 <tr><td class='code'>*</td><td>Multiply</td><td class='example'>field_value <b>*</b> field_value</td><td class='example'>field_value</td></tr>
 <tr><td class='code'>/</td><td>Divide</td><td class='example'>field_value <b>/</b> field_value</td><td class='example'>field_value</td></tr>
