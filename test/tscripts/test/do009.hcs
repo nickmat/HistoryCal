@@ -1,0 +1,21 @@
+// do007.hcs Test file to test do statement
+
+writeln "";
+
+let day = date,g:dmy "1apr2017";
+do 
+    writeln string,"g:wdmy+" day;
+    until day >= date,g:dmy "1may2017"
+    day += 7;
+loop
+
+/*[OUTPUT]
+
+Saturday 1 April 2017
+Saturday 8 April 2017
+Saturday 15 April 2017
+Saturday 22 April 2017
+Saturday 29 April 2017
+Saturday 6 May 2017
+
+[OUTPUT]*/
