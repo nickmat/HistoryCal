@@ -103,7 +103,7 @@ scheme ims {
     grammar i;
 }
 
-scheme if {
+scheme "if" {
     name "Islamic Fātimid";
     base islamic IIIa;
     grammar i;
