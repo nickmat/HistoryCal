@@ -4,7 +4,7 @@ let value = "Started";
 if true
   let value = value + " if true";
 else
-  let value = value + " else"
+  let value = value + " else";
 endif
 let value = value + " finished";
 

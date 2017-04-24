@@ -80,27 +80,28 @@ bool Script::statement()
 {
     SToken token = m_ts.current();
 
-    if( token.type() == SToken::STT_Name ) {
+    if (token.type() == SToken::STT_Name) {
         string name = token.get_str();
-        if( name == "end" ) return false;
-        if( name == "mark" ) return do_mark();
-        if( name == "clear" ) return do_clear();
-        if( name == "if" ) return do_if();
-        if( name == "do" ) return do_do();
-        if( name == "set" ) return do_set();
-        if( name == "let" ) return do_let();
-        if( name == "write" ) return do_write();
-        if( name == "writeln" ) return do_writeln();
-        if( name == "scheme" ) return do_scheme();
-        if( name == "vocab" ) return do_vocab();
-        if( name == "grammar" ) return do_grammar();
-        if( name == "format" ) return do_format( NULL );
-        if( store()->exists( name ) ) return do_assign( name );
-    } else if( token.type() == SToken::STT_Semicolon ) {
+        if (name == "end") return false;
+        if (name == "mark") return do_mark();
+        if (name == "clear") return do_clear();
+        if (name == "if") return do_if();
+        if (name == "do") return do_do();
+        if (name == "set") return do_set();
+        if (name == "let") return do_let();
+        if (name == "write") return do_write();
+        if (name == "writeln") return do_writeln();
+        if (name == "scheme") return do_scheme();
+        if (name == "vocab") return do_vocab();
+        if (name == "grammar") return do_grammar();
+        if (name == "format") return do_format(NULL);
+        if (store()->exists(name)) return do_assign(name);
+    }
+    else if ( token.type() == SToken::STT_Semicolon ) {
         return true; // Empty statement
     }
     // Assume error
-    return error( "Unrecognised statement." ); 
+    return error("Unrecognised statement.");
 }
 
 bool Script::do_mark()
@@ -141,6 +142,8 @@ bool Script::do_clear()
 bool Script::do_if()
 {
     bool done = false, result = false;
+    int nested = 0;
+    const char* enderr = "if ended unexpectedly.";
     for(;;) {
         if( !result && !done ) {
             bool ok = expr( true ).get( result );
@@ -154,12 +157,12 @@ bool Script::do_if()
             // Run the statements
             for(;;) {
                 if( token.type() == SToken::STT_End ) {
-                    error( "Unexpected end." );
+                    error(enderr);
                     return false;
                 }
                 if( token.type() == SToken::STT_Name ) {
                     string name = token.get_str();
-                    if( name == "endif" ) {
+                    if ( name == "endif" ) {
                         return true;
                     }
                     if( name == "else" || name == "elseif" ) {
@@ -175,22 +178,27 @@ bool Script::do_if()
             result = false;
         } else {
             // move on to the next "elseif" or "else"
+            nested = 0;
             for(;;) {
                 if( token.type() == SToken::STT_End ) {
-                    error( "Unexpected end." );
+                    error(enderr);
                     return false;
                 }
                 if( token.type() == SToken::STT_Name ) {
                     string name = token.get_str();
-                    if( name == "endif" ) {
-                        return true;
-                    }
-                    if( name == "else" ) {
+                    if ( name == "if" ) {
+                        nested++;
+                    } else if ( name == "endif" ) {
+                        if ( nested > 0 ) {
+                            --nested;
+                        } else {
+                            return true;
+                        }
+                    } else if ( name == "else" ) {
                         m_ts.next();
                         result = true;
                         break;
-                    }
-                    if( name == "elseif" ) {
+                    } else if ( name == "elseif" ) {
                         break;
                     }
                 }
@@ -199,13 +207,24 @@ bool Script::do_if()
         }
         if( done ) {
             // Skip to "endif"
+            nested = 0;
             for(;;) {
                 token = m_ts.next();
-                if( token.type() == SToken::STT_Name && token.get_str() == "endif" ) {
-                    return true;
-                }
-                if( token.type() == SToken::STT_End ) {
+                if ( token.type() == SToken::STT_End ) {
+                    error( enderr );
                     return false;
+                }
+                if ( token.type() == SToken::STT_Name ) {
+                    string name = token.get_str();
+                    if ( name == "if" ) {
+                        nested++;
+                    } else if ( name == "endif" ) {
+                        if ( nested > 0 ) {
+                            --nested;
+                        } else {
+                            return true;
+                        }
+                    }
                 }
             }
         }
@@ -249,7 +268,7 @@ bool Script::do_do()
                     token = m_ts.current();
                     continue;
                 }
-                if( name == "loop" ) {
+                if ( name == "loop" ) {
                     break;
                 }
             }
