@@ -1059,6 +1059,7 @@ SValue Script::expr( bool get )
             break;
         case SToken::STT_and:
             left.logical_and( compare( true ) );
+            break;
         default:
             return left;
         }
