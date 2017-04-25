@@ -106,8 +106,7 @@ bool Script::statement()
 
 bool Script::do_mark()
 {
-    string mark;
-    expr( true ).get( mark );
+    string mark = get_name_or_primary( true );
     if( m_ts.current().type() != SToken::STT_Semicolon ) {
         error( "';' expected." );
         return false;
@@ -125,7 +124,7 @@ bool Script::do_clear()
     string mark;
     SToken token = m_ts.next();
     if( token.type() != SToken::STT_Semicolon ) {
-        expr( false ).get( mark );
+        mark = get_name_or_primary( false );
         token = m_ts.current();
     }
     if( token.type() != SToken::STT_Semicolon ) {

@@ -1,6 +1,6 @@
 // Example ISO input and output calendar schemes
 
-mark "ISO6";
+mark example.iso6;
 
 format g:iso_y6 {
     rules iso8601 caldate year6;

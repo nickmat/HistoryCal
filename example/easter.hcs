@@ -1,7 +1,6 @@
 // easter.hcs example file to display a list of Easter Sundays.
 
-mark "test-easter";
-clear;
+mark example.easter;
 
 let start = 1950;
 let finish = 1955;
@@ -20,7 +19,7 @@ scheme G_EASTER {
 
 writeln "Easter Sunday for years " + start + " to " + finish + ":";
 writeln "";
-writeln "Catholic, Orthodox";
+writeln "Catholic,  Orthodox";
 writeln "";
 
 do
@@ -31,4 +30,4 @@ do
   start += 1;
 loop
 
-clear "test-easter";
+clear example.easter;

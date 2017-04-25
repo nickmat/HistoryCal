@@ -1,27 +1,28 @@
-// Modfied Julian Day and Rata Die
-mark "MJD";
+// Modified Julian Day and Rata Die
 
-scheme "MJD" {
-    name "Modfied Julian Day";
-    shift "jdn", 2400001;
-    grammar "d";
+mark example.MJD;
+
+scheme MJD {
+    name "Modified Julian Day";
+    shift jdn, 2400001;
+    grammar d;
 }
 
-scheme "RD" {
+scheme RD {
     name "Rata Die";
-    shift "jdn", 1721425;
-    grammar "d";
+    shift jdn, 1721425;
+    grammar d;
 }
 
-grammar "JD" {
-    inherit "d";
-    format "d" {
+grammar JD {
+    inherit d;
+    format d {
         output "(Day).5";
     }
 }
 
-scheme "JD" {
+scheme JD {
     name "Julian Day";
-    shift "jdn", 1;
-    grammar "JD";
+    shift jdn, 1;
+    grammar JD;
 }

@@ -1,6 +1,6 @@
 // Example ISO input and output calendar schemes
 
-mark "ISO5";
+mark example.ios5;
 
 format g:iso_y5 {
     rules iso8601 caldate year5;
