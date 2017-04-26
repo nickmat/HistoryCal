@@ -1245,10 +1245,6 @@ SValue Script::primary( bool get )
         }
         m_ts.next();
         break;
-    case SToken::STT_Bool:
-        value.set_bool( token.get_bool() );
-        m_ts.next();
-        break;
     case SToken::STT_Qmark:
         value.set_field( f_invalid );
         m_ts.next();

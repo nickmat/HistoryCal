@@ -40,8 +40,7 @@ namespace Cal {
     public:
         enum Type {
             STT_Null, STT_End, 
-            STT_String, STT_Bool,
-            STT_Name, STT_Number,
+            STT_String, STT_Name, STT_Number,
             STT_Equal, STT_Plus, STT_Minus, STT_Divide, STT_Star,
             STT_PlusEq, STT_MinusEq, STT_DivideEq, STT_StarEq,
             STT_Percent, STT_Backslash, STT_Tilde,
