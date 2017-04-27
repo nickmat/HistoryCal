@@ -37,7 +37,7 @@ namespace Cal {
     public:
         ShiftDay( Base* base, Field epoch ) : m_base(base), m_epoch(epoch) {}
 
-        virtual bool is_ok() const { return m_base != NULL; }
+        virtual bool is_ok() const { return m_base != NULL && m_epoch != f_invalid; }
 
         virtual size_t record_size() const { return m_base->record_size(); }
         virtual size_t extended_size() const { return m_base->extended_size(); }

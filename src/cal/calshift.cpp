@@ -38,13 +38,14 @@ using namespace Cal;
 using namespace std;
 
 
-Shift::Shift( Base* base, Field era ) : m_base(base), Base()
+Shift::Shift( Base* base, Field era ) : m_base(base), m_ok(false), Base()
 {
-    if( base ) {
+    if( base && era != f_invalid ) {
         Record rec( base, era );
         m_start_era = rec.get_fieldvec();
         rec.set_jdn( era-1 );
         m_before_era = rec.get_fieldvec();
+        m_ok = true;
     }
 }
 

@@ -43,7 +43,7 @@ namespace Cal {
         Shift( Base* base, Field era );
         ~Shift();
 
-        virtual bool is_ok() const { return m_base != NULL; }
+        virtual bool is_ok() const { return m_ok; }
 
         virtual size_t record_size() const { return m_base->record_size(); }
 
@@ -77,9 +77,10 @@ namespace Cal {
         Field get_adjusted_to_base( const Field* fields ) const;
         Field get_adjusted_to_shift( const Field* fields ) const;
 
-        Base*   m_base;
+        Base*    m_base;
         FieldVec m_start_era;
         FieldVec m_before_era;
+        bool     m_ok;
     };
 
 }
