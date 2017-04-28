@@ -608,7 +608,7 @@ const char* Cal::cal_default_scripts[] = {
  "regnal {\n"
  "fields year, month, day;\n"
  "extended \"john-part\";\n"
- "fixed year, 1;\n"
+ "fixed year = 1;\n"
  "era {\n"
  "scheme j;\n"
  "}\n"

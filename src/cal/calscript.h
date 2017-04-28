@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     7th May 2014
- * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -71,7 +71,6 @@ namespace Cal {
         bool do_grammar_vocabs( Grammar* gmr );
         bool do_grammar_alias( Grammar* gmr );
         bool do_format( Grammar* gmr );
-        StringVec do_string_list();
         FieldVec do_fixed_fields( const StringVec& fieldnames );
 
         SValue expr( bool get );
@@ -83,6 +82,7 @@ namespace Cal {
         SValue subscript( bool get );
         SValue primary( bool get );
         std::string get_name_or_primary( bool get );
+        StringVec get_string_list( bool get );
         SValue fields_expr( bool get );
 
         SValue do_subscript( const SValue& left, const SValue& right );
@@ -91,7 +91,6 @@ namespace Cal {
         SValue record_cast();
 
         SValue get_value_var( const std::string& name );
-        std::string get_name_or_string( const SToken& token ) const;
 
         Calendars*    m_cals;
         STokenStream  m_ts;
