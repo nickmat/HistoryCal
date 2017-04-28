@@ -178,21 +178,41 @@ bool SValue::get( string& str ) const
 
 bool SValue::get( Field& field ) const
 {
-    switch( m_type )
+    switch ( m_type )
     {
     case SVT_RList:
-        if( m_rlist.size() == 1 && m_rlist[0].jdn1 == m_rlist[0].jdn2 ) {
+        if ( m_rlist.size() == 1 && m_rlist[0].jdn1 == m_rlist[0].jdn2 ) {
             field = m_rlist[0].jdn1;
             return true;
         }
         return false;
     case SVT_Range:
-        if( m_range.jdn1 != m_range.jdn2 ) {
+        if ( m_range.jdn1 != m_range.jdn2 ) {
             return false;
         }
         // Fall thru
     case SVT_Field:
         field = m_range.jdn1;
+        return true;
+    }
+    return false;
+}
+
+bool SValue::get( Range& range ) const
+{
+    switch ( m_type )
+    {
+    case SVT_RList:
+        if ( m_rlist.size() == 1 ) {
+            range = m_rlist[0];
+            return true;
+        }
+        return false;
+    case SVT_Range:
+        range = m_range;
+        return true;
+    case SVT_Field:
+        range.jdn1 = range.jdn2 = m_range.jdn1;
         return true;
     }
     return false;

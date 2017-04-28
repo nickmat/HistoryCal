@@ -72,6 +72,7 @@ namespace Cal {
 
         bool get( std::string& str ) const;
         bool get( Field& field ) const;
+        bool get( Range& range ) const;
         bool get( bool& flag ) const;
         bool get_rlist( RangeList& rlist ) const;
 
