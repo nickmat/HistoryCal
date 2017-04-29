@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
 <head>
- <title>HistoryCal - Let Statement</title>
+ <title>HistoryCal - let Statement</title>
  <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
  <link rel='icon' type='image/png' href='../../../sys/logo1_32x32x32.png' />
  <link rel='stylesheet' type='text/css' href='../../../sys/hcal.css' />
@@ -12,7 +12,7 @@
   <a  href='http://historycal.org'>
    <img id='logo' src='../../../sys/logo2.png' alt='Logo' />
   </a>
-  HistoryCal - V0.0.7 Manual<br />Let Statement
+  HistoryCal - V0.0.7 Manual<br />let Statement
  </h1>
 
  <div id='page'>
@@ -22,19 +22,91 @@
    <a href='../../../dev/index.htm' class='m-item level1'>Development</a>
    <a href='../../../dev/man/index.htm' class='m-item level2'>V0.0.7 Manual</a>
    <a href='../../../dev/man/script/index.htm' class='m-item level3'>Script</a>
-   <a href='let.htm' class='m-item thispage level4'>Let Statement</a>
+   <a href='let.htm' class='m-item thispage level4'>let Statement</a>
    <a href='../../../dev/man/script/write.htm' class='m-item prev'>&lt;&lt;</a>
    <a href='../../../dev/man/script/end.htm' class='m-item next'>&gt;&gt;</a>
   </div>
 
 <div id='content' class='nomenu'>
 
-
-
-<h2>Under Construction</h2>
+<h2>let Statement</h2>
 <p>
- 
+ The let statement is used to introduce a named variable and
+ initialize it or change the value of an existing variable.
+ If a variable already exists then the let at the start is optional.
 </p>
+<p>
+ The type of the variable is determined by the expression used.
+</p>
+
+<table class='list'>
+<tr><th colspan='3'>let Statement</th></tr>
+<th>Format</th><th>Example</th><th>Result</th></tr>
+ <tr>
+  <td class='code'><b>let</b> <i>name</i> <b>=</b> <i>expr</i><b>;</b></td>
+  <td class='example'>let result = 20 * 345;</td>
+  <td>result holds field value 6900</td>
+ </tr>
+ <tr>
+  <td class='code'><b>let</b> <i>name</i> <b>+=</b> <i>expr</i><b>;</b></td>
+  <td class='example'>let result += 50;</td>
+  <td>result holds field value 6950</td>
+ </tr>
+ <tr>
+  <td class='code'><b>let</b> <i>name</i> <b>-=</b> <i>expr</i><b>;</b></td>
+  <td class='example'>let result -= 6000;</td>
+  <td>result holds field value 950</td>
+ </tr>
+ <tr>
+  <td class='code'><b>let</b> <i>name</i> <b>*=</b> <i>expr</i><b>;</b></td>
+  <td class='example'>let result *= 3;</td>
+  <td>result holds field value 2850</td>
+ </tr>
+ <tr>
+  <td class='code'><b>let</b> <i>name</i> <b>/=</b> <i>expr</i><b>;</b></td>
+  <td class='example'>let result /= 10;</td>
+  <td>result holds field value 285</td>
+ </tr>
+ <tr>
+  <td class='code'><i>name</i> <b>=</b> <i>expr</i><b>;</b></td>
+  <td class='example'>result = 50 ~ 30;</td>
+  <td>result holds range value 30 ~ 50</td>
+ </tr>
+ <tr>
+  <td class='code'><i>name</i> <b>=</b> <i>expr</i><b>;</b></td>
+  <td class='example'>result = "Hello";</td>
+  <td>result holds string value "Hello"</td>
+ </tr>
+ <tr>
+  <td class='code'><i>name</i> <b>+=</b> <i>expr</i><b>;</b></td>
+  <td class='example'>result += " world";</td>
+  <td>result holds string value "Hello world"</td>
+ </tr>
+</table>
+
+<p></p>
+
+<table class='list'>
+<tr><th>Example Script</th></tr>
+<tr><td class='example'>
+let day = date,g:dmy "1sep2017";
+let result = string,g:dmy (day + 5 * 7);
+
+writeln "Date 5 weeks from " + string,g:dmy day + " is: " + result;
+
+day -= 2 * 7;
+
+writeln "and a fortnight before was " + string,g:dmy day;
+
+</td></tr>
+<tr><td>
+<b>Output</b>
+</td></tr>
+<tr><td>
+Date 5 weeks from 1 Sep 2017 is 6 Oct 2017<br />
+and a fortnight before was 18 Aug 2017
+</td></tr>
+</table>
 
 </div><!--id=content-->
 

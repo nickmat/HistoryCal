@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
 <head>
- <title>HistoryCal - Mark & Clear</title>
+ <title>HistoryCal - mark &amp; clear</title>
  <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
  <link rel='icon' type='image/png' href='../../../sys/logo1_32x32x32.png' />
  <link rel='stylesheet' type='text/css' href='../../../sys/hcal.css' />
@@ -12,7 +12,7 @@
   <a  href='http://historycal.org'>
    <img id='logo' src='../../../sys/logo2.png' alt='Logo' />
   </a>
-  HistoryCal - V0.0.7 Manual<br />Mark & Clear
+  HistoryCal - V0.0.7 Manual<br />mark &amp; clear
  </h1>
 
  <div id='page'>
@@ -22,16 +22,44 @@
    <a href='../../../dev/index.htm' class='m-item level1'>Development</a>
    <a href='../../../dev/man/index.htm' class='m-item level2'>V0.0.7 Manual</a>
    <a href='../../../dev/man/script/index.htm' class='m-item level3'>Script</a>
-   <a href='mark.htm' class='m-item thispage level4'>Mark & Clear</a>
-   <a href='../../../dev/man/script/do.htm' class='m-item prev'>&lt;&lt;</a>
+   <a href='mark.htm' class='m-item thispage level4'>mark &amp; clear</a>
+   <a href='../../../dev/man/script/function.htm' class='m-item prev'>&lt;&lt;</a>
    <a href='../../../dev/man/script/vocab.htm' class='m-item next'>&gt;&gt;</a>
   </div>
 
 <div id='content' class='nomenu'>
 
+<h2>mark &amp; clear Statements</h2>
+<p>
+ Unless directed otherwise, the program will remember all variables and defined entities,
+ even after the script has finished running.
+ The statements <b>mark</b> and <b>clear</b> are used to control this behaviour.
+</p>
+<p>
+ Entities are added to the library as they are encountered in the script.
+ This can be particularly problematic when testing a new script,
+ when we may want to make small changes and re-run the script.
+ Without using 'mark', it would try to add another copy of the entity
+ which would result in an error.
+</p>
 
+<table class='list'>
+<th>Format</th><th>Example</th></tr>
+ <tr>
+  <td class='code'><b>mark</b> <i>string_expr</i><b>;</b></td>
+  <td class='example'><b>mark</b> "start-test";</td>
+ </tr>
+ <tr>
+  <td class='code'><b>clear</b> <i>string_expr</i><b>;</b></td>
+  <td class='example'><b>clear</b> "start-test";</td>
+ </tr>
+ <tr>
+  <td class='code'><b>clear;</b></td>
+  <td class='example'><b>clear</b>;</td>
+ </tr>
+</table>
 
-<h2>Under Construction</h2>
+<h3>mark Statement</h3>
 <p>
  
 </p>

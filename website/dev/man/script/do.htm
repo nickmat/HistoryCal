@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
 <head>
- <title>HistoryCal - Do ... Loop</title>
+ <title>HistoryCal - do ... loop</title>
  <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
  <link rel='icon' type='image/png' href='../../../sys/logo1_32x32x32.png' />
  <link rel='stylesheet' type='text/css' href='../../../sys/hcal.css' />
@@ -12,7 +12,7 @@
   <a  href='http://historycal.org'>
    <img id='logo' src='../../../sys/logo2.png' alt='Logo' />
   </a>
-  HistoryCal - V0.0.7 Manual<br />Do ... Loop
+  HistoryCal - V0.0.7 Manual<br />do ... loop
  </h1>
 
  <div id='page'>
@@ -22,19 +22,56 @@
    <a href='../../../dev/index.htm' class='m-item level1'>Development</a>
    <a href='../../../dev/man/index.htm' class='m-item level2'>V0.0.7 Manual</a>
    <a href='../../../dev/man/script/index.htm' class='m-item level3'>Script</a>
-   <a href='do.htm' class='m-item thispage level4'>Do ... Loop</a>
+   <a href='do.htm' class='m-item thispage level4'>do ... loop</a>
    <a href='../../../dev/man/script/if.htm' class='m-item prev'>&lt;&lt;</a>
-   <a href='../../../dev/man/script/mark.htm' class='m-item next'>&gt;&gt;</a>
+   <a href='../../../dev/man/script/function.htm' class='m-item next'>&gt;&gt;</a>
   </div>
 
 <div id='content' class='nomenu'>
 
-
-
-<h2>Under Construction</h2>
+<h2>do .. loop Statement</h2>
 <p>
- 
+ A do .. loop continuously runs the statements in between
+ for a maximum number of iterations.
+ This maximum is currently set at 1000.
 </p>
+<p>
+ If a '<b>while</b> <i>condition</i>' sub-statement is encountered
+ then, if the condition is false,
+ then execution of the script moves to the first statement after the 'loop' keyword.
+ A '<b>until</b> <i>condition</i>' sub-statement breaks out of the loop
+ if the condition is true.
+</p>
+
+<table class='list'>
+<tr><th colspan='3'>if Statement</th></tr>
+<th>Format</th><th>Example</th><th>Output</th></tr>
+ <tr>
+  <td class='code'>
+   <b>do</b><br />
+     <i>statements ...</i><br />
+   <b>until</b> <i>bool_expr</i><br />
+     <i>statements ...</i><br />
+   <b>while</b> <i>bool_expr</i><br />
+     <i>statements ...</i><br />
+   <b>loop</b>
+  </td>
+  <td class='example'>let day = date,g:dmy "1apr2017";
+<b>do</b>
+    writeln string,"g:wdmy+" day;
+    <b>until</b> day >= date,g:dmy "1may2017"
+    day += 7;
+<b>loop</b></td>
+  <td>
+   Saturday 1 April 2017<br />
+   Saturday 8 April 2017<br />
+   Saturday 15 April 2017<br />
+   Saturday 22 April 2017<br />
+   Saturday 29 April 2017<br />
+   Saturday 6 May 2017
+  </td>
+ </tr>
+</table>
 
 </div><!--id=content-->
 

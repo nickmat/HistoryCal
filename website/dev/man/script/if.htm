@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
 <head>
- <title>HistoryCal - If Statement</title>
+ <title>HistoryCal - if Statement</title>
  <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
  <link rel='icon' type='image/png' href='../../../sys/logo1_32x32x32.png' />
  <link rel='stylesheet' type='text/css' href='../../../sys/hcal.css' />
@@ -12,7 +12,7 @@
   <a  href='http://historycal.org'>
    <img id='logo' src='../../../sys/logo2.png' alt='Logo' />
   </a>
-  HistoryCal - V0.0.7 Manual<br />If Statement
+  HistoryCal - V0.0.7 Manual<br />if Statement
  </h1>
 
  <div id='page'>
@@ -22,19 +22,49 @@
    <a href='../../../dev/index.htm' class='m-item level1'>Development</a>
    <a href='../../../dev/man/index.htm' class='m-item level2'>V0.0.7 Manual</a>
    <a href='../../../dev/man/script/index.htm' class='m-item level3'>Script</a>
-   <a href='if.htm' class='m-item thispage level4'>If Statement</a>
+   <a href='if.htm' class='m-item thispage level4'>if Statement</a>
    <a href='../../../dev/man/script/end.htm' class='m-item prev'>&lt;&lt;</a>
    <a href='../../../dev/man/script/do.htm' class='m-item next'>&gt;&gt;</a>
   </div>
 
 <div id='content' class='nomenu'>
 
-
-
-<h2>Under Construction</h2>
+<h2>if Statement</h2>
 <p>
- 
+ An if statement allows one or more statements to be run,
+ depending on a given condition.
 </p>
+<p>
+ The statement may include zero or more 'elseif condition' sub-statements
+ and an optional 'else' sub-statement.
+</p>
+
+<table class='list'>
+<tr><th colspan='2'>if Statement</th></tr>
+<th>Format</th><th>Example</th></tr>
+ <tr>
+  <td class='code'>
+   <b>if</b> <i>bool_expr</i><br />
+     <i>statements ...</i><br />
+   <b>elseif</b> <i>bool_expr</i><br />
+     <i>statements ...</i><br />
+   <b>elseif</b> <i>bool_expr</i><br />
+     <i>statements ...</i><br />
+   <b>else</b><br />
+     <i>statements ...</i><br />
+   <b>endif</b>
+  </td>
+  <td class='example'><b>if</b> value = 10
+    writeln "Value is a round 10";
+<b>elseif</b> value < 5
+    writeln "Value as less than 5";
+<b>elseif</b> value = 100
+    writeln "Value is exactly 100";
+<b>else</b>
+    writeln "Value is boring";
+<b>endif</b></td>
+ </tr>
+</table>
 
 </div><!--id=content-->
 

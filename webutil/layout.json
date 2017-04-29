@@ -65,6 +65,7 @@
         { "name": "convert", "label": "Conversions", "subtitle": "Date Conversions" },
         { "name": "ranges", "label": "Date Ranges" },
         { "name": "calculate", "label": "Calculations", "subtitle": "Date Calculations" },
+        { "name": "formatting", "label": "Formatting", "subtitle": "Date Formatting" },
         { "folder": "cal", "name": "index", "label": "Calendars", "content": [
           { "name": "roman", "label": "Roman", "subtitle": "Roman Calendars" },
           { "label": "French Republic", "subtitle": "French Republic Calendar" },
@@ -74,17 +75,18 @@
         ]},
         { "folder": "script", "name": "index", "label": "Script", "subtitle": "Script Language", "content": [
           { "name": "expr", "label": "Expressions", "subtitle": "Script Expressions" },
-          { "name": "write", "label": "Write Statement" },
-          { "name": "let", "label": "Let Statement" },
-          { "name": "end", "label": "End Statement" },
-          { "name": "if", "label": "If Statement" },
-          { "name": "do", "label": "Do ... Loop" },
-          { "name": "mark", "label": "Mark & Clear" },
-          { "name": "vocab", "label": "Define Vocab" },
-          { "name": "grammar", "label": "Define Grammar" },
-          { "name": "format", "label": "Define Format" },
-          { "name": "scheme", "label": "Define Scheme" },
-          { "name": "set", "label": "Set Statement" }
+          { "name": "write", "label": "write Statement" },
+          { "name": "let", "label": "let Statement" },
+          { "name": "end", "label": "end Statement" },
+          { "name": "if", "label": "if Statement" },
+          { "name": "do", "label": "do ... loop" },
+          { "name": "function", "label": "function & call" },
+          { "name": "mark", "label": "mark & clear" },
+          { "name": "vocab", "label": "Define vocab" },
+          { "name": "grammar", "label": "Define grammar" },
+          { "name": "format", "label": "Define format" },
+          { "name": "scheme", "label": "Define scheme" },
+          { "name": "set", "label": "set Statement" }
         ]},
         { "folder": "defs", "name": "index", "label": "Cal. Definitions", "subtitle": "Calendar Index", "menu": false, "css": "sys/list.css", "content": [
           { "name": "jdn", "subtitle": "jdn# Julian Day Number", "map-label": false },
