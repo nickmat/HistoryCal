@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     19th September 2013
- * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -31,6 +31,7 @@
 #include "caldefscripts.h"
 #include "calformatiso.h"
 #include "calformattext.h"
+#include "calfunction.h"
 #include "calgrammar.h"
 #include "calmark.h"
 #include "calparse.h"
@@ -449,6 +450,23 @@ FormatIso* Calendars::create_format_iso( const string& code, Grammar* gmr, const
     return fmt;
 }
 
+Function* Cal::Calendars::create_function( const std::string & code )
+{
+    Function* fun = new Function( code );
+    assert( m_marks.size() > 0 );
+    m_marks[m_marks.size() - 1]->add_function( fun );
+    m_functions[code] = fun;
+    return fun;
+}
+
+Function* Cal::Calendars::get_function( const std::string & code ) const
+{
+    if ( m_functions.count( code ) > 0 ) {
+        return m_functions.find( code )->second;
+    }
+    return nullptr;
+}
+
 void Calendars::add_or_replace_mark( const string& name )
 {
     clear_mark( name );
@@ -491,12 +509,19 @@ bool Calendars::clear_mark( const string& name )
             }
             m_grammars.erase( code );
         }
-        for(;;) { 
-            code = m_marks[i]->remove_next_vocab();                
-            if( code.empty() ) {
+        for ( ;;) {
+            code = m_marks[i]->remove_next_vocab();
+            if ( code.empty() ) {
                 break;
             }
             m_vocabs.erase( code );
+        }
+        for ( ;;) {
+            code = m_marks[i]->remove_next_function();
+            if ( code.empty() ) {
+                break;
+            }
+            m_functions.erase( code );
         }
         delete m_marks[i];
         m_marks.pop_back();

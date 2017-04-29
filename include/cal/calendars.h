@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     19th September 2013
- * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -87,6 +87,8 @@ namespace Cal {
         Vocab* get_vocab( const std::string& code ) const;
         FormatText* create_format_text( const std::string& code, Grammar* gmr );
         FormatIso* create_format_iso( const std::string& code, Grammar* gmr, const StringVec& rules );
+        Function* create_function( const std::string& code );
+        Function* get_function( const std::string& code ) const;
         void add_or_replace_mark( const std::string& name );
         bool clear_mark( const std::string& name );
         ScriptStore* get_store() const { return m_store; }
@@ -95,6 +97,7 @@ namespace Cal {
         SHandleMap   m_shandles;
         GrammarMap   m_grammars;
         VocabMap     m_vocabs;
+        FunctionMap  m_functions;
         MarkVec      m_marks;
         ScriptStore* m_store;
     };

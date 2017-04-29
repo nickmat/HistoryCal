@@ -197,16 +197,28 @@ string STokenStream::read_until( const string& name, const string& esc )
     string code;
     char ch;
     int count = 0;
+    bool braces = name == "}";
     for(;;) {
         string word;
         while( m_in->get( ch ) && isalnum( ch ) ) {
             word += ch;
         }
+        code += word;
         if( ch == '\n' ) {
             m_line++;
         }
-        if( !word.empty() ) {
-            code += word;
+        if ( braces && word.empty() ) {
+            if ( ch == '{' ) {
+                count++;
+            }
+            if ( ch == '}' ) {
+                if ( count == 0 ) {
+                    break;
+                }
+                --count;
+            }
+        }
+        if( !braces && !word.empty() ) {
             if( word == esc ) {
                 count++;
             }
@@ -249,7 +261,7 @@ string STokenStream::read_until( const string& name, const string& esc )
             }
         }
         code += ch;
-        if ( m_in->eof() ) { // End of stream before esc
+        if ( m_in->eof() ) { // End of stream before name found.
             return "";
         }
     }

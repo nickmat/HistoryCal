@@ -30,6 +30,7 @@
 #include "cal/calendars.h"
 #include "calformatiso.h"
 #include "calformattext.h"
+#include "calfunction.h"
 #include "calgrammar.h"
 #include "calgregorian.h"
 #include "calparse.h"
@@ -82,19 +83,21 @@ bool Script::statement()
 
     if (token.type() == SToken::STT_Name) {
         string name = token.get_str();
-        if (name == "end") return false;
-        if (name == "mark") return do_mark();
-        if (name == "clear") return do_clear();
-        if (name == "if") return do_if();
-        if (name == "do") return do_do();
-        if (name == "set") return do_set();
-        if (name == "let") return do_let();
-        if (name == "write") return do_write();
-        if (name == "writeln") return do_writeln();
-        if (name == "scheme") return do_scheme();
-        if (name == "vocab") return do_vocab();
-        if (name == "grammar") return do_grammar();
-        if (name == "format") return do_format(NULL);
+        if ( name == "end" ) return false;
+        if ( name == "mark" ) return do_mark();
+        if ( name == "clear" ) return do_clear();
+        if ( name == "if" ) return do_if();
+        if ( name == "do" ) return do_do();
+        if ( name == "set" ) return do_set();
+        if ( name == "let" ) return do_let();
+        if ( name == "write" ) return do_write();
+        if ( name == "writeln" ) return do_writeln();
+        if ( name == "scheme" ) return do_scheme();
+        if ( name == "call" ) return do_call();
+        if ( name == "vocab" ) return do_vocab();
+        if ( name == "grammar" ) return do_grammar();
+        if ( name == "format" ) return do_format( NULL );
+        if ( name == "function" ) return do_function();
         if (store()->exists(name)) return do_assign(name);
     }
     else if ( token.type() == SToken::STT_Semicolon ) {
@@ -1001,6 +1004,69 @@ FieldVec Script::do_fixed_fields( const StringVec& fieldnames )
         }
     }
     return vec;
+}
+
+bool Script::do_function()
+{
+    string code = get_name_or_primary( true );
+    if ( code.empty() ) {
+        error( "Function name missing." );
+        return false;
+    }
+    if ( m_cals->get_function( code ) != NULL ) {
+        error( "function \"" + code + "\" already exists." );
+        return false;
+    }
+    if ( m_ts.current().type() != SToken::STT_LCbracket ) {
+        error( "'{' expected." );
+        return false;
+    }
+    int line = m_ts.get_line();
+    string script = m_ts.read_until( "}", "{" );
+    if ( script.empty() ) {
+        error( "Terminating '}' not found." );
+        return false;
+    }
+    Function* fun = m_cals->create_function( code );
+    if ( fun == nullptr ) {
+        return false;
+    }
+    fun->set_line( line );
+    fun->set_script( script );
+    return true;
+}
+
+bool Cal::Script::do_call()
+{
+    string funcode = get_name_or_primary( true );
+    if ( funcode.empty() ) {
+        error( "Function name expected." );
+        return false;
+    }
+    if ( m_ts.current().type() != SToken::STT_Semicolon ) {
+        error( "';' expected." );
+        return false;
+    }
+    Function* fun = m_cals->get_function( funcode );
+    if ( fun == nullptr ) {
+        error( "Function " + funcode + " not found." );
+        return false;
+    }
+    int cur_line = m_ts.get_line();
+    m_ts.set_line( fun->get_line() );
+    std::istringstream iss( fun->get_script() );
+    std::istream* cur_iss = m_ts.reset_in( &iss );
+
+    m_ts.next();
+    while ( statement() ) {
+        if ( m_ts.next().type() == SToken::STT_End ) {
+            break;
+        }
+    }
+
+    m_ts.set_line( cur_line );
+    m_ts.reset_in( cur_iss );
+    return true;
 }
 
 SValue Script::expr( bool get )

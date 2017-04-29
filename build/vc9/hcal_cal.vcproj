@@ -251,6 +251,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\cal\calfunction.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\cal\calgrammar.cpp"
 				>
 			</File>
@@ -402,6 +406,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\cal\calfrench.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\cal\calfunction.h"
 				>
 			</File>
 			<File

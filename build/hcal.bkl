@@ -211,6 +211,7 @@
     <sources>$(LOCAL_SRC)/cal/calformattext.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calformatunit.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calfrench.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/calfunction.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calgrammar.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calgregorian.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calhebrew.cpp</sources>
@@ -239,7 +240,6 @@
 
     <headers>$(LOCAL_INC)/cal/caldefs.h</headers>
     <headers>$(LOCAL_INC)/cal/calendars.h</headers>
-
     <headers>$(LOCAL_SRC)/cal/calastro.h</headers>
     <headers>$(LOCAL_SRC)/cal/calbase.h</headers>
     <headers>$(LOCAL_SRC)/cal/calchinese.h</headers>
@@ -250,6 +250,7 @@
     <headers>$(LOCAL_SRC)/cal/calformattext.h</headers>
     <headers>$(LOCAL_SRC)/cal/calformatunit.h</headers>
     <headers>$(LOCAL_SRC)/cal/calfrench.h</headers>
+    <headers>$(LOCAL_SRC)/cal/calfunction.h</headers>
     <headers>$(LOCAL_SRC)/cal/calgrammar.h</headers>
     <headers>$(LOCAL_SRC)/cal/calgregorian.h</headers>
     <headers>$(LOCAL_SRC)/cal/calhebrew.h</headers>
