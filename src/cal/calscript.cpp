@@ -236,6 +236,7 @@ bool Script::do_do()
     int start_line = m_ts.get_line();
     string code = m_ts.read_until( "loop", "do" );
     if( code.empty() ) {
+        error( "Do loop not terminated." );
         return false;
     }
     int end_line = m_ts.get_line();

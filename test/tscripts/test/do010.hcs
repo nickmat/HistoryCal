@@ -1,0 +1,12 @@
+// do010.hcs Test incomplete do statement
+
+writeln "";
+
+do 
+    write "hello";
+
+/*[OUTPUT]
+
+Error (14): Do loop not terminated.
+
+[OUTPUT]*/

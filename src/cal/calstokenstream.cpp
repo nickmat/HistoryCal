@@ -249,6 +249,9 @@ string STokenStream::read_until( const string& name, const string& esc )
             }
         }
         code += ch;
+        if ( m_in->eof() ) { // End of stream before esc
+            return "";
+        }
     }
     return code;
 }
