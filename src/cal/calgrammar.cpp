@@ -397,6 +397,16 @@ void Grammar::get_format_info( SchemeFormatInfo* info, const string& cur_code, I
                     info->descs[i].codes.push_back( pcode );
                 }
                 break;
+            } else {
+                for ( size_t j = 0; j < info->descs[i].codes.size(); j++ ) {
+                    if ( pcode.code == info->descs[i].codes[j].code ) {
+                        found = true;
+                        break;
+                    }
+                }
+                if ( found ) {
+                    break;
+                }
             }
         }
         if( !found ) {
