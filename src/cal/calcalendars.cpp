@@ -73,6 +73,7 @@ Calendars::~Calendars()
     for( size_t i = m_marks.size() ; i > 0 ; --i ) {
         delete m_marks[i-1];
     }
+    while ( pop_store() );
     delete m_store;
 }
 
@@ -310,9 +311,9 @@ RangeList Calendars::expr_str_to_rangelist( SHandle scheme, const string& str )
     Script scr( this, iss, oss );
     scr.run();
 
-    SValueMap table = get_store()->table;
-    if( table.count( "result" ) > 0 ) {
-        table.find( "result" )->second.get_rlist( rlist );
+    SValue value;
+    if ( get_store()->get( &value, "result" ) ) {
+        value.get_rlist( rlist );
     }
     return rlist;
 }
@@ -527,6 +528,22 @@ bool Calendars::clear_mark( const string& name )
         m_marks.pop_back();
     }
     return true;
+}
+
+void Cal::Calendars::push_store()
+{
+    m_store = new ScriptStore( m_store );
+}
+
+bool Cal::Calendars::pop_store()
+{
+    ScriptStore* store = m_store->get_prev();
+    if ( store ) {
+        delete m_store;
+        m_store = store;
+        return true;
+    }
+    return false;
 }
 
 // End of src/cal/calcalendars.cpp file

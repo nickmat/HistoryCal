@@ -98,7 +98,7 @@ bool Script::statement()
         if ( name == "grammar" ) return do_grammar();
         if ( name == "format" ) return do_format( NULL );
         if ( name == "function" ) return do_function();
-        if (store()->exists(name)) return do_assign(name);
+        if ( store()->exists( name ) ) return do_assign( name );
     }
     else if ( token.type() == SToken::STT_Semicolon ) {
         return true; // Empty statement
@@ -137,7 +137,7 @@ bool Script::do_clear()
     if( !mark.empty() ) {
         m_cals->clear_mark( mark );
     }
-    store()->table.clear();
+    store()->clear();
     return true;
 }
 
@@ -314,12 +314,12 @@ bool Script::do_set()
     SHandle sch = m_cals->get_scheme( scheme );
     if( sch ) {
         if( prop == "input" ) {
-            store()->ischeme = sch;
+            store()->set_ischeme( sch );
             if( format.size() ) {
                 m_cals->set_input_format( sch, format );
             }
         } else if( prop == "output" ) {
-            store()->oscheme = sch;
+            store()->set_oscheme( sch );
             if( format.size() ) {
                 m_cals->set_output_format( sch, format );
             }
@@ -348,8 +348,7 @@ bool Script::do_assign( const std::string& name )
     SValue value;
     if( token.type() == SToken::STT_Equal ) {
         value = expr( true );
-    } else if( store()->exists( name ) ) {
-        value = store()->table[name];
+    } else if ( store()->get( &value, name ) ) {
         switch( token.type() )
         {
         case SToken::STT_PlusEq:
@@ -372,7 +371,7 @@ bool Script::do_assign( const std::string& name )
         error( "'=' expected." );
         return false;
     }
-    store()->table[name] = value;
+    store()->set( name, value );
     token = m_ts.current();
     if( token.type() != SToken::STT_Semicolon ) {
         error( "';' expected." );
@@ -1056,6 +1055,7 @@ bool Cal::Script::do_call()
     m_ts.set_line( fun->get_line() );
     std::istringstream iss( fun->get_script() );
     std::istream* cur_iss = m_ts.reset_in( &iss );
+    m_cals->push_store();
 
     m_ts.next();
     while ( statement() ) {
@@ -1064,6 +1064,7 @@ bool Cal::Script::do_call()
         }
     }
 
+    m_cals->pop_store();
     m_ts.set_line( cur_line );
     m_ts.reset_in( cur_iss );
     return true;
@@ -1442,7 +1443,7 @@ SValue Script::str_cast()
         }
     }
     if( sch == NULL ) {
-        sch = store()->oscheme;
+        sch = store()->get_oscheme();
     }
     value.set_str( m_cals->rangelist_to_str( sch, rlist, fcode ) );
     return value;
@@ -1462,7 +1463,7 @@ SValue Script::date_cast()
     SValue value = primary( false );
     if( value.type() == SValue::SVT_Str ) {
         if( sch == NULL ) {
-            sch = store()->ischeme;
+            sch = store()->get_ischeme();
         }
         value.set( m_cals->str_to_rangelist( sch, value.get_str(), fcode ) );
     } else if( value.type() == SValue::SVT_Record ) {
@@ -1488,7 +1489,7 @@ SValue Script::record_cast()
     }
     SValue value = primary( false );
     if( sch == NULL ) {
-        sch = store()->ischeme;
+        sch = store()->get_ischeme();
         scode = sch->get_code();
     }
     if( scode.empty() ) {
@@ -1533,10 +1534,10 @@ SValue Script::get_value_var( const string& name )
     if( name == "today" ) {
         return SValue( Gregorian::today() );
     }
-    if( store()->table.count( name ) ) {
-        return store()->table.find( name )->second;
-    }
     SValue value;
+    if( store()->get( &value, name ) ) {
+        return value;
+    }
     value.set_error( "Variable \"" + name + "\" not found." );
     return value;
 }

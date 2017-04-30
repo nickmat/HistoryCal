@@ -92,6 +92,9 @@ namespace Cal {
         void add_or_replace_mark( const std::string& name );
         bool clear_mark( const std::string& name );
         ScriptStore* get_store() const { return m_store; }
+        void push_store();
+        bool pop_store();
+
 
     private:
         SHandleMap   m_shandles;
