@@ -101,9 +101,10 @@ void SValue::set_record( const string& scode, const FieldVec& fields )
 void SValue::set_error( const string& str )
 {
     m_type = SVT_Error;
-    m_str = str;
-    if( m_ts ) {
-        m_ts->error( str );
+    if ( m_ts ) {
+        m_str = "Error (" + field_to_str( m_ts->get_line() ) + "): " + str;
+    } else {
+        m_str = str;
     }
 }
 
@@ -134,6 +135,7 @@ bool SValue::get( string& str ) const
     str.clear();
     switch( m_type )
     {
+    case SVT_Error:
     case SVT_Str:
         str = m_str;
         return true;
@@ -171,6 +173,9 @@ bool SValue::get( string& str ) const
             }
         }
         str += "}";
+        return true;
+    case SVT_Null:
+        str = "null";
         return true;
     }
     return false;
@@ -303,7 +308,8 @@ bool SValue::propagate_error( const SValue& value )
         return true;
     }
     if( value.is_error() ) {
-        set_error( value.get_str() );
+        m_type = SVT_Error;
+        m_str = value.m_str;
         return true;
     }
     return false;

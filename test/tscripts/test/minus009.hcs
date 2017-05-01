@@ -1,10 +1,7 @@
 // minus009.hcs Test file to test subtraction of special values.
 
-let a = (past ~ 5) - past;
-
-clear;
+write (past ~ 5) - past;
 
 /*[OUTPUT]
 Error (3): Invalid range.
-
 [OUTPUT]*/

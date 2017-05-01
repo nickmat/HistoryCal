@@ -94,6 +94,8 @@ namespace Cal {
 
         SValue get_value_var( const std::string& name );
 
+        int line() const { return m_ts.get_line(); }
+
         Calendars*    m_cals;
         STokenStream  m_ts;
         std::ostream* m_out;

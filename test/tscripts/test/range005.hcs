@@ -1,12 +1,9 @@
 // range005.hcs Test range operator with invalid field error
 
-let a = 5 ~ ?;
-
-clear;
+write 5 ~ ?;
 
 /*[OUTPUT]
 Error (3): Range invalid.
-
 [OUTPUT]*/
 
 

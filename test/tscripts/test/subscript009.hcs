@@ -2,12 +2,10 @@
 
 writeln "";
 
-let a = 4[.size];
-let b = (7 ~ 16)[.1];
-let c = 10[.xxx];
-let d = (!past~future)[.envelope];
-
-clear;
+writeln 4[.size];
+writeln (7 ~ 16)[.1];
+writeln 10[.xxx];
+writeln (!past~future)[.envelope];
 
 /*[OUTPUT]
 

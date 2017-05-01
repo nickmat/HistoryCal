@@ -2,13 +2,11 @@
 
 writeln "";
 
-let a = 10 / 0;
-let b = 10 / ?;
-let c = 10 / past;
-let d = 10 / future;
-let e = ? / 2;
-
-clear;
+writeln 10 / 0;
+writeln 10 / ?;
+writeln 10 / past;
+writeln 10 / future;
+writeln ? / 2;
 
 /*[OUTPUT]
 

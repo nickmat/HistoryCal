@@ -1,0 +1,21 @@
+// function002.hcs - Test duplicated function statement.
+
+mark test.function002;
+
+writeln "";
+
+function say {
+    write "Hello";
+}
+
+function say {
+    write "bye";
+}
+
+clear test.function002;
+
+/*[OUTPUT]
+
+Error (11): function "say" already exists.
+
+[OUTPUT]*/

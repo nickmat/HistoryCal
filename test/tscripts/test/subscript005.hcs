@@ -2,19 +2,21 @@
 
 let x = date,g:dmy "1943|1946|1948";
 
-let a = x[-1];
-let b = x[0];
-let c = x[1];
-let d = x[2];
-let e = x[3];
+writeln "";
 
-write b + ", " + c + ", " + d;
+writeln x[-1];
+writeln x[0];
+writeln x[1];
+writeln x[2];
+writeln x[3];
 
-clear;
 
-*/
 /*[OUTPUT]
-Error (5): Subscript out of range.
-Error (9): Subscript out of range.
-2430726 ~ 2431090, 2431822 ~ 2432186, 2432552 ~ 2432917
+
+Error (7): Subscript out of range.
+2430726 ~ 2431090
+2431822 ~ 2432186
+2432552 ~ 2432917
+Error (11): Subscript out of range.
+
 [OUTPUT]*/

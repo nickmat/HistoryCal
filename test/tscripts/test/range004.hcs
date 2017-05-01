@@ -2,13 +2,10 @@
 
 let a = "Test";
 
-let b = a ~ 16;
-
-clear;
+write a ~ 16;
 
 /*[OUTPUT]
 Error (5): Range operator requires number types.
-
 [OUTPUT]*/
 
 

@@ -1,0 +1,24 @@
+// scheme002.hcs  Test repeated scheme definition error.
+
+mark test.scheme002;
+
+writeln "";
+
+scheme test002 {
+  name "Test Calendar";
+  base gregorian;
+}
+
+scheme test002 {
+  name "Another Test Calendar";
+  base julian;
+}
+
+clear test.scheme002;
+
+*/
+/*[OUTPUT]
+
+Error (12): Scheme "test002" already exists.
+
+[OUTPUT]*/

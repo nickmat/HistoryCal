@@ -2,12 +2,10 @@
 
 writeln "";
 
-let a = 3 * ?;
-let b = ? * past;
-let c = ? * future;
-let d = past * future;
-
-clear;
+writeln 3 * ?;
+writeln ? * past;
+writeln ? * future;
+writeln past * future;
 
 /*[OUTPUT]
 

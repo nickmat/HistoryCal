@@ -1,0 +1,14 @@
+// function004.hcs - Test function statement.
+
+let d = 7;
+
+function say {
+  let e = 2432814 + d;
+  write e;
+}
+
+call say;
+
+/*[OUTPUT]
+Error (6): Variable "d" not found.
+[OUTPUT]*/

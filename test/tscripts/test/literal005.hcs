@@ -1,10 +1,7 @@
 // literal005.hcs Test invalid range.
 
-let a = 10 ~ ?;
-
-clear;
+write 10 ~ ?;
 
 /*[OUTPUT]
 Error (3): Range invalid.
-
 [OUTPUT]*/

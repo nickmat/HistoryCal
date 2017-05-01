@@ -2,15 +2,13 @@
 
 writeln "";
 
-let a = 9 mod 0;
-let b = 9 mod ?;
-let c = ? mod 3;
-let d = 9 mod past;
-let e = past mod 3;
-let f = 9 mod future;
-let g = future mod 3;
-
-clear;
+writeln 9 mod 0;
+writeln 9 mod ?;
+writeln ? mod 3;
+writeln 9 mod past;
+writeln past mod 3;
+writeln 9 mod future;
+writeln future mod 3;
 
 /*[OUTPUT]
 
