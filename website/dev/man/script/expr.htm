@@ -228,7 +228,7 @@
  Adding two rlists together is currently an error. 
 </p>
 <p>
- Subtraction is carried out adding the negated right hand side.
+ Subtraction is carried out by adding the negated right hand side.
  So a - b = a + -b and (a ~ b) - (c ~ d) = (a ~ b) + (-d ~ -c).
 </p>
 <table class='list' id='operator-list'>
@@ -252,6 +252,14 @@
 </tr>
 <tr><td class='code'>rlist_type + rlist_type</td><td class='example'>(8 ~ 16 | 20 ~ 50) + (15 ~ 18 | 25 ~ 27)</td><td class='example'>Error. Unable to add or subtract rlists.</td></tr>
 </table>
+
+<h4>String Concatenation</h4>
+<p>
+ The '+' operator is also used to combine string values.
+ If both sides of the operator are string values,
+ the right hand side will be appended to the left hand.
+ If just one side is a string value then the other is stringified first (see <a href='write.htm'>write Statement</a>).
+</p>
 
 <h4>Multiplication, Division and Modulo</h4>
 <p>
@@ -539,6 +547,12 @@
 <p>
  <b>and, date, do, endif, else, elseif, false, future, if, invalid, loop, mod,
  not, or, past, record, string, today, true, until, while</b>
+</p>
+<p>
+ The other statement words
+ <b>call, clear, end, format, function, grammar, let, mark, scheme, set, vocab, write, writeln</b>
+ are not strictly keyword, but must be used with care.
+ If they are used as variable names then all assignments must start with 'let'.
 </p>
 
 </div><!--id=content-->

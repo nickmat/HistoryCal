@@ -29,9 +29,6 @@
 
 <div id='content' class='nomenu'>
 
-
-
-
 <h2>Calendar Description</h2>
 <p>
  This is still a work in progress and is therefore subject to change.
@@ -266,7 +263,7 @@ scheme er {
                 regnal {
                     fields year, month, day;
                     extended "john-part";
-                    fixed year, 1;
+                    fixed year = 1;
                     era {  // Default scheme is required even if not used.
                         scheme j;
                     }
