@@ -39,15 +39,19 @@ namespace Cal {
 
         void set_script( const std::string& script ) { m_script = script; }
         void set_line( int line ) { m_line = line; }
+        void set_args( const StringVec& args ) { m_args = args; }
 
         std::string get_code() const { return m_code; }
         int get_line() const { return m_line; }
         std::string get_script() const { return m_script; }
+        size_t get_arg_size() const { return m_args.size(); }
+        std::string get_arg_name( size_t index ) const { return m_args[index]; }
 
     private:
         std::string m_code;
         int         m_line;
         std::string m_script;
+        StringVec   m_args;
     };
 
 }

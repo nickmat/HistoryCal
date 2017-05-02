@@ -1016,7 +1016,30 @@ bool Script::do_function()
         error( "function \"" + code + "\" already exists." );
         return false;
     }
-    if ( m_ts.current().type() != SToken::STT_LCbracket ) {
+    SToken token = m_ts.current();
+    StringVec args;
+    if ( token.type() == SToken::STT_Lbracket ) {
+        token = m_ts.next();
+        for ( ;;) {
+            if ( token.type() == SToken::STT_Rbracket ) {
+                break;
+            }
+            if( token.type() != SToken::STT_Name ) {
+                error( "Argument name expected." );
+                return false;
+            }
+            string str = m_ts.current().get_str();
+            if ( !str.empty() ) {
+                args.push_back( str );
+            }
+            token = m_ts.next();
+            if ( token.type() == SToken::STT_Comma ) {
+                token = m_ts.next();
+            }
+        }
+        token = m_ts.next();
+    }
+    if ( token.type() != SToken::STT_LCbracket ) {
         error( "'{' expected." );
         return false;
     }
@@ -1030,6 +1053,7 @@ bool Script::do_function()
     if ( fun == nullptr ) {
         return false;
     }
+    fun->set_args( args );
     fun->set_line( line );
     fun->set_script( script );
     return true;
@@ -1042,7 +1066,26 @@ bool Cal::Script::do_call()
         error( "Function name expected." );
         return false;
     }
-    if ( m_ts.current().type() != SToken::STT_Semicolon ) {
+    SToken token = m_ts.current();
+    vector<SValue> args;
+    if ( token.type() == SToken::STT_Lbracket ) {
+        for ( ;; ) {
+            SValue value = expr( true );
+            args.push_back( value );
+            token = m_ts.current();
+            if ( token.type() == SToken::STT_Rbracket ||
+                token.type() == SToken::STT_End )
+            {
+                break;
+            }
+            if ( token.type() != SToken::STT_Comma ) {
+                error( "',' expected." );
+                return false;
+            }
+        }
+        token = m_ts.next();
+    }
+    if ( token.type() != SToken::STT_Semicolon ) {
         error( "';' expected." );
         return false;
     }
@@ -1056,6 +1099,14 @@ bool Cal::Script::do_call()
     std::istringstream iss( fun->get_script() );
     std::istream* cur_iss = m_ts.reset_in( &iss );
     m_cals->push_store();
+
+    for (size_t i = 0 ; i < fun->get_arg_size() ; i++ ) {
+        if ( i < args.size() ) {
+            store()->set( fun->get_arg_name( i ), args[i] );
+        } else {
+            store()->set( fun->get_arg_name( i ), SValue() );
+        }
+    }
 
     m_ts.next();
     while ( statement() ) {
