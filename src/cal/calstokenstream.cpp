@@ -184,6 +184,7 @@ SToken STokenStream::next()
     case '^': set_type( SToken::STT_Carrot ); break;
     case '\\': set_type( SToken::STT_Backslash ); break;
     case '?': set_type( SToken::STT_Qmark ); break;
+    case '@': set_type( SToken::STT_At ); break;
     default:
         error( "Unrecognised token." );
         set_type( SToken::STT_End );

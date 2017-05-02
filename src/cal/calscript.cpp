@@ -96,7 +96,7 @@ bool Script::statement()
         if ( name == "call" ) return do_call();
         if ( name == "vocab" ) return do_vocab();
         if ( name == "grammar" ) return do_grammar();
-        if ( name == "format" ) return do_format( NULL );
+        if ( name == "format" ) return do_format( nullptr );
         if ( name == "function" ) return do_function();
         if ( store()->exists( name ) ) return do_assign( name );
     }
@@ -1061,63 +1061,15 @@ bool Script::do_function()
 
 bool Cal::Script::do_call()
 {
-    string funcode = get_name_or_primary( true );
-    if ( funcode.empty() ) {
-        error( "Function name expected." );
+    SValue value = function_call();
+    if ( value.is_error() ) {
+        error( value.get_str() );
         return false;
     }
-    SToken token = m_ts.current();
-    vector<SValue> args;
-    if ( token.type() == SToken::STT_Lbracket ) {
-        for ( ;; ) {
-            SValue value = expr( true );
-            args.push_back( value );
-            token = m_ts.current();
-            if ( token.type() == SToken::STT_Rbracket ||
-                token.type() == SToken::STT_End )
-            {
-                break;
-            }
-            if ( token.type() != SToken::STT_Comma ) {
-                error( "',' expected." );
-                return false;
-            }
-        }
-        token = m_ts.next();
-    }
-    if ( token.type() != SToken::STT_Semicolon ) {
+    if ( m_ts.current().type() != SToken::STT_Semicolon ) {
         error( "';' expected." );
         return false;
     }
-    Function* fun = m_cals->get_function( funcode );
-    if ( fun == nullptr ) {
-        error( "Function " + funcode + " not found." );
-        return false;
-    }
-    int cur_line = m_ts.get_line();
-    m_ts.set_line( fun->get_line() );
-    std::istringstream iss( fun->get_script() );
-    std::istream* cur_iss = m_ts.reset_in( &iss );
-    m_cals->push_store();
-
-    for (size_t i = 0 ; i < fun->get_arg_size() ; i++ ) {
-        if ( i < args.size() ) {
-            store()->set( fun->get_arg_name( i ), args[i] );
-        } else {
-            store()->set( fun->get_arg_name( i ), SValue() );
-        }
-    }
-
-    m_ts.next();
-    while ( statement() ) {
-        if ( m_ts.next().type() == SToken::STT_End ) {
-            break;
-        }
-    }
-
-    m_cals->pop_store();
-    m_ts.set_line( cur_line );
-    m_ts.reset_in( cur_iss );
     return true;
 }
 
@@ -1352,6 +1304,9 @@ SValue Script::primary( bool get )
     case SToken::STT_str_cast:
         value = str_cast();
         break;
+    case SToken::STT_At:
+        value = function_call();
+        break;
     case SToken::STT_Minus:
         value = primary( true );
         value.negate();
@@ -1562,6 +1517,69 @@ SValue Script::record_cast()
     } else {
         value.set_record( scode, fields );
     }
+    return value;
+}
+
+SValue Cal::Script::function_call()
+{
+    SValue value;
+    SToken token = m_ts.next();
+    if ( token.type() != SToken::STT_Name ) {
+        value.set_error( "Function name expected." );
+        return value;
+    }
+    string funcode = token.get_str();
+    token = m_ts.next();
+    vector<SValue> args;
+    if ( token.type() == SToken::STT_Lbracket ) {
+        for ( ;; ) {
+            SValue arg = expr( true );
+            args.push_back( arg );
+            token = m_ts.current();
+            if ( token.type() == SToken::STT_Rbracket ||
+                token.type() == SToken::STT_End )
+            {
+                break;
+            }
+            if ( token.type() != SToken::STT_Comma ) {
+                value.set_error( "',' expected." );
+                return value;
+            }
+        }
+        token = m_ts.next();
+    }
+    Function* fun = m_cals->get_function( funcode );
+    if ( fun == nullptr ) {
+        value.set_error( "Function " + funcode + " not found." );
+        return value;
+    }
+
+    STokenStream prev_ts = m_ts;
+    m_ts.set_line( fun->get_line() );
+    std::istringstream iss( fun->get_script() );
+    m_ts.reset_in( &iss );
+    m_cals->push_store();
+
+    store()->set( "result", SValue() );
+    for ( size_t i = 0; i < fun->get_arg_size(); i++ ) {
+        if ( i < args.size() ) {
+            store()->set( fun->get_arg_name( i ), args[i] );
+        } else {
+            store()->set( fun->get_arg_name( i ), SValue() );
+        }
+    }
+
+    m_ts.next();
+    while ( statement() ) {
+        if ( m_ts.next().type() == SToken::STT_End ) {
+            break;
+        }
+    }
+
+    store()->get( &value, "result" );
+    m_cals->pop_store();
+    m_ts = prev_ts;
+
     return value;
 }
 

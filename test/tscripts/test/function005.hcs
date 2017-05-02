@@ -19,5 +19,5 @@ set output g:dmy;
 call write.age(date "1may2017", date "19sep1948");
 
 /*[OUTPUT]
-Age is:
+Age is: 68 years.
 [OUTPUT]*/
