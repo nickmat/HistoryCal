@@ -1,0 +1,15 @@
+// function008.hcs - Test function in a expression with no arguments.
+
+function power( number, power ) {
+    result = 1;
+    do while power > 0
+        result *= number;
+        power -= 1;
+    loop
+}
+
+write 4 * @power(2,4) + 10;
+
+/*[OUTPUT]
+74
+[OUTPUT]*/

@@ -407,6 +407,26 @@
 <tr><td class='code'>scheme</td><td class='example'>{g,1948,9,19}[.scheme]</td><td class='example'>"g"</td><td>Return the scheme code string of a record.</td></tr>
 </table>
 
+<h3>Functions</h3>
+<p>
+ A function first has to be defined using the function statement.
+ It can then be called directly using the call statement,
+ but in this case the function result (if one is assigned) is ignored.
+ It can also be called in an expression using the at '@' operator.
+</p>
+
+<table class='list' id='operator-list'>
+<tr><th>Example</th><th>Result</th></tr><!-- See function008.hcs test file -->
+ <tr><td class='example'>function power(number, power) {
+    result = 1;
+    do while power > 0
+        result *= number;
+        power -= 1;
+    loop
+}</td><td class='example'></tr>
+ <tr><td class='example'>4 * @power(2,4) + 10</td><td class='example'>74</tr>
+</table>
+
 <h3>Type Conversions</h3>
 <p>
  The cast operators are used to covert values between different types.
@@ -503,6 +523,7 @@
 <tr><td class='code'>date</td><td>Date cast</td><td class='example'><b>date,sig</b> string_value<br /><b>date</b> record_value</td><td class='example'>date_value</td></tr>
 <tr><td class='code'>record</td><td>Record cast</td><td class='example'><b>record,sig</b> string_value<br /><b>record</b> field_value</td><td class='example'>record_value</td></tr>
 <tr><td class='code'>string</td><td>String cast</td><td class='example'><b>string,sig</b> date_value<br /><b>string,sig</b> record_value</td><td class='example'>string_value</td></tr>
+<tr><td class='code'>@</td><td>Function</td><td class='example'><b>@name</b><br /><b>@name(</b>expr, ...<b>)</b></td><td class='example'>value</td></tr>
 <tr><td class='code' colspan='4'></td></tr>
 <tr><td class='code'>[]</td><td>Subscript</td><td class='example'>date_value<b>[</b>string_value<b>]</b></td><td class='example'>field_value</td></tr>
 <tr><td class='code'>[.<i>name</i>]</td><td>Property</td><td class='example'>value<b>[.</b>name<b>]</b></td><td class='example'>value</td></tr>
