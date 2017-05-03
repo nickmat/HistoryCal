@@ -126,10 +126,10 @@ namespace {
     string create_date_str( string& sig, string& date )
     {
         string d = full_trim( date );
-        if( !d.empty() ) {
+        if( !d.empty() && sig != "#" ) {
             d = "date" + sig + "\"" + d + "\"";
-            date.clear();
         }
+        date.clear();
         sig.clear();
         return d;
     }
@@ -162,12 +162,12 @@ string Cal::parse_date_expr( const string& str )
                 }
             }
             break;
-        case '&':
+        case '&': case '+': case '-': case '*': case '/':
             nit = it+1;
             if( nit != str.end() && ( *nit == '.' ) ) {
                 script += create_date_str( sig, date );
-                script += *it;
-                it++;       // Step over dot, next char is treated as operator.
+                script += *it; // It's an operator.
+                it++;       // Step over dot.
             } else {
                 date += *it; // Treat & as part of date string.
             }
@@ -175,10 +175,16 @@ string Cal::parse_date_expr( const string& str )
         case '|': case '\\': case '^': case '!': case '(': case ')': case '~':
             script += create_date_str( sig, date );
             script += *it;
+            nit = it + 1;
+            if ( nit != str.end() && ( *nit == '.' ) ) {
+                it++; // Step over following dot.
+            }
             break;
         case '#':
             date = full_trim( date );
-            if( !date.empty() ) {
+            if ( date.empty() ) {
+                sig = "#";
+            } else {
                 sig = ",\"" + date + "\" ";
                 date.clear();
             }
