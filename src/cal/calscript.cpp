@@ -1398,8 +1398,14 @@ SValue Script::do_subscript( const SValue& left, const SValue& right )
     if( right.type() == SValue::SVT_Str ) {
         if( left.type() == SValue::SVT_Field ) {
             string scode, fname;
+            SHandle sch;
             split_code( &scode, &fname, right.get_str() );
-            SHandle sch = m_cals->get_scheme( scode );
+            if ( fname.empty() ) {
+                fname = scode;
+                sch = store()->get_ischeme();
+            } else {
+                sch = m_cals->get_scheme( scode );
+            }
             Field jdn = left.get_field();
             if( sch ) {
                 value.set_field( sch->jdn_fieldname_to_field( jdn, fname ) );

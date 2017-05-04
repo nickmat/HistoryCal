@@ -1,0 +1,12 @@
+// subscript011.hcs Test  subscript expression without scheme signature
+
+set input j;
+
+write 2432814[day];
+
+clear;
+
+*/
+/*[OUTPUT]
+6
+[OUTPUT]*/
