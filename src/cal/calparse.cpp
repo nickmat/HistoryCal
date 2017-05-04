@@ -162,7 +162,7 @@ string Cal::parse_date_expr( const string& str )
                 }
             }
             break;
-        case '&': case '+': case '-': case '*': case '/':
+        case '&': case '+': case '-': case '*': case '/': // Must be followed by dot.
             nit = it+1;
             if( nit != str.end() && ( *nit == '.' ) ) {
                 script += create_date_str( sig, date );
@@ -172,13 +172,21 @@ string Cal::parse_date_expr( const string& str )
                 date += *it; // Treat & as part of date string.
             }
             break;
-        case '|': case '\\': case '^': case '!': case '(': case ')': case '~':
+        case '\\': case '^': case '!': // May optionally be followed by dot  
             script += create_date_str( sig, date );
             script += *it;
             nit = it + 1;
             if ( nit != str.end() && ( *nit == '.' ) ) {
                 it++; // Step over following dot.
             }
+            break;
+        case '|': case '(': case ')': case '~': // Always recognised operators.
+            script += create_date_str( sig, date );
+            script += *it;
+            break;
+        case ';': // Use instead of comma.
+            script += create_date_str( sig, date );
+            script += ',';
             break;
         case '#':
             date = full_trim( date );
@@ -189,9 +197,18 @@ string Cal::parse_date_expr( const string& str )
                 date.clear();
             }
             break;
+        case '@':
+            // TODO: date should be empty at this point, do error checks? 
+            for ( ; it != str.end() ; it++ ) {
+                date += *it;
+                nit = it + 1;
+                if ( *nit == '(' ) {
+                    break;
+                }
+            }
+            break;
         default:
             date += *it;
-            break;
         }
         if( it == str.end() ) {
             break;
