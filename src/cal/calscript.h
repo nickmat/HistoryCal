@@ -91,6 +91,7 @@ namespace Cal {
         SValue str_cast();
         SValue date_cast();
         SValue record_cast();
+        SValue error_cast();
         SValue function_call();
 
         SValue get_value_var( const std::string& name );

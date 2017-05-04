@@ -104,8 +104,10 @@ SToken STokenStream::next()
             set_type( SToken::STT_str_cast );
         } else if( str == "date" ) {
             set_type( SToken::STT_date );
-        } else if( str == "record" ) {
+        } else if ( str == "record" ) {
             set_type( SToken::STT_record );
+        } else if ( str == "error" ) {
+            set_type( SToken::STT_error );
         } else {
             set_current( SToken::STT_Name, str );
         }

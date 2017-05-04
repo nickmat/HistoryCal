@@ -505,6 +505,21 @@
  <tr><td colspan='2'>The above examples assume a system input and output setting of "g:dmy".</td></tr>
 </table>
 
+<h4>Error Cast</h4>
+<p>
+ The error cast operator converts a string into an error.
+ This can be used to signal an unusable value in a calculation or function.
+</p>
+<p>
+ The prefix "Error (" + line + "): " is added to message,
+ where line is the line number of the the error cast operator.
+</p>
+<table class='list' id='operator-list'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>error "Age is negative."</td><td class='example'>"Error (10): Age is negative."</tr>
+ <tr><td class='example'>error ("Age of " + age + " is too high.")</td><td class='example'>"Error (10): Age of 150 is too high."</tr>
+</table>
+
 <h2>Operator Precedence</h2>
 <p>
  Expressions are evaluated according to the operators detailed in the table.
@@ -523,6 +538,7 @@
 <tr><td class='code'>date</td><td>Date cast</td><td class='example'><b>date,sig</b> string_value<br /><b>date</b> record_value</td><td class='example'>date_value</td></tr>
 <tr><td class='code'>record</td><td>Record cast</td><td class='example'><b>record,sig</b> string_value<br /><b>record</b> field_value</td><td class='example'>record_value</td></tr>
 <tr><td class='code'>string</td><td>String cast</td><td class='example'><b>string,sig</b> date_value<br /><b>string,sig</b> record_value</td><td class='example'>string_value</td></tr>
+<tr><td class='code'>error</td><td>Error cast</td><td class='example'><b>error</b> string_value<td class='example'>error_value</td></tr>
 <tr><td class='code'>@</td><td>Function</td><td class='example'><b>@name</b><br /><b>@name(</b>expr, ...<b>)</b></td><td class='example'>value</td></tr>
 <tr><td class='code' colspan='4'></td></tr>
 <tr><td class='code'>[]</td><td>Subscript</td><td class='example'>date_value<b>[</b>string_value<b>]</b></td><td class='example'>field_value</td></tr>
@@ -566,7 +582,7 @@
  and, if used as signature codes, they must be enclosed in double quotes.
 </p>
 <p>
- <b>and, date, do, endif, else, elseif, false, future, if, invalid, loop, mod,
+ <b>and, date, do, endif, else, elseif, error, false, future, if, invalid, loop, mod,
  not, or, past, record, string, today, true, until, while</b>
 </p>
 <p>

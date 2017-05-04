@@ -1301,6 +1301,9 @@ SValue Script::primary( bool get )
     case SToken::STT_record:
         value = record_cast();
         break;
+    case SToken::STT_error:
+        value = error_cast();
+        break;
     case SToken::STT_str_cast:
         value = str_cast();
         break;
@@ -1517,6 +1520,17 @@ SValue Script::record_cast()
     } else {
         value.set_record( scode, fields );
     }
+    return value;
+}
+
+SValue Cal::Script::error_cast()
+{
+    SValue value = primary( true );
+    string mess;
+    if ( !value.get( mess ) ) {
+        mess = "Unable to read error message.";
+    }
+    value.set_error( mess );
     return value;
 }
 
