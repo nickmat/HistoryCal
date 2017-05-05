@@ -125,6 +125,7 @@ namespace Cal {
         static STokenStream* m_ts;
     };
 
+    typedef std::vector<SValue> SValueVec;
 }
 
 #endif // CAL_CALSVALUE_H_GUARD

@@ -1023,21 +1023,26 @@ bool Script::do_function()
     }
     SToken token = m_ts.current();
     StringVec args;
+    SValueVec defs;
     if ( token.type() == SToken::STT_Lbracket ) {
         token = m_ts.next();
         for ( ;;) {
             if ( token.type() == SToken::STT_Rbracket ) {
                 break;
             }
-            if( token.type() != SToken::STT_Name ) {
+            string str = m_ts.current().get_str();
+            if( token.type() != SToken::STT_Name || str.empty() ) {
                 error( "Argument name expected." );
                 return false;
             }
-            string str = m_ts.current().get_str();
-            if ( !str.empty() ) {
-                args.push_back( str );
-            }
+            args.push_back( str );
             token = m_ts.next();
+            SValue value;
+            if ( token.type() == SToken::STT_Equal ) {
+                value = expr( true );
+            }
+            defs.push_back( value );
+            token = m_ts.current();
             if ( token.type() == SToken::STT_Comma ) {
                 token = m_ts.next();
             }
@@ -1059,6 +1064,7 @@ bool Script::do_function()
         return false;
     }
     fun->set_args( args );
+    fun->set_defaults( defs );
     fun->set_line( line );
     fun->set_script( script );
     return true;
@@ -1598,7 +1604,7 @@ SValue Cal::Script::function_call()
         if ( i < args.size() ) {
             store()->set( fun->get_arg_name( i ), args[i] );
         } else {
-            store()->set( fun->get_arg_name( i ), SValue() );
+            store()->set( fun->get_arg_name( i ), fun->get_default_value( i ) );
         }
     }
 
