@@ -298,14 +298,12 @@ bool Script::do_set()
     SToken token = m_ts.next();
     if( token.type() == SToken::STT_Name ) {
         prop = token.get_str();
-        token = m_ts.next();
+    } else {
+        error( "Set property expected." );
+        return false;
     }
-    string value;
-    if( token.type() == SToken::STT_Name || token.type() == SToken::STT_String ) {
-        value = token.get_str();
-        token = m_ts.next();
-    }
-    if( token.type() != SToken::STT_Semicolon ) {
+    string value = get_name_or_primary( true );
+    if( m_ts.current().type() != SToken::STT_Semicolon ) {
         error( "set statement is \"set propery value;\"." );
         return false;
     }
@@ -313,14 +311,21 @@ bool Script::do_set()
     split_code( &scheme, &format, value );
     SHandle sch = m_cals->get_scheme( scheme );
     if( sch ) {
-        if( prop == "input" ) {
+        if ( prop == "input" ) {
             store()->set_ischeme( sch );
-            if( format.size() ) {
+            if ( !format.empty() ) {
                 m_cals->set_input_format( sch, format );
             }
-        } else if( prop == "output" ) {
+        } else if ( prop == "output" ) {
             store()->set_oscheme( sch );
-            if( format.size() ) {
+            if ( !format.empty() ) {
+                m_cals->set_output_format( sch, format );
+            }
+        } else if ( prop == "inout" ) {
+            store()->set_ischeme( sch );
+            store()->set_oscheme( sch );
+            if ( !format.empty() ) {
+                m_cals->set_input_format( sch, format );
                 m_cals->set_output_format( sch, format );
             }
         } else {
@@ -1366,23 +1371,31 @@ SValue Script::fields_expr( bool get )
     string scode = get_name_or_primary( get );
     FieldVec fields;
     SToken token = m_ts.current();
+    bool field_err = false;
+    SValue err_value;
 
     for(;;) {
         switch( token.type() )
         {
         case SToken::STT_End:
         case SToken::STT_RCbracket:
+            if ( field_err ) {
+                return err_value;
+            }
             return SValue( scode, fields );
         case SToken::STT_Comma:
             break;
         default:
             {
                 SValue value = expr( false );
-                Field field = value.get_field();
-                if( value.is_error() ) {
-                    error( "Field value expected." );
-                } else {
+                Field field;
+                if ( value.get( field ) ) {
                     fields.push_back( field );
+                } else {
+                    if ( !field_err ) {
+                        err_value = value;
+                    }
+                    field_err = true;
                 }
             }
             token = m_ts.current();
