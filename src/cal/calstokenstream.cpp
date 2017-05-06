@@ -210,7 +210,7 @@ string STokenStream::read_until( const string& name, const string& esc )
         if( ch == '\n' ) {
             m_line++;
         }
-        if ( braces && word.empty() ) {
+        if ( braces ) {
             if ( ch == '{' ) {
                 count++;
             }
@@ -220,8 +220,7 @@ string STokenStream::read_until( const string& name, const string& esc )
                 }
                 --count;
             }
-        }
-        if( !braces && !word.empty() ) {
+        } else if( !word.empty() ) {
             if( word == esc ) {
                 count++;
             }
