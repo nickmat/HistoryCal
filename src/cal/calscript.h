@@ -85,7 +85,7 @@ namespace Cal {
         SValue primary( bool get );
         std::string get_name_or_primary( bool get );
         StringVec get_string_list( bool get );
-        SValue fields_expr( bool get );
+        SValue get_record( bool get );
 
         SValue do_subscript( const SValue& left, const SValue& right );
         SValue str_cast();

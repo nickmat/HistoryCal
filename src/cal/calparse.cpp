@@ -123,14 +123,28 @@ bool Cal::split_code( string* scheme, string* format, const string& codes )
 }
 
 namespace {
-    string create_date_str( string& sig, string& date )
+    enum CastType { CT_date, CT_record, CT_none };
+
+    string create_date_str( string& sig, string& date, CastType& ct )
     {
         string d = full_trim( date );
-        if( !d.empty() && sig != "#" ) {
-            d = "date" + sig + "\"" + d + "\"";
+        if ( !d.empty() ) {
+            string cast;
+            switch ( ct )
+            {
+            case CT_date:
+                d = "date" + sig + "\"" + d + "\"";
+                break;
+            case CT_record:
+                d = "record" + sig + "\"" + d + "\"";
+                break;
+            case CT_none:
+                break;
+            }
         }
         date.clear();
         sig.clear();
+        ct = CT_date;
         return d;
     }
 }
@@ -140,6 +154,7 @@ string Cal::parse_date_expr( const string& str )
 {
     string script, date, sig;
     string::const_iterator it, nit;
+    CastType ct = CT_date;
     for( it = str.begin() ; it != str.end() ; it++ ) {
         switch( *it )
         {
@@ -165,7 +180,7 @@ string Cal::parse_date_expr( const string& str )
         case '&': case '+': case '-': case '*': case '/': // Must be followed by dot.
             nit = it+1;
             if( nit != str.end() && ( *nit == '.' ) ) {
-                script += create_date_str( sig, date );
+                script += create_date_str( sig, date, ct );
                 script += *it; // It's an operator.
                 it++;       // Step over dot.
             } else {
@@ -173,7 +188,7 @@ string Cal::parse_date_expr( const string& str )
             }
             break;
         case '\\': case '^': case '!': // May optionally be followed by dot  
-            script += create_date_str( sig, date );
+            script += create_date_str( sig, date, ct );
             script += *it;
             nit = it + 1;
             if ( nit != str.end() && ( *nit == '.' ) ) {
@@ -181,17 +196,24 @@ string Cal::parse_date_expr( const string& str )
             }
             break;
         case '|': case '(': case ')': case '~': // Always recognised operators.
-            script += create_date_str( sig, date );
+            script += create_date_str( sig, date, ct );
             script += *it;
             break;
         case ';': // Use instead of comma.
-            script += create_date_str( sig, date );
+            script += create_date_str( sig, date, ct );
             script += ',';
             break;
         case '#':
+            nit = it + 1;
+            if ( nit != str.end() && ( *nit == '#' ) ) {
+                // Use ## to mean record cast
+                ct = CT_record;
+            }
             date = full_trim( date );
             if ( date.empty() ) {
-                sig = "#";
+                if ( ct == CT_date ) {
+                    ct = CT_none;
+                }
             } else {
                 sig = ",\"" + date + "\" ";
                 date.clear();
@@ -214,7 +236,7 @@ string Cal::parse_date_expr( const string& str )
             break;
         }
     }
-    script += create_date_str( sig, date );
+    script += create_date_str( sig, date, ct );
     return script;
 }
 

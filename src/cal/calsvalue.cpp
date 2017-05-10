@@ -818,6 +818,19 @@ void SValue::property_op( const SValue& value )
         }
         return;
     }
+    if ( value.m_str == "type" ) {
+        switch ( m_type )
+        {
+        case SVT_Field:  set_str( "field" );  return;
+        case SVT_Range:  set_str( "range" );  return;
+        case SVT_RList:  set_str( "rlist" );  return;
+        case SVT_Str:    set_str( "string" ); return;
+        case SVT_Record: set_str( "record" ); return;
+        case SVT_Bool:   set_str( "bool" );   return;
+        case SVT_Null:   set_str( "null" );   return;
+        default:         set_str( "error" );  return;
+        }
+    }
     set_error( "Property not recognised." );
 }
 

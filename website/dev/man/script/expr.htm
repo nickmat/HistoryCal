@@ -62,15 +62,13 @@
  When a range is output as a string, it is always written with the lower value first.
 </p>
 <p>
- The '?' value is not permitted in a range.
- The 'past' and 'future' values are permitted except that 
- (past ~ past) or (future ~ future) are not valid.
+ The 'past' and 'future' values are permitted in a range but not the '?' value.
 </p>
 <p>
- A field may be promoted to a single value range. 
+ A field may be promoted to a range with the upper and lower values the same. 
 </p>
 <p>
- A range may only be demoted to a field if it is a single value range. 
+ A range may only be demoted to a field if both upper and lower values are the same. 
 </p>
 
 <h3>Rlist</h3>
@@ -80,7 +78,7 @@
  When an rlist is output, it is always written as a <a href='../calculate.htm#well-ordered'>well ordered list</a>.
 </p>
 <p>
- A range may be promoted to an rlist of one range. 
+ A range may be promoted to an rlist with a single range. 
 </p>
 <p>
  An rlist may only be demoted to a range if, after conversion to a well ordered list, it contains a single range.
@@ -94,6 +92,7 @@
  The format of the record type is '{"sig", field_1, field_2, field_3}'
  where 'sig' is the scheme code and the field values are in record-default order.
  If not all field values are given, the '?' value is assumed for those missing.
+ If the scheme code is missing, the default input scheme is assumed.
 </p>
 
 <h3>String</h3>
@@ -406,7 +405,13 @@
 <tr><td class='code'>size</td><td class='example'>{g,1948,9,19}[.size]</td><td class='example'>3</td></tr>
 <tr><td class='code'>envelope</td><td class='example'>(21|79~88|100~120|200~210)[.envelope]</td><td class='example'>21 ~ 210</td><td>Return the enclosing range af an rlist.</td></tr>
 <tr><td class='code'>scheme</td><td class='example'>{g,1948,9,19}[.scheme]</td><td class='example'>"g"</td><td>Return the scheme code string of a record.</td></tr>
+<tr><td class='code'>type</td><td class='example'>2432814[.type]</td><td class='example'>"field"</td><td>Return the type of value as a string.</td></tr>
 </table>
+<p>
+ The [.type] property returns one of the following strings:
+ "field", "range", "rlist", "string", "record", "bool", "null".
+ Since if the value is an error, the error will be propagated and so will not be detected.
+</p>
 
 <h3>Functions</h3>
 <p>

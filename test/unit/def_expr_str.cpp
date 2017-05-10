@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     20th April 2016
- * Copyright:   Copyright (c) 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2016 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -82,9 +82,10 @@ void DefExprStr::testScript()
         { "1940~1950 \\ 1945~1955", "1940 ~ 1944" },
         { "1940~1950 ^ 1945~1955", "1940 ~ 1944 | 1951 ~ 1955" },
         { "!( 1940~1950 )", "past ~ 1939 | 1951 ~ future" },
-        { "1940~1950 &. ( 1945~1955 | 1948~1957 )", "1945 ~ 1950" },
+        { "1940~1950 &. ( 1945~1955 | 1948~1957 )", "1945 ~ 1950" }, // 5
         { "( 1940~1950 &. 1945~1955 ) | 1948~1957", "1945 ~ 1957" },
         { "ja:dmy#23feb1942/3", "8 Mar 1943" },
+        { "19sep1948+.#7", "26 Sep 1948" },
     };
     size_t count = sizeof(t) / sizeof(data);
 

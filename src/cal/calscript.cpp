@@ -1303,7 +1303,7 @@ SValue Script::primary( bool get )
         m_ts.next();
         break;
     case SToken::STT_LCbracket:
-        value = fields_expr( true );
+        value = get_record( true );
         m_ts.next();
         break;
     case SToken::STT_date:
@@ -1334,7 +1334,7 @@ SValue Script::primary( bool get )
         value.compliment();
         break;
     default:
-        error( "Primary value expected." );
+        value.set_error( "Primary value expected." );
     }
     return value;
 }
@@ -1372,11 +1372,17 @@ StringVec Script::get_string_list( bool get )
     return vec;
 }
 
-SValue Script::fields_expr( bool get )
+SValue Script::get_record( bool get )
 {
-    string scode = get_name_or_primary( get );
+    SToken token = get ? m_ts.next() : m_ts.current();
+    string scode;
+    if ( token.type() == SToken::STT_Comma ) {
+        scode = store()->get_ischeme()->get_code();
+    } else {
+        scode = get_name_or_primary( false );
+    }
     FieldVec fields;
-    SToken token = m_ts.current();
+    token = m_ts.current();
     bool field_err = false;
     SValue err_value;
 
