@@ -29,10 +29,93 @@
 
 <div id='content' class='nomenu'>
 
-<h2>Under Construction</h2>
+<h2>vocab Statement</h2>
 <p>
- 
+ The vocab statement defines a vocabulary which can later be incorporated into a
+ <a href='grammar.htm'>grammar</a> definition.
+ It describes a series of text tokens and their equivalent numerical values.
 </p>
+<p>
+ The vocab must be given a unique (within all other vocabs) code name
+ by which it can be referred to.
+ It then must contain the following sub-statements in between '{' and '}' brackets.
+</p>
+
+<table class='list'>
+<tr><th colspan='3'>vocab Sub-Statement List</th></tr>
+<tr><th>Sub-Statement</th><th>Use</th><th>Example</th></tr>
+<tr><td class='code'>name</td><td>Give the vocab a text description.</td><td class='example'>name "Month names";</td></tr>
+<tr><td class='code'>fieldname</td><td>The field name normally associated with this vocab.</td><td class='example'>fieldname month;</td></tr>
+<tr><td class='code'>lang</td><td>The language used. (Not in use yet.)</td><td class='example'>lang en;</td></tr>
+<tr><td class='code'>stylename</td><td>The text used by format to describe the tokens.</td><td class='example'>stylename Month, Mon";</td></tr>
+<tr><td class='code'>tokens</td><td>A list of values, tokens and an optional abbreviation.</td><td class='example'>tokens {1, January, Jan; ...}</td></tr>
+</table>
+
+<h3>name Sub-Statement</h3>
+<p>
+ Gives a descriptive name to the vocabulary.
+ Used by the HistroyCal program when showing a 'pick-list' of available vocabularies to select.
+</p>
+
+<h3>fieldname Sub-Statement</h3>
+<p>
+ This optional statement links the vocabulary to a particular field name for a given scheme.
+ When used, it enables a scheme element to entered outside of the normal element ranking system.
+ For example: "Sun Sep 1948" could be identified as all Sundays during September 1948.
+ This is possible because Sunday is recognised as a weekday and so entered into the wday field
+ rather than simply converted to its value of 1 and becoming "1 9 1948".
+</p>
+
+<h3>lang Sub-Statement</h3>
+<p>
+ This statement sets the language for the vocabulary.
+ Multi-lingual versions of the program have not yet been developed,
+ so this is a marker for the future.
+</p>
+
+<h3>stylename Sub-Statement</h3>
+<p>
+ The stylename is used by a format definition
+ when creating the pseudo date used to show the intended output.
+ The pseudo date is the text shown when selecting the output format,
+ as in the string "dd Mon yyyy" for the dmy format.
+ The 'Mon' in that string indicates that output
+ will use the abbreviated value from the vocabulary.
+</p>
+
+<h3>tokens Sub-Statement</h3>
+<p>
+ A list of the value and token names.
+ A second token for a value may be given to be used as an abbreviation.
+</p>
+<p>
+ Each token takes the form of a comer separated list of the value, token, optional abbreviaton
+ terminated with a ';' semi-colon.
+ The list of tokens is enclosed within '{' '}' braces.
+</p>
+<p>
+ If the token name does not conform to script name token, then they must be enclosed in '"' double quotes.
+</p>
+
+<table class='list'>
+<tr><th>Example Script</th></tr>
+<tr><td class='example'
+>vocab w {
+    name "Weekday names";
+    fieldname wday;
+    lang en;
+    stylename Weekday,  WDay;
+    tokens {
+        1, "Monday",    "Mon";
+        2, "Tuesday",   "Tue";
+        3, "Wednesday", "Wed";
+        4, "Thursday",  "Thur";
+        5, "Friday",    "Fri";
+        6, "Saturday",  "Sat";
+        7, "Sunday",    "Sun";
+    }
+}</td></tr>
+</table>
 
 </div><!--id=content-->
 
