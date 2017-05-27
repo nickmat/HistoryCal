@@ -29,7 +29,7 @@ vocab m {
     name "Month names";
     fieldname month;
     lang en;
-    stylename  Month,     Mon;
+    pseudo     Month,     Mon;
     tokens {
         1,  "January",   "Jan";
         2,  "February",  "Feb";

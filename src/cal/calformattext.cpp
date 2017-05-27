@@ -264,9 +264,9 @@ void FormatText::set_control( const std::string& format, Use usefor )
             if( voc ) {
                 type = IFT_vocab;
                 if( abbrev == "a" ) {
-                    foname = voc->get_style_name( Vocab::style_abbrev );
+                    foname = voc->get_pseudo_name( Vocab::pseudo_abbrev );
                 } else {
-                    foname = voc->get_style_name( Vocab::style_full );
+                    foname = voc->get_pseudo_name( Vocab::pseudo_full );
                 }
             } else if( vocab.size() ) {
                 // Look for universal number formatting.

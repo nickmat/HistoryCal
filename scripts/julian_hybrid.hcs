@@ -28,7 +28,7 @@ vocab jg {
     name "Scheme names";
     fieldname scheme;
     lang en;
-    stylename Scheme, Sch;
+    pseudo    Scheme, Sch;
     tokens {
         0, "Julian",     "j";
         1, "Gregorian",  "g";
@@ -64,7 +64,7 @@ vocab jajg {
     name "Scheme names";
     fieldname scheme;
     lang en;
-    stylename Scheme,   Sch;
+    pseudo    Scheme,   Sch;
     tokens {
         0, "Julian Ann", "ja";
         1, "Julian",     "j";

@@ -28,7 +28,7 @@ vocab im {
     name "Month names";
     fieldname month;
     lang en;
-    stylename Month, Mon;
+    pseudo    Month, Mon;
     tokens {
         1, "Muḥarram",         "Muharram";
         2, "Ṣafar",            "Safar";
@@ -49,7 +49,7 @@ vocab iw {
     name "Weekday names";
     fieldname wsday; // Note: Days are numbered from Sunday, unlike "wday".
     lang en;
-    stylename Weekday, WDay;
+    pseudo    Weekday, WDay;
     tokens {
         1, "Yawm al-Aḥad",       "Ahad"; // Sunday
         2, "Yawm al-Ithnayn",    "Ithn"; // Monday

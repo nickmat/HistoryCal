@@ -317,7 +317,7 @@ string Grammar::lookup_token( Field field, const std::string& vcode, bool abbrev
     string word;
     for( size_t i = 0 ; i < m_vocabs.size() ; i++ ) {
         if( m_vocabs[i]->get_code() == vcode ) {
-            Vocab::Style style = abbrev ? Vocab::style_abbrev : Vocab::style_full;
+            Vocab::Pseudo style = abbrev ? Vocab::pseudo_abbrev : Vocab::pseudo_full;
             word = m_vocabs[i]->lookup( field, style );
             if( word != "" ) {
                 return word;

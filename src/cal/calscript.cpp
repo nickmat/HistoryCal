@@ -728,14 +728,9 @@ bool Script::do_vocab()
             } else if( name == "lang" ) {
                 str = get_name_or_primary( true );
                 voc->set_lang( str );
-            } else if( name == "stylename" ) {
-                StringVec styles = get_string_list( true );
-                if ( styles.size() > 0 ) {
-                    voc->set_full_style_name( styles[0] );
-                }
-                if ( styles.size() > 1 ) {
-                    voc->set_abbrev_style_name( styles[1] );
-                }
+            } else if( name == "pseudo" ) {
+                StringVec pseudos = get_string_list( true );
+                voc->set_pseudo_names( pseudos );
             } else if( name == "tokens" ) {
                 do_vocab_tokens( voc );
             } else {

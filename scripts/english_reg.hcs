@@ -28,7 +28,7 @@ vocab er {
     name "English Monarchs";
     fieldname era;
     lang en;
-    stylename  Reign,                Rn;
+    pseudo    Reign,                Rn;
     tokens {
         0, "English calendar",      "Eng";
         1, "William I",             "Wm I";
@@ -84,7 +84,7 @@ vocab on {
     name "Scheme names";
     fieldname scheme;
     lang en;
-    stylename  Scheme,  Sch;
+    pseudo     Scheme,  Sch;
     tokens {
         0, "Old Style", "os";
         1, "New Style", "ns";
@@ -95,7 +95,7 @@ vocab part {
     name "Part of Reign Year";
     fieldname part;
     lang en;
-    stylename Part, Part;
+    pseudo    Part, Part;
     tokens {
         0, "First";
         1, "Second";

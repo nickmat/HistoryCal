@@ -28,7 +28,7 @@ vocab cyear {
     name "Year names";
     fieldname year;
     lang en;
-    stylename  Year,       Yr;
+    pseudo     Year,       Yr;
     tokens {
         1,  "Jiǎ-zǐ",     "Jia-zi";
         2,  "Yǐ-chǒu",    "Yi-chou";
@@ -97,7 +97,7 @@ vocab clmon {
     name "Leap month";
     fieldname lmonth;
     lang en;
-    stylename  LeapMon,     LM;
+    pseudo     LeapMon,     LM;
     tokens {
         0,  "Month",       "Month";
         1,  "Leap-month",  "Leap";

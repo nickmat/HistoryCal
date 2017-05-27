@@ -28,7 +28,7 @@ vocab sr {
     name "Scottish Monarchs";
     fieldname era;
     lang en;
-    stylename  Reign,                  Rn;
+    pseudo     Reign,                  Rn;
     tokens {
         0,  "Scottish calendar",      "Scot";
         1,  "Malcolm II",             "Mal II";

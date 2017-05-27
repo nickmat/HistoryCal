@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     13th November 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -52,33 +52,32 @@ namespace Cal {
     class Vocab
     {
     public:
-        enum Style { style_full, style_abbrev, style_ordsuffix };
+        enum Pseudo { pseudo_full, pseudo_abbrev, pseudo_ordsuffix };
 
         Vocab( const std::string& code );
 
         void set_name(const std::string& name ) { m_name = name; }
         void set_fieldname(const std::string& fname ) { m_fieldname = fname; }
         void set_lang(const std::string& lang ) { m_lang = lang; }
-        void set_full_style_name(const std::string& fname ) { m_full_name = fname; }
-        void set_abbrev_style_name(const std::string& aname ) { m_abbrev_name = aname; }
+        void set_pseudo_names( const StringVec& pseudos );
         void add_token( Field value, const std::string& name, const std::string& abbrev );
 
         std::string get_code() const { return m_code; }
         std::string get_name() const { return m_name; }
         std::string get_fieldname() const { return m_fieldname; }
         std::string get_lang() const { return m_lang; }
-        std::string get_style_name( Style style ) const;
+        std::string get_pseudo_name( Pseudo style ) const;
         void get_info( Vocab_info* info ) const;
         Field find( const std::string& word ) const;
-        std::string lookup( Field field, Style style ) const;
+        std::string lookup( Field field, Pseudo style ) const;
 
     private:
         std::string  m_code;
         std::string  m_name;
 		std::string  m_fieldname;
         std::string  m_lang;
-        std::string  m_full_name;
-        std::string  m_abbrev_name;
+        std::string  m_pseudo_name;
+        std::string  m_pseudo_a_name;
         std::map<std::string,Token> m_words;
         std::map<Field,Token> m_fields;
     };

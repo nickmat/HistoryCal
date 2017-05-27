@@ -29,7 +29,7 @@ vocab lit {
     name "Liturgy Weeks";
     fieldname litweek;
     lang en;
-    stylename Week, Wk;
+    pseudo    Week, Wk;
     tokens {
         1,  "Second Week of Christmas",          "Xmas II";
         2,  "Epiphany Week",                     "Epiph";

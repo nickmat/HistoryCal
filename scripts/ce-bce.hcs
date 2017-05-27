@@ -28,7 +28,7 @@ vocab jce {
     name "Historic Era";
     fieldname ce;
     lang en;
-    stylename CommonEra,         CE;
+    pseudo    CommonEra,         CE;
     tokens {
         0, "Before Common Era", "BCE";
         1, "Common Era",        "CE";

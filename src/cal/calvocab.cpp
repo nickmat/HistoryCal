@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     13th November 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -37,6 +37,16 @@ Vocab::Vocab( const std::string& code ) : m_code(code)
 {
 }
 
+void Cal::Vocab::set_pseudo_names( const StringVec & pseudos )
+{
+    if ( pseudos.size() > 0 ) {
+        m_pseudo_name = pseudos[0];
+    }
+    if ( pseudos.size() > 1 ) {
+        m_pseudo_a_name = pseudos[1];
+    }
+}
+
 void Vocab::add_token( Field value, const string& name, const string& abbrev )
 {
     if( name.empty() ) {
@@ -52,9 +62,9 @@ void Vocab::add_token( Field value, const string& name, const string& abbrev )
     m_fields[value] = token;
 }
 
-string Vocab::get_style_name( Style style ) const
+string Vocab::get_pseudo_name( Pseudo style ) const
 {
-    return style == style_full ? m_full_name : m_abbrev_name;
+    return style == pseudo_full ? m_pseudo_name : m_pseudo_a_name;
 }
 
 void Vocab::get_info( Vocab_info* info ) const
@@ -62,8 +72,8 @@ void Vocab::get_info( Vocab_info* info ) const
     if( info ) {
         info->name = m_name;
         info->lang = m_lang;
-        info->style_full_name = m_full_name;
-        info->style_abbrev_name = m_abbrev_name;
+        info->style_full_name = m_pseudo_name;
+        info->style_abbrev_name = m_pseudo_a_name;
         map<Field,Token>::const_iterator it;
         for( it = m_fields.begin() ; it != m_fields.end() ; it++ ) {
             Token token = it->second;
@@ -88,12 +98,12 @@ Field Vocab::find( const string& word ) const
     return f_invalid;
 }
 
-string Vocab::lookup( Field field, Style style ) const
+string Vocab::lookup( Field field, Pseudo style ) const
 {
     string result;
     if( m_fields.count( field ) > 0 ) {
         Token token = m_fields.find( field )->second;
-        if( style == style_abbrev ) {
+        if( style == pseudo_abbrev ) {
             result = token.get_abbrev();
         }
         if( result.empty() ) {

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     27th February 2014
- * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -63,7 +63,7 @@ void TestGrammar::setUp()
     m_cal = new Calendars;
     m_cal->run_script(
         "vocab \"m\" {"
-        " name \"Month names\"; lang \"en\"; stylename \"Month\", \"Mon\";"
+        " name \"Month names\"; lang \"en\"; pseudo \"Month\", \"Mon\";"
         " tokens {"
         "  1, \"January\", \"Jan\"; 2, \"Febuary\", \"Feb\"; 3, \"March\", \"Mar\";"
         "  4, \"April\", \"Apr\"; 5, \"May\"; 6, \"June\", \"Jun\";"
@@ -73,7 +73,7 @@ void TestGrammar::setUp()
         "}\n"
 
         "vocab \"w\" {"
-        " name \"Weekday names\"; lang \"en\"; stylename \"Weekday\", \"WDay\";"
+        " name \"Weekday names\"; lang \"en\"; pseudo \"Weekday\", \"WDay\";"
         " tokens {"
         "  1, \"Monday\", \"Mon\"; 2, \"Tuesday\", \"Tue\"; 3, \"Wednesday\", \"Wed\";"
         "  4, \"Thursday\", \"Thur\"; 5, \"Friday\", \"Fri\"; 6, \"Saturday\", \"Sat\";"
