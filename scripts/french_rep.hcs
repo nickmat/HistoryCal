@@ -93,15 +93,15 @@ grammar fr {
         NMDay,   nmday;
         CompDay, cday;
     }
-    alias stylename {
-        Day,     dd;
-        Month,   mm;
-        Year,    yyyy;
-        NMonth,  mm;
-        NMDay,   dd;
-        WDay,    w;
-        DecDay,  d;
-        CompDay, c;
+    alias pseudo {
+        dd,   Day;
+        mm,   Month;
+        yyyy, Year;
+        mm,   NMonth;
+        dd,   NMDay;
+        w,    WDay;
+        d,    DecDay;
+        c,    CompDay;
     }
     alias unit {
         d,   day;

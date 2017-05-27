@@ -41,8 +41,8 @@ grammar jg {
     alias field {
         Scheme, scheme;
     }
-    alias stylename {
-        Scheme, s;
+    alias pseudo {
+        s, Scheme;
     }
     format  dmys,   "(Day) |(Month:m.a) |(Year) |(Scheme:jg.a)";
     format "dmys+", "(Day) |(Month:m) |(Year) |(Scheme:jg)";
@@ -83,13 +83,13 @@ grammar hy {
         "Hist-Year", unshift;
         Scheme,      scheme;
     }
-    alias stylename {
-        WDay,        w;
-        Day,         dd;
-        Month,       mm;
-        Year,        yyyy;
-        "Hist-Year", y;
-        Scheme,      s;
+    alias pseudo {
+        w,    WDay;
+        dd,   Day;
+        mm,   Month;
+        yyyy, Year;
+        y,    "Hist-Year";
+        s,    Scheme;
     }
     format dmyh,  "(Day) |(Month:m.a) |(Year/Hist-Year)";
     format dmy,   "(Day) |(Month:m.a) |(Year)";

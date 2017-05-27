@@ -74,11 +74,11 @@ grammar sr {
         Year,        year;
         "Hist-Year", hyear;
     }
-    alias stylename {
-        Day,         dd;
-        Month,       mm;
-        Year,        yyyy;
-        "Hist-Year", y;
+    alias pseudo {
+        dd,   Day;
+        mm,   Month;
+        yyyy, Year;
+        y,    "Hist-Year";
     }
     vocabs sr, m, w;
     format dmyr,  "(Day) |(Month:m.a)| (Year/Hist-Year) |(Reign:sr)";

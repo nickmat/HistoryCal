@@ -259,7 +259,7 @@ void FormatText::set_control( const std::string& format, Use usefor )
             }
             InputFieldType type = IFT_number;
             string fieldname = get_owner()->get_field_alias( fname );
-            string foname = get_owner()->get_num_code_alias( fname );
+            string foname = get_owner()->get_num_pseudo_alias( fname );
             Vocab* voc = get_owner()->find_vocab( vocab );
             if( voc ) {
                 type = IFT_vocab;
@@ -291,7 +291,7 @@ void FormatText::set_control( const std::string& format, Use usefor )
             fieldout += foname;
 
             if( dname.size() ) {
-                fieldout += "/" + get_owner()->get_num_code_alias( dname );
+                fieldout += "/" + get_owner()->get_num_pseudo_alias( dname );
 
                 if( usefor_input ) {
                     input += "/";

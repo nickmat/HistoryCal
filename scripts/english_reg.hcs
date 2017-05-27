@@ -114,12 +114,12 @@ grammar er {
         Part,       part;
         Scheme,     scheme;
     }
-    alias stylename {
-        Day,       dd;
-        Month,     mm;
-        Year,      yy;
-        "Hist-Year", y;
-        Scheme,    s;
+    alias pseudo {
+        dd, Day;
+        mm, Month;
+        yy, Year;
+        y, "Hist-Year";
+        s, Scheme;
     }
     vocabs er, m, w, on, part;
     format dmyr,  "(Day) |(Month:m.a)|, (Part:part)| (Year/Hist-Year) |(Reign:er)|, (Scheme:on.a)";

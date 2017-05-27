@@ -113,12 +113,12 @@ grammar c {
         Year,  year;
         Cycle, cycle;
     }
-    alias stylename {
-        Day,   dd;
-        Month, mm;
-        Leap,  lm;
-        Year,  yy;
-        Cycle, cc;
+    alias pseudo {
+        dd, Day;
+        mm, Month;
+        lm, Leap;
+        yy, Year;
+        cc, Cycle;
     }
     format cylmd, "(Cycle),| (Year),| (Leap:clmon.a)| (Month),| (Day)";
     format "cylmd+", "(Cycle),| (Year:cyear),| (Leap:clmon.a)| (Month),| (Day)";

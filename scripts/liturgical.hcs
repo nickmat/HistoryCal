@@ -107,11 +107,11 @@ grammar lit {
         Year,    year;
         LitWeek, litweek;
     }
-    alias stylename {
-        WDay,    w;
-        Day,     dd;
-        Month,   mm;
-        Year,    yyyy;
+    alias pseudo {
+        w,    WDay;
+        dd,   Day;
+        mm,   Month;
+        yyyy, Year;
     }
     alias unit {
         d, day;

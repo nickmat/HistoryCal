@@ -25,13 +25,10 @@
 */
 
 grammar d {
-    alias field {
-        Day, day;
+    alias pseudo {
+        ddddd, day;
     }
-    alias stylename {
-        Day, ddddd;
-    }
-    format d, "(Day)";
+    format d, "(day)";
     pref d;
 }
 

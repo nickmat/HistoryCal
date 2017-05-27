@@ -132,9 +132,9 @@ void Grammar::add_alias( const string& alias, const StringVec& pairs )
         for( size_t i = 0 ; i < pairs.size() ; i += 2 ) {
             m_field_alias[pairs[i]] = pairs[i+1];
         }
-    } else if( alias == "stylename" ) {
-        for( size_t i = 0 ; i < pairs.size() ; i += 2 ) {
-            m_num_code_alias[pairs[i]] = pairs[i+1];
+    } else if ( alias == "pseudo" ) {
+        for ( size_t i = 0; i < pairs.size(); i += 2 ) {
+            m_num_pseudo_alias[pairs[i + 1]] = pairs[i];
         }
     } else if( alias == "unit" ) {
         for( size_t i = 0 ; i < pairs.size() ; i += 2 ) {
@@ -193,13 +193,19 @@ string Grammar::get_unitname( const string& fieldname ) const
     return fieldname;
 }
 
-string Grammar::get_num_code_alias( const string& fname ) const
+string Grammar::get_num_pseudo_alias( const string& fname ) const
 {
-    if( m_num_code_alias.count( fname ) > 0 ) {
-        return m_num_code_alias.find( fname )->second;
+    if( m_num_pseudo_alias.count( fname ) > 0 ) {
+        return m_num_pseudo_alias.find( fname )->second;
+    }
+    if ( m_field_alias.count( fname ) > 0 ) {
+        string fname_alias = m_field_alias.find( fname )->second;
+        if ( m_num_pseudo_alias.count( fname_alias ) > 0 ) {
+            return m_num_pseudo_alias.find( fname_alias )->second;
+        }
     }
     if( m_inherit ) {
-        return m_inherit->get_num_code_alias( fname );
+        return m_inherit->get_num_pseudo_alias( fname );
     }
     return fname;
 }

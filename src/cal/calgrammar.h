@@ -57,7 +57,7 @@ namespace Cal {
         std::string get_field_alias( const std::string& fname ) const;
         std::string get_unit_fieldname( Field* multiple, const std::string& unit ) const;
         std::string get_unitname( const std::string& fieldname ) const;
-        std::string get_num_code_alias( const std::string& fname ) const;
+        std::string get_num_pseudo_alias( const std::string& fname ) const;
         Unit get_unit_alias( const std::string& fname ) const;
         std::string get_input_format( const std::string& code ) const;
         void get_input_formats( SchemeFormatInfo* info, const std::string& cur_code ) const;
@@ -90,7 +90,7 @@ namespace Cal {
         std::string                m_code;
         Grammar*                   m_inherit;
         StringMap                  m_field_alias;
-        StringMap                  m_num_code_alias;
+        StringMap                  m_num_pseudo_alias;
         StringMap                  m_unit_alias;
         std::map<std::string,Unit> m_unit_type_alias;
         std::vector<Vocab*>        m_vocabs;

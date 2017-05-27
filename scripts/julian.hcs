@@ -55,11 +55,11 @@ grammar j {
         Month, month;
         Year,  year;
     }
-    alias stylename {
-        WDay,  w;
-        Day,   dd;
-        Month, mm;
-        Year,  yyyy;
+    alias pseudo {
+        w,    WDay;
+        dd,   Day;
+        mm,   Month;
+        yyyy, Year;
     }
     alias unit {
         d,  day;
@@ -116,11 +116,11 @@ grammar j_sh {
         Year,        year;
         "Hist-Year", unshift;
     }
-    alias stylename {
-        Day,         dd;
-        Month,       mm;
-        Year,        yyyy;
-        "Hist-Year", y;
+    alias pseudo {
+        dd,   Day;
+        mm,   Month;
+        yyyy, Year;
+        y,    "Hist-Year";
     }
     format dmy,   "(Day) |(Month:m.a) |(Year)";
     format dmyh,  "(Day) |(Month:m.a) |(Year/Hist-Year)";
