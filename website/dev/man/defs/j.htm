@@ -29,9 +29,6 @@
 
 <div id='content' class='nomenu'>
 
-
-
-
 <h2>Calendar Description</h2>
 <p>
  This Julian calendar is the simplest possible interpretation of the
@@ -112,7 +109,7 @@
     name "Month names";
     fieldname month;
     lang en;
-    stylename  Month,     Mon;
+    pseudo     Month,     Mon;
     tokens {
         1,  "January",   "Jan";
         2,  "February",  "Feb";
@@ -138,17 +135,18 @@ grammar j {
         Month, month;
         Year,  year;
     }
-    alias stylename {
-        WDay,  w;
-        Day,   dd;
-        Month, mm;
-        Year,  yyyy;
+    alias pseudo {
+        w,    WDay;
+        dd,   Day;
+        mm,   Month;
+        yyyy, Year;
     }
     alias unit {
-        d, day;
-        m, month;
-        y, year;
-        w, week;
+        d,  day;
+        m,  month;
+        y,  year;
+        wd, wday;
+        w,  week;
     }
     format  dmy,    "(Day) |(Month:m.a) |(Year)";
     format  wdmy,   "(WDay:w.a) |(Day) |(Month:m.a) |(Year)";

@@ -29,9 +29,6 @@
 
 <div id='content' class='nomenu'>
 
-
-
-
 <h2>Calendar Description</h2>
 <p>
  This is a work in progress and the results are still being assessed.
@@ -167,7 +164,7 @@
     name "Liturgy Weeks";
     fieldname litweek;
     lang en;
-    stylename Week, Wk;
+    pseudo    Week, Wk;
     tokens {
         1,  "Second Week of Christmas",          "Xmas II";
         2,  "Epiphany Week",                     "Epiph";
@@ -245,11 +242,11 @@ grammar lit {
         Year,    year;
         LitWeek, litweek;
     }
-    alias stylename {
-        WDay,    w;
-        Day,     dd;
-        Month,   mm;
-        Year,    yyyy;
+    alias pseudo {
+        w,    WDay;
+        dd,   Day;
+        mm,   Month;
+        yyyy, Year;
     }
     alias unit {
         d, day;

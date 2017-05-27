@@ -123,7 +123,7 @@
     name "Year names";
     fieldname year;
     lang en;
-    stylename  Year,       Yr;
+    pseudo     Year,       Yr;
     tokens {
         1,  "Jiǎ-zǐ",     "Jia-zi";
         2,  "Yǐ-chǒu",    "Yi-chou";
@@ -192,10 +192,10 @@ vocab clmon {
     name "Leap month";
     fieldname lmonth;
     lang en;
-    stylename  LeapMon,     LM;
+    pseudo     LeapMon,     LM;
     tokens {
         0,  "Month",       "Month";
-        1,  "Leap month",  "Leap";
+        1,  "Leap-month",  "Leap";
     }
 }
 
@@ -208,12 +208,12 @@ grammar c {
         Year,  year;
         Cycle, cycle;
     }
-    alias stylename {
-        Day,   dd;
-        Month, mm;
-        Leap,  lm;
-        Year,  yy;
-        Cycle, cc;
+    alias pseudo {
+        dd, Day;
+        mm, Month;
+        lm, Leap;
+        yy, Year;
+        cc, Cycle;
     }
     format cylmd, "(Cycle),| (Year),| (Leap:clmon.a)| (Month),| (Day)";
     format "cylmd+", "(Cycle),| (Year:cyear),| (Leap:clmon.a)| (Month),| (Day)";

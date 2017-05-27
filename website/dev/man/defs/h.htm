@@ -29,9 +29,6 @@
 
 <div id='content' class='nomenu'>
 
-
-
-
 <h2>Calendar Description</h2>
 <p>
  The Hebrew calendar, also known as the Jewish calendar,
@@ -192,7 +189,7 @@ falls and thus, the length of the year.
     name "Month names";
     fieldname month;
     lang en;
-    stylename  Month,     Mon;
+    pseudo     Month,     Mon;
     tokens {
         1, "Nisan",      "Nsn";
         2, "Iyyar",      "Iyr";
@@ -214,7 +211,7 @@ vocab hw {
     name "Weekday names";
     fieldname wsday; // Note: Days are numbered from Sunday, unlike "wday".
     lang en;
-    stylename Weekday,      WDay;
+    pseudo    Weekday,      WDay;
     tokens {
         1, "Yom Rishon",   "Rish"; // Sunday
         2, "Yom Sheni",    "Shen"; // Monday
@@ -235,11 +232,11 @@ grammar h {
         Month, month;
         Year,  year;
     }
-    alias stylename {
-        WDay,  w;
-        Day,   dd;
-        Month, mm;
-        Year,  yyyy;
+    alias pseudo {
+        w,    WDay;
+        dd,   Day;
+        mm,   Month;
+        yyyy, Year;
     }
     alias unit {
         d, day;

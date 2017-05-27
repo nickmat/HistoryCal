@@ -29,9 +29,6 @@
 
 <div id='content' class='nomenu'>
 
-
-
-
 <h2>Calendar Description</h2>
 <p>
  This is still a work in progress and is therefore subject to change.
@@ -104,7 +101,7 @@
     name "Scottish Monarchs";
     fieldname era;
     lang en;
-    stylename  Reign,                  Rn;
+    pseudo     Reign,                  Rn;
     tokens {
         0,  "Scottish calendar",      "Scot";
         1,  "Malcolm II",             "Mal II";
@@ -150,11 +147,11 @@ grammar sr {
         Year,        year;
         "Hist-Year", hyear;
     }
-    alias stylename {
-        Day,         dd;
-        Month,       mm;
-        Year,        yyyy;
-        "Hist-Year", y;
+    alias pseudo {
+        dd,   Day;
+        mm,   Month;
+        yyyy, Year;
+        y,    "Hist-Year";
     }
     vocabs sr, m, w;
     format dmyr,  "(Day) |(Month:m.a)| (Year/Hist-Year) |(Reign:sr)";

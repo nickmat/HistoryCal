@@ -29,9 +29,6 @@
 
 <div id='content' class='nomenu'>
 
-
-
-
 <h2>Calendar Description</h2>
 <p>
  The ISO Ordinal calendar is defined in terms of the <a href='g.htm'>Gregorian</a> calendar.
@@ -90,9 +87,9 @@
         Day,   day;
         Year,  year;
     }
-    alias stylename {
-        Day,   ddd;
-        Year,  yyyy;
+    alias pseudo {
+        ddd,  Day;
+        yyyy, Year;
     }
     alias unit {
         d, day;
@@ -102,7 +99,7 @@
         rules iso8601 ordinal;
     }
     format hc_yd, "(Year)| (Day)";
-    pref hc_yd;
+    pref yd;
 }
 
 scheme isoo {

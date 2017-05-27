@@ -29,9 +29,6 @@
 
 <div id='content' class='nomenu'>
 
-
-
-
 <h2>Calendar Description</h2>
 <p>
  The Julian Day Number calendar is a simple count of days and is the system
@@ -99,13 +96,10 @@
 <tr><th>Default Script</th></tr>
 <tr><td
 >grammar d {
-    alias field {
-        Day, day;
+    alias pseudo {
+        ddddd, day;
     }
-    alias stylename {
-        Day, ddddd;
-    }
-    format d, "(Day)";
+    format d, "(day)";
     pref d;
 }
 

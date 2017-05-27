@@ -29,9 +29,6 @@
 
 <div id='content' class='nomenu'>
 
-
-
-
 <h2>Calendar Description</h2>
 <p>
  This version of the Julian calendar is commonly used by historians when referring
@@ -112,7 +109,7 @@
     name "Historic Era";
     fieldname ce;
     lang en;
-    stylename CommonEra,         CE;
+    pseudo    CommonEra,         CE;
     tokens {
         0, "Before Common Era", "BCE";
         1, "Common Era",        "CE";
@@ -130,11 +127,11 @@ grammar jce {
         Year,  ceyear;
         CEra,  ce;
     }
-    alias stylename {
-        WDay,  w;
-        Day,   dd;
-        Month, mm;
-        Year,  yyyy;
+    alias pseudo {
+        w,    WDay;
+        dd,   Day;
+        mm,   Month;
+        yyyy, Year;
     }
     alias unit {
         d, day;

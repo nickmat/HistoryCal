@@ -29,9 +29,6 @@
 
 <div id='content' class='nomenu'>
 
-
-
-
 <h2>Calendar Description</h2>
 <p>
  The ISO Week calendar scheme is a system of numbering the weeks of the year
@@ -98,10 +95,10 @@
         Week,  week;
         Year,  year;
     }
-    alias stylename {
-        Day,   d;
-        Week,  ww;
-        Year,  yyyy;
+    alias pseudo {
+        d,    Day;
+        ww,   Week;
+        yyyy, Year;
     }
     alias unit {
         d, day;
@@ -114,7 +111,7 @@
     format  hc_ywd,   "(Year)| (Week)| (Day:w.a)";
     format "hc_ywd+", "(Year)| (Week)| (Day:w)";
     format  hc_iso,   "(Year)| (Week)| (Day)";
-    pref hc_ywd;
+    pref ywd;
 }
 
 scheme isow {

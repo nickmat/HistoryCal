@@ -29,9 +29,6 @@
 
 <div id='content' class='nomenu'>
 
-
-
-
 <h2>Calendar Description</h2>
 <p>
  The Astronomical Year calendar is a hybrid variant combining the <a href='j.htm'>Julian</a>
@@ -73,7 +70,7 @@
     name "Scheme names";
     fieldname scheme;
     lang en;
-    stylename Scheme, Sch;
+    pseudo    Scheme, Sch;
     tokens {
         0, "Julian",     "j";
         1, "Gregorian",  "g";
@@ -86,8 +83,8 @@ grammar jg {
     alias field {
         Scheme, scheme;
     }
-    alias stylename {
-        Scheme, s;
+    alias pseudo {
+        s, Scheme;
     }
     format  dmys,   "(Day) |(Month:m.a) |(Year) |(Scheme:jg.a)";
     format "dmys+", "(Day) |(Month:m) |(Year) |(Scheme:jg)";

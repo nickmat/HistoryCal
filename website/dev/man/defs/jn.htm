@@ -29,9 +29,6 @@
 
 <div id='content' class='nomenu'>
 
-
-
-
 <h2>Calendar Description</h2>
 <p>
  The Julian Nativity calendar is a variant of the <a href='j.htm'>Julian</a> calendar obtained
@@ -91,19 +88,19 @@
         Year,        year;
         "Hist-Year", unshift;
     }
-    alias stylename {
-        Day,         dd;
-        Month,       mm;
-        Year,        yyyy;
-        "Hist-Year", y;
+    alias pseudo {
+        dd,   Day;
+        mm,   Month;
+        yyyy, Year;
+        y,    "Hist-Year";
     }
     format dmy,   "(Day) |(Month:m.a) |(Year)";
     format dmyh,  "(Day) |(Month:m.a) |(Year/Hist-Year)";
     format out {
-        output    "(Day:+os) |(Month:m) |(Year/Hist-Year)";
+        output "(Day:+os) |(Month:m) |(Year/Hist-Year)";
     }
     format full {
-        output    "(WDay:w) |(Day:+os) |(Month:m) |(Year/Hist-Year)";
+        output "(WDay:w) |(Day:+os) |(Month:m) |(Year/Hist-Year)";
     }
     format wdmyh, "(WDay:w.a) |(Day) |(Month:m.a) |(Year/Hist-Year)";
     pref dmyh;

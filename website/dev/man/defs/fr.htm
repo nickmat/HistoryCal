@@ -29,9 +29,6 @@
 
 <div id='content' class='nomenu'>
 
-
-
-
 <h2>Calendar Description</h2>
 <p>
  The French Republican calendar was part of the reforms brought in after the
@@ -164,7 +161,7 @@
     name "Month names";
     fieldname month;
     lang en;
-    stylename Month,  Mon;
+    pseudo    Month,  Mon;
     tokens {
         1, "Vendémiaire",      "Vend";
         2, "Brumaire",         "Brum";
@@ -186,7 +183,7 @@ vocab frdd {
     name "Decade Day";
     fieldname dday;
     lang en;
-    stylename DecDay,  DDay;
+    pseudo    DecDay,  DDay;
     tokens {
         1, "Primidi",  "Prim";
         2, "Duodi",    "Duo";
@@ -205,7 +202,7 @@ vocab frcomp {
     name "Complementary Days";
     fieldname cday;
     lang en;
-    stylename CompDay,           CDay;
+    pseudo    CompDay,           CDay;
     tokens {
         1, "Fête de la Vertu",      "Ver";
         2, "Fête du Génie",         "Gen";
@@ -229,15 +226,15 @@ grammar fr {
         NMDay,   nmday;
         CompDay, cday;
     }
-    alias stylename {
-        Day,     dd;
-        Month,   mm;
-        Year,    yyyy;
-        NMonth,  mm;
-        NMDay,   dd;
-        WDay,    w;
-        DecDay,  d;
-        CompDay, c;
+    alias pseudo {
+        dd,   Day;
+        mm,   Month;
+        yyyy, Year;
+        mm,   NMonth;
+        dd,   NMDay;
+        w,    WDay;
+        d,    DecDay;
+        c,    CompDay;
     }
     alias unit {
         d,   day;

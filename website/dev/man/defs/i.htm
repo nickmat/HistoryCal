@@ -29,9 +29,6 @@
 
 <div id='content' class='nomenu'>
 
-
-
-
 <h2>Calendar Description</h2>
 <p>
  The Islamic calendar is a lunar calendar used throughout the Arabic and Muslim areas.
@@ -115,7 +112,7 @@
     name "Month names";
     fieldname month;
     lang en;
-    stylename Month, Mon;
+    pseudo    Month, Mon;
     tokens {
         1, "Muḥarram",         "Muharram";
         2, "Ṣafar",            "Safar";
@@ -136,7 +133,7 @@ vocab iw {
     name "Weekday names";
     fieldname wsday; // Note: Days are numbered from Sunday, unlike "wday".
     lang en;
-    stylename Weekday, WDay;
+    pseudo    Weekday, WDay;
     tokens {
         1, "Yawm al-Aḥad",       "Ahad"; // Sunday
         2, "Yawm al-Ithnayn",    "Ithn"; // Monday
@@ -157,11 +154,11 @@ grammar i {
         Month, month;
         Year,  year;
     }
-    alias stylename {
-        WDay,  w;
-        Day,   dd;
-        Month, mm;
-        Year,  yyyy;
+    alias pseudo {
+        w,    WDay;
+        dd,   Day;
+        mm,   Month;
+        yyyy, Year;
     }
     alias unit {
         d, day;
