@@ -1427,7 +1427,7 @@ const char* Cal::cal_default_scripts[] = {
      /* chinese.hcs */
  "vocab cyear {\n"
  "name \"Year names\";\n"
- "fieldname year;\n"
+ "fieldname cyear;\n"
  "lang en;\n"
  "pseudo     Year,       Yr;\n"
  "tokens {\n"
@@ -1509,7 +1509,7 @@ const char* Cal::cal_default_scripts[] = {
  "Day,   day;\n"
  "Leap,  lmonth;\n"
  "Month, month;\n"
- "Year,  year;\n"
+ "Year,  cyear;\n"
  "Cycle, cycle;\n"
  "}\n"
  "alias pseudo {\n"

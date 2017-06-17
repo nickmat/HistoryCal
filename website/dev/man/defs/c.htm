@@ -48,7 +48,7 @@
 <h3>Definition</h3>
 <table class='record'>
 <tr><th colspan='5'>Record</th></tr>
-<tr><td>cycle</td><td>year</td><td>month</td><td>lmonth</td><td>day</td></tr>
+<tr><td>cycle</td><td>cyear</td><td>month</td><td>lmonth</td><td>day</td></tr>
 </table>
 <table class='data'>
 <tr><th colspan='2'>Branch</th></tr>
@@ -90,7 +90,7 @@
  
 </p>
 <p>
- The <b>Record</b> consists of five <b>Fields</b> named <code>cycle,</code> <code>year,</code>
+ The <b>Record</b> consists of five <b>Fields</b> named <code>cycle,</code> <code>cyear,</code>
  <code>lmonth,</code> <code>month,</code> and <code>day.</code>
  There are twelve common months in a year numbered 1 to 12.
  The lmonth field is set to 0 for these months.
@@ -100,7 +100,7 @@
 <div>
  The <b>Epoch</b> is set at
  <table class='rec-value'>
-   <tr><td rowspan='2' class='sig'>c</td><th>cycle</th><th>year</th><th>month</th><th>lmonth</th><th>day</th></tr>
+   <tr><td rowspan='2' class='sig'>c</td><th>cycle</th><th>cyear</th><th>month</th><th>lmonth</th><th>day</th></tr>
    <tr class='value'><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
  </table>
  =
@@ -121,7 +121,7 @@
 <tr><td
 >vocab cyear {
     name "Year names";
-    fieldname year;
+    fieldname cyear;
     lang en;
     pseudo     Year,       Yr;
     tokens {
@@ -205,7 +205,7 @@ grammar c {
         Day,   day;
         Leap,  lmonth;
         Month, month;
-        Year,  year;
+        Year,  cyear;
         Cycle, cycle;
     }
     alias pseudo {
@@ -230,7 +230,7 @@ scheme c {
 </td></tr>
 </table>
 <p>
- The script is independent of other scripts at this time
+ The script is not dependent on any other script at this time
 </p>
 
 </div><!--id=content-->

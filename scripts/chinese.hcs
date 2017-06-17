@@ -26,7 +26,7 @@
 
 vocab cyear {
     name "Year names";
-    fieldname year;
+    fieldname cyear;
     lang en;
     pseudo     Year,       Yr;
     tokens {
@@ -110,7 +110,7 @@ grammar c {
         Day,   day;
         Leap,  lmonth;
         Month, month;
-        Year,  year;
+        Year,  cyear;
         Cycle, cycle;
     }
     alias pseudo {

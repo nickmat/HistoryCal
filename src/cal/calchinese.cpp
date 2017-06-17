@@ -43,8 +43,13 @@ using std::string;
 namespace {
 
     enum {
-        CHIN_cycle, CHIN_year, CHIN_month, CHIN_lmonth, CHIN_day
+        CHIN_cycle, CHIN_cyear, CHIN_month, CHIN_lmonth, CHIN_day
     };
+
+    // CC3 p262
+    const Field chinese_month_name_epoch = 57;
+    // CC3 p262
+    const Field chinese_day_name_epoch = 10; // jdn#
 
     // CC3 p248 chinese-location
     // A zone is expressed as the fraction of a day
@@ -230,8 +235,67 @@ namespace {
 } // namespace
 
 
-const char* Chinese::s_cymld_fieldnames[] = { "cycle", "year", "month", "lmonth", "day" };
+const char* Chinese::s_cymld_fieldnames[] = { "cycle", "cyear", "month", "lmonth", "day" };
 size_t Chinese::s_sizeof_cymld_fieldnames = sizeof(s_cymld_fieldnames) / sizeof(const char*);
+
+OptFieldID Cal::Chinese::get_opt_field_id( const std::string & fieldname ) const
+{
+    if ( fieldname == "year" ) { // Continuous year count.
+        return OFID_c_year;
+    }
+    if ( fieldname == "yceles" ) { // Year Celestial Stem (1 to 10).
+        return OFID_c_yceles;
+    }
+    if ( fieldname == "yterre" ) { // Year Terrestial Branch (1 to 12).
+        return OFID_c_yterre;
+    }
+    if ( fieldname == "msexag" ) { // Month Sexagesimal value (1 to 60).
+        return OFID_c_msexag;
+    }
+    if ( fieldname == "mceles" ) { // Month Celestial Stem (1 to 10).
+        return OFID_c_mceles;
+    }
+    if ( fieldname == "mterre" ) { // Month Terrestial Branch (1 to 12).
+        return OFID_c_mterre;
+    }
+    if ( fieldname == "dsexag" ) { // Day Sexagesimal value (1 to 60).
+        return OFID_c_dsexag;
+    }
+    if ( fieldname == "dceles" ) { // Day Celestial Stem (1 to 10).
+        return OFID_c_dceles;
+    }
+    if ( fieldname == "dterre" ) { // Day Terrestial Branch (1 to 12).
+        return OFID_c_dterre;
+    }
+    return Base::get_opt_field_id( fieldname );
+}
+
+std::string Cal::Chinese::get_opt_fieldname( OptFieldID field_id ) const
+{
+    switch ( field_id )
+    {
+    case OFID_c_year:
+        return "year";
+    case OFID_c_yceles:
+        return "yceles";
+    case OFID_c_yterre:
+        return "yterre";
+    case OFID_c_msexag:
+        return "msexag";
+    case OFID_c_mceles:
+        return "mceles";
+    case OFID_c_mterre:
+        return "mterre";
+    case OFID_c_dsexag:
+        return "dsexag";
+    case OFID_c_dceles:
+        return "dceles";
+    case OFID_c_dterre:
+        return "dterre";
+    default:
+        return Base::get_opt_fieldname( field_id );
+    }
+}
 
 Field Chinese::get_jdn( const Field* fields ) const
 {
@@ -246,13 +310,40 @@ Field Chinese::get_jdn( const Field* fields ) const
     return chinese_to_jdn( fields[0], fields[1], fields[2], fields[3], fields[4] );
 }
 
+Field Cal::Chinese::get_opt_field( const Field * fields, Field jdn, OptFieldID id ) const
+{
+    switch ( id )
+    {
+    case OFID_c_year:
+        return get_year( fields );
+    case OFID_c_yceles:
+        return amod_f( fields[CHIN_cyear], 10 );
+    case OFID_c_yterre:
+        return amod_f( fields[CHIN_cyear], 12 );
+    case OFID_c_msexag:
+        return amod_f( get_month_count( fields ), 60 );
+    case OFID_c_mceles:
+        return amod_f( get_month_count( fields ), 10 );
+    case OFID_c_mterre:
+        return amod_f( get_month_count( fields ), 12 );
+    case OFID_c_dsexag:
+        return amod_f( jdn - chinese_day_name_epoch, 60 );
+    case OFID_c_dceles:
+        return amod_f( jdn - chinese_day_name_epoch, 10 );
+    case OFID_c_dterre:
+        return amod_f( jdn - chinese_day_name_epoch, 12 );
+    default:
+        return Base::get_opt_field( fields, jdn, id );
+    }
+}
+
 bool Chinese::set_fields_as_begin_first( Field* fields, const Field* mask ) const
 {
     if( mask[CHIN_cycle] == f_invalid ) {
         return false; // Must have at least cycle
     }
     fields[CHIN_cycle]  = mask[CHIN_cycle];
-    fields[CHIN_year]   = ( mask[CHIN_year] == f_invalid )   ? 1 : mask[CHIN_year];
+    fields[CHIN_cyear]   = ( mask[CHIN_cyear] == f_invalid )   ? 1 : mask[CHIN_cyear];
     fields[CHIN_month]  = ( mask[CHIN_month] == f_invalid )  ? 1 : mask[CHIN_month];
     fields[CHIN_lmonth] = ( mask[CHIN_lmonth] == f_invalid ) ? 0 : mask[CHIN_lmonth];
     fields[CHIN_day]    = ( mask[CHIN_day] == f_invalid )    ? 1 : mask[CHIN_day];
@@ -265,17 +356,17 @@ bool Chinese::set_fields_as_begin_last( Field* fields, const Field* mask ) const
         return false; // Must have at least cycle
     }
     fields[CHIN_cycle] = mask[CHIN_cycle];
-    fields[CHIN_year] = ( mask[CHIN_year] == f_invalid ) ? 60 : mask[CHIN_year];
+    fields[CHIN_cyear] = ( mask[CHIN_cyear] == f_invalid ) ? 60 : mask[CHIN_cyear];
     fields[CHIN_month] = ( mask[CHIN_month] == f_invalid ) ? 12 : mask[CHIN_month];
     if( mask[CHIN_lmonth] == f_invalid ) {
         fields[CHIN_lmonth] = chinese_is_leap_month(
-            fields[CHIN_cycle], fields[CHIN_year], fields[CHIN_month] ) ? 1 : 0;
+            fields[CHIN_cycle], fields[CHIN_cyear], fields[CHIN_month] ) ? 1 : 0;
     } else {
         fields[CHIN_lmonth] = mask[CHIN_lmonth];
     }
     if( mask[CHIN_day] == f_invalid ) {
         fields[CHIN_day] = chinese_last_day_of_month( 
-            fields[CHIN_cycle], fields[CHIN_year], fields[CHIN_month], fields[CHIN_lmonth] );
+            fields[CHIN_cycle], fields[CHIN_cyear], fields[CHIN_month], fields[CHIN_lmonth] );
     } else {
         fields[CHIN_day] = mask[CHIN_day];
     }
@@ -284,7 +375,7 @@ bool Chinese::set_fields_as_begin_last( Field* fields, const Field* mask ) const
 
 void Chinese::set_fields( Field* fields, Field jdn ) const
 {
-    chinese_from_jdn( &fields[CHIN_cycle], &fields[CHIN_year],
+    chinese_from_jdn( &fields[CHIN_cycle], &fields[CHIN_cyear],
         &fields[CHIN_month], &fields[CHIN_lmonth], &fields[CHIN_day], jdn );
 }
 
@@ -303,15 +394,15 @@ Field Chinese::get_field_last( const Field* fields, size_t index ) const
 {
     switch( index )
     {
-    case CHIN_year:
+    case CHIN_cyear:
         return 60;
     case CHIN_month:
         return 12;
     case CHIN_lmonth:
         return chinese_is_leap_month(
-            fields[CHIN_cycle], fields[CHIN_year], fields[CHIN_month] ) ? 1 : 0;
+            fields[CHIN_cycle], fields[CHIN_cyear], fields[CHIN_month] ) ? 1 : 0;
     case CHIN_day:
-        return chinese_last_day_of_month( fields[CHIN_cycle], fields[CHIN_year],
+        return chinese_last_day_of_month( fields[CHIN_cycle], fields[CHIN_cyear],
              fields[CHIN_month], fields[CHIN_lmonth] );
     }
     return f_invalid;
@@ -333,6 +424,17 @@ string Chinese::get_std_fieldname( size_t index ) const
         return s_cymld_fieldnames[index];
     }
     return "";
+}
+
+Field Cal::Chinese::get_year( const Field * fields ) const
+{
+    return ( fields[CHIN_cycle] - 1 ) * 60 + fields[CHIN_cyear]; // - 1 + 1
+}
+
+Field Cal::Chinese::get_month_count( const Field * fields ) const
+{
+    // Note, leap months not included.
+    return ( get_year( fields ) - 1 ) * 12 + fields[CHIN_month] - 1 - chinese_month_name_epoch;
 }
 
 

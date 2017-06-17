@@ -40,7 +40,12 @@ namespace Cal {
 
         virtual size_t record_size() const { return 5; }
 
+        virtual OptFieldID get_opt_field_id( const std::string& fieldname ) const;
+        virtual std::string get_opt_fieldname( OptFieldID field_id ) const;
+
         virtual Field get_jdn( const Field* fields ) const;
+
+        virtual Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const;
 
         virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) const;
         virtual bool set_fields_as_next_first( Field* fields, const Field* mask ) const { return false; }
@@ -60,6 +65,9 @@ namespace Cal {
         virtual std::string get_std_fieldname( size_t index ) const;
 
     private:
+        Field get_year( const Field* fields ) const;
+        Field get_month_count( const Field* fields ) const;
+
         static const char* s_cymld_fieldnames[];
         static size_t s_sizeof_cymld_fieldnames;
     };

@@ -66,6 +66,17 @@ namespace Cal {
         OFID_fr_nmday,  // Named month day (1 to 30) (or invalid)
         OFID_fr_cday,   // Complementary day (1 to 6) (or invalid)
         OFID_fr_dday,   // Day within Decade (1 to 10) (or invalid)
+        // Chinese fields
+        OFID_c_year,    // Continuous year count.
+        OFID_c_yceles,  // Year Celestial Stem (1 to 10).
+        OFID_c_yterre,  // Year Terrestial Branch (1 to 12).
+        OFID_c_msexag,  // Month Sexagesimal value (1 to 60).
+        OFID_c_mceles,  // Month Celestial Stem (1 to 10).
+        OFID_c_mterre,  // Month Terrestial Branch (1 to 12).
+        OFID_c_dsexag,  // Day Sexagesimal value (1 to 60).
+        OFID_c_dceles,  // Day Celestial Stem (1 to 10).
+        OFID_c_dterre,  // Day Terrestial Branch (1 to 12).
+        //
         OFID_MAX
     };
 
