@@ -29,9 +29,116 @@
 
 <div id='content' class='nomenu'>
 
-<h2>Under Construction</h2>
+<h2>grammar Statement</h2>
 <p>
- 
+ The grammar statement contains a number of sub-statements
+ which describe how the attached schemes' input and output is written.
+</p>
+<p>
+ The grammar must be given a unique (within all other grammars) code name
+ by which it can be referred to.
+ It may then contain the following sub-statements in between '{' and '}' braces.
+</p>
+
+<table class='list'>
+<tr><th colspan='3'>grammar Sub-Statement List</th></tr>
+<tr><th>Sub-Statement</th><th>Use</th><th>Example</th></tr>
+<tr><td class='code'>inherit</td><td>Inherit all the settings from a previously defined grammar.</td><td class='example'>inherit j;</td></tr>
+<tr><td class='code'>optional</td><td>Use the listed optional fields.</td><td class='example'>optional wday, ce, ceyear;</td></tr>
+<tr><td class='code'>rank</td><td>The field ranking used by the format sub-statements.</td><td class='example'>rank ce, ceyear, month, day, wday;</td></tr>
+<tr><td class='code'>vocabs</td><td>The list of vocabularies used with this grammar.</td><td class='example'>vocabs m, w, jce;</td></tr>
+<tr><td class='code'>alias</td><td>Allow the use of more user friendly field names.</td><td class='example'>alias field {WDay, wday; ...}</td></tr>
+<tr><td class='code'>format</td><td>The description of a format.</td><td class='example'>format dmy, "(Day) |(Month:m.a) |(Year)";</td></tr>
+<tr><td class='code'>pref</td><td>The preferred format to use, unless otherwise stated.</td><td class='example'>pref dmy;</td></tr>
+</table>
+
+<h3>inherit Sub-Statement</h3>
+<p>
+ Create a new grammar by extending an existing one.
+ The action of the original grammar is not changed in any way.
+</p>
+
+<h3>optional Sub-Statement</h3>
+<p>
+ Declare all the optional fields required.
+ The format definitions can only refer to the default fields for the base calendar
+ plus the extended fields listed here.
+</p>
+<p>
+ This sub-statement must be positioned before any sub-statement that uses these fields.
+</p>
+
+<h3>rank Sub-Statement</h3>
+<p>
+ This is the ranking order to be used by the format statements,
+ unless the format statement has its own rank sub-statement.
+</p>
+
+<h3>vocabs Sub-Statement</h3>
+<p>
+ Declare all the vocab statements to be used.
+ The format definitions can only refer to the vocabs listed here.
+</p>
+
+<h3>alias Sub-Statement</h3>
+<p>
+ Provide user friendly alternative names for the base and optional field names.
+ Because HistoryCal Script is case sensitive and the built-in field name are always
+ lower case, the alias sub-statement is often used to give a proper cased name.
+</p>
+<p>
+ When referring to a field by name, either the alias or the default name may be used.
+</p>
+<p>
+ The alias has one of the type names listed in the table below,
+ followed by a series of name pairs giving the alias name
+ followed by a comma and then the field name.
+ The pairs are separated by ';' semi-colons
+ and the list enclosed in between '{' and '}' braces.
+</p>
+
+<table class='list'>
+<tr><th colspan='3'>grammar alias Sub-Statement</th></tr>
+<tr><th>Sub-Statement</th><th>Use</th><th>Example</th></tr>
+<tr><td class='code'>alias field</td><td>Allow the use of more user friendly field names.</td><td class='example'>alias field {WDay, wday; ...}</td></tr>
+<tr><td class='code'>alias pseudo</td><td>The pseudonym matching numbers in the pseudo date.</td><td class='example'>alias stylename {WDay, w; Day, dd; ...}</td></tr>
+<tr><td class='code'>alias unit</td><td>Alternative field name when used as a unit.</td><td class='example'>alias field {d, day; m, month; ...}</td></tr>
+</table>
+
+<h4>alias field Sub-Statement</h4>
+<p>
+ Create user friendly names for the fields used in the format strings.
+</p>
+
+<h4>alias pseudo Sub-Statement</h4>
+<p>
+ When the date format needs to show that numbers will be displayed
+ for a particular element in a particular position,
+ the pseudo alias shown here will be used in creating the pseudo date.
+</p>
+
+<h4>alias unit Sub-Statement</h4>
+<p>
+ This area is still being worked and evolving.
+</p>
+<p>
+ The universal unit format ":u" expects input in one or more 'number unit' pairs.
+ The unit given is (in order of lookup) the unit alias, the field alias or the default field name.
+</p>
+
+<h3>format Sub-Statement</h3>
+<p>
+ Apart from the grammar:format signature,
+ the format sub-statement is the same as <a href='format.htm'>format statement</a>.
+</p>
+<p>
+ A grammar may have many format sub-statements.
+</p>
+
+<h3>pref Sub-Statement</h3>
+<p>
+ The preferred format to use.
+ If this sub-statement is missing, the first format listed is used. 
 </p>
 
 </div><!--id=content-->

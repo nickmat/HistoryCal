@@ -29,38 +29,62 @@
 
 <div id='content' class='nomenu'>
 
-<h2>Calendar Types</h2>
-<img class='scrnprnt' src='../sp/sp8.png' alt='Screen Print 8' />
+<h2>scheme Statement</h2>
 <p>
- This section attempts to explain how the HistoryCal program looks at calendar schemes in general
- and how the HistoryCal script language can be used to define new schemes.
+ Before any calendar can be used as input or output,
+ it must be defined using the 'scheme' definition statement.
+ The layout of the statement varies according to the calendar type being defined.
+ These types are currently 'base', 'shifted', 'hybrid' and 'regal'. 
+</p>
+<p>
+ The scheme must be given a unique (within all other schemes) code name
+ by which it can be referred to.
+ It may then contain the following sub-statements in between '{' and '}' braces.
+</p>
+<p>
+ The scheme must include one, and only one, of the sub-statements:
+ 'base', 'shift', 'hybrid' or 'regnal'. All other sub-statements are optional.
 </p>
 
-<h2>Base Calendars</h2>
+<table class='list'>
+<tr><th colspan='3'>scheme Sub-Statement List</th></tr>
+<tr><th>Sub-Statement</th><th>Use</th><th>Example</th></tr>
+<tr><td class='code'>name</td><td>A descriptive name for the scheme.</td><td class='example'>name "Julian Annunciation";</td></tr>
+<tr><td class='code'>base</td><td>Scheme uses one of the base calendars.</td><td class='example'>base gregorian;</td></tr>
+<tr><td class='code'>shift</td><td>Scheme uses one of the base calendars with the era shifted.</td><td class='example'>shift j, 1721507;</td></tr>
+<tr><td class='code'>hybrid</td><td>Scheme uses more than one the base calendars.</td><td class='example'>hybrid { ... }</td></tr>
+<tr><td class='code'>regnal</td><td>Scheme uses calendars with a succession of eras.</td><td class='example'>regnal { ... }</td></tr>
+<tr><td class='code'>optional</td><td>Use the listed optional fields.</td><td class='example'>optional wday;</td></tr>
+<tr><td class='code'>grammar</td><td>The grammar to be used.</td><td class='example'>grammar jce;</td></tr>
+<tr><td class='code'>style</td><td>The scheme style used.</td><td class='example'>style hide;</td></tr>
+</table>
+
+<h3>name Sub-Statement</h3>
+<p>
+ Gives a descriptive name to the calendar scheme.
+ Used by the HistroyCal program to show a 'pick-list' of available calendar scheme to select.
+ This sub-statement is optional but, unless the scheme is to be hidden, it would normally be included. 
+</p>
+
+<h3>base Sub-Statement</h3>
 <p>
  The HistoryCal library has, at its heart, the ability to work
  with a number of basic calendar schemes.
- These calendars can be used directly,
- or they may used to create variants as described below.
+ Once created these schemes can then be used to create variants.
 </p>
-<p>
- Some Base calendars available are:
-</p>
-<ul>
- <li>Julian. The base for the Julian calendar variants.</li>
- <li>Gregorian. The modified Julian calendar used world wide.</li>
- <li>Hebrew. The calendar used by Jewish communities.</li>
- <li>Islamic. A tabular version of the calendar used by Muslim communities.</li>
- <li>Julian Day Number. A day count calendar used internally by HistoryCal.</li>
-</ul>
-<p>
- These calendars describe a particular day by means of a record
- comprised of fields holding the various date elements.
- There are also optional fields which may be included when required.
-</p>
-<p>
- All the fields in a record can be referred to by their given or alias names.
-</p>
+<table class='list'>
+<tr><th colspan='4'>Base Calendars</th></tr>
+<tr><th>Name</th><th>Key-name</th><th>Description</th><th>Default Scheme</th></tr>
+<tr><td>Chinese</td><td class='code'>chinese</td><td>The lunisolar calendar used by China and other Asian countries.</td><td><a href='../defs/c.htm'>c</a></td></tr>
+<tr><td>French Republic</td><td class='code'>french</td><td>The calendar used for a while by the French Republic.</td><td><a href='../defs/fr.htm'>fr</a></td></tr>
+<tr><td>Gregorian</td><td class='code'>gregorian</td><td>The modified Julian calendar used world wide.</td><td><a href='../defs/g.htm'>g</a></td></tr>
+<tr><td>Hebrew</td><td class='code'>hebrew</td><td>The calendar used by Jewish communities.</td><td><a href='../defs/h.htm'>h</a></td></tr>
+<tr><td>Islamic Tabular</td><td class='code'>islamic</td><td>A tabular version of the calendar used by Muslim communities.</td><td><a href='../defs/i.htm'>i</a></td></tr>
+<tr><td>ISO Ordinal</td><td class='code'>isoordinal</td><td>A solar calendar with numbered days, based on Gregorian.</td><td><a href='../defs/isoo.htm'>isoo</a></td></tr>
+<tr><td>ISO Week</td><td class='code'>isoweek</td><td>A solar calendar with numbered 7 day weeks, based on Gregorian.</td><td><a href='../defs/isow.htm'>isow</a></td></tr>
+<tr><td>Julian Day Number</td><td class='code'>jdn</td><td>A day count calendar used internally by HistoryCal.</td><td><a href='../defs/jdn.htm'>jdn</a></td></tr>
+<tr><td>Julian</td><td class='code'>julian</td><td>The base for the Julian calendar variants.</td><td><a href='../defs/j.htm'>j</a></td></tr>
+</table>
 
 <h2>Shifted Calendars</h2>
 <p>

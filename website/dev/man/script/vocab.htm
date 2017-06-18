@@ -38,7 +38,7 @@
 <p>
  The vocab must be given a unique (within all other vocabs) code name
  by which it can be referred to.
- It then must contain the following sub-statements in between '{' and '}' brackets.
+ It then must contain the following sub-statements in between '{' and '}' braces.
 </p>
 
 <table class='list'>
@@ -47,7 +47,7 @@
 <tr><td class='code'>name</td><td>Give the vocab a text description.</td><td class='example'>name "Month names";</td></tr>
 <tr><td class='code'>fieldname</td><td>The field name normally associated with this vocab.</td><td class='example'>fieldname month;</td></tr>
 <tr><td class='code'>lang</td><td>The language used. (Not in use yet.)</td><td class='example'>lang en;</td></tr>
-<tr><td class='code'>stylename</td><td>The text used by format to describe the tokens.</td><td class='example'>stylename Month, Mon";</td></tr>
+<tr><td class='code'>pseudo</td><td>The text used by by the <a href='../gloss.htm#pseudo-date'>pseudo date</a> to describe the vocab.</td><td class='example'>pseudo Month, Mon";</td></tr>
 <tr><td class='code'>tokens</td><td>A list of values, tokens and an optional abbreviation.</td><td class='example'>tokens {1, January, Jan; ...}</td></tr>
 </table>
 
@@ -73,9 +73,9 @@
  so this is a marker for the future.
 </p>
 
-<h3>stylename Sub-Statement</h3>
+<h3>pseudo Sub-Statement</h3>
 <p>
- The stylename is used by a format definition
+ The pseudo text is used by a format definition
  when creating the pseudo date used to show the intended output.
  The pseudo date is the text shown when selecting the output format,
  as in the string "dd Mon yyyy" for the dmy format.
@@ -94,7 +94,7 @@
  The list of tokens is enclosed within '{' '}' braces.
 </p>
 <p>
- If the token name does not conform to script name token, then they must be enclosed in '"' double quotes.
+ If the token name does not conform to a script name token, then they must be enclosed in '"' double quotes.
 </p>
 
 <table class='list'>
@@ -104,15 +104,15 @@
     name "Weekday names";
     fieldname wday;
     lang en;
-    stylename Weekday,  WDay;
+    pseudo Weekday,   WDay;
     tokens {
-        1, "Monday",    "Mon";
-        2, "Tuesday",   "Tue";
-        3, "Wednesday", "Wed";
-        4, "Thursday",  "Thur";
-        5, "Friday",    "Fri";
-        6, "Saturday",  "Sat";
-        7, "Sunday",    "Sun";
+        1, Monday,    Mon;
+        2, Tuesday,   Tue;
+        3, Wednesday, Wed;
+        4, Thursday,  Thur;
+        5, Friday,    Fri;
+        6, Saturday,  Sat;
+        7, Sunday,    Sun;
     }
 }</td></tr>
 </table>
