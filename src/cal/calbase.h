@@ -87,6 +87,9 @@ namespace Cal {
         Base( const std::string& data );
         virtual ~Base();
 
+        // Set initial data from string.
+        virtual void set_data( const std::string& data );
+
         // Return true if in a usable state.
         virtual bool is_ok() const { return true; }
         // Return the maximum number of Fields required by the Record.

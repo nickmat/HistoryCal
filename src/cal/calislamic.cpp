@@ -35,32 +35,38 @@ using std::string;
 #define BASEDATE_Islamic    1948440
 
 Islamic::Islamic( const string& data )
-    : m_delta(14), m_basedate(BASEDATE_Islamic)
+    : m_delta(14), m_basedate(BASEDATE_Islamic), Base(data)
 {
-    if( data == "Ia" ) {
+}
+
+void Cal::Islamic::set_data( const std::string & data )
+{
+    if ( data == "Ia" ) {
         m_delta = 15;
-        m_basedate = BASEDATE_Islamic-1;
-    } else if( data == "Ic" ) {
+        m_basedate = BASEDATE_Islamic - 1;
+    } else if ( data == "Ic" ) {
         m_delta = 15;
         m_basedate = BASEDATE_Islamic;
-    } else if( data == "IIa" ) {
+    } else if ( data == "IIa" ) {
         m_delta = 14;
-        m_basedate = BASEDATE_Islamic-1;
-    } else if( data == "IIc" ) {
+        m_basedate = BASEDATE_Islamic - 1;
+    } else if ( data == "IIc" ) {
         m_delta = 14;
         m_basedate = BASEDATE_Islamic;
-    } else if( data == "IIIa" ) {
+    } else if ( data == "IIIa" ) {
         m_delta = 11;
-        m_basedate = BASEDATE_Islamic-1;
-    } else if( data == "IIIc" ) {
+        m_basedate = BASEDATE_Islamic - 1;
+    } else if ( data == "IIIc" ) {
         m_delta = 11;
         m_basedate = BASEDATE_Islamic;
-    } else if( data == "IVa" ) {
+    } else if ( data == "IVa" ) {
         m_delta = 9;
-        m_basedate = BASEDATE_Islamic-1;
-    } else if( data == "IVc" ) {
+        m_basedate = BASEDATE_Islamic - 1;
+    } else if ( data == "IVc" ) {
         m_delta = 9;
         m_basedate = BASEDATE_Islamic;
+    } else {
+        Base::set_data( data );
     }
 }
 

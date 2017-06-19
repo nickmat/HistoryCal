@@ -58,6 +58,8 @@ string Cal::full_trim( const string& str )
 string Cal::get_first_word( const string& str, string* tail, char sep )
 {
     size_t pos = str.find( sep );
+    // Note, tail may point str (ie, str and tail could be the same),
+    // so get result before setting tail.
     string result = str.substr( 0, pos );
     if( tail ) {
         *tail = ( pos == string::npos ) ? "" : left_trim( str.substr( pos + 1 ) );

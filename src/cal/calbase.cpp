@@ -49,13 +49,10 @@ Base::Base() : m_grammar(NULL)
 
 Base::Base( const std::string& data ) : m_grammar(NULL)
 {
-    string code, tail;
-    split_code( &code, &tail, data );
-    if( code == "loc" ) {
-        split_code( &code, &tail, tail );
-        m_locale.lat = str_to_double( code );
-        split_code( &code, &tail, tail );
-        m_locale.lon = str_to_double( code );
+    string tail, word = get_first_word( data, &tail );
+    while ( !word.empty() ) {
+        set_data( word );
+        word = get_first_word( tail, &tail );
     }
 }
 
@@ -64,6 +61,18 @@ Base::~Base()
     // Default grammar has no code
     if( m_grammar && m_grammar->code() == "" ) {
         delete m_grammar;
+    }
+}
+
+void Cal::Base::set_data( const std::string & data )
+{
+    string code, tail;
+    split_code( &code, &tail, data );
+    if ( code == "loc" ) {
+        split_code( &code, &tail, tail );
+        m_locale.lat = str_to_double( code );
+        split_code( &code, &tail, tail );
+        m_locale.lon = str_to_double( code );
     }
 }
 
