@@ -43,7 +43,7 @@
 </p>
 <p>
  The scheme must include one, and only one, of the sub-statements:
- 'base', 'shift', 'hybrid' or 'regnal'. All other sub-statements are optional.
+ 'base', 'shift', 'hybrid' or 'regnal'. Other sub-statements are optional.
 </p>
 
 <table class='list'>
@@ -74,19 +74,196 @@
 </p>
 <table class='list'>
 <tr><th colspan='4'>Base Calendars</th></tr>
-<tr><th>Name</th><th>Key-name</th><th>Description</th><th>Default Scheme</th></tr>
-<tr><td>Chinese</td><td class='code'>chinese</td><td>The lunisolar calendar used by China and other Asian countries.</td><td><a href='../defs/c.htm'>c</a></td></tr>
-<tr><td>French Republic</td><td class='code'>french</td><td>The calendar used for a while by the French Republic.</td><td><a href='../defs/fr.htm'>fr</a></td></tr>
-<tr><td>Gregorian</td><td class='code'>gregorian</td><td>The modified Julian calendar used world wide.</td><td><a href='../defs/g.htm'>g</a></td></tr>
-<tr><td>Hebrew</td><td class='code'>hebrew</td><td>The calendar used by Jewish communities.</td><td><a href='../defs/h.htm'>h</a></td></tr>
-<tr><td>Islamic Tabular</td><td class='code'>islamic</td><td>A tabular version of the calendar used by Muslim communities.</td><td><a href='../defs/i.htm'>i</a></td></tr>
-<tr><td>ISO Ordinal</td><td class='code'>isoordinal</td><td>A solar calendar with numbered days, based on Gregorian.</td><td><a href='../defs/isoo.htm'>isoo</a></td></tr>
-<tr><td>ISO Week</td><td class='code'>isoweek</td><td>A solar calendar with numbered 7 day weeks, based on Gregorian.</td><td><a href='../defs/isow.htm'>isow</a></td></tr>
+<tr><th>Name</th><th>Base-name</th><th>Description</th><th>Default Scheme</th></tr>
 <tr><td>Julian Day Number</td><td class='code'>jdn</td><td>A day count calendar used internally by HistoryCal.</td><td><a href='../defs/jdn.htm'>jdn</a></td></tr>
 <tr><td>Julian</td><td class='code'>julian</td><td>The base for the Julian calendar variants.</td><td><a href='../defs/j.htm'>j</a></td></tr>
+<tr><td>Gregorian</td><td class='code'>gregorian</td><td>The modified Julian calendar used world wide.</td><td><a href='../defs/g.htm'>g</a></td></tr>
+<tr><td>ISO Week</td><td class='code'>isoweek</td><td>A solar calendar with numbered 7 day weeks, based on Gregorian.</td><td><a href='../defs/isow.htm'>isow</a></td></tr>
+<tr><td>ISO Ordinal</td><td class='code'>isoordinal</td><td>A solar calendar with numbered days, based on Gregorian.</td><td><a href='../defs/isoo.htm'>isoo</a></td></tr>
+<tr><td>French Republic</td><td class='code'>french</td><td>The calendar used for a while by the French Republic.</td><td><a href='../defs/fr.htm'>fr</a></td></tr>
+<tr><td>Hebrew</td><td class='code'>hebrew</td><td>The calendar used by Jewish communities.</td><td><a href='../defs/h.htm'>h</a></td></tr>
+<tr><td>Islamic Tabular</td><td class='code'>islamic</td><td>A tabular version of the calendar used by Muslim communities.</td><td><a href='../defs/i.htm'>i</a></td></tr>
+<tr><td>Chinese</td><td class='code'>chinese</td><td>The lunisolar calendar used by China and other Asian countries.</td><td><a href='../defs/c.htm'>c</a></td></tr>
+</table>
+<p></p>
+<p>
+ The base sub-statement will create one of the built-in calendar schemes.
+ These schemes have associated with them a default record containing a fixed number of named fields.
+ There may also be a number of optional fields which can be used with the built-in calendar,
+ using the optional sub-statement.
+</p>
+<p>
+ There are some optional fields which may be used with any base calendar scheme.
+</p>
+<table class='list'>
+<tr><th colspan='3'>Global Optional Fields</th></tr>
+<tr><th>Description</th><th>Field-name</th><th>Default Script</th></tr>
+<tr><td>7 Day week, Monday start.</td><td class='code'>wday</td><td><a href='../defs/7dayweek.htm'>7 Day Week</a></td></tr>
+<tr><td>7 Day week, Sunday start.</td><td class='code'>wsday</td><td><a href='../defs/7dayweek.htm'>7 Day Week</a></td></tr>
+</table>
+<p></p>
+<p>
+ In addition,
+ there are astronomical optional fields that hold the Julian day number of relative astronomical events.
+</p>
+<table class='list'>
+<tr><th colspan='2'>Astronomical Optional Fields</th></tr>
+<tr><th>Description</th><th>Field-name</th></tr>
+<tr><td>The jdn day of the next Northward (Mar) Equinox.</td><td class='code'>nequinox</td></tr>
+<tr><td>The jdn day of the next Northern (Jun) Solstice.</td><td class='code'>nsolstice</td></tr>
+<tr><td>The jdn day of the next Southward (Sep) Equinox.</td><td class='code'>sequinox</td></tr>
+<tr><td>The jdn day of the next Southern (Dec) Solstice.</td><td class='code'>ssolstice</td></tr>
+<tr><td>The jdn day of the next New Moon.</td><td class='code'>newmoon</td></tr>
+</table>
+<p></p>
+
+<table class='list'>
+<tr><th>Example Script</th></tr> <!-- See test/astro006.hcs -->
+<tr><td class='example'>
+scheme A {
+    name "Astronomical Events Calendar";
+    base jdn;
+    optional newmoon;
+}
+
+set inout g:dmy;
+let d = date "19sep1948";
+
+writeln "The New Moon after " + string d + " is " + string (d[A:newmoon]);
+
+</td></tr>
+<tr><td>
+<b>Output</b>
+</td></tr>
+<tr><td>
+The New Moon after 19 Sep 1948 is 2 Oct 1948
+</td></tr>
 </table>
 
-<h2>Shifted Calendars</h2>
+<h4>base jdn Sub-Statement</h4>
+<p>
+ This sub-statement implements the Julian Day Number day count calendar.
+ The calendar has a record with a single fixed field named 'day'.
+ If a field is used to represent a date in a script, then by default it is a Julian Day Number.
+</p>
+
+<h4>base julian Sub-Statement</h4>
+<p>
+ This sub-statement implements the Julian calendar.
+ The calendar has a record with three fixed fields named 'year', 'month' and 'day',
+ ranked in that order.
+ The year is divided into 12 months numbered 1 to 12.
+ The months have the following number of days, 31, 28/29, 31, 30, 31, 30, 31, 31, 30, 31, 30 and 31,
+ numbered from 1.
+ If the year is divisible  by 4 then it is a leap year and the second month has 29 days,
+ otherwise it is a common year and it has 28 days.
+ The epoch is jdn# 1721424.
+</p>
+
+<h4>base gregorian Sub-Statement</h4>
+<p>
+ This sub-statement implements the Gregorian calendar.
+ The calendar is identical to the Julian calendar except the epoch is jdn# 1721426
+ and century years not divisible by 4 are common years.
+</p>
+
+<h4>base isoweek Sub-Statement</h4>
+<p>
+ This sub-statement implements the ISO 8601 Week calendar,
+ a variant of the Gregorian calendar.
+ The calendar has a record with three fixed fields named 'year', 'week' and 'wday',
+ ranked in that order.
+ Weeks are a repeating cycle of 7 days numbered 1 to 7.
+ The epoch is jdn# 1721426, a Monday.
+ The year starts on the week day 1 (Monday) that is closest to the Gregorian year start.
+</p>
+
+<h4>base isoordinal Sub-Statement</h4>
+<p>
+ This sub-statement implements the ISO 8601 Ordinal calendar,
+ a variant of the Gregorian calendar.
+ The calendar has a record with two fixed fields named 'year' and 'day',
+ ranked in that order.
+ The year has the same value as the Gregorian year.
+ The day is numbered 1 to 365 days in a common year and 1 to 366 in a leap year.
+</p>
+
+<h4>base french Sub-Statement</h4>
+<p>
+ This sub-statement implements the calendar established following the creation of the French Republic.
+ The calendar has a record with three fixed fields named 'year', 'month' and 'day',
+ ranked in that order.
+ The year is divided into 12 months of 30 days and a 13th period of 5 or 6 days.
+ The months and days are numbered from 1.
+ The first day of the year occurs on the autumnal equinox as measured at the Paris Observatory.
+ The epoch is jdn# 2375840 (g:dmy# 22 Sep 1792).
+</p>
+
+<h4>base hebrew Sub-Statement</h4>
+<p>
+ This sub-statement implements the arithmetical lunisolar Hebrew calendar
+ used by Jewish communities since the 12th century.
+ The calendar has a record with three fixed fields named 'year', 'month' and 'day',
+ ranked in that order.
+ The year is divided into 12 months in a common year and 13 in a leap year.
+ The months have the following number of days,
+ 30, 29, 30, 29, 30, 29, 30, 29/30, 29/30, 29, 30 and 29/30 (29),
+ numbered from 1.
+ The epoch is jdn# 347998 (jce:dmy# 7 Oct 3761 BCE).
+ See the default script <a href='../defs/h.htm'>Hebrew calendar</a> definition for more details.
+</p>
+
+<h4>base islamic Sub-Statement</h4>
+<p>
+ This sub-statement implements the arithmetical lunar Islamic calendar.
+ (The observational Islamic calendar will be implemented in a future version.)
+ The calendar has a record with three fixed fields named 'year', 'month' and 'day',
+ ranked in that order.
+ The year is divided into 12 months in a year.
+ The months have the following number of days,
+ 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30 and 29/30,
+ numbered from 1.
+ The length 12th month is 29 in a common year and 30 in a leap year.
+ Determination of a leap year is based on the 30 year <a href='https://en.wikipedia.org/wiki/Metonic_cycle'>Metonic cycle</a>.
+ Two alternative epochs may be used, 
+ jdn# 1948439 (j:wdmy# Thur 15 Jul 622) or
+ jdn# 1948440 (j:wdmy# Fri 16 Jul 622).
+ The arrangement is selected using an additional keyword
+ based on the descriptions given by <a href='http://www.staff.science.uu.nl/~gent0113/islam/islam_tabcal_variants.htm'>R.H. van Gent</a>.
+</p>
+<table class='list'>
+<tr><th colspan='4'>Tabular Islamic Calendars</th></tr>
+<tr><th>Keyword</th><th>Leap years within Metonic cycle</th><th>Epoch (j:wdmy)</th><th>Default Scheme</th></tr>
+<tr><td class='code'>Ia</td><td>2, 5, 7, 10, 13, 15, 18, 21, 24, 26 &amp; 29</td><td>Thur 15 Jul 622</td><td></td></tr>
+<tr><td class='code'>Ic</td><td>2, 5, 7, 10, 13, 15, 18, 21, 24, 26 &amp; 29</td><td>Fri 16 Jul 622</td><td></td></tr>
+<tr><td class='code'>IIa</td><td>2, 5, 7, 10, 13, 16, 18, 21, 24, 26 &amp; 29</td><td>Thur 15 Jul 622</td><td><a href='../defs/ims.htm'>ims</a></td></tr>
+<tr><td class='code'>IIc</td><td>2, 5, 7, 10, 13, 16, 18, 21, 24, 26 &amp; 29</td><td>Fri 16 Jul 622</td><td><a href='../defs/i.htm'>i</a></td></tr>
+<tr><td class='code'>IIIa</td><td>2, 5, 8, 10, 13, 16, 19, 21, 24, 27 &amp; 29</td><td>Thur 15 Jul 622</td><td><a href='../defs/if.htm'>if</a></td></tr>
+<tr><td class='code'>IIIc</td><td>2, 5, 8, 10, 13, 16, 19, 21, 24, 27 &amp; 29</td><td>Fri 16 Jul 622</td><td></td></tr>
+<tr><td class='code'>IVa</td><td>2, 5, 8, 11, 13, 16, 19, 21, 24, 27 &amp; 30</td><td>Thur 15 Jul 622</td><td></td></tr>
+<tr><td class='code'>IVc</td><td>2, 5, 8, 11, 13, 16, 19, 21, 24, 27 &amp; 30</td><td>Fri 16 Jul 622</td><td></tr>
+</table>
+<p></p>
+<p>
+ If the additional keyword is not given, IIc is assumed.
+</p>
+
+<h4>base chinese Sub-Statement</h4>
+<p>
+ This sub-statement implements the lunisolar Chinese calendar.
+ The calendar has a record with five fixed fields named 'cycle', 'cyear', 'month', 'lmonth' and 'day',
+ ranked in that order.
+ 
+ A cycle is divided into 60 Chinese years (cyear).
+ The year is divided into 12 lunar months in a common year and one month is repeated in a leap year.
+ The lmonth field is always zero, 
+ except in a leap year when the during the repeated month it has the value of 1.
+ Each month starts on the day of the new moon and has 29 or 30 days.
+ The epoch is jdn# 758326 (jce:dmy# 8 Mar 2637 BCE).
+ See the default script for the <a href='../defs/c.htm'>Chinese calendar</a> for more details.
+</p>
+
+<h3>shift Sub-Statement</h3>
 <p>
  Calendars normally have two separate parts to their definitions.
  There is the definition that describes how the days are counted within the year,
@@ -108,13 +285,36 @@
 <p>
  We can also use the shift variant to change the era,
  even if the year change remains the 1st January,
- as with the Spanish Era calendar.
+ as with the <a href='../defs/se.htm'>Julian Spanish Era</a> calendar.
  It will also work with day count calendars,
  to create day count calendar that starts at a different date,
  such as the Modified Julian Day calendar.
 </p>
+<table class='list'>
+<tr><th colspan='2'>shift Sub-Statement</th></tr>
+<tr><th>Sub-Statement</th><th>Example</th></tr>
+<tr><td class='code'>shift <i>scheme-code</i>, <i>date-field</i></td><td class='example'
+>shift j, 1721417; // j:dmy# 25 Dec 0</ br>
+shift jdn, 2400001; // Change jdn to Modified Julian Day</td></tr>
+</table>
+<p></p>
+<p>
+ The sub-statement consists of the 'shift' keyword followed by the existing scheme code name,
+ followed by a comma and then the new epoch date.
+</p>
+<table class='list'>
+<tr><th>Example Script</th></tr> <!-- See test/shift001.hcs -->
+<tr><td class='example'
+>scheme JS {
+    name "Julian September Start Calendar";
+    shift j, date,j:dmy "1 Sep 0";
+    grammar j_sh;
+}
+</td></tr>
+</table>
 
-<h2>Hybrid Calendars</h2>
+
+<h3>hybrid Sub-Statement</h3>
 <p>
  When an authority changes from calender system to another,
  and where the underling system is the same,
@@ -126,7 +326,7 @@
 <p>
  In order for a hybrid calendar to be useful,
  the change over must occur in an organised way, on a particular day.
- But where it is possible, a hybrid calendar can simplify things.
+ Where it is possible, a hybrid calendar can simplify things.
 </p>
 <p>
  The hybrid calendar has the appearance of adding or removing days from the calender.
@@ -137,6 +337,38 @@
  for example, the scheme being used.
  Alternatively, something like the day of the week can be added.
 </p>
+<p>
+ The sub-statement consists of a sequence of further sub-statements between braces,
+ starting with a 'fields' statement that lists the fields used.
+ This is followed by the initial 'scheme' statement,
+ followed by one or more 'change' and 'scheme' statement pairs.
+</p>
+<table class='list'>
+<tr><th>Example Script</th></tr> <!-- See test/xxxx.hcs -->
+<tr><td class='example'
+>scheme eng {
+    name "English Hybrid";
+    hybrid {
+        fields year, month, day;
+        scheme ja;
+        change 2360976;  // j:dmy# 1 Jan 1752
+        scheme j;
+        change 2361222;  // g:dmy# 14 Sep 1752
+        scheme g;
+    }
+    grammar hy; // See default script <a href='../defs/eng.htm'>eng</a>
+}
+</td></tr>
+</table>
+<p></p>
+<table class='list'>
+<tr><th colspan='2'>hybrid Sub-Statement</th></tr>
+<tr><th>Sub-Statement</th><th>Example</th></tr>
+<tr><td class='code'>hybrid { fields <i>name1</i>, <i>name2</i>, <i>name3</i>; ... }</td><td class='example'>fields year, month, day;</td></tr>
+<tr><td class='code'>hybrid { ... scheme <i>scheme.code</i>; ... }</td><td class='example'>scheme ja; // Julian Annunciation</td></tr>
+<tr><td class='code'>hybrid { ... change <i>date.field</i>; ... }</td><td class='example'>change 2360976; // j:dmy# 1 Jan 1752</td></tr>
+<tr><td class='code'>hybrid { ... scheme <i>scheme.code</i>; ... }</td><td class='example'>scheme j; // Julian</td></tr>
+</table>
 
 <h2>Regnal Calendars</h2>
 <p>
