@@ -1,0 +1,19 @@
+// shift001.hcs  Test the shift sub-command. Used as example, man/script/scheme.htm
+
+mark "JS-test";
+
+scheme JS {
+    name "Julian September Start Calendar";
+    shift j, date,j:dmy "1 Sep 1";
+    grammar j_sh;
+}
+
+let d = date,j:dmy "8mar1943";
+
+write string,JS:dmyh d;
+
+clear "JS-test";
+
+/*[OUTPUT]
+8 Mar 1942/3
+[OUTPUT]*/
