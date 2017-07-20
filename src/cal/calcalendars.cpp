@@ -62,7 +62,11 @@ Calendars::Calendars( Init_schemes init )
         break;
     case Init_script_default:
         for( size_t i = 0 ; i < cal_default_scripts_size ; i++ ) {
-            run_script( cal_default_scripts[i].script );
+            string error = run_script( cal_default_scripts[i].script );
+            if ( !error.empty() ) {
+                m_init_error += "Module: \"" +
+                    string(cal_default_scripts[i].module) + "\"\n" + error;
+            }
         }
         break;
     }
@@ -80,6 +84,11 @@ Calendars::~Calendars()
 const char* Calendars::version()
 {
     return cal_version;
+}
+
+DLLIMPEXP_CAL std::string Cal::Calendars::get_init_error()
+{
+    return m_init_error;
 }
 
 string Calendars::run_script( const string& script )

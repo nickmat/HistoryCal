@@ -93,6 +93,10 @@ HcFrame::HcFrame(
     bSizerIntermeadiate->Show( false );
 
     m_textInput->SetFocus();
+
+    if ( !m_cal.get_init_error().empty() ) {
+        wxMessageBox( m_cal.get_init_error(), "Default Script Error" );
+    }
 }
 
 /*! \brief Called on a Run Script Application menu option event.

@@ -46,6 +46,7 @@ namespace Cal {
         DLLIMPEXP_CAL ~Calendars();
 
         DLLIMPEXP_CAL static const char* version();
+        DLLIMPEXP_CAL std::string get_init_error();
         DLLIMPEXP_CAL std::string run_script( const std::string& script );
         DLLIMPEXP_CAL std::string run_script_file( const std::string& filename );
         DLLIMPEXP_CAL SHandle get_scheme( const std::string& code ) const;
@@ -103,6 +104,7 @@ namespace Cal {
         FunctionMap  m_functions;
         MarkVec      m_marks;
         ScriptStore* m_store;
+        std::string  m_init_error;
     };
 
 }
