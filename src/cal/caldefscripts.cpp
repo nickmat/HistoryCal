@@ -31,8 +31,8 @@
 
 #include "caldefscripts.h"
 
-const char* Cal::cal_default_scripts[] = {
-     /* base.hcs */
+Cal::ScriptModule Cal::cal_default_scripts[] = {
+    { "base",  /* base.hcs */
  "vocab w {\n"
  "name \"Weekday names\";\n"
  "fieldname wday;\n"
@@ -62,8 +62,8 @@ const char* Cal::cal_default_scripts[] = {
  "6, \"Friday\",    \"Fri\";\n"
  "7, \"Saturday\",  \"Sat\";\n"
  "}\n"
- "}\n",
-     /* jdn.hcs */
+ "}\n" },
+    { "jdn",  /* jdn.hcs */
  "grammar d {\n"
  "alias pseudo {\n"
  "ddddd, day;\n"
@@ -75,8 +75,8 @@ const char* Cal::cal_default_scripts[] = {
  "name \"Julian Day Number\";\n"
  "base jdn;\n"
  "grammar d;\n"
- "}\n",
-     /* julian.hcs */
+ "}\n" },
+    { "julian",  /* julian.hcs */
  "vocab m {\n"
  "name \"Month names\";\n"
  "fieldname month;\n"
@@ -199,8 +199,8 @@ const char* Cal::cal_default_scripts[] = {
  "name \"Spanish Era\";\n"
  "shift j, 1707544;\n"
  "grammar j;\n"
- "}\n",
-     /* julian_hybrid.hcs */
+ "}\n" },
+    { "julian_hybrid",  /* julian_hybrid.hcs */
  "vocab jg {\n"
  "name \"Scheme names\";\n"
  "fieldname scheme;\n"
@@ -294,8 +294,8 @@ const char* Cal::cal_default_scripts[] = {
  "scheme g;\n"
  "}\n"
  "grammar hy;\n"
- "}\n",
-     /* liturgical.hcs */
+ "}\n" },
+    { "liturgical",  /* liturgical.hcs */
  "vocab lit {\n"
  "name \"Liturgy Weeks\";\n"
  "fieldname litweek;\n"
@@ -404,8 +404,8 @@ const char* Cal::cal_default_scripts[] = {
  "name \"Gregorian Liturgical\";\n"
  "base gregorian;\n"
  "grammar lit;\n"
- "}\n",
-     /* ce-bce.hcs */
+ "}\n" },
+    { "ce_bce",  /* ce-bce.hcs */
  "vocab jce {\n"
  "name \"Historic Era\";\n"
  "fieldname ce;\n"
@@ -462,8 +462,8 @@ const char* Cal::cal_default_scripts[] = {
  "name \"Gregorian Common Era\";\n"
  "base gregorian;\n"
  "grammar jce;\n"
- "}\n",
-     /* english_reg.hcs */
+ "}\n" },
+    { "english_reg",  /* english_reg.hcs */
  "vocab er {\n"
  "name \"English Monarchs\";\n"
  "fieldname era;\n"
@@ -900,8 +900,8 @@ const char* Cal::cal_default_scripts[] = {
  "}\n"
  "}\n"
  "grammar er;\n"
- "}\n",
-     /* scottish_reg.hcs */
+ "}\n" },
+    { "scottish_reg",  /* scottish_reg.hcs */
  "vocab sr {\n"
  "name \"Scottish Monarchs\";\n"
  "fieldname era;\n"
@@ -1095,8 +1095,8 @@ const char* Cal::cal_default_scripts[] = {
  "}\n"
  "}\n"
  "grammar sr;\n"
- "}\n",
-     /* iso.hcs */
+ "}\n" },
+    { "iso",  /* iso.hcs */
  "grammar isow {\n"
  "vocabs w;\n"
  "alias field {\n"
@@ -1150,8 +1150,8 @@ const char* Cal::cal_default_scripts[] = {
  "name \"ISO:8601 Standard Ordinal\";\n"
  "base isoordinal;\n"
  "grammar isoo;\n"
- "}\n",
-     /* french_rep.hcs */
+ "}\n" },
+    { "french_rep",  /* french_rep.hcs */
  "vocab frm {\n"
  "name \"Month names\";\n"
  "fieldname month;\n"
@@ -1272,8 +1272,8 @@ const char* Cal::cal_default_scripts[] = {
  "name \"French Republic\";\n"
  "base french;\n"
  "grammar fr;\n"
- "}\n",
-     /* hebrew.hcs */
+ "}\n" },
+    { "hebrew",  /* hebrew.hcs */
  "vocab hm {\n"
  "name \"Month names\";\n"
  "fieldname month;\n"
@@ -1343,8 +1343,8 @@ const char* Cal::cal_default_scripts[] = {
  "name \"Hebrew\";\n"
  "base hebrew;\n"
  "grammar h;\n"
- "}\n",
-     /* islamic.hcs */
+ "}\n" },
+    { "islamic",  /* islamic.hcs */
  "vocab im {\n"
  "name \"Month names\";\n"
  "fieldname month;\n"
@@ -1423,8 +1423,8 @@ const char* Cal::cal_default_scripts[] = {
  "name \"Islamic F\304\201timid\";\n"
  "base islamic IIIa;\n"
  "grammar i;\n"
- "}\n",
-     /* chinese.hcs */
+ "}\n" },
+    { "chinese",  /* chinese.hcs */
  "vocab cyear {\n"
  "name \"Year names\";\n"
  "fieldname cyear;\n"
@@ -1529,9 +1529,9 @@ const char* Cal::cal_default_scripts[] = {
  "name \"Chinese\";\n"
  "base chinese;\n"
  "grammar c;\n"
- "}\n",
+ "}\n" },
 };
 
-size_t Cal::cal_default_scripts_size = sizeof(Cal::cal_default_scripts) / sizeof(char*);
+size_t Cal::cal_default_scripts_size = sizeof(Cal::cal_default_scripts) / sizeof(Cal::ScriptModule);
 
 // End of scripts/caldefscripts.f2c file

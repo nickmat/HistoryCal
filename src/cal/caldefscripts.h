@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     20th September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -32,7 +32,12 @@
 
 namespace Cal {
 
-    extern const char* cal_default_scripts[];
+    struct ScriptModule {
+        const char* module;
+        const char* script;
+    };
+
+    extern ScriptModule cal_default_scripts[];
     extern std::size_t cal_default_scripts_size;
 
 }

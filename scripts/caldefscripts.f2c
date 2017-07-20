@@ -29,22 +29,22 @@
 
 #include "caldefscripts.h"
 
-const char* Cal::cal_default_scripts[] = {
-    @(crl.cpp)"base.hcs",
-    @(crl.cpp)"jdn.hcs",
-    @(crl.cpp)"julian.hcs",
-    @(crl.cpp)"julian_hybrid.hcs",
-    @(crl.cpp)"liturgical.hcs",
-    @(crl.cpp)"ce-bce.hcs",
-    @(crl.cpp)"english_reg.hcs",
-    @(crl.cpp)"scottish_reg.hcs",
-    @(crl.cpp)"iso.hcs",
-    @(crlo.cpp)"french_rep.hcs",
-    @(crlo.cpp)"hebrew.hcs",
-    @(crlo.cpp)"islamic.hcs",
-    @(crlo.cpp)"chinese.hcs",
+Cal::ScriptModule Cal::cal_default_scripts[] = {
+    { "base", @(crl.cpp)"base.hcs" },
+    { "jdn", @(crl.cpp)"jdn.hcs" },
+    { "julian", @(crl.cpp)"julian.hcs" },
+    { "julian_hybrid", @(crl.cpp)"julian_hybrid.hcs" },
+    { "liturgical", @(crl.cpp)"liturgical.hcs" },
+    { "ce_bce", @(crl.cpp)"ce-bce.hcs" },
+    { "english_reg", @(crl.cpp)"english_reg.hcs" },
+    { "scottish_reg", @(crl.cpp)"scottish_reg.hcs" },
+    { "iso", @(crl.cpp)"iso.hcs" },
+    { "french_rep", @(crlo.cpp)"french_rep.hcs" },
+    { "hebrew", @(crlo.cpp)"hebrew.hcs" },
+    { "islamic", @(crlo.cpp)"islamic.hcs" },
+    { "chinese", @(crlo.cpp)"chinese.hcs" },
 };
 
-size_t Cal::cal_default_scripts_size = sizeof(Cal::cal_default_scripts) / sizeof(char*);
+size_t Cal::cal_default_scripts_size = sizeof(Cal::cal_default_scripts) / sizeof(Cal::ScriptModule);
 
 // End of scripts/caldefscripts.f2c file
