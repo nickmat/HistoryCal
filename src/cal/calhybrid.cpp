@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     23rd September 2013
- * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -38,20 +38,13 @@
 using namespace Cal;
 using namespace std;
 
-Hybrid::Hybrid( 
-    const StringVec& fields, 
-    const StringVec& ext_fields,
-    const std::vector<HybridData>& data )
-    :  m_fieldnames(fields), m_ext_fieldnames(ext_fields),
-    m_data(data), m_rec_size(1+fields.size()), 
-    m_ext_size(1+fields.size()+ext_fields.size())
+Hybrid::Hybrid( const StringVec& fields, const std::vector<HybridData>& data )
+    :  m_fieldnames(fields), m_data(data), m_rec_size(1+fields.size())
 {
-    StringVec fns( fields );
-    fns.insert( fns.end(), ext_fields.begin(), ext_fields.end() );
-    XRefVec xref( fns.size() );
+    XRefVec xref( fields.size() );
     for( size_t i = 0 ; i < data.size() ; i++ ) {
         for( size_t j = 0 ; j < xref.size() ; j++ ) {
-            xref[j] = data[i].base->get_fieldname_index( fns[j] );
+            xref[j] = data[i].base->get_fieldname_index( fields[j] );
         }
         m_xref_fields.push_back( xref );
     }
@@ -83,13 +76,7 @@ int Hybrid::get_fieldname_index( const string& fieldname ) const
             return i + offset;
         }
     }
-    offset += m_fieldnames.size();
-    for( size_t i = 0 ; i < m_ext_fieldnames.size() ; i++ ) {
-        if( m_ext_fieldnames[i] == fieldname ) {
-            return i + offset;
-        }
-    }
-    return get_opt_fieldname_index( fieldname );
+    return Base::get_fieldname_index( fieldname );
 }
 
 string Hybrid::get_fieldname( size_t index ) const
@@ -97,37 +84,10 @@ string Hybrid::get_fieldname( size_t index ) const
     if( index == 0 ) {
         return "scheme";
     }
-    --index;
-    if( index < m_fieldnames.size() ) {
-        return m_fieldnames[index];
+    if( index <= m_fieldnames.size() ) {
+        return m_fieldnames[index-1];
     }
-    index -= m_fieldnames.size();
-    if( index < m_ext_fieldnames.size() ) {
-        return m_ext_fieldnames[index];
-    }
-    return "";
-}
-
-OptFieldID Hybrid::get_opt_field_id( const string& fieldname ) const
-{
-    for( size_t i = 0 ; i < m_data.size() ; i++ ) {
-        OptFieldID id = m_data[i].base->get_opt_field_id( fieldname );
-        if( id != OFID_NULL ) {
-            return id; // Found it.
-        }
-    }
-    return OFID_NULL;
-}
-
-string Hybrid::get_opt_fieldname( OptFieldID field_id ) const
-{
-    for( size_t i = 0 ; i < m_data.size() ; i++ ) {
-        string fn = m_data[i].base->get_opt_fieldname( field_id );
-        if( !fn.empty() ) {
-            return fn; // Found it.
-        }
-    }
-    return "";
+    return Base::get_fieldname( index );
 }
 
 Field Hybrid::get_jdn( const Field* fields ) const
@@ -372,7 +332,7 @@ void Hybrid::resolve_opt_input( Field* fields, size_t index ) const
 
 FieldVec Hybrid::get_xref( const Field* fields, Field sch ) const
 {
-    FieldVec result( m_ext_size, f_invalid );
+    FieldVec result( m_rec_size, f_invalid );
     if( sch >= (Field) m_xref_fields.size() || sch < 0 ) {
         return result;
     }
@@ -381,7 +341,7 @@ FieldVec Hybrid::get_xref( const Field* fields, Field sch ) const
     result[0] = sch;
     for( size_t i = 0 ; i < xref.size() ; i++ ) {
         int x = xref[i];
-        if( x < 0 || x+1 >= (int) m_ext_size ) {
+        if( x < 0 || x+1 >= (int) m_rec_size ) {
             continue;
         }
         result[x+1] = fields[i+1];

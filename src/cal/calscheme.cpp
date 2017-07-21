@@ -308,10 +308,9 @@ Base* Scheme::create_base_shift( Base* sbase, Field epoch )
 
 Base* Scheme::create_base_hybrid( 
     const StringVec& fieldnames,
-    const StringVec& ext_fieldnames,
     const vector<HybridData>& data )
 {
-    Base* base = new Hybrid( fieldnames, ext_fieldnames, data );
+    Base* base = new Hybrid( fieldnames, data );
     if( base->is_ok() ) {
         return base;
     }

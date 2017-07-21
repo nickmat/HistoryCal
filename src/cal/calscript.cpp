@@ -541,7 +541,7 @@ Base* Script::do_base_hybrid()
         error( "'{' expected." );
         return NULL;
     }
-    StringVec fieldnames, ext_fieldnames;
+    StringVec fieldnames;
     HybridData data;
     data.start = f_minimum;
     vector<HybridData> data_vec;
@@ -558,8 +558,6 @@ Base* Script::do_base_hybrid()
         if( token.type() == SToken::STT_Name ) {
             if( token.get_str() == "fields" ) {
                 fieldnames = get_string_list( true );
-            } else if( token.get_str() == "extended" ) {
-                ext_fieldnames = get_string_list( true );
             } else if( token.get_str() == "scheme" ) {
                 string scode = get_name_or_primary( true );
                 Scheme* sch;
@@ -586,10 +584,12 @@ Base* Script::do_base_hybrid()
                 if ( !expr( true ).get( data.start ) ) {
                     error( "Change start must be Field." );
                 }
+            } else {
+                error( "Unrecognised statement." );
             }
         }
     }
-    return Scheme::create_base_hybrid( fieldnames, ext_fieldnames, data_vec );
+    return Scheme::create_base_hybrid( fieldnames, data_vec );
 }
 
 Base* Script::do_base_regnal()
@@ -638,7 +638,7 @@ bool Script::do_regnal_era( RegnalEra& era, StringVec& fieldnames )
     SToken token = m_ts.next();
     if( token.type() != SToken::STT_LCbracket ) {
         error( "'{' expected." );
-        return NULL;
+        return false;
     }
     Range range( f_minimum, f_maximum );
     StringVec matchs;
@@ -674,7 +674,10 @@ bool Script::do_regnal_era( RegnalEra& era, StringVec& fieldnames )
             }
         }
     }
-    assert( sch != NULL );
+    if ( sch == NULL ) {
+        error( "Unable to create scheme." );
+        return false;
+    }
     era.begin = range.jdn1;
     era.end = range.jdn2;
     era.base = sch->get_base();

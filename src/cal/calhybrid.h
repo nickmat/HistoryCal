@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     23rd September 2013
- * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -47,16 +47,14 @@ namespace Cal {
     class Hybrid : public Base
     {
     public:
-        Hybrid( const StringVec& fields, const StringVec& ext_fields, const std::vector<HybridData>& data );
+        Hybrid( const StringVec& fields, const std::vector<HybridData>& data );
         ~Hybrid();
 
         virtual bool is_ok() const;
-        virtual size_t record_size() const { return m_ext_size; }
+        virtual size_t record_size() const { return m_rec_size; }
 
         virtual int get_fieldname_index( const std::string& fieldname ) const;
         virtual std::string get_fieldname( size_t index ) const;
-        virtual OptFieldID get_opt_field_id( const std::string& fieldname ) const;
-        virtual std::string get_opt_fieldname( OptFieldID field_id ) const;
 
         virtual Field get_jdn( const Field* fields ) const;
 
@@ -91,10 +89,8 @@ namespace Cal {
         // It would be better to add this to the m_data struct's
         std::vector<XRefVec>    m_xref_fields;
         StringVec               m_fieldnames;
-        StringVec               m_ext_fieldnames;
         // Note: m_rec_size == m_fieldnames.size() + 1
         size_t                  m_rec_size;
-        size_t                  m_ext_size;
     };
 
 }

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     29th March 2014
- * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -66,13 +66,13 @@ void Soak_eng::setUp()
         "scheme \"eng\" {name \"English Hybrid\";"
         " hybrid {"
         "  fields \"year\", \"month\", \"day\";"
-        "  extended \"unshift\";"
         "  scheme \"ja\";"
         "  change 2360975;"
         "  scheme \"j\";"
         "  change 2361222;"
         "  scheme \"g\";"
         " }"
+        " optional \"unshift\";"
         "}"
     );
     m_sid = m_cal->get_scheme( "eng" );
