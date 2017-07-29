@@ -238,9 +238,6 @@ bool Julian::set_fields_as_next_optional( Field* fields, Field jdn, const Field*
                     Field year = fields[YMD_year];
                     Field njdn = liturgical_get_jdn( this, year, litweek );
                     if( njdn > jdn ) {
-                        njdn = liturgical_get_jdn( this, year-1, litweek );
-                    }
-                    if( njdn > jdn ) {
                         Record rec(this,njdn);
                         copy_fields( fields, rec.get_field_ptr() );
                         return true;
@@ -271,9 +268,6 @@ bool Julian::set_fields_as_prev_optional( Field* fields, Field jdn, const Field*
                 if( litweek != current ) {
                     Field year = fields[YMD_year];
                     Field pjdn = liturgical_get_jdn( this, year, litweek ) + 6;
-                    if( pjdn < jdn ) {
-                        pjdn = liturgical_get_jdn( this, year+1, litweek ) + 6;
-                    }
                     if( pjdn < jdn ) {
                         Record rec(this,pjdn);
                         copy_fields( fields, rec.get_field_ptr() );
