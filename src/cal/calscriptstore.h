@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     17th May 2014
- * Copyright:   Copyright (c) 2014 - 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -47,15 +47,15 @@ namespace Cal {
         void set_ischeme( Scheme* sch ) { m_ischeme = sch; }
         void set_oscheme( Scheme* sch ) { m_oscheme = sch; }
 
-        Scheme* get_ischeme() { return m_ischeme; }
-        Scheme* get_oscheme() { return m_oscheme; }
-        ScriptStore* get_prev() { return m_prev; }
+        Scheme* get_ischeme() const { return m_ischeme; }
+        Scheme* get_oscheme() const { return m_oscheme; }
+        ScriptStore* get_prev() const { return m_prev; }
 
-        bool exists( const std::string& name ) { return m_table.count( name ) == 1; }
-        void set( const std::string& name, SValue& value){ m_table[name] = value; }
-        bool get( SValue* value, const std::string& name ) {
+        bool exists( const std::string& name ) const { return m_table.count( name ) == 1; }
+        void set( const std::string& name, const SValue& value) { m_table[name] = value; }
+        bool get( SValue* value, const std::string& name ) const {
             if ( exists( name ) ) {
-                *value = m_table[name];
+                *value = m_table.at( name );
                 return true;
             }
             return false;
