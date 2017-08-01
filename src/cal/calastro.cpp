@@ -179,7 +179,7 @@ double Cal::equation_of_time( double moment )
         - 0.5 * y * y * sin_d( 4 * lambda )
         - 1.25 * eccentricity * eccentricity * sin_d( 2 * anomaly ) )
     ;
-    return cal_signum( equation ) * std::min( abs( equation ), 0.5 );
+    return cal_signum( equation ) * std::min( fabs( equation ), 0.5 );
 }
 
 // CC3 p189
