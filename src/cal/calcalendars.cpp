@@ -329,7 +329,10 @@ RangeList Calendars::expr_str_to_rangelist( SHandle scheme, const string& str )
 
 string Calendars::rangelist_to_str( SHandle scheme, const RangeList& ranges, const string& fcode )
 {
-    return scheme->rangelist_to_str( ranges, fcode );
+    if ( scheme ) {
+        return scheme->rangelist_to_str( ranges, fcode );
+    }
+    return "";
 }
 
 Field Calendars::add_to_jdn( SHandle scheme, Field jdn, Field value, Unit unit, Norm norm )
@@ -474,7 +477,7 @@ Function* Cal::Calendars::get_function( const std::string & code ) const
     if ( m_functions.count( code ) > 0 ) {
         return m_functions.find( code )->second;
     }
-    return nullptr;
+    return NULL;
 }
 
 void Calendars::add_or_replace_mark( const string& name )
