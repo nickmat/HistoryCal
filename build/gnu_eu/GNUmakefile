@@ -63,7 +63,7 @@ WX_VERSION_MINOR = $(shell echo $(WX_VERSION) | cut -c2,2)
 WX_CONFIG_FLAGS = $(WX_CONFIG_UNICODE_FLAG) $(WX_CONFIG_SHARED_FLAG) \
 	--toolkit=$(WX_PORT) --version=$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR)
 HCAL_CXXFLAGS = $(VAR) $(VAR_3) -I../../include -I../../src `$(WX_CONFIG) \
-	--cxxflags $(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
+	--cxxflags $(WX_CONFIG_FLAGS)` -std=c++11 $(CPPFLAGS) $(CXXFLAGS)
 HCAL_OBJECTS =  \
 	hcal_hcapp.o \
 	hcal_hcfbformatdlg.o \
@@ -73,15 +73,16 @@ HCAL_OBJECTS =  \
 	hcal_hcnewformatdlg.o \
 	hcal_hcversion.o \
 	hcal_dummy.o
-HCS_CXXFLAGS =  $(VAR) $(VAR_3) -I../../include  $(CPPFLAGS) $(CXXFLAGS)
+HCS_CXXFLAGS = $(VAR) $(VAR_3) -I../../include -std=c++11 $(CPPFLAGS) $(CXXFLAGS)
 HCS_OBJECTS =  \
 	hcs_hcs.o
-HCTEST_CXXFLAGS =  $(VAR) $(VAR_3) -I../../include  $(CPPFLAGS) $(CXXFLAGS)
+HCTEST_CXXFLAGS = $(VAR) $(VAR_3) -I../../include -std=c++11 $(CPPFLAGS) \
+	$(CXXFLAGS)
 HCTEST_OBJECTS =  \
 	hctest_hctest.o \
 	hctest_hcsgetfns.o
 CAL_CXXFLAGS = $(VAR) $(VAR_3) -DMAKINGLIB_CAL -I../../include -fPIC -DPIC \
-	$(CPPFLAGS) $(CXXFLAGS)
+	-std=c++11 $(CPPFLAGS) $(CXXFLAGS)
 CAL_OBJECTS =  \
 	cal_calastro.o \
 	cal_calbase.o \
@@ -123,7 +124,7 @@ CAL_OBJECTS =  \
 UTF8API_CFLAGS = $(VAR) $(VAR_3) -DMAKINGLIB_UTF8API -I../../include -fPIC -DPIC \
 	$(CPPFLAGS) $(CFLAGS)
 UTF8API_CXXFLAGS = $(VAR) $(VAR_3) -DMAKINGLIB_UTF8API -I../../include -fPIC \
-	-DPIC $(CPPFLAGS) $(CXXFLAGS)
+	-DPIC -std=c++11 $(CPPFLAGS) $(CXXFLAGS)
 UTF8API_OBJECTS =  \
 	utf8api_utf8proc.o \
 	utf8api_utf8api.o

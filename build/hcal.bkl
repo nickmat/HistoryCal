@@ -54,6 +54,10 @@
   <exe id="hcal" template="wxgui,wxlike">
     <app-type>gui</app-type>
     <runtime-libs>dynamic</runtime-libs>
+    <if cond="FORMAT=='gnu'">
+      <cxxflags>-std=c++11</cxxflags>
+    </if>
+    
 
     <sources>$(LOCAL_SRC)/hcal/hcapp.cpp</sources>
     <sources>$(LOCAL_SRC)/hcal/hcfbformatdlg.cpp</sources>
@@ -93,6 +97,9 @@
   <exe id="hcs" template="wxlike">
     <app-type>console</app-type>
     <runtime-libs>dynamic</runtime-libs>
+    <if cond="FORMAT=='gnu'">
+      <cxxflags>-std=c++11</cxxflags>
+    </if>
 
     <sources>$(LOCAL_SRC)/hcs/hcs.cpp</sources>
 
@@ -104,6 +111,9 @@
   <exe id="hctest" template="wxlike">
     <app-type>console</app-type>
     <runtime-libs>dynamic</runtime-libs>
+    <if cond="FORMAT=='gnu'">
+      <cxxflags>-std=c++11</cxxflags>
+    </if>
 
     <sources>$(LOCAL_TST)/hctest/hctest.cpp</sources>
     <sources>$(LOCAL_TST)/hctest/hcsgetfns.cpp</sources>
@@ -121,6 +131,9 @@
   <exe id="unit" template="wxlike">
     <app-type>console</app-type>
     <runtime-libs>dynamic</runtime-libs>
+    <if cond="FORMAT=='gnu'">
+      <cxxflags>-std=c++11</cxxflags>
+    </if>
 
     <sources>$(LOCAL_TST)/unit/def_eng.cpp</sources>
     <sources>$(LOCAL_TST)/unit/def_er.cpp</sources>
@@ -168,6 +181,9 @@
   <exe id="soak" template="wxlike">
     <app-type>console</app-type>
     <runtime-libs>dynamic</runtime-libs>
+    <if cond="FORMAT=='gnu'">
+      <cxxflags>-std=c++11</cxxflags>
+    </if>
 
     <sources>$(LOCAL_TST)/soak/soak_eng.cpp</sources>
     <sources>$(LOCAL_TST)/soak/soak_er.cpp</sources>
@@ -196,6 +212,9 @@
   <dll id="cal" template="wxlike">
     <dllname>cal</dllname>
     <libname>cal</libname>
+    <if cond="FORMAT=='gnu'">
+      <cxxflags>-std=c++11</cxxflags>
+    </if>
 
     <define>MAKINGLIB_CAL</define>
 
@@ -287,6 +306,9 @@
   <dll id="utf8api" template="wxlike">
     <dllname>utf8api</dllname>
     <libname>utf8api</libname>
+    <if cond="FORMAT=='gnu'">
+      <cxxflags>-std=c++11</cxxflags>
+    </if>
 
     <define>MAKINGLIB_UTF8API</define>
 
