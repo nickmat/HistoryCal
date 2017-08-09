@@ -43,20 +43,20 @@ namespace Cal {
         Shift( Base* base, Field era );
         ~Shift();
 
-        virtual bool is_ok() const { return m_ok; }
+        bool is_ok() const override { return m_ok; }
 
-        virtual size_t record_size() const { return m_base->record_size(); }
+        size_t record_size() const override { return m_base->record_size(); }
 
-        virtual Field get_jdn( const Field* fields ) const;
+        Field get_jdn( const Field* fields ) const override;
 
-        virtual Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const;
+        Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const override;
 
-        virtual Field get_field_last( const Field* fields, size_t index ) const;
+        Field get_field_last( const Field* fields, size_t index ) const override;
 
-        virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) const;
-        virtual bool set_fields_as_next_first( Field* fields, const Field* mask ) const;
-        virtual bool set_fields_as_begin_last( Field* fields, const Field* mask ) const;
-        virtual bool set_fields_as_next_last( Field* fields, const Field* mask ) const;
+        bool set_fields_as_begin_first( Field* fields, const Field* mask ) const override;
+        bool set_fields_as_next_first( Field* fields, const Field* mask ) const override;
+        bool set_fields_as_begin_last( Field* fields, const Field* mask ) const override;
+        bool set_fields_as_next_last( Field* fields, const Field* mask ) const override;
 
         virtual void remove_fields_if_first( Field* fields ) const;
         virtual void remove_fields_if_last( Field* fields ) const;
@@ -65,13 +65,13 @@ namespace Cal {
         BoolVec mark_balanced_fields(
             Field* left, Field ljdn, Field* right, Field rjdn, const XRefVec& rank ) const override;
 
-        virtual void set_fields( Field* fields, Field jdn ) const;
+        void set_fields( Field* fields, Field jdn ) const override;
 
-        virtual Field unit_is_int( const Field* fields, Unit unit ) const;
-        virtual bool can_add_unit( const Field* fields, Unit unit ) const;
-        virtual double get_average_days( const Field* fields, Unit unit ) const;
-        virtual bool add_to_fields( Field* fields, Field value, Unit unit ) const;
-        virtual bool normalise( Field* fields, Norm norm ) const;
+        Field unit_is_int( const Field* fields, Unit unit ) const override;
+        bool can_add_unit( const Field* fields, Unit unit ) const override;
+        double get_average_days( const Field* fields, Unit unit ) const override;
+        bool add_to_fields( Field* fields, Field value, Unit unit ) const override;
+        bool normalise( Field* fields, Norm norm ) const override;
 
     private:
         Field get_adjustment( const Field* fields ) const;

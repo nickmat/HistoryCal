@@ -50,34 +50,34 @@ namespace Cal {
         Hybrid( const StringVec& fields, const std::vector<HybridData>& data );
         ~Hybrid();
 
-        virtual bool is_ok() const;
-        virtual size_t record_size() const { return m_rec_size; }
+        bool is_ok() const override;
+        size_t record_size() const override { return m_rec_size; }
 
-        virtual int get_fieldname_index( const std::string& fieldname ) const;
-        virtual std::string get_fieldname( size_t index ) const;
+        int get_fieldname_index( const std::string& fieldname ) const override;
+        std::string get_fieldname( size_t index ) const override;
 
-        virtual Field get_jdn( const Field* fields ) const;
+        Field get_jdn( const Field* fields ) const override;
 
-        virtual Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const;
-        virtual Field get_field_last( const Field* fields, size_t index ) const;
+        Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const override;
+        Field get_field_last( const Field* fields, size_t index ) const override;
 
-        virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) const;
-        virtual bool set_fields_as_next_first( Field* fields, const Field* mask ) const;
-        virtual bool set_fields_as_begin_last( Field* fields, const Field* mask ) const;
-        virtual bool set_fields_as_next_last( Field* fields, const Field* mask ) const;
+        bool set_fields_as_begin_first( Field* fields, const Field* mask ) const override;
+        bool set_fields_as_next_first( Field* fields, const Field* mask ) const override;
+        bool set_fields_as_begin_last( Field* fields, const Field* mask ) const override;
+        bool set_fields_as_next_last( Field* fields, const Field* mask ) const override;
 
         void remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const override;
         BoolVec mark_balanced_fields(
             Field* left, Field ljdn, Field* right, Field rjdn, const XRefVec& rank ) const override;
 
-        virtual void set_fields( Field* fields, Field jdn ) const;
+        void set_fields( Field* fields, Field jdn ) const override;
 
-        virtual bool fields_ok( const Field* fields ) const;
+        bool fields_ok( const Field* fields ) const override;
 
-        virtual void resolve_opt_input( Field* fields, size_t index ) const;
+        void resolve_opt_input( Field* fields, size_t index ) const override;
 
     protected:
-        virtual StringVec get_rank_fieldnames() const { return m_fieldnames; }
+        StringVec get_rank_fieldnames() const override { return m_fieldnames; }
 
     private:
         FieldVec get_xref( const Field* fields, Field sch ) const;

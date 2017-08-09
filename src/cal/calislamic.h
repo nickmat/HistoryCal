@@ -37,23 +37,23 @@ namespace Cal {
     public:
         Islamic( const std::string& data );
 
-        virtual void set_data( const std::string& data );
+        void set_data( const std::string& data ) override;
 
-        virtual size_t record_size() const { return 3; }
+        size_t record_size() const override { return 3; }
 
-        virtual Field get_jdn( const Field* fields ) const;
+        Field get_jdn( const Field* fields ) const override;
 
-        virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) const;
-        virtual bool set_fields_as_next_first( Field* fields, const Field* mask ) const { return false; }
-        virtual bool set_fields_as_begin_last( Field* fields, const Field* mask ) const;
-        virtual bool set_fields_as_next_last( Field* fields, const Field* mask ) const { return false; }
+        bool set_fields_as_begin_first( Field* fields, const Field* mask ) const override;
+        bool set_fields_as_next_first( Field* fields, const Field* mask ) const override { return false; }
+        bool set_fields_as_begin_last( Field* fields, const Field* mask ) const override;
+        bool set_fields_as_next_last( Field* fields, const Field* mask ) const override { return false; }
 
-        virtual void set_fields( Field* fields, Field jdn ) const;
+        void set_fields( Field* fields, Field jdn ) const override;
 
-        virtual Field get_field_last( const Field* fields, size_t index ) const;
+        Field get_field_last( const Field* fields, size_t index ) const override;
 
-        virtual double get_average_days( const Field* fields, Unit unit ) const;
-        virtual bool normalise( Field* fields, Norm norm ) const;
+        double get_average_days( const Field* fields, Unit unit ) const override;
+        bool normalise( Field* fields, Norm norm ) const override;
 
     private:
         bool is_leap_year( Field year ) const;

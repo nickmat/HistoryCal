@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     18th March 2015
- * Copyright:   Copyright (c) 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2015 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -37,22 +37,22 @@ namespace Cal {
     public:
         ShiftDay( Base* base, Field epoch ) : m_base(base), m_epoch(epoch) {}
 
-        virtual bool is_ok() const { return m_base != NULL && m_epoch != f_invalid; }
+        bool is_ok() const override { return m_base != NULL && m_epoch != f_invalid; }
 
-        virtual size_t record_size() const { return m_base->record_size(); }
-        virtual size_t extended_size() const { return m_base->extended_size(); }
+        size_t record_size() const override { return m_base->record_size(); }
+        size_t extended_size() const override { return m_base->extended_size(); }
 
-        virtual int get_fieldname_index( const std::string& fieldname ) const { return m_base->get_fieldname_index( fieldname ); }
-        virtual std::string get_fieldname( size_t index ) const { return m_base->get_fieldname( index ); }
+        int get_fieldname_index( const std::string& fieldname ) const override { return m_base->get_fieldname_index( fieldname ); }
+        std::string get_fieldname( size_t index ) const override { return m_base->get_fieldname( index ); }
 
-        virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) const { return m_base->set_fields_as_begin_first( fields, mask ); }
-        virtual bool set_fields_as_next_first( Field* fields, const Field* mask ) const { return m_base->set_fields_as_next_first( fields, mask ); }
-        virtual bool set_fields_as_begin_last( Field* fields, const Field* mask ) const { return m_base->set_fields_as_begin_last( fields, mask ); }
-        virtual bool set_fields_as_next_last( Field* fields, const Field* mask ) const { return m_base->set_fields_as_next_last( fields, mask ); }
+        bool set_fields_as_begin_first( Field* fields, const Field* mask ) const override { return m_base->set_fields_as_begin_first( fields, mask ); }
+        bool set_fields_as_next_first( Field* fields, const Field* mask ) const override { return m_base->set_fields_as_next_first( fields, mask ); }
+        bool set_fields_as_begin_last( Field* fields, const Field* mask ) const override { return m_base->set_fields_as_begin_last( fields, mask ); }
+        bool set_fields_as_next_last( Field* fields, const Field* mask ) const override { return m_base->set_fields_as_next_last( fields, mask ); }
 
-        virtual Field get_jdn( const Field* fields ) const { return fields[0] + m_epoch; }
+        Field get_jdn( const Field* fields ) const override { return fields[0] + m_epoch; }
 
-        virtual void set_fields( Field* fields, Field jdn ) const { fields[0] = jdn - m_epoch; }
+        void set_fields( Field* fields, Field jdn ) const override { fields[0] = jdn - m_epoch; }
 
     private:
         Base*  m_base;

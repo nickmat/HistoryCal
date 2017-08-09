@@ -59,29 +59,29 @@ namespace Cal {
             const std::vector<RegnalEra>& eras );
         ~Regnal();
 
-        virtual bool is_ok() const;
-        virtual size_t record_size() const { return m_ext_size; }
+        bool is_ok() const;
+        size_t record_size() const override { return m_ext_size; }
 
-        virtual Field get_jdn( const Field* fields ) const;
+        Field get_jdn( const Field* fields ) const override;
 
         // Give the chance to set a field to a fixed value.
-        virtual void set_fixed_fields( Field* fields ) const;
+        void set_fixed_fields( Field* fields ) const override;
 
-        virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) const;
-        virtual bool set_fields_as_next_first( Field* fields, const Field* mask ) const;
-        virtual bool set_fields_as_begin_last( Field* fields, const Field* mask ) const;
-        virtual bool set_fields_as_next_last( Field* fields, const Field* mask ) const;
+        bool set_fields_as_begin_first( Field* fields, const Field* mask ) const override;
+        bool set_fields_as_next_first( Field* fields, const Field* mask ) const override;
+        bool set_fields_as_begin_last( Field* fields, const Field* mask ) const override;
+        bool set_fields_as_next_last( Field* fields, const Field* mask ) const override;
 
-        virtual void remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const;
+        void remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const override;
         BoolVec mark_balanced_fields(
             Field* left, Field ljdn, Field* right, Field rjdn, const XRefVec& rank ) const override;
 
-        virtual void set_fields( Field* fields, Field jdn ) const;
+        void set_fields( Field* fields, Field jdn ) const override;
 
-        virtual bool is_tier1( const std::string& fieldname, const FormatText* fmt ) const;
+        bool is_tier1( const std::string& fieldname, const FormatText* fmt ) const override;
     protected:
-        virtual int get_std_fieldname_index( const std::string& fieldname ) const;
-        virtual std::string get_std_fieldname( size_t index ) const;
+        int get_std_fieldname_index( const std::string& fieldname ) const override;
+        std::string get_std_fieldname( size_t index ) const override;
 
     private:
         // Return the era index coresponding to given jdn.

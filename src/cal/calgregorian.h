@@ -38,14 +38,14 @@ namespace Cal {
         Gregorian() {}
         Gregorian( const std::string& data ) : Julian( data ) {}
 
-        virtual Field get_jdn( const Field* fields ) const;
+        Field get_jdn( const Field* fields ) const override;
 
-        virtual void set_fields( Field* fields, Field jdn ) const;
+        void set_fields( Field* fields, Field jdn ) const override;
 
-        virtual double get_average_days( const Field* fields, Unit unit ) const;
+        double get_average_days( const Field* fields, Unit unit ) const override;
 
-        virtual Field jdn( Field year, Field month, Field day ) const;
-        virtual Field easter( Field year ) const;
+        Field jdn( Field year, Field month, Field day ) const override;
+        Field easter( Field year ) const override;
 
 
         static Field to_jdn( Field year, Field month, Field day );
@@ -55,8 +55,7 @@ namespace Cal {
         static Field today();
 
     protected:
-        virtual bool is_leap_year( Field year ) const { return leap_year( year ); }
-        Field last_day_in_month( Field year, Field month ) const;
+        bool is_leap_year( Field year ) const override { return leap_year( year ); }
     };
 
 }

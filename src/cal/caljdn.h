@@ -38,20 +38,20 @@ namespace Cal {
         Jdn() {}
         Jdn( const std::string& data ) : Base( data ) {}
 
-        virtual size_t record_size() const { return 1; }
+        size_t record_size() const override { return 1; }
 
-        virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) const;
-        virtual bool set_fields_as_next_first( Field* fields, const Field* mask ) const;
-        virtual bool set_fields_as_begin_last( Field* fields, const Field* mask ) const;
-        virtual bool set_fields_as_next_last( Field* fields, const Field* mask ) const;
+        bool set_fields_as_begin_first( Field* fields, const Field* mask ) const override;
+        bool set_fields_as_next_first( Field* fields, const Field* mask ) const override;
+        bool set_fields_as_begin_last( Field* fields, const Field* mask ) const override;
+        bool set_fields_as_next_last( Field* fields, const Field* mask ) const override;
 
-        virtual Field get_jdn( const Field* fields ) const { return fields[0]; }
+        Field get_jdn( const Field* fields ) const override { return fields[0]; }
 
-        virtual void set_fields( Field* fields, Field jdn ) const { fields[0] = jdn; }
+        void set_fields( Field* fields, Field jdn ) const override { fields[0] = jdn; }
 
     protected:
-        virtual int get_std_fieldname_index( const std::string& fieldname ) const;
-        virtual std::string get_std_fieldname( size_t index ) const;
+        int get_std_fieldname_index( const std::string& fieldname ) const override;
+        std::string get_std_fieldname( size_t index ) const override;
     };
 
 }

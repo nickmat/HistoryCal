@@ -38,31 +38,31 @@ namespace Cal {
         Chinese() {}
         Chinese( const std::string& data ) : Base( data ) {}
 
-        virtual size_t record_size() const { return 5; }
+        size_t record_size() const override { return 5; }
 
-        virtual OptFieldID get_opt_field_id( const std::string& fieldname ) const;
-        virtual std::string get_opt_fieldname( OptFieldID field_id ) const;
+        OptFieldID get_opt_field_id( const std::string& fieldname ) const override;
+        std::string get_opt_fieldname( OptFieldID field_id ) const override;
 
-        virtual Field get_jdn( const Field* fields ) const;
+        Field get_jdn( const Field* fields ) const override;
 
-        virtual Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const;
+        Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const override;
 
-        virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) const;
-        virtual bool set_fields_as_next_first( Field* fields, const Field* mask ) const { return false; }
-        virtual bool set_fields_as_begin_last( Field* fields, const Field* mask ) const;
-        virtual bool set_fields_as_next_last( Field* fields, const Field* mask ) const { return false; }
+        bool set_fields_as_begin_first( Field* fields, const Field* mask ) const override;
+        bool set_fields_as_next_first( Field* fields, const Field* mask ) const override { return false; }
+        bool set_fields_as_begin_last( Field* fields, const Field* mask ) const override;
+        bool set_fields_as_next_last( Field* fields, const Field* mask ) const override { return false; }
 
-        virtual void set_fields( Field* fields, Field jdn ) const;
+        void set_fields( Field* fields, Field jdn ) const override;
 
-        virtual Field get_field_first( const Field* fields, size_t index ) const;
-        virtual Field get_field_last( const Field* fields, size_t index ) const;
+        Field get_field_first( const Field* fields, size_t index ) const override;
+        Field get_field_last( const Field* fields, size_t index ) const override;
 
-        virtual bool add_to_fields( Field* fields, Field value, Unit unit ) const { return false; }
-        virtual bool normalise( Field* fields, Norm norm ) const { return false; }
+        bool add_to_fields( Field* fields, Field value, Unit unit ) const override { return false; }
+        bool normalise( Field* fields, Norm norm ) const override { return false; }
 
     protected:
-        virtual int get_std_fieldname_index( const std::string& fieldname ) const;
-        virtual std::string get_std_fieldname( size_t index ) const;
+        virtual int get_std_fieldname_index( const std::string& fieldname ) const override;
+        virtual std::string get_std_fieldname( size_t index ) const override;
 
     private:
         Field get_year( const Field* fields ) const;

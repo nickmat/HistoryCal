@@ -38,32 +38,32 @@ namespace Cal {
         Julian() {}
         Julian( const std::string& data ) : Base( data ) {}
 
-        virtual size_t record_size() const { return 3; }
+        size_t record_size() const override { return 3; }
 
-        virtual OptFieldID get_opt_field_id( const std::string& fieldname ) const;
-        virtual std::string get_opt_fieldname( OptFieldID field_id ) const;
+        OptFieldID get_opt_field_id( const std::string& fieldname ) const override;
+        std::string get_opt_fieldname( OptFieldID field_id ) const override;
 
-        virtual Field get_jdn( const Field* fields ) const;
+        Field get_jdn( const Field* fields ) const override;
 
-        virtual Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const;
+        Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const override;
 
-        virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) const;
-        virtual bool set_fields_as_next_first( Field* fields, const Field* mask ) const;
-        virtual bool set_fields_as_begin_last( Field* fields, const Field* mask ) const;
-        virtual bool set_fields_as_next_last( Field* fields, const Field* mask ) const;
+        bool set_fields_as_begin_first( Field* fields, const Field* mask ) const override;
+        bool set_fields_as_next_first( Field* fields, const Field* mask ) const override;
+        bool set_fields_as_begin_last( Field* fields, const Field* mask ) const override;
+        bool set_fields_as_next_last( Field* fields, const Field* mask ) const override;
 
-        virtual bool set_fields_as_next_optional( Field* fields, Field jdn, const Field* mask, size_t index ) const;
-        virtual bool set_fields_as_prev_optional( Field* fields, Field jdn, const Field* mask, size_t index ) const;
+        bool set_fields_as_next_optional( Field* fields, Field jdn, const Field* mask, size_t index ) const override;
+        bool set_fields_as_prev_optional( Field* fields, Field jdn, const Field* mask, size_t index ) const override;
 
-        virtual void set_fields( Field* fields, Field jdn ) const;
+        void set_fields( Field* fields, Field jdn ) const override;
 
-        virtual Field get_field_last( const Field* fields, size_t index ) const;
+        Field get_field_last( const Field* fields, size_t index ) const override;
 
-        virtual double get_average_days( const Field* fields, Unit unit ) const;
-        virtual bool add_to_fields( Field* fields, Field value, Unit unit ) const;
-        virtual bool normalise( Field* fields, Norm norm ) const;
+        double get_average_days( const Field* fields, Unit unit ) const override;
+        bool add_to_fields( Field* fields, Field value, Unit unit ) const override;
+        bool normalise( Field* fields, Norm norm ) const override;
 
-        virtual void resolve_opt_input( Field* fields, size_t index ) const;
+        void resolve_opt_input( Field* fields, size_t index ) const override;
 
         // Virtual members shared with Gregorian class.
         virtual Field jdn( Field year, Field month, Field day ) const;
