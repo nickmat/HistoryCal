@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     28th March 2014
- * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -187,6 +187,48 @@ void Regnal::remove_balanced_fields( Field* left, Field ljdn, Field* right, Fiel
     lrec.remove_balanced_fields( &rrec );
     make_regnal_fields( left, e, lrec );
     make_regnal_fields( right, e, rrec );
+}
+
+BoolVec Cal::Regnal::mark_balanced_fields(
+    Field* left, Field ljdn, Field* right, Field rjdn, const XRefVec& rank ) const
+{
+    BoolVec mask( extended_size(), true );
+
+
+    for ( size_t i = m_eras.size() - 1; i > 0; --i ) {
+
+
+        if ( ljdn > m_eras[i].begin ) {
+            break;
+        }
+        if ( ljdn == m_eras[i].begin && rjdn == m_eras[i].end ) {
+            left[0] = right[0] = i;
+            for ( size_t k = 1; k < m_rec_size; k++ ) {
+                mask[k] = false;
+            }
+            return mask;
+        }
+    }
+    if ( left[0] != right[0] || left[0] == f_invalid ) {
+        return mask;
+    }
+    size_t e = left[0];
+    Base* base = m_eras[e].base;
+    Record lrec( base, ljdn );
+    Record rrec( base, rjdn );
+
+    XRefVec rank1( rank.size() - 1 );
+    for ( size_t i = 0, j = 0; i < rank.size(); i++ ) {
+        if ( rank[i] == 0 ) {
+            continue;
+        }
+        rank1[j++] = rank[i] - 1;
+    }
+
+    assert( base->record_size() >= rank1.size() );
+    BoolVec m = lrec.mark_balanced_fields( rrec, rank1 ); // remove rank[] 0 & decrease others
+    m.insert( m.begin(), true );
+    return m;
 }
 
 void Regnal::set_fields( Field* fields, Field jdn ) const

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     28th March 2014
- * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -73,6 +73,8 @@ namespace Cal {
         virtual bool set_fields_as_next_last( Field* fields, const Field* mask ) const;
 
         virtual void remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const;
+        BoolVec mark_balanced_fields(
+            Field* left, Field ljdn, Field* right, Field rjdn, const XRefVec& rank ) const override;
 
         virtual void set_fields( Field* fields, Field jdn ) const;
 

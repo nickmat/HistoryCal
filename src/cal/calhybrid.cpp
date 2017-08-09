@@ -303,6 +303,55 @@ void Hybrid::remove_balanced_fields( Field* left, Field ljdn, Field* right, Fiel
     }
 }
 
+BoolVec Hybrid::mark_balanced_fields(
+    Field* left, Field ljdn, Field* right, Field rjdn, const XRefVec& rank ) const
+{
+    size_t test = extended_size();
+    XRefVec rank1( rank.size() - 1 );
+    for ( size_t i = 0, j = 0; i < rank.size(); i++ ) {
+        if ( rank[i] == 0 ) {
+            continue;
+        }
+        rank1[j++] = rank[i] - 1;
+    }
+
+    Base* lbase = m_data[left[0]].base;
+    if ( left[0] == right[0] ) {
+        BoolVec m = lbase->mark_balanced_fields( &left[1], ljdn, &right[1], ljdn, rank1 );
+        m.insert( m.begin(), true );
+        return m;
+    }
+
+    BoolVec mask( extended_size(), true );
+    Base* rbase = m_data[right[0]].base;
+    size_t size = lbase->record_size();
+    if ( size != rbase->record_size() ) {
+        return mask;
+    }
+
+    FieldVec ls = get_xref( &left[0], left[0] );
+    FieldVec rs = get_xref( &right[0], right[0] );
+    size_t i;
+    for ( i = size; i > 1; --i ) {
+        if ( ls[i] == f_invalid || rs[i] == f_invalid ) {
+            return mask; // Must be fully qualified
+        }
+        Field l = lbase->get_field_first( &ls[1], i - 1 );
+        Field r = f_invalid;
+        if ( l == ls[i] ) {
+            r = rbase->get_field_last( &rs[1], i - 1 );
+        }
+        if ( r != rs[i] ) {
+            break;
+        }
+    }
+
+    for ( i++; i < size + 1; i++ ) {
+        mask[i] = false;
+    }
+    return mask;
+}
+
 void Hybrid::set_fields( Field* fields, Field jdn ) const
 {
     Field sch = find_scheme( jdn );

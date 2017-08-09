@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st March 2016
- * Copyright:   Copyright (c) 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2016 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -44,6 +44,106 @@ using std::string;
 FormatText::FormatText( const std::string& code, Grammar* gmr )
 : Format( code, gmr ), m_separators(":,")
 {
+}
+
+std::string FormatText::range_to_string( Base* base, Range range ) const
+{
+    if ( range.jdn1 == range.jdn2 ) {
+        return jdn_to_string( base, range.jdn1 );
+    }
+    string str1, str2;
+    Record rec1( base, range.jdn1 );
+    Record rec2( base, range.jdn2 );
+
+    StringVec ranknames = get_rank_fieldnames();
+    size_t rank_size = ranknames.empty() ? base->record_size() : ranknames.size();
+    XRefVec xref( rank_size );
+    if ( ranknames.empty() ) {
+        for ( size_t i = 0; i < rank_size; i++ ) {
+            xref[i] = i;
+        }
+    } else {
+        for ( size_t i = 0; i < rank_size; i++ ) {
+            xref[i] = base->get_fieldname_index( ranknames[i] );
+        }
+    }
+
+    BoolVec mask = rec1.mark_balanced_fields( rec2, xref );
+    str1 = get_output( rec1, mask );
+    str2 = get_output( rec2, mask );
+    if ( str1 == str2 ) {
+        return str1;
+    }
+    return str1 + " ~ " + str2;
+}
+
+string FormatText::get_output( const Record& record, const BoolVec& mask ) const
+{
+    string output, fieldout, fname, dname, vocab, abbrev, value;
+    enum State { ignore, dooutput, dofname, dodname, dovocab, doabbrev };
+    State state = dooutput;
+    for ( string::const_iterator it = m_control.begin(); it != m_control.end(); it++ ) {
+        switch ( state )
+        {
+        case ignore:
+            if ( *it == '|' ) {
+                state = dooutput;
+            }
+            break;
+        case dooutput:
+            if ( *it == '|' ) {
+                output += fieldout;
+                fieldout.clear();
+            } else if ( *it == '(' ) {
+                state = dofname;
+            } else {
+                fieldout += *it;
+            }
+            break;
+        case dofname:
+        case dodname:
+        case dovocab:
+        case doabbrev:
+            if ( *it == ')' ) {
+                Field f = get_field( record, fname, mask );
+                if ( dname.size() ) {
+                    Field d = get_field( record, dname, mask );
+                    value = dual_fields_to_str( f, d );
+                } else {
+                    value = formatted_str( f, vocab, abbrev );
+                }
+                if ( value.empty() ) {
+                    fieldout.clear();
+                    state = ignore;
+                } else {
+                    fieldout += value;
+                    state = dooutput;
+                }
+                fname.clear();
+                dname.clear();
+                vocab.clear();
+                abbrev.clear();
+            } else if ( state == dofname && *it == ':' ) {
+                state = dovocab;
+            } else if ( state == dofname && *it == '/' ) {
+                state = dodname;
+            } else if ( state == dovocab && *it == '.' ) {
+                state = doabbrev;
+            } else {
+                if ( state == dofname ) {
+                    fname += *it;
+                } else if ( state == dodname ) {
+                    dname += *it;
+                } else if ( state == dovocab ) {
+                    vocab += *it;
+                } else { // doabbrev
+                    abbrev += *it;
+                }
+            }
+            break;
+        }
+    }
+    return output + fieldout;
 }
 
 string FormatText::get_output( const Record& record ) const
@@ -413,11 +513,22 @@ FormatText::CP_Group FormatText::get_cp_group(
     return GRP_Other;
 }
 
+Field Cal::FormatText::get_field(
+    const Record& record, const std::string& fname, const BoolVec& mask ) const
+{
+    string fn = get_owner()->get_field_alias( fname );
+    int index = record.get_base()->get_fieldname_index( fn );
+    if ( index >= 0 ) {
+        return record.get_field( index, mask );
+    }
+    return f_invalid;
+}
+
 Field FormatText::get_field( const Record& record, const std::string& fname ) const
 {
     string fn = get_owner()->get_field_alias( fname );
     int index = record.get_base()->get_fieldname_index( fn );
-    return record.get_field( index );
+    return record.get_field( index, Record::GF_split );
 }
 
 string FormatText::formatted_str( 

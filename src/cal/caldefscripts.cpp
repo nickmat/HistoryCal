@@ -418,7 +418,7 @@ Cal::ScriptModule Cal::cal_default_scripts[] = {
  "}\n"
  "grammar jce {\n"
  "optional wday, ce, ceyear;\n"
- "rank ce, ceyear, month, day, wday;\n"
+ "rank ce, ceyear, month, day;\n"
  "vocabs m, w, jce;\n"
  "alias field {\n"
  "WDay,  wday;\n"

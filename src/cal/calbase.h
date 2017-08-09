@@ -108,6 +108,7 @@ namespace Cal {
 
         // Get an optional field value.
         virtual Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const;
+        virtual Field get_opt_field( const Field* fields, Field jdn, OptFieldID id, const BoolVec& mask ) const;
 
         // Give the chance to set a field to a fixed value.
         virtual void set_fixed_fields( Field* fields ) const {}
@@ -124,11 +125,23 @@ namespace Cal {
         // If calulated date is different, update the fields to match and return true, otherwise return false.
         virtual bool set_fields_as_prev_optional( Field* fields, Field jdn, const Field* mask, size_t index ) const;
 
+        // to be removed
         virtual void remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const;
+        // to be removed
         virtual void remove_boundary_fields( Field* left, Field* right ) const;
 
+        virtual BoolVec mark_balanced_fields(
+            Field* left, Field ljdn, Field* right, Field rjdn, const XRefVec& rank ) const;
+        virtual BoolVec mark_boundary_fields(
+            Field* left, Field ljdn, Field* right, Field rjdn, const XRefVec& rank ) const;
+
+        Field get_field( const Field* fields, Field jdn, size_t index ) const;
+        Field get_field_first( const Field* fields, Field jdn, size_t index ) const;
+        Field get_field_last( const Field* fields, Field jdn, size_t index ) const;
         virtual Field get_field_first( const Field* fields, size_t index ) const;
         virtual Field get_field_last( const Field* fields, size_t index ) const;
+        virtual Field get_opt_field_first( const Field* fields, Field jdn, OptFieldID id ) const;
+        virtual Field get_opt_field_last( const Field* fields, Field jdn, OptFieldID id ) const;
 
         // Converts the given jdn into the Records' Fields.
         virtual void set_fields( Field* fields, Field jdn ) const = 0;

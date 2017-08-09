@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     8th December 2014
- * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -163,6 +163,37 @@ Field French::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) con
     default:
         return Base::get_opt_field( fields, jdn, id );
     }
+}
+
+Field Cal::French::get_opt_field(
+    const Field* fields, Field jdn, OptFieldID id, const BoolVec& mask ) const
+{
+    switch ( id )
+    {
+    case OFID_fr_dday:
+        if ( fields[1] != 13 && mask[2] ) {
+            return ( ( fields[2] - 1 ) % 10 ) + 1;
+        }
+        break;
+    case OFID_fr_cday:
+        if ( fields[1] == 13 && mask[2] ) {
+            return fields[2];
+        }
+        break;
+    case OFID_fr_nmonth:
+        if ( fields[1] != 13 && mask[1] ) {
+            return fields[1];
+        }
+        break;
+    case OFID_fr_nmday:
+        if ( fields[1] != 13 && mask[2] ) {
+            return fields[2];
+        }
+        break;
+    default:
+        return Base::get_opt_field( fields, jdn, id, mask );
+    }
+    return f_invalid;
 }
 
 bool French::set_fields_as_begin_first( Field* fields, const Field* mask ) const

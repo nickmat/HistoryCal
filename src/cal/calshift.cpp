@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     22nd September 2013
- * Copyright:   Copyright (c) 2013 - 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 - 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -206,20 +206,38 @@ void Shift::remove_balanced_fields( Field* left, Field ljdn, Field* right, Field
 {
     // This is designed for 'year month day' calendars
     assert( record_size() >= 3 );
-    if( left[1] == m_start_era[1] && left[2] == m_start_era[2] &&
+    if ( left[1] == m_start_era[1] && left[2] == m_start_era[2] &&
         right[1] == m_before_era[1] && right[2] == m_before_era[2]
-    ) {
+        ) {
         left[1] = left[2] = right[1] = right[2] = f_invalid;
     } else {
         FieldVec l = get_vec_adjusted_to_base( left );
         FieldVec r = get_vec_adjusted_to_base( right );
         m_base->remove_balanced_fields( &l[0], ljdn, &r[0], rjdn );
-        for( size_t i = 1 ; i < record_size() ; i++ ) {
-            if( l[i] == f_invalid && r[i] == f_invalid ) {
+        for ( size_t i = 1; i < record_size(); i++ ) {
+            if ( l[i] == f_invalid && r[i] == f_invalid ) {
                 left[i] = right[i] = f_invalid;
             }
         }
     }
+}
+
+BoolVec Shift::mark_balanced_fields(
+    Field* left, Field ljdn, Field* right, Field rjdn, const XRefVec& rank ) const
+{
+    // This is designed for 'year month day' calendars
+    assert( record_size() >= 3 );
+    if ( left[1] == m_start_era[1] && left[2] == m_start_era[2] &&
+        right[1] == m_before_era[1] && right[2] == m_before_era[2]
+    ) {
+        BoolVec mask( extended_size(), true );
+        mask[1] = mask[2] = false;
+        return mask;
+    }
+    FieldVec l = get_vec_adjusted_to_base( left );
+    FieldVec r = get_vec_adjusted_to_base( right );
+    assert( r.size() >= rank.size() );
+    return m_base->mark_balanced_fields( &l[0], ljdn, &r[0], rjdn, rank );
 }
 
 void Shift::set_fields( Field* fields, Field jdn ) const

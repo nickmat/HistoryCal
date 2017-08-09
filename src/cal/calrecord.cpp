@@ -357,6 +357,19 @@ bool Record::set_range_as_next( Range* range ) const
     return ret1 && ret2;
 }
 
+BoolVec Record::mark_balanced_fields( Record& rec, const XRefVec& rank )
+{
+    BoolVec mask( m_f.size(), true );
+    // Both must have the same Base and not be identical.
+    if ( m_base != rec.m_base || m_jdn == rec.get_jdn() ) {
+        return mask;
+    }
+    if ( m_f[0] == f_minimum || rec.get_field( 0 ) == f_maximum ) {
+        return m_base->mark_boundary_fields( &m_f[0], m_jdn, rec.get_field_ptr(), rec.get_jdn(), rank );
+    }
+    return m_base->mark_balanced_fields( &m_f[0], m_jdn, rec.get_field_ptr(), rec.get_jdn(), rank );
+}
+
 void Record::remove_balanced_fields( Record* rec )
 {
     // Both must have the same Base and not be identical.
@@ -431,6 +444,50 @@ Field Record::get_field( int index ) const
         if( index < (int) m_base->extended_size() ) {
             OptFieldID id = m_base->opt_index_to_id( index );
             return m_base->get_opt_field( &m_f[0], m_jdn, id );
+        }
+    }
+    return f_invalid;
+}
+
+Field Cal::Record::get_field( int index, GetField gf ) const
+{
+    if ( index >= 0 ) {
+        if ( gf == GF_set ) {
+            return m_f[index];
+        }
+        if ( gf == GF_force ) {
+            if ( index >= int( m_base->record_size() ) ) {
+                OptFieldID id = m_base->opt_index_to_id( index );
+                return m_base->get_opt_field( &m_f[0], m_jdn, id );
+            }
+            if ( m_f[index] == f_invalid && m_jdn != f_invalid ) {
+                Record rec( m_base, m_jdn );
+                return get_field( index, GF_set );
+            }
+            return m_f[index];
+        }
+        if ( gf == GF_split ) {
+            if ( index < (int)m_base->record_size() ) {
+                return m_f[index];
+            }
+            if ( index < (int)m_base->extended_size() ) {
+                OptFieldID id = m_base->opt_index_to_id( index );
+                return m_base->get_opt_field( &m_f[0], m_jdn, id );
+            }
+        }
+    }
+    return f_invalid;
+}
+
+Field Cal::Record::get_field( int index, const BoolVec& mask ) const
+{
+    if ( index >= 0 ) {
+        if ( index < (int)m_base->record_size() ) {
+            return mask[index] ? m_f[index] : f_invalid;
+        }
+        if ( index < (int)m_base->extended_size() ) {
+            OptFieldID id = m_base->opt_index_to_id( index );
+            return m_base->get_opt_field( &m_f[0], m_jdn, id, mask );
         }
     }
     return f_invalid;

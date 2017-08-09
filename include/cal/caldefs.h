@@ -81,6 +81,7 @@ namespace Cal {
     typedef std::vector<std::string> StringVec;
     typedef std::map<std::string,std::string> StringMap;
     typedef std::vector<int> XRefVec;
+    typedef std::vector<bool> BoolVec;
 
     const Field f_invalid  = INT_MIN;      // -2147483648;
     const Field f_minimum  = -(INT_MAX-2); // -2147483645;

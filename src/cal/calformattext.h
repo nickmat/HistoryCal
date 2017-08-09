@@ -40,6 +40,8 @@ namespace Cal {
         FormatText( const std::string& code, Grammar* gmr );
 
         FormatType get_format_type() const override { return FT_text; };
+        std::string range_to_string( Base* base, Range range ) const override;
+        std::string get_output( const Record& record, const BoolVec& mask ) const;
         std::string get_output( const Record& record ) const override;
         RangeList string_to_rlist( Base* base, const std::string& input ) const override;
         bool set_input( Record* record, const std::string& input, Boundary rb ) const override;
@@ -68,8 +70,9 @@ namespace Cal {
         CP_Group get_cp_group( 
             std::string::const_iterator it,
             std::string::const_iterator end ) const;
+        Field get_field( const Record& record, const std::string& fname, const BoolVec& mask ) const;
         Field get_field( const Record& record, const std::string& fname ) const;
-        std::string formatted_str( 
+        std::string formatted_str(
             Field field, const std::string& format, const std::string& specifier ) const;
         int parse_date( InputField* ifs, size_t size, const std::string& str ) const;
 

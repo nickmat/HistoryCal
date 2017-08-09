@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -61,6 +61,7 @@ namespace Cal {
         bool set_range_as_begin( Range* range ) const;
         bool set_range_as_next( Range* range ) const;
 
+        BoolVec mark_balanced_fields( Record& record, const XRefVec& rank_xref );
         void remove_balanced_fields( Record* record );
 
         Field get_jdn() const;
@@ -79,6 +80,13 @@ namespace Cal {
         double get_average_days( Unit unit ) const;
 
         Field get_field( int index ) const;
+        enum GetField { // get_field Function switch.
+            GF_set,     // Get field value as currently set.
+            GF_force,   // Force field to provide a value.
+            GF_split    // As set for significant fields, optional ones forced.  
+        };
+        Field get_field( int index, GetField gf ) const;
+        Field get_field( int indexconst, const BoolVec& mask ) const;
         void set_field( Field value, size_t index ) { m_f[index] = value; }
 
         bool is_mask_valid( Field* mask, size_t mask_size ) const;

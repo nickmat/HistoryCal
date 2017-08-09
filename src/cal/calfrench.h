@@ -46,6 +46,7 @@ namespace Cal {
         virtual Field get_jdn( const Field* fields ) const;
 
         virtual Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const;
+        Field get_opt_field( const Field* fields, Field jdn, OptFieldID id, const BoolVec& mask ) const override;
 
         virtual bool set_fields_as_begin_first( Field* fields, const Field* mask ) const;
         virtual bool set_fields_as_next_first( Field* fields, const Field* mask ) const { return false; }

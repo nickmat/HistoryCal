@@ -181,7 +181,14 @@ Field Base::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const
     return f_invalid;
 }
 
-bool Base::set_fields_as_next_optional( Field* fields, Field jdn, const Field* mask, size_t index ) const
+Field Cal::Base::get_opt_field(
+    const Field* fields, Field jdn, OptFieldID id, const BoolVec& mask ) const
+{
+    return get_opt_field( fields, jdn, id );
+}
+
+bool Base::set_fields_as_next_optional(
+    Field* fields, Field jdn, const Field* mask, size_t index ) const
 {
     if( index >= (extended_size() - m_opt_fields.size() ) ) {
         OptFieldID id = m_opt_fields[index-record_size()];
@@ -265,6 +272,32 @@ void Base::remove_balanced_fields( Field* left, Field ljdn, Field* right, Field 
     }
 }
 
+BoolVec Base::mark_balanced_fields(
+    Field* left, Field ljdn, Field* right, Field rjdn, const XRefVec& rank ) const
+{
+    BoolVec mask( extended_size(), true );
+    for ( size_t i = rank.size() - 1; i > 0; --i ) {
+        if ( rank[i] < 0 ) {
+            break;
+        }
+        size_t j = rank[i];
+
+        Field l = get_field( left, ljdn, j);
+        Field first = get_field_first( left, ljdn, j );
+        if ( l != first ) {
+            break;
+        }
+
+        Field r = get_field( right, rjdn, j );
+        Field last = get_field_last( right, rjdn, j );
+        if ( r != last ) {
+            break;
+        }
+        mask[j] = false;
+    }
+    return mask;
+}
+
 void Base::remove_boundary_fields( Field* left, Field* right ) const
 {
     if( left[0] == f_minimum ) {
@@ -288,6 +321,79 @@ void Base::remove_boundary_fields( Field* left, Field* right ) const
     }
 }
 
+BoolVec Cal::Base::mark_boundary_fields(
+    Field* left, Field ljdn, Field* right, Field rjdn, const XRefVec& rank ) const
+{
+    BoolVec mask( extended_size(), true );
+    if ( left[0] == f_minimum ) {
+        if ( right[0] == f_maximum ) {
+            return mask;
+        }
+        for ( size_t i = rank.size() - 1; i > 0; --i ) {
+            if ( rank[i] < 0 ) {
+                break;
+            }
+            size_t j = rank[i];
+
+            Field r = get_field( right, rjdn, j );
+            Field last = get_field_last( right, rjdn, j );
+            if ( r != last ) {
+                break;
+            }
+            mask[j] = false;
+        }
+        return mask;
+    }
+    if ( right[0] == f_maximum ) {
+        for ( size_t i = rank.size() - 1; i > 0; --i ) {
+            if ( rank[i] < 0 ) {
+                break;
+            }
+            size_t j = rank[i];
+
+            Field l = get_field( left, ljdn, j );
+            Field first = get_field_first( left, ljdn, j );
+            if ( l != first ) {
+                break;
+            }
+            mask[j] = false;
+        }
+    }
+    return mask;
+}
+
+Field Cal::Base::get_field( const Field* fields, Field jdn, size_t index ) const
+{
+    if ( index < record_size() ) {
+        return fields[index];
+    }
+    if ( index < extended_size() ) {
+        OptFieldID id = m_opt_fields[index - record_size()];
+        return get_opt_field( fields, jdn, id );
+    }
+    return f_invalid;
+}
+
+Field Cal::Base::get_field_first( const Field* fields, Field jdn, size_t index ) const
+{
+    if ( index < record_size() ) {
+        return get_field_first( fields, index );
+    }
+    if ( index < extended_size() ) {
+        OptFieldID id = m_opt_fields[index - record_size()];
+        return get_opt_field_first( fields, jdn, id );
+    }
+    return f_invalid;
+}
+
+Field Cal::Base::get_field_last( const Field* fields, Field jdn, size_t index ) const
+{
+    if ( index < record_size() ) {
+        return get_field_last( fields, index );
+    }
+    return f_invalid;
+}
+
 Field Base::get_field_first( const Field* fields, size_t index ) const
 {
     return 1;
@@ -295,6 +401,22 @@ Field Base::get_field_first( const Field* fields, size_t index ) const
 
 Field Base::get_field_last( const Field* fields, size_t index ) const
 {
+    return f_invalid;
+}
+
+Field Cal::Base::get_opt_field_first( const Field* fields, Field jdn, OptFieldID id ) const
+{
+    return 1;
+}
+
+Field Cal::Base::get_opt_field_last( const Field* fields, Field jdn, OptFieldID id ) const
+{
+    switch ( id )
+    {
+    case OFID_wday:
+    case OFID_wsday:
+        return 7;
+    }
     return f_invalid;
 }
 
@@ -441,7 +563,6 @@ XRefVec Base::get_xref_order( int cnt, const FormatText* fmt ) const
     }
     return it2->second;
 }
-
 
 FieldVec Base::fields_to_vec( const Field* fields ) const
 {
