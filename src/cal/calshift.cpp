@@ -166,42 +166,6 @@ bool Shift::set_fields_as_next_last( Field* fields, const Field* mask ) const
     return true;
 }
 
-void Shift::remove_fields_if_first( Field* fields ) const
-{
-    if( fields[1] == m_start_era[1] && fields[2] == m_start_era[2] ) {
-        // year start
-        fields[1] = fields[2] = f_invalid;
-        return;
-    }
-    FieldVec fs = get_vec_adjusted_to_base( fields );
-    Field f = m_base->get_field_first( &fs[0], 2 );
-    if( fields[1] == m_start_era[1] && m_start_era[2] != f ) {
-        // don't mess with the new year month
-        return;
-    }
-    if( fields[2] == f ) {
-        fields[2] = f_invalid;
-    }
-}
-
-void Shift::remove_fields_if_last( Field* fields ) const
-{
-    if( fields[1] == m_before_era[1] && fields[2] == m_before_era[2] ) {
-        // year start
-        fields[1] = fields[2] = f_invalid;
-        return;
-    }
-    FieldVec fs = get_vec_adjusted_to_base( fields );
-    Field f = m_base->get_field_last( &fs[0], 2 );
-    if( fields[1] == m_before_era[1] && m_before_era[2] != f ) {
-        // don't mess with the new year month
-        return;
-    }
-    if( fields[2] == f ) {
-        fields[2] = f_invalid;
-    }
-}
-
 void Shift::remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const
 {
     // This is designed for 'year month day' calendars
