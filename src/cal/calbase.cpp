@@ -181,12 +181,6 @@ Field Base::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const
     return f_invalid;
 }
 
-Field Cal::Base::get_opt_field(
-    const Field* fields, Field jdn, OptFieldID id, const BoolVec& mask ) const
-{
-    return get_opt_field( fields, jdn, id );
-}
-
 bool Base::set_fields_as_next_optional(
     Field* fields, Field jdn, const Field* mask, size_t index ) const
 {

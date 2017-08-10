@@ -481,13 +481,13 @@ Field Cal::Record::get_field( int index, GetField gf ) const
 
 Field Cal::Record::get_field( int index, const BoolVec& mask ) const
 {
-    if ( index >= 0 ) {
+    if ( index >= 0 && mask[index] ) {
         if ( index < (int)m_base->record_size() ) {
-            return mask[index] ? m_f[index] : f_invalid;
+            return m_f[index];
         }
         if ( index < (int)m_base->extended_size() ) {
             OptFieldID id = m_base->opt_index_to_id( index );
-            return m_base->get_opt_field( &m_f[0], m_jdn, id, mask );
+            return m_base->get_opt_field( &m_f[0], m_jdn, id );
         }
     }
     return f_invalid;
