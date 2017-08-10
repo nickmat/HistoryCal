@@ -165,37 +165,6 @@ Field French::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) con
     }
 }
 
-Field Cal::French::get_opt_field(
-    const Field* fields, Field jdn, OptFieldID id, const BoolVec& mask ) const
-{
-    switch ( id )
-    {
-    case OFID_fr_dday:
-        if ( fields[1] != 13 && mask[2] ) {
-            return ( ( fields[2] - 1 ) % 10 ) + 1;
-        }
-        break;
-    case OFID_fr_cday:
-        if ( fields[1] == 13 && mask[2] ) {
-            return fields[2];
-        }
-        break;
-    case OFID_fr_nmonth:
-        if ( fields[1] != 13 && mask[1] ) {
-            return fields[1];
-        }
-        break;
-    case OFID_fr_nmday:
-        if ( fields[1] != 13 && mask[2] ) {
-            return fields[2];
-        }
-        break;
-    default:
-        return Base::get_opt_field( fields, jdn, id, mask );
-    }
-    return f_invalid;
-}
-
 bool French::set_fields_as_begin_first( Field* fields, const Field* mask ) const
 {
     if( mask[0] == f_invalid ) {
