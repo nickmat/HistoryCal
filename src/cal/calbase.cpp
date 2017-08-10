@@ -385,6 +385,10 @@ Field Cal::Base::get_field_last( const Field* fields, Field jdn, size_t index ) 
     if ( index < record_size() ) {
         return get_field_last( fields, index );
     }
+    if ( index < extended_size() ) {
+        OptFieldID id = m_opt_fields[index - record_size()];
+        return get_opt_field_last( fields, jdn, id );
+    }
     return f_invalid;
 }
 
