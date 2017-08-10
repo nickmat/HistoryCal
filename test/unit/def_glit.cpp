@@ -122,7 +122,7 @@ void TestDef_glit::testCreation()
         if( info.vocab_codes[i] == "m" ) {
             str = "Month names";
         }
-        if( info.vocab_codes[i] == "w" ) {
+        if( info.vocab_codes[i] == "ws" ) {
             str = "Weekday names";
         }
         if( info.vocab_codes[i] == "lit" ) {
@@ -160,7 +160,7 @@ void TestDef_glit::testStringInput()
     struct data { string fmt; string in; string out; Field beg; Field end; } t[] = {
         { "wdmyl", "sun19sep1948trinityxvii", "Sun 19 Sep 1948 Trinity XVII", 2432814, 2432814 },
         { "wly", "sun,trinityxvii1948", "Sun, Trinity XVII 1948", 2432814, 2432814 },
-        { "wly", "trinityxvii1948", "Sun, Trinity XVII 1948 ~ Sat, Trinity XVII 1948", 2432814, 2432820 },
+        { "wly", "trinityxvii1948", "Trinity XVII 1948", 2432814, 2432820 },
     };
     size_t count = sizeof(t) / sizeof(data);
 

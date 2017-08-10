@@ -97,11 +97,11 @@ vocab lit {
 }
 
 grammar lit {
-    optional wday, litweek;
-    rank year, litweek, wday;
-    vocabs m, w, lit;
+    optional wsday, litweek;
+    rank year, litweek, wsday;
+    vocabs m, ws, lit;
     alias field {
-        WDay,    wday;
+        WDay,    wsday;
         Day,     day;
         Month,   month;
         Year,    year;
@@ -119,10 +119,10 @@ grammar lit {
         y, year;
         w, week;
     }
-    format  wdmyl,   "(WDay:w.a) |(Day) |(Month:m.a) |(Year)| (LitWeek:lit.a)";
-    format "wdmyl+", "(WDay:w) |(Day) |(Month:m) |(Year)| (LitWeek:lit)";
-    format  wly,     "(WDay:w.a), |(LitWeek:lit.a) |(Year)";
-    format "wly+",   "(WDay:w), |(LitWeek:lit) |(Year)";
+    format  wdmyl,   "(WDay:ws.a) |(Day) |(Month:m.a) |(Year)| (LitWeek:lit.a)";
+    format "wdmyl+", "(WDay:ws) |(Day) |(Month:m) |(Year)| (LitWeek:lit)";
+    format  wly,     "(WDay:ws.a), |(LitWeek:lit.a) |(Year)";
+    format "wly+",   "(WDay:ws), |(LitWeek:lit) |(Year)";
     pref wdmyl;
 }
 

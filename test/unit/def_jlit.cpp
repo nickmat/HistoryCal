@@ -122,7 +122,7 @@ void TestDef_jlit::testCreation()
         if( info.vocab_codes[i] == "m" ) {
             str = "Month names";
         }
-        if( info.vocab_codes[i] == "w" ) {
+        if( info.vocab_codes[i] == "ws" ) {
             str = "Weekday names";
         }
         if( info.vocab_codes[i] == "lit" ) {
