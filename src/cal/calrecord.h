@@ -42,7 +42,6 @@ namespace Cal {
         Record( const Base* base, const Field* fields, size_t size );
         Record( const Base* base, const std::string& str, const std::string& fcode, Boundary rb );
         Record( const Record& rec );
-        virtual ~Record() {}
 
         void clear_fields();
 
