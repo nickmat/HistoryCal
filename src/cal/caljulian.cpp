@@ -391,8 +391,13 @@ void Julian::resolve_opt_input( Field* fields, size_t index ) const
         // but the "wday", "litweek" and "year" fields are given,
         // these are used to fill in the missing fields.
         if( fields[YMD_year] != f_invalid ) {
-            // Before we fill these in, both litweek and wday fields must be invalid
-            int windex = opt_id_to_index( OFID_wday );
+            // Before we fill these in, both litweek and wsday fields must be invalid
+            int offset = 5;
+            int windex = opt_id_to_index( OFID_wsday );
+            if ( windex < 0 ) {
+                offset = -1;
+                windex = opt_id_to_index( OFID_wday );
+            }
             if( windex < 0 || fields[windex] == f_invalid ) {
                 break;
             }
@@ -400,7 +405,7 @@ void Julian::resolve_opt_input( Field* fields, size_t index ) const
             if( fields[YMD_month] != f_invalid || fields[YMD_day] != f_invalid ) {
                 break;
             }
-            Weekday wday = day_of_week( fields[windex] - 1 );
+            Weekday wday = day_of_week( fields[windex] + offset );
             Field jdn = liturgical_get_jdn( this, fields[YMD_year], fields[index] );
             Record rec( this, kday_on_or_after( wday, jdn ) );
             fields[YMD_month] = rec.get_field( YMD_month );
