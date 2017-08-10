@@ -87,7 +87,7 @@ namespace Cal {
     };
 
     Weekday inline day_of_week( Field jdn ) { 
-        return Weekday( jdn % 7 );
+        return Weekday( mod_f( jdn, 7 ) );
     }
     Field inline kday_on_or_before( Weekday wday, Field jdn ) { 
         return jdn - day_of_week( jdn - wday );
