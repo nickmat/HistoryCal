@@ -270,6 +270,7 @@ bool FormatText::resolve_input(
         if( fname.size() ) {
             if( !base->is_tier1( fname, this ) ) {
                 int index = base->get_fieldname_index( fname );
+                if ( index < 0 ) continue;
                 // Input an extended field
                 fields[index] = input[i].value;
                 continue;
