@@ -348,6 +348,38 @@ Field French::get_field_last( const Field* fields, size_t index ) const
     return f_invalid;
 }
 
+Field Cal::French::get_opt_field_first( const Field * fields, Field jdn, OptFieldID id ) const
+{
+    switch ( id )
+    {
+    case OFID_fr_nmonth:
+        return ( fields[YMD_month] == 13 ) ? f_invalid : 1;
+    case OFID_fr_nmday:
+        return ( fields[YMD_month] == 13 ) ? f_invalid : 1;
+    case OFID_fr_cday:
+        return ( fields[YMD_month] == 13 ) ? 1 : f_invalid;
+    case OFID_fr_dday:
+        return ( fields[YMD_month] == 13 ) ? f_invalid : 1;
+    }
+    return Base::get_opt_field_first( fields, jdn, id );
+}
+
+Field Cal::French::get_opt_field_last( const Field * fields, Field jdn, OptFieldID id ) const
+{
+    switch ( id )
+    {
+    case OFID_fr_nmonth:
+        return ( fields[YMD_month] == 13 ) ? f_invalid : 13;
+    case OFID_fr_nmday:
+        return ( fields[YMD_month] == 13 ) ? f_invalid : 30;
+    case OFID_fr_cday:
+        return ( fields[YMD_month] == 13 ) ? french_last_day_in_month( fields[YMD_year], fields[YMD_month] ) : f_invalid;
+    case OFID_fr_dday:
+        return ( fields[YMD_month] == 13 ) ? f_invalid : 10;
+    }
+    return Base::get_opt_field_last( fields, jdn, id );
+}
+
 // Return true if value adjusted or false if no change.
 bool French::normalise( Field* regs, Norm norm ) const
 {

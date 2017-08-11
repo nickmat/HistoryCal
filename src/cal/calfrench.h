@@ -58,6 +58,8 @@ namespace Cal {
         void set_fields( Field* fields, Field jdn ) const override;
 
         Field get_field_last( const Field* fields, size_t index ) const override;
+        Field get_opt_field_first( const Field* fields, Field jdn, OptFieldID id ) const override;
+        Field get_opt_field_last( const Field* fields, Field jdn, OptFieldID id ) const override;
 
         bool add_to_fields( Field* fields, Field value, Unit unit ) const override { return false; }
         bool normalise( Field* fields, Norm norm ) const override;

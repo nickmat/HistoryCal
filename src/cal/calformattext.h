@@ -59,7 +59,9 @@ namespace Cal {
         std::string get_1st_input_field( InputFieldType type ) const;
 
         void set_rank_fieldnames( StringVec fieldnames ) { m_rank_fieldnames = fieldnames; }
+        void set_rankout_fieldnames( StringVec fieldnames ) { m_rankout_fieldnames = fieldnames; }
         StringVec get_rank_fieldnames() const;
+        StringVec get_rankout_fieldnames() const;
         bool is_tier1( const std::string& fieldname ) const;
 
     private:
@@ -87,6 +89,7 @@ namespace Cal {
         StringVec   m_input_fields;
 
         StringVec   m_rank_fieldnames;
+        StringVec   m_rankout_fieldnames;
     };
 
 }

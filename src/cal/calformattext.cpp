@@ -55,7 +55,7 @@ std::string FormatText::range_to_string( Base* base, Range range ) const
     Record rec1( base, range.jdn1 );
     Record rec2( base, range.jdn2 );
 
-    StringVec ranknames = get_rank_fieldnames();
+    StringVec ranknames = get_rankout_fieldnames();
     size_t rank_size = ranknames.empty() ? base->record_size() : ranknames.size();
     XRefVec xref( rank_size );
     if ( ranknames.empty() ) {
@@ -463,10 +463,18 @@ string FormatText::get_1st_input_field( InputFieldType type ) const
 
 StringVec FormatText::get_rank_fieldnames() const
 {
-    if( m_rank_fieldnames.empty() ) {
+    if ( m_rank_fieldnames.empty() ) {
         return get_owner()->get_rank_fieldnames();
     }
     return m_rank_fieldnames;
+}
+
+StringVec FormatText::get_rankout_fieldnames() const
+{
+    if ( m_rankout_fieldnames.empty() ) {
+        return get_rank_fieldnames();
+    }
+    return m_rankout_fieldnames;
 }
 
 bool FormatText::is_tier1( const std::string& fieldname ) const

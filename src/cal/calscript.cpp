@@ -886,7 +886,7 @@ bool Script::do_format( Grammar* gmr )
 {
     string format, informat, separators;
     FormatText::Use usefor = FormatText::Use_inout;
-    StringVec rankfields, rules;
+    StringVec rankfields, rankoutfields, rules;
     string code = get_name_or_primary( true );
     if( code.empty() ) {
         error( "Format code missing." );
@@ -926,8 +926,11 @@ bool Script::do_format( Grammar* gmr )
                 } else if( name == "separators" ) {
                     expr( true ).get( separators );
                     continue;
-                } else if( name == "rank" ) {
+                } else if ( name == "rank" ) {
                     rankfields = get_string_list( true );
+                    continue;
+                } else if ( name == "rankout" ) {
+                    rankoutfields = get_string_list( true );
                     continue;
                 } else if( name == "rules" ) {
                     rules = get_string_list( true );
@@ -961,8 +964,11 @@ bool Script::do_format( Grammar* gmr )
         if( separators.size() ) {
             fmt->set_separators( separators );
         }
-        if( rankfields.size() ) {
+        if ( rankfields.size() ) {
             fmt->set_rank_fieldnames( rankfields );
+        }
+        if ( rankoutfields.size() ) {
+            fmt->set_rankout_fieldnames( rankoutfields );
         }
     } else if( rules[0] == "iso8601" ) {
         FormatIso* fmt = m_cals->create_format_iso( code, gmr, rules );
