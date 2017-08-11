@@ -137,8 +137,8 @@ namespace Cal {
         Field get_field( const Field* fields, Field jdn, size_t index ) const;
         Field get_field_first( const Field* fields, Field jdn, size_t index ) const;
         Field get_field_last( const Field* fields, Field jdn, size_t index ) const;
-        virtual Field get_field_first( const Field* fields, size_t index ) const;
-        virtual Field get_field_last( const Field* fields, size_t index ) const;
+        virtual Field get_rec_field_first( const Field* fields, size_t index ) const;
+        virtual Field get_rec_field_last( const Field* fields, size_t index ) const;
         virtual Field get_opt_field_first( const Field* fields, Field jdn, OptFieldID id ) const;
         virtual Field get_opt_field_last( const Field* fields, Field jdn, OptFieldID id ) const;
 

@@ -286,7 +286,7 @@ void Julian::set_fields( Field* fields, Field jdn ) const
     julian_from_jdn( &fields[0], &fields[1], &fields[2], jdn );
 }
 
-Field Julian::get_field_last( const Field* fields, size_t index ) const
+Field Julian::get_rec_field_last( const Field* fields, size_t index ) const
 {
     switch( index )
     {

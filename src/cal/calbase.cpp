@@ -252,10 +252,10 @@ void Base::remove_balanced_fields( Field* left, Field ljdn, Field* right, Field 
         if( left[i] == f_invalid || right[i] == f_invalid ) {
             return; // Must be fully qualified
         }
-        Field l = get_field_first( left, i );
+        Field l = get_rec_field_first( left, i );
         Field r = f_invalid;
         if( l == left[i] ) {
-            r = get_field_last( right, i );
+            r = get_rec_field_last( right, i );
         }
         if( r != right[i] ) {
             break;
@@ -299,7 +299,7 @@ void Base::remove_boundary_fields( Field* left, Field* right ) const
             return;
         }
         for( size_t i = record_size() - 1 ; i > 0 ; --i ) {
-            if( right[i] != get_field_last( right, i ) ) {
+            if( right[i] != get_rec_field_last( right, i ) ) {
                 break;
             }
             right[i] = f_invalid;
@@ -307,7 +307,7 @@ void Base::remove_boundary_fields( Field* left, Field* right ) const
     }
     if( right[0] == f_maximum ) {
         for( size_t i = record_size() - 1 ; i > 0 ; --i ) {
-            if( left[i] != get_field_first( left, i ) ) {
+            if( left[i] != get_rec_field_first( left, i ) ) {
                 break;
             }
             left[i] = f_invalid;
@@ -371,7 +371,7 @@ Field Cal::Base::get_field( const Field* fields, Field jdn, size_t index ) const
 Field Cal::Base::get_field_first( const Field* fields, Field jdn, size_t index ) const
 {
     if ( index < record_size() ) {
-        return get_field_first( fields, index );
+        return get_rec_field_first( fields, index );
     }
     if ( index < extended_size() ) {
         OptFieldID id = m_opt_fields[index - record_size()];
@@ -383,7 +383,7 @@ Field Cal::Base::get_field_first( const Field* fields, Field jdn, size_t index )
 Field Cal::Base::get_field_last( const Field* fields, Field jdn, size_t index ) const
 {
     if ( index < record_size() ) {
-        return get_field_last( fields, index );
+        return get_rec_field_last( fields, index );
     }
     if ( index < extended_size() ) {
         OptFieldID id = m_opt_fields[index - record_size()];
@@ -392,12 +392,12 @@ Field Cal::Base::get_field_last( const Field* fields, Field jdn, size_t index ) 
     return f_invalid;
 }
 
-Field Base::get_field_first( const Field* fields, size_t index ) const
+Field Base::get_rec_field_first( const Field* fields, size_t index ) const
 {
     return 1;
 }
 
-Field Base::get_field_last( const Field* fields, size_t index ) const
+Field Base::get_rec_field_last( const Field* fields, size_t index ) const
 {
     return f_invalid;
 }

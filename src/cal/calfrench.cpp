@@ -336,7 +336,7 @@ void French::set_fields( Field* fields, Field jdn ) const
     french_from_jdn( &fields[0], &fields[1], &fields[2], jdn );
 }
 
-Field French::get_field_last( const Field* fields, size_t index ) const
+Field French::get_rec_field_last( const Field* fields, size_t index ) const
 {
     switch( index )
     {

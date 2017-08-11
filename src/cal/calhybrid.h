@@ -59,7 +59,7 @@ namespace Cal {
         Field get_jdn( const Field* fields ) const override;
 
         Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const override;
-        Field get_field_last( const Field* fields, size_t index ) const override;
+        Field get_rec_field_last( const Field* fields, size_t index ) const override;
 
         bool set_fields_as_begin_first( Field* fields, const Field* mask ) const override;
         bool set_fields_as_next_first( Field* fields, const Field* mask ) const override;

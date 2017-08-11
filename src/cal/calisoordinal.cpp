@@ -72,7 +72,7 @@ void IsoOrdinal::set_fields( Field* fields, Field jdn ) const
     from_jdn( &fields[0], &fields[1], jdn );
 }
 
-Field IsoOrdinal::get_field_last( const Field* fields, size_t index ) const
+Field IsoOrdinal::get_rec_field_last( const Field* fields, size_t index ) const
 {
     switch( index )
     {

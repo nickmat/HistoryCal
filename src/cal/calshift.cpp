@@ -71,10 +71,10 @@ Field Shift::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) cons
     return Base::get_opt_field( fields, jdn, id );
 }
 
-Field Shift::get_field_last( const Field* fields, size_t index ) const
+Field Shift::get_rec_field_last( const Field* fields, size_t index ) const
 {
     FieldVec fs = get_vec_adjusted_to_base( fields );
-    return m_base->get_field_last( &fs[0], index );
+    return m_base->get_rec_field_last( &fs[0], index );
 }
 
 bool Shift::set_fields_as_begin_first( Field* fields, const Field* mask ) const
@@ -118,7 +118,7 @@ bool Shift::set_fields_as_next_first( Field* fields, const Field* mask ) const
         return false;
     }
     fields[0] += m_start_era[0];
-    fields[2] = m_base->get_field_first( mask, 2 );
+    fields[2] = m_base->get_rec_field_first( mask, 2 );
     fields[0] = get_adjusted_to_shift( fields );
     return true;
 }

@@ -242,7 +242,7 @@ void Hebrew::set_fields( Field* fields, Field jdn ) const
     hebrew_from_jdn( &fields[0], &fields[1], &fields[2], jdn );
 }
 
-Field Hebrew::get_field_first( const Field* fields, size_t index ) const
+Field Hebrew::get_rec_field_first( const Field* fields, size_t index ) const
 {
     switch( index )
     {
@@ -254,7 +254,7 @@ Field Hebrew::get_field_first( const Field* fields, size_t index ) const
     return f_invalid;
 }
 
-Field Hebrew::get_field_last( const Field* fields, size_t index ) const
+Field Hebrew::get_rec_field_last( const Field* fields, size_t index ) const
 {
     switch( index )
     {
@@ -302,7 +302,7 @@ bool Hebrew::normalise( Field* fields, Norm norm ) const
 {
     bool change = false;
     // Normalises for days in month
-    Field ldim = get_field_last( fields, 2 );
+    Field ldim = get_rec_field_last( fields, 2 );
     if( fields[2] > ldim ) {
         switch( norm )
         {
@@ -320,7 +320,7 @@ bool Hebrew::normalise( Field* fields, Norm norm ) const
             fields[2] = ldim;
             return true;
         }
-        Field months = get_field_last( fields, 1 );
+        Field months = get_rec_field_last( fields, 1 );
         if( fields[1] > months ) {
             fields[0]++;
             fields[1] -= months;

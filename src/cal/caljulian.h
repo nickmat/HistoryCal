@@ -57,7 +57,7 @@ namespace Cal {
 
         void set_fields( Field* fields, Field jdn ) const override;
 
-        Field get_field_last( const Field* fields, size_t index ) const override;
+        Field get_rec_field_last( const Field* fields, size_t index ) const override;
 
         double get_average_days( const Field* fields, Unit unit ) const override;
         bool add_to_fields( Field* fields, Field value, Unit unit ) const override;

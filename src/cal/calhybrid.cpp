@@ -117,12 +117,12 @@ Field Hybrid::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) con
     return m_data[s].base->get_opt_field( &fields[1], jdn, id );
 }
 
-Field Hybrid::get_field_last( const Field* fields, size_t index ) const
+Field Hybrid::get_rec_field_last( const Field* fields, size_t index ) const
 {
     FieldVec fs(m_rec_size);
     copy_fields( &fs[0], fields );
     for( Field sch = 0 ; sch < (Field) m_data.size() ; sch++ ) {
-        Field last = m_data[sch].base->get_field_last( &fields[1], index - 1 );
+        Field last = m_data[sch].base->get_rec_field_last( &fields[1], index - 1 );
         fs[index] = last;
         if( is_in_scheme( m_data[sch].base->get_jdn( &fs[0] ), sch ) ) {
             return last;
@@ -289,10 +289,10 @@ void Hybrid::remove_balanced_fields( Field* left, Field ljdn, Field* right, Fiel
         if( ls[i] == f_invalid || rs[i] == f_invalid ) {
             return; // Must be fully qualified
         }
-        Field l = lbase->get_field_first( &ls[1], i-1 );
+        Field l = lbase->get_rec_field_first( &ls[1], i-1 );
         Field r = f_invalid;
         if( l == ls[i] ) {
-            r = rbase->get_field_last( &rs[1], i-1 );
+            r = rbase->get_rec_field_last( &rs[1], i-1 );
         }
         if( r != rs[i] ) {
             break;
@@ -336,10 +336,10 @@ BoolVec Hybrid::mark_balanced_fields(
         if ( ls[i] == f_invalid || rs[i] == f_invalid ) {
             return mask; // Must be fully qualified
         }
-        Field l = lbase->get_field_first( &ls[1], i - 1 );
+        Field l = lbase->get_rec_field_first( &ls[1], i - 1 );
         Field r = f_invalid;
         if ( l == ls[i] ) {
-            r = rbase->get_field_last( &rs[1], i - 1 );
+            r = rbase->get_rec_field_last( &rs[1], i - 1 );
         }
         if ( r != rs[i] ) {
             break;

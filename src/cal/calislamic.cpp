@@ -122,7 +122,7 @@ void Islamic::set_fields( Field* fields, Field jdn ) const
 }
 
 
-Field Islamic::get_field_last( const Field* fields, size_t index ) const
+Field Islamic::get_rec_field_last( const Field* fields, size_t index ) const
 {
     switch( index )
     {

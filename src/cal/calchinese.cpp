@@ -379,7 +379,7 @@ void Chinese::set_fields( Field* fields, Field jdn ) const
         &fields[CHIN_month], &fields[CHIN_lmonth], &fields[CHIN_day], jdn );
 }
 
-Field Chinese::get_field_first( const Field* fields, size_t index ) const
+Field Chinese::get_rec_field_first( const Field* fields, size_t index ) const
 {
     if( index == CHIN_lmonth ) {
         return 0;
@@ -390,7 +390,7 @@ Field Chinese::get_field_first( const Field* fields, size_t index ) const
     return f_invalid;
 }
 
-Field Chinese::get_field_last( const Field* fields, size_t index ) const
+Field Chinese::get_rec_field_last( const Field* fields, size_t index ) const
 {
     switch( index )
     {
