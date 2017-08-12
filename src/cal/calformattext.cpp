@@ -69,15 +69,15 @@ std::string FormatText::range_to_string( Base* base, Range range ) const
     }
 
     BoolVec mask = rec1.mark_balanced_fields( rec2, xref );
-    str1 = get_output( rec1, mask );
-    str2 = get_output( rec2, mask );
+    str1 = get_masked_output( rec1, &mask );
+    str2 = get_masked_output( rec2, &mask );
     if ( str1 == str2 ) {
         return str1;
     }
     return str1 + " ~ " + str2;
 }
 
-string FormatText::get_output( const Record& record, const BoolVec& mask ) const
+string FormatText::get_masked_output( const Record& record, const BoolVec* mask ) const
 {
     string output, fieldout, fname, dname, vocab, abbrev, value;
     enum State { ignore, dooutput, dofname, dodname, dovocab, doabbrev };
@@ -144,75 +144,6 @@ string FormatText::get_output( const Record& record, const BoolVec& mask ) const
         }
     }
     return output + fieldout;
-}
-
-string FormatText::get_output( const Record& record ) const
-{
-    string output, fieldout, fname, dname, vocab, abbrev, value;
-    enum State { ignore, dooutput, dofname, dodname, dovocab, doabbrev };
-    State state = dooutput;
-    for( string::const_iterator it = m_control.begin() ; it != m_control.end() ; it++ ) {
-        switch( state )
-        {
-        case ignore:
-            if( *it == '|' ) {
-                state = dooutput;
-            }
-            break;
-        case dooutput:
-            if( *it == '|' ) {
-                output += fieldout;
-                fieldout.clear();
-            } else if( *it == '(' ) {
-                state = dofname;
-            } else {
-                fieldout += *it;
-            }
-            break;
-        case dofname:
-        case dodname:
-        case dovocab:
-        case doabbrev:
-            if( *it == ')' ) {
-                Field f = get_field( record, fname );
-                if( dname.size() ) {
-                    Field d = get_field( record, dname );
-                    value = dual_fields_to_str( f, d );
-                } else {
-                    value = formatted_str( f, vocab, abbrev );
-                }
-                if( value.empty() ) {
-                    fieldout.clear();
-                    state = ignore;
-                } else {
-                    fieldout += value;
-                    state = dooutput;
-                }
-                fname.clear();
-                dname.clear();
-                vocab.clear();
-                abbrev.clear();
-            } else if( state == dofname && *it == ':' ) {
-                state = dovocab;
-            } else if( state == dofname && *it == '/' ) {
-                state = dodname;
-            } else if( state == dovocab && *it == '.' ) {
-                state = doabbrev;
-            } else {
-                if( state == dofname ) {
-                    fname += *it;
-                } else if( state == dodname ) {
-                    dname += *it;
-                } else if( state == dovocab ) {
-                    vocab += *it;
-                } else { // doabbrev
-                    abbrev += *it;
-                }
-            }
-            break;
-        }
-    }
-    return output+fieldout;
 }
 
 RangeList FormatText::string_to_rlist( Base* base, const string& input ) const
@@ -523,21 +454,14 @@ FormatText::CP_Group FormatText::get_cp_group(
 }
 
 Field Cal::FormatText::get_field(
-    const Record& record, const std::string& fname, const BoolVec& mask ) const
+    const Record& record, const std::string& fname, const BoolVec* mask ) const
 {
     string fn = get_owner()->get_field_alias( fname );
     int index = record.get_base()->get_fieldname_index( fn );
     if ( index >= 0 ) {
-        return record.get_field( index, &mask );
+        return record.get_field( index, mask );
     }
     return f_invalid;
-}
-
-Field FormatText::get_field( const Record& record, const std::string& fname ) const
-{
-    string fn = get_owner()->get_field_alias( fname );
-    int index = record.get_base()->get_fieldname_index( fn );
-    return record.get_field( index );
 }
 
 string FormatText::formatted_str( 
