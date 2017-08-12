@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     15th November 2013
- * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -75,17 +75,7 @@ string Format::range_to_string( Base* base, Range range ) const
     if( range.jdn1 == range.jdn2 ) {
         return jdn_to_string( base, range.jdn1 );
     }
-    string str1, str2;
-    Record rec1( base, range.jdn1 );
-    Record rec2( base, range.jdn2 );
-
-    rec1.remove_balanced_fields( &rec2 );
-    str1 = get_output( rec1 );
-    str2 = get_output( rec2 );
-    if( str1 == str2 ) {
-        return str1;
-    }
-    return str1 + " ~ " + str2;
+    return jdn_to_string( base, range.jdn1 ) + " ~ " + jdn_to_string( base, range.jdn2 );
 }
 
 string Format::jdn_to_string( Base* base, Field jdn ) const
