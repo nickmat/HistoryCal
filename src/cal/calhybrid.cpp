@@ -270,39 +270,6 @@ bool Hybrid::set_fields_as_next_last( Field* fields, const Field* mask ) const
     return false;
 }
 
-void Hybrid::remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const
-{
-    Base* lbase = m_data[left[0]].base;
-    if( left[0] == right[0] ) {
-        lbase->remove_balanced_fields( &left[1], ljdn, &right[1], ljdn );
-        return;
-    }
-    Base* rbase = m_data[right[0]].base;
-    size_t size = lbase->record_size();
-    if( size != rbase->record_size() ) {
-        return;
-    }
-    FieldVec ls = get_xref( &left[0], left[0] );
-    FieldVec rs = get_xref( &right[0], right[0] );
-    size_t i;
-    for( i = size ; i > 1 ; --i ) {
-        if( ls[i] == f_invalid || rs[i] == f_invalid ) {
-            return; // Must be fully qualified
-        }
-        Field l = lbase->get_rec_field_first( &ls[1], i-1 );
-        Field r = f_invalid;
-        if( l == ls[i] ) {
-            r = rbase->get_rec_field_last( &rs[1], i-1 );
-        }
-        if( r != rs[i] ) {
-            break;
-        }
-    }
-    for( i++ ; i < size + 1 ; i++ ) {
-        left[i] = right[i] = f_invalid;
-    }
-}
-
 BoolVec Hybrid::mark_balanced_fields(
     Field* left, Field ljdn, Field* right, Field rjdn, const XRefVec& rank ) const
 {

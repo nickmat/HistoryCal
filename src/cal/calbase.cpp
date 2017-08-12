@@ -245,27 +245,6 @@ bool Base::set_fields_as_prev_optional( Field* fields, Field jdn, const Field* m
     return false;
 }
 
-void Base::remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const
-{
-    size_t i;
-    for( i = record_size() - 1 ; i > 0 ; --i ) {
-        if( left[i] == f_invalid || right[i] == f_invalid ) {
-            return; // Must be fully qualified
-        }
-        Field l = get_rec_field_first( left, i );
-        Field r = f_invalid;
-        if( l == left[i] ) {
-            r = get_rec_field_last( right, i );
-        }
-        if( r != right[i] ) {
-            break;
-        }
-    }
-    for( i++ ; i < record_size() ; i++ ) {
-        left[i] = right[i] = f_invalid;
-    }
-}
-
 BoolVec Base::mark_balanced_fields(
     Field* left, Field ljdn, Field* right, Field rjdn, const XRefVec& rank ) const
 {

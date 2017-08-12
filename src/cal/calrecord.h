@@ -61,7 +61,6 @@ namespace Cal {
         bool set_range_as_next( Range* range ) const;
 
         BoolVec mark_balanced_fields( Record& record, const XRefVec& rank_xref );
-        void remove_balanced_fields( Record* record );
 
         Field get_jdn() const;
         Field jdn() const { return m_jdn; }

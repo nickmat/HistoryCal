@@ -72,7 +72,6 @@ namespace Cal {
         bool set_fields_as_begin_last( Field* fields, const Field* mask ) const override;
         bool set_fields_as_next_last( Field* fields, const Field* mask ) const override;
 
-        void remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const override;
         BoolVec mark_balanced_fields(
             Field* left, Field ljdn, Field* right, Field rjdn, const XRefVec& rank ) const override;
 

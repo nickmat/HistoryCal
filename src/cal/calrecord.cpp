@@ -370,19 +370,6 @@ BoolVec Record::mark_balanced_fields( Record& rec, const XRefVec& rank )
     return m_base->mark_balanced_fields( &m_f[0], m_jdn, rec.get_field_ptr(), rec.get_jdn(), rank );
 }
 
-void Record::remove_balanced_fields( Record* rec )
-{
-    // Both must have the same Base and not be identical.
-    if( m_base != rec->m_base || m_jdn == rec->get_jdn() ) {
-        return;
-    }
-    if( m_f[0] == f_minimum || rec->get_field( 0 ) == f_maximum ) {
-        m_base->remove_boundary_fields( &m_f[0], rec->get_field_ptr() );
-        return;
-    }
-    m_base->remove_balanced_fields( &m_f[0], m_jdn, rec->get_field_ptr(), rec->get_jdn() );
-}
-
 Field Record::get_jdn() const
 {
     if( m_f[0] == f_minimum || m_f[0] == f_maximum ) {

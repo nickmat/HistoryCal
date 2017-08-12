@@ -163,32 +163,6 @@ bool Regnal::set_fields_as_next_last( Field* fields, const Field* mask ) const
     return false;
 }
 
-void Regnal::remove_balanced_fields( Field* left, Field ljdn, Field* right, Field rjdn ) const
-{
-    for( size_t i = m_eras.size() - 1 ; i > 0  ; --i ) {
-        if( ljdn > m_eras[i].begin ) {
-            break;
-        }
-        if( ljdn == m_eras[i].begin && rjdn == m_eras[i].end ) {
-            left[0] = right[0] = i;
-            for( size_t j = 1 ; j < m_rec_size ; j++ ) {
-                left[j] = right[j] = f_invalid;
-            }
-            return;
-        }
-    }
-    if( left[0] != right[0] || left[0] == f_invalid ) {
-        return;
-    }
-    size_t e = left[0];
-    Base* base = m_eras[e].base;
-    Record lrec( base, ljdn );
-    Record rrec( base, rjdn );
-    lrec.remove_balanced_fields( &rrec );
-    make_regnal_fields( left, e, lrec );
-    make_regnal_fields( right, e, rrec );
-}
-
 BoolVec Cal::Regnal::mark_balanced_fields(
     Field* left, Field ljdn, Field* right, Field rjdn, const XRefVec& rank ) const
 {
