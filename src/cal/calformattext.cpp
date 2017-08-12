@@ -528,7 +528,7 @@ Field Cal::FormatText::get_field(
     string fn = get_owner()->get_field_alias( fname );
     int index = record.get_base()->get_fieldname_index( fn );
     if ( index >= 0 ) {
-        return record.get_field( index, mask );
+        return record.get_field( index, &mask );
     }
     return f_invalid;
 }
@@ -537,7 +537,7 @@ Field FormatText::get_field( const Record& record, const std::string& fname ) co
 {
     string fn = get_owner()->get_field_alias( fname );
     int index = record.get_base()->get_fieldname_index( fn );
-    return record.get_field( index, Record::GF_split );
+    return record.get_field( index );
 }
 
 string FormatText::formatted_str( 

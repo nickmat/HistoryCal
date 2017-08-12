@@ -78,14 +78,8 @@ namespace Cal {
         bool normalise( Norm norm );
         double get_average_days( Unit unit ) const;
 
-        Field get_field( int index ) const;
-        enum GetField { // get_field Function switch.
-            GF_set,     // Get field value as currently set.
-            GF_force,   // Force field to provide a value.
-            GF_split    // As set for significant fields, optional ones forced.  
-        };
-        Field get_field( int index, GetField gf ) const;
-        Field get_field( int indexconst, const BoolVec& mask ) const;
+        Field get_field( int index, const BoolVec* mask = nullptr ) const;
+        Field get_field_at( int index ) const { return m_f[index]; }
         void set_field( Field value, size_t index ) { m_f[index] = value; }
 
         bool is_mask_valid( Field* mask, size_t mask_size ) const;
