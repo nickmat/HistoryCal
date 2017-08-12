@@ -124,9 +124,6 @@ namespace Cal {
         // If calulated date is different, update the fields to match and return true, otherwise return false.
         virtual bool set_fields_as_prev_optional( Field* fields, Field jdn, const Field* mask, size_t index ) const;
 
-        // to be removed
-        virtual void remove_boundary_fields( Field* left, Field* right ) const;
-
         virtual BoolVec mark_balanced_fields(
             Field* left, Field ljdn, Field* right, Field rjdn, const XRefVec& rank ) const;
         virtual BoolVec mark_boundary_fields(

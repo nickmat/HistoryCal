@@ -271,29 +271,6 @@ BoolVec Base::mark_balanced_fields(
     return mask;
 }
 
-void Base::remove_boundary_fields( Field* left, Field* right ) const
-{
-    if( left[0] == f_minimum ) {
-        if( right[0] == f_maximum ) {
-            return;
-        }
-        for( size_t i = record_size() - 1 ; i > 0 ; --i ) {
-            if( right[i] != get_rec_field_last( right, i ) ) {
-                break;
-            }
-            right[i] = f_invalid;
-        }
-    }
-    if( right[0] == f_maximum ) {
-        for( size_t i = record_size() - 1 ; i > 0 ; --i ) {
-            if( left[i] != get_rec_field_first( left, i ) ) {
-                break;
-            }
-            left[i] = f_invalid;
-        }
-    }
-}
-
 BoolVec Cal::Base::mark_boundary_fields(
     Field* left, Field ljdn, Field* right, Field rjdn, const XRefVec& rank ) const
 {
