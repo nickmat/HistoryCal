@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st March 2016
- * Copyright:   Copyright (c) 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2016 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -141,9 +141,13 @@ string FormatIso::range_to_string( Base* base, Range range ) const
         Record rec1( base, range.jdn1 );
         Record rec2( base, range.jdn2 );
 
-        rec1.remove_balanced_fields( &rec2 );
-        str1 = get_output( rec1 );
-        str2 = get_output( rec2 );
+        XRefVec xref( base->record_size() );
+        for ( size_t i = 0; i < xref.size(); i++ ) {
+            xref[i] = i;
+        }
+        BoolVec mask = rec1.mark_balanced_fields( rec2, xref );
+        str1 = get_masked_output( rec1, &mask );
+        str2 = get_masked_output( rec2, &mask );
         if( str1 == str2 ) {
             return str1;
         }
@@ -161,7 +165,7 @@ string FormatIso::jdn_to_string( Base* base, Field jdn ) const
     return get_output( rec );
 }
 
-string FormatIso::get_output( const Record& record ) const
+string FormatIso::get_masked_output( const Record& record, const BoolVec* mask ) const
 {
     // This format only works with Gregorian, ISO Week or ISO Ordinal schemes
     // so one of the following will valid and the other two NULL.
@@ -177,7 +181,7 @@ string FormatIso::get_output( const Record& record ) const
             }
         }
     }
-    string str = output_year( record.get_field( 0 ) );
+    string str = output_year( record.get_field( 0, mask ) );
     if( str.empty() ) {
         return "";
     }
@@ -188,7 +192,7 @@ string FormatIso::get_output( const Record& record ) const
             jdn = record.get_jdn();
             IsoOrdinal::from_jdn( NULL, &oday, jdn );
         } else {
-            oday = record.get_field( 1 );
+            oday = record.get_field( 1, mask );
         }
         if( oday != f_invalid ) {
             if( m_extended ) {
@@ -204,8 +208,8 @@ string FormatIso::get_output( const Record& record ) const
             jdn = record.get_jdn();
             IsoWeek::from_jdn( NULL, &week, &wday, jdn );
         } else {
-            week = record.get_field( 1 );
-            wday = record.get_field( 2 );
+            week = record.get_field( 1, mask );
+            wday = record.get_field( 2, mask );
         }
         if( week != f_invalid ) {
             if( m_extended ) {
@@ -229,8 +233,8 @@ string FormatIso::get_output( const Record& record ) const
         jdn = record.get_jdn();
         Gregorian::from_jdn( NULL, &month, &day, jdn );
     } else {
-        month = record.get_field( 1 );
-        day = record.get_field( 2 );
+        month = record.get_field( 1, mask );
+        day = record.get_field( 2, mask );
     }
     if( month != f_invalid ) {
         if( m_extended ) {
