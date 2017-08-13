@@ -1,0 +1,19 @@
+// bug2.hcs Test file to test bug
+
+mark "bug2";
+clear;
+
+format g:iso_y5 {
+    rules iso8601 caldate year5;
+}
+
+let test = date,g:iso_y5 "-00148-09-19";
+
+write "Test " + string,g:iso_y5 test;
+
+clear "bug2";
+
+
+/*[OUTPUT]
+Test -00148-09-19
+[OUTPUT]*/
