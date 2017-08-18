@@ -36,6 +36,7 @@ namespace Cal {
     class Record;
     class FormatText;
     class FormatIso;
+    class FormatUnit;
 
     enum Init_schemes { Init_script_none, Init_script_default };
 
@@ -88,6 +89,7 @@ namespace Cal {
         Vocab* get_vocab( const std::string& code ) const;
         FormatText* create_format_text( const std::string& code, Grammar* gmr );
         FormatIso* create_format_iso( const std::string& code, Grammar* gmr, const StringVec& rules );
+        FormatUnit* create_format_unit( const std::string& code, Grammar* gmr );
         Function* create_function( const std::string& code );
         Function* get_function( const std::string& code ) const;
         void add_or_replace_mark( const std::string& name );

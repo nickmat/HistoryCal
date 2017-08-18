@@ -953,7 +953,7 @@ bool Script::do_format( Grammar* gmr )
             return false;
         }
         FormatText* fmt = m_cals->create_format_text( code, gmr );
-        if( fmt == NULL ) {
+        if( fmt == nullptr ) {
             error( "Unable to create format." );
             return false;
         }
@@ -970,10 +970,16 @@ bool Script::do_format( Grammar* gmr )
         if ( rankoutfields.size() ) {
             fmt->set_rankout_fieldnames( rankoutfields );
         }
-    } else if( rules[0] == "iso8601" ) {
+    } else if ( rules[0] == "iso8601" ) {
         FormatIso* fmt = m_cals->create_format_iso( code, gmr, rules );
-        if( fmt == NULL ) {
+        if ( fmt == nullptr ) {
             error( "Unable to create ISO format." );
+            return false;
+        }
+    } else if ( rules[0] == "units" ) {
+        FormatUnit* fmt = m_cals->create_format_unit( code, gmr );
+        if ( fmt == nullptr ) {
+            error( "Unable to create Units format." );
             return false;
         }
     } else {

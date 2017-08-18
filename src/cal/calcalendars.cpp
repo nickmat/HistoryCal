@@ -31,6 +31,7 @@
 #include "caldefscripts.h"
 #include "calformatiso.h"
 #include "calformattext.h"
+#include "calformatunit.h"
 #include "calfunction.h"
 #include "calgrammar.h"
 #include "calmark.h"
@@ -461,6 +462,35 @@ FormatIso* Calendars::create_format_iso( const string& code, Grammar* gmr, const
     assert( m_marks.size() > 0 );
     m_marks[m_marks.size()-1]->add_format( fmt );
     return fmt;
+}
+
+FormatUnit* Calendars::create_format_unit( const string& code, Grammar* gmr )
+{
+    size_t pos = code.find( ':' );
+    if ( pos == string::npos ) {
+        if ( gmr == nullptr ) {
+            return nullptr;
+        }
+        return gmr->create_format_unit( code );
+    }
+    if ( gmr != nullptr ) {
+        return nullptr;
+    }
+    string gcode = code.substr( 0, pos );
+    string fcode = code.substr( pos + 1 );
+    gmr = get_grammar( gcode );
+    if ( gmr == nullptr || gmr->get_format( fcode ) != nullptr ) {
+        return nullptr;
+    }
+    FormatUnit* fmt = new FormatUnit( fcode, gmr );
+    if ( !gmr->add_format( fmt ) ) {
+        delete fmt;
+        return nullptr;
+    }
+    assert( m_marks.size() > 0 );
+    m_marks[m_marks.size() - 1]->add_format( fmt );
+    return fmt;
+    return nullptr;
 }
 
 Function* Cal::Calendars::create_function( const std::string & code )

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     13th November 2013
- * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -94,12 +94,11 @@ FormatIso* Grammar::create_format_iso( const string& code, const StringVec& rule
     return fmt;
 }
 
-FormatUnit* Grammar::create_format_unit()
+FormatUnit* Grammar::create_format_unit( const string& code )
 {
-    string code("u");
     if( m_formats.count( code ) ) {
         // Already there
-        return NULL;
+        return nullptr;
     }
     FormatUnit* fmt = new FormatUnit( code, this );
     m_formats[code] = fmt;

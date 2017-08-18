@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     4th April 2016
- * Copyright:   Copyright (c) 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2016 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -39,6 +39,13 @@
 using namespace Cal;
 using std::string;
 
+
+Cal::FormatUnit::FormatUnit( const std::string & code, Grammar * gmr )
+    : Format( code, gmr )
+{
+    set_user_input_str( "Value Unit ..." );
+    set_user_output_str( "Value Unit ..." );
+}
 
 string FormatUnit::get_output( const Record& record ) const
 {

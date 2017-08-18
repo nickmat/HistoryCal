@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     13th November 2013
- * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -49,7 +49,7 @@ namespace Cal {
         void add_vocab( Vocab* vocab );
         FormatText* create_format_text( const std::string& code );
         FormatIso* create_format_iso( const std::string& code, const StringVec& rules );
-        FormatUnit* create_format_unit();
+        FormatUnit* create_format_unit( const std::string& code = "u" );
         bool add_format( Format* fmt );
         void add_alias( const std::string& alias, const StringVec& pairs );
 
