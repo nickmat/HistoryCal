@@ -1,0 +1,15 @@
+// format001.hcs Test simple format statement.
+
+mark "format001";
+
+format g:MYD "(Month:m.a) |(Year)|, (Day)";
+
+write date,g:MYD "Sep1948 19";
+
+write "; " + string,g:MYD 2432814;
+
+clear "format001";
+
+/*[OUTPUT]
+2432814; Sep 1948, 19
+[OUTPUT]*/

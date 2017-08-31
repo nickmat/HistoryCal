@@ -892,17 +892,7 @@ bool Script::do_format( Grammar* gmr )
         error( "Format code missing." );
         return false;
     }
-    if( m_ts.current().type() == SToken::STT_Comma ) {
-        expr( true ).get( format );
-        if( format.empty() ) {
-            error( "Format missing." );
-            return false;
-        }
-        if( m_ts.current().type() != SToken::STT_Semicolon ) {
-            error( "';' expected." );
-            return false;
-        }
-    } else if( m_ts.current().type() == SToken::STT_LCbracket ) {
+    if( m_ts.current().type() == SToken::STT_LCbracket ) {
         for(;;) {
             SToken token = m_ts.next();
             if( token.type() == SToken::STT_RCbracket ||
@@ -943,8 +933,18 @@ bool Script::do_format( Grammar* gmr )
             }
         }
     } else {
-        error( "',' or '{' expected." );
-        return false;
+        if( m_ts.current().type() == SToken::STT_Comma ) {
+            m_ts.next();
+        }
+        expr( false ).get( format );
+        if( format.empty() ) {
+            error( "Format missing." );
+            return false;
+        }
+        if( m_ts.current().type() != SToken::STT_Semicolon ) {
+            error( "';' expected." );
+            return false;
+        }
     }
 
     if( rules.empty() || rules[0] == "text" ) {
