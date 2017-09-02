@@ -32,7 +32,7 @@ h2, h3, h4 {
 }
 
 p, div.p {
- margin: 0 0.5em 1em 0.5em;
+ margin: 0.75em 0.5em;
 }
 
 a.download {
@@ -312,6 +312,7 @@ table.left {
 
 table.list {
  border-collapse: collapse;
+ margin: 0.5em 1em;
 }
 
 table.list th {
