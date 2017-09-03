@@ -1,4 +1,4 @@
 @echo off
 cd tscripts
-..\..\build\vc12\debug\hctest.exe
+..\..\build\vc-working\debug\hctest.exe
 pause
