@@ -1,0 +1,13 @@
+// format005.hcs Test format statement, ordinal suffix.
+
+mark format.test;
+
+format j:DMY { output "(Day)(Day:!os.u) |(Month:m) |(Year)"; }
+
+write string,g:DMY 2432814;
+
+clear format.test;
+
+/*[OUTPUT]
+19TH September 1948
+[OUTPUT]*/
