@@ -224,7 +224,10 @@ string Cal::get_left_pad_style(
         return fieldstyle;
     }
     string ch = specifier.substr( 0, 1 );
-    string style = fieldstyle.substr( fieldstyle.size() - (width-1), width-1 );
+    string style = fieldstyle;
+    if ( style.size() >= width ) {
+        style = fieldstyle.substr( fieldstyle.size() - ( width - 1 ), width - 1 );
+    }
     return left_padded_str( style, ch, width );
 }
 
