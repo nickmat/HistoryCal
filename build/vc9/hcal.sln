@@ -37,8 +37,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cal", "hcal_cal.vcproj", "{
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "utf8api", "hcal_utf8api.vcproj", "{5D9B2A09-305C-5078-9DB0-7CC6761C52D1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "file2cpp", "hcal_file2cpp.vcproj", "{F2537070-5FEE-56D7-A81D-FD6E5EDAF02F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Release|Win32 = Release|Win32
@@ -73,10 +71,6 @@ Global
 		{5D9B2A09-305C-5078-9DB0-7CC6761C52D1}.Release|Win32.Build.0 = Release|Win32
 		{5D9B2A09-305C-5078-9DB0-7CC6761C52D1}.Debug|Win32.ActiveCfg = Debug|Win32
 		{5D9B2A09-305C-5078-9DB0-7CC6761C52D1}.Debug|Win32.Build.0 = Debug|Win32
-		{F2537070-5FEE-56D7-A81D-FD6E5EDAF02F}.Release|Win32.ActiveCfg = Release|Win32
-		{F2537070-5FEE-56D7-A81D-FD6E5EDAF02F}.Release|Win32.Build.0 = Release|Win32
-		{F2537070-5FEE-56D7-A81D-FD6E5EDAF02F}.Debug|Win32.ActiveCfg = Debug|Win32
-		{F2537070-5FEE-56D7-A81D-FD6E5EDAF02F}.Debug|Win32.Build.0 = Debug|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

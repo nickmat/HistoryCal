@@ -49,7 +49,6 @@
   <set var="LOCAL_INC">$(REL_ROOT)/include</set>
   <set var="CPPUNIT_DIR">$(DOLLAR)(CPPUNIT)</set>
   <set var="LOCAL_TST">$(REL_ROOT)/test</set>
-  <set var="LOCAL_UTIL">$(REL_ROOT)/util</set>
 
   <exe id="hcal" template="wxgui,wxlike">
     <app-type>gui</app-type>
@@ -321,18 +320,6 @@
 
     <include>$(LOCAL_INC)</include>
   </dll>
-
- <if cond="EXCLUDE_UTIL=='0'">
-
-  <exe id="file2cpp" template="wxconsole,wxlike">
-    <app-type>console</app-type>
-    <runtime-libs>dynamic</runtime-libs>
-
-    <sources>$(LOCAL_UTIL)/file2cpp/file2cpp.cpp</sources>
-    <wx-lib>base</wx-lib>
-  </exe>
-
- </if>
 
 </makefile>
 
