@@ -1,3 +1,3 @@
-file2cpp -v -o../src/cal/caldefscripts.cpp caldefscripts.f2c
+file2cpp caldefscripts.f2c -o ../src/cal/caldefscripts.cpp -V
 
 pause
