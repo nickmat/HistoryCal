@@ -1,4 +1,4 @@
 @echo off
-..\..\build\vc12\release\hctest.exe -t suite
+..\..\build\vc-working\release\hctest.exe -t suite
 
 pause

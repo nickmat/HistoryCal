@@ -1,8 +1,6 @@
-# Files created by build process
-build/vc9/Debug/
-build/vc9/Release/
-*.ncb
-*.suo
-*.user
 build/gnu
 !build/gnu/GNUmakefile
+build/gnu_eu
+!build/gnu_eu/GNUmakefile
+# This is used for all Windows development
+build/vc-working

@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>cal</ProjectName>
+    <ProjectGuid>{AC963786-E3A6-5F96-8740-1EB06682A8E0}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>14.0.23107.0</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)\cal\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+    <GenerateManifest>true</GenerateManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)\cal\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+    <GenerateManifest>true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>WIN32;_USRDLL;DLL_EXPORTS;MAKINGLIB_CAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_USRDLL;DLL_EXPORTS;MAKINGLIB_CAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <ObjectFileName>$(SolutionDir)$(Configuration)\cal\</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)$(Configuration)\cal.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat />
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>MAKINGLIB_CAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>$(SolutionDir)$(Configuration)\utf8api.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(SolutionDir)$(Configuration)\cal.dll</OutputFile>
+      <ImportLibrary>$(SolutionDir)$(Configuration)\cal.lib</ImportLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <ProgramDatabaseFile>$(SolutionDir)$(Configuration)\cal.pdb</ProgramDatabaseFile>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <Bscmake>
+      <OutputFile>$(SolutionDir)$(Configuration)\hcal_cal.bsc</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>WIN32;_USRDLL;DLL_EXPORTS;_DEBUG;MAKINGLIB_CAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_USRDLL;DLL_EXPORTS;_DEBUG;MAKINGLIB_CAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <ObjectFileName>$(SolutionDir)$(Configuration)\cal\</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)$(Configuration)\cal.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;MAKINGLIB_CAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>$(SolutionDir)$(Configuration)\utf8api.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(SolutionDir)$(Configuration)\cal.dll</OutputFile>
+      <ImportLibrary>$(SolutionDir)$(Configuration)\cal.lib</ImportLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(SolutionDir)$(Configuration)\cal.pdb</ProgramDatabaseFile>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <Bscmake>
+      <OutputFile>$(SolutionDir)$(Configuration)\hcal_cal.bsc</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\cal\calastro.cpp" />
+    <ClCompile Include="..\..\src\cal\calbase.cpp" />
+    <ClCompile Include="..\..\src\cal\calcalendars.cpp" />
+    <ClCompile Include="..\..\src\cal\calchinese.cpp" />
+    <ClCompile Include="..\..\src\cal\caldefscripts.cpp" />
+    <ClCompile Include="..\..\src\cal\caldlist.cpp" />
+    <ClCompile Include="..\..\src\cal\calformat.cpp" />
+    <ClCompile Include="..\..\src\cal\calformatiso.cpp" />
+    <ClCompile Include="..\..\src\cal\calformattext.cpp" />
+    <ClCompile Include="..\..\src\cal\calformatunit.cpp" />
+    <ClCompile Include="..\..\src\cal\calfrench.cpp" />
+    <ClCompile Include="..\..\src\cal\calfunction.cpp" />
+    <ClCompile Include="..\..\src\cal\calgrammar.cpp" />
+    <ClCompile Include="..\..\src\cal\calgregorian.cpp" />
+    <ClCompile Include="..\..\src\cal\calhebrew.cpp" />
+    <ClCompile Include="..\..\src\cal\calhybrid.cpp" />
+    <ClCompile Include="..\..\src\cal\calislamic.cpp" />
+    <ClCompile Include="..\..\src\cal\calisoordinal.cpp" />
+    <ClCompile Include="..\..\src\cal\calisoweek.cpp" />
+    <ClCompile Include="..\..\src\cal\caljdn.cpp" />
+    <ClCompile Include="..\..\src\cal\caljulian.cpp" />
+    <ClCompile Include="..\..\src\cal\calliturgical.cpp" />
+    <ClCompile Include="..\..\src\cal\calmark.cpp" />
+    <ClCompile Include="..\..\src\cal\calmath.cpp" />
+    <ClCompile Include="..\..\src\cal\calparse.cpp" />
+    <ClCompile Include="..\..\src\cal\calpattern.cpp" />
+    <ClCompile Include="..\..\src\cal\calrecord.cpp" />
+    <ClCompile Include="..\..\src\cal\calregnal.cpp" />
+    <ClCompile Include="..\..\src\cal\calscheme.cpp" />
+    <ClCompile Include="..\..\src\cal\calscript.cpp" />
+    <ClCompile Include="..\..\src\cal\calsetmath.cpp" />
+    <ClCompile Include="..\..\src\cal\calshift.cpp" />
+    <ClCompile Include="..\..\src\cal\calstokenstream.cpp" />
+    <ClCompile Include="..\..\src\cal\calsvalue.cpp" />
+    <ClCompile Include="..\..\src\cal\caltext.cpp" />
+    <ClCompile Include="..\..\src\cal\calversion.cpp" />
+    <ClCompile Include="..\..\src\cal\calvocab.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\cal\caldefs.h" />
+    <ClInclude Include="..\..\include\cal\calendars.h" />
+    <ClInclude Include="..\..\src\cal\calastro.h" />
+    <ClInclude Include="..\..\src\cal\calbase.h" />
+    <ClInclude Include="..\..\src\cal\calchinese.h" />
+    <ClInclude Include="..\..\src\cal\caldefscripts.h" />
+    <ClInclude Include="..\..\src\cal\caldlist.h" />
+    <ClInclude Include="..\..\src\cal\calformat.h" />
+    <ClInclude Include="..\..\src\cal\calformatiso.h" />
+    <ClInclude Include="..\..\src\cal\calformattext.h" />
+    <ClInclude Include="..\..\src\cal\calformatunit.h" />
+    <ClInclude Include="..\..\src\cal\calfrench.h" />
+    <ClInclude Include="..\..\src\cal\calfunction.h" />
+    <ClInclude Include="..\..\src\cal\calgrammar.h" />
+    <ClInclude Include="..\..\src\cal\calgregorian.h" />
+    <ClInclude Include="..\..\src\cal\calhebrew.h" />
+    <ClInclude Include="..\..\src\cal\calhybrid.h" />
+    <ClInclude Include="..\..\src\cal\calislamic.h" />
+    <ClInclude Include="..\..\src\cal\calisoordinal.h" />
+    <ClInclude Include="..\..\src\cal\calisoweek.h" />
+    <ClInclude Include="..\..\src\cal\caljdn.h" />
+    <ClInclude Include="..\..\src\cal\caljulian.h" />
+    <ClInclude Include="..\..\src\cal\calliturgical.h" />
+    <ClInclude Include="..\..\src\cal\calmark.h" />
+    <ClInclude Include="..\..\src\cal\calmath.h" />
+    <ClInclude Include="..\..\src\cal\calparse.h" />
+    <ClInclude Include="..\..\src\cal\calpattern.h" />
+    <ClInclude Include="..\..\src\cal\calprivate.h" />
+    <ClInclude Include="..\..\src\cal\calrecord.h" />
+    <ClInclude Include="..\..\src\cal\calregnal.h" />
+    <ClInclude Include="..\..\src\cal\calscheme.h" />
+    <ClInclude Include="..\..\src\cal\calscript.h" />
+    <ClInclude Include="..\..\src\cal\calscriptstore.h" />
+    <ClInclude Include="..\..\src\cal\calsetmath.h" />
+    <ClInclude Include="..\..\src\cal\calshift.h" />
+    <ClInclude Include="..\..\src\cal\calshiftday.h" />
+    <ClInclude Include="..\..\src\cal\calstokenstream.h" />
+    <ClInclude Include="..\..\src\cal\calsvalue.h" />
+    <ClInclude Include="..\..\src\cal\caltext.h" />
+    <ClInclude Include="..\..\src\cal\calversion.h" />
+    <ClInclude Include="..\..\src\cal\calvocab.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="hcal_utf8api.vcxproj">
+      <Project>{5d9b2a09-305c-5078-9db0-7cc6761c52d1}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

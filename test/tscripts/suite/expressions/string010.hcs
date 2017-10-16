@@ -1,0 +1,7 @@
+// string010.hcs Test file for string cast with units format.
+
+write string,g:u 2432814;
+
+/*[OUTPUT]
+1948y 9m 19d
+[OUTPUT]*/
