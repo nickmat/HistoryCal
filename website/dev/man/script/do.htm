@@ -31,22 +31,21 @@
 
 <h2>do .. loop Statement</h2>
 <p>
- A do .. loop continuously runs the statements in between
- for a fixed number of iterations.
- This number is currently set at a maximum of 1000.
- The <b>while</b> and <b>until</b>
+ A <b>do</b> <i>statements</i> ... <b>loop</b> statement runs the statements in between
+ until a '<b>while</b> <i>condition</i>' or '<b>until</b> <i>condition</i>' sub-statement causes the loop to exit.
+ Currently the maximum number of iterations is fixed 1000.
 </p>
 <p>
  If a '<b>while</b> <i>condition</i>' sub-statement is encountered
- then, if the condition is false,
- then execution of the script moves to the first statement after the 'loop' keyword.
- A '<b>until</b> <i>condition</i>' sub-statement breaks out of the loop
+ and the condition is false,
+ the execution of the script moves to the first statement after the '<b>loop</b>' keyword.
+ Encountering an '<b>until</b> <i>condition</i>' sub-statement breaks out of the loop
  if the condition is true.
 </p>
 
 <table class='list'>
-<tr><th colspan='3'>if Statement</th></tr>
-<th>Format</th><th>Example</th><th>Output</th></tr>
+ <tr><th colspan='3'>if Statement</th></tr>
+ <tr><th>Format</th><th>Example</th><th>Output</th></tr>
  <tr>
   <td class='code'>
    <b>do</b><br />

@@ -176,7 +176,7 @@
 <p>
  A Signature is the scheme and/or the format codes to be used when converting between different value types.
 </p>
-<table class='list' id='operator-list'>
+<table class='list'>
 <tr><th>Signature</th><th>Example</th></tr>
 <tr><td class='code'>scheme</td><td class='example'>write string,j today;</td></tr>
 <tr><td class='code'>scheme:format</td><td class='example'>write string,"g:dmy+" today;</td></tr>
@@ -185,7 +185,7 @@
 
 <h2>Operators</h2>
 <h3>Arithmetic Operations</h3>
-<table class='list' id='operator-list'>
+<table class='list'>
 <tr><th>Operator</th><th>Name</th><th>Use</th><th>Result</th></tr>
 <tr><td class='code'>-</td><td>Unary minus</td><td class='example'><b>-</b> number_type</td><td class='example'>number_type</td></tr>
 <tr><td class='code'>+</td><td>Plus</td><td class='example'>number_type <b>+</b> number_type</td><td class='example'>number_type</td></tr>
@@ -230,7 +230,7 @@
  Subtraction is carried out by adding the negated right hand side.
  So a - b = a + -b and (a ~ b) - (c ~ d) = (a ~ b) + (-d ~ -c).
 </p>
-<table class='list' id='operator-list'>
+<table class='list'>
 <tr><th>Expression</th><th>Example</th><th>Result</th></tr>
 <tr><td class='code'>field_type + field_type</td><td class='example'>5 + 10<br />past + 123<br />past + future</td><td class='example'>15<br />past<br />Error</td></tr>
 <tr>
@@ -283,7 +283,7 @@
  Use of ?, past or future on either side the operation results in an error.<br />
  Using zero on the right hand side of the operation results in an error.
 </p>
-<table class='list' id='operator-list'>
+<table class='list'>
 <tr><th>Expression</th><th>Example</th><th>Result</th></tr>
 <tr>
  <td class='code'>field_type * field_type</td>
@@ -311,20 +311,20 @@
  The values past and future may be used.<br />
  Use of the ? value is an error.
 </p>
-<table class='list' id='operator-list'>
+<table class='list'>
 <tr><th>Example</th><th>Result</th></tr>
- <tr><td class='example'>5 ~ 10</td><td class='example'>5 ~ 10</tr>
- <tr><td class='example'>123 ~ past</td><td class='example'>past ~ 123</tr>
+ <tr><td class='example'>5 ~ 10</td><td class='example'>5 ~ 10</td></tr>
+ <tr><td class='example'>123 ~ past</td><td class='example'>past ~ 123</td></tr>
  <tr><td class='example'>? ~ 40</td><td class='example'>Error</td></tr>
- <tr><td class='example'>(5 ~ 10) ~ 6</td><td class='example'>5 ~ 10</tr>
- <tr><td class='example'>(5 ~ 10) ~ (15 ~ 8)</td><td class='example'>5 ~ 15</tr>
- <tr><td class='example'>48 ~ 25 ~ 5 ~ 10</td><td class='example'>5 ~ 48</tr>
+ <tr><td class='example'>(5 ~ 10) ~ 6</td><td class='example'>5 ~ 10</td></tr>
+ <tr><td class='example'>(5 ~ 10) ~ (15 ~ 8)</td><td class='example'>5 ~ 15</td></tr>
+ <tr><td class='example'>48 ~ 25 ~ 5 ~ 10</td><td class='example'>5 ~ 48</td></tr>
 </table>
 
 <h3>Set Operators</h3>
 <p>
  The Complement '!' is a unary prefix operator which operates on a rlist.
- The Union '|', Intersection '&', Symmetric difference '^' and Relative complement '\'
+ The Union '|', Intersection '&amp;', Symmetric difference '^' and Relative complement '\'
  operators are binary.
  These operate on an rlist on left hand side and a range on right hand side.
  If necessary, range and field types are be promoted to an rlist or range.
@@ -381,13 +381,13 @@
 <p>
  Note, the field names used may be the default record or the alias field name.
 </p>
-<table class='list' id='operator-list'> <!-- See test file subscript006.hcs -->
+<table class='list'> <!-- See test file subscript006.hcs -->
 <tr><th>Example</th><th>Result</th></tr>
- <tr><td class='example'>(8~16|20~50|75~99)[1]</td><td class='example'>20 ~ 50</tr>
+ <tr><td class='example'>(8~16|20~50|75~99)[1]</td><td class='example'>20 ~ 50</td></tr>
  <tr><td class='example'>{g,1948,9,19}[0]</td><td class='example'>1948</td></tr>
  <tr><td class='example'>{g,1948,9,19,?}[wday]</td><td class='example'>?</td></tr>
- <tr><td class='example'>2432814[g:wday]</td><td class='example'>7</tr>
- <tr><td class='example'>let i="g:Month"; 2432814[(i)]</td><td class='example'>9</tr>
+ <tr><td class='example'>2432814[g:wday]</td><td class='example'>7</td></tr>
+ <tr><td class='example'>let i="g:Month"; 2432814[(i)]</td><td class='example'>9</td></tr>
 </table>
 
 <h4>Property operator</h4>
@@ -395,7 +395,7 @@
  A subscript starting with a dot '.' and followed by a name will return a property of the value,
  as listed below.
 </p>
-<table class='list' id='operator-list'>
+<table class='list'>
 <tr><th>Property</th><th>Use</th><th>Result</th><th>Comment</th></tr>
 <tr><td class='code'>low</td><td class='example'>(7~16)[.low]</td><td class='example'>7</td><td>Return the lower bound of a range or rlist.</td></tr>
 <tr><td class='code'>high</td><td class='example'>(7~16)[.high]</td><td class='example'>16</td><td>Return the upper bound of a range or rlist.</td></tr>
@@ -421,7 +421,7 @@
  It can also be called in an expression using the at '@' operator.
 </p>
 
-<table class='list' id='operator-list'>
+<table class='list'>
 <tr><th>Example</th><th>Result</th></tr><!-- See function008.hcs test file -->
  <tr><td class='example'>function power(number, power) {
     result = 1;
@@ -429,8 +429,8 @@
         result *= number;
         power -= 1;
     loop
-}</td><td class='example'></tr>
- <tr><td class='example'>4 * @power(2,4) + 10</td><td class='example'>74</tr>
+}</td><td class='example'></td></tr>
+ <tr><td class='example'>4 * @power(2,4) + 10</td><td class='example'>74</td></tr>
 </table>
 
 <h3>Type Conversions</h3>
@@ -456,13 +456,13 @@
  but this is different from a HistoryCal Date Expression.
  One significant difference is that only one scheme format can be used for the conversion.
 </p>
-<table class='list' id='operator-list'>
+<table class='list'>
 <tr><th>Example</th><th>Result</th></tr>
- <tr><td class='example'>date "19sep1948"</td><td class='example'>2432814</tr>
+ <tr><td class='example'>date "19sep1948"</td><td class='example'>2432814</td></tr>
  <tr><td class='example'>date "1940~1950|1945~1955"</td><td class='example'>2429630 ~ 2435473</td></tr>
  <tr><td class='example'>date,g:iso "[1940..1950,1945..1955]"</td><td class='example'>2429630 ~ 2435473</td></tr>
- <tr><td class='example'>date {g, 1948, 9, 19}</td><td class='example'>2432814</tr>
- <tr><td class='example'>date {g, 1948}</td><td class='example'>2432552 ~ 2432917</tr>
+ <tr><td class='example'>date {g, 1948, 9, 19}</td><td class='example'>2432814</td></tr>
+ <tr><td class='example'>date {g, 1948}</td><td class='example'>2432552 ~ 2432917</td></tr>
  <tr><td colspan='2'>The above examples assume a system input setting of "g:dmy".</td></tr>
 </table>
 
@@ -475,13 +475,13 @@
  If the format code is not included in the signature,
  then the default for that scheme is used.
 </p>
-<table class='list' id='operator-list'>
+<table class='list'>
 <tr><th>Example</th><th>Result</th></tr>
- <tr><td class='example'>string,"g:dmy+" 2432814</td><td class='example'>"19 September 1948"</tr>
+ <tr><td class='example'>string,"g:dmy+" 2432814</td><td class='example'>"19 September 1948"</td></tr>
  <tr><td class='example'>string,g 2429630~2435473</td><td class='example'>"1940 ~ 1955"</td></tr>
  <tr><td class='example'>string,g:iso 2429630 ~ 2429995 | 2433283 ~ 2435473</td><td class='example'>"[1940,1950..1955]"</td></tr>
- <tr><td class='example'>string {g, 1948, 9, 19}</td><td class='example'>"19 Sep 1948"</tr>
- <tr><td class='example'>string {j, 1948}</td><td class='example'>"1948"</tr>
+ <tr><td class='example'>string {g, 1948, 9, 19}</td><td class='example'>"19 Sep 1948"</td></tr>
+ <tr><td class='example'>string {j, 1948}</td><td class='example'>"1948"</td></tr>
  <tr><td colspan='2'>The above examples assume a system output setting of "g:dmy".</td></tr>
 </table>
 
@@ -501,12 +501,12 @@
  Records created using the record operator '{}' only include the given fields,
  even if this does not fully qualify a date.
 </p>
-<table class='list' id='operator-list'>
+<table class='list'>
 <tr><th>Example</th><th>Result</th></tr>
- <tr><td class='example'>record,g:dmy "19sep1948"</td><td class='example'>{"g", 1948, 9, 19, ?}</tr>
+ <tr><td class='example'>record,g:dmy "19sep1948"</td><td class='example'>{"g", 1948, 9, 19, ?}</td></tr>
  <tr><td class='example'>record "21??"</td><td class='example'>{"g", ?, ?, 21, ?}</td></tr>
  <tr><td class='example'>record,:u "1948Year 9Month 19Day"</td><td class='example'>{"g", 1948, 9, 19, ?}</td></tr>
- <tr><td class='example'>record,j 2432814</td><td class='example'>{"j", 1948, 9, 6, ?}</tr>
+ <tr><td class='example'>record,j 2432814</td><td class='example'>{"j", 1948, 9, 6, ?}</td></tr>
  <tr><td class='example'>record 2429630~2435473</td><td class='example'>Error</td></tr>
  <tr><td colspan='2'>The above examples assume a system input and output setting of "g:dmy".</td></tr>
 </table>
@@ -520,10 +520,10 @@
  The prefix "Error (" + line + "): " is added to message,
  where line is the line number of the the error cast operator.
 </p>
-<table class='list' id='operator-list'>
+<table class='list'>
 <tr><th>Example</th><th>Result</th></tr>
- <tr><td class='example'>error "Age is negative."</td><td class='example'>"Error (10): Age is negative."</tr>
- <tr><td class='example'>error ("Age of " + age + " is too high.")</td><td class='example'>"Error (10): Age of 150 is too high."</tr>
+ <tr><td class='example'>error "Age is negative."</td><td class='example'>"Error (10): Age is negative."</td></tr>
+ <tr><td class='example'>error ("Age of " + age + " is too high.")</td><td class='example'>"Error (10): Age of 150 is too high."</td></tr>
 </table>
 
 <h2>Operator Precedence</h2>
@@ -532,7 +532,7 @@
  Operators with higher precedence are listed first.
  When precedence is equal, operations are carried out from left to right.
 </p>
-<table class='list' id='operator-list'>
+<table class='list'>
 <tr><th colspan='4'>Operator List</th></tr>
 <tr><th>Operator</th><th>Name</th><th>Use</th><th>Result</th></tr>
 <tr><td class='code'>()</td><td>Parenthesized expression</td><td class='example'><b>(</b> expr <b>)</b></td><td class='example'>value</td></tr>
@@ -544,7 +544,7 @@
 <tr><td class='code'>date</td><td>Date cast</td><td class='example'><b>date,sig</b> string_value<br /><b>date</b> record_value</td><td class='example'>date_value</td></tr>
 <tr><td class='code'>record</td><td>Record cast</td><td class='example'><b>record,sig</b> string_value<br /><b>record</b> field_value</td><td class='example'>record_value</td></tr>
 <tr><td class='code'>string</td><td>String cast</td><td class='example'><b>string,sig</b> date_value<br /><b>string,sig</b> record_value</td><td class='example'>string_value</td></tr>
-<tr><td class='code'>error</td><td>Error cast</td><td class='example'><b>error</b> string_value<td class='example'>error_value</td></tr>
+<tr><td class='code'>error</td><td>Error cast</td><td class='example'><b>error</b> string_value</td><td class='example'>error_value</td></tr>
 <tr><td class='code'>@</td><td>Function</td><td class='example'><b>@name</b><br /><b>@name(</b>expr, ...<b>)</b></td><td class='example'>value</td></tr>
 <tr><td class='code' colspan='4'></td></tr>
 <tr><td class='code'>[]</td><td>Subscript</td><td class='example'>date_value<b>[</b>string_value<b>]</b></td><td class='example'>field_value</td></tr>

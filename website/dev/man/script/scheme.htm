@@ -29,6 +29,7 @@
 
 <div id='content' class='nomenu'>
 
+<h2>Under Construction</h2>
 <h2>scheme Statement</h2>
 <p>
  Before any calendar can be used as input or output,
@@ -241,7 +242,7 @@ The New Moon after 19 Sep 1948 is 2 Oct 1948
 <tr><td class='code'>IIIa</td><td>2, 5, 8, 10, 13, 16, 19, 21, 24, 27 &amp; 29</td><td>Thur 15 Jul 622</td><td><a href='../defs/if.htm'>if</a></td></tr>
 <tr><td class='code'>IIIc</td><td>2, 5, 8, 10, 13, 16, 19, 21, 24, 27 &amp; 29</td><td>Fri 16 Jul 622</td><td></td></tr>
 <tr><td class='code'>IVa</td><td>2, 5, 8, 11, 13, 16, 19, 21, 24, 27 &amp; 30</td><td>Thur 15 Jul 622</td><td></td></tr>
-<tr><td class='code'>IVc</td><td>2, 5, 8, 11, 13, 16, 19, 21, 24, 27 &amp; 30</td><td>Fri 16 Jul 622</td><td></tr>
+<tr><td class='code'>IVc</td><td>2, 5, 8, 11, 13, 16, 19, 21, 24, 27 &amp; 30</td><td>Fri 16 Jul 622</td><td></td></tr>
 </table>
 <p></p>
 <p>
@@ -294,7 +295,7 @@ The New Moon after 19 Sep 1948 is 2 Oct 1948
 <tr><th colspan='2'>shift Sub-Statement</th></tr>
 <tr><th>Sub-Statement</th><th>Example</th></tr>
 <tr><td class='code'>shift <i>scheme-code</i>, <i>date-field</i></td><td class='example'
->shift j, 1721417; // j:dmy# 25 Dec 0</ br>
+>shift j, 1721417; // j:dmy# 25 Dec 0
 shift jdn, 2400001; // Change jdn to Modified Julian Day</td></tr>
 </table>
 <p></p>
@@ -369,8 +370,14 @@ shift jdn, 2400001; // Change jdn to Modified Julian Day</td></tr>
 <tr><td class='code'>hybrid { ... change <i>date.field</i>; ... }</td><td class='example'>change 2360976; // j:dmy# 1 Jan 1752</td></tr>
 <tr><td class='code'>hybrid { ... scheme <i>scheme.code</i>; ... }</td><td class='example'>scheme j; // Julian</td></tr>
 </table>
+<p></p>
+<p>
+ Note, schemes must be defined before they can used as part of a hybrid scheme.
+ If you want to create a scheme only for inclusion in a hybrid scheme,
+ then it can be hidden using the 'style hide;' sub-statement.
+</p>
 
-<h2>Regnal Calendars</h2>
+<h3>regnal Sub-Statement</h3>
 <p>
  A common method of numbering the years in a calendar
  is to number them from the start of the reign of a monarch or official.
@@ -379,10 +386,19 @@ shift jdn, 2400001; // Change jdn to Modified Julian Day</td></tr>
 <p>
  A calendar based on this system is really a sequence of shifted calendars,
  the era of each based on the start of the reign.
- It also allows the specification of the date range covered by each era.
- These ranges may overlap or have gaps, a default calendar is defined
- to be used outside of these ranges.
+ We can also specify the date range covered by each era,
+ which may overlap or have gaps.
+ A default calendar is also defined and is used if no suitable range is found.
 </p>
+<table class='list'>
+<tr><th colspan='2'>regnal Sub-Statement</th></tr>
+<tr><th>Sub-Statement</th><th>Example</th></tr>
+<tr><td class='code'>regnal { fields <i>name1</i>, <i>name2</i>, <i>name3</i>; ... }</td><td class='example'>fields year, month, day;</td></tr>
+<tr><td class='code'>regnal { ... extended <i>name1</i>, <i>name2</i>; ... }</td><td class='example'>extended hyear;</td></tr>
+<tr><td class='code'>regnal { ... fixed <i>date.field</i> = <i>value</i>; ... }</td><td class='example'>fixed year = 1;</td></tr>
+<tr><td class='code'>regnal { ... era { <i>era-sub-statements</i> } }</td><td class='example'>era { scheme j; } // Julian default scheme</td></tr>
+</table>
+<p></p>
 
 <h2>In Development</h2>
 <p>

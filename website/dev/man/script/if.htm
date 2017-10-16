@@ -31,17 +31,18 @@
 
 <h2>if Statement</h2>
 <p>
- An if statement allows one or more statements to be run,
+ An <b>if</b> statement allows one or more statements to be run,
  depending on a given condition.
 </p>
 <p>
- The statement may include zero or more 'elseif condition' sub-statements
- and an optional 'else' sub-statement.
+ The statement may include zero or more '<b>elseif</b> condition' sub-statements
+ and an optional '<b>else</b>' sub-statement.
+ The statement must end with the <b>endif</b> keyword.
 </p>
 
 <table class='list'>
-<tr><th colspan='2'>if Statement</th></tr>
-<th>Format</th><th>Example</th></tr>
+ <tr><th colspan='2'>if Statement</th></tr>
+ <tr><th>Format</th><th>Example</th></tr>
  <tr>
   <td class='code'>
    <b>if</b> <i>bool_expr</i><br />
@@ -56,7 +57,7 @@
   </td>
   <td class='example'><b>if</b> value = 10
     writeln "Value is a round 10";
-<b>elseif</b> value < 5
+<b>elseif</b> value &lt; 5
     writeln "Value as less than 5";
 <b>elseif</b> value = 100
     writeln "Value is exactly 100";

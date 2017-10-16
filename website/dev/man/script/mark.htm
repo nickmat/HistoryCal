@@ -36,33 +36,56 @@
  The statements <b>mark</b> and <b>clear</b> are used to control this behaviour.
 </p>
 <p>
- Entities are added to the library as they are encountered in the script.
+ Entities definitions (function, scheme etc.) are added to the library as they are encountered in the script.
  This can be particularly problematic when testing a new script,
  when we may want to make small changes and re-run the script.
- Without using 'mark', it would try to add another copy of the entity
- which would result in an error.
+ Without using 'mark', it would try to add another copy of the entity which would result in an error.
+</p>
+<p>
+ Note that we control the removal of entities separately from the removal of variables.
 </p>
 
 <table class='list'>
-<th>Format</th><th>Example</th></tr>
+ <tr><th>Format</th><th>Example</th></tr>
  <tr>
-  <td class='code'><b>mark</b> <i>string_expr</i><b>;</b></td>
-  <td class='example'><b>mark</b> "start-test";</td>
- </tr>
- <tr>
-  <td class='code'><b>clear</b> <i>string_expr</i><b>;</b></td>
-  <td class='example'><b>clear</b> "start-test";</td>
+  <td class='code'><b>mark</b> <i>tag</i><b>;</b></td>
+  <td class='example'><b>mark</b> start.test;</td>
  </tr>
  <tr>
   <td class='code'><b>clear;</b></td>
   <td class='example'><b>clear</b>;</td>
  </tr>
+ <tr>
+  <td class='code'><b>clear</b> <i>tag</i><b>;</b></td>
+  <td class='example'><b>clear</b> start.test;</td>
+ </tr>
 </table>
 
 <h3>mark Statement</h3>
 <p>
- 
+ When processing the <b>mark</b> statement, if the tag is already in use
+ then all entity definitions added after that tag are removed.
+ The mark tag itself is not remove but any mark tags added afterwards are removed.
 </p>
+<p>
+ Note that variable names are not removed with this statement.
+</p>
+
+<h3>clear Statement</h3>
+<p>
+ A <b>clear</b> statement by itself will remove all the current variables.
+ It can be used at the beginning of a script to ensure we are starting with a clean slate.
+ Or it can be used at the end to tidy up.
+</p>
+<p>
+ A <b>clear</b> statement with a tag is equivalent to a <b>mark</b> statement plus a plain clear statement
+ and the <b>mark</b> statement will be removed as well.
+</p>
+<p>
+ In effect, the <b>clear</b> <i>tag</i><b>;</b> statement will remove all traces of the script
+ since, and including, the corresponding <b>mark</b> <i>tag</i><b>;</b> statement.
+</p>
+
 
 </div><!--id=content-->
 
