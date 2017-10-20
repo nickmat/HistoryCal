@@ -154,14 +154,18 @@ Field Scheme::str_to_jdn( const string& str, const string& fmt )
 string Scheme::jdn_to_str( Field jdn, const string& fcode )
 {
     Format* fmt = get_output_format( fcode );
-    assert( fmt != NULL );
+    if ( fmt == nullptr ) {
+        return "(" + fcode + ") Format not found.";
+    }
     return fmt->jdn_to_string( get_base(), jdn );
 }
 
 string Scheme::range_to_str( Range range, const string& fcode )
 {
     Format* fmt = get_output_format( fcode );
-    assert( fmt != NULL );
+    if ( fmt == nullptr ) {
+        return "(" + fcode + ") Format not found.";
+    }
     return fmt->range_to_string( get_base(), range );
 }
 
@@ -171,7 +175,9 @@ string Scheme::rangelist_to_str( const RangeList& ranges, const std::string& fco
         return "";
     }
     Format* fmt = get_output_format( fcode );
-    assert( fmt != NULL );
+    if ( fmt == nullptr ) {
+        return "(" + fcode + ") Format not found.";
+    }
     return fmt->rlist_to_string( get_base(), ranges );
 }
 
