@@ -453,15 +453,11 @@ FormatText::CP_Group FormatText::get_cp_group(
     return GRP_Other;
 }
 
-Field Cal::FormatText::get_field(
+Field FormatText::get_field(
     const Record& record, const std::string& fname, const BoolVec* mask ) const
 {
-    string fn = get_owner()->get_field_alias( fname );
-    int index = record.get_base()->get_fieldname_index( fn );
-    if ( index >= 0 ) {
-        return record.get_field( index, mask );
-    }
-    return f_invalid;
+    int index = record.get_field_index( fname );
+    return record.get_field( index, mask );
 }
 
 string FormatText::formatted_str( 
