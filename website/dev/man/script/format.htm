@@ -32,22 +32,21 @@
 <h2>Under Construction</h2>
 <h2>format Statement</h2>
 <p>
- A format is a part of the grammar description
- but it may be defined inside or outside of the the grammar block.
- Defining it outside the grammar allows it to be added after a grammar has been set,
- either temporarily or permanently.
+ A format is normally a part of the grammar description
+ but it may also be defined outside of the the grammar block.
+ Defining it outside the grammar allows it to be added after a grammar has been defined,
+ which means the default schemes can be extended with new formats.
 </p>
 <p>
  There are two aspects to the formatting of dates,
- first, interpreting the input from a user or application
- and second, creating output to write a date in a particular way.
+ firstly, interpreting the input from a user or application
+ and secondly, creating the output to write a date in a particular way.
  If the text from the output can be fed directly back to the input,
- and the result remain unchanged,
- then the format is said to be reversible.
+ and the result remain unchanged, then the format is said to be reversible.
  The format statement is designed to handle both reversible and non-reversible text.
 </p>
 <p>
- A format is given a unique (within a particular grammar) code by which it can be referred to.
+ A format within a particular grammar is given a unique code by which it can be referred to.
  If a grammar inherits another, it may replace one of its inherited formats by reusing the same name.
 </p>
 <p>
@@ -146,8 +145,8 @@
 
 <h4>rules units Sub-Statement</h4>
 <p>
- A units format is one where a date (or parts of a date) is written as a value, unit pair.
- Since the pair is a self contained unit, the pairs may be placed in any order.
+ A units format is one where a date (or parts of a date) is written as a sequence of value, unit pairs.
+ Since the pair is self contained, they may be placed in any order.
 </p>
 <p>
  The unit name can be any field name from the schemes record,
@@ -237,22 +236,22 @@
 
 <h3>input Sub-Statement</h3>
 <p>
- As the <b>inout</b> sub-statement except the format text string can be used (and selected) for input only.
+ As the <b>inout</b> sub-statement except the format text string can be selected and used only for input.
 </p>
 
 <h3>output Sub-Statement</h3>
 <p>
- As the <b>inout</b> sub-statement except the format text string can be used (and selected) for output only.
+ As the <b>inout</b> sub-statement except the format text string can be  selected and used only for output.
 </p>
 <p>
  If the format is intended to be reversible, then this will be accompanied with a matching <b>input</b> sub-statement.
- See the <a href='../defs/fr.htm'>French Republican default grammar</a> script.
- Or this can be used by itself to create a non-reversible format. 
+ See the <a href='../defs/fr.htm'>French Republican default grammar</a> script for an example.
+ If it used by itself then it creates a non-reversible format. 
 </p>
 
 <h3>separators Sub-Statement</h3>
 <p>
- When inputting a date, by default the characters used to separate date elements are ',' and ';'.
+ When inputting a date, by default the characters used to separate date elements are '<b>,</b>' and '<b>;</b>'.
  This sub-statement allows a change to the default.
 </p>
 

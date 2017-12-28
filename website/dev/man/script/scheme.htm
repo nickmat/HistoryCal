@@ -75,7 +75,7 @@
 </p>
 <table class='list'>
 <tr><th colspan='4'>Base Calendars</th></tr>
-<tr><th>Name</th><th>Base-name</th><th>Description</th><th>Default Scheme</th></tr>
+<tr><th>Name</th><th>Base-name</th><th>Description</th><th>Reference Scheme</th></tr>
 <tr><td>Julian Day Number</td><td class='code'>jdn</td><td>A day count calendar used internally by HistoryCal.</td><td><a href='../defs/jdn.htm'>jdn</a></td></tr>
 <tr><td>Julian</td><td class='code'>julian</td><td>The base for the Julian calendar variants.</td><td><a href='../defs/j.htm'>j</a></td></tr>
 <tr><td>Gregorian</td><td class='code'>gregorian</td><td>The modified Julian calendar used world wide.</td><td><a href='../defs/g.htm'>g</a></td></tr>
@@ -234,7 +234,7 @@ The New Moon after 19 Sep 1948 is 2 Oct 1948
 </p>
 <table class='list'>
 <tr><th colspan='4'>Tabular Islamic Calendars</th></tr>
-<tr><th>Keyword</th><th>Leap years within Metonic cycle</th><th>Epoch (j:wdmy)</th><th>Default Scheme</th></tr>
+<tr><th>Keyword</th><th>Leap years within Metonic cycle</th><th>Epoch (j:wdmy)</th><th>Reference Scheme</th></tr>
 <tr><td class='code'>Ia</td><td>2, 5, 7, 10, 13, 15, 18, 21, 24, 26 &amp; 29</td><td>Thur 15 Jul 622</td><td></td></tr>
 <tr><td class='code'>Ic</td><td>2, 5, 7, 10, 13, 15, 18, 21, 24, 26 &amp; 29</td><td>Fri 16 Jul 622</td><td></td></tr>
 <tr><td class='code'>IIa</td><td>2, 5, 7, 10, 13, 16, 18, 21, 24, 26 &amp; 29</td><td>Thur 15 Jul 622</td><td><a href='../defs/ims.htm'>ims</a></td></tr>
@@ -400,38 +400,6 @@ shift jdn, 2400001; // Change jdn to Modified Julian Day</td></tr>
 </table>
 <p></p>
 
-<h2>In Development</h2>
-<p>
- The project is still under development, and the following calendar variants are being considered.
-</p>
-<h3>Corrected Calendars</h3>
-<p>
- With some calendars, a particular authority is used to decide on the calendar elements
- and so a standard conversion is not possible.
- The Islamic observation calendar based on the appearance of the crescent moon is such a calendar.
-</p>
-<p>
- It is possible to create a calendar accurate to within a day or two and this may be sufficient.
- But it may be possible, for instance, where the day of the week and calendar day is known,
- to improve the accuracy by adding a correction table.
-</p>
-
-<h3>Estimated Calendars</h3>
-<p>
- This is similar to the above, but where the error may be quite large
- and there is little hope of improvement. An example would be the early Roman calendar.
- In this variant, a series of ranges with a suggested error would be included.
- Dates would translate to a range,
- but would include a field so when translating back,
- the system knows to remove the error range.
-</p>
-
-<h3>Multi Calendars</h3>
-<p>
- A multi calendar is where two or more calendars are used together
- but unlike a hybrid calendar, they do not have to be similar.
- When formatting a multi-calendar, any element from any of the calendars may be used.
-</p>
 
 </div><!--id=content-->
 
