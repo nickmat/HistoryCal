@@ -179,7 +179,7 @@ string Cal::parse_date_expr( const string& str )
                 }
             }
             break;
-        case '&': case '+': case '-': case '*': case '/': // Must be followed by dot.
+        case '&': case '-': case '/': // Must be followed by dot.
             nit = it+1;
             if( nit != str.end() && ( *nit == '.' ) ) {
                 script += create_date_str( sig, date, ct );
@@ -189,15 +189,8 @@ string Cal::parse_date_expr( const string& str )
                 date += *it; // Treat & as part of date string.
             }
             break;
-        case '\\': case '^': case '!': // May optionally be followed by dot  
-            script += create_date_str( sig, date, ct );
-            script += *it;
-            nit = it + 1;
-            if ( nit != str.end() && ( *nit == '.' ) ) {
-                it++; // Step over following dot.
-            }
-            break;
         case '|': case '(': case ')': case '~': // Always recognised operators.
+        case '\\': case '^': case '!': case '+': case '*':
             script += create_date_str( sig, date, ct );
             script += *it;
             break;

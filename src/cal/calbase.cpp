@@ -181,6 +181,15 @@ Field Base::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const
     return f_invalid;
 }
 
+Field Cal::Base::get_opt_field( const Field* fields, Field jdn, int index ) const
+{
+    if ( index >= int( record_size() ) && index < int( extended_size() ) ) {
+        OptFieldID id = opt_index_to_id( index );
+        return get_opt_field( fields, jdn, id );
+    }
+    return f_invalid;
+}
+
 bool Base::set_fields_as_next_optional(
     Field* fields, Field jdn, const Field* mask, size_t index ) const
 {
