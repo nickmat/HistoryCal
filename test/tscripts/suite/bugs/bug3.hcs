@@ -1,0 +1,7 @@
+// bug3.hcs Test file to test bug
+
+write string,sr:dmyr (2091460 ~ 2095262);
+
+/*[OUTPUT]
+8 Feb 9 Malcolm II ~ 7 Jul 20 Malcolm II
+[OUTPUT]*/

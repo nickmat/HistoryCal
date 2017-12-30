@@ -60,9 +60,13 @@ namespace Cal {
         ~Regnal();
 
         bool is_ok() const;
-        size_t record_size() const override { return m_ext_size; }
+        size_t record_size() const override { return m_fieldnames.size() + 1; }
+        size_t extended_size() const override { return Base::extended_size() + m_ext_fieldnames.size(); }
+        int get_fieldname_index( const std::string& fieldname ) const override;
 
         Field get_jdn( const Field* fields ) const override;
+
+        Field get_opt_field( const Field* fields, Field jdn, int index ) const override;
 
         // Give the chance to set a field to a fixed value.
         void set_fixed_fields( Field* fields ) const override;
@@ -94,8 +98,6 @@ namespace Cal {
         StringVec   m_fieldnames;
         StringVec   m_ext_fieldnames;
         FieldVec    m_fixed_fields;
-        size_t      m_rec_size;
-        size_t      m_ext_size;
     };
 
 }
