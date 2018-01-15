@@ -191,10 +191,12 @@ RangeList Cal::op_set_well_order( const RangeList& rlist )
     RangeList result;
     if( rlist.size() > 0 ) {
         result.push_back( rlist[0] );
+        op_normalise_range( &result[0] );
         if( rlist.size() > 1 ) {
             RangeList right(1);
             for( size_t i = 1 ; i < rlist.size() ; i++ ) {
                 right[0] = rlist[i];
+                op_normalise_range( &right[0] );
                 result = op_set( SO_union, result, right );
             }
         }

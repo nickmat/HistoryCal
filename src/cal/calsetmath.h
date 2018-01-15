@@ -40,6 +40,13 @@ namespace Cal {
 
     RangeList op_set_well_order( const RangeList& rlist );
 
+    inline void op_normalise_range( Range* range ) {
+        if ( range->jdn1 > range->jdn2 ) {
+            Field jdn = range->jdn1;
+            range->jdn1 = range->jdn2;
+            range->jdn2 = jdn;
+        }
+    }
 }
 
 #endif // CAL_CALSETMATH_H_GUARD
