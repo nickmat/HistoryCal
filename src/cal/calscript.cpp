@@ -469,6 +469,7 @@ SHandle Script::do_create_scheme( const std::string& code )
         }
     }
     if( base == NULL ) {
+        error( "Scheme not created." );
         return NULL;
     }
     for( size_t i = 0 ; i < optfields.size() ; i++ ) {
