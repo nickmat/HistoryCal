@@ -395,6 +395,9 @@ bool Script::do_write()
         error( "Unable to output string" );
         return false;
     }
+    if ( value.type() == SValue::SVT_Error ) {
+        return false;
+    }
     if( m_ts.current().type() != SToken::STT_Semicolon ) {
         error( "';' expected." );
         return false;
