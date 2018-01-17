@@ -32,9 +32,14 @@
 #include <fstream>
 #include <sstream>
 
-#define VERSION   "0.8.0"
+#ifdef _WIN32
+#include <Windows.h>
+#include <Wincon.h>
+#endif
+
+#define VERSION   "0.9.0"
 #define PROGNAME  "HistoryCalScript"
-#define COPYRIGHT  "2014 Nick Matthews"
+#define COPYRIGHT  "2014 ~ 2018 Nick Matthews"
 
 const char* g_version = VERSION;
 const char* g_progName = PROGNAME;
@@ -48,6 +53,8 @@ const char* g_title = PROGNAME " - Version " VERSION " Debug\n";
 
 using namespace Cal;
 using namespace std;
+
+enum StmtType { ST_semicolon, ST_curlybracket, ST_both, ST_if_endif, ST_do_loop };
 
 string left_trim( const string& str )
 {
@@ -103,8 +110,165 @@ void do_usage()
     ;
 }
 
+string compress_statement( const string& statement )
+{
+    string stmt;
+    bool in_quote = false;
+    bool in_peren = false;
+    int brace_cnt = 0;
+    bool in_lcomment = false;
+    bool in_mcomment = false;
+
+    for ( auto ch : statement ) {
+        if ( in_quote ) {
+            if ( ch == '"' ) {
+                stmt += ' ';
+                in_quote = false;
+            }
+        } else if ( in_peren ) {
+            if ( ch == ')' ) {
+                stmt += ' ';
+                in_peren = false;
+            }
+        } else if ( brace_cnt > 1 ) {
+            if ( ch == '{' ) {
+                brace_cnt++;
+            } else if ( ch == '}' ) {
+                --brace_cnt;
+                if ( brace_cnt == 1 ) {
+                    stmt += ' ';
+                }
+            }
+        } else if ( ch == '"' ) {
+            in_quote = true;
+        } else if ( ch == '(' ) {
+            in_peren = true;
+        } else if ( ch == '{' ) {
+            brace_cnt++;
+            if ( brace_cnt == 1 ) {
+                stmt += ch;
+            }
+        } else {
+            stmt += ch;
+        }
+    }
+    return stmt;
+}
+
+bool terminated_char( const string& stmt, int character )
+{
+    for ( auto ch : stmt ) {
+        if ( ch == character ) {
+            return true;
+        }
+    }
+    return false;
+}
+bool terminated_semicolon( const string& statement )
+{
+    string stmt = compress_statement( statement );
+    return terminated_char( stmt, ';' );
+}
+
+bool terminated_curlybracket( const string& statement )
+{
+    string stmt = compress_statement( statement );
+    return terminated_char( stmt, '}' );
+}
+
+bool terminated_both( const string& statement )
+{
+    string stmt = compress_statement( statement );
+    for ( auto ch : stmt ) {
+        if ( ch == '{' ) {
+            return terminated_char( stmt, '}' );
+        }
+    }
+    return terminated_char( stmt, ';' );
+}
+
+bool terminated_word( const string& statement, const string& end )
+{
+    string stmt = compress_statement( statement );
+    string start = get_first_word( stmt, nullptr, ' ' );
+    int count = 0;
+    string word;
+    bool in_word = false;
+    for ( auto ch : stmt ) {
+        if ( in_word ) {
+            if ( isalnum( ch ) || ch == '_' || ch == ':' || ch == '.' ) {
+                word += ch;
+            } else {
+                if ( word == start ) {
+                    count++;
+                } else if ( word == end ) {
+                    if ( count > 1 ) {
+                        --count;
+                    } else {
+                        return true;
+                    }
+                }
+                in_word = false;
+            }
+        } else if ( isascii( ch ) && ( isalpha( ch ) || ch == '_' || ch == ':' ) ) {
+            in_word = true;
+            word = ch;
+        }
+    }
+    return false;
+}
+
+string get_statement( const string& start, StmtType type )
+{
+    string statement = start;
+    for ( ;;) {
+        cout << "... ";
+        string line;
+        getline( cin, line );
+        line = left_trim( line );
+        if ( line.empty() ) {
+            break;
+        }
+        statement += "\n" + line;
+        switch ( type )
+        {
+        case ST_semicolon:
+            if ( terminated_semicolon( statement ) ) {
+                return statement;
+            }
+            break;
+        case ST_curlybracket:
+            if ( terminated_curlybracket( statement ) ) {
+                return statement;
+            }
+            break;
+        case ST_both:
+            if ( terminated_both( statement ) ) {
+                return statement;
+            }
+            break;
+        case ST_if_endif:
+            if ( terminated_word( statement, "endif" ) ) {
+                return statement;
+            }
+            break;
+        case ST_do_loop:
+            if ( terminated_word( statement, "loop" ) ) {
+                return statement;
+            }
+            break;
+        default:
+            return "";
+        }
+    }
+    return statement;
+}
+
 int main( int argc, char* argv[] )
 {
+#ifdef _WIN32
+    SetConsoleOutputCP( 65001 );
+#endif
     vector<string> filenames;
     bool run_default = true;
     bool do_cmd_line = true;
@@ -150,7 +314,7 @@ int main( int argc, char* argv[] )
 
     if( do_cmd_line ) {
         for(;;) {
-            cout << "hcs: ";
+            cout << "hc: ";
             string cmnd;
             getline( cin, cmnd );
             string word, tail;
@@ -166,6 +330,37 @@ int main( int argc, char* argv[] )
                 continue;
             } else if( word == "run" ) {
                 cmnd = read_file( tail );
+            } else if (
+                word == "let" || word == "set" || word == "write"
+                || word == "writeln" || word == "mark" || word == "clear"
+                || word == "end" || word == "call" )
+            {
+                if ( !terminated_semicolon( tail ) ) {
+                    cmnd = get_statement( cmnd, ST_semicolon );
+                }
+            } else if (
+                word == "function" || word == "scheme" || word == "grammar"
+                || word == "vocab" )
+            {
+                if ( !terminated_curlybracket( tail ) ) {
+                    cmnd = get_statement( cmnd, ST_curlybracket );
+                }
+            } else if ( word == "format" ) {
+                if ( !terminated_both( tail ) ) {
+                    cmnd = get_statement( cmnd, ST_both );
+                }
+            } else if ( word == "if" ) {
+                if ( !terminated_word( cmnd, "endif" ) ) {
+                    cmnd = get_statement( cmnd, ST_if_endif );
+                }
+            } else if ( word == "do" ) {
+                if ( !terminated_word( cmnd, "loop" ) ) {
+                    cmnd = get_statement( cmnd, ST_do_loop );
+                }
+            } else {
+                if ( !terminated_semicolon( cmnd ) && !cmnd.empty() ) {
+                    cmnd = "write " + cmnd + ";";
+                }
             }
             string output = cal->run_script( cmnd );
             if( output.size() ) {
