@@ -1,0 +1,11 @@
+// function014.hcs - Test manual example functions.
+
+function wr.range.plus(start, duration = 7){
+    write string,g:dmy( start ~ start + duration );
+}
+
+call wr.range.plus(date,g:dmy "19sep1948", 14);
+
+/*[OUTPUT]
+19 Sep 1948 ~ 3 Oct 1948
+[OUTPUT]*/

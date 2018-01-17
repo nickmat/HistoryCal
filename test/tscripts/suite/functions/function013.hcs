@@ -1,0 +1,12 @@
+// function013.hcs - Test manual example functions.
+
+function get.today {
+    let _today = date "21 May 2017";
+    result = "(" + string,g:dmy _today + ")";
+}
+
+write @get.today;
+
+/*[OUTPUT]
+(21 May 2017)
+[OUTPUT]*/
