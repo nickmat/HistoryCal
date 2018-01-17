@@ -1,0 +1,18 @@
+// date013.hcs   Test file to test a cast cast with a pattern record
+
+set inout ja:dmyh;
+
+writeln "";
+writeln string( date "mar1941~sep1941" );
+writeln string( date "sep1941~mar1941" );
+writeln string( date "mar1941|sep1941" );
+
+/*[OUTPUT]
+
+25 Mar 1941 ~ 30 Sep 1941
+1 Sep 1941 ~ 24 Mar 1941/2
+25 Mar 1941 ~ 31 Mar 1941 | Sep 1941 | 1 Mar 1941/2 ~ 24 Mar 1941/2
+
+[OUTPUT]*/
+
+

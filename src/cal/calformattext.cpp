@@ -169,6 +169,10 @@ bool FormatText::set_input( Record* record, const std::string& input, Boundary r
     }
     if( rb == RB_end ) {
         ret = record->set_fields_as_begin_last( rec.get_field_ptr(), false );
+        bool ret2 = ret;
+        while ( ret2 ) {
+            ret2 = record->set_fields_as_next_last( rec.get_field_ptr() );
+        }
     }
     return ret;
 }
@@ -594,7 +598,6 @@ RangeList FormatText::multirange_str_to_rlist( Base* base, const string& input )
             // start and end
             begval = rangestr.substr( 0, pos2 );
             endval = rangestr.substr( pos2 + 1 );
-            Record rec1( base ), rec2( base );
             bool ret1 = true, ret2 = true;
             Range range;
             if( begval.empty() ) {
