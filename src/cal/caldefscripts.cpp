@@ -1,4 +1,4 @@
-/* ../src/cal/caldefscripts.cpp - File created by file2cpp 1.0.0 active */
+/* ../src/cal/caldefscripts.cpp - File created by file2cpp 1.0.0 */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Name:        scripts/caldefscripts.f2c
@@ -153,6 +153,7 @@ Cal::ScriptModule Cal::cal_default_scripts[] = {
  "base gregorian;\n"
  "grammar g;\n"
  "}\n"
+ "set inout g;\n"
  "grammar j_sh {\n"
  "optional unshift, wday;\n"
  "vocabs m, w;\n"
