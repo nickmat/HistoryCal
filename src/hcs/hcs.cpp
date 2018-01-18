@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     18th May 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2018, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCalScript is free software: you can redistribute it and/or modify
@@ -96,18 +96,77 @@ void do_usage()
         "Options:\n"
         "  -h    Show this help message and exit.\n"
         "  -n    Do not run the default script on start up.\n"
-        "  -e    Exit the program without running the command line.\n"
+        "  -e    Exit the program without entering interactive mode.\n"
         "  name  Run the file 'name' as a script.\n"
         "        Multiple files are run in the order that they appear.\n" 
         "\n"
-        "Commandl line:\n"
-        "  help           Show this help message.\n"
-        "  run filename   Run the script in filename.\n"
-        //"  info           Get info on available calendars.\n"
-        "  bye            Exit the program.\n"
-        "Anything else is passed directly to the script interpreter.\n"
+    ;
+}
+
+void do_help( const string& option )
+{
+    if ( option == "usage" ) {
+        do_usage();
+        return;
+    }
+    cout <<
+        "\n"
+        "Welcome to the HistoryCalScript interactive program.\n"
+        "\n"
+        "Briefly, a script consists of one or more statements. These statements are\n"
+        "detailed in the online manual at http://historycal.org/man/script/. The\n"
+        "statements are entered on one or more lines (only one statement to a line)\n"
+        "and they will be run as soon as they are complete.\n"
+        "\n"
+        "In addition to the statements, the following commands are available: 'help',\n"
+        "'info', 'run' and 'end'. These are used as follows.\n"
+        "\n"
+        " help             Display this text.\n"
+        " help usage       Display the command line details.\n"
+        " info             Lists all the currently defined schemes.\n"
+        " info scheme-code Gives details of the named scheme.\n"
+        " run filename     Import and run the script in the named file.\n"
+        " end              Exit the program.\n"
+        "\n"
+        "If what you enter is neither a named statement or a command, then, if it ends\n"
+        "with a ';' character, it is treated as an assignment statement. Otherwise it is\n"
+        "treated as an expression and wrapped in a 'write' statement.\n"
         "\n"
     ;
+}
+
+void do_info( Calendars* cal, const string& scode )
+{
+    if ( scode.empty() ) {
+        SchemeList schemes = cal->get_scheme_list();
+        cout << "Available schemes:-\n";
+        for ( auto data : schemes ) {
+            cout << data.code << "\t" << data.name << "\n";
+        }
+        cout << "\n";
+        return;
+    }
+    SHandle sch = cal->get_scheme( scode );
+    if ( sch == nullptr ) {
+        cout << "Scheme " << scode << " not found.\n";
+        return;
+    }
+    Scheme_info info;
+    cal->get_scheme_info( &info, sch );
+    SchemeFormatInfo formats;
+    cal->get_output_info( &formats, sch );
+    cout <<
+        "Name:\t" << info.name << "\n"
+        "Code:\t" << info.code << "\n"
+        "Grammar:\t" << info.grammar_code << "\n"
+        "Formats:-\n"
+    ;
+    for ( auto pdesc : formats.descs ) {
+        for ( auto pcode : pdesc.codes ) {
+            cout << pcode.code << "\t" << pdesc.desc << "\n";
+        }
+    }
+    cout << "\n";
 }
 
 string compress_statement( const string& statement )
@@ -294,7 +353,12 @@ int main( int argc, char* argv[] )
         }
     }
 
-    cout << g_title << g_copyright << "\n";
+    if ( do_cmd_line ) {
+        cout << g_title << g_copyright <<
+            "Enter 'help' for more information.\n"
+            "\n"
+        ;
+    }
 
     Calendars* cal;
     if( run_default ) {
@@ -320,20 +384,20 @@ int main( int argc, char* argv[] )
             string word, tail;
             word = get_first_word( cmnd, &tail, ' ' );
 
-            if( word == "bye" ) {
+            if( word == "end" ) {
                 break;
             } else if( word == "info" ) {
-                // TODO: Add info command.
+                do_info( cal, tail );
                 continue;
             } else if( word == "help" ) {
-                do_usage();
+                do_help( tail );
                 continue;
             } else if( word == "run" ) {
                 cmnd = read_file( tail );
             } else if (
                 word == "let" || word == "set" || word == "write"
                 || word == "writeln" || word == "mark" || word == "clear"
-                || word == "end" || word == "call" )
+                || word == "call" )
             {
                 if ( !terminated_semicolon( tail ) ) {
                     cmnd = get_statement( cmnd, ST_semicolon );
