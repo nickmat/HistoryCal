@@ -175,15 +175,40 @@ string compress_statement( const string& statement )
     bool in_quote = false;
     bool in_peren = false;
     int brace_cnt = 0;
+    bool start_comment = false;
+    bool end_comment = false;
     bool in_lcomment = false;
     bool in_mcomment = false;
 
     for ( auto ch : statement ) {
-        if ( in_quote ) {
+        if ( in_lcomment ) {
+            if ( ch == '\n' ) {
+                in_lcomment = false;
+            }
+        } else if(in_mcomment ){
+            if ( end_comment ) {
+                if ( ch == '/' ) {
+                    in_mcomment = false;
+                }
+            }
+            end_comment = ( ch == '*' );
+        } else if ( in_quote ) {
             if ( ch == '"' ) {
                 stmt += ' ';
                 in_quote = false;
             }
+        } else if ( start_comment ) {
+            if ( ch == '/' ) {
+                in_lcomment = true;
+            } else if ( ch == '*' ) {
+                in_mcomment = true;
+            } else {
+                stmt += '/';
+                stmt += ch;
+            }
+            start_comment = false;
+        } else if ( ch == '/' ) {
+            start_comment = true;
         } else if ( in_peren ) {
             if ( ch == ')' ) {
                 stmt += ' ';
@@ -279,7 +304,7 @@ bool terminated_word( const string& statement, const string& end )
 
 string get_statement( const string& start, StmtType type )
 {
-    string statement = start;
+    string statement = start + "\n";
     for ( ;;) {
         cout << "... ";
         string line;
@@ -288,7 +313,7 @@ string get_statement( const string& start, StmtType type )
         if ( line.empty() ) {
             break;
         }
-        statement += "\n" + line;
+        statement += line + "\n";
         switch ( type )
         {
         case ST_semicolon:
@@ -423,7 +448,7 @@ int main( int argc, char* argv[] )
                 }
             } else {
                 if ( !terminated_semicolon( cmnd ) && !cmnd.empty() ) {
-                    cmnd = "write " + cmnd + ";";
+                    cmnd = "write " + cmnd + "//*/\n;";
                 }
             }
             string output = cal->run_script( cmnd );
