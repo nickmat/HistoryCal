@@ -114,9 +114,9 @@ void do_help( const string& option )
         "Welcome to the HistoryCalScript interactive program.\n"
         "\n"
         "Briefly, a script consists of one or more statements. These statements are\n"
-        "detailed in the online manual at http://historycal.org/man/script/. The\n"
-        "statements are entered on one or more lines (only one statement to a line)\n"
-        "and they will be run as soon as they are complete.\n"
+        "detailed in the online manual at http://historycal.org/man/script/. A single\n"
+        "statements is entered, if necessary over a number of lines, and they will be\n"
+        "executed as soon as the statement is completed.\n"
         "\n"
         "In addition to the statements, the following commands are available: 'help',\n"
         "'info', 'run' and 'end'. These are used as follows.\n"
@@ -128,9 +128,9 @@ void do_help( const string& option )
         " run filename     Import and run the script in the named file.\n"
         " end              Exit the program.\n"
         "\n"
-        "If what you enter is neither a named statement or a command, then, if it ends\n"
+        "If what you enter is neither a named statement or a command then, if it ends\n"
         "with a ';' character, it is treated as an assignment statement. Otherwise it is\n"
-        "treated as an expression and wrapped in a 'write' statement.\n"
+        "treated as an expression and is wrapped within a 'write' statement.\n"
         "\n"
     ;
 }
@@ -306,7 +306,7 @@ string get_statement( const string& start, StmtType type )
 {
     string statement = start + "\n";
     for ( ;;) {
-        cout << "... ";
+        cout << ".... ";
         string line;
         getline( cin, line );
         line = left_trim( line );
@@ -403,7 +403,7 @@ int main( int argc, char* argv[] )
 
     if( do_cmd_line ) {
         for(;;) {
-            cout << "hc: ";
+            cout << "hcs: ";
             string cmnd;
             getline( cin, cmnd );
             string word, tail;
