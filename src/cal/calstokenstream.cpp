@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     24th June 2014
- * Copyright:   Copyright (c) 2014 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2018, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -193,6 +193,13 @@ SToken STokenStream::next()
         break; // Error
     }
     return m_cur_token;
+}
+
+void Cal::STokenStream::skip_to( SToken::Type type )
+{
+    while ( m_cur_token.type() != type && m_cur_token.type() != SToken::STT_End ) {
+        next();
+    }
 }
 
 string STokenStream::read_until( const string& name, const string& esc )

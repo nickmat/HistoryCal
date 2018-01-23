@@ -377,8 +377,10 @@ bool Script::do_assign( const std::string& name )
         return false;
     }
     store()->set( name, value );
-    token = m_ts.current();
-    if( token.type() != SToken::STT_Semicolon ) {
+    if ( value.type() == SValue::SVT_Error ) {
+        m_ts.skip_to( SToken::STT_Semicolon );
+    }
+    if( m_ts.current().type() != SToken::STT_Semicolon ) {
         error( "';' expected." );
         return false;
     }
@@ -396,7 +398,7 @@ bool Script::do_write()
         return false;
     }
     if ( value.type() == SValue::SVT_Error ) {
-        return false;
+        m_ts.skip_to( SToken::STT_Semicolon );
     }
     if( m_ts.current().type() != SToken::STT_Semicolon ) {
         error( "';' expected." );
