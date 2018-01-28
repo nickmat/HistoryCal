@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st March 2016
- * Copyright:   Copyright (c) 2016 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2016 ~ 2018, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -86,6 +86,9 @@ namespace Cal {
         std::vector<Vocab*> m_vocabs;
         std::vector<InputFieldType> m_types;
         StringVec   m_input_fields;
+
+        StringVec   m_default_names;
+        FieldVec    m_default_values;
 
         StringVec   m_rank_fieldnames;
         StringVec   m_rankout_fieldnames;

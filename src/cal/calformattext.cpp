@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st March 2016
- * Copyright:   Copyright (c) 2016 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2016 ~ 2018, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -182,28 +182,34 @@ bool FormatText::resolve_input(
 {
     size_t cnt = 0;
     FieldVec fs( base->extended_size(), f_invalid );
-    for( size_t i = 0 ; i < input.size() ; i++ ) {
-        if( input[i].type == IFT_null ) {
+    for ( size_t i = 0; i < m_default_names.size(); i++ ) {
+        int index = base->get_fieldname_index( m_default_names[i] );
+        if ( index >= 0 ) {
+            fields[index] = m_default_values[i];
+        }
+    }
+    for ( size_t i = 0; i < input.size(); i++ ) {
+        if ( input[i].type == IFT_null ) {
             continue;
         }
         string fname;
-        if( input[i].type == IFT_dual2 ) {
+        if ( input[i].type == IFT_dual2 ) {
             fname = get_1st_input_field( IFT_dual2 );
-            if( fname.empty() ) {
+            if ( fname.empty() ) {
                 continue; // Ignore if we can't find it.
             }
         }
-        if( input[i].vocab ) {
+        if ( input[i].vocab ) {
             fname = input[i].vocab->get_fieldname();
-            if( fname.empty() ) {
+            if ( fname.empty() ) {
                 fname = get_input_field( input[i].vocab );
-                if( fname.empty() ) {
+                if ( fname.empty() ) {
                     continue; // Give up.
                 }
             }
         }
-        if( fname.size() ) {
-            if( !base->is_tier1( fname, this ) ) {
+        if ( fname.size() ) {
+            if ( !base->is_tier1( fname, this ) ) {
                 int index = base->get_fieldname_index( fname );
                 if ( index < 0 ) continue;
                 // Input an extended field
@@ -214,21 +220,21 @@ bool FormatText::resolve_input(
         fs[cnt] = input[i].value;
         cnt++;
     }
-    if( cnt < 1 ) {
+    if ( cnt < 1 ) {
         return false;
     }
     XRefVec xref = base->get_xref_order( cnt, this );
-    if( xref.empty() ) {
+    if ( xref.empty() ) {
         return false;
     }
-    for( size_t i = 0 ; i < cnt ; i++ ) {
+    for ( size_t i = 0; i < cnt; i++ ) {
         int x = xref[i];
-        if( x >= 0 && x < (int) base->extended_size() ) {
+        if ( x >= 0 && x < (int)base->extended_size() ) {
             fields[x] = fs[i];
         }
     }
-    for( size_t i = base->record_size() ; i < base->extended_size() ; i++ ) {
-        if( fields[i] != f_invalid ) {
+    for ( size_t i = base->record_size(); i < base->extended_size(); i++ ) {
+        if ( fields[i] != f_invalid ) {
             base->resolve_opt_input( fields, i );
         }
     }
@@ -238,9 +244,9 @@ bool FormatText::resolve_input(
 void FormatText::set_control( const std::string& format, Use usefor )
 {
     assert( get_owner() );
-    enum State { dooutput, dofname, dodname, dovocab, doabbrev };
+    enum State { dooutput, dofname, dodname, dovocab, doabbrev, dodefault };
     State state = dooutput;
-    string fieldout, fname, dname, vocab, abbrev, input, output;
+    string fieldout, fname, dname, vocab, abbrev, default_, input, output;
     bool usefor_output, usefor_input, strict_input;
     switch( usefor )
     {
@@ -291,7 +297,11 @@ void FormatText::set_control( const std::string& format, Use usefor )
                 input += " ";
             }
             if( usefor_input ) {
-                input += fname;
+                if ( default_.empty() ) {
+                    input += fname;
+                } else {
+                    input += "[" + default_ + "]";
+                }
             }
             InputFieldType type = IFT_number;
             string fieldname = get_owner()->get_field_alias( fname );
@@ -340,29 +350,41 @@ void FormatText::set_control( const std::string& format, Use usefor )
                 type = IFT_dual2;
             }
             if( usefor_input ) {
-                m_input_fields.push_back( fieldname );
-                m_vocabs.push_back( voc );
-                m_types.push_back( type );
+                if ( default_.empty() ) {
+                    m_input_fields.push_back( fieldname );
+                    m_vocabs.push_back( voc );
+                    m_types.push_back( type );
+                } else if( voc != nullptr ) {
+                    Field val = voc->find( default_ );
+                    if ( val != f_invalid ) {
+                        m_default_names.push_back( fieldname );
+                        m_default_values.push_back( val );
+                    }
+                }
             }
 
             fname.clear();
             dname.clear();
             vocab.clear();
             abbrev.clear();
+            default_.clear();
             state = dooutput;
         } else if( state == dofname && *it == '/' ) {
             state = dodname;
         } else if( state == dofname && *it == ':' ) {
             state = dovocab;
-        } else if( state == dovocab && *it == '.' ) {
+        } else if ( state == dovocab && *it == '.' ) {
             state = doabbrev;
+        } else if ( ( state == dovocab || state == doabbrev ) && *it == '=' ) {
+            state = dodefault;
         } else {
             switch( state )
             {
-            case dofname:  fname += *it;  break;
-            case dodname:  dname += *it;  break;
-            case dovocab:  vocab += *it;  break;
-            case doabbrev: abbrev += *it; break;
+            case dofname:   fname += *it;    break;
+            case dodname:   dname += *it;    break;
+            case dovocab:   vocab += *it;    break;
+            case doabbrev:  abbrev += *it;   break;
+            case dodefault: default_ += *it; break;
             default: break;
             }
         }
@@ -373,6 +395,26 @@ void FormatText::set_control( const std::string& format, Use usefor )
     }
     if( usefor_input ) {
         set_user_input_str( input );
+        if ( !m_default_names.empty() ) {
+            // We need to remove the default field from the ranking fields.
+            if ( m_rank_fieldnames.empty() ) {
+                m_rank_fieldnames = get_rank_fieldnames();
+            }
+            for ( auto it = m_rank_fieldnames.begin(); it != m_rank_fieldnames.end(); ) {
+                bool matched = false;
+                for ( auto name : m_default_names ) {
+                    if ( name == *it ) {
+                        matched = true;
+                        break;
+                    }
+                }
+                if ( matched ) {
+                    it = m_rank_fieldnames.erase( it );
+                } else {
+                    it++;
+                }
+            }
+        }
     }
 }
 

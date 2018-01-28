@@ -963,10 +963,6 @@ bool Script::do_format( Grammar* gmr )
             error( "Unable to create format." );
             return false;
         }
-        fmt->set_control( format, usefor );
-        if( informat.size() ) {
-            fmt->set_control( informat, FormatText::Use_input );
-        }
         if( separators.size() ) {
             fmt->set_separators( separators );
         }
@@ -975,6 +971,10 @@ bool Script::do_format( Grammar* gmr )
         }
         if ( rankoutfields.size() ) {
             fmt->set_rankout_fieldnames( rankoutfields );
+        }
+        fmt->set_control( format, usefor );
+        if( informat.size() ) {
+            fmt->set_control( informat, FormatText::Use_input );
         }
     } else if ( rules[0] == "iso8601" ) {
         FormatIso* fmt = m_cals->create_format_iso( code, gmr, rules );
