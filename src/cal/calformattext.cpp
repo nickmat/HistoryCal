@@ -80,7 +80,7 @@ std::string FormatText::range_to_string( Base* base, Range range ) const
 string FormatText::get_masked_output( const Record& record, const BoolVec* mask ) const
 {
     string output, fieldout, fname, dname, vocab, abbrev, value;
-    enum State { ignore, dooutput, dofname, dodname, dovocab, doabbrev };
+    enum State { ignore, dooutput, dofname, dodname, dovocab, doabbrev, dodefault };
     State state = dooutput;
     for ( string::const_iterator it = m_control.begin(); it != m_control.end(); it++ ) {
         switch ( state )
@@ -104,6 +104,7 @@ string FormatText::get_masked_output( const Record& record, const BoolVec* mask 
         case dodname:
         case dovocab:
         case doabbrev:
+        case dodefault:
             if ( *it == ')' ) {
                 Field f = get_field( record, fname, mask );
                 if ( dname.size() ) {
@@ -129,6 +130,8 @@ string FormatText::get_masked_output( const Record& record, const BoolVec* mask 
                 state = dodname;
             } else if ( state == dovocab && *it == '.' ) {
                 state = doabbrev;
+            } else if ( (state == dovocab || state == doabbrev ) && *it == '=' ) {
+                state = dodefault;
             } else {
                 if ( state == dofname ) {
                     fname += *it;
@@ -136,7 +139,7 @@ string FormatText::get_masked_output( const Record& record, const BoolVec* mask 
                     dname += *it;
                 } else if ( state == dovocab ) {
                     vocab += *it;
-                } else { // doabbrev
+                } else if ( state == doabbrev ) {
                     abbrev += *it;
                 }
             }

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     31st July 2015
- * Copyright:   Copyright (c) 2015 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2015 ~ 2018, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -136,7 +136,7 @@ void TestDef_jce::testCreation()
 
 void TestDef_jce::testStrTableInput()
 {
-    bool set = setInputFormatFromDesc( m_cal, m_sid, "Day Month Year CEra" );
+    bool set = setInputFormatFromDesc( m_cal, m_sid, "Day Month Year [CE]" );
     CPPUNIT_ASSERT( set == true );
     for( size_t i = 0 ; i < MaxSample ; i++ ) {
         Field jdn = m_cal->str_to_jdn( m_sid, test_strs[i][0] );
@@ -163,11 +163,11 @@ void TestDef_jce::testRangeShorthand()
         { "1948ce", "1948 CE" },
         { "1feb1948ce ~ 29 Feb 1948 CE", "Feb 1948 CE" },
         { "Feb1948ce", "Feb 1948 CE" },
-        { "1 Apr 1948 CE ~ 30 4 1948 1", "Apr 1948 CE" },
+        { "1 Apr 1948 CE ~ 30 4 1948 CE", "Apr 1948 CE" },
     };
     size_t count = sizeof(t) / sizeof(data);
 
-    bool set = setInputFormatFromDesc( m_cal, m_sid, "Day Month Year CEra" );
+    bool set = setInputFormatFromDesc( m_cal, m_sid, "Day Month Year [CE]" );
     CPPUNIT_ASSERT( set == true );
     set = setOutputFormatFromDesc( m_cal, m_sid, "dd Mon yyyy CE" );
     CPPUNIT_ASSERT( set == true );
