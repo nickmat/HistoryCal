@@ -7,7 +7,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2014
- * Copyright:   Copyright (c) 2014 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2018, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -32,6 +32,8 @@
 #include "caldefscripts.h"
 
 Cal::ScriptModule Cal::cal_default_scripts[] = {
+    { "stdlib",  /* stdlib.hcs */
+ "function if(c,a,b) { if c result=a; else result=b; endif }\n" },
     { "base",  /* base.hcs */
  "vocab w {\n"
  "name \"Weekday names\";\n"
