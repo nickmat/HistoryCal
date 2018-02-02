@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     19th September 2013
- * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2018, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -376,7 +376,7 @@ bool Calendars::add_scheme( SHandle sch, const string& code )
 
 Grammar* Calendars::create_grammar( const string& code )
 {
-    Grammar* gmr = new Grammar( code );
+    Grammar* gmr = new Grammar( code, this );
     assert( m_marks.size() > 0 );
     m_marks[m_marks.size()-1]->add_grammar( gmr );
     m_grammars[code] = gmr;

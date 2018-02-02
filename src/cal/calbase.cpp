@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2018, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -631,7 +631,7 @@ bool Base::is_tier1( const string& fieldname, const FormatText* fmt ) const
 void Base::create_default_grammar() const
 {
     if( m_grammar == NULL ) {
-        m_grammar = new Grammar( "" );
+        m_grammar = new Grammar( "", nullptr );
     }
     FormatText* fmt = m_grammar->create_format_text( "def" );
     string format;

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     13th November 2013
- * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2018, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -39,8 +39,8 @@
 using namespace Cal;
 using std::string;
 
-Grammar::Grammar( const string& code )
-    : m_code(code), m_inherit(NULL)
+Grammar::Grammar( const string& code, Calendars* cals )
+    : m_code(code), m_cals(cals), m_inherit(nullptr)
 {
 }
 
@@ -51,9 +51,11 @@ Grammar::~Grammar()
     }
 }
 
-void Grammar::set_inherit( Calendars* cals, const std::string& code )
+void Grammar::set_inherit( const string& code )
 {
-    m_inherit = cals->get_grammar( code );
+    if ( m_cals ) {
+        m_inherit = m_cals->get_grammar( code );
+    }
 }
 
 void Grammar::set_pref( const std::string& fcode )

@@ -819,7 +819,7 @@ bool Script::do_grammar()
                 do_grammar_alias( gmr );
             } else if( name == "inherit" ) {
                 str = get_name_or_primary( true );
-                gmr->set_inherit( m_cals, str );
+                gmr->set_inherit( str );
             } else if( name == "optional" ) {
                 StringVec optfields = get_string_list( true );
                 gmr->set_opt_fieldnames( optfields );
