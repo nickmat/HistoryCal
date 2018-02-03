@@ -32,6 +32,7 @@
 #include "calformattext.h"
 #include "calformatunit.h"
 #include "calparse.h"
+#include "calrecord.h"
 #include "calvocab.h"
 
 #include <cassert>
@@ -124,6 +125,11 @@ bool Grammar::add_format( Format* fmt )
         m_pref_output_fcode = code;
     }
     return true;
+}
+
+void Grammar::add_element( const string & elem, const string & expression )
+{
+    m_elements[elem] = expression;
 }
 
 void Grammar::add_alias( const string& alias, const StringVec& pairs )
@@ -287,6 +293,19 @@ StringVec Grammar::get_vocab_names() const
         vec.push_back( m_vocabs[i]->get_name() );
     }
     return vec;
+}
+
+bool Grammar::get_element(
+    Field* field, const Record& record, const string& fname ) const
+{
+    if ( m_elements.count( fname ) == 1 ) {
+        *field = m_cals->evaluate_field( m_elements.find(fname)->second, record );
+        return true;
+    }
+    if( m_inherit ) {
+        return m_inherit->get_element( field, record, fname );
+    }
+    return false;
 }
 
 Field Grammar::find_token( Vocab** vocab, const std::string& word ) const

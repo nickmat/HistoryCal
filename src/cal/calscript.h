@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     7th May 2014
- * Copyright:   Copyright (c) 2014 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2018, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@
 namespace Cal {
 
     class Calendars;
+    class Record;
     class Base;
     class Vocab;
     struct RegnalEra;
@@ -44,6 +45,7 @@ namespace Cal {
         Script( Calendars* cals, std::istream& in, std::ostream& out );
 
         bool run();
+        Field evaluate_field( const Record& record );
 
     private:
         bool error( const std::string& mess ) { return m_ts.error( mess ); }
@@ -69,6 +71,7 @@ namespace Cal {
         bool do_vocab_tokens( Vocab* voc );
         bool do_grammar();
         bool do_grammar_vocabs( Grammar* gmr );
+        bool do_grammar_element( Grammar* gmr );
         bool do_grammar_alias( Grammar* gmr );
         bool do_format( Grammar* gmr );
         FieldVec do_fixed_fields( const StringVec& fieldnames );
@@ -102,6 +105,7 @@ namespace Cal {
         STokenStream  m_ts;
         std::ostream* m_out;
         std::ostream* m_err;
+        const Record* m_record;
     };
 
 }

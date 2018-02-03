@@ -207,7 +207,8 @@ string STokenStream::read_until( const string& name, const string& esc )
     string code;
     char ch;
     int count = 0;
-    bool braces = name == "}";
+    bool braces = ( name == "}" );
+    bool terminal = ( name == ";" );
     for(;;) {
         string word;
         while( m_in->get( ch ) && isalnum( ch ) ) {
@@ -227,7 +228,9 @@ string STokenStream::read_until( const string& name, const string& esc )
                 }
                 --count;
             }
-        } else if( !word.empty() ) {
+        } else if ( terminal && ch == ';' ) {
+            break;
+        } else if ( !word.empty() ) {
             if( word == esc ) {
                 count++;
             }

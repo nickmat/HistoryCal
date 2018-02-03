@@ -506,7 +506,14 @@ Field FormatText::get_field(
     const Record& record, const std::string& fname, const BoolVec* mask ) const
 {
     int index = record.get_field_index( fname );
-    return record.get_field( index, mask );
+    if ( index < 0 || ( mask && !( *mask )[index] ) ) {
+        return f_invalid;
+    }
+    Field field;
+    if ( get_owner()->get_element( &field, record, fname ) ) {
+        return field;
+    }
+    return record.get_field( index );
 }
 
 string FormatText::formatted_str( 

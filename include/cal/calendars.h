@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     19th September 2013
- * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2018, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -48,6 +48,7 @@ namespace Cal {
 
         DLLIMPEXP_CAL static const char* version();
         DLLIMPEXP_CAL std::string get_init_error();
+        DLLIMPEXP_CAL std::string get_last_error();
         DLLIMPEXP_CAL std::string run_script( const std::string& script );
         DLLIMPEXP_CAL std::string run_script_file( const std::string& filename );
         DLLIMPEXP_CAL SHandle get_scheme( const std::string& code ) const;
@@ -97,7 +98,7 @@ namespace Cal {
         ScriptStore* get_store() const { return m_store; }
         void push_store();
         bool pop_store();
-
+        Field evaluate_field( const std::string& expression, const Record& record );
 
     private:
         SHandleMap   m_shandles;
@@ -107,6 +108,7 @@ namespace Cal {
         MarkVec      m_marks;
         ScriptStore* m_store;
         std::string  m_init_error;
+        std::string  m_last_error;
     };
 
 }
