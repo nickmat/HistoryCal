@@ -1,0 +1,15 @@
+// convert006.hcs Test convert cast expression to left left padded output.
+
+writeln "";
+
+writeln convert,":lp:-4" 7;
+writeln convert,:lp:03 21;
+writeln convert,:lp:.6 1948;
+
+/*[OUTPUT]
+
+---7
+021
+..1948
+
+[OUTPUT]*/

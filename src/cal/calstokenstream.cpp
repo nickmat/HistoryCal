@@ -106,6 +106,8 @@ SToken STokenStream::next()
             set_type( SToken::STT_date );
         } else if ( str == "record" ) {
             set_type( SToken::STT_record );
+        } else if ( str == "convert" ) {
+            set_type( SToken::STT_convert );
         } else if ( str == "error" ) {
             set_type( SToken::STT_error );
         } else {

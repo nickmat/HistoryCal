@@ -99,6 +99,8 @@ namespace Cal {
         void push_store();
         bool pop_store();
         Field evaluate_field( const std::string& expression, const Record& record );
+        std::string convert_to_string( Field field, const std::string& sig );
+        Field convert_to_field( const std::string& str, const std::string& sig );
 
     private:
         SHandleMap   m_shandles;

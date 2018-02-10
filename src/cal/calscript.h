@@ -94,6 +94,7 @@ namespace Cal {
         SValue str_cast();
         SValue date_cast();
         SValue record_cast();
+        SValue convert_cast();
         SValue error_cast();
         SValue function_call();
 

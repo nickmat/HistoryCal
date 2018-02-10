@@ -1360,6 +1360,9 @@ SValue Script::primary( bool get )
     case SToken::STT_record:
         value = record_cast();
         break;
+    case SToken::STT_convert:
+        value = convert_cast();
+        break;
     case SToken::STT_error:
         value = error_cast();
         break;
@@ -1604,7 +1607,25 @@ SValue Script::record_cast()
     return value;
 }
 
-SValue Cal::Script::error_cast()
+SValue Script::convert_cast()
+{
+    SToken token = m_ts.next();
+    string sig;
+    if ( token.type() == SToken::STT_Comma ) {
+        sig = get_name_or_primary( true );
+    }
+    SValue value = primary( false );
+    if ( value.type() == SValue::SVT_Field ) {
+        value.set_str( m_cals->convert_to_string( value.get_field(), sig ) );
+    } else if ( value.type() == SValue::SVT_Str ) {
+        value.set_field( m_cals->convert_to_field( value.get_str(), sig ) );
+    } else {
+        value.set_error( "Convert requires field or string type." );
+    }
+    return value;
+}
+
+SValue Script::error_cast()
 {
     SValue value = primary( true );
     string mess;
@@ -1615,7 +1636,7 @@ SValue Cal::Script::error_cast()
     return value;
 }
 
-SValue Cal::Script::function_call()
+SValue Script::function_call()
 {
     SValue value;
     SToken token = m_ts.next();
