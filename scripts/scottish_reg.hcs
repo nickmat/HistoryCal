@@ -81,8 +81,8 @@ grammar sr {
         y,    "Hist-Year";
     }
     vocabs sr, m, w;
-    format dmyr,  "(Day) |(Month:m.a)| (Year/Hist-Year) |(Reign:sr)";
-    format wdmyr, "(WDay:w.a) |(Day) |(Month:m.a)| (Year/Hist-Year) |(Reign:sr)";
+    format dmyr,  "(Day) |(Month:m:a)| (Year/Hist-Year) |(Reign:sr)";
+    format wdmyr, "(WDay:w:a) |(Day) |(Month:m:a)| (Year/Hist-Year) |(Reign:sr)";
     pref dmyr;
 }
 

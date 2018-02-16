@@ -44,7 +44,7 @@ grammar isow {
     format ywd {
         rules iso8601 week;
     }
-    format  hc_ywd,   "(Year)| (Week)| (Day:w.a)";
+    format  hc_ywd,   "(Year)| (Week)| (Day:w:a)";
     format "hc_ywd+", "(Year)| (Week)| (Day:w)";
     format  hc_iso,   "(Year)| (Week)| (Day)";
     pref ywd;

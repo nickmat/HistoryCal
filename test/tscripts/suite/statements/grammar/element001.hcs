@@ -4,7 +4,7 @@ grammar x {
     inherit jce;
     element opCE = @if(year>499,?,ce);
     alias field { opCE, ce; }
-    format opdmy "(Day) |(Month:m.a) |(Year)| (opCE:jce)";
+    format opdmy "(Day) |(Month:m:a) |(Year)| (opCE:jce)";
     pref opdmy;
 }
 

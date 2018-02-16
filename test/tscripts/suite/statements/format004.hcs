@@ -3,7 +3,7 @@
 mark format.test;
 
 format j:html {
-    output "<span class='date'>|(Day)<sup>(Day:!os)</sup> |<b>(Month:m)</b> |(Year)|</span>";
+    output "<span class='date'>|(Day)<sup>(Day::oa)</sup> |<b>(Month:m)</b> |(Year)|</span>";
 }
 write string,g:html 2432814;
 

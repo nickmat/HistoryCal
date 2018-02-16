@@ -122,6 +122,9 @@
     <ClCompile Include="..\..\src\cal\calvocab.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\cal\calelement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\cal\calastro.h">
@@ -245,6 +248,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\cal\calvocab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\cal\calelement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

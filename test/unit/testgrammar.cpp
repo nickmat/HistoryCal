@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     27th February 2014
- * Copyright:   Copyright (c) 2014 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2018, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -92,11 +92,11 @@ void TestGrammar::setUp()
         "  \"d\",\"day\"; \"m\",\"month\"; \"y\",\"year\"; \"w\",\"week\";"
         " }"
         " vocabs \"m\", \"w\";"
-        " format \"dmy\", \"|(Day) |(Month:m.a) |(Year)\";"
-        " format \"wdmy\", \"|(WDay:w.a) |(Day) |(Month:m.a) |(Year)\";"
+        " format \"dmy\", \"|(Day) |(Month:m:a) |(Year)\";"
+        " format \"wdmy\", \"|(WDay:w:a) |(Day) |(Month:m:a) |(Year)\";"
         " format \"dmy+\", \"|(Day) |(Month:m) |(Year)\";"
         " format \"wdmy+\", \"|(WDay:w) |(Day) |(Month:m) |(Year)\";"
-        " format \"mdy\", \"|(Month:m.a) |(Day), |(Year)\";"
+        " format \"mdy\", \"|(Month:m:a) |(Day), |(Year)\";"
         " format \"ymd\", \"|(Year)|:(Month)|:(Day)\";"
         " pref \"dmy\";"
         "}\n"

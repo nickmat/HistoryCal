@@ -2,7 +2,7 @@
 
 mark format.test;
 
-format j:DMY { output "(Day)(Day:!os.u) |(Month:m) |(Year)"; }
+format j:DMY { output "(Day)(Day::oa:u) |(Month:m) |(Year)"; }
 
 write string,g:DMY 2432814;
 

@@ -122,10 +122,10 @@ grammar er {
         s, Scheme;
     }
     vocabs er, m, w, on, part;
-    format dmyr,  "(Day) |(Month:m.a)|, (Part:part)| (Year/Hist-Year) |(Reign:er)|, (Scheme:on.a)";
-    format wdmyr, "(WDay:w.a) |(Day) |(Month:m.a)| (Year/Hist-Year) |(Reign:er)|, (Scheme:on.a)";
+    format dmyr,  "(Day) |(Month:m:a)|, (Part:part)| (Year/Hist-Year) |(Reign:er)|, (Scheme:on:a)";
+    format wdmyr, "(WDay:w:a) |(Day) |(Month:m:a)| (Year/Hist-Year) |(Reign:er)|, (Scheme:on:a)";
     format full {
-        output "The (Day:+os) day of |(Month:m) |in the (Year:+os) year |of the reign of (Reign:er)|, (Scheme:on)";
+        output "The (Day::os) day of |(Month:m) |in the (Year::os) year |of the reign of (Reign:er)|, (Scheme:on)";
     }
     pref dmyr;
 }

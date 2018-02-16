@@ -28,6 +28,7 @@
 #include "calformattext.h"
 
 #include "calbase.h"
+#include "calelement.h"
 #include "calgrammar.h"
 #include "calparse.h"
 #include "calrecord.h"
@@ -79,8 +80,9 @@ std::string FormatText::range_to_string( Base* base, Range range ) const
 
 string FormatText::get_masked_output( const Record& record, const BoolVec* mask ) const
 {
-    string output, fieldout, fname, dname, vocab, abbrev, value;
-    enum State { ignore, dooutput, dofname, dodname, dovocab, doabbrev, dodefault };
+    Element ele;
+    string output, fieldout, value;
+    enum State { ignore, dooutput, doelement };
     State state = dooutput;
     for ( string::const_iterator it = m_control.begin(); it != m_control.end(); it++ ) {
         switch ( state )
@@ -95,23 +97,19 @@ string FormatText::get_masked_output( const Record& record, const BoolVec* mask 
                 output += fieldout;
                 fieldout.clear();
             } else if ( *it == '(' ) {
-                state = dofname;
+                state = doelement;
             } else {
                 fieldout += *it;
             }
             break;
-        case dofname:
-        case dodname:
-        case dovocab:
-        case doabbrev:
-        case dodefault:
+        case doelement:
             if ( *it == ')' ) {
-                Field f = get_field( record, fname, mask );
-                if ( dname.size() ) {
-                    Field d = get_field( record, dname, mask );
+                Field f = get_field( record, ele.get_field_name(), mask );
+                if ( ele.has_dual_field_name() ) {
+                    Field d = get_field( record, ele.get_dual_field_name(), mask );
                     value = dual_fields_to_str( f, d );
                 } else {
-                    value = formatted_str( f, vocab, abbrev );
+                    value = ele.get_formatted_element( get_calenders(), f );
                 }
                 if ( value.empty() ) {
                     fieldout.clear();
@@ -120,28 +118,9 @@ string FormatText::get_masked_output( const Record& record, const BoolVec* mask 
                     fieldout += value;
                     state = dooutput;
                 }
-                fname.clear();
-                dname.clear();
-                vocab.clear();
-                abbrev.clear();
-            } else if ( state == dofname && *it == ':' ) {
-                state = dovocab;
-            } else if ( state == dofname && *it == '/' ) {
-                state = dodname;
-            } else if ( state == dovocab && *it == '.' ) {
-                state = doabbrev;
-            } else if ( (state == dovocab || state == doabbrev ) && *it == '=' ) {
-                state = dodefault;
+                ele.clear();
             } else {
-                if ( state == dofname ) {
-                    fname += *it;
-                } else if ( state == dodname ) {
-                    dname += *it;
-                } else if ( state == dovocab ) {
-                    vocab += *it;
-                } else if ( state == doabbrev ) {
-                    abbrev += *it;
-                }
+                ele.add_char( *it );
             }
             break;
         }
@@ -246,10 +225,9 @@ bool FormatText::resolve_input(
 
 void FormatText::set_control( const std::string& format, Use usefor )
 {
-    assert( get_owner() );
-    enum State { dooutput, dofname, dodname, dovocab, doabbrev, dodefault };
-    State state = dooutput;
-    string fieldout, fname, dname, vocab, abbrev, default_, input, output;
+    ElementControl ele;
+    bool do_output = true;
+    string fieldout, input, output;
     bool usefor_output, usefor_input, strict_input;
     switch( usefor )
     {
@@ -279,14 +257,14 @@ void FormatText::set_control( const std::string& format, Use usefor )
         m_control = format;
     }
     for( string::const_iterator it = format.begin() ; it != format.end() ; it++ ) {
-        if( state == dooutput ) {
+        if( do_output ) {
             if( *it == '|' ) {
                 if( usefor_output ) {
                     output += fieldout;
                 }
                 fieldout.clear();
             } else if( *it == '(' ) {
-                state = dofname;
+                do_output = false;
             } else {
                 fieldout += *it;
                 if( strict_input ) {
@@ -295,101 +273,33 @@ void FormatText::set_control( const std::string& format, Use usefor )
             }
             continue;
         }
-        if( *it == ')' ) {
-            if( !strict_input && input.size() ) {
-                input += " ";
-            }
-            if( usefor_input ) {
-                if ( default_.empty() ) {
-                    input += fname;
-                } else {
-                    input += "[" + default_ + "]";
+        if ( *it == ')' ) {
+            ele.expand_specifier( get_owner() );
+            if ( usefor_input ) {
+                if ( !strict_input && input.size() ) {
+                    input += " ";
                 }
-            }
-            InputFieldType type = IFT_number;
-            string fieldname = get_owner()->get_field_alias( fname );
-            string foname = get_owner()->get_num_pseudo_alias( fname );
-            Vocab* voc = get_owner()->find_vocab( vocab );
-            if( voc ) {
-                type = IFT_vocab;
-                if( abbrev == "a" ) {
-                    foname = voc->get_pseudo_name( Vocab::pseudo_abbrev );
-                } else {
-                    foname = voc->get_pseudo_name( Vocab::pseudo_full );
-                }
-            } else if( vocab.size() ) {
-                // Look for universal number formatting.
-                char ch = *vocab.begin();
-                if( ch == '!' ) {
-                    if( vocab == "!os" ) {
-                        StringStyle ss = ( abbrev == "u" ) ? SS_uppercase : SS_undefined;
-                        foname = get_ordinal_suffix_style( ss );
-                    } else if( vocab == "!rn" ) {
-                        StringStyle ss = ( abbrev == "l" ) ? SS_lowercase : SS_undefined;
-                        foname += get_roman_numerals_style( ss );
-                    } else if( vocab == "!lp" ) {
-                        foname = get_left_pad_style( foname, abbrev );
-                    }
-                } else if( ch == '+' ) {
-                    if( vocab == "+os" ) {
-                        StringStyle ss = ( abbrev == "u" ) ? SS_uppercase : SS_undefined;
-                        foname += get_ordinal_suffix_style( ss );
-                    }
-                }
-            }
-            fieldout += foname;
-
-            if( dname.size() ) {
-                fieldout += "/" + get_owner()->get_num_pseudo_alias( dname );
-
-                if( usefor_input ) {
+                input += ele.get_input_text();
+                if ( ele.has_dual_field() ) {
                     input += "/";
-                    m_input_fields.push_back( fieldname );
+                    m_input_fields.push_back( ele.get_dual_record_field_name() );
                     m_vocabs.push_back( NULL );
                     m_types.push_back( IFT_dual1 );
                 }
-
-                fieldname = get_owner()->get_field_alias( dname );
-                type = IFT_dual2;
-            }
-            if( usefor_input ) {
-                if ( default_.empty() ) {
-                    m_input_fields.push_back( fieldname );
-                    m_vocabs.push_back( voc );
-                    m_types.push_back( type );
-                } else if( voc != nullptr ) {
-                    Field val = voc->find( default_ );
-                    if ( val != f_invalid ) {
-                        m_default_names.push_back( fieldname );
-                        m_default_values.push_back( val );
-                    }
+                if ( ele.has_valid_default() ) {
+                    m_default_names.push_back( ele.get_record_field_name() );
+                    m_default_values.push_back( ele.get_default_value() );
+                } else {
+                    m_input_fields.push_back( ele.get_record_field_name() );
+                    m_vocabs.push_back( ele.get_vocab() );
+                    m_types.push_back( ele.get_type() );
                 }
             }
-
-            fname.clear();
-            dname.clear();
-            vocab.clear();
-            abbrev.clear();
-            default_.clear();
-            state = dooutput;
-        } else if( state == dofname && *it == '/' ) {
-            state = dodname;
-        } else if( state == dofname && *it == ':' ) {
-            state = dovocab;
-        } else if ( state == dovocab && *it == '.' ) {
-            state = doabbrev;
-        } else if ( ( state == dovocab || state == doabbrev ) && *it == '=' ) {
-            state = dodefault;
-        } else {
-            switch( state )
-            {
-            case dofname:   fname += *it;    break;
-            case dodname:   dname += *it;    break;
-            case dovocab:   vocab += *it;    break;
-            case doabbrev:  abbrev += *it;   break;
-            case dodefault: default_ += *it; break;
-            default: break;
-            }
+            fieldout += ele.get_field_output_name();
+            ele.clear();
+            do_output = true;
+        } else if( !do_output )  {
+            ele.add_char( *it );
         }
     }
     if( usefor_output ) {
@@ -514,35 +424,6 @@ Field FormatText::get_field(
         return field;
     }
     return record.get_field( index );
-}
-
-string FormatText::formatted_str( 
-    Field field, const string& format, const string& specifier ) const
-{
-    string result;
-    if( !format.empty() ) {
-        if( *format.begin() == '!' ) {
-            if( format == "!os" ) {
-                StringStyle ss = ( specifier == "u" ) ? SS_uppercase : SS_undefined;
-                result = get_ordinal_suffix( field, ss );
-            } else if( format == "!rn" ) {
-                StringStyle ss = ( specifier == "l" ) ? SS_lowercase : SS_undefined;
-                result = get_roman_numerals( field, ss );
-            } else if( format == "!lp" ) {
-                result = get_left_padded( field, specifier );
-            }
-        } else {
-            result = get_owner()->lookup_token( field, format, (specifier == "a") );
-        }
-    }
-    if( result.empty() ) {
-        result = field_to_str( field );
-        if( format == "+os" && result.size() ) {
-            StringStyle ss = ( specifier == "u" ) ? SS_uppercase : SS_undefined;
-            result += get_ordinal_suffix( field, ss );
-        }
-    }
-    return result;
 }
 
 int FormatText::parse_date( InputField* ifs, size_t size, const string& str ) const

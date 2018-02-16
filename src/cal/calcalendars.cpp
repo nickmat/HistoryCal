@@ -40,7 +40,6 @@
 #include "calscheme.h"
 #include "calscript.h"
 #include "calscriptstore.h"
-#include "caltext.h"
 #include "calversion.h"
 #include "calvocab.h"
 
@@ -602,66 +601,6 @@ Field Calendars::evaluate_field( const string& expression, const Record& record 
     Field field = scr.evaluate_field( record );
     m_last_error = oss.str();
     return field;
-}
-
-string Calendars::convert_to_string( Field field, const string & sig )
-{
-    string result;
-
-    if ( sig.empty() ) {
-        return field_to_str( field );
-    }
-    string str1, str2, str3, tail;
-    split_code( &str1, &tail, sig );
-    split_code( &str2, &str3, tail );
-
-    if ( str1.empty() ) {
-        StringStyle ss = SS_undefined;
-        if ( str3 == "u" ) {
-            ss = SS_uppercase;
-        } else if ( str3 == "l" ) {
-            ss = SS_lowercase;
-        }
-        if ( str2 == "oa" ) {
-            result = get_ordinal_suffix( field, ss );
-        } else if ( str2 == "os" ) {
-            result = field_to_str( field ) + get_ordinal_suffix( field, ss );
-        } else if ( str2 == "rn" ) {
-            result = get_roman_numerals( field, ss );
-        } else if ( str2 == "lp" ) {
-            result = get_left_padded( field, str3 );
-        }
-    } else {
-        Vocab* voc = get_vocab( str1 );
-        if ( voc ) {
-            Vocab::Pseudo abbrev = ( str2 == "a" ) ? Vocab::pseudo_abbrev : Vocab::pseudo_full;
-            result = voc->lookup( field, abbrev );
-        }
-    }
-    return result;
-}
-
-Field Calendars::convert_to_field( const string & str, const string & sig )
-{
-    if ( sig.empty() ) {
-        return str_to_field( str );
-    }
-    string str1, str2, str3, tail;
-    split_code( &str1, &tail, sig );
-    split_code( &str2, &str3, tail );
-
-    if ( str1.empty() ) {
-        if ( str2 == "os" ) {
-            return str_to_field( str );
-        }
-        // Currently, can't use any other format.
-        return f_invalid;
-    }
-    Vocab* voc = get_vocab( str1 );
-    if ( voc ) {
-        return voc->find( str );
-    }
-    return f_invalid;
 }
 
 // End of src/cal/calcalendars.cpp file

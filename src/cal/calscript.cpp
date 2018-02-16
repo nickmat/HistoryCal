@@ -28,6 +28,7 @@
 #include "calscript.h"
 
 #include "cal/calendars.h"
+#include "calelement.h"
 #include "calformatiso.h"
 #include "calformattext.h"
 #include "calfunction.h"
@@ -1615,10 +1616,15 @@ SValue Script::convert_cast()
         sig = get_name_or_primary( true );
     }
     SValue value = primary( false );
+    Element ele;
+    if ( !sig.empty() ) {
+        ele.add_char( ':' );
+        ele.add_string( sig );
+    }
     if ( value.type() == SValue::SVT_Field ) {
-        value.set_str( m_cals->convert_to_string( value.get_field(), sig ) );
+        value.set_str( ele.get_formatted_element( m_cals, value.get_field() ) );
     } else if ( value.type() == SValue::SVT_Str ) {
-        value.set_field( m_cals->convert_to_field( value.get_str(), sig ) );
+        value.set_field( ele.get_converted_field( m_cals, value.get_str() ) );
     } else {
         value.set_error( "Convert requires field or string type." );
     }

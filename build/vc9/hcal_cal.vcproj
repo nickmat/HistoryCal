@@ -231,6 +231,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\cal\calelement.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\cal\calformat.cpp"
 				>
 			</File>
@@ -382,6 +386,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\cal\caldlist.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\cal\calelement.h"
 				>
 			</File>
 			<File

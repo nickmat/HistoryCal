@@ -1,7 +1,7 @@
-// format.hcs - Test default sub-statement in format statement.
+// format011.hcs - Test default sub-statement in format statement.
 
 
-format jce:DMY "(Day) |(Month:m.a) |(Year) |(CEra:jce.a=CE)";
+format jce:DMY "(Day) |(Month:m:a) |(Year)| (CEra:jce:a=CE)";
 
 set input jce:DMY;
 
