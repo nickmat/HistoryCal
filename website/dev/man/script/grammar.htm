@@ -48,7 +48,7 @@
 <tr><td class='code'>rank</td><td>The field ranking used by the format sub-statements.</td><td class='example'>rank ce, ceyear, month, day, wday;</td></tr>
 <tr><td class='code'>vocabs</td><td>The list of vocabularies used with this grammar.</td><td class='example'>vocabs m, w, jce;</td></tr>
 <tr><td class='code'>alias</td><td>Allow the use of more user friendly field names.</td><td class='example'>alias field {WDay, wday; ...}</td></tr>
-<tr><td class='code'>format</td><td>The description of a format.</td><td class='example'>format dmy, "(Day) |(Month:m.a) |(Year)";</td></tr>
+<tr><td class='code'>format</td><td>The description of a format.</td><td class='example'>format dmy, "(Day) |(Month:m:a) |(Year)";</td></tr>
 <tr><td class='code'>pref</td><td>The preferred format to use, unless otherwise stated.</td><td class='example'>pref dmy;</td></tr>
 </table>
 
@@ -101,7 +101,7 @@
 <tr><th colspan='3'>grammar alias Sub-Statement</th></tr>
 <tr><th>Sub-Statement</th><th>Use</th><th>Example</th></tr>
 <tr><td class='code'>alias field</td><td>Allow the use of more user friendly field names.</td><td class='example'>alias field {WDay, wday; ...}</td></tr>
-<tr><td class='code'>alias pseudo</td><td>The pseudonym matching numbers in the pseudo date.</td><td class='example'>alias pseudo {WDay, w; Day, dd; ...}</td></tr>
+<tr><td class='code'>alias pseudo</td><td>The pseudonym matching numbers in the pseudo date.</td><td class='example'>alias pseudo {w, WDay; dd, Day; ...}</td></tr>
 <tr><td class='code'>alias unit</td><td>Alternative field name when used as a unit.</td><td class='example'>alias field {d, day; m, month; ...}</td></tr>
 </table>
 

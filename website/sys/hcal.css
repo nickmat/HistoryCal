@@ -338,6 +338,22 @@ table.list td.example {
  background-color: mintcream;
 }  
 
+table td.stat-imp { /* Implemented */
+ background-color: lightgreen;
+}
+table td.stat-dev { /* Under development */
+ background-color: powderblue;
+}
+table td.stat-prop { /* Proposed */
+ background-color: plum;
+}
+table td.stat-res { /* Researching */
+ background-color: gold;
+}
+table td.stat-ucr { /* Use case required */
+ background-color: orangered;
+}
+
 table.record {
  display: inline-table;
  float: left;

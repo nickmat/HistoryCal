@@ -94,15 +94,15 @@
         yyyy, Year;
         y,    "Hist-Year";
     }
-    format dmy,   "(Day) |(Month:m.a) |(Year)";
-    format dmyh,  "(Day) |(Month:m.a) |(Year/Hist-Year)";
+    format dmy,   "(Day) |(Month:m:a) |(Year)";
+    format dmyh,  "(Day) |(Month:m:a) |(Year/Hist-Year)";
     format out {
-        output "(Day:+os) |(Month:m) |(Year/Hist-Year)";
+        output "(Day::os) |(Month:m) |(Year/Hist-Year)";
     }
     format full {
-        output "(WDay:w) |(Day:+os) |(Month:m) |(Year/Hist-Year)";
+        output "(WDay:w) |(Day::os) |(Month:m) |(Year/Hist-Year)";
     }
-    format wdmyh, "(WDay:w.a) |(Day) |(Month:m.a) |(Year/Hist-Year)";
+    format wdmyh, "(WDay:w:a) |(Day) |(Month:m:a) |(Year/Hist-Year)";
     pref dmyh;
 }
 
@@ -114,7 +114,7 @@ scheme jn {
 </td></tr>
 </table>
 <p>
- The j.sh grammar uses the m (Julian months) vocab as defined for the <a href='j.htm'>Julian</a> calendar
+ The j_sh grammar uses the m (Julian months) vocab as defined for the <a href='j.htm'>Julian</a> calendar
  and the w (Weekdays) vocab as defined for the <a href='7dayweek.htm'>7 day week</a> cycle.
 </p>
 

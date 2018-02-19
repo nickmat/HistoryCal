@@ -148,18 +148,18 @@ grammar j {
         wd, wday;
         w,  week;
     }
-    format  dmy,    "(Day) |(Month:m.a) |(Year)";
-    format  wdmy,   "(WDay:w.a) |(Day) |(Month:m.a) |(Year)";
+    format  dmy,    "(Day) |(Month:m:a) |(Year)";
+    format  wdmy,   "(WDay:w:a) |(Day) |(Month:m:a) |(Year)";
     format out {
-        output      "(Day:+os) |(Month:m) |(Year)";
+        output      "(Day::os) |(Month:m) |(Year)";
     }
     format  full {
-        output      "(WDay:w) |(Day:+os) |(Month:m) |(Year)";
+        output      "(WDay:w) |(Day::os) |(Month:m) |(Year)";
     }
     format "dmy+",  "(Day) |(Month:m) |(Year)";
     format "wdmy+", "(WDay:w) |(Day) |(Month:m) |(Year)";
-    format  mdy,    "(Month:m.a) |(Day), |(Year)";
-    format  ymd,    "(Year)|:(Month:m.a)|:(Day)";
+    format  mdy,    "(Month:m:a) |(Day), |(Year)";
+    format  ymd,    "(Year)|:(Month:m:a)|:(Day)";
     pref dmy;
 }
 

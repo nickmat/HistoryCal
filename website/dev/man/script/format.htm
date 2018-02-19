@@ -30,7 +30,7 @@
 <div id='content' class='nomenu'>
 
 <h2>Under Construction</h2>
-<h2>format Statement</h2>
+<h2>Statement: format</h2>
 <p>
  A format is normally a part of the grammar description
  but it may also be defined outside of the the grammar block.
@@ -86,13 +86,13 @@
 <tr><th>Style</th><th>Syntax</th><th>Example</th><th>Result</th></tr>
 <tr><td>Number</td><td class='code'>(<i>Name</i>)</td><td class='example'>(Month)</td><td>9</td></tr>
 <tr><td>Vocabulary token</td><td class='code'>(<i>Name</i>:<i>Vocab</i>)</td><td class='example'>(Month:m)</td><td>September</td></tr>
-<tr><td>Abbreviated vocabulary</td><td class='code'>(<i>Name</i>:<i>Vocab</i>.a)</td><td class='example'>(Month:m.a)</td><td>Sep</td></tr>
-<tr><td>Left padded number</td><td class='code'>(<i>Name</i>:!lp.<i>cwidth</i>)</td><td class='example'>(Month:!lp.02)</td><td>09</td></tr>
+<tr><td>Abbreviated vocabulary</td><td class='code'>(<i>Name</i>:<i>Vocab</i>:a)</td><td class='example'>(Month:m:a)</td><td>Sep</td></tr>
+<tr><td>Left padded number</td><td class='code'>(<i>Name</i>::lp:<i>cwidth</i>)</td><td class='example'>(Month::lp:02)</td><td>09</td></tr>
 <tr><td colspan='4'>Note, <i>cwidth</i> is the character used for padding followed by the minimum width.</td></tr>
 <tr><th colspan='4'>Output Only Specifiers</th></tr>
-<tr><td>Number and ordinal suffix</td><td class='code'>(<i>Name</i>:+os)<br />(<i>Name</i>:+os.u)</td><td class='example'>(Month:+os)<br />(Month:+os.u)</td><td>9th<br />9TH</td></tr>
-<tr><td>Just ordinal suffix</td><td class='code'>(<i>Name</i>:!os)<br />(<i>Name</i>:!os.u)</td><td class='example'>(Month)_(Month:!os)<br />(Month)_(Month:!os.u)</td><td>9_th<br />9_TH</td></tr>
-<tr><td>Number, Roman numerals</td><td class='code'>(<i>Name</i>:!rn)<br />(<i>Name</i>:!rn.l)</td><td class='example'>(Month:!rn)<br />(Month:!rn.l)</td><td>IX<br />ix</td></tr>
+<tr><td>Number and ordinal suffix</td><td class='code'>(<i>Name</i>::os)<br />(<i>Name</i>::os.u)</td><td class='example'>(Month::os)<br />(Month::os:u)</td><td>9th<br />9TH</td></tr>
+<tr><td>Just ordinal suffix</td><td class='code'>(<i>Name</i>::oa)<br />(<i>Name</i>::oa:u)</td><td class='example'>(Month)_(Month::oa)<br />(Month)_(Month::oa:u)</td><td>9_th<br />9_TH</td></tr>
+<tr><td>Number, Roman numerals</td><td class='code'>(<i>Name</i>::rn)<br />(<i>Name</i>::rn:l)</td><td class='example'>(Month::rn)<br />(Month::rn:l)</td><td>IX<br />ix</td></tr>
 </table>
 <p>
  More complex format descriptions can be described using a block of sub-statements.
@@ -106,16 +106,17 @@
 <tr><th colspan='4'>Sub-Statement List</th></tr>
 <tr><th>Sub-Statement</th><th>Use</th><th>Example</th><th>Default</th></tr>
 <tr><td class='code'>rules</td><td>Define the rules used to interpret the format.</td><td class='example'>rules iso8601;</td><td class='example'>rules text;</td></tr>
-<tr><td class='code'>inout</td><td>Format string used for both input and output.</td><td class='example'>inout "(Day) |(Month:m.a) |(Year)";</td><td>See below.</td></tr>
-<tr><td class='code'>strict</td><td>Format string used for both input and output, input includes the inter-field text.</td><td class='example'>strict "(Year:!lp.04)|-(Month:!lp.02)|-(Day:!lp.02)";</td><td></td></tr>
+<tr><td class='code'>inout</td><td>Format string used for both input and output.</td><td class='example'>inout "(Day) |(Month:m:a) |(Year)";</td><td>See below.</td></tr>
+<tr><td class='code'>strict</td><td>Format string used for both input and output, input includes the inter-field text.</td><td class='example'>strict "(Year::lp:04)|-(Month::lp:02)|-(Day::lp:02)";</td><td></td></tr>
 <tr><td class='code'>input</td><td>Format string used for just input.</td><td class='example'>input "(Day) |(Month) |(Year)";</td><td>Use inout sub-statement.</td></tr>
 <tr><td class='code'>output</td><td>Format string used for just output.</td><td class='example'>output "(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";</td><td>Use inout sub-statement.</td></tr>
 <tr><td class='code'>separators</td><td>Characters to be used to separate date elements.</td><td class='example'>separators "-";</td><td class='example'>separators ":,";</td></tr>
 <tr><td class='code'>rank</td><td>Set the significance order for input and output fields.</td><td class='example'>rank "ce", "ceyear", "month", "day";</td><td>Use default order.</td></tr>
 <tr><td class='code'>rankout</td><td>Set the significance order for output fields only.</td><td class='example'>rankout year, nmonth, nmday, cday;</td><td>Use default order.</td></tr>
+<tr><td class='code'>significant</td><td>Set the significant number of fields required.</td><td class='example'>significant 4;</td><td>Number of non-optional or ranking fields.</td></tr>
 </table>
 
-<h3>rules Sub-Statement</h3>
+<h3>Sub-Statement: rules</h3>
 <p>
  The method of using a text format string, as described above, is the predominant one
  but it is possible to replace this with other methods.
@@ -133,7 +134,7 @@
 <tr><td class='code'>rules iso8601</td><td>Use the ISO 8601 standard to define a Gregorian date.</td></tr>
 </table>
 
-<h4>rules text Sub-Statement</h4>
+<h4>Sub-Statement: rules text</h4>
 <p>
  Since this is the default method, there is no need to explicitly use it.
  It is included for completeness only.
@@ -143,7 +144,7 @@
  all the other sub-statements are meaningful only in connection with this rule. 
 </p>
 
-<h4>rules units Sub-Statement</h4>
+<h4>Sub-Statement: rules units</h4>
 <p>
  A units format is one where a date (or parts of a date) is written as a sequence of value, unit pairs.
  Since the pair is self contained, they may be placed in any order.
@@ -173,7 +174,7 @@
  It is included for completeness and future development only.
 </p>
 
-<h4>rules iso8601 Sub-Statement</h4>
+<h4>Sub-Statement: rules iso8601</h4>
 <p>
  Although it is possible to input and output dates conforming to the common parts of the ISO 8601 standard,
  full implementation requires its own format sub-system.
@@ -204,27 +205,27 @@
  After the the initial <b>rules iso8601</b>, the order of the switches is not important. 
 </p>
 
-<h3>inout Sub-Statement</h3>
+<h3>Sub-Statement: inout</h3>
 <p>
  The inout sub-statement is equivalent to using a format statement without the braces block.
  So:-
 </p>
 <table class='list'>
-<tr><td class='example'>format x:dmy "(Day) |(Month:m.a) |(Year)";</td></tr>
+<tr><td class='example'>format x:dmy "(Day) |(Month:m:a) |(Year)";</td></tr>
 </table>
 <p>
  is the same as:-
 </p>
 <table class='list'>
 <tr><td class='example'>format x:dmy {
-    inout "(Day) |(Month:m.a) |(Year)"; 
+    inout "(Day) |(Month:m:a) |(Year)"; 
 }</td></tr>
 </table>
 <p>
  The text format string is as described above.
 </p>
 
-<h3>strict Sub-Statement</h3>
+<h3>Sub-Statement: strict</h3>
 <p>
  This sub-statement is currently under development.
 </p>
@@ -234,12 +235,12 @@
  when the "user input order" string is requested. 
 </p>
 
-<h3>input Sub-Statement</h3>
+<h3>Sub-Statement: input</h3>
 <p>
  As the <b>inout</b> sub-statement except the format text string can be selected and used only for input.
 </p>
 
-<h3>output Sub-Statement</h3>
+<h3>Sub-Statement: output</h3>
 <p>
  As the <b>inout</b> sub-statement except the format text string can be  selected and used only for output.
 </p>
@@ -249,13 +250,13 @@
  If it used by itself then it creates a non-reversible format. 
 </p>
 
-<h3>separators Sub-Statement</h3>
+<h3>Sub-Statement: separators</h3>
 <p>
  When inputting a date, by default the characters used to separate date elements are '<b>,</b>' and '<b>;</b>'.
  This sub-statement allows a change to the default.
 </p>
 
-<h3>rank Sub-Statement</h3>
+<h3>Sub-Statement: rank</h3>
 <p>
  Rank is the order of the separate elements of a record that is used when an incomplete
  or range short-cut is used.
@@ -266,10 +267,17 @@
  If not given, the rank order is that stated by the <b>grammar</b> or the same as the default order.
 </p>
 
-<h3>rankout Sub-Statement</h3>
+<h3>Sub-Statement: rankout</h3>
 <p>
  The same as the <b>rank</b> sub-statement but it only affects the output of a format.
  It is used when separate <b>input</b> and <b>output</b> sub-statements are used.
+</p>
+
+<h3>Sub-Statement: significant</h3>
+<p>
+ The significant number of fields required to fully specify all dates for a given format.
+ By default, this is the same as the number of non-optional fields in a record,
+ or, if fields are separately ranked, then it is the number of ranked fields.
 </p>
 
 

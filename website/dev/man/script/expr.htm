@@ -435,13 +435,13 @@
 
 <h3>Type Conversions</h3>
 <p>
- The cast operators are used to covert values between different types.
+ The cast operators are used to convert values between different types.
  If additional information is required (such as scheme and/or format)
  then a comma and signature can be added to the cast.
  If it is omitted, the system wide default values are assumed.  
 </p>
 
-<h4>Date Cast</h4>
+<h4>Cast date</h4>
 <p>
  A date, in this context, means a rlist or an well ordered list of ranges.
  As well as an rlist, a date may be encapsulated as a text string or a record type.
@@ -466,7 +466,7 @@
  <tr><td colspan='2'>The above examples assume a system input setting of "g:dmy".</td></tr>
 </table>
 
-<h4>String Cast</h4>
+<h4>Cast string</h4>
 <p>
  The string cast operator converts a field, range, rlist or record type into a string type.
 </p>
@@ -485,7 +485,7 @@
  <tr><td colspan='2'>The above examples assume a system output setting of "g:dmy".</td></tr>
 </table>
 
-<h4>Record Cast</h4>
+<h4>Cast record</h4>
 <p>
  The record cast operator converts a field (as a julian day number) or string type into a record type.
  At this time, using the record cast with a range or rlist type is an error.
@@ -511,7 +511,19 @@
  <tr><td colspan='2'>The above examples assume a system input and output setting of "g:dmy".</td></tr>
 </table>
 
-<h4>Error Cast</h4>
+<h4>Cast convert (Vocab's)</h4>
+<p>
+ The convert cast uses a supplied vocab definition to convert a field to a string
+ and a string to a field. Using the cast on any other type results in an error.
+</p>
+<table class='list'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>convert,w 7</td><td class='example'>"Sunday"</td></tr>
+ <tr><td class='example'>convert,ws:a 7</td><td class='example'>"Sat"</td></tr>
+ <tr><td class='example'>convert,w "wed"</td><td class='example'>3</td></tr>
+</table>
+
+<h4>Cast error</h4>
 <p>
  The error cast operator converts a string into an error.
  This can be used to signal an unusable value in a calculation or function.
@@ -544,6 +556,7 @@
 <tr><td class='code'>date</td><td>Date cast</td><td class='example'><b>date,sig</b> string_value<br /><b>date</b> record_value</td><td class='example'>date_value</td></tr>
 <tr><td class='code'>record</td><td>Record cast</td><td class='example'><b>record,sig</b> string_value<br /><b>record</b> field_value</td><td class='example'>record_value</td></tr>
 <tr><td class='code'>string</td><td>String cast</td><td class='example'><b>string,sig</b> date_value<br /><b>string,sig</b> record_value</td><td class='example'>string_value</td></tr>
+<tr><td class='code'>convert</td><td>Vocab cast</td><td class='example'><b>convert,sig</b> field_value<br /><b>convert,sig</b> string_value</td><td class='example'>string_value<br />field_value</td></tr>
 <tr><td class='code'>error</td><td>Error cast</td><td class='example'><b>error</b> string_value</td><td class='example'>error_value</td></tr>
 <tr><td class='code'>@</td><td>Function</td><td class='example'><b>@name</b><br /><b>@name(</b>expr, ...<b>)</b></td><td class='example'>value</td></tr>
 <tr><td class='code' colspan='4'></td></tr>
@@ -588,7 +601,7 @@
  and, if used as signature codes, they must be enclosed in double quotes.
 </p>
 <p>
- <b>and, date, do, endif, else, elseif, error, false, future, if, invalid, loop, mod,
+ <b>and, convert, date, do, endif, else, elseif, error, false, future, if, invalid, loop, mod,
  not, or, past, record, string, today, true, until, while</b>
 </p>
 <p>

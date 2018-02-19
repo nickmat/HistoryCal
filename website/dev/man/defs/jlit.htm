@@ -255,9 +255,9 @@ grammar lit {
         y, year;
         w, week;
     }
-    format  wdmyl,   "(WDay:ws.a) |(Day) |(Month:m.a) |(Year)| (LitWeek:lit.a)";
+    format  wdmyl,   "(WDay:ws:a) |(Day) |(Month:m:a) |(Year)| (LitWeek:lit:a)";
     format "wdmyl+", "(WDay:ws) |(Day) |(Month:m) |(Year)| (LitWeek:lit)";
-    format  wly,     "(WDay:ws.a), |(LitWeek:lit.a) |(Year)";
+    format  wly,     "(WDay:ws:a), |(LitWeek:lit:a) |(Year)";
     format "wly+",   "(WDay:ws), |(LitWeek:lit) |(Year)";
     pref wdmyl;
 }

@@ -29,7 +29,7 @@
 
 <div id='content' class='nomenu'>
 
-<h2>function And call Statements</h2>
+<h2>Statements function And call</h2>
 <p>
  A function statement defines a function that can either be
  called from a call statement or used in an expression with the function operator '@'.
@@ -49,7 +49,7 @@
 <table class='list'>
 <tr><th colspan='3'>function Statement</th></tr>
 <tr><th>Format</th><th>Example</th><th>Output</th></tr>
- <tr>
+ <tr> <!-- See test file - test\tscripts\suite\functions\function012.hcs -->
   <td class='code'>
    <b>function</b> <i>name</i> <b>{</b><br />
      <i>statements ...</i><br />
@@ -64,7 +64,7 @@
 <b>call</b> wr.today<b>;</b></td>
   <td>21 May 2017</td>
  </tr>
- <tr>
+ <tr> <!-- See test file - test\tscripts\suite\functions\function013.hcs -->
   <td class='code'>
    <b>function</b> <i>name</i> <b>{</b><br />
      ... result = <i>expr</i><b>;</b> ...<br />
@@ -77,9 +77,9 @@
 <b>}</b>
     ...
 write <b>@</b>get.today;</td>
-  <td>21 May 2017</td>
+  <td>(21 May 2017)</td>
  </tr>
- <tr>
+ <tr> <!-- See test file - test\tscripts\suite\functions\function014.hcs -->
   <td class='code'>
    <b>function</b> <i>name</i><b>(</b><i>arg</i><b>=</b><i>value</i><b>,</b> <i>arg</i><b>=</b><i>value</i><b>) {</b><br />
      <i>statements ...</i><br />
@@ -87,14 +87,14 @@ write <b>@</b>get.today;</td>
    <br />
    <b>call</b> <i>name</i><b>(</b><i>value1</i><b>,</b> <i>value2</i><b>);</b>
   </td>
-  <td class='example'><b>function</b> wr.range.plus<b>(</b>start<b>,</b> duration<b>){</b>
+  <td class='example'><b>function</b> wr.range.plus<b>(</b>start<b>,</b> duration = 7<b>){</b>
     write string,g:dmy( start ~ start + duration );
 <b>}</b>
     ...
-<b>call</b> wr.range.plus<b>(</b>date,g:dmy "19sep1948"<b>,</b> 7<b>);</b></td>
-  <td>19 Sep 1948 ~ 26 Sep 1948</td>
+<b>call</b> wr.range.plus<b>(</b>date,g:dmy "19sep1948"<b>,</b> 14<b>);</b></td>
+  <td>19 Sep 1948 ~ 3 Oct 1948</td>
  </tr>
- <tr>
+ <tr> <!-- See test file - test\tscripts\suite\functions\function015.hcs -->
   <td class='code'>
    <b>function</b> <i>name</i><b>(</b><i>arg</i><b>=</b><i>value</i><b>,</b> <i>arg</i><b>=</b><i>value</i><b>) {</b><br />
      ... result = <i>expr</i><b>; ...</b><br />
@@ -102,11 +102,11 @@ write <b>@</b>get.today;</td>
    <br />
    write <b>@</b><i>name</i><b>(</b><i>value1</i><b>,</b> <i>value2</i><b>);</b>
   </td>
-  <td class='example'><b>function</b> range.plus<b>(</b>start<b>,</b> duration<b>){</b>
+  <td class='example'><b>function</b> range.plus<b>(</b>start<b>,</b> duration = 7<b>){</b>
     result = start ~ start + duration;
 <b>}</b>
     ...
-write string,g:dmy <b>@</b>range.plus<b>(</b>2432814<b>,</b> 7<b>);</b></td>
+write string,g:dmy <b>@</b>range.plus<b>(</b>2432814<b>);</b></td>
   <td>19 Sep 1948 ~ 26 Sep 1948</td>
  </tr>
  <tr>
