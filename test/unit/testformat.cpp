@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st March 2015
- * Copyright:   Copyright (c) 2015 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2015 ~ 2018, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -96,8 +96,8 @@ void TestFormat::setUp()
         "  \"d\",\"day\"; \"m\",\"month\"; \"y\",\"year\"; \"w\",\"week\";"
         " }"
         " vocabs \"m\", \"w\";"
-        " format \"dmy\", \"|(Day) |(Month:m.a) |(Year)\";"
-        " format \"wdmy\", \"|(WDay:w.a) |(Day) |(Month:m.a) |(Year)\";"
+        " format \"dmy\", \"|(Day) |(Month:m:a) |(Year)\";"
+        " format \"wdmy\", \"|(WDay:w:a) |(Day) |(Month:m:a) |(Year)\";"
         " pref \"dmy\";"
         "}\n"
 
@@ -151,12 +151,12 @@ void TestFormat::testAddFormat()
     CPPUNIT_ASSERT( m_outputs.descs.size() == 2 );
     string expect_err = "Error (1): Unable to create format.\n";
     string err = m_cal->run_script(
-        "format \"j:dmy\", \"|(Day) |(Month:m.a) |(Year)\";"
+        "format \"j:dmy\", \"|(Day) |(Month:m:a) |(Year)\";"
     );
     CPPUNIT_ASSERT_EQUAL( expect_err, err );
     expect_err = "";
     err = m_cal->run_script(
-        "format \"j:mdy\", \"|(Month:m.a) |(Day), |(Year)\";"
+        "format \"j:mdy\", \"|(Month:m:a) |(Day), |(Year)\";"
     );
     CPPUNIT_ASSERT_EQUAL( expect_err, err );
     m_cal->get_input_info( &m_inputs, m_sid );
@@ -174,7 +174,7 @@ void TestFormat::testMarkAddFormat()
     string expect_err;
     string err = m_cal->run_script(
         "mark \"test\";"
-        "format \"j:mdy\", \"|(Month:m.a) |(Day), |(Year)\";"
+        "format \"j:mdy\", \"|(Month:m:a) |(Day), |(Year)\";"
     );
     CPPUNIT_ASSERT_EQUAL( expect_err, err );
     m_cal->get_input_info( &m_inputs, m_sid );
@@ -196,7 +196,7 @@ void TestFormat::testUseFormat()
 {
     CPPUNIT_ASSERT( m_sid != NULL );
     m_cal->run_script(
-        "format \"j:mdy\", \"|(Month:m.a) |(Day), |(Year)\";"
+        "format \"j:mdy\", \"|(Month:m:a) |(Day), |(Year)\";"
     );
     Field jdn1 = m_cal->str_to_jdn( m_sid, "6Sep1948", "dmy" );
     CPPUNIT_ASSERT( jdn1 != f_invalid );

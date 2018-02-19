@@ -1,0 +1,24 @@
+// statements/element002.hcs   Test the grammar element sub-statement.
+
+grammar x {
+    inherit jce;
+    element opCE = @if(year>499,?,ce);
+    alias field { opCE, ce; }
+    format opdmy "(Day) |(Month:m:a) |(Year)| (opCE:jce)";
+    pref opdmy;
+}
+
+scheme x {
+    name "Test for grammar element sub-statement";
+    base julian;
+    grammar x;
+}
+
+let d1 = date,j:dmy "dec499";
+let d2 = date,j:dmy "jan500";
+
+write string,x (d1 ~ d2);
+
+/*[OUTPUT]
+Dec 499 Common Era ~ Jan 500
+[OUTPUT]*/

@@ -2,7 +2,7 @@
 
 mark "format002";
 
-format g:MYD, "(Month:m.a) |(Year)|, (Day)";
+format g:MYD, "(Month:m:a) |(Year)|, (Day)";
 
 write date,g:MYD "Sep1948 19";
 

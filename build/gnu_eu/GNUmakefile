@@ -90,6 +90,7 @@ CAL_OBJECTS =  \
 	cal_calchinese.o \
 	cal_caldefscripts.o \
 	cal_caldlist.o \
+	cal_calelement.o \
 	cal_calformat.o \
 	cal_calformatiso.o \
 	cal_calformattext.o \
@@ -243,6 +244,9 @@ cal_caldefscripts.o: ./../../src/cal/caldefscripts.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_caldlist.o: ./../../src/cal/caldlist.cpp
+	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
+
+cal_calelement.o: ./../../src/cal/calelement.cpp
 	$(CXX) -c -o $@ $(CAL_CXXFLAGS) $(CPPDEPS) $<
 
 cal_calformat.o: ./../../src/cal/calformat.cpp

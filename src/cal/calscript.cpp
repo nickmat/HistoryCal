@@ -28,12 +28,14 @@
 #include "calscript.h"
 
 #include "cal/calendars.h"
+#include "calelement.h"
 #include "calformatiso.h"
 #include "calformattext.h"
 #include "calfunction.h"
 #include "calgrammar.h"
 #include "calgregorian.h"
 #include "calparse.h"
+#include "calrecord.h"
 #include "calregnal.h"
 #include "calscheme.h"
 #include "caltext.h"
@@ -48,7 +50,7 @@ using std::vector;
 
 
 Script::Script( Calendars* cals, std::istream& in, std::ostream& out ) 
-    : m_cals(cals), m_ts(in,out), m_out(&out), m_err(&out)
+    : m_cals(cals), m_ts(in,out), m_out(&out), m_err(&out), m_record(nullptr)
 {
     assert( cals != NULL );
 }
@@ -70,6 +72,20 @@ bool Script::run()
     }
     SValue::set_token_stream( prev_ts );
     return ret;
+}
+
+Field Script::evaluate_field( const Record& record )
+{
+    STokenStream* prev_ts = SValue::set_token_stream( &m_ts );
+    m_record = &record;
+    SValue value = expr( true );
+    m_record = nullptr;
+    Field field;
+    if ( !value.get( field ) ) {
+        field = f_invalid;
+    }
+    SValue::set_token_stream( prev_ts );
+    return field;
 }
 
 ScriptStore* Script::store() const
@@ -815,11 +831,13 @@ bool Script::do_grammar()
             } else if( name == "pref" ) {
                 str = get_name_or_primary( true );
                 gmr->set_pref( str );
-            } else if( name == "alias" ) {
+            } else if ( name == "element" ) {
+                do_grammar_element( gmr );
+            } else if ( name == "alias" ) {
                 do_grammar_alias( gmr );
             } else if( name == "inherit" ) {
                 str = get_name_or_primary( true );
-                gmr->set_inherit( m_cals, str );
+                gmr->set_inherit( str );
             } else if( name == "optional" ) {
                 StringVec optfields = get_string_list( true );
                 gmr->set_opt_fieldnames( optfields );
@@ -839,6 +857,21 @@ bool Script::do_grammar_vocabs( Grammar* gmr )
         Vocab* voc = m_cals->get_vocab( vocabs[i] );
         gmr->add_vocab( voc );
     }
+    return true;
+}
+
+bool Script::do_grammar_element( Grammar* gmr )
+{
+    string name = get_name_or_primary( true );
+    if ( m_ts.current().type() != SToken::STT_Equal ) {
+        error( "'=' expected." );
+        return false;
+    }
+    string expression = m_ts.read_until( ";", "" );
+    if ( name.empty() || expression.empty() ) {
+        return false;
+    }
+    gmr->add_element( name, expression );
     return true;
 }
 
@@ -1328,6 +1361,9 @@ SValue Script::primary( bool get )
     case SToken::STT_record:
         value = record_cast();
         break;
+    case SToken::STT_convert:
+        value = convert_cast();
+        break;
     case SToken::STT_error:
         value = error_cast();
         break;
@@ -1572,7 +1608,30 @@ SValue Script::record_cast()
     return value;
 }
 
-SValue Cal::Script::error_cast()
+SValue Script::convert_cast()
+{
+    SToken token = m_ts.next();
+    string sig;
+    if ( token.type() == SToken::STT_Comma ) {
+        sig = get_name_or_primary( true );
+    }
+    SValue value = primary( false );
+    Element ele;
+    if ( !sig.empty() ) {
+        ele.add_char( ':' );
+        ele.add_string( sig );
+    }
+    if ( value.type() == SValue::SVT_Field ) {
+        value.set_str( ele.get_formatted_element( m_cals, value.get_field() ) );
+    } else if ( value.type() == SValue::SVT_Str ) {
+        value.set_field( ele.get_converted_field( m_cals, value.get_str() ) );
+    } else {
+        value.set_error( "Convert requires field or string type." );
+    }
+    return value;
+}
+
+SValue Script::error_cast()
 {
     SValue value = primary( true );
     string mess;
@@ -1583,7 +1642,7 @@ SValue Cal::Script::error_cast()
     return value;
 }
 
-SValue Cal::Script::function_call()
+SValue Script::function_call()
 {
     SValue value;
     SToken token = m_ts.next();
@@ -1665,6 +1724,12 @@ SValue Script::get_value_var( const string& name )
     }
     if( name == "today" ) {
         return SValue( Gregorian::today() );
+    }
+    if ( m_record ) { // Is it a field name.
+        int index = m_record->get_field_index( name );
+        if ( index >= 0 ) {
+            return m_record->get_field( index );
+        }
     }
     SValue value;
     if( store()->get( &value, name ) ) {

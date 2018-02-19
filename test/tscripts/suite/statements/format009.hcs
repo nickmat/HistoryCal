@@ -2,7 +2,7 @@
 
 mark format.test;
 
-format j:YMD "(Year:!lp.06)|-(Month:!lp.02)|-(Day:!lp.2)";
+format j:YMD "(Year::lp:06)|-(Month::lp:02)|-(Day::lp:2)";
 
 write string,g:YMD 2432814;
 

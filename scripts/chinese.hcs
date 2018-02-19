@@ -120,8 +120,8 @@ grammar c {
         yy, Year;
         cc, Cycle;
     }
-    format cylmd, "(Cycle),| (Year),| (Leap:clmon.a)| (Month),| (Day)";
-    format "cylmd+", "(Cycle),| (Year:cyear),| (Leap:clmon.a)| (Month),| (Day)";
+    format cylmd, "(Cycle),| (Year),| (Leap:clmon:a)| (Month),| (Day)";
+    format "cylmd+", "(Cycle),| (Year:cyear),| (Leap:clmon:a)| (Month),| (Day)";
     format full {
         output "Cycle (Cycle),| Year (Year:cyear),| (Leap:clmon)| (Month),| Day (Day)";
     }

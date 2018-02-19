@@ -44,7 +44,7 @@ grammar jg {
     alias pseudo {
         s, Scheme;
     }
-    format  dmys,   "(Day) |(Month:m.a) |(Year) |(Scheme:jg.a)";
+    format  dmys,   "(Day) |(Month:m:a) |(Year) |(Scheme:jg:a)";
     format "dmys+", "(Day) |(Month:m) |(Year) |(Scheme:jg)";
     pref dmy;
 }
@@ -91,11 +91,11 @@ grammar hy {
         y,    "Hist-Year";
         s,    Scheme;
     }
-    format dmyh,  "(Day) |(Month:m.a) |(Year/Hist-Year)";
-    format dmy,   "(Day) |(Month:m.a) |(Year)";
-    format dmys,  "(Day) |(Month:m.a) |(Year) |(Scheme:jajg.a)";
-    format wdmyh, "(WDay:w.a) |(Day) |(Month:m.a) |(Year/Hist-Year)";
-    format wdmyhs,"(WDay:w.a) |(Day) |(Month:m.a) |(Year/Hist-Year) |(Scheme:jajg)";
+    format dmyh,  "(Day) |(Month:m:a) |(Year/Hist-Year)";
+    format dmy,   "(Day) |(Month:m:a) |(Year)";
+    format dmys,  "(Day) |(Month:m:a) |(Year) |(Scheme:jajg:a)";
+    format wdmyh, "(WDay:w:a) |(Day) |(Month:m:a) |(Year/Hist-Year)";
+    format wdmyhs,"(WDay:w:a) |(Day) |(Month:m:a) |(Year/Hist-Year) |(Scheme:jajg)";
     pref dmyh;
 }
 

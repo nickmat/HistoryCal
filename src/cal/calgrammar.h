@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     13th November 2013
- * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2018, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -33,6 +33,7 @@
 namespace Cal {
 
     class Calendars;
+    class Record;
     class FormatText;
     class FormatIso;
     class FormatUnit;
@@ -41,16 +42,17 @@ namespace Cal {
     class Grammar
     {
     public:
-        Grammar( const std::string& code );
+        Grammar( const std::string& code, Calendars* cals );
         ~Grammar();
 
-        void set_inherit( Calendars* cals, const std::string& code );
+        void set_inherit( const std::string& code );
         void set_pref( const std::string& fcode );
         void add_vocab( Vocab* vocab );
         FormatText* create_format_text( const std::string& code );
         FormatIso* create_format_iso( const std::string& code, const StringVec& rules );
         FormatUnit* create_format_unit( const std::string& code = "u" );
         bool add_format( Format* fmt );
+        void add_element( const std::string& elem, const std::string& expression );
         void add_alias( const std::string& alias, const StringVec& pairs );
 
         std::string code() const { return m_code; }
@@ -67,6 +69,8 @@ namespace Cal {
         std::string get_pref_output_fcode() const { return m_pref_output_fcode; }
         StringVec get_vocab_codes() const;
         StringVec get_vocab_names() const;
+        bool get_element( Field* field, const Record& record, const std::string& fname ) const;
+        Calendars* get_calendars() const { return m_cals; }
 
         Field find_token( Vocab** vocab, const std::string& word ) const;
         std::string lookup_token( Field field, const std::string& vcode, bool abbrev ) const;
@@ -86,9 +90,10 @@ namespace Cal {
         enum INFO { INPUT_INFO, OUTPUT_INFO };
         void get_format_info( SchemeFormatInfo* info, const std::string& cur_code, INFO type ) const;
 
-
+        Calendars*                 m_cals;
         std::string                m_code;
         Grammar*                   m_inherit;
+        StringMap                  m_elements;
         StringMap                  m_field_alias;
         StringMap                  m_num_pseudo_alias;
         StringMap                  m_unit_alias;

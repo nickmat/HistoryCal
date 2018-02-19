@@ -110,9 +110,9 @@ grammar fr {
         m,   month;
         y,   year;
     }
-    format dmy,    "(Day) |(Month:frm.a) |(Year)";
+    format dmy,    "(Day) |(Month:frm:a) |(Year)";
     format "dmy+", "(Day) |(Month:frm) |(Year)";
-    format ymd,    "(Year)|,(Month:frm.a)|,(Day)";
+    format ymd,    "(Year)|,(Month:frm:a)|,(Day)";
     format cdmy {
         input "(Day) |(Month) |(Year)";
         output "(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";
@@ -120,7 +120,7 @@ grammar fr {
     }
     format out {
         input "(Day) |(Month) |(Year)";
-        output "(CompDay:frcomp) |(NMDay) |(NMonth:frm) |an (Year:!rn)";
+        output "(CompDay:frcomp) |(NMDay) |(NMonth:frm) |an (Year::rn)";
         rankout year, nmonth, nmday, cday;
     }
     format dcdmy {
@@ -135,17 +135,17 @@ grammar fr {
     }
     format "cdmy-" {
         input "(Day) |(Month) |(Year)";
-        output "(CompDay:frcomp.a) |(NMDay) |(NMonth:frm.a) |(Year)";
+        output "(CompDay:frcomp:a) |(NMDay) |(NMonth:frm:a) |(Year)";
         rankout year, nmonth, nmday, cday;
     }
     format "dcdmy-" {
         input "(Day) |(Month) |(Year)";
-        output "(DecDay:frdd.a) |(CompDay:frcomp.a) |(NMDay) |(NMonth:frm.a) |(Year)";
+        output "(DecDay:frdd:a) |(CompDay:frcomp:a) |(NMDay) |(NMonth:frm:a) |(Year)";
         rankout year, nmonth, nmday, cday, dday;
     }
     format "wcdmy-" {
         input "(Day) |(Month) |(Year)";
-        output "(WDay:w.a), |(CompDay:frcomp.a) |(NMDay) |(NMonth:frm.a) |(Year)";
+        output "(WDay:w:a), |(CompDay:frcomp:a) |(NMDay) |(NMonth:frm:a) |(Year)";
         rankout year, nmonth, nmday, cday, wday;
     }
     pref cdmy;

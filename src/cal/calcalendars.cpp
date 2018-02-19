@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     19th September 2013
- * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2018, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -87,9 +87,14 @@ const char* Calendars::version()
     return cal_version;
 }
 
-DLLIMPEXP_CAL std::string Cal::Calendars::get_init_error()
+string Calendars::get_init_error()
 {
     return m_init_error;
+}
+
+string Calendars::get_last_error()
+{
+    return m_last_error;
 }
 
 string Calendars::run_script( const string& script )
@@ -376,7 +381,7 @@ bool Calendars::add_scheme( SHandle sch, const string& code )
 
 Grammar* Calendars::create_grammar( const string& code )
 {
-    Grammar* gmr = new Grammar( code );
+    Grammar* gmr = new Grammar( code, this );
     assert( m_marks.size() > 0 );
     m_marks[m_marks.size()-1]->add_grammar( gmr );
     m_grammars[code] = gmr;
@@ -493,7 +498,7 @@ FormatUnit* Calendars::create_format_unit( const string& code, Grammar* gmr )
     return nullptr;
 }
 
-Function* Cal::Calendars::create_function( const std::string & code )
+Function* Calendars::create_function( const string & code )
 {
     Function* fun = new Function( code );
     assert( m_marks.size() > 0 );
@@ -502,7 +507,7 @@ Function* Cal::Calendars::create_function( const std::string & code )
     return fun;
 }
 
-Function* Cal::Calendars::get_function( const std::string & code ) const
+Function* Calendars::get_function( const string & code ) const
 {
     if ( m_functions.count( code ) > 0 ) {
         return m_functions.find( code )->second;
@@ -572,12 +577,12 @@ bool Calendars::clear_mark( const string& name )
     return true;
 }
 
-void Cal::Calendars::push_store()
+void Calendars::push_store()
 {
     m_store = new ScriptStore( m_store );
 }
 
-bool Cal::Calendars::pop_store()
+bool Calendars::pop_store()
 {
     ScriptStore* store = m_store->get_prev();
     if ( store ) {
@@ -586,6 +591,16 @@ bool Cal::Calendars::pop_store()
         return true;
     }
     return false;
+}
+
+Field Calendars::evaluate_field( const string& expression, const Record& record )
+{
+    std::istringstream iss( expression );
+    std::ostringstream oss;
+    Script scr( this, iss, oss );
+    Field field = scr.evaluate_field( record );
+    m_last_error = oss.str();
+    return field;
 }
 
 // End of src/cal/calcalendars.cpp file

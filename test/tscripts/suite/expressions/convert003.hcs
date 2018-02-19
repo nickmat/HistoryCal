@@ -1,0 +1,15 @@
+// convert003.hcs Test convert cast Roman Numeral :rn expressions
+
+writeln "";
+
+writeln convert,:rn 1948;
+writeln convert,:rn:l 1948;
+writeln convert,:rn:u 1948;
+
+/*[OUTPUT]
+
+MCMXLVIII
+mcmxlviii
+MCMXLVIII
+
+[OUTPUT]*/

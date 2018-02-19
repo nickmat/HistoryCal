@@ -2,7 +2,7 @@
 
 mark "format003";
 
-format g:MYD { inout "(Month:m.a) |(Year)|, (Day)"; }
+format g:MYD { inout "(Month:m:a) |(Year)|, (Day)"; }
 
 write date,g:MYD "Sep1948 19";
 
