@@ -1,6 +1,7 @@
 {
   "project": "HistoryCal",
   "unix-name": "historycal",
+  "github-name": "nickmat/HistoryCal",
   "favicon": "sys/logo1_32x32x32.png",
   "livery-css": "sys/hcal.css",
   "home-url": "http://historycal.org",
