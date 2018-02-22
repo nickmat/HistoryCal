@@ -1,4 +1,4 @@
-// function008.hcs - Test function in a expression with no arguments.
+// function008.hcs - Test function in a expression. Used as example in manual.
 
 function power( number, power ) {
     result = 1;

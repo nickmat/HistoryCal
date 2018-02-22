@@ -198,6 +198,10 @@ bool Script::do_if()
             // move on to the next "elseif" or "else"
             nested = 0;
             for(;;) {
+                if ( token.type() == SToken::STT_At ) {
+                    token = m_ts.next();
+                    token = m_ts.next(); // Ignore function name
+                }
                 if( token.type() == SToken::STT_End ) {
                     error(enderr);
                     return false;
