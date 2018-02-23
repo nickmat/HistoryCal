@@ -279,12 +279,15 @@ bool terminated_word( const string& statement, const string& end )
     int count = 0;
     string word;
     bool in_word = false;
+    bool is_funct = false;
     for ( auto ch : stmt ) {
         if ( in_word ) {
             if ( isalnum( ch ) || ch == '_' || ch == ':' || ch == '.' ) {
                 word += ch;
             } else {
-                if ( word == start ) {
+                if ( is_funct ) {
+                    is_funct = false;
+                } else if ( word == start ) {
                     count++;
                 } else if ( word == end ) {
                     if ( count > 1 ) {
@@ -298,6 +301,8 @@ bool terminated_word( const string& statement, const string& end )
         } else if ( isascii( ch ) && ( isalpha( ch ) || ch == '_' || ch == ':' ) ) {
             in_word = true;
             word = ch;
+        } else if ( ch == '@' ) {
+            is_funct = true;
         }
     }
     return false;
