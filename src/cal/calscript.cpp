@@ -867,15 +867,31 @@ bool Script::do_grammar_vocabs( Grammar* gmr )
 bool Script::do_grammar_element( Grammar* gmr )
 {
     string name = get_name_or_primary( true );
-    if ( m_ts.current().type() != SToken::STT_Equal ) {
-        error( "'=' expected." );
+    if ( m_ts.current().type() != SToken::STT_LCbracket ) {
+        error( "'{' expected." );
         return false;
     }
-    string expression = m_ts.read_until( ";", "" );
-    if ( name.empty() || expression.empty() ) {
+    ElementField ef;
+    for ( ;; ) {
+        SToken token = m_ts.next();
+        if ( token.type() == SToken::STT_RCbracket ||
+            token.type() == SToken::STT_End )
+        {
+            break; // All done.
+        }
+        if ( token.type() == SToken::STT_Name ) {
+            string sub = token.get_str();
+            if ( sub == "output" ) {
+                ef.out_expression = m_ts.read_until( ";", "" );
+            } else if ( sub == "pseudo" ) {
+                expr( true ).get( ef.pseudo );
+            }
+        }
+    }
+    if ( name.empty() || ef.out_expression.empty() ) {
         return false;
     }
-    gmr->add_element( name, expression );
+    gmr->add_element( name, ef );
     return true;
 }
 

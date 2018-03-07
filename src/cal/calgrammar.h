@@ -38,6 +38,11 @@ namespace Cal {
     class FormatIso;
     class FormatUnit;
 
+    struct ElementField
+    {
+        std::string out_expression;
+        std::string pseudo;
+    };
 
     class Grammar
     {
@@ -52,7 +57,7 @@ namespace Cal {
         FormatIso* create_format_iso( const std::string& code, const StringVec& rules );
         FormatUnit* create_format_unit( const std::string& code = "u" );
         bool add_format( Format* fmt );
-        void add_element( const std::string& elem, const std::string& expression );
+        void add_element( const std::string& elem, const ElementField& ef );
         void add_alias( const std::string& alias, const StringVec& pairs );
 
         std::string code() const { return m_code; }
@@ -60,6 +65,7 @@ namespace Cal {
         std::string get_unit_fieldname( Field* multiple, const std::string& unit ) const;
         std::string get_unitname( const std::string& fieldname ) const;
         std::string get_num_pseudo_alias( const std::string& fname ) const;
+        std::string get_element_pseudo_name( const std::string& fname ) const;
         Unit get_unit_alias( const std::string& fname ) const;
         std::string get_input_format( const std::string& code ) const;
         void get_input_formats( SchemeFormatInfo* info, const std::string& cur_code ) const;
@@ -93,7 +99,7 @@ namespace Cal {
         Calendars*                 m_cals;
         std::string                m_code;
         Grammar*                   m_inherit;
-        StringMap                  m_elements;
+        std::map<std::string,ElementField> m_elements;
         StringMap                  m_field_alias;
         StringMap                  m_num_pseudo_alias;
         StringMap                  m_unit_alias;

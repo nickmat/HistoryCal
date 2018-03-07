@@ -171,12 +171,15 @@ bool ElementControl::expand_specifier( Grammar* gmr )
         m_type = IFT_dual2;
     }
     m_record_field_name = gmr->get_field_alias( m_field_name );
+    m_field_output_name = gmr->get_element_pseudo_name( m_field_name );
     if ( m_voc ) {
         m_type = IFT_vocab;
-        if ( m_spec == "a" ) {
-            m_field_output_name = m_voc->get_pseudo_name( Vocab::pseudo_abbrev );
-        } else {
-            m_field_output_name = m_voc->get_pseudo_name( Vocab::pseudo_full );
+        if ( m_field_output_name.empty() ) {
+            if ( m_spec == "a" ) {
+                m_field_output_name = m_voc->get_pseudo_name( Vocab::pseudo_abbrev );
+            } else {
+                m_field_output_name = m_voc->get_pseudo_name( Vocab::pseudo_full );
+            }
         }
         m_default_value = m_voc->find( m_default_text );
     } else if ( m_vcode.empty() && !m_spec.empty() ) {
@@ -201,7 +204,7 @@ bool ElementControl::expand_specifier( Grammar* gmr )
         m_dual_record_field_name = gmr->get_field_alias( m_dual_field_name );
         m_field_output_name = gmr->get_num_pseudo_alias( m_field_name ) +
             "/" + gmr->get_num_pseudo_alias( m_dual_field_name );
-    } else {
+    } else if( m_field_output_name.empty() ) {
         m_field_output_name = gmr->get_num_pseudo_alias( m_field_name );
     }
     return true;

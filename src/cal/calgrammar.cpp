@@ -127,7 +127,7 @@ bool Grammar::add_format( Format* fmt )
     return true;
 }
 
-void Grammar::add_element( const string & elem, const string & expression )
+void Grammar::add_element( const string& elem, const ElementField& expression )
 {
     m_elements[elem] = expression;
 }
@@ -217,6 +217,18 @@ string Grammar::get_num_pseudo_alias( const string& fname ) const
     return fname;
 }
 
+string Grammar::get_element_pseudo_name( const string& fname ) const
+{
+    string pseudo;
+    if ( m_elements.count( fname ) == 1 ) {
+        pseudo = m_elements.find( fname )->second.pseudo;
+    }
+    if ( pseudo.empty() && m_inherit ) {
+        pseudo = m_inherit->get_element_pseudo_name( fname );
+    }
+    return pseudo;
+}
+
 Unit Grammar::get_unit_alias( const string& str ) const
 {
     string key = make_key( str );
@@ -299,7 +311,8 @@ bool Grammar::get_element(
     Field* field, const Record& record, const string& fname ) const
 {
     if ( m_elements.count( fname ) == 1 ) {
-        *field = m_cals->evaluate_field( m_elements.find(fname)->second, record );
+        string expression = m_elements.find( fname )->second.out_expression;
+        *field = m_cals->evaluate_field( expression, record );
         return true;
     }
     if( m_inherit ) {
