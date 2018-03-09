@@ -1,9 +1,18 @@
 // cals/jce_001.hcs  Test Julian BCE/CE with default values format.
 
-let d = date "19sep1948";
+let d1 = date "19sep948";
+let d2 = date "19sep148";
+let d3 = date "19sep-148";
 
-write string,jce:dmy d;
+writeln "";
+writeln string,jce:dmy d1;
+writeln string,jce:dmy d2;
+writeln string,jce:dmy d3;
 
 /*[OUTPUT]
-6 Sep 1948 CE
+
+14 Sep 948
+20 Sep 148 CE
+22 Sep 149 BCE
+
 [OUTPUT]*/

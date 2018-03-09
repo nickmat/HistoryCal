@@ -24,7 +24,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 */
 
-// An arithmetic if expression, result is a if c is true, or b if c is false.
+// An arithmetic 'if' expression, result is 'a' if 'c' is true, or 'b' if 'c' is false.
 function if(c,a,b) { if c result=a; else result=b; endif }
 
 // End of scripts/stdlib.hcs file

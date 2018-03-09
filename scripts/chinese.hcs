@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     15th April 2017
- * Copyright:   Copyright (c) 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2017 ~ 2018, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@ vocab cyear {
     name "Year names";
     fieldname cyear;
     lang en;
-    pseudo     Year,       Yr;
+    pseudo     YearName,       YrN;
     tokens {
         1,  "Jiǎ-zǐ",     "Jia-zi";
         2,  "Yǐ-chǒu",    "Yi-chou";
@@ -106,6 +106,11 @@ vocab clmon {
 
 grammar c {
     vocabs cyear, clmon;
+    rank cycle, cyear, month, lmonth, day;
+    element LM {
+        output @if(lmonth=0,?,lmonth);
+        pseudo "[Leap]";
+    }
     alias field {
         Day,   day;
         Leap,  lmonth;
@@ -116,13 +121,16 @@ grammar c {
     alias pseudo {
         dd, Day;
         mm, Month;
-        lm, Leap;
+        lm, LMonth;
         yy, Year;
         cc, Cycle;
     }
-    format cylmd, "(Cycle),| (Year),| (Leap:clmon:a)| (Month),| (Day)";
-    format "cylmd+", "(Cycle),| (Year:cyear),| (Leap:clmon:a)| (Month),| (Day)";
+    format cymd, "(Cycle),| (Year),| (LM:clmon:a=Month)| (Month),| (Day)";
+    format "cymd+", "(Cycle),| (Year:cyear),| (LM:clmon:a=Month)| (Month),| (Day)";
     format full {
+        output "Cycle (Cycle),| Year (Year),| (Leap:clmon)| (Month),| Day (Day)";
+    }
+    format yname {
         output "Cycle (Cycle),| Year (Year:cyear),| (Leap:clmon)| (Month),| Day (Day)";
     }
 }

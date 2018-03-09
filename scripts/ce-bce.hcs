@@ -39,12 +39,17 @@ grammar jce {
     optional wday, ce, ceyear;
     rank ce, ceyear, month, day;
     vocabs m, w, jce;
+    element Era {
+        output @if(year<500,ce,?);
+        pseudo "[CE<500]";
+    }
     alias field {
         WDay,  wday;
         Day,   day;
         Month, month;
         Year,  ceyear;
         CEra,  ce;
+        Era,   ce;
     }
     alias pseudo {
         w,    WDay;
@@ -58,8 +63,9 @@ grammar jce {
         y, year;
         w, week;
     }
-    format  dmy,    "(Day) |(Month:m:a) |(Year) |(CEra:jce:a=CE)";
-    format  wdmy,   "(WDay:w:a) |(Day) |(Month:m:a) |(Year) |(CEra:jce:a=CE)";
+    format  dmy,    "(Day) |(Month:m:a) |(Year)| (Era:jce:a=CE)";
+    format  dmye,    "(Day) |(Month:m:a) |(Year)| (CEra:jce:a=CE)";
+    format  wdmy,   "(WDay:w:a) |(Day) |(Month:m:a) |(Year)| (Era:jce:a=CE)";
     format  out {
         output "(Day::os) |(Month:m) |(Year) |(CEra:jce:a)";
     }
