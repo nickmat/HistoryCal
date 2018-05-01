@@ -88,7 +88,7 @@ string read_file( const string& name )
 
 void do_usage()
 {
-    cout << g_title << g_copyright << "\n";
+    cout << g_title << g_copyright << endl;
     cout << 
         "Usage:\n"
         "  hcs [options]\n"
@@ -99,7 +99,7 @@ void do_usage()
         "  -e    Exit the program without entering interactive mode.\n"
         "  name  Run the file 'name' as a script.\n"
         "        Multiple files are run in the order that they appear.\n" 
-        "\n"
+        << endl
     ;
 }
 
@@ -132,7 +132,7 @@ void do_help( const string& option )
         "If what you enter is neither a named statement or a command then, if it ends\n"
         "with a ';' character, it is treated as an assignment statement. Otherwise it is\n"
         "treated as an expression, wrapped within a 'write' statement and executed.\n"
-        "\n"
+        << endl
     ;
 }
 
@@ -140,11 +140,11 @@ void do_info( Calendars* cal, const string& scode )
 {
     if ( scode.empty() ) {
         SchemeList schemes = cal->get_scheme_list();
-        cout << "Available schemes:-\n";
+        cout << "Available schemes:-" << endl;
         for ( auto data : schemes ) {
-            cout << data.code << "\t" << data.name << "\n";
+            cout << data.code << "\t" << data.name << endl;
         }
-        cout << "\n";
+        cout << endl;
         return;
     }
     SHandle sch = cal->get_scheme( scode );
@@ -160,14 +160,14 @@ void do_info( Calendars* cal, const string& scode )
         "Name:\t" << info.name << "\n"
         "Code:\t" << info.code << "\n"
         "Grammar:\t" << info.grammar_code << "\n"
-        "Formats:-\n"
+        "Formats:-" << endl
     ;
     for ( auto pdesc : formats.descs ) {
         for ( auto pcode : pdesc.codes ) {
-            cout << pcode.code << "\t" << pdesc.desc << "\n";
+            cout << pcode.code << "\t" << pdesc.desc << endl;
         }
     }
-    cout << "\n";
+    cout << endl;
 }
 
 string compress_statement( const string& statement )
@@ -357,7 +357,11 @@ string get_statement( const string& start, StmtType type )
 int main( int argc, char* argv[] )
 {
 #ifdef _WIN32
-    SetConsoleOutputCP( 65001 );
+    // Set Windows console in/out to use utf-8.
+    SetConsoleCP ( CP_UTF8 );
+    setvbuf( stdin, nullptr, _IOFBF, 1000 );
+    SetConsoleOutputCP( CP_UTF8 );
+    setvbuf( stdout, nullptr, _IOFBF, 1000 );
 #endif
     vector<string> filenames;
     bool run_default = true;
@@ -377,7 +381,7 @@ int main( int argc, char* argv[] )
                 do_cmd_line = false;
                 break;
             default:
-                cout << "Command line flag not recognised.\n";
+                cout << "Command line flag not recognised." << endl;
             }
         } else {
             filenames.push_back( string( argv[i] ) );
@@ -387,7 +391,7 @@ int main( int argc, char* argv[] )
     if ( do_cmd_line ) {
         cout << g_title << g_copyright <<
             "Enter 'help' for more information.\n"
-            "\n"
+            << endl
         ;
     }
 
@@ -403,7 +407,7 @@ int main( int argc, char* argv[] )
         string script = read_file( filenames[i] );
         string response = cal->run_script( script );
         if( response.size() ) {
-            cout << response << "\n";
+            cout << response << endl;
         }
     }
 
@@ -459,7 +463,7 @@ int main( int argc, char* argv[] )
             }
             string output = cal->run_script( cmnd );
             if( output.size() ) {
-                cout << output << "\n";
+                cout << output << endl;
             }
         }
     }
