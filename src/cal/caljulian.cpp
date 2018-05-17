@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2018, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -158,17 +158,19 @@ Field Julian::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) con
     case OFID_j_easter:
         return easter( fields[YMD_year] );
     case OFID_j_eastershift:
-        {
-            Record rec( this, easter( fields[YMD_year] ) );
-            if( rec.get_field( YMD_month ) < fields[YMD_month] ||
-                ( rec.get_field( YMD_month ) ==  fields[YMD_month] &&
-                rec.get_field( YMD_day ) < fields[YMD_day] ) )
-            {
-                return rec.get_field( YMD_year );
-            } else {
-                return rec.get_field( YMD_year ) - 1;
+        if ( before_easter( fields ) ) {
+            return fields[YMD_year] - 1;
+        }
+        return fields[YMD_year];
+    case OFID_j_easterrpt:
+        if ( before_easter( fields ) ) {
+            FieldVec f = fields_to_vec( fields );
+            f[YMD_year]--;
+            if ( !before_easter( &f[0] ) ) {
+                return 1;
             }
         }
+        return 0;
     default:
         return Base::get_opt_field( fields, jdn, id );
     }
@@ -412,6 +414,24 @@ void Julian::resolve_opt_input( Field* fields, size_t index ) const
             fields[YMD_day] = rec.get_field( YMD_day );
         }
         break;
+    case OFID_j_eastershift:
+        if ( fields[YMD_year] == f_invalid ) {
+            int ri = opt_id_to_index( OFID_j_easterrpt );
+            if ( ri >= 0 && fields[ri] == 1 ) {
+                fields[YMD_year] = fields[index] + 1;
+                break;
+            }
+            if ( ri >= 0 && fields[ri] == 0 ) {
+                fields[YMD_year] = fields[index];
+                Field e = easter( fields[index] );
+                Field n = get_jdn( fields );
+                if ( e > n ) {
+                    fields[YMD_year]++;
+                }
+                break;
+            }
+        }
+        break;
     default:
         break;
     }
@@ -462,6 +482,18 @@ Field Julian::last_day_in_month( Field year, Field month ) const
         return is_leap_year( year ) ? 29 : 28;
     }
     return f_invalid;
+}
+
+bool Julian::before_easter( const Field* fields ) const
+{
+    Record rec( this, easter( fields[YMD_year] ) );
+    if ( fields[YMD_month] < rec.get_field( YMD_month ) ||
+        ( fields[YMD_month] == rec.get_field( YMD_month ) &&
+            fields[YMD_day] < rec.get_field( YMD_day ) ) )
+    {
+        return true;
+    }
+    return false;
 }
 
 // End of src/cal/caljulian.cpp file

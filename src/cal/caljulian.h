@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2018, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -72,6 +72,9 @@ namespace Cal {
     protected:
         virtual bool is_leap_year( Field year ) const;
         Field last_day_in_month( Field year, Field month ) const;
+
+    private:
+        bool before_easter( const Field* fields ) const;
     };
 
 }
