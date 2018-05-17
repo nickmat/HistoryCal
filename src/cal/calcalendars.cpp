@@ -260,10 +260,11 @@ FieldVec Calendars::str_to_fieldvec( SHandle scheme, const string& str, const st
 
 Field Calendars::str_to_jdn( SHandle scheme, const string& str, const string& fcode )
 {
-    if( scheme == NULL ) {
-        return f_invalid;
+    RangeList rlist = str_to_rangelist( scheme, str, fcode );
+    if ( rlist.size() == 1 && rlist[0].jdn1 == rlist[0].jdn2 ) {
+        return rlist[0].jdn1;
     }
-    return scheme->str_to_jdn( str, fcode );
+    return f_invalid;
 }
 
 string Calendars::jdn_to_str( SHandle scheme, Field jdn, const string& fcode )
