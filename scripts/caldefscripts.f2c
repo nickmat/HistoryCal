@@ -35,6 +35,7 @@ Cal::ScriptModule Cal::cal_default_scripts[] = {
     { "jdn", @(cp.cpp)"jdn.hcs" },
     { "julian", @(cp.cpp)"julian.hcs" },
     { "julian_hybrid", @(cp.cpp)"julian_hybrid.hcs" },
+    { "easter", @(cp.cpp)"easter.hcs" },
     { "liturgical", @(cp.cpp)"liturgical.hcs" },
     { "ce_bce", @(cp.cpp)"ce-bce.hcs" },
     { "english_reg", @(cp.cpp)"english_reg.hcs" },

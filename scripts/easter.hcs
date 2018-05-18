@@ -1,0 +1,79 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Name:        scripts/easter.hcs
+ * Project:     Cal: Programmable Historical Calendar library.
+ * Purpose:     Default script for Julian Easter Sunday scheme.
+ * Author:      Nick Matthews
+ * Website:     http://historycal.org
+ * Created:     9th March 2018
+ * Copyright:   Copyright (c) 2018, Nick Matthews.
+ * Licence:     GNU GPLv3
+ *
+ *  The Cal library is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The Cal library is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with the Cal library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*/
+
+
+vocab erpt {
+    name "Easter Repeated Date";
+    fieldname easterrpt;
+    lang en;
+    pseudo    Repeated,            Rpt;
+    tokens {
+        0, "First Occurrence",    "First";
+        1, "Repeated Occurrence", "Repeated";
+    }
+}
+
+grammar je {
+    optional eastershift, easterrpt, wday;
+    rank eastershift, month, day, easterrpt;
+    element Rpt {
+        output @if(easterrpt=0,?,1);
+        pseudo "[Repeated]";
+    }    
+    alias field {
+        WDay,        wday;
+        Day,         day;
+        Month,       month;
+        Year,        eastershift;
+        Rpt,         easterrpt;
+        "Hist-Year", year;
+    }
+    alias pseudo {
+        dd,   Day;
+        mm,   Month;
+        yyyy, Year;
+        y,    "Hist-Year";
+        r,    Repeated;
+    }
+    vocabs m, w, erpt;
+    format dmy "(Day) |(Month:m:a) |(Year)| (Rpt:erpt:a=First)";
+    format "dmy+" "(Day) |(Month:m) |(Year)| (Rpt:erpt=First)";
+    format mdy "(Month:m:a) |(Day), |(Year)| (Rpt:erpt:a=First)";
+    format "mdy+" "(Month:m) |(Day), |(Year)| (Rpt:erpt=First)";
+    format wdmy  "(WDay:w:a) |(Day) |(Month:m:a) |(Year)";
+    format "wdmy+" "(WDay:w) |(Day) |(Month:m) |(Year)";
+    format wmdy "(WDay:w:a) |(Month:m:a) |(Day), |(Year)";
+    format "wmdy+" "(WDay:w) |(Month:m) |(Day), |(Year)";
+    pref dmy;
+}
+
+scheme je {
+    name "Julian Easter";
+    base julian;
+    grammar je;
+}
+
+// End of scripts/liturgical.hcs file
