@@ -133,6 +133,7 @@ grammar c {
     format yname {
         output "Cycle (Cycle),| Year (Year:cyear),| (Leap:clmon)| (Month),| Day (Day)";
     }
+    pref full;
 }
 
 scheme c {

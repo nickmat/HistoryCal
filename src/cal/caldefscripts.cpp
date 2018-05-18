@@ -1597,6 +1597,7 @@ Cal::ScriptModule Cal::cal_default_scripts[] = {
  "format yname {\n"
  "output \"Cycle (Cycle),| Year (Year:cyear),| (Leap:clmon)| (Month),| Day (Day)\";\n"
  "}\n"
+ "pref full;\n"
  "}\n"
  "scheme c {\n"
  "name \"Chinese\";\n"
