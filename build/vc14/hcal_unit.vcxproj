@@ -142,6 +142,7 @@
     <ClCompile Include="..\..\test\unit\def_isow.cpp" />
     <ClCompile Include="..\..\test\unit\def_j325.cpp" />
     <ClCompile Include="..\..\test\unit\def_jce.cpp" />
+    <ClCompile Include="..\..\test\unit\def_je.cpp" />
     <ClCompile Include="..\..\test\unit\def_jlit.cpp" />
     <ClCompile Include="..\..\test\unit\testcal.cpp" />
     <ClCompile Include="..\..\test\unit\testchinese.cpp" />
