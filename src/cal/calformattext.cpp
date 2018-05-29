@@ -191,7 +191,7 @@ bool FormatText::resolve_input(
             }
         }
         if ( fname.size() ) {
-            if ( !base->is_tier1( fname, this ) ) {
+            if ( !is_input_field( fname ) ) {
                 int index = base->get_fieldname_index( fname );
                 if ( index < 0 ) continue;
                 // Input an extended field
@@ -367,7 +367,7 @@ StringVec FormatText::get_rankout_fieldnames() const
     return m_rankout_fieldnames;
 }
 
-bool FormatText::is_tier1( const std::string& fieldname ) const
+bool FormatText::is_input_field( const std::string& fieldname ) const
 {
     for( size_t i = 0 ; i < m_input_fields.size() ; i++ ) {
         if( fieldname == m_input_fields[i] ) {

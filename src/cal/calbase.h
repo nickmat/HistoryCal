@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2018, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -199,7 +199,7 @@ namespace Cal {
 
         OptFieldID opt_index_to_id( size_t index ) const { return m_opt_fields[index-record_size()]; }
         int opt_id_to_index( OptFieldID id ) const;
-        virtual bool is_tier1( const std::string& fieldname, const FormatText* fmt ) const;
+
     protected:
         virtual int get_std_fieldname_index( const std::string& fieldname ) const { return get_ymd_fieldname_index( fieldname ); }
         virtual std::string get_std_fieldname( size_t index ) const { return get_ymd_fieldname( index ); }

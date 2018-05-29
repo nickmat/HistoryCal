@@ -62,13 +62,14 @@ namespace Cal {
         void set_rankout_fieldnames( StringVec fieldnames ) { m_rankout_fieldnames = fieldnames; }
         StringVec get_rank_fieldnames() const;
         StringVec get_rankout_fieldnames() const;
-        bool is_tier1( const std::string& fieldname ) const;
 
     private:
         enum CP_Group {
             GRP_Hyphen, GRP_Digit, GRP_Quest, GRP_Dual,
             GRP_Sep, GRP_Other
         };
+
+        bool is_input_field( const std::string& fieldname ) const;
         CP_Group get_cp_group( 
             std::string::const_iterator it,
             std::string::const_iterator end ) const;

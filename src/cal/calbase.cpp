@@ -623,11 +623,6 @@ int Base::get_opt_fieldname_index( const string& fieldname ) const
     return -1;
 }
 
-bool Base::is_tier1( const string& fieldname, const FormatText* fmt ) const
-{
-    return fmt->is_tier1( fieldname );
-}
-
 void Base::create_default_grammar() const
 {
     if( m_grammar == NULL ) {
