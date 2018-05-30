@@ -417,17 +417,32 @@ void Julian::resolve_opt_input( Field* fields, size_t index ) const
     case OFID_j_eastershift:
         if ( fields[YMD_year] == f_invalid ) {
             int ri = opt_id_to_index( OFID_j_easterrpt );
-            if ( ri >= 0 && fields[ri] == 1 ) {
-                fields[YMD_year] = fields[index] + 1;
+            if ( ri >= 0 && fields[ri] != f_invalid ) {
+                if ( fields[ri] == 1 ) {
+                    fields[YMD_year] = fields[index] + 1;
+                } else if ( fields[ri] == 0 ) {
+                    fields[YMD_year] = fields[index];
+                    Field e = easter( fields[index] );
+                    Field n = get_jdn( fields );
+                    if ( e > n ) {
+                        fields[YMD_year]++;
+                    }
+                }
                 break;
             }
-            if ( ri >= 0 && fields[ri] == 0 ) {
+            ri = opt_id_to_index( OFID_wday );
+            if ( ri >= 0 && fields[ri] != f_invalid ) {
                 fields[YMD_year] = fields[index];
-                Field e = easter( fields[index] );
-                Field n = get_jdn( fields );
-                if ( e > n ) {
-                    fields[YMD_year]++;
+                Field jdn = get_jdn( fields );
+                if ( day_of_week( jdn ) + 1 == fields[ri] ) {
+                    break;
                 }
+                fields[YMD_year]++;
+                jdn = get_jdn( fields );
+                if ( day_of_week( jdn ) + 1 == fields[ri] ) {
+                    break;
+                }
+                fields[YMD_year] = f_invalid;
                 break;
             }
         }

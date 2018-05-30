@@ -42,7 +42,7 @@ grammar je {
     element Rpt {
         output @if(easterrpt=0,?,1);
         pseudo "[Repeated]";
-    }    
+    }
     alias field {
         WDay,        wday;
         Day,         day;
@@ -63,10 +63,22 @@ grammar je {
     format "dmy+" "(Day) |(Month:m) |(Year)| (Rpt:erpt=First)";
     format mdy "(Month:m:a) |(Day), |(Year)| (Rpt:erpt:a=First)";
     format "mdy+" "(Month:m) |(Day), |(Year)| (Rpt:erpt=First)";
-    format wdmy  "(WDay:w:a) |(Day) |(Month:m:a) |(Year)";
-    format "wdmy+" "(WDay:w) |(Day) |(Month:m) |(Year)";
-    format wmdy "(WDay:w:a) |(Month:m:a) |(Day), |(Year)";
-    format "wmdy+" "(WDay:w) |(Month:m) |(Day), |(Year)";
+    format wdmy {
+        inout "(WDay:w:a) |(Day) |(Month:m:a) |(Year)";
+        rank eastershift, month, day, wday;
+    }
+    format "wdmy+" {
+        inout "(WDay:w) |(Day) |(Month:m) |(Year)";
+        rank eastershift, month, day, wday;
+    }
+    format wmdy {
+        inout "(WDay:w:a) |(Month:m:a) |(Day), |(Year)";
+        rank eastershift, month, day, wday;
+    }
+    format "wmdy+" {
+        inout "(WDay:w) |(Month:m) |(Day), |(Year)";
+        rank eastershift, month, day, wday;
+    }
     pref dmy;
 }
 
