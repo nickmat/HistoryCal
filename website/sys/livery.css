@@ -1,162 +1,136 @@
-/* Livery for project websites */
-
 body {
-    margin: 0;
-    padding: 0;
-    background-color: #fff;
+margin: 0;
+padding: 0;
+background-color: #fff;
 }
-
 .clear {
- clear: both;
+clear: both;
 }
-
-ul { /* God knows why I need this - isn't css great! */
-    overflow: hidden;
+ul {
+overflow: hidden;
 }
-
 div.heading {
-    font-size: 32px;
-    font-weight: bold;
-    text-align: center;
-    margin: 0;    
-    background: 8px 8px #fff5cc;
-    padding: 8px 15px 8px 20px;
-    border-bottom: 4px solid #ffd685;
-    border-right: 2px solid #ffd685;
+font-size: 32px;
+font-weight: bold;
+text-align: center;
+margin: 0;
+background: 8px 8px #fff5cc;
+padding: 8px 15px 8px 20px;
+border-bottom: 4px solid #ffd685;
+border-right: 2px solid #ffd685;
 }
-
 div.heading div.logo {
-    float: left;
-    padding: 8px;
+float: left;
+padding: 8px;
 }
-
 div.heading img.logo {
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
-
 div.clear {
-    clear: both;
+clear: both;
 }
-
 div.menu {
-    width: 166px;
-    overflow: hidden;
-    margin: 15px 20px 10px 20px;
-    float: left;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+width: 158px;
+overflow: hidden;
+margin: 15px 20px 20px 6px;
+float: left;
+border-bottom: 2px solid #999;
+border-right:  1px solid #999;
 }
-
-div.m-panel {
-    padding: 5px;
-}
-
 div.menu a, div.menu div.m-item {
-    float: left;
+float: left;
 }
-
 .m-item {
-    color: #840;
-    border-bottom: 2px solid #999;
-    border-right:  1px solid #999;
-    padding: 5px 5px 5px 20px;
-    margin:3px 3px 3px 5px;
-    width: 120px;
-    text-decoration: none;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 12px;
+color: #840;
+border-bottom: 2px solid #999;
+border-right:  1px solid #999;
+padding: 5px 5px 5px 20px;
+margin:3px 3px 3px 5px;
+width: 120px;
+text-decoration: none;
+font-family: Arial, Helvetica, sans-serif;
+font-size: 12px;
 }
-
 a.m-item:hover, a.m-item.hover:link, a.m-item.hover:visited, a.m-item.hover:active {
-    background-color: #eee;
-    background-image:url(moonsmall.png);
-    background-repeat: no-repeat;
-    background-position: left;
+background-color: #eee;
+background-image: url(bullet_hov.png);
+background-repeat: no-repeat;
+background-position: left;
 }
-
 a.thispage, a.thispage:hover {
-    background-image:url(sunsmall.png);
-    background-repeat: no-repeat;
-    background-position: left;
+background-image: url(bullet_cur.png);
+background-repeat: no-repeat;
+background-position: left;
 }
-
 div.menu-plus, div.menu-plus a {
-    width: 160px;
-    text-align: center;
+width: 160px;
+text-align: center;
 }
-
 div.crumbs {
-    overflow: hidden;
-    margin: 0 5px;
-    clear: both;
+overflow: hidden;
+margin: 0 5px;
+clear: both;
 }
-
 div.crumbs a {
-    float: left;
+float: left;
 }
-
 div.crumbs .dmenu {
-    float: left;
-    overflow: hidden;
+float: left;
+overflow: hidden;
 }
-
 div.crumbs .dm-item {
-    background-color: inherit;
-    font-family: inherit;
-    width: 20px;
+background-color: inherit;
+font-family: inherit;
+width: 20px;
 }
-
 div.crumbs  .dmenu:hover .dm-item {
-    background-color: #eee;
-    background-image:url(sunsmall.png);
-    background-repeat: no-repeat;
-    background-position: left;
+background-color: #eee;
+background-image: url(bullet_cur.png);
+background-repeat: no-repeat;
+background-position: left;
 }
-
 div.crumbs .dm-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
+display: none;
+position: absolute;
+margin-left: 10px;
+background-color: white;
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+z-index: 1;
 }
-
 div.crumbs .dm-content a {
-    float: none;
-    display: block;
-    text-align: left;
+float: none;
+display: block;
+text-align: left;
 }
-
 div.crumbs .dmenu:hover .dm-content {
-    display: block;
+display: block;
 }
-
 div.crumbs .nav {
-    float: right;
-    width: 20px;
+float: right;
+width: 20px;
 }
-
 div#content {
- margin: 20px;
+margin: 20px;
 }
-
 div.tail {
-    margin: 0;
-    padding: 2px;
-    background: 8px 8px #ffd685;
+margin: 0;
+padding: 2px;
+background: 8px 8px #ffd685;
 }
-
 #create-date {
-    font: italic 1em "Times New Roman", serif;
-    margin: 0 10px 0 10px;
+font: italic 1em "Times New Roman", serif;
+margin: 0 10px 0 10px;
 }
-
 #valid {
-    margin: 0 10px 0 10px;
-    float: right;
+margin: 0 10px 0 10px;
+float: right;
 }
-
 #valid img {
-    border-style: none;
+border-style: none;
 }
-
-/* End of livery.css file */
+tr.map, td {
+padding: 3px;
+}
+hr.dash {
+	border-top: 1px dotted #e8e8e8;
+}

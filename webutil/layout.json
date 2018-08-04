@@ -1,11 +1,12 @@
 {
   "project": "HistoryCal",
-  "unix-name": "historycal",
-  "github-name": "nickmat/HistoryCal",
-  "favicon": "sys/logo1_32x32x32.png",
-  "livery-css": "sys/hcal.css",
   "home-url": "http://historycal.org",
-  "full-icon": "sys/logo2.png",
+  "color-top": "#fff5cc",
+  "color-border": "#ffd685",
+  "site-css": "sys/hcal.css",
+  "sourceforge-url": "https://sourceforge.net/projects/historycal",
+  "github-url": "https://github.com/nickmat/HistoryCal",
+  "download-url": "https://sourceforge.net/projects/historycal/files",
   "stats-text": "statistics.txt",
   "site": { "folder": "web-new", "name": "index", "subtitle": "Home Page", "label": "Home", "content": [
     { "folder": "new", "name": "news", "label": "News" },
