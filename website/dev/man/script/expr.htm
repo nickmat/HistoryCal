@@ -45,7 +45,7 @@
 <p>
  A field may hold one of the following special values.
 </p>
-<table class='list'>
+<table class='basic'>
 <tr><th>Keyword</th><th>Meaning</th></tr>
 <tr><td><b>past</b></td><td>The earliest possible day that can be represented.</td></tr>
 <tr><td><b>future</b></td><td>The last possible day that can be represented.</td></tr>
@@ -178,7 +178,7 @@
 <p>
  A Signature is the scheme and/or the format codes to be used when converting between different value types.
 </p>
-<table class='list'>
+<table class='basic'>
 <tr><th>Signature</th><th>Example</th></tr>
 <tr><td class='code'>scheme</td><td class='example'>write string,j today;</td></tr>
 <tr><td class='code'>scheme:format</td><td class='example'>write string,"g:dmy+" today;</td></tr>
@@ -187,7 +187,7 @@
 
 <h2>Operators</h2>
 <h3>Arithmetic Operations</h3>
-<table class='list'>
+<table class='basic'>
 <tr><th>Operator</th><th>Name</th><th>Use</th><th>Result</th></tr>
 <tr><td class='code'>-</td><td>Unary minus</td><td class='example'><b>-</b> number_type</td><td class='example'>number_type</td></tr>
 <tr><td class='code'>+</td><td>Plus</td><td class='example'>number_type <b>+</b> number_type</td><td class='example'>number_type</td></tr>
@@ -232,7 +232,7 @@
  Subtraction is carried out by adding the negated right hand side.
  So a - b = a + -b and (a ~ b) - (c ~ d) = (a ~ b) + (-d ~ -c).
 </p>
-<table class='list'>
+<table class='basic'>
 <tr><th>Expression</th><th>Example</th><th>Result</th></tr>
 <tr><td class='code'>field_type + field_type</td><td class='example'>5 + 10<br />past + 123<br />past + future</td><td class='example'>15<br />past<br />Error</td></tr>
 <tr>
@@ -285,7 +285,7 @@
  Use of ?, past or future on either side the operation results in an error.<br />
  Using zero on the right hand side of the operation results in an error.
 </p>
-<table class='list'>
+<table class='basic'>
 <tr><th>Expression</th><th>Example</th><th>Result</th></tr>
 <tr>
  <td class='code'>field_type * field_type</td>
@@ -313,7 +313,7 @@
  The values past and future may be used.<br />
  Use of the ? value is an error.
 </p>
-<table class='list'>
+<table class='basic'>
 <tr><th>Example</th><th>Result</th></tr>
  <tr><td class='example'>5 ~ 10</td><td class='example'>5 ~ 10</td></tr>
  <tr><td class='example'>123 ~ past</td><td class='example'>past ~ 123</td></tr>
@@ -383,7 +383,7 @@
 <p>
  Note, the field names used may be the default record or the alias field name.
 </p>
-<table class='list'> <!-- See test file subscript006.hcs -->
+<table class='basic'> <!-- See test file subscript006.hcs -->
 <tr><th>Example</th><th>Result</th></tr>
  <tr><td class='example'>(8~16|20~50|75~99)[1]</td><td class='example'>20 ~ 50</td></tr>
  <tr><td class='example'>{g,1948,9,19}[0]</td><td class='example'>1948</td></tr>
@@ -397,7 +397,7 @@
  A subscript starting with a dot '.' and followed by a name will return a property of the value,
  as listed below.
 </p>
-<table class='list'>
+<table class='basic'>
 <tr><th>Property</th><th>Use</th><th>Result</th><th>Comment</th></tr>
 <tr><td class='code'>low</td><td class='example'>(7~16)[.low]</td><td class='example'>7</td><td>Return the lower bound of a range or rlist.</td></tr>
 <tr><td class='code'>high</td><td class='example'>(7~16)[.high]</td><td class='example'>16</td><td>Return the upper bound of a range or rlist.</td></tr>
@@ -423,7 +423,7 @@
  It can also be called in an expression using the at '@' operator.
 </p>
 
-<table class='list'>
+<table class='basic'>
 <tr><th>Example</th><th>Result</th></tr><!-- See function008.hcs test file -->
  <tr><td class='example'>function power(number, power) {
     result = 1;
@@ -458,7 +458,7 @@
  but this is different from a HistoryCal Date Expression.
  One significant difference is that only one scheme format can be used for the conversion.
 </p>
-<table class='list'>
+<table class='basic'>
 <tr><th>Example</th><th>Result</th></tr>
  <tr><td class='example'>date "19sep1948"</td><td class='example'>2432814</td></tr>
  <tr><td class='example'>date "1940~1950|1945~1955"</td><td class='example'>2429630 ~ 2435473</td></tr>
@@ -477,7 +477,7 @@
  If the format code is not included in the signature,
  then the default for that scheme is used.
 </p>
-<table class='list'>
+<table class='basic'>
 <tr><th>Example</th><th>Result</th></tr>
  <tr><td class='example'>string,"g:dmy+" 2432814</td><td class='example'>"19 September 1948"</td></tr>
  <tr><td class='example'>string,g 2429630~2435473</td><td class='example'>"1940 ~ 1955"</td></tr>
@@ -503,7 +503,7 @@
  Records created using the record operator '{}' only include the given fields,
  even if this does not fully qualify a date.
 </p>
-<table class='list'>
+<table class='basic'>
 <tr><th>Example</th><th>Result</th></tr>
  <tr><td class='example'>record,g:dmy "19sep1948"</td><td class='example'>{"g", 1948, 9, 19, ?}</td></tr>
  <tr><td class='example'>record "21??"</td><td class='example'>{"g", ?, ?, 21, ?}</td></tr>
@@ -518,7 +518,7 @@
  The convert cast uses a supplied vocab definition to convert a field to a string
  and a string to a field. Using the cast on any other type results in an error.
 </p>
-<table class='list'>
+<table class='basic'>
 <tr><th>Example</th><th>Result</th></tr>
  <tr><td class='example'>convert,w 7</td><td class='example'>"Sunday"</td></tr>
  <tr><td class='example'>convert,ws:a 7</td><td class='example'>"Sat"</td></tr>
@@ -534,7 +534,7 @@
  The prefix "Error (" + line + "): " is added to message,
  where line is the line number of the the error cast operator.
 </p>
-<table class='list'>
+<table class='basic'>
 <tr><th>Example</th><th>Result</th></tr>
  <tr><td class='example'>error "Age is negative."</td><td class='example'>"Error (10): Age is negative."</td></tr>
  <tr><td class='example'>error ("Age of " + age + " is too high.")</td><td class='example'>"Error (10): Age of 150 is too high."</td></tr>
@@ -546,7 +546,7 @@
  Operators with higher precedence are listed first.
  When precedence is equal, operations are carried out from left to right.
 </p>
-<table class='list'>
+<table class='basic'>
 <tr><th colspan='4'>Operator List</th></tr>
 <tr><th>Operator</th><th>Name</th><th>Use</th><th>Result</th></tr>
 <tr><td class='code'>()</td><td>Parenthesized expression</td><td class='example'><b>(</b> expr <b>)</b></td><td class='example'>value</td></tr>

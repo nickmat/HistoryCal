@@ -60,8 +60,8 @@
  In its simplest form, format uses a single text string.
  For example:-
 </p>
-<table class='list'>
-<tr><td class='example'>format dmy "(Day) |(Month:m.a) |(Year)";</td></tr>
+<table class='code'>
+<tr><td class='compact'>format dmy "(Day) |(Month:m.a) |(Year)";</td></tr>
 </table>
 <p>
  In this example, the date has been divided into 3 elements,
@@ -83,7 +83,7 @@
 <p>
  The table below shows the available styles.
 </p>
-<table class='list'>
+<table class='basic'>
 <tr><th colspan='4'>Field Format Specifier</th></tr>
 <tr><th>Style</th><th>Syntax</th><th>Example</th><th>Result</th></tr>
 <tr><td>Number</td><td class='code'>(<i>Name</i>)</td><td class='example'>(Month)</td><td>9</td></tr>
@@ -104,7 +104,7 @@
 <p>
  A format statement may contain of one or more of the following sub-statements:-
 </p>
-<table class='list'>
+<table class='basic'>
 <tr><th colspan='4'>Sub-Statement List</th></tr>
 <tr><th>Sub-Statement</th><th>Use</th><th>Example</th><th>Default</th></tr>
 <tr><td class='code'>rules</td><td>Define the rules used to interpret the format.</td><td class='example'>rules iso8601;</td><td class='example'>rules text;</td></tr>
@@ -128,7 +128,7 @@
 <p>
  The method is selected using the <b>rules</b> sub-statement.
 </p>
-<table class='list'>
+<table class='basic'>
 <tr><th colspan='2'>rules Sub-Statements</th></tr>
 <tr><th>Sub-Statement</th><th>Use</th></tr>
 <tr><td class='code'>rules text</td><td>Use a text string to define the date. The default value.</td></tr>
@@ -161,7 +161,7 @@
  A units format may be created automatically using the "u" format code.
  This can be used as follows.
 </p>
-<table class='list'>
+<table class='basic'>
 <tr><th>Example</th><th>Result</th></tr>
 <tr><td class='example'>date,g:u "9month1948year19day"</td><td>2432814</td></tr> <!-- see suite/expressions/date004.hcs -->
 <tr><td class='example'>date,g:u "1948y 19d 9m"</td><td>2432814</td></tr> <!-- see suite/expressions/date013.hcs -->
@@ -187,7 +187,7 @@
  Various optional parts of the standard can be activated using a number of switches following the <b>rules</b> sub-statement.
  these can be broken down into a number of groups as follows.
 </p>
-<table class='list'>
+<table class='basic'>
 <tr><th colspan='5'>Sub-Statement List</th></tr>
 <tr><th>Group</th><th>Switch</th><th>Description</th><th>Example</th><th>Output</th></tr>
 <tr><td rowspan='3'>Style</td><td class='code'>calendar</td><td>Dates are treated as Year, Month and Day of month. Default</td><td class='example'>rules iso8601 calendar;</td><td>1948-09-19</td></tr>
@@ -212,18 +212,18 @@
  The inout sub-statement is equivalent to using a format statement without the braces block.
  So:-
 </p>
-<table class='list'>
-<tr><td class='example'>format x:dmy "(Day) |(Month:m:a) |(Year)";</td></tr>
+<table class='code'>
+<tr><td class='compact'>format x:dmy "(Day) |(Month:m:a) |(Year)";</td></tr>
 </table>
 <p>
  is the same as:-
 </p>
-<table class='list'>
-<tr><td class='example'>format x:dmy {
+<table class='code'>
+<tr><td class='compact'>format x:dmy {
     inout "(Day) |(Month:m:a) |(Year)"; 
 }</td></tr>
 </table>
-<p>
+<p class='clear'>
  The text format string is as described above.
 </p>
 

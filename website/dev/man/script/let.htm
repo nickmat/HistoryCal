@@ -41,7 +41,7 @@
  The type of the variable is determined by the expression used.
 </p>
 
-<table class='list'>
+<table class='basic'>
  <tr><th colspan='3'>let Statement</th></tr>
  <tr><th>Format</th><th>Example</th><th>Result</th></tr>
  <tr>
@@ -86,10 +86,10 @@
  </tr>
 </table>
 
-<table class='list'>
+<table class='code'>
 <tr><th>Example Script</th></tr>
-<tr><td class='example'>
-let day = date,g:dmy "1sep2017";
+<tr><td
+>let day = date,g:dmy "1sep2017";
 let result = string,g:dmy (day + 5 * 7);
 
 writeln "Date 5 weeks from " + string,g:dmy day + " is: " + result;
@@ -97,14 +97,11 @@ writeln "Date 5 weeks from " + string,g:dmy day + " is: " + result;
 day -= 2 * 7;
 
 writeln "and a fortnight before was " + string,g:dmy day;
-
 </td></tr>
-<tr><td>
-<b>Output</b>
-</td></tr>
-<tr><td>
-Date 5 weeks from 1 Sep 2017 is 6 Oct 2017<br />
-and a fortnight before was 18 Aug 2017
+<tr><td class='note'>
+<b>Output:-</b><br />
+<code>Date 5 weeks from 1 Sep 2017 is 6 Oct 2017
+and a fortnight before was 18 Aug 2017</code>
 </td></tr>
 </table>
 

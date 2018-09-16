@@ -49,7 +49,7 @@
  'base', 'shift', 'hybrid' or 'regnal'. Other sub-statements are optional.
 </p>
 
-<table class='list'>
+<table class='basic'>
 <tr><th colspan='3'>scheme Sub-Statement List</th></tr>
 <tr><th>Sub-Statement</th><th>Use</th><th>Example</th></tr>
 <tr><td class='code'>name</td><td>A descriptive name for the scheme.</td><td class='example'>name "Julian Annunciation";</td></tr>
@@ -75,7 +75,7 @@
  with a number of basic calendar schemes.
  Once created these schemes can then be used to create variants.
 </p>
-<table class='list'>
+<table class='basic'>
 <tr><th colspan='4'>Base Calendars</th></tr>
 <tr><th>Name</th><th>Base-name</th><th>Description</th><th>Reference Scheme</th></tr>
 <tr><td>Julian Day Number</td><td class='code'>jdn</td><td>A day count calendar used internally by HistoryCal.</td><td><a href='../defs/jdn.htm'>jdn</a></td></tr>
@@ -88,7 +88,6 @@
 <tr><td>Islamic Tabular</td><td class='code'>islamic</td><td>A tabular version of the calendar used by Muslim communities.</td><td><a href='../defs/i.htm'>i</a></td></tr>
 <tr><td>Chinese</td><td class='code'>chinese</td><td>The lunisolar calendar used by China and other Asian countries.</td><td><a href='../defs/c.htm'>c</a></td></tr>
 </table>
-<p></p>
 <p>
  The base sub-statement will create one of the built-in calendar schemes.
  These schemes have associated with them a default record containing a fixed number of named fields.
@@ -98,18 +97,17 @@
 <p>
  There are some optional fields which may be used with any base calendar scheme.
 </p>
-<table class='list'>
+<table class='basic'>
 <tr><th colspan='3'>Global Optional Fields</th></tr>
 <tr><th>Description</th><th>Field-name</th><th>Default Script</th></tr>
 <tr><td>7 Day week, Monday start.</td><td class='code'>wday</td><td><a href='../defs/7dayweek.htm'>7 Day Week</a></td></tr>
 <tr><td>7 Day week, Sunday start.</td><td class='code'>wsday</td><td><a href='../defs/7dayweek.htm'>7 Day Week</a></td></tr>
 </table>
-<p></p>
 <p>
  In addition,
  there are astronomical optional fields that hold the Julian day number of relative astronomical events.
 </p>
-<table class='list'>
+<table class='basic'>
 <tr><th colspan='2'>Astronomical Optional Fields</th></tr>
 <tr><th>Description</th><th>Field-name</th></tr>
 <tr><td>The jdn day of the next Northward (Mar) Equinox.</td><td class='code'>nequinox</td></tr>
@@ -118,12 +116,11 @@
 <tr><td>The jdn day of the next Southern (Dec) Solstice.</td><td class='code'>ssolstice</td></tr>
 <tr><td>The jdn day of the next New Moon.</td><td class='code'>newmoon</td></tr>
 </table>
-<p></p>
 
-<table class='list'>
+<table class='code'>
 <tr><th>Example Script</th></tr> <!-- See test/astro006.hcs -->
-<tr><td class='example'>
-scheme A {
+<tr><td
+>scheme A {
     name "Astronomical Events Calendar";
     base jdn;
     optional newmoon;
@@ -133,12 +130,9 @@ set inout g:dmy;
 let d = date "19sep1948";
 
 writeln "The New Moon after " + string d + " is " + string (d[A:newmoon]);
-
 </td></tr>
-<tr><td>
-<b>Output</b>
-</td></tr>
-<tr><td>
+<tr><td class='note'>
+<b>Output:-</b><br />
 The New Moon after 19 Sep 1948 is 2 Oct 1948
 </td></tr>
 </table>
@@ -234,7 +228,7 @@ The New Moon after 19 Sep 1948 is 2 Oct 1948
  The arrangement is selected using an additional keyword
  based on the descriptions given by <a href='http://www.staff.science.uu.nl/~gent0113/islam/islam_tabcal_variants.htm'>R.H. van Gent</a>.
 </p>
-<table class='list'>
+<table class='basic'>
 <tr><th colspan='4'>Tabular Islamic Calendars</th></tr>
 <tr><th>Keyword</th><th>Leap years within Metonic cycle</th><th>Epoch (j:wdmy)</th><th>Reference Scheme</th></tr>
 <tr><td class='code'>Ia</td><td>2, 5, 7, 10, 13, 15, 18, 21, 24, 26 &amp; 29</td><td>Thur 15 Jul 622</td><td></td></tr>
@@ -246,7 +240,6 @@ The New Moon after 19 Sep 1948 is 2 Oct 1948
 <tr><td class='code'>IVa</td><td>2, 5, 8, 11, 13, 16, 19, 21, 24, 27 &amp; 30</td><td>Thur 15 Jul 622</td><td></td></tr>
 <tr><td class='code'>IVc</td><td>2, 5, 8, 11, 13, 16, 19, 21, 24, 27 &amp; 30</td><td>Fri 16 Jul 622</td><td></td></tr>
 </table>
-<p></p>
 <p>
  If the additional keyword is not given, IIc is assumed.
 </p>
@@ -293,19 +286,18 @@ The New Moon after 19 Sep 1948 is 2 Oct 1948
  to create day count calendar that starts at a different date,
  such as the Modified Julian Day calendar.
 </p>
-<table class='list'>
+<table class='basic'>
 <tr><th colspan='2'>shift Sub-Statement</th></tr>
 <tr><th>Sub-Statement</th><th>Example</th></tr>
 <tr><td class='code'>shift <i>scheme-code</i>, <i>date-field</i></td><td class='example'
 >shift j, 1721417; // j:dmy# 25 Dec 0
 shift jdn, 2400001; // Change jdn to Modified Julian Day</td></tr>
 </table>
-<p></p>
 <p>
  The sub-statement consists of the 'shift' keyword followed by the existing scheme code name,
  followed by a comma and then the new epoch date.
 </p>
-<table class='list'>
+<table class='code'>
 <tr><th>Example Script</th></tr> <!-- See test/shift001.hcs -->
 <tr><td class='example'
 >scheme JS {
@@ -346,9 +338,9 @@ shift jdn, 2400001; // Change jdn to Modified Julian Day</td></tr>
  This is followed by the initial 'scheme' statement,
  followed by one or more 'change' and 'scheme' statement pairs.
 </p>
-<table class='list'>
+<table class='code'>
 <tr><th>Example Script</th></tr> <!-- See test/xxxx.hcs -->
-<tr><td class='example'
+<tr><td
 >scheme eng {
     name "English Hybrid";
     hybrid {
@@ -363,8 +355,7 @@ shift jdn, 2400001; // Change jdn to Modified Julian Day</td></tr>
 }
 </td></tr>
 </table>
-<p></p>
-<table class='list'>
+<table class='basic'>
 <tr><th colspan='2'>hybrid Sub-Statement</th></tr>
 <tr><th>Sub-Statement</th><th>Example</th></tr>
 <tr><td class='code'>hybrid { fields <i>name1</i>, <i>name2</i>, <i>name3</i>; ... }</td><td class='example'>fields year, month, day;</td></tr>
@@ -372,7 +363,6 @@ shift jdn, 2400001; // Change jdn to Modified Julian Day</td></tr>
 <tr><td class='code'>hybrid { ... change <i>date.field</i>; ... }</td><td class='example'>change 2360976; // j:dmy# 1 Jan 1752</td></tr>
 <tr><td class='code'>hybrid { ... scheme <i>scheme.code</i>; ... }</td><td class='example'>scheme j; // Julian</td></tr>
 </table>
-<p></p>
 <p>
  Note, schemes must be defined before they can used as part of a hybrid scheme.
  If you want to create a scheme only for inclusion in a hybrid scheme,
@@ -392,7 +382,7 @@ shift jdn, 2400001; // Change jdn to Modified Julian Day</td></tr>
  which may overlap or have gaps.
  A default calendar is also defined and is used if no suitable range is found.
 </p>
-<table class='list'>
+<table class='basic'>
 <tr><th colspan='2'>regnal Sub-Statement</th></tr>
 <tr><th>Sub-Statement</th><th>Example</th></tr>
 <tr><td class='code'>regnal { fields <i>name1</i>, <i>name2</i>, <i>name3</i>; ... }</td><td class='example'>fields year, month, day;</td></tr>
@@ -400,8 +390,6 @@ shift jdn, 2400001; // Change jdn to Modified Julian Day</td></tr>
 <tr><td class='code'>regnal { ... fixed <i>date.field</i> = <i>value</i>; ... }</td><td class='example'>fixed year = 1;</td></tr>
 <tr><td class='code'>regnal { ... era { <i>era-sub-statements</i> } }</td><td class='example'>era { scheme j; } // Julian default scheme</td></tr>
 </table>
-<p></p>
-
 
 </div><!--id=content-->
 

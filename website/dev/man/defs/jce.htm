@@ -58,11 +58,6 @@
 </p>
 
 <h3>Definition</h3>
-<table class='data'>
-<tr><th>Number</th><th>Era</th><th>Abbrev.</th><th>Range</th></tr>
-<tr><td>0</td><td>Before Common Era</td><td>BCE</td><td>past ~ j:dmy# 31 Dec 0</td></tr>
-<tr><td>1</td><td>Common Era</td><td>CE</td><td>j:dmy# 1 Jan 1 ~ future</td></tr>
-</table>
 <table class='record'>
 <tr><th colspan='6'>Record - Default order</th></tr>
 <tr><td>year</td><td>month</td><td>day</td><td class='rdonly'>wday</td><td class='rdonly'>ce</td><td class='rdonly'>ceyear</td></tr>
@@ -71,7 +66,13 @@
 <tr><th colspan='6'>Record - Ranking order</th></tr>
 <tr><td class='rdonly'>ce</td><td class='rdonly'>ceyear</td><td>month</td><td>day</td><td class='rdonly'>wday</td><td>year</td></tr>
 </table>
-<p class='clear'>
+<table class='basic data rfloat'>
+<tr><th colspan='4'>Historic Era</th></tr>
+<tr><th>Number</th><th>Era</th><th>Abbrev.</th><th>Range</th></tr>
+<tr><td>0</td><td>Before Common Era</td><td>BCE</td><td>past ~ j:dmy# 31 Dec 0</td></tr>
+<tr><td>1</td><td>Common Era</td><td>CE</td><td>j:dmy# 1 Jan 1 ~ future</td></tr>
+</table>
+<p class='lclear'>
  The Julian Common Era scheme is a variation of the <a href='j.htm'>Julian</a> scheme and has the same definition except that it includes the optional fields <code>ce</code> and <code>ceyear.</code>
 </p>
 <p>
@@ -104,7 +105,7 @@
 </div>
 
 <h3>Script</h3>
-<table class='code'>
+<table class='code lfloat'>
 <tr><th>Default Script</th></tr>
 <tr><td
 >vocab jce {

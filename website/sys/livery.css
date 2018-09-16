@@ -3,10 +3,7 @@ margin: 0;
 padding: 0;
 background-color: #fff;
 }
-.clear {
-clear: both;
-}
-ul {
+ul, ol {
 overflow: hidden;
 }
 div.heading {
@@ -25,6 +22,7 @@ padding: 8px;
 }
 div.heading img.logo {
 box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+
 }
 div.clear {
 clear: both;
@@ -128,9 +126,93 @@ float: right;
 #valid img {
 border-style: none;
 }
-tr.map, td {
-padding: 3px;
+table.map td {
+padding: 5px 0 3px 0;
 }
 hr.dash {
-	border-top: 1px dotted #e8e8e8;
+border-top: 1px dotted #e8e8e8;
+}
+table.basic {
+border: 1px solid black;
+margin: 0.5em 1em;
+border-collapse: collapse;
+}
+table.basic th {
+background-color: Cornsilk;
+text-align: center;
+white-space: nowrap;
+border: 1px solid black;
+padding: 0.15em 0.5em 0.15em 0.5em;
+}
+table.basic td {
+background-color: #fffefd;
+border: 1px solid black;
+padding: 0.1em 0.5em 0.1em 0.5em;
+}
+table.basic td.code {
+font-family: "Courier New", Courier, monospace;
+}
+table.basic td.example {
+background-color: mintcream;
+font-family: "Courier New", Courier, monospace;
+white-space: pre;
+}
+table.data td {
+white-space: pre;
+font-family: "Courier New", Courier, monospace;
+}
+table.data td.note {
+white-space: normal;
+font-family: "Times New Roman", serif;
+}
+table.code {
+border: 1px solid springgreen;
+margin: 0.5em 1em;
+border-collapse: collapse;
+}
+table.code th {
+background-color: Cornsilk;
+text-align: left;
+border: 1px solid springgreen;
+padding: 0.2em 1em;
+}
+table.code td {
+white-space: pre;
+font-family: "Courier New", Courier, monospace;
+background-color: mintcream;
+border: 1px solid springgreen;
+padding: 0.5em 1em 0.75em 1em;
+}
+table.code td.compact {
+padding: 0.1em 0.5em 0.1em 0.5em;
+}
+table.code td.note {
+background-color: #fffefd;
+white-space: normal;
+font-family: "Times New Roman", serif;
+}
+table.code td.note code {
+background-color: #fffefd;
+white-space: pre;
+font-family: "Courier New", Courier, monospace;
+padding: 0;
+}
+table.rfloat {
+display: inline-table;
+float: right;
+margin-top: 0;
+}
+table.lfloat {
+display: inline-table;
+float: left;
+margin-top: 0;
+}
+.clear {
+clear: both;
+}
+.lclear {
+clear: left;
+}
+.rclear {
+clear: right;
 }

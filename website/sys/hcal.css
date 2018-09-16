@@ -54,40 +54,6 @@ img.scrnprnt {
  margin: 0 0 1em 1em;
 }
 
-table.map td {
- text-align: left;
-}
-
-table.basic {
- border: 2px solid black;
- border-collapse: collapse;
- margin: 1em;
-}
-
-table.basic td, table.basic th {
- border: 1px solid black;
- padding: 2px 5px;
-}
-
-table.basic th {
- background-color: #fed;
- white-space: nowrap;
-}
-
-table.rfloat {
- display: inline-table;
- float: right;
- margin-top: 0;
- clear: right;
-}
-
-table.lfloat {
- display: inline-table;
- float: left;
- margin-top: 0;
- clear: left;
-}
-
 div.calendar h2, div.calendar h3, hr {
  clear: both;
 }
@@ -103,71 +69,18 @@ code {
  background-color: GhostWhite;
  white-space: nowrap;
 }
-
-table.data {
- display: inline-table;
- float: right;
- margin: 0 0 1em 1em;
- border-collapse: collapse;
-}
-
+/*
 table.large {
  float: none;
 }
 
-table.data th {
- background-color: Cornsilk;
- text-align: center;
- border: 1px solid black;
- padding: 0.1em 0.5em 0.1em 0.5em;
-}
-
-table.data td {
- white-space: pre;
- font-family: "Courier New", Courier, monospace;
- background-color: #fffefd;
- border: 1px solid black;
- padding: 0.1em 0.5em 0.1em 0.5em;
-}
-
-table.data td.note {
- white-space: normal;
-}
 
 table.left {
  display: inline-table;
  float: left;
  margin: 0 1em 1em 0;
 }
-
-table.list {
- border-collapse: collapse;
- margin: 0.5em 1em;
-}
-
-table.list th {
- background-color: Cornsilk;
- text-align: center;
- border: 1px solid black;
- padding: 0.1em 0.5em 0.1em 0.5em;
-}
-
-table.list td {
- background-color: #fffefd;
- border: 1px solid black;
- padding: 0.1em 0.5em 0.1em 0.5em;
-}
-
-table.list td.code {
- font-family: "Courier New", Courier, monospace;
-}  
-
-table.list td.example {
- white-space: pre;
- font-family: "Courier New", Courier, monospace;
- background-color: mintcream;
-}  
-
+*/
 table td.stat-imp { /* Implemented */
  background-color: lightgreen;
 }
@@ -239,33 +152,6 @@ table.rec-value td.sig {
 
 table.rec-value span.var {
  font-style: italic;
-}
-
-table.code {
- display: inline-table;
- float: left;
- margin: 0 1em 1em 0;
- border-collapse: collapse;
-}
-
-table.code th {
- background-color: Cornsilk;
- text-align: left;
- border: 1px solid springgreen;
- padding: 0.2em 1em;
-}
-
-table.code td {
- white-space: pre;
- font-family: "Courier New", Courier, monospace;
- background-color: mintcream;
- border: 1px solid springgreen;
- padding: 0.5em 1em 0.75em 1em;
-}
-
-table.code td.space {
- border-style: none;
- background-color: transparent;
 }
 
 tr.future {
