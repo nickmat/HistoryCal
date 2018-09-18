@@ -31,7 +31,7 @@
       ]}
     ]},
     { "folder": "cal", "name": "index", "label": "Calendars", "title": "Calendars", "subtitle": "Introduction", "content": [
-      { "folder": "defs", "name": "index", "label": "Calendar List", "subtitle": "Full List", "menu": false, "css": "sys/list.css", "content": [
+      { "folder": "defs", "name": "index", "label": "Calendar List", "subtitle": "Full List", "menu": false, "css": "big-list", "content": [
         { "name": "jdn", "subtitle": "jdn# Julian Day Number", "map-label": false, "title": "Definition" },
         { "name": "7dayweek", "label": "7 Day Week" },
         { "name": "j", "subtitle": "j# Julian", "map-label": false },
@@ -90,7 +90,7 @@
           { "name": "scheme", "label": "Define scheme" },
           { "name": "set", "label": "set Statement" }
         ]},
-        { "folder": "defs", "name": "index", "label": "Cal. Definitions", "subtitle": "Calendar Index", "menu": false, "css": "sys/list.css", "content": [
+        { "folder": "defs", "name": "index", "label": "Cal. Definitions", "subtitle": "Calendar Index", "menu": false, "css": "big-list", "content": [
           { "name": "jdn", "subtitle": "jdn# Julian Day Number", "map-label": false },
           { "name": "7dayweek", "label": "7 Day Week" },
           { "name": "j", "subtitle": "j# Julian", "map-label": false },

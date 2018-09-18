@@ -110,6 +110,33 @@ width: 20px;
 div#content {
 margin: 20px;
 }
+blockquote {
+margin: 0 0 0 35%;
+font: italic 0.9em "Times New Roman", serif;
+text-align: justify;
+padding: 10px;
+border-bottom: 4px solid #ffd685;
+border-right:  2px solid #ffd685;
+}
+blockquote.long {
+margin-left: 20%;
+}
+blockquote.short {
+margin-left: 65%;
+}
+blockquote p {
+margin: 0;
+}
+blockquote p.attribute {
+text-align: right;
+}
+p.img-quote {
+text-align: right;
+}
+p.img-quote img {
+border-bottom: 4px solid #ffd685;
+border-right:  2px solid #ffd685;
+}
 div.tail {
 margin: 0;
 padding: 2px;
@@ -204,6 +231,18 @@ margin-top: 0;
 }
 table.lfloat {
 display: inline-table;
+float: left;
+margin-top: 0;
+}
+img.diag {
+padding: 0;
+margin: 0.5em 1em;
+}
+img.rfloat {
+float: right;
+margin-top: 0;
+}
+img.lfloat {
 float: left;
 margin-top: 0;
 }
