@@ -224,6 +224,7 @@
     <sources>$(LOCAL_SRC)/cal/calchinese.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/caldefscripts.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/caldlist.cpp</sources>
+    <sources>$(LOCAL_SRC)/cal/caleaster.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calelement.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calformat.cpp</sources>
     <sources>$(LOCAL_SRC)/cal/calformatiso.cpp</sources>
@@ -264,6 +265,7 @@
     <headers>$(LOCAL_SRC)/cal/calchinese.h</headers>
     <headers>$(LOCAL_SRC)/cal/caldefscripts.h</headers>
     <headers>$(LOCAL_SRC)/cal/caldlist.h</headers>
+    <headers>$(LOCAL_SRC)/cal/caleaster.h</headers>
     <headers>$(LOCAL_SRC)/cal/calelement.h</headers>
     <headers>$(LOCAL_SRC)/cal/calformat.h</headers>
     <headers>$(LOCAL_SRC)/cal/calformatiso.h</headers>

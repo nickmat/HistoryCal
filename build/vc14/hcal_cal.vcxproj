@@ -134,6 +134,7 @@
     <ClCompile Include="..\..\src\cal\calchinese.cpp" />
     <ClCompile Include="..\..\src\cal\caldefscripts.cpp" />
     <ClCompile Include="..\..\src\cal\caldlist.cpp" />
+    <ClCompile Include="..\..\src\cal\caleaster.cpp" />
     <ClCompile Include="..\..\src\cal\calelement.cpp" />
     <ClCompile Include="..\..\src\cal\calformat.cpp" />
     <ClCompile Include="..\..\src\cal\calformatiso.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="..\..\src\cal\calchinese.h" />
     <ClInclude Include="..\..\src\cal\caldefscripts.h" />
     <ClInclude Include="..\..\src\cal\caldlist.h" />
+    <ClInclude Include="..\..\src\cal\caleaster.h" />
     <ClInclude Include="..\..\src\cal\calelement.h" />
     <ClInclude Include="..\..\src\cal\calformat.h" />
     <ClInclude Include="..\..\src\cal\calformatiso.h" />
