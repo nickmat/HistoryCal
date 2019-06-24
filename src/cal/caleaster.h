@@ -30,5 +30,44 @@
 
 #include "caljulian.h"
 
+namespace Cal {
+
+    class Easter : public Julian
+    {
+    public:
+        Easter( const std::string& data );
+
+        void set_data( const std::string& data ) override;
+        
+        size_t record_size() const override { return 4; }
+
+        bool set_fields_as_begin_first( Field* fields, const Field* mask ) const override;
+        bool set_fields_as_next_first( Field* fields, const Field* mask ) const override;
+        bool set_fields_as_begin_last( Field* fields, const Field* mask ) const override;
+        bool set_fields_as_next_last( Field* fields, const Field* mask ) const override;
+
+        Field get_jdn( const Field* fields ) const override;
+
+        void set_fields( Field* fields, Field jdn ) const override;
+
+    protected:
+        int get_std_fieldname_index( const std::string& fieldname ) const override;
+        std::string get_std_fieldname( size_t index ) const override;
+
+    private:
+        enum { YMD_hist = YMD_day + 1 };
+        enum hist_rel_year {
+            R_invalid,   // No valid conversion.
+            R_equal,     // hist = year
+            R_increase,  // hist = year + 1
+            R_ambiguous  // hist = year or year + 1
+        };
+
+        hist_rel_year GetHistRelation( const Field* fields ) const;
+
+        Field m_offset;
+    };
+
+}
 
 #endif // CAL_CALEASTER_H_GUARD

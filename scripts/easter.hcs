@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     9th March 2018
- * Copyright:   Copyright (c) 2018, Nick Matthews.
+ * Copyright:   Copyright (c) 2018 ~ 2019, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -25,9 +25,9 @@
 */
 
 
-vocab erpt {
-    name "Easter Repeated Date";
-    fieldname easterrpt;
+vocab rpt {
+    name "Repeated Date";
+    fieldname repeated;
     lang en;
     pseudo    Repeated,            Rpt;
     tokens {
@@ -37,8 +37,7 @@ vocab erpt {
 }
 
 grammar je {
-    optional eastershift, easterrpt, wday;
-    rank eastershift, month, day, easterrpt;
+    optional wday;
     element Rpt {
         output @if(easterrpt=0,?,1);
         pseudo "[Repeated]";
@@ -47,44 +46,28 @@ grammar je {
         WDay,        wday;
         Day,         day;
         Month,       month;
-        Year,        eastershift;
-        Rpt,         easterrpt;
-        "Hist-Year", year;
+        Year,        year;
+        Rpt,         repeated;
+        "Hist-Year", hist;
     }
     alias pseudo {
         dd,   Day;
         mm,   Month;
         yyyy, Year;
         y,    "Hist-Year";
-        r,    Repeated;
+        r,    Rpt;
     }
-    vocabs m, w, erpt;
-    format dmy "(Day) |(Month:m:a) |(Year)| (Rpt:erpt:a=First)";
-    format "dmy+" "(Day) |(Month:m) |(Year)| (Rpt:erpt=First)";
-    format mdy "(Month:m:a) |(Day), |(Year)| (Rpt:erpt:a=First)";
-    format "mdy+" "(Month:m) |(Day), |(Year)| (Rpt:erpt=First)";
-    format wdmy {
-        inout "(WDay:w:a) |(Day) |(Month:m:a) |(Year)";
-        rank eastershift, month, day, wday;
-    }
-    format "wdmy+" {
-        inout "(WDay:w) |(Day) |(Month:m) |(Year)";
-        rank eastershift, month, day, wday;
-    }
-    format wmdy {
-        inout "(WDay:w:a) |(Month:m:a) |(Day), |(Year)";
-        rank eastershift, month, day, wday;
-    }
-    format "wmdy+" {
-        inout "(WDay:w) |(Month:m) |(Day), |(Year)";
-        rank eastershift, month, day, wday;
-    }
+    vocabs m, w, rpt;
+    format dmy "(Day) |(Month:m:a) |(Year)| (Rpt:rpt:a)";
+    format "dmy+" "(Day) |(Month:m) |(Year)| (Rpt:rpt)";
+    format mdy "(Month:m:a) |(Day), |(Year)| (Rpt:rpt:a)";
+    format "mdy+" "(Month:m) |(Day), |(Year)| (Rpt:rpt)";
     pref dmy;
 }
 
 scheme je {
     name "Julian Easter";
-    base julian;
+    base easter;
     grammar je;
 }
 

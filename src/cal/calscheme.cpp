@@ -30,6 +30,7 @@
 #include "cal/calendars.h"
 #include "calbase.h"
 #include "calchinese.h"
+#include "caleaster.h"
 #include "calformat.h"
 #include "calfrench.h"
 #include "calgrammar.h"
@@ -291,6 +292,8 @@ Base* Scheme::create_base( BaseScheme bs, const std::string& data )
         return new Islamic( data );
     case BS_chinese:
         return new Chinese( data );
+    case BS_easter:
+        return new Easter( data );
     default:
         return NULL;
     }
