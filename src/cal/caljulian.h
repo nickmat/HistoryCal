@@ -32,6 +32,10 @@
 
 namespace Cal {
 
+    Field julian_to_jdn( Field year, Field month, Field day );
+    void julian_from_jdn( Field* year, Field* month, Field* day, Field jdn );
+    Field julian_easter( Field year );
+
     class Julian : public Base
     {
     public:

@@ -38,39 +38,56 @@ using std::string;
 
 #define BASEDATE_Julian    1721058L
 
-namespace {
+Field Cal::julian_to_jdn( Field year, Field month, Field day )
+{
+    Field jdn =
+        div_f( year, 4 ) * 1461 + mod_f( year, 4 ) * 365
+        + latin_diy[month] + day + BASEDATE_Julian;
 
-    /*! Splits the given Julian Day Number date into the day, month and year
-     *  for the Julian Calendar.
-     */
-    void julian_from_jdn( Field* year, Field* month, Field* day, Field jdn )
+    // Adjust if in the 1st 2 months of 4 year cycle
+    if ( month < 3 && ( year % 4 ) == 0 ) --( jdn );
+
+    return jdn;
+}
+
+/*! Splits the given Julian Day Number date into the day, month and year
+*  for the Julian Calendar.
+*/
+void Cal::julian_from_jdn( Field* year, Field* month, Field* day, Field jdn )
+{
+    jdn -= BASEDATE_Julian;
+
+    *year = div_f( jdn, 1461 ) * 4;
+    jdn = mod_f( jdn, 1461 );
+
+    if ( jdn < 60 )
     {
-        jdn -= BASEDATE_Julian;
-
-        *year = div_f( jdn, 1461 ) * 4;
-        jdn = mod_f( jdn, 1461 );
-
-        if( jdn < 60 )
+        if ( jdn < 31 )
         {
-            if( jdn < 31 )
-            {
-                *month = 1;
-                *day = jdn + 1;
-                return;
-            }
-            *month = 2;
-            *day = jdn - 30;
+            *month = 1;
+            *day = jdn + 1;
             return;
         }
-        --jdn; // remove the leap day
-        *year += (int) jdn / 365;
-        jdn %= 365;
-        *month = 1;
-        while( jdn >= latin_diy[(*month)+1] ) (*month)++;
-        *day = jdn - latin_diy[*month] + 1;
+        *month = 2;
+        *day = jdn - 30;
         return;
     }
+    --jdn; // remove the leap day
+    *year += (int)jdn / 365;
+    jdn %= 365;
+    *month = 1;
+    while ( jdn >= latin_diy[( *month ) + 1] ) ( *month )++;
+    *day = jdn - latin_diy[*month] + 1;
+    return;
+}
 
+/*! Return the jdn for Easter Sunday in the given year.
+*/
+Field Cal::julian_easter( Field year )
+{
+    Field shifted_epact = ( 14 + 11 * ( year % 19 ) ) % 30;
+    Field paschal_moon = julian_to_jdn( year, 4, 19 ) - shifted_epact;
+    return kday_after( WDAY_Sunday, paschal_moon );
 }
 
 OptFieldID Julian::get_opt_field_id( const std::string& fieldname ) const
@@ -132,7 +149,7 @@ Field Julian::get_jdn( const Field* fields ) const
     if( fields[0] == f_invalid || fields[1] == f_invalid || fields[2] == f_invalid ) {
         return f_invalid;
     }
-    return jdn( fields[0], fields[1], fields[2] );
+    return julian_to_jdn( fields[0], fields[1], fields[2] );
 }
 
 Field Julian::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const
@@ -452,28 +469,19 @@ void Julian::resolve_opt_input( Field* fields, size_t index ) const
     }
 }
 
-/*! Sets jdn to the Julian Day Number for the given day, month and year
- *  in the Julian Calendar. Always returns true.
- */
+/*! Returns the Julian Day Number for the given day, month and year
+*  in the Julian Calendar.
+*/
 Field Julian::jdn( Field year, Field month, Field day ) const
 {
-    Field jdn =
-        div_f( year, 4 ) * 1461 + mod_f( year, 4 ) * 365
-        + latin_diy[month] + day + BASEDATE_Julian;
-
-    // Adjust if in the 1st 2 months of 4 year cycle
-    if( month < 3 && (year % 4) == 0 ) --(jdn);
-
-    return jdn;
+    return julian_to_jdn( year, month, day );
 }
 
 /*! Return the jdn for Easter Sunday in the given year.
  */
 Field Julian::easter( Field year ) const
 {
-    Field shifted_epact = ( 14 + 11 * ( year % 19 ) ) % 30;
-    Field paschal_moon = jdn( year, 4, 19 ) - shifted_epact;
-    return kday_after( WDAY_Sunday, paschal_moon );
+    return julian_easter( year );
 }
 
 /*! Returns true if the year is a leap year in the Julian Calendar.
