@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013 ~ 2018, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2019, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -215,6 +215,8 @@ namespace Cal {
         XRefVec create_xref( const StringVec& fieldnames ) const; 
         XRefSet create_input_xref_set( const FormatText* fmt ) const;
         virtual StringVec get_rank_fieldnames() const { return StringVec(0); }
+
+        unsigned get_valid_field_bitmap( const Field* fields ) const;
 
     private:
         void create_default_grammar() const;

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013 ~ 2018, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2019, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -689,6 +689,17 @@ XRefSet Base::create_input_xref_set( const FormatText* fmt ) const
         order = x;
     }
     return xrefset;
+}
+
+unsigned Base::get_valid_field_bitmap( const Field* fields ) const
+{
+    unsigned bitmap = 0;
+    for ( size_t i = 0; i < record_size(); i++ ) {
+        if ( fields[i] != f_invalid ) {
+            bitmap |= 1 << ( record_size() - 1 - i );
+        }
+    }
+    return bitmap;
 }
 
 // End of src/cal/calbase.cpp file
