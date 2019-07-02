@@ -74,7 +74,6 @@ bool Easter::set_fields_as_begin_first( Field* fields, const Field* mask ) const
         }
         bm = 0b1110;
     }
-
     if ( bm == 0b1110 ) { // Valid eyear, month and day
         hyear = eyear;
         EYMD_Classified eymd = get_ceymd_classified( eyear, month, day );
@@ -84,6 +83,13 @@ bool Easter::set_fields_as_begin_first( Field* fields, const Field* mask ) const
         if ( eymd == EYMDC_unique1 ) {
             hyear++;
         }
+    }
+    if ( bm == 0b1000 ) { // Valid eyear only.
+        Field e0 = get_eyear_start( eyear );
+        Record rec( this, e0 );
+        month = rec.get_field_at( YMD_month );
+        day = rec.get_field_at( YMD_day );
+        hyear = eyear;
     }
 
     if ( eyear == f_invalid || month == f_invalid || day == f_invalid || hyear == f_invalid ) {
@@ -149,7 +155,6 @@ bool Easter::set_fields_as_begin_last( Field* fields, const Field* mask ) const
         }
         bm = 0b1110;
     }
-
     if ( bm == 0b1110 ) { // Valid eyear, month and day
         hyear = eyear;
         EYMD_Classified eymd = get_ceymd_classified( eyear, month, day );
@@ -159,6 +164,13 @@ bool Easter::set_fields_as_begin_last( Field* fields, const Field* mask ) const
         if ( eymd == EYMDC_unique1 ) {
             hyear++;
         }
+    }
+    if ( bm == 0b1000 ) { // Valid eyear only.
+        Field e1 = get_eyear_end( eyear );
+        Record rec( this, e1 );
+        month = rec.get_field_at( YMD_month );
+        day = rec.get_field_at( YMD_day );
+        hyear = eyear + 1;
     }
 
     if ( eyear == f_invalid || month == f_invalid || day == f_invalid || hyear == f_invalid ) {
