@@ -56,14 +56,19 @@ namespace Cal {
 
     private:
         enum { YMD_hist = YMD_day + 1 };
-        enum hist_rel_year {
-            R_invalid,   // No valid conversion.
-            R_equal,     // hist = year
-            R_increase,  // hist = year + 1
-            R_ambiguous  // hist = year or year + 1
+        enum EYMD_Classified {
+            EYMDC_invalid,
+            EYMDC_unique0, // ( eyear == hyear )
+            EYMDC_unique1, // ( eyear+1 == hyear )
+            EYMDC_both
         };
+        EYMD_Classified get_ceymd_classified( Field eyear, Field month, Field day ) const;
+        EYMD_Classified get_ceymd_classified( const Field* fields ) const {
+            return get_ceymd_classified( fields[YMD_year], fields[YMD_month], fields[YMD_day] );
+        }
 
-        hist_rel_year GetHistRelation( const Field* fields ) const;
+        Field get_eyear_start( Field eyear ) const;
+        Field get_eyear_end( Field eyear ) const { return get_eyear_start( eyear + 1 ) - 1; }
 
         Field m_offset;
     };
