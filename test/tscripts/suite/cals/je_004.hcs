@@ -1,0 +1,18 @@
+// cals/je_004.hcs  Test Julian Easter calendar "je".
+// Disambiguate je:dmy date with day of week.
+
+// Tests based on the following Julian Easter days
+//     "18 Apr 1815", " 9 Apr 1816", "25 Mar 1817", "14 Apr 1818", " 6 Apr 1819",
+
+writeln "";
+writeln date,je:dmy "10 Apr 1817";       //j#( 10 Apr 1817 | 10 Apr 1818 )
+writeln date,je:dmy "Tue 10 Apr 1817";   //j# 10 Apr 1817
+writeln date,je:dmy "Wed 10 Apr 1817";   //j# 10 Apr 1818
+
+/*[OUTPUT]
+
+2384817 | 2385182
+2384817
+2385182
+
+[OUTPUT]*/
