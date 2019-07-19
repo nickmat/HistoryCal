@@ -46,6 +46,7 @@ namespace Cal {
         OFID_wsday,     // 7 Day week Sun=1 (1 to 7)
         OFID_dayinyear, // Day in year (1 to about 366, dep. on scheme)
         OFID_unshift,   // Value before being shifted, (year or day)
+        OFID_repeated,  // Where dates can occasionally be repeated ie Easter. (0 or 1).
         // Astronomy values that return the next event (as a jdn) after a given jdn.
         OFID_nequinox,  // The jdn day of the Next Northward (Mar) Equinox.
         OFID_nsolstice, // The jdn day of the Next Northern (Jun) Solstice.

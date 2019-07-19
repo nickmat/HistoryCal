@@ -102,31 +102,34 @@ string Base::get_fieldname( size_t index ) const
 
 OptFieldID Base::get_opt_field_id( const std::string& fieldname ) const
 {
-    if( fieldname == "wday" ) {
+    if ( fieldname == "wday" ) {
         return OFID_wday;
     } 
-    if( fieldname == "wsday" ) {
+    if ( fieldname == "wsday" ) {
         return OFID_wsday;
     }
-    if( fieldname == "dayinyear" ) {
+    if ( fieldname == "dayinyear" ) {
         return OFID_dayinyear;
     }
-    if( fieldname == "unshift" ) {
+    if ( fieldname == "unshift" ) {
         return OFID_unshift;
     }
-    if( fieldname == "nequinox" ) {
+    if ( fieldname == "repeated" ) {
+        return OFID_repeated;
+    }
+    if ( fieldname == "nequinox" ) {
         return OFID_nequinox;
     }
-    if( fieldname == "nsolstice" ) {
+    if ( fieldname == "nsolstice" ) {
         return OFID_nsolstice;
     }
-    if( fieldname == "sequinox" ) {
+    if ( fieldname == "sequinox" ) {
         return OFID_sequinox;
     }
-    if( fieldname == "ssolstice" ) {
+    if ( fieldname == "ssolstice" ) {
         return OFID_ssolstice;
     }
-    if( fieldname == "newmoon" ) {
+    if ( fieldname == "newmoon" ) {
         return OFID_newmoon;
     }
     return OFID_NULL;
@@ -144,6 +147,8 @@ std::string Base::get_opt_fieldname( OptFieldID field_id ) const
         return "dayinyear";
     case OFID_unshift:
         return "unshift";
+    case OFID_repeated:
+        return "repeated";
     case OFID_nequinox:
         return "nequinox";
     case OFID_nsolstice:
