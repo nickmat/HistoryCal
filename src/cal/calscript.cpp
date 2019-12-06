@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     7th May 2014
- * Copyright:   Copyright (c) 2014 ~ 2018, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2019, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -1535,7 +1535,7 @@ SValue Script::do_subscript( const SValue& left, const SValue& right )
 SValue Script::str_cast()
 {
     SToken token = m_ts.next();
-    SHandle sch = NULL;
+    SHandle sch = nullptr;
     string sig, scode, fcode;
     if( token.type() == SToken::STT_Comma ) {
         // Includes scheme:format signiture
@@ -1548,7 +1548,7 @@ SValue Script::str_cast()
     if( value.type() == SValue::SVT_Record ) {
         SHandle r_sch = m_cals->get_scheme( value.get_record_scode() );
         rlist = m_cals->fieldvec_to_rlist( r_sch, value.get_record() );
-        if( sch == NULL ) {
+        if( sch == nullptr ) {
             sch = r_sch;
         }
     } else {
@@ -1558,8 +1558,12 @@ SValue Script::str_cast()
             return value;
         }
     }
-    if( sch == NULL ) {
+    if( sch == nullptr ) {
         sch = store()->get_oscheme();
+        if ( sch == nullptr ) {
+            value.set_error( "No default scheme set." );
+            return value;
+        }
     }
     value.set_str( m_cals->rangelist_to_str( sch, rlist, fcode ) );
     return value;
@@ -1568,7 +1572,7 @@ SValue Script::str_cast()
 SValue Script::date_cast()
 {
     SToken token = m_ts.next();
-    SHandle sch = NULL;
+    SHandle sch = nullptr;
     string sig, scode, fcode;
     if( token.type() == SToken::STT_Comma ) {
         // Includes scheme:format signiture
@@ -1577,8 +1581,12 @@ SValue Script::date_cast()
         sch = m_cals->get_scheme( scode );
     }
     SValue value = primary( false );
+    if ( sch == nullptr ) {
+        value.set_error( "No default scheme set." );
+        return value;
+    }
     if( value.type() == SValue::SVT_Str ) {
-        if( sch == NULL ) {
+        if( sch == nullptr ) {
             sch = store()->get_ischeme();
         }
         value.set( m_cals->str_to_rangelist( sch, value.get_str(), fcode ) );
@@ -1595,7 +1603,7 @@ SValue Script::date_cast()
 SValue Script::record_cast()
 {
     SToken token = m_ts.next();
-    SHandle sch = NULL;
+    SHandle sch = nullptr;
     string sig, scode, fcode;
     if( token.type() == SToken::STT_Comma ) {
         // Includes scheme:format signiture
@@ -1604,8 +1612,12 @@ SValue Script::record_cast()
         sch = m_cals->get_scheme( scode );
     }
     SValue value = primary( false );
-    if( sch == NULL ) {
+    if( sch == nullptr ) {
         sch = store()->get_ischeme();
+        if ( sch == nullptr ) {
+            value.set_error( "No default scheme set." );
+            return value;
+        }
         scode = sch->get_code();
     }
     if( scode.empty() ) {

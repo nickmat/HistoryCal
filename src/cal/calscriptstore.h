@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     17th May 2014
- * Copyright:   Copyright (c) 2014 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2019, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -60,7 +60,10 @@ namespace Cal {
             }
             return false;
         }
-        void clear() { m_table.clear(); }
+        void clear() { 
+            m_table.clear();
+            m_ischeme = m_oscheme = nullptr;
+        }
 
     private:
         SValueMap m_table;
