@@ -1581,18 +1581,22 @@ SValue Script::date_cast()
         sch = m_cals->get_scheme( scode );
     }
     SValue value = primary( false );
-    if ( sch == nullptr ) {
-        value.set_error( "No default scheme set." );
-        return value;
-    }
     if( value.type() == SValue::SVT_Str ) {
         if( sch == nullptr ) {
             sch = store()->get_ischeme();
+            if ( sch == nullptr ) {
+                value.set_error( "No default scheme set." );
+                return value;
+            }
         }
         value.set( m_cals->str_to_rangelist( sch, value.get_str(), fcode ) );
     } else if( value.type() == SValue::SVT_Record ) {
         scode = value.get_record_scode();
         sch = m_cals->get_scheme( scode );
+        if ( sch == nullptr ) {
+            value.set_error( "No default scheme set." );
+            return value;
+        }
         value.set( m_cals->fieldvec_to_rlist( sch, value.get_record() ) );
     } else {
         value.set_error( "Expected string or record type." );
