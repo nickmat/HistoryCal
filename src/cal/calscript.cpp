@@ -332,18 +332,18 @@ bool Script::do_set()
     SHandle sch = m_cals->get_scheme( scheme );
     if( sch ) {
         if ( prop == "input" ) {
-            store()->set_ischeme( sch );
+            m_cals->set_ischeme( sch );
             if ( !format.empty() ) {
                 m_cals->set_input_format( sch, format );
             }
         } else if ( prop == "output" ) {
-            store()->set_oscheme( sch );
+            m_cals->set_oscheme( sch );
             if ( !format.empty() ) {
                 m_cals->set_output_format( sch, format );
             }
         } else if ( prop == "inout" ) {
-            store()->set_ischeme( sch );
-            store()->set_oscheme( sch );
+            m_cals->set_ischeme( sch );
+            m_cals->set_oscheme( sch );
             if ( !format.empty() ) {
                 m_cals->set_input_format( sch, format );
                 m_cals->set_output_format( sch, format );
@@ -1453,7 +1453,10 @@ SValue Script::get_record( bool get )
     SToken token = get ? m_ts.next() : m_ts.current();
     string scode;
     if ( token.type() == SToken::STT_Comma ) {
-        scode = store()->get_ischeme()->get_code();
+        Scheme* sch = m_cals->get_ischeme();
+        if ( sch ) {
+            scode = sch->get_code();
+        }
     } else {
         scode = get_name_or_primary( false );
     }
@@ -1503,7 +1506,7 @@ SValue Script::do_subscript( const SValue& left, const SValue& right )
             split_code( &scode, &fname, right.get_str() );
             if ( fname.empty() ) {
                 fname = scode;
-                sch = store()->get_ischeme();
+                sch = m_cals->get_ischeme();
             } else {
                 sch = m_cals->get_scheme( scode );
             }
@@ -1559,7 +1562,7 @@ SValue Script::str_cast()
         }
     }
     if( sch == nullptr ) {
-        sch = store()->get_oscheme();
+        sch = m_cals->get_oscheme();
         if ( sch == nullptr ) {
             value.set_error( "No default scheme set." );
             return value;
@@ -1583,7 +1586,7 @@ SValue Script::date_cast()
     SValue value = primary( false );
     if( value.type() == SValue::SVT_Str ) {
         if( sch == nullptr ) {
-            sch = store()->get_ischeme();
+            sch = m_cals->get_ischeme();
             if ( sch == nullptr ) {
                 value.set_error( "No default scheme set." );
                 return value;
@@ -1617,7 +1620,7 @@ SValue Script::record_cast()
     }
     SValue value = primary( false );
     if( sch == nullptr ) {
-        sch = store()->get_ischeme();
+        sch = m_cals->get_ischeme();
         if ( sch == nullptr ) {
             value.set_error( "No default scheme set." );
             return value;
@@ -1776,5 +1779,6 @@ SValue Script::get_value_var( const string& name )
     value.set_error( "Variable \"" + name + "\" not found." );
     return value;
 }
+
 
 // End of src/cal/calscript.cpp file

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     28th October 2014
- * Copyright:   Copyright (c) 2014 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2019, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -40,7 +40,7 @@ namespace Cal {
 
         std::string get_name() const { return m_name; }
 
-        void add_scheme( SHandle scheme );
+        void add_scheme( Scheme* scheme );
         void add_grammar( Grammar* grammar );
         void add_vocab( Vocab* vocab );
         void add_format( Format* format );
@@ -52,13 +52,21 @@ namespace Cal {
         std::string remove_next_format();
         std::string remove_next_function();
 
+        void set_ischeme( Scheme* sch ) { m_ischeme = sch; }
+        void set_oscheme( Scheme* sch ) { m_oscheme = sch; }
+
+        Scheme* get_ischeme() const { return m_ischeme; }
+        Scheme* get_oscheme() const { return m_oscheme; }
+
     private:
         std::string            m_name;
-        std::vector<SHandle>   m_schemes;
+        std::vector<Scheme*>   m_schemes;
         std::vector<Grammar*>  m_grammars;
         std::vector<Vocab*>    m_vocabs;
         std::vector<Format*>   m_formats;
         std::vector<Function*> m_functions;
+        Scheme*   m_ischeme;
+        Scheme*   m_oscheme;
     };
 
 }
