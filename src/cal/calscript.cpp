@@ -490,6 +490,8 @@ SHandle Script::do_create_scheme( const std::string& code )
                 } else if ( str != "none" ) {
                     error( "Style name expected." );
                 }
+            } else {
+                error( "Scheme sub-statement expected." );
             }
         }
     }
@@ -1462,17 +1464,12 @@ SValue Script::get_record( bool get )
     }
     FieldVec fields;
     token = m_ts.current();
-    bool field_err = false;
-    SValue err_value;
 
     for(;;) {
         switch( token.type() )
         {
         case SToken::STT_End:
         case SToken::STT_RCbracket:
-            if ( field_err ) {
-                return err_value;
-            }
             return SValue( scode, fields );
         case SToken::STT_Comma:
             break;
@@ -1483,10 +1480,7 @@ SValue Script::get_record( bool get )
                 if ( value.get( field ) ) {
                     fields.push_back( field );
                 } else {
-                    if ( !field_err ) {
-                        err_value = value;
-                    }
-                    field_err = true;
+                    return value;
                 }
             }
             token = m_ts.current();
