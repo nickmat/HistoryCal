@@ -383,6 +383,9 @@ bool Calendars::add_scheme( SHandle sch, const string& code )
 Grammar* Calendars::create_grammar( const string& code )
 {
     Grammar* gmr = new Grammar( code, this );
+    if ( code.empty() ) {
+        return gmr;
+    }
     assert( m_marks.size() > 0 );
     m_marks[m_marks.size()-1]->add_grammar( gmr );
     m_grammars[code] = gmr;

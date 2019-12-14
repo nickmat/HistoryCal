@@ -453,10 +453,11 @@ SHandle Script::do_create_scheme( const std::string& code )
 {
     if( m_ts.current().type() != SToken::STT_LCbracket ) {
         error( "'{' expected." );
-        return NULL;
+        return nullptr;
     }
-    Base* base = NULL;
+    Base* base = nullptr;
     string name, gmr_code;
+    Grammar* gmr = nullptr;
     StringVec optfields;
     Scheme_style style = SCH_STYLE_Default;
     for(;;) {
@@ -482,7 +483,12 @@ SHandle Script::do_create_scheme( const std::string& code )
             } else if( token.get_str() == "optional" ) {
                 optfields = get_string_list( true );
             } else if( token.get_str() == "grammar" ) {
-                gmr_code = get_name_or_primary( true );
+                token = m_ts.next();
+                if ( token.type() == SToken::STT_LCbracket ) {
+                    do_grammar( &gmr );
+                } else {
+                    gmr_code = get_name_or_primary( false );
+                }
             } else if( token.get_str() == "style" ) {
                 string str = get_name_or_primary( true );
                 if ( str == "hide" ) {
@@ -495,14 +501,19 @@ SHandle Script::do_create_scheme( const std::string& code )
             }
         }
     }
-    if( base == NULL ) {
+    if( base == nullptr ) {
         error( "Scheme not created." );
-        return NULL;
+        delete gmr;
+        return nullptr;
     }
     for( size_t i = 0 ; i < optfields.size() ; i++ ) {
         base->add_opt_field( optfields[i] );
     }
-    base->set_grammar( m_cals->get_grammar( gmr_code ) );
+    if ( !gmr && !gmr_code.empty() ) {
+        gmr = m_cals->get_grammar( gmr_code );
+    }
+    base->set_grammar( gmr );
+    
     SHandle sch = new Scheme( name, base );
     sch->set_style( style );
     sch->set_code( code );
@@ -806,16 +817,19 @@ bool Script::do_vocab_tokens( Vocab* voc )
     return true;
 }
 
-bool Script::do_grammar()
+bool Script::do_grammar( Grammar** gmrptr )
 {
-    string code = get_name_or_primary( true );
-    if( code.empty() ) {
-        error( "Grammar code missing." );
-        return false;
-    }
-    if( m_cals->get_grammar( code ) != NULL ) {
-        error( "grammar \"" + code + "\" already exists." );
-        return false;
+    string code;
+    if ( !gmrptr ) {
+        code = get_name_or_primary( true );
+        if ( code.empty() ) {
+            error( "Grammar code missing." );
+            return false;
+        }
+        if ( m_cals->get_grammar( code ) != NULL ) {
+            error( "grammar \"" + code + "\" already exists." );
+            return false;
+        }
     }
     if( m_ts.current().type() != SToken::STT_LCbracket ) {
         error( "'{' expected." );
@@ -853,6 +867,13 @@ bool Script::do_grammar()
                 StringVec rankfields = get_string_list( true );
                 gmr->set_rank_fieldnames( rankfields );
             }
+        }
+    }
+    if ( gmrptr ) {
+        if ( *gmrptr ) {
+            delete gmr;
+        } else {
+            *gmrptr = gmr;
         }
     }
     return true;
