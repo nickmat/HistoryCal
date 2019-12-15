@@ -483,9 +483,11 @@ SHandle Script::do_create_scheme( const std::string& code )
             } else if( token.get_str() == "grammar" ) {
                 token = m_ts.next();
                 if ( token.type() == SToken::STT_LCbracket ) {
-                    do_grammar( &gmr );
+                    gmr = m_cals->create_grammar( "" );
+                    do_anon_grammar( gmr );
                 } else {
                     gmr_code = get_name_or_primary( false );
+                    gmr = m_cals->get_grammar( gmr_code );
                 }
             } else if( token.get_str() == "style" ) {
                 string str = get_name_or_primary( true );
@@ -500,12 +502,11 @@ SHandle Script::do_create_scheme( const std::string& code )
         }
     }
     if( base == nullptr ) {
+        if ( gmr_code.empty() ) {
+            delete gmr;
+        }
         error( "Scheme not created." );
-        delete gmr;
         return nullptr;
-    }
-    if ( !gmr && !gmr_code.empty() ) {
-        gmr = m_cals->get_grammar( gmr_code );
     }
     base->set_grammar( gmr );
     
@@ -812,63 +813,63 @@ bool Script::do_vocab_tokens( Vocab* voc )
     return true;
 }
 
-bool Script::do_grammar( Grammar** gmrptr )
+bool Script::do_grammar()
 {
-    string code;
-    if ( !gmrptr ) {
-        code = get_name_or_primary( true );
-        if ( code.empty() ) {
-            error( "Grammar code missing." );
-            return false;
-        }
-        if ( m_cals->get_grammar( code ) != NULL ) {
-            error( "grammar \"" + code + "\" already exists." );
-            return false;
-        }
+    string code = get_name_or_primary( true );
+    if ( code.empty() ) {
+        error( "Grammar code missing." );
+        return false;
     }
-    if( m_ts.current().type() != SToken::STT_LCbracket ) {
+    if ( m_cals->get_grammar( code ) != NULL ) {
+        error( "grammar \"" + code + "\" already exists." );
+        return false;
+    }
+    if ( m_ts.current().type() != SToken::STT_LCbracket ) {
         error( "'{' expected." );
         return false;
     }
     Grammar* gmr = m_cals->create_grammar( code );
+    if ( !gmr ) {
+        return false;
+    }
+    return do_anon_grammar( gmr );
+}
+
+bool Script::do_anon_grammar( Grammar* gmr )
+{
     string str;
-    for(;;) {
+    for ( ;;) {
         SToken token = m_ts.next();
-        if( token.type() == SToken::STT_LCbracket ) {
-            continue; 
-        } else if( token.type() == SToken::STT_RCbracket ||
+        if ( token.type() == SToken::STT_LCbracket ) {
+            continue;
+        } else if ( token.type() == SToken::STT_RCbracket ||
             token.type() == SToken::STT_End ) {
             break; // All done.
-        } else if( token.type() == SToken::STT_Name ) {
+        } else if ( token.type() == SToken::STT_Name ) {
             string name = token.get_str();
-            if( name == "vocabs" ) {
+            if ( name == "vocabs" ) {
                 do_grammar_vocabs( gmr );
-            } else if( name == "format" ) {
+            } else if ( name == "format" ) {
                 do_format( gmr );
-            } else if( name == "pref" ) {
+            } else if ( name == "pref" ) {
                 str = get_name_or_primary( true );
                 gmr->set_pref( str );
             } else if ( name == "element" ) {
                 do_grammar_element( gmr );
             } else if ( name == "alias" ) {
                 do_grammar_alias( gmr );
-            } else if( name == "inherit" ) {
+            } else if ( name == "inherit" ) {
                 str = get_name_or_primary( true );
                 gmr->set_inherit( str );
-            } else if( name == "optional" ) {
+            } else if ( name == "optional" ) {
                 StringVec optfields = get_string_list( true );
                 gmr->set_opt_fieldnames( optfields );
-            } else if( name == "rank" ) {
+            } else if ( name == "rank" ) {
                 StringVec rankfields = get_string_list( true );
                 gmr->set_rank_fieldnames( rankfields );
             }
-        }
-    }
-    if ( gmrptr ) {
-        if ( *gmrptr ) {
-            delete gmr;
         } else {
-            *gmrptr = gmr;
+            error( "Grammar sub-statement expected." );
         }
     }
     return true;

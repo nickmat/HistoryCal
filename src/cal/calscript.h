@@ -70,7 +70,8 @@ namespace Cal {
         bool do_regnal_era( RegnalEra& era, StringVec& fieldnames );
         bool do_vocab();
         bool do_vocab_tokens( Vocab* voc );
-        bool do_grammar( Grammar** gmrptr = nullptr );
+        bool do_grammar();
+        bool do_anon_grammar( Grammar* gmr );
         bool do_grammar_vocabs( Grammar* gmr );
         bool do_grammar_element( Grammar* gmr );
         bool do_grammar_alias( Grammar* gmr );
