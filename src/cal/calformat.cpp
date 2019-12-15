@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     15th November 2013
- * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2018, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -40,7 +40,8 @@ using namespace Cal;
 using std::string;
 
 Format::Format( const std::string& code, Grammar* gmr ) 
-    : m_code(code), m_owner(gmr), m_priority(gmr->next_format_priority())
+    : m_code(code), m_owner(gmr), m_priority(gmr->next_format_priority()),
+    m_style(FMT_STYLE_Default)
 {
 }
 
@@ -56,6 +57,7 @@ void Format::get_info( Format_info* info ) const
     info->output_str = m_output_str;
     info->priority = m_priority;
     info->type = get_format_type();
+    info->style = get_style();
 }
 
 string Format::rlist_to_string( Base* base, const RangeList& ranges ) const

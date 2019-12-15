@@ -31,6 +31,7 @@
 #include "calelement.h"
 #include "calformatiso.h"
 #include "calformattext.h"
+#include "calformatunit.h"
 #include "calfunction.h"
 #include "calgrammar.h"
 #include "calgregorian.h"
@@ -965,6 +966,7 @@ bool Script::do_format( Grammar* gmr )
     string format, informat, separators;
     FormatText::Use usefor = FormatText::Use_inout;
     StringVec rankfields, rankoutfields, rules;
+    Format_style style = FMT_STYLE_Default;
     string code = get_name_or_primary( true );
     if( code.empty() ) {
         error( "Format code missing." );
@@ -1000,9 +1002,16 @@ bool Script::do_format( Grammar* gmr )
                 } else if ( name == "rankout" ) {
                     rankoutfields = get_string_list( true );
                     continue;
-                } else if( name == "rules" ) {
+                } else if ( name == "rules" ) {
                     rules = get_string_list( true );
                     continue;
+                } else if(name == "style" ) {
+                    string str = get_name_or_primary( true );
+                    if ( str == "hide" ) {
+                        style = FMT_STYLE_Hide;
+                    } else if ( str != "none" ) {
+                        error( "Style name expected." );
+                    }
                 } else {
                     error( "Expected format sub-statement." );
                     continue;
@@ -1025,37 +1034,39 @@ bool Script::do_format( Grammar* gmr )
         }
     }
 
+    Format* fmt = nullptr;
     if( rules.empty() || rules[0] == "text" ) {
         if( format.empty() ) {
             error( "Format string not found." );
             return false;
         }
-        FormatText* fmt = m_cals->create_format_text( code, gmr );
-        if( fmt == nullptr ) {
+        FormatText* fmtt = m_cals->create_format_text( code, gmr );
+        if( fmtt == nullptr ) {
             error( "Unable to create format." );
             return false;
         }
         if( separators.size() ) {
-            fmt->set_separators( separators );
+            fmtt->set_separators( separators );
         }
         if ( rankfields.size() ) {
-            fmt->set_rank_fieldnames( rankfields );
+            fmtt->set_rank_fieldnames( rankfields );
         }
         if ( rankoutfields.size() ) {
-            fmt->set_rankout_fieldnames( rankoutfields );
+            fmtt->set_rankout_fieldnames( rankoutfields );
         }
-        fmt->set_control( format, usefor );
+        fmtt->set_control( format, usefor );
         if( informat.size() ) {
-            fmt->set_control( informat, FormatText::Use_input );
+            fmtt->set_control( informat, FormatText::Use_input );
         }
+        fmt = fmtt;
     } else if ( rules[0] == "iso8601" ) {
-        FormatIso* fmt = m_cals->create_format_iso( code, gmr, rules );
+        fmt = m_cals->create_format_iso( code, gmr, rules );
         if ( fmt == nullptr ) {
             error( "Unable to create ISO format." );
             return false;
         }
     } else if ( rules[0] == "units" ) {
-        FormatUnit* fmt = m_cals->create_format_unit( code, gmr );
+        fmt = m_cals->create_format_unit( code, gmr );
         if ( fmt == nullptr ) {
             error( "Unable to create Units format." );
             return false;
@@ -1064,6 +1075,7 @@ bool Script::do_format( Grammar* gmr )
         error( "Unknown rules statement." );
         return false;
     }
+    fmt->set_style( style );
     return true;
 }
 
