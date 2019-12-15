@@ -1,11 +1,9 @@
 // astro006.hcs  Test the Astronomy calendar. Used as example, man/script/scheme.htm
 
-mark "A-test";
-
 scheme A {
     name "Astronomical Events Calendar";
     base jdn;
-    optional newmoon;
+    grammar { optional newmoon; }
 }
 
 set inout g:dmy;
@@ -14,7 +12,6 @@ let d = date "19sep1948";
 writeln "The New Moon after " + string d
     + " is " + string (d[A:newmoon]);
 
-clear "A-test";
 
 /*[OUTPUT]
 The New Moon after 19 Sep 1948 is 2 Oct 1948

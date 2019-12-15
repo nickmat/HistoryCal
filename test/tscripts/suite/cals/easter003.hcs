@@ -1,12 +1,9 @@
 // easter003.hcs Test file to test Easter optional field.
 
-mark "test-easter";
-clear;
-
 scheme "G-EASTER" {
   name "Gregorian Easter Test";
   base gregorian;
-  optional "eastermonth", "easterday";
+  grammar { optional "eastermonth", "easterday"; }
 }
 
 let y = 1950;
@@ -17,7 +14,6 @@ do
   y += 1;
 until y > 1955 loop
 
-clear "test-easter";
 
 /*[OUTPUT]
 Easter for the following years:

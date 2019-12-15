@@ -1,19 +1,16 @@
 // scheme001.hcs Test file to test using easter dates
 
-mark test.scheme001;
-
 let d = 2432814;
 
 scheme G.ASTRO {
   name "Gregorian Astronomy";
   base gregorian;
-  optional newmoon, nequinox;
+  grammar { optional newmoon, nequinox; }
   style hide;
 }
 
 write string,G.ASTRO d;
 
-clear test.scheme001;
 
 */
 /*[OUTPUT]

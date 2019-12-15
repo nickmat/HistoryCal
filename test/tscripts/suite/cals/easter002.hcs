@@ -1,19 +1,15 @@
 // easter002.hcs Test file to test using easter dates
 
-mark "test-easter";
-clear;
-
 let d = date,"g:dmy" "1 Jan 1900";
 
 scheme "GEASTER" {
   name "Gregorian Easter Test";
   base gregorian;
-  optional "eastermonth", "easterday";
+  grammar { optional "eastermonth", "easterday"; }
 }
 
 write "Easter Day is: " + string,"g:dmy" { "g", d["g:year"], d["GEASTER:eastermonth"], d["GEASTER:easterday"] };
 
-clear "test-easter";
 
 /*[OUTPUT]
 Easter Day is: 15 Apr 1900

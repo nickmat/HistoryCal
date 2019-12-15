@@ -1,11 +1,9 @@
 // astro.hcs  Test the Astronomy calendar.
 
-mark "astro-test";
-
 scheme astro {
   name "Astronomy Day Calendar";
   base jdn;
-  optional newmoon;
+  grammar { optional newmoon; }
 }
 
 let d = date {g, 2017, 1, 1};
@@ -17,7 +15,6 @@ let nm1s = string,g:dmy (nm1[astro:newmoon]);
 
 write nm0s + ", " + nm1s;
 
-clear "astro-test";
 
 /*[OUTPUT]
 28 Jan 2017, 26 Feb 2017

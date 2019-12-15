@@ -458,7 +458,6 @@ SHandle Script::do_create_scheme( const std::string& code )
     Base* base = nullptr;
     string name, gmr_code;
     Grammar* gmr = nullptr;
-    StringVec optfields;
     Scheme_style style = SCH_STYLE_Default;
     for(;;) {
         SToken token = m_ts.next();
@@ -480,8 +479,6 @@ SHandle Script::do_create_scheme( const std::string& code )
                 base = do_base_hybrid();
             } else if( token.get_str() == "regnal" ) {
                 base = do_base_regnal();
-            } else if( token.get_str() == "optional" ) {
-                optfields = get_string_list( true );
             } else if( token.get_str() == "grammar" ) {
                 token = m_ts.next();
                 if ( token.type() == SToken::STT_LCbracket ) {
@@ -505,9 +502,6 @@ SHandle Script::do_create_scheme( const std::string& code )
         error( "Scheme not created." );
         delete gmr;
         return nullptr;
-    }
-    for( size_t i = 0 ; i < optfields.size() ; i++ ) {
-        base->add_opt_field( optfields[i] );
     }
     if ( !gmr && !gmr_code.empty() ) {
         gmr = m_cals->get_grammar( gmr_code );
