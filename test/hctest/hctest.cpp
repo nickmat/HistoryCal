@@ -36,9 +36,9 @@
 #include <fstream>
 #include <sstream>
 
-#define VERSION   "0.8.2"
+#define VERSION   "0.9.0"
 #define PROGNAME  "HistoryCalTest"
-#define COPYRIGHT  "2014 - 20017 Nick Matthews"
+#define COPYRIGHT  "2014 - 20019 Nick Matthews"
 
 const char* g_version = VERSION;
 const char* g_progName = PROGNAME;
@@ -100,7 +100,7 @@ string run_test( Calendars* cal, const string& filename )
         error = "No output";
     } else if( output != expected ) {
         error = "  Expected: " + expected + "\n"
-            + "    Output: " + output;
+            + "  Output: " + output;
     }
     string result;
     if( !error.empty() ) {
@@ -112,31 +112,28 @@ string run_test( Calendars* cal, const string& filename )
     return result;
 }
 
-void run_full_test( Calendars* cal, const string& path )
+string run_full_test( Calendars* cal, const string& path )
 {
     clock_t t = clock();
     vector<string> filenames;
-    vector<string> errors;
+    string result;
+    int errcnt = 0;
     get_filenames( filenames, path );
     for( size_t i = 0 ; i < filenames.size() ; i++ ) {
         string error = run_test( cal, filenames[i] );
         if( !error.empty() ) {
-            errors.push_back( error );
+            errcnt++;
+            result += "\n\n" + error;
         }
     }
-    cout << "\n\nRun (" << filenames.size() << ") ";
-    if( !errors.empty() ) {
-        cout << " fail (" << errors.size() << ")";
-        for( size_t i = 0 ; i < errors.size() ; i++ ) {
-            cout << "\n\n" << errors[i];
-        }
-    }
-    cout << "\n\n";
     double dt = ((double) clock() - t) / CLOCKS_PER_SEC;
-    std::cout << "Timed: " << dt << "s" << std::endl;
+
+    return  result + "\n\nRun (" + to_string( filenames.size() ) + ") "
+        "  fail (" + to_string( errcnt ) + ")"
+        "  Timed: " + to_string(dt) + "s\n\n";
 }
 
-void run_test_script( Calendars* cal, const string& filename )
+string run_test_script( Calendars* cal, const string& filename )
 {
     string script = read_file( filename );
     string output = cal->run_script( script );
@@ -149,67 +146,50 @@ void run_test_script( Calendars* cal, const string& filename )
             expected = script.substr( pos1, pos2 - pos1 );
         }
     }
-    cout << filename << "  ";
-    if( output.empty() ) {
-        cout << "No output\n";
-    } else if( output == expected ) {
-        cout << "Pass: " << output << "\n\n";
+    string result = filename + "  ";
+    if ( output.empty() ) {
+        result += "No output\n";
+    } else if ( output == expected ) {
+        result += "Pass: " + output + "\n\n";
     } else {
-        cout << "\n Expected: " << expected << "\n"
-            << "   Output: " << output << "\n\n";
+        result += "\n Expected: " + expected + "\n"
+            + "   Output: " + output + "\n\n";
     }
+    return result;
 }
 
 int main( int argc, char* argv[] )
 {
-    Calendars cal( Init_script_default );
+    Calendars cal_stdlib( Init_script_default );
+    Calendars cal_none( Init_script_none );
     cout << g_title << "\n";
 
-    string argv1;
-    switch( argc )
-    {
-    case 1:
-        break;
-    case 2:
-        argv1 = string(argv[1]);
-        run_test_script( &cal, argv1 );
-        return 0;
-    case 3:
-        argv1 = string(argv[1]);
-        if( argv1 == "-t" ) {
-            run_full_test( &cal, string(argv[2]) );
-            return 0;
-        } else {
-            cout << "Expected -t as 1st argument.\n";
-            return 1;
+    Calendars* cal = &cal_stdlib;
+    string result;
+    for ( int i = 1; i < argc; i++ ) {
+        string arg = argv[i];
+        if ( arg == "-t" ) {
+            continue; // We used to require this, now ignore it.
         }
-    default:
-        cout << "Too many arguments.\n";
-        return 1;
-    }
-
-    for(;;) {
-        cout << "hcc: ";
-        string cmnd;
-        getline( cin, cmnd );
-        string word, tail;
-        word = get_first_word( cmnd, &tail, ' ' );
-
-        if( word == "exit" || word == "bye" || word == "quit" ) {
-            break;
-        } else if( word == "info" ) {
-            continue;
-        } else if( word == "run" ) {
-            cmnd = read_file( tail );
-        } else if( word == "test" ) {
-            run_test( &cal, tail );
+        if ( arg == "-l" ) { // Lowercase L
+            cal = &cal_stdlib;
             continue;
         }
-        string output = cal.run_script( cmnd );
-        if( output.size() ) {
-            cout << output << "\n";
+        if ( arg == "-n" ) {
+            cal = &cal_none;
+            continue;
         }
+        CheckFile cf = check_file( arg );
+        if ( cf == CF_file ) {
+            result += run_test_script( cal, arg );
+            continue;
+        } else if ( cf == CF_dir ) {
+            result += run_full_test( cal, arg );
+            continue;
+        }
+        result += "Unknown command line switch " + arg + "\n\n";
     }
+    cout << result;
     return 0;
 }
 

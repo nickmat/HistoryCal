@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     20th June 2014
- * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 - 2019, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCalTest is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@
 
 #include "hctestmain.h"
 
+#include <stdio.h>
 #if defined(_MSC_VER)
 #include <win/dirent.h>
 #else
@@ -38,6 +39,22 @@
 
 using std::vector;
 using std::string;
+
+CheckFile check_file( const std::string& name )
+{
+    DIR* dir = opendir( name.c_str() );
+    if ( dir != nullptr ) {
+        closedir( dir );
+        return CF_dir;
+    }
+
+    FILE* file;
+    if ( fopen_s( &file, name.c_str(), "r" ) == 0 ) {
+        fclose( file );
+        return CF_file;
+    }
+    return CF_none;
+}
 
 void get_filenames( vector<string>& vec, const string& path )
 {
@@ -61,5 +78,6 @@ void get_filenames( vector<string>& vec, const string& path )
     }
     closedir( dir );
 }
+
 
 // End of test/hctest/hcsgetfns.cpp
