@@ -475,33 +475,41 @@ string Base::get_output_fcode() const
 
 Grammar* Base::get_grammar() const
 {
-    if( m_grammar == NULL ) {
-        create_default_grammar();
-    }
+    assert( m_grammar );
     return m_grammar;
 }
 
 Format* Base::get_format( const string& fcode ) const
 {
-    Format* fmt = get_grammar()->get_format( fcode );
-    if( fmt == NULL && fcode == "u" ) {
-        fmt = m_grammar->create_format_unit();
-    }
-    return fmt;
+    assert( m_grammar );
+    return m_grammar->get_format( fcode );
 }
 
-void Base::set_grammar( Grammar* grammar )
+bool Base::attach_grammar( Grammar* gmr )
 {
-    if( grammar == NULL || m_grammar != NULL ) {
-        return;
+    if ( gmr == nullptr || m_grammar != nullptr ) {
+        return false;
     }
-    m_grammar = grammar;
-    set_output_fcode( grammar->get_pref_output_fcode() );
-    set_input_fcode( grammar->get_pref_input_fcode() );
-    StringVec optfields = grammar->get_opt_fieldnames();
-    for( size_t i = 0 ; i < optfields.size() ; i++ ) {
+    m_grammar = gmr;
+    set_output_fcode( gmr->get_pref_output_fcode() );
+    set_input_fcode( gmr->get_pref_input_fcode() );
+    StringVec optfields = gmr->get_opt_fieldnames();
+    for ( size_t i = 0; i < optfields.size(); i++ ) {
         add_opt_field( optfields[i] );
     }
+    Format* fmt = gmr->get_format( "def" );
+    string control = create_def_format_control();
+    if ( fmt ) {
+        if ( control != fmt->get_control_str() ) {
+            return false;
+        }
+    } else {
+        FormatText* fmtt = gmr->create_format_text( "def" );
+        fmtt->set_control( control );
+        fmtt->set_style( FMT_STYLE_Hide );
+        FormatUnit* fmtu = gmr->create_format_unit();
+    }
+    return true;
 }
 
 void Base::add_opt_field( const string& fieldname )
@@ -628,20 +636,16 @@ int Base::get_opt_fieldname_index( const string& fieldname ) const
     return -1;
 }
 
-void Base::create_default_grammar() const
+std::string Cal::Base::create_def_format_control()
 {
-    if( m_grammar == NULL ) {
-        m_grammar = new Grammar( "", nullptr );
-    }
-    FormatText* fmt = m_grammar->create_format_text( "def" );
-    string format;
-    for( size_t i = 0 ; i < extended_size() ; i++ ) {
-        if( i > 0 ) {
-            format += "| ";
+    string control;
+    for ( size_t i = 0; i < extended_size(); i++ ) {
+        if ( i > 0 ) {
+            control += "| ";
         }
-        format += "(" + get_fieldname( i ) + ")";
+        control += "(" + get_fieldname( i ) + ")";
     }
-    fmt->set_control( format );
+    return control;
 }
 
 XRefVec Base::create_xref( const StringVec& fieldnames ) const 

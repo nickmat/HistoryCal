@@ -508,7 +508,17 @@ SHandle Script::do_create_scheme( const std::string& code )
         error( "Scheme not created." );
         return nullptr;
     }
-    base->set_grammar( gmr );
+    if ( gmr == nullptr ) {
+        gmr = m_cals->create_grammar( "" );
+    }
+    if ( !base->attach_grammar( gmr ) ) {
+        if ( gmr_code.empty() ) {
+            delete gmr;
+        }
+        delete base;
+        error( "Unable to attach grammar." );
+        return nullptr;
+    }
     
     SHandle sch = new Scheme( name, base );
     sch->set_style( style );

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st March 2016
- * Copyright:   Copyright (c) 2016 ~ 2018, Nick Matthews.
+ * Copyright:   Copyright (c) 2016 ~ 2019, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -45,6 +45,7 @@ namespace Cal {
         std::string get_masked_output( const Record& record, const BoolVec* mask ) const;
         RangeList string_to_rlist( Base* base, const std::string& input ) const override;
         bool set_input( Record* record, const std::string& input, Boundary rb ) const override;
+        std::string get_control_str() const override { return m_control; }
 
         bool resolve_input(
             const Base* base, Field* fields, const InputFieldVec& input ) const;

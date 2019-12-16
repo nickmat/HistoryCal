@@ -62,6 +62,7 @@ namespace Cal {
         virtual std::string range_to_string( Base* base, Range range ) const;
         virtual std::string jdn_to_string( Base* base, Field jdn ) const;
         virtual std::string get_output( const Record& record ) const = 0;
+        virtual std::string get_control_str() const { return ""; }
 
         virtual RangeList string_to_rlist( Base* base, const std::string& input ) const = 0;
         virtual bool set_input( Record* record, const std::string& input, Boundary rb ) const = 0;
