@@ -160,11 +160,11 @@ string run_test_script( Calendars* cal, const string& filename )
 
 int main( int argc, char* argv[] )
 {
-    Calendars cal_stdlib( Init_script_default );
-    Calendars cal_none( Init_script_none );
     cout << g_title << "\n";
 
-    Calendars* cal = &cal_stdlib;
+    Calendars* cal_stdlib = nullptr;
+    Calendars* cal_none = nullptr;
+    Calendars* cal = nullptr;
     string result;
     for ( int i = 1; i < argc; i++ ) {
         string arg = argv[i];
@@ -172,14 +172,23 @@ int main( int argc, char* argv[] )
             continue; // We used to require this, now ignore it.
         }
         if ( arg == "-l" ) { // Lowercase L
-            cal = &cal_stdlib;
+            if ( !cal_stdlib ) {
+                cal_stdlib = new Calendars( Init_script_default );
+            }
+            cal = cal_stdlib;
             continue;
         }
         if ( arg == "-n" ) {
-            cal = &cal_none;
+            if ( !cal_none ) {
+                cal_none = new Calendars( Init_script_none );
+            }
+            cal = cal_none;
             continue;
         }
         CheckFile cf = check_file( arg );
+        if ( !cal && cf != CF_none ) {
+            cal = cal_stdlib = new Calendars( Init_script_default );
+        }
         if ( cf == CF_file ) {
             result += run_test_script( cal, arg );
             continue;
