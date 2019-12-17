@@ -1,0 +1,33 @@
+// bug1.hcs Test file to test bug
+
+grammar J { format dmy "(day) |(month) |(year)"; }
+
+scheme J { base julian; grammar J;}
+scheme G { base gregorian; grammar J; }
+
+grammar JG {
+    inherit J;
+    format dmys "(day) |(month) |(year) |(scheme)";
+}
+
+scheme AY {
+    hybrid {
+        fields year, month, day;
+        scheme J;
+        change 2299161;  // g# 15 Oct 1582
+        scheme G;
+    }
+    grammar JG;
+}
+
+writeln "";
+writeln string,AY 2200000;
+writeln string,AY 2345678;
+
+
+/*[OUTPUT]
+
+0 1311 4 10
+1 1710 2 23
+
+[OUTPUT]*/

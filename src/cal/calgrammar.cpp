@@ -275,7 +275,7 @@ Format* Grammar::get_format( const string& code ) const
 {
     FormatMap::const_iterator it = m_formats.find( code );
     if( it == m_formats.end() ) {
-        if( m_inherit ) {
+        if( m_inherit &&  code != "def" && code != "u" ) {
             return m_inherit->get_format( code );
         }
         return NULL;
