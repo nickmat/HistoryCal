@@ -37,31 +37,31 @@ vocab rpt {
 }
 
 grammar je {
-    optional wday;
+    optional wday repeated;
     element Rpt {
-        output @if(easterrpt=0,?,1);
+        output @if(repeated=0,?,1);
         pseudo "[Repeated]";
     }
     alias field {
-        WDay,        wday;
-        Day,         day;
-        Month,       month;
-        Year,        year;
-        Rpt,         repeated;
-        "Hist-Year", hist;
+        WDay,  wday;
+        Day,   day;
+        Month, month;
+        Year,  year;
+        Rpt,   repeated;
+        Hist,  hist;
     }
     alias pseudo {
         dd,   Day;
         mm,   Month;
         yyyy, Year;
-        y,    "Hist-Year";
+        y,    Hist;
         r,    Rpt;
     }
     vocabs m, w, rpt;
-    format dmy "(Day) |(Month:m:a) |(Year)| (Rpt:rpt:a)";
-    format "dmy+" "(Day) |(Month:m) |(Year)| (Rpt:rpt)";
-    format mdy "(Month:m:a) |(Day), |(Year)| (Rpt:rpt:a)";
-    format "mdy+" "(Month:m) |(Day), |(Year)| (Rpt:rpt)";
+    format dmy "(Day) |(Month:m:a) |(Year/Hist)| (Rpt:rpt:a)";
+    format "dmy+" "(Day) |(Month:m) |(Year/Hist)| (Rpt:rpt)";
+    format mdy "(Month:m:a) |(Day), |(Year/Hist)| (Rpt:rpt:a)";
+    format "mdy+" "(Month:m) |(Day), |(Year/Hist)| (Rpt:rpt)";
     pref dmy;
 }
 
