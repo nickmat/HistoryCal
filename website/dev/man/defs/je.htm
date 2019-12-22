@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - je</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - V0.0.7 Manual<br />je# Julian Easter
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <a href='../../../index.htm' class='m-item'>Home</a>
+  <a href='../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../dev/man/index.htm' class='m-item'>V0.0.7 Manual</a>
+  <a href='../../../dev/man/defs/index.htm' class='m-item'>Cal. Definitions</a>
+  <a href='je.htm' class='m-item thispage'>je</a>
+  <a href='../../../dev/man/defs/se.htm' class='m-item nav'>►</a>
+  <a href='../../../dev/man/defs/jap.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Page Under Construction</h2>
+<h2>Calendar Description</h2>
+<p>
+ The Julian Easter scheme is a variant of the <a href='j.htm'>Julian</a> calendar obtained
+ by shifting the year change forward from the 1st January to Easter Sunday for the year in question.
+ Because Easter varies from 22nd March to 25th April, the length of the year varies.
+ Some years a few days will occur twice in an Easter year
+ and sometimes a few days will be invalid for that year.
+</p>
+
+<h3>Use Case</h3>
+<p>
+ Used in some French provinces around the 13th century.
+</p>
+<p>
+ A variant of this calendar was used in the English Regnal calendar
+ as King John used the year from Ascension Day (40 days following Easter Sunday).
+</p>
+
+<h3>Definition</h3>
+<table class='record'>
+<tr><th colspan='6'>Record</th></tr>
+<tr><td>year</td><td>month</td><td>day</td><td>hist</td><td class='rdonly'>wday</td><td class='rdonly'>repeated</td></tr>
+</table>
+<p class='lclear'>
+ The Julian Easter calendar is based on <a href='j.htm'>Julian</a> calendar
+ and the same days of the year the <a href='j.htm'>Julian</a> calendar except the year change occurs on Easter Sunday.
+ The calendar is given the nominal epoch of 27th March 1, the calculated day of Easter in the Julian year 1.
+</p>
+<p style='display:inline;'>
+ The <b>Epoch</b> is set at
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>je</td><th>year</th><th>month</th><th>day</th><th>hist</th></tr>
+   <tr class='value'><td>1</td><td>3</td><td>27</td><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>j</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>3</td><td>27</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>1721509</td></tr>
+ </table>.
+</p>
+
+<h3>Script</h3>
+<table class='code lfloat'>
+<tr><th>Default Script</th></tr>
+<tr><td
+>vocab rpt {
+  name "Repeated Date";
+  fieldname repeated;
+  lang en;
+  pseudo    Repeated,            Rpt;
+  tokens {
+      0, "First Occurrence",    "First";
+      1, "Repeated Occurrence", "Repeated";
+  }
+}
+
+grammar je {
+  optional wday repeated;
+  element Rpt {
+      output @if(repeated=0,?,1);
+      pseudo "[Repeated]";
+  }
+  alias field {
+      WDay,  wday;
+      Day,   day;
+      Month, month;
+      Year,  year;
+      Rpt,   repeated;
+      Hist,  hist;
+  }
+  alias pseudo {
+      dd,   Day;
+      mm,   Month;
+      yyyy, Year;
+      y,    Hist;
+      r,    Rpt;
+  }
+  vocabs m, w, rpt;
+  format dmy "(Day) |(Month:m:a) |(Year/Hist)| (Rpt:rpt:a)";
+  format "dmy+" "(Day) |(Month:m) |(Year/Hist)| (Rpt:rpt)";
+  format mdy "(Month:m:a) |(Day), |(Year/Hist)| (Rpt:rpt:a)";
+  format "mdy+" "(Month:m) |(Day), |(Year/Hist)| (Rpt:rpt)";
+  pref dmy;
+}
+
+scheme je {
+  name "Julian Easter";
+  base easter;
+  grammar je;
+}
+</td></tr>
+</table>
+<p>
+  The script makes use of the optional field <code>wday</code>
+  to output weekdays and is thus requires the <a href='7dayweek.htm'>7 Day Week</a> vocab "w".
+ </p>
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <a href='../../../index.htm' class='m-item'>Home</a>
+  <a href='../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../dev/man/index.htm' class='m-item'>V0.0.7 Manual</a>
+  <a href='../../../dev/man/defs/index.htm' class='m-item'>Cal. Definitions</a>
+  <a href='je.htm' class='m-item thispage'>je</a>
+  <a href='../../../dev/man/defs/se.htm' class='m-item nav'>►</a>
+  <a href='../../../dev/man/defs/jap.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='http://validator.w3.org/check?uri=referer'>
+    <img src='../../../sys/valid-xhtml10.png' alt='Valid XHTML 1.0 Strict' height='31' width='88' />
+   </a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>6<sup>th</sup> July 2019</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

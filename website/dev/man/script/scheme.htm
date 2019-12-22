@@ -57,15 +57,15 @@
 <tr><td class='code'>shift</td><td>Scheme uses one of the base calendars with the era shifted.</td><td class='example'>shift j, 1721507;</td></tr>
 <tr><td class='code'>hybrid</td><td>Scheme uses more than one the base calendars.</td><td class='example'>hybrid { ... }</td></tr>
 <tr><td class='code'>regnal</td><td>Scheme uses calendars with a succession of eras.</td><td class='example'>regnal { ... }</td></tr>
-<tr><td class='code'>optional</td><td>Use the listed optional fields.</td><td class='example'>optional wday;</td></tr>
-<tr><td class='code'>grammar</td><td>The grammar to be used.</td><td class='example'>grammar jce;</td></tr>
+<tr><td class='code' rowspan='2'>grammar</td><td>Predefined grammar to be used.</td><td class='example'>grammar jce;</td></tr>
+<tr><td>Anonymous grammar definition.</td><td class='example'>grammar {optional newmoon;}</td></tr>
 <tr><td class='code'>style</td><td>The scheme style used.</td><td class='example'>style hide;</td></tr>
 </table>
 
 <h3>name Sub-Statement</h3>
 <p>
  Gives a descriptive name to the calendar scheme.
- Used by the HistroyCal program to show a 'pick-list' of available calendar scheme to select.
+ Used by the HistoryCal program to show a 'pick-list' of available calendar scheme to select.
  This sub-statement is optional but, unless the scheme is to be hidden, it would normally be included. 
 </p>
 
@@ -118,12 +118,12 @@
 </table>
 
 <table class='code'>
-<tr><th>Example Script</th></tr> <!-- See test/astro006.hcs -->
+<tr><th>Example Script</th></tr> <!-- See test/tscripts/suite/stdlib/cals/astro006.hcs -->
 <tr><td
 >scheme A {
     name "Astronomical Events Calendar";
     base jdn;
-    optional newmoon;
+    grammar { optional newmoon; }
 }
 
 set inout g:dmy;
@@ -391,6 +391,25 @@ shift jdn, 2400001; // Change jdn to Modified Julian Day</td></tr>
 <tr><td class='code'>regnal { ... era { <i>era-sub-statements</i> } }</td><td class='example'>era { scheme j; } // Julian default scheme</td></tr>
 </table>
 
+<h3>grammar Sub-Statement</h3>
+<p>
+ This can be used to link to a previously defined grammar (using its grammar code)
+ or to define an anonymous grammar.
+ One or zero grammar sub-statements can be defined.
+</p>
+
+<h3>style Sub-Statement</h3>
+<p>
+ Set style attributes for the Scheme.
+ The default is style none.
+</p>
+<table class='basic'>
+ <tr><th colspan='2'>style Sub-Statement</th></tr>
+ <tr><th>Description</th><th>Switch</th></tr>
+ <tr><td>No style settings.</td><td class='code'>style none;</td></tr>
+ <tr><td>Do not show the scheme in the scheme list.</td><td class='code'>style hide;</td></tr>
+</table>
+    
 </div><!--id=content-->
 
  <div class="crumbs">

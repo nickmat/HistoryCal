@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - EBNF Definition</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - V0.0.7 Manual<br />EBNF Definition
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <a href='../../../index.htm' class='m-item'>Home</a>
+  <a href='../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../dev/man/index.htm' class='m-item'>V0.0.7 Manual</a>
+  <a href='../../../dev/man/script/index.htm' class='m-item'>Script</a>
+  <a href='ebnf.htm' class='m-item thispage'>EBNF Definition</a>
+  <a href='../../../dev/man/defs/index.htm' class='m-item nav'>►</a>
+  <a href='../../../dev/man/script/set.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Page Under Construction</h2>
+
+<p>
+ The notation uses the Extended Backus-Naur Form (EBNF) notation as used and described in the
+ <a href='http://www.w3.org/TR/xml/#sec-notation'>XML specification</a>.
+ At this stage of development some definitions are given as text descriptions in /* ... */ comments.
+</p>
+
+<pre>
+    script  ::=  sp* statement+ sp* EOF
+
+    sp  ::=  <i>/* The normal white space characters and/or comments */</i>
+
+    EOF  ::=  <i>/* End of file */</i>
+
+    statement  ::=  store-stmt-gp | definition-stmt-gp | inout-stmt-gp | control-stmt-gp
+
+    store-stmt-gp  ::=  let-stmt | set-stmt | mark-stmt | clear-stmt
+    
+    let-stmt  ::=  <i>/* TODO: place holder */</i>
+    
+    set-stmt  ::=  <i>/* TODO: place holder */</i>
+    
+    mark-stmt  ::=  <i>/* TODO: place holder */</i>
+    
+    clear-stmt  ::=  <i>/* TODO: place holder */</i>     
+    
+    definition-stmt-gp  ::=  vocab-def | grammar-def | format-def | scheme-def | function-def <i>/* FUTURE: | command-def */</i>
+    
+    vocab-def  ::=  <i>/* TODO: place holder */</i>
+
+    grammar-def  ::=  <i>/* TODO: place holder */</i>
+
+    format-def  ::=  <i>/* TODO: place holder */</i>
+
+    scheme-def  ::=  <i>/* TODO: place holder */</i>
+
+    function-def  ::=  <i>/* TODO: place holder */</i>     
+    
+    inout-stmt-gp  ::=  write-stmt | writeln-stmt <i>/* FUTURE: | read-stmt | readln-stmt */</i>
+    
+    write-stmt  ::=  <i>/* TODO: place holder */</i>
+
+    writeln-stmt  ::=  <i>/* TODO: place holder */</i>
+    
+    control-stmt-gp  ::=  if-ctrl | do-ctrl | call-ctrl | end-ctrl
+    
+    if-ctrl  ::=  <i>/* TODO: place holder */</i>
+    
+    do-ctrl  ::=  <i>/* TODO: place holder */</i>
+    
+    call-ctrl  ::=  <i>/* TODO: place holder */</i>
+    
+    end-ctrl  ::=  <i>/* TODO: place holder */</i>
+
+</pre>
+
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <a href='../../../index.htm' class='m-item'>Home</a>
+  <a href='../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../dev/man/index.htm' class='m-item'>V0.0.7 Manual</a>
+  <a href='../../../dev/man/script/index.htm' class='m-item'>Script</a>
+  <a href='ebnf.htm' class='m-item thispage'>EBNF Definition</a>
+  <a href='../../../dev/man/defs/index.htm' class='m-item nav'>►</a>
+  <a href='../../../dev/man/script/set.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='http://validator.w3.org/check?uri=referer'>
+    <img src='../../../sys/valid-xhtml10.png' alt='Valid XHTML 1.0 Strict' height='31' width='88' />
+   </a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>22<sup>nd</sup> December 2019</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

@@ -88,7 +88,8 @@
           { "name": "grammar", "label": "Define grammar" },
           { "name": "format", "label": "Define format" },
           { "name": "scheme", "label": "Define scheme" },
-          { "name": "set", "label": "set Statement" }
+          { "name": "set", "label": "set Statement" },
+          { "name": "ebnf", "label": "EBNF Definition" }
         ]},
         { "folder": "defs", "name": "index", "label": "Cal. Definitions", "subtitle": "Calendar Index", "menu": false, "css": "big-list", "content": [
           { "name": "jdn", "subtitle": "jdn# Julian Day Number", "map-label": false },
@@ -99,6 +100,7 @@
           { "name": "jn", "subtitle": "jn# Julian Nativity", "map-label": false },
           { "name": "ja", "subtitle": "ja# Julian Annunciation", "map-label": false },
           { "name": "jap", "subtitle": "jap# Julian Annunciation Pisa", "map-label": false },
+          { "name": "je", "subtitle": "je# Julian Easter", "map-label": false },
           { "name": "se", "subtitle": "se# Julian Spanish Era", "map-label": false },
           { "name": "g", "subtitle": "g# Gregorian", "map-label": false },
           { "name": "gce", "subtitle": "gce# Gregorian Common Era", "map-label": false },
@@ -123,6 +125,11 @@
       { "folder": "lib", "name": "index", "label": "Cal Library", "title": "Cal Library", "subtitle": "Introduction" },
       { "folder": "scripts", "name": "index", "label": "Scripts", "title": "Scripts", "subtitle": "Introduction", "content": [
         { "name": "codes", "label": "Codes" }
+      ]},
+      { "folder": "tests", "name": "index", "label": "Tests", "title": "Test Programs", "subtitle": "Introduction", "content": [
+        { "name": "script", "label": "Test Script" },
+        { "label": "Unit Tests" },
+        { "label": "Soak Tests" }
       ]}
     ]},
     { "name": "gloss", "label": "Glossary", "title": "" },

@@ -34,11 +34,57 @@
 <h2>Under Construction</h2>
 <h2>Statement: format</h2>
 <p>
- A format is normally a part of the grammar description
- but it may also be defined outside of the the grammar block.
- Defining it outside the grammar allows it to be added after a grammar has been defined,
- which means the default schemes can be extended with new formats.
+ The <b>format</b> statement is used to control the
+ conversion of text to date (the Julian Day Number) and visa versa.
+ It is both a statement and a grammar-statement.
+ When used as a statement, it is possible to add formats to existing grammars -
+ including the default schemes' grammars.
 </p>
+<table class='basic'>
+ <tr><th colspan='3'>format Statement</th></tr>
+ <tr><th>Format</th><th>Example</th><th>Output</th></tr>
+ <tr>
+  <td class='code'>
+   <b>format</b> <i>gcode</i><b>:</b><i>fcode</i> <b>{</b><br />
+   &nbsp; <i>format-statements</i><br />
+   <b>}</b>
+  </td> <!-- See test file - test/tscripts/suite/statements/format013.hcs -->
+  <td class='example'><b>format</b> j:LONG <b>{</b>
+    output "On the (Day::os) Day of |(Month:m) |in the (Year::os) Year"; 
+<b>}</b>
+    ...
+<b>write</b> string,g:LONG 2432814;</td>
+  <td>On the 19th Day of September in the 1948th Year</td>
+ </tr>
+ <tr>
+  <td class='code'>
+   <b>format</b> <i>gcode</i><b>:</b><i>fcode</i> <i>format-string</i>;
+  </td> <!-- See test file - test/tscripts/suite/statements/format001.hcs -->
+  <td class='example'><b>format</b> g:MYD  "(Month:m:a) |(Year)|, (Day)"; 
+    ...
+<b>write</b> date,g:MYD "Sep1948 19" + "; " + string,g:MYD 2432814</td>
+  <td>2432814; Sep 1948, 19</td>
+ </tr>
+ <tr>
+  <td class='code'>
+   <b>grammar</b> <i>gcode</i> <b>{</b><br />
+   &nbsp; <i>grammar-statements</i><br />
+   &nbsp; <b>format</b> <i>fcode</i> <b>{</b><br />
+   &nbsp; &nbsp; <i>format-statements</i><br />
+   &nbsp; <b>}</b><br />
+   <b>}</b>
+  </td> <!-- See test file - test/tscripts/suite/statements/grammar/g_format001.hcs -->
+  <td class='example'><b>grammar</b> XG <b>{</b>
+    inherit j;
+    <b>format</b> dXmy <b>{</b> output "(Day) |(Month::rn) |(Year)"; <b>}</b>
+<b>}</b>
+<b>scheme</b> XS <b>{</b> base gregorian; grammar XG; <b>}</b>
+    ...
+<b>write</b> string,XS:dXmy 2432814;</td>
+  <td>19 IX 1948</td>
+ </tr>
+ </table>
+    
 <p>
  There are two aspects to the formatting of dates,
  firstly, interpreting the input from a user or application
@@ -56,17 +102,134 @@
  the code is a compound code including both the grammar and its name within that grammar,
  the parts separated by a colon ':' character.
 </p>
+
+<h3 id='rules'>Format Sub-Statement: rules</h3>
 <p>
- In its simplest form, format uses a single text string.
+ The conversion between date and text is controlled by the <b>rules</b> statement.
+ Currently there are three rules available, as shown below.
+</p>
+<table class='basic'>
+<tr><th colspan='2'>rules Statements</th></tr>
+<tr><th>Statement</th><th>Use</th></tr>
+<tr><td class='code'><b>rules text</b></td><td>Use a text string to define the date. The default value.</td></tr>
+<tr><td class='code'><b>rules units</b></td><td>Use value, unit pairs to define the date, or date elements.</td></tr>
+<tr><td class='code'><b>rules iso8601</b></td><td>Use the ISO 8601 standard to define a Gregorian date.</td></tr>
+</table>
+
+<h3 id='rules-units'>Format Sub-Statement: rules units</h3>
+<p>
+ A units format is one where a date (or parts of a date) is written as a sequence of value,
+ unit pairs.
+ Since the pair is self contained, they may be placed in any order.
+</p>
+<p>
+ The unit name can be any field name from the schemes record,
+ and the value will be placed into that field.
+ The field name can be replaced with an alias provided by the owning grammar,
+ either the <b>alias unit</b> or the <b>alias field</b> sub-statements.
+</p>
+<p>
+ A units format may be created automatically using the "u" fcode (format code).
+ This can be used as follows.
+</p>
+
+<table class='basic'>
+<tr><th>Example</th><th>Result</th></tr>
+<tr><td class='example'>date,g:u "9month1948year19day"</td><td>2432814</td></tr> <!-- see suite/expressions/date004.hcs -->
+<tr><td class='example'>date,g:u "1948y 19d 9m"</td><td>2432814</td></tr> <!-- see suite/expressions/date013.hcs -->
+<tr><td class='example'>record,g:u "9 Month"</td><td>{"g", ?, 9, ?, ?}</td></tr> <!-- see suite/expressions/record008.hcs -->
+<tr><td class='example'>string,g:u 2432814</td><td>"1948y 9m 19d"</td></tr> <!-- see suite/expressions/string010.hcs -->
+</table>
+<p>
+ Note, this aspect of the language is still being actively developed.
+ Since the units format has no options (at present)
+ and can be created for any scheme using the "u" format code,
+ there is no need to explicitly use it.
+ It is included for completeness and future development only.
+</p>
+
+<h3 id='rules-iso8601'>Format Sub-Statement: rules iso8601</h3>
+<p>
+ Although it is possible to input and output dates conforming to the common parts of the ISO 8601 standard,
+ full implementation requires its own format sub-system.
+ This is achieved with the <b>rules iso8601</b> sub-statement.
+ This method can only be used with the Gregorian calendar schemes.
+</p>
+<p>
+ Various optional parts of the standard can be activated using a number of switches following the <b>rules</b> sub-statement.
+ these can be broken down into a number of groups as follows.
+</p>
+
+<table class='basic'>
+<tr><th colspan='5'>Switches used with rules iso8601 Sub-Statement</th></tr>
+<tr><th>Group</th><th>Switch</th><th>Description</th><th>Example</th><th>Output</th></tr>
+<tr><td rowspan='3'>Style</td><td class='code'>caldate</td><td>Dates are treated as Gregorian Year, Month and Day of month. Default</td><td class='example'>rules iso8601 caldate;</td><td>1948-09-19</td></tr>
+<tr><td class='code'>week</td><td>Dates are output as Year, Week number and Day of week.</td><td class='example'>rules iso8601 week;</td><td>1948-W38-7</td></tr>
+<tr><td class='code'>ordinal</td><td>Dates are output as Year and Day of year.</td><td class='example'>rules iso8601 ordinal;</td><td>1948-263</td></tr>
+<tr><td rowspan='2'>Extended</td><td class='code'>extended</td><td>Dates are output with '-' (hyphen) separators between the elements. Default</td><td class='example'>rules iso8601 extended;</td><td>1948-09-19</td></tr>
+<tr><td class='code'>basic</td><td>Dates are output without any separators between the elements.</td><td class='example'>rules iso8601 basic;</td><td>19480919</td></tr>
+<tr><td rowspan='3'>Expanded Year</td><td class='code'>year4</td><td>Year is input and output as 4 positive digits without a leading '+'. Default</td><td class='example'>rules iso8601 year;</td><td>1948-09-19</td></tr>
+<tr><td class='code'>year5</td><td>Year are input and output as 5 digits with a leading '+' or '-'.</td><td class='example'>rules iso8601 year5;</td><td>+01948-09-19</td></tr>
+<tr><td class='code'>year6</td><td>Year are input and output as 6 digits with a leading '+' or '-'.</td><td class='example'>rules iso8601 year6;</td><td>+001948-09-19</td></tr>
+<tr><td rowspan='3'>Sign Prefix</td><td class='code'>nosign</td><td>Year is positive without a leading '+'. Default</td><td class='example'>rules iso8601 nosign;</td><td>1948-09-19</td></tr>
+<tr><td class='code'>minus</td><td>Negative years have a leading '-'.</td><td class='example'>rules iso8601 minus;</td><td>1948-09-19</td></tr>
+<tr><td class='code'>sign</td><td>Year has a leading '+' or '-'.</td><td class='example'>rules iso8601 sign;</td><td>+1948-09-19</td></tr>
+<tr><td>Date Set</td><td class='code'>dateset</td><td>Date is output as a Set of Ranges</td><td class='example'>rules iso8601 dateset;</td><td>[1948-09-19]</td></tr>
+</table>
+<p>
+ The switches for each group may be mixed and matched as required.
+ The order of the switches is not significant,
+ except if rules are contradictory then the value to the right has precedence. 
+</p>
+
+<h3 id='rules-text'>Format Sub-Statement: rules text</h3>
+<p>
+ The text format rule uses a format string to control the order and style of the text being read or written.
+ Since this is the default rule, there is no need to explicitly state it.
+</p>
+
+<table class='basic'>
+<tr><th colspan='3'>Format Sub-Statements used with rules text</th></tr>
+<tr><th>Statement</th><th>Example</th><th>Note</th></tr>
+<tr><td class='code'><b>inout</b> <i>format-string</i>;</td><td class='example'><b>inout</b> "(Day) |(Month:m:a) |(Year)";</td><td>Format string used for both input and output.</td></tr>
+<tr><td class='code'><b>strict</b> <i>format-string</i>;</td><td class='example'><b>strict</b> "(Year::lp:04)|-(Month::lp:02)|-(Day::lp:02)";</td><td>Format string used for both input and output, input includes the inter-field text.</td></tr>
+<tr><td class='code'><b>input</b> <i>format-string</i>;</td><td class='example'><b>input</b> "(Day) |(Month) |(Year)";</td><td>Format string used for just input.</td></tr>
+<tr><td class='code'><b>output</b> <i>format-string</i>;</td><td class='example'><b>output</b> "(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";</td><td>Format string used for just output.</td></tr>
+<tr><td class='code'><b>separators</b> <i>string-expr</i>;</td><td class='example'><b>separators</b> "-";</td><td>Characters to be used to separate date elements. Default is ":,".</td></tr>
+<tr><td class='code'><b>rank</b> <i>string-list</i>;</td><td class='example'><b>rank</b> "ce", "ceyear", "month", "day";</td><td>Set the significance order for input and output fields.</td></tr>
+<tr><td class='code'><b>rankout</b> <i>string-list</i>;</td><td class='example'><b>rankout</b> year, nmonth, nmday, cday;</td><td>Set the significance order for output fields only.</td></tr>
+<tr><td class='code'><b>style</b> <i>switch</i>;</td><td class='example'><b>style</b> hide;</td><td>Set the style for the format.</td></tr>
+</table>
+
+<p>
+ The format definition must contain either the
+ <code><b>inout</b></code>, <code><b>strict</b></code> or,
+ one or both of the <code><b>input</b></code> and <code><b>output</b></code> sub-statements.
+ All these statements use the <i>format-string</i> to describe
+ how text is to be interpreted as a date
+ and/or how a date is to output as text.
+</p>
+
+<p>
+ For input text, the format describes the expected order of the elements.
+ The exact form of those elements (digits or text) is not important.
+ If the number of elements is less than the format's,
+ then the lest significant field or fields are removed from the format.
+ A fields significance is determined by its ranking order. 
  For example:-
 </p>
 <table class='code'>
-<tr><td class='compact'>format dmy "(Day) |(Month:m.a) |(Year)";</td></tr>
+<tr><td class='compact'>"(Month) |(Day) |(Year)"</td></tr>
 </table>
 <p>
- In this example, the date has been divided into 3 elements,
- separated by the '|' character.
+ In this example with a ranking of <code>Year, Month, Day</code>
+ and 3 values input, the 1st value is assigned to the <code>Year</code> field,
+ the 2nd to the <code>Month</code> and 3rd to the <code>Year</code>
 </p>
+<p>
+ If only 2 values are input, the 1st 
+</p>
+
 <p>
  For input text, the format describes the expected order of the elements.
  The exact form of those elements (digits or text) is not important.
@@ -96,169 +259,14 @@
 <tr><td>Just ordinal suffix</td><td class='code'>(<i>Name</i>::oa)<br />(<i>Name</i>::oa:u)</td><td class='example'>(Month)_(Month::oa)<br />(Month)_(Month::oa:u)</td><td>9_th<br />9_TH</td></tr>
 <tr><td>Number, Roman numerals</td><td class='code'>(<i>Name</i>::rn)<br />(<i>Name</i>::rn:l)</td><td class='example'>(Month::rn)<br />(Month::rn:l)</td><td>IX<br />ix</td></tr>
 </table>
-<p>
- More complex format descriptions can be described using a block of sub-statements.
-</p>
 
-<h3>Sub-Statements</h3>
-<p>
- A format statement may contain of one or more of the following sub-statements:-
-</p>
-<table class='basic'>
-<tr><th colspan='4'>Sub-Statement List</th></tr>
-<tr><th>Sub-Statement</th><th>Use</th><th>Example</th><th>Default</th></tr>
-<tr><td class='code'>rules</td><td>Define the rules used to interpret the format.</td><td class='example'>rules iso8601;</td><td class='example'>rules text;</td></tr>
-<tr><td class='code'>inout</td><td>Format string used for both input and output.</td><td class='example'>inout "(Day) |(Month:m:a) |(Year)";</td><td>See below.</td></tr>
-<tr><td class='code'>strict</td><td>Format string used for both input and output, input includes the inter-field text.</td><td class='example'>strict "(Year::lp:04)|-(Month::lp:02)|-(Day::lp:02)";</td><td></td></tr>
-<tr><td class='code'>input</td><td>Format string used for just input.</td><td class='example'>input "(Day) |(Month) |(Year)";</td><td>Use inout sub-statement.</td></tr>
-<tr><td class='code'>output</td><td>Format string used for just output.</td><td class='example'>output "(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";</td><td>Use inout sub-statement.</td></tr>
-<tr><td class='code'>separators</td><td>Characters to be used to separate date elements.</td><td class='example'>separators "-";</td><td class='example'>separators ":,";</td></tr>
-<tr><td class='code'>rank</td><td>Set the significance order for input and output fields.</td><td class='example'>rank "ce", "ceyear", "month", "day";</td><td>Use default order.</td></tr>
-<tr><td class='code'>rankout</td><td>Set the significance order for output fields only.</td><td class='example'>rankout year, nmonth, nmday, cday;</td><td>Use default order.</td></tr>
-<tr><td class='code'>significant</td><td>Set the significant number of fields required.</td><td class='example'>significant 4;</td><td>Number of non-optional or ranking fields.</td></tr>
-</table>
-
-<h3>Sub-Statement: rules</h3>
-<p>
- The method of using a text format string, as described above, is the predominant one
- but it is possible to replace this with other methods.
- Two alternatives currently exist,
- a units base system and a system based on the ISO 8601 standard and its proposed extension.
-</p>
-<p>
- The method is selected using the <b>rules</b> sub-statement.
-</p>
-<table class='basic'>
-<tr><th colspan='2'>rules Sub-Statements</th></tr>
-<tr><th>Sub-Statement</th><th>Use</th></tr>
-<tr><td class='code'>rules text</td><td>Use a text string to define the date. The default value.</td></tr>
-<tr><td class='code'>rules units</td><td>Use value, unit pairs to define the date, or date elements.</td></tr>
-<tr><td class='code'>rules iso8601</td><td>Use the ISO 8601 standard to define a Gregorian date.</td></tr>
-</table>
-
-<h4>Sub-Statement: rules text</h4>
-<p>
- Since this is the default method, there is no need to explicitly use it.
- It is included for completeness only.
-</p>
-<p>
- It should be noted that, currently,
- all the other sub-statements are meaningful only in connection with this rule. 
-</p>
-
-<h4>Sub-Statement: rules units</h4>
-<p>
- A units format is one where a date (or parts of a date) is written as a sequence of value, unit pairs.
- Since the pair is self contained, they may be placed in any order.
-</p>
-<p>
- The unit name can be any field name from the schemes record,
- and the value will be placed into that field.
- The field name can be replaced with an alias provided by the owning grammars,
- either the <b>alias unit</b> or the <b>alias field</b> sub-statements.
-</p>
-<p>
- A units format may be created automatically using the "u" format code.
- This can be used as follows.
-</p>
-<table class='basic'>
-<tr><th>Example</th><th>Result</th></tr>
-<tr><td class='example'>date,g:u "9month1948year19day"</td><td>2432814</td></tr> <!-- see suite/expressions/date004.hcs -->
-<tr><td class='example'>date,g:u "1948y 19d 9m"</td><td>2432814</td></tr> <!-- see suite/expressions/date013.hcs -->
-<tr><td class='example'>record,g:u "9 Month"</td><td>{"g", ?, 9, ?, ?}</td></tr> <!-- see suite/expressions/record008.hcs -->
-<tr><td class='example'>string,g:u 2432814</td><td>"1948y 9m 19d"</td></tr> <!-- see suite/expressions/string010.hcs -->
-</table>
-<p>
- Note, this aspect of the language is still being actively developed.
- Since the units format has no options (at present)
- and can be created for any scheme using the "u" format code,
- there is no need to explicitly use it.
- It is included for completeness and future development only.
-</p>
-
-<h4>Sub-Statement: rules iso8601</h4>
-<p>
- Although it is possible to input and output dates conforming to the common parts of the ISO 8601 standard,
- full implementation requires its own format sub-system.
- This is achieved with the <b>rules iso8601</b> sub-statement.
- This method can only be used with the Gregorian calendar schemes.
-</p>
-<p>
- Various optional parts of the standard can be activated using a number of switches following the <b>rules</b> sub-statement.
- these can be broken down into a number of groups as follows.
-</p>
-<table class='basic'>
-<tr><th colspan='5'>Sub-Statement List</th></tr>
-<tr><th>Group</th><th>Switch</th><th>Description</th><th>Example</th><th>Output</th></tr>
-<tr><td rowspan='3'>Style</td><td class='code'>calendar</td><td>Dates are treated as Year, Month and Day of month. Default</td><td class='example'>rules iso8601 calendar;</td><td>1948-09-19</td></tr>
-<tr><td class='code'>week</td><td>Dates are output as Year, Week number and Day of week.</td><td class='example'>rules iso8601 week;</td><td>1948-W38-7</td></tr>
-<tr><td class='code'>ordinal</td><td>Dates are output as Year and Day of year.</td><td class='example'>rules iso8601 ordinal;</td><td>1948-263</td></tr>
-<tr><td rowspan='2'>Extended</td><td class='code'>extended</td><td>Dates are output with '-' (hyphen) separators between the elements. Default</td><td class='example'>rules iso8601 extended;</td><td>1948-09-19</td></tr>
-<tr><td class='code'>basic</td><td>Dates are output without any separators between the elements.</td><td class='example'>rules iso8601 basic;</td><td>19480919</td></tr>
-<tr><td rowspan='4'>Expanded Year</td><td class='code'>year</td><td>Year is input and output as 4 positive digits without a leading '+'. Default</td><td class='example'>rules iso8601 year;</td><td>1948-09-19</td></tr>
-<tr><td class='code'>year4</td><td>Year are input and output as 4 digits with a leading '+' or '-'.</td><td class='example'>rules iso8601 year4;</td><td>+1948-09-19</td></tr>
-<tr><td class='code'>year5</td><td>Year are input and output as 5 digits with a leading '+' or '-'.</td><td class='example'>rules iso8601 year5;</td><td>+01948-09-19</td></tr>
-<tr><td class='code'>year6</td><td>Year are input and output as 6 digits with a leading '+' or '-'.</td><td class='example'>rules iso8601 year6;</td><td>+001948-09-19</td></tr>
-<tr><td rowspan='2'>Year Length Error</td><td class='code'>error</td><td>The string "Year length error." is output. Default</td><td class='example'>rules iso8601 error;</td><td>1948-09-19</td></tr>
-<tr><td class='code'>auto</td><td>The year width is extended and output with a leading '+' or '-'.</td><td class='example'>rules iso8601 auto;</td><td>1948-09-19</td></tr>
-</table>
-<p>
- The switches for each group may be mixed and matched as required.
- After the the initial <b>rules iso8601</b>, the order of the switches is not important. 
-</p>
-
-<h3>Sub-Statement: inout</h3>
-<p>
- The inout sub-statement is equivalent to using a format statement without the braces block.
- So:-
-</p>
-<table class='code'>
-<tr><td class='compact'>format x:dmy "(Day) |(Month:m:a) |(Year)";</td></tr>
-</table>
-<p>
- is the same as:-
-</p>
-<table class='code'>
-<tr><td class='compact'>format x:dmy {
-    inout "(Day) |(Month:m:a) |(Year)"; 
-}</td></tr>
-</table>
-<p class='clear'>
- The text format string is as described above.
-</p>
-
-<h3>Sub-Statement: strict</h3>
-<p>
- This sub-statement is currently under development.
-</p>
-<p>
- At this time the only difference between the <b>strict</b> and <b>inout</b>
- statements is that strict will include the inter-field text from the format string
- when the "user input order" string is requested. 
-</p>
-
-<h3>Sub-Statement: input</h3>
-<p>
- As the <b>inout</b> sub-statement except the format text string can be selected and used only for input.
-</p>
-
-<h3>Sub-Statement: output</h3>
-<p>
- As the <b>inout</b> sub-statement except the format text string can be  selected and used only for output.
-</p>
-<p>
- If the format is intended to be reversible, then this will be accompanied with a matching <b>input</b> sub-statement.
- See the <a href='../defs/fr.htm'>French Republican default grammar</a> script for an example.
- If it used by itself then it creates a non-reversible format. 
-</p>
-
-<h3>Sub-Statement: separators</h3>
+<h3>Format Sub-Statement: separators</h3>
 <p>
  When inputting a date, by default the characters used to separate date elements are '<b>,</b>' and '<b>;</b>'.
  This sub-statement allows a change to the default.
 </p>
 
-<h3>Sub-Statement: rank</h3>
+<h3>Format Sub-Statement: rank</h3>
 <p>
  Rank is the order of the separate elements of a record that is used when an incomplete
  or range short-cut is used.
@@ -269,19 +277,24 @@
  If not given, the rank order is that stated by the <b>grammar</b> or the same as the default order.
 </p>
 
-<h3>Sub-Statement: rankout</h3>
+<h3>Format Sub-Statement: rankout</h3>
 <p>
  The same as the <b>rank</b> sub-statement but it only affects the output of a format.
  It is used when separate <b>input</b> and <b>output</b> sub-statements are used.
 </p>
 
-<h3>Sub-Statement: significant</h3>
+<h3>Format Sub-Statement: style</h3>
 <p>
- The significant number of fields required to fully specify all dates for a given format.
- By default, this is the same as the number of non-optional fields in a record,
- or, if fields are separately ranked, then it is the number of ranked fields.
+ Set style attributes for the Format.
+ The default is style none.
 </p>
-
+<table class='basic'>
+ <tr><th colspan='2'>style Sub-Statement</th></tr>
+ <tr><th>Description</th><th>Switch</th></tr>
+ <tr><td>No style settings.</td><td class='code'>style none;</td></tr>
+ <tr><td>Do not show the format in the format list.</td><td class='code'>style hide;</td></tr>
+</table>
+    
 
 </div><!--id=content-->
 
