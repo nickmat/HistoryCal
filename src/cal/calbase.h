@@ -180,7 +180,7 @@ namespace Cal {
         Grammar* get_grammar() const;
         Format* get_format( const std::string& fcode ) const;
 
-        void set_grammar( Grammar* grammar );
+        bool attach_grammar( Grammar* gmr );
         void set_input_fcode( const std::string& code ) { m_input_fcode = code; }
         void set_output_fcode( const std::string& code ) { m_output_fcode = code; }
 
@@ -220,7 +220,7 @@ namespace Cal {
         unsigned get_valid_field_bitmap( const Field* fields ) const;
 
     private:
-        void create_default_grammar() const;
+        std::string create_def_format_control();
 
         static const char* s_ymd_fieldnames[];
         static size_t s_sizeof_ymd_fieldnames;

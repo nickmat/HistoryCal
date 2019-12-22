@@ -2,22 +2,19 @@
 
 writeln "";
 
-mark "test-easter";
-clear;
-
 let start = 1950;
 let finish = 1955;
 
 scheme J_EASTER {
   name "Julian Easter Test";
   base julian;
-  optional easter;
+  grammar { optional easter; }
 }
 
 scheme G_EASTER {
   name "Gregorian Easter Test";
   base gregorian;
-  optional easter;
+  grammar { optional easter; }
 }
 
 writeln "Easter Sunday for years " + start + " to " + finish + ":";
@@ -33,7 +30,6 @@ do
   start += 1;
 loop
 
-clear "test-easter";
 
 /*[OUTPUT]
 

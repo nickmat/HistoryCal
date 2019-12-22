@@ -260,13 +260,6 @@ bool Hybrid::set_fields_as_next_last( Field* fields, const Field* mask ) const
             }
         }
     }
-    // Finally, try setting to the end of block
-    Field sch = fields[0] + 1;
-    if( sch < (Field) m_data.size() ) {
-        Record rec( m_data[sch].base, m_data[sch].start - 1 );
-        set_hybrid_fields( fields, rec.get_field_ptr(), sch );
-        return true;
-    }
     return false;
 }
 

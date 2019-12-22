@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2018, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -116,6 +116,8 @@ namespace Cal {
         StringVec vocab_names;
     };
 
+    enum Format_style { FMT_STYLE_Default, FMT_STYLE_Hide };
+
     struct PCode {
         std::string code;
         int priority;
@@ -134,14 +136,15 @@ namespace Cal {
     enum FormatType { FT_null, FT_text, FT_unit, FT_iso };
 
     struct Format_info {
-        Format_info() : type(FT_null), priority(0) {}
+        Format_info() : type(FT_null), priority(0), style(FMT_STYLE_Default) {}
 
-        std::string code;
-        FormatType  type;
-        std::string gmr_code;
-        std::string input_str;
-        std::string output_str;
-        int         priority;
+        std::string  code;
+        FormatType   type;
+        std::string  gmr_code;
+        std::string  input_str;
+        std::string  output_str;
+        int          priority;
+        Format_style style;
     };
 
     struct FormatText_info {

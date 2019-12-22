@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     19th September 2013
- * Copyright:   Copyright (c) 2013 ~ 2018, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2019, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -95,6 +95,10 @@ namespace Cal {
         Function* get_function( const std::string& code ) const;
         void add_or_replace_mark( const std::string& name );
         bool clear_mark( const std::string& name );
+        void set_ischeme( Scheme* sch );
+        void set_oscheme( Scheme* sch );
+        Scheme* get_ischeme() const;
+        Scheme* get_oscheme() const;
         ScriptStore* get_store() const { return m_store; }
         void push_store();
         bool pop_store();

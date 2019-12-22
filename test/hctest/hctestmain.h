@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     20th June 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2019, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCalTest is free software: you can redistribute it and/or modify
@@ -30,6 +30,10 @@
 
 #include <string>
 #include <vector>
+
+
+enum CheckFile { CF_none, CF_file, CF_dir };
+CheckFile check_file( const std::string& name );
 
 void get_filenames( std::vector<std::string>& vec, const std::string& path );
 

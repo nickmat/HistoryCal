@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     7th May 2014
- * Copyright:   Copyright (c) 2014 ~ 2018, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2019, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -31,6 +31,7 @@
 #include "calelement.h"
 #include "calformatiso.h"
 #include "calformattext.h"
+#include "calformatunit.h"
 #include "calfunction.h"
 #include "calgrammar.h"
 #include "calgregorian.h"
@@ -332,18 +333,18 @@ bool Script::do_set()
     SHandle sch = m_cals->get_scheme( scheme );
     if( sch ) {
         if ( prop == "input" ) {
-            store()->set_ischeme( sch );
+            m_cals->set_ischeme( sch );
             if ( !format.empty() ) {
                 m_cals->set_input_format( sch, format );
             }
         } else if ( prop == "output" ) {
-            store()->set_oscheme( sch );
+            m_cals->set_oscheme( sch );
             if ( !format.empty() ) {
                 m_cals->set_output_format( sch, format );
             }
         } else if ( prop == "inout" ) {
-            store()->set_ischeme( sch );
-            store()->set_oscheme( sch );
+            m_cals->set_ischeme( sch );
+            m_cals->set_oscheme( sch );
             if ( !format.empty() ) {
                 m_cals->set_input_format( sch, format );
                 m_cals->set_output_format( sch, format );
@@ -453,11 +454,11 @@ SHandle Script::do_create_scheme( const std::string& code )
 {
     if( m_ts.current().type() != SToken::STT_LCbracket ) {
         error( "'{' expected." );
-        return NULL;
+        return nullptr;
     }
-    Base* base = NULL;
+    Base* base = nullptr;
     string name, gmr_code;
-    StringVec optfields;
+    Grammar* gmr = nullptr;
     Scheme_style style = SCH_STYLE_Default;
     for(;;) {
         SToken token = m_ts.next();
@@ -479,10 +480,15 @@ SHandle Script::do_create_scheme( const std::string& code )
                 base = do_base_hybrid();
             } else if( token.get_str() == "regnal" ) {
                 base = do_base_regnal();
-            } else if( token.get_str() == "optional" ) {
-                optfields = get_string_list( true );
             } else if( token.get_str() == "grammar" ) {
-                gmr_code = get_name_or_primary( true );
+                token = m_ts.next();
+                if ( token.type() == SToken::STT_LCbracket ) {
+                    gmr = m_cals->create_grammar( "" );
+                    do_anon_grammar( gmr );
+                } else {
+                    gmr_code = get_name_or_primary( false );
+                    gmr = m_cals->get_grammar( gmr_code );
+                }
             } else if( token.get_str() == "style" ) {
                 string str = get_name_or_primary( true );
                 if ( str == "hide" ) {
@@ -490,17 +496,30 @@ SHandle Script::do_create_scheme( const std::string& code )
                 } else if ( str != "none" ) {
                     error( "Style name expected." );
                 }
+            } else {
+                error( "Scheme sub-statement expected." );
             }
         }
     }
-    if( base == NULL ) {
+    if( base == nullptr ) {
+        if ( gmr_code.empty() ) {
+            delete gmr;
+        }
         error( "Scheme not created." );
-        return NULL;
+        return nullptr;
     }
-    for( size_t i = 0 ; i < optfields.size() ; i++ ) {
-        base->add_opt_field( optfields[i] );
+    if ( gmr == nullptr ) {
+        gmr = m_cals->create_grammar( "" );
     }
-    base->set_grammar( m_cals->get_grammar( gmr_code ) );
+    if ( !base->attach_grammar( gmr ) ) {
+        if ( gmr_code.empty() ) {
+            delete gmr;
+        }
+        delete base;
+        error( "Unable to attach grammar." );
+        return nullptr;
+    }
+    
     SHandle sch = new Scheme( name, base );
     sch->set_style( style );
     sch->set_code( code );
@@ -807,50 +826,60 @@ bool Script::do_vocab_tokens( Vocab* voc )
 bool Script::do_grammar()
 {
     string code = get_name_or_primary( true );
-    if( code.empty() ) {
+    if ( code.empty() ) {
         error( "Grammar code missing." );
         return false;
     }
-    if( m_cals->get_grammar( code ) != NULL ) {
+    if ( m_cals->get_grammar( code ) != NULL ) {
         error( "grammar \"" + code + "\" already exists." );
         return false;
     }
-    if( m_ts.current().type() != SToken::STT_LCbracket ) {
+    if ( m_ts.current().type() != SToken::STT_LCbracket ) {
         error( "'{' expected." );
         return false;
     }
     Grammar* gmr = m_cals->create_grammar( code );
+    if ( !gmr ) {
+        return false;
+    }
+    return do_anon_grammar( gmr );
+}
+
+bool Script::do_anon_grammar( Grammar* gmr )
+{
     string str;
-    for(;;) {
+    for ( ;;) {
         SToken token = m_ts.next();
-        if( token.type() == SToken::STT_LCbracket ) {
-            continue; 
-        } else if( token.type() == SToken::STT_RCbracket ||
+        if ( token.type() == SToken::STT_LCbracket ) {
+            continue;
+        } else if ( token.type() == SToken::STT_RCbracket ||
             token.type() == SToken::STT_End ) {
             break; // All done.
-        } else if( token.type() == SToken::STT_Name ) {
+        } else if ( token.type() == SToken::STT_Name ) {
             string name = token.get_str();
-            if( name == "vocabs" ) {
+            if ( name == "vocabs" ) {
                 do_grammar_vocabs( gmr );
-            } else if( name == "format" ) {
+            } else if ( name == "format" ) {
                 do_format( gmr );
-            } else if( name == "pref" ) {
+            } else if ( name == "pref" ) {
                 str = get_name_or_primary( true );
                 gmr->set_pref( str );
             } else if ( name == "element" ) {
                 do_grammar_element( gmr );
             } else if ( name == "alias" ) {
                 do_grammar_alias( gmr );
-            } else if( name == "inherit" ) {
+            } else if ( name == "inherit" ) {
                 str = get_name_or_primary( true );
                 gmr->set_inherit( str );
-            } else if( name == "optional" ) {
+            } else if ( name == "optional" ) {
                 StringVec optfields = get_string_list( true );
                 gmr->set_opt_fieldnames( optfields );
-            } else if( name == "rank" ) {
+            } else if ( name == "rank" ) {
                 StringVec rankfields = get_string_list( true );
                 gmr->set_rank_fieldnames( rankfields );
             }
+        } else {
+            error( "Grammar sub-statement expected." );
         }
     }
     return true;
@@ -948,6 +977,7 @@ bool Script::do_format( Grammar* gmr )
     string format, informat, separators;
     FormatText::Use usefor = FormatText::Use_inout;
     StringVec rankfields, rankoutfields, rules;
+    Format_style style = FMT_STYLE_Default;
     string code = get_name_or_primary( true );
     if( code.empty() ) {
         error( "Format code missing." );
@@ -983,9 +1013,16 @@ bool Script::do_format( Grammar* gmr )
                 } else if ( name == "rankout" ) {
                     rankoutfields = get_string_list( true );
                     continue;
-                } else if( name == "rules" ) {
+                } else if ( name == "rules" ) {
                     rules = get_string_list( true );
                     continue;
+                } else if(name == "style" ) {
+                    string str = get_name_or_primary( true );
+                    if ( str == "hide" ) {
+                        style = FMT_STYLE_Hide;
+                    } else if ( str != "none" ) {
+                        error( "Style name expected." );
+                    }
                 } else {
                     error( "Expected format sub-statement." );
                     continue;
@@ -1008,37 +1045,39 @@ bool Script::do_format( Grammar* gmr )
         }
     }
 
+    Format* fmt = nullptr;
     if( rules.empty() || rules[0] == "text" ) {
         if( format.empty() ) {
             error( "Format string not found." );
             return false;
         }
-        FormatText* fmt = m_cals->create_format_text( code, gmr );
-        if( fmt == nullptr ) {
+        FormatText* fmtt = m_cals->create_format_text( code, gmr );
+        if( fmtt == nullptr ) {
             error( "Unable to create format." );
             return false;
         }
         if( separators.size() ) {
-            fmt->set_separators( separators );
+            fmtt->set_separators( separators );
         }
         if ( rankfields.size() ) {
-            fmt->set_rank_fieldnames( rankfields );
+            fmtt->set_rank_fieldnames( rankfields );
         }
         if ( rankoutfields.size() ) {
-            fmt->set_rankout_fieldnames( rankoutfields );
+            fmtt->set_rankout_fieldnames( rankoutfields );
         }
-        fmt->set_control( format, usefor );
+        fmtt->set_control( format, usefor );
         if( informat.size() ) {
-            fmt->set_control( informat, FormatText::Use_input );
+            fmtt->set_control( informat, FormatText::Use_input );
         }
+        fmt = fmtt;
     } else if ( rules[0] == "iso8601" ) {
-        FormatIso* fmt = m_cals->create_format_iso( code, gmr, rules );
+        fmt = m_cals->create_format_iso( code, gmr, rules );
         if ( fmt == nullptr ) {
             error( "Unable to create ISO format." );
             return false;
         }
     } else if ( rules[0] == "units" ) {
-        FormatUnit* fmt = m_cals->create_format_unit( code, gmr );
+        fmt = m_cals->create_format_unit( code, gmr );
         if ( fmt == nullptr ) {
             error( "Unable to create Units format." );
             return false;
@@ -1047,6 +1086,7 @@ bool Script::do_format( Grammar* gmr )
         error( "Unknown rules statement." );
         return false;
     }
+    fmt->set_style( style );
     return true;
 }
 
@@ -1453,23 +1493,21 @@ SValue Script::get_record( bool get )
     SToken token = get ? m_ts.next() : m_ts.current();
     string scode;
     if ( token.type() == SToken::STT_Comma ) {
-        scode = store()->get_ischeme()->get_code();
+        Scheme* sch = m_cals->get_ischeme();
+        if ( sch ) {
+            scode = sch->get_code();
+        }
     } else {
         scode = get_name_or_primary( false );
     }
     FieldVec fields;
     token = m_ts.current();
-    bool field_err = false;
-    SValue err_value;
 
     for(;;) {
         switch( token.type() )
         {
         case SToken::STT_End:
         case SToken::STT_RCbracket:
-            if ( field_err ) {
-                return err_value;
-            }
             return SValue( scode, fields );
         case SToken::STT_Comma:
             break;
@@ -1480,10 +1518,7 @@ SValue Script::get_record( bool get )
                 if ( value.get( field ) ) {
                     fields.push_back( field );
                 } else {
-                    if ( !field_err ) {
-                        err_value = value;
-                    }
-                    field_err = true;
+                    return value;
                 }
             }
             token = m_ts.current();
@@ -1503,7 +1538,7 @@ SValue Script::do_subscript( const SValue& left, const SValue& right )
             split_code( &scode, &fname, right.get_str() );
             if ( fname.empty() ) {
                 fname = scode;
-                sch = store()->get_ischeme();
+                sch = m_cals->get_ischeme();
             } else {
                 sch = m_cals->get_scheme( scode );
             }
@@ -1535,7 +1570,7 @@ SValue Script::do_subscript( const SValue& left, const SValue& right )
 SValue Script::str_cast()
 {
     SToken token = m_ts.next();
-    SHandle sch = NULL;
+    SHandle sch = nullptr;
     string sig, scode, fcode;
     if( token.type() == SToken::STT_Comma ) {
         // Includes scheme:format signiture
@@ -1548,7 +1583,7 @@ SValue Script::str_cast()
     if( value.type() == SValue::SVT_Record ) {
         SHandle r_sch = m_cals->get_scheme( value.get_record_scode() );
         rlist = m_cals->fieldvec_to_rlist( r_sch, value.get_record() );
-        if( sch == NULL ) {
+        if( sch == nullptr ) {
             sch = r_sch;
         }
     } else {
@@ -1558,8 +1593,12 @@ SValue Script::str_cast()
             return value;
         }
     }
-    if( sch == NULL ) {
-        sch = store()->get_oscheme();
+    if( sch == nullptr ) {
+        sch = m_cals->get_oscheme();
+        if ( sch == nullptr ) {
+            value.set_error( "No default scheme set." );
+            return value;
+        }
     }
     value.set_str( m_cals->rangelist_to_str( sch, rlist, fcode ) );
     return value;
@@ -1568,7 +1607,7 @@ SValue Script::str_cast()
 SValue Script::date_cast()
 {
     SToken token = m_ts.next();
-    SHandle sch = NULL;
+    SHandle sch = nullptr;
     string sig, scode, fcode;
     if( token.type() == SToken::STT_Comma ) {
         // Includes scheme:format signiture
@@ -1578,13 +1617,21 @@ SValue Script::date_cast()
     }
     SValue value = primary( false );
     if( value.type() == SValue::SVT_Str ) {
-        if( sch == NULL ) {
-            sch = store()->get_ischeme();
+        if( sch == nullptr ) {
+            sch = m_cals->get_ischeme();
+            if ( sch == nullptr ) {
+                value.set_error( "No default scheme set." );
+                return value;
+            }
         }
         value.set( m_cals->str_to_rangelist( sch, value.get_str(), fcode ) );
     } else if( value.type() == SValue::SVT_Record ) {
         scode = value.get_record_scode();
         sch = m_cals->get_scheme( scode );
+        if ( sch == nullptr ) {
+            value.set_error( "No default scheme set." );
+            return value;
+        }
         value.set( m_cals->fieldvec_to_rlist( sch, value.get_record() ) );
     } else {
         value.set_error( "Expected string or record type." );
@@ -1595,7 +1642,7 @@ SValue Script::date_cast()
 SValue Script::record_cast()
 {
     SToken token = m_ts.next();
-    SHandle sch = NULL;
+    SHandle sch = nullptr;
     string sig, scode, fcode;
     if( token.type() == SToken::STT_Comma ) {
         // Includes scheme:format signiture
@@ -1604,8 +1651,12 @@ SValue Script::record_cast()
         sch = m_cals->get_scheme( scode );
     }
     SValue value = primary( false );
-    if( sch == NULL ) {
-        sch = store()->get_ischeme();
+    if( sch == nullptr ) {
+        sch = m_cals->get_ischeme();
+        if ( sch == nullptr ) {
+            value.set_error( "No default scheme set." );
+            return value;
+        }
         scode = sch->get_code();
     }
     if( scode.empty() ) {
@@ -1760,5 +1811,6 @@ SValue Script::get_value_var( const string& name )
     value.set_error( "Variable \"" + name + "\" not found." );
     return value;
 }
+
 
 // End of src/cal/calscript.cpp file

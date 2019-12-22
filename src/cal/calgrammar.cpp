@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     13th November 2013
- * Copyright:   Copyright (c) 2013 ~ 2018, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2019, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -275,7 +275,7 @@ Format* Grammar::get_format( const string& code ) const
 {
     FormatMap::const_iterator it = m_formats.find( code );
     if( it == m_formats.end() ) {
-        if( m_inherit ) {
+        if( m_inherit &&  code != "def" && code != "u" ) {
             return m_inherit->get_format( code );
         }
         return NULL;
@@ -407,6 +407,9 @@ void Grammar::get_format_info( SchemeFormatInfo* info, const string& cur_code, I
     // TODO: Adjust priority for inherited grammars.
     for( FormatMap::const_iterator it = m_formats.begin() ; it != m_formats.end() ; it++ ) {
         Format* fmt = it->second;
+        if ( fmt->get_style() == FMT_STYLE_Hide ) {
+            continue;
+        }
         string str = type == INPUT_INFO ? fmt->get_user_input_str() : fmt->get_user_output_str();
         if( str.empty() ) {
             continue;

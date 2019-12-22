@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     19th September 2013
- * Copyright:   Copyright (c) 2013 ~ 2018, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2019, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -383,6 +383,9 @@ bool Calendars::add_scheme( SHandle sch, const string& code )
 Grammar* Calendars::create_grammar( const string& code )
 {
     Grammar* gmr = new Grammar( code, this );
+    if ( code.empty() ) {
+        return gmr;
+    }
     assert( m_marks.size() > 0 );
     m_marks[m_marks.size()-1]->add_grammar( gmr );
     m_grammars[code] = gmr;
@@ -576,6 +579,40 @@ bool Calendars::clear_mark( const string& name )
         m_marks.pop_back();
     }
     return true;
+}
+
+void Calendars::set_ischeme( Scheme* sch )
+{
+    int i = int( m_marks.size() ) - 1;
+    if ( i >= 0 ) {
+        m_marks[i]->set_ischeme( sch );
+    }
+}
+
+void Calendars::set_oscheme( Scheme* sch )
+{
+    int i = int( m_marks.size() ) - 1;
+    if ( i >= 0 ) {
+        m_marks[i]->set_oscheme( sch );
+    }
+}
+
+Scheme* Calendars::get_ischeme() const
+{
+    Scheme* sch = nullptr;
+    for ( int i = int( m_marks.size() ) - 1; i >= 0 && sch == nullptr; --i ) {
+        sch = m_marks[i]->get_ischeme();
+    }
+    return sch;
+}
+
+Scheme* Calendars::get_oscheme() const
+{
+    Scheme* sch = nullptr;
+    for ( int i = int( m_marks.size() ) - 1; i >= 0 && sch == nullptr; --i ) {
+        sch = m_marks[i]->get_oscheme();
+    }
+    return sch;
 }
 
 void Calendars::push_store()

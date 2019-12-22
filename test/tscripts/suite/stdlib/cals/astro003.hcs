@@ -1,11 +1,9 @@
 // astro.hcs  Test the Astronomy calendar.
 
-mark "astro-test";
-
 scheme astro {
   name "Astronomy Day Calendar";
-  base jdn "loc:40.7:-74.0"; // New York
-  optional nequinox, nsolstice, sequinox, ssolstice;
+  base jdn "loc:55.7:37.6"; // Moscow
+  grammar { optional nequinox, nsolstice, sequinox, ssolstice; }
 }
 
 let d = date {g, 2011, 1, 1};
@@ -36,12 +34,11 @@ let ss = string,g:dmy (d[astro:ssolstice]);
 
 writeln ne + ", " + ns + ", " + se + ", " + ss;
 
-clear "astro-test";
 
 /*[OUTPUT]
 
-20 Mar 2011, 21 Jun 2011, 23 Sep 2011, 22 Dec 2011
-20 Mar 2018, 21 Jun 2018, 22 Sep 2018, 21 Dec 2018
-19 Mar 2020, 20 Jun 2020, 22 Sep 2020, 21 Dec 2020
+21 Mar 2011, 21 Jun 2011, 23 Sep 2011, 22 Dec 2011
+20 Mar 2018, 21 Jun 2018, 23 Sep 2018, 22 Dec 2018
+20 Mar 2020, 21 Jun 2020, 22 Sep 2020, 21 Dec 2020
 
 [OUTPUT]*/

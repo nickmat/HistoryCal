@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     28th October 2014
- * Copyright:   Copyright (c) 2014 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2019, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -37,7 +37,8 @@ using namespace Cal;
 using std::string;
 using std::vector;
 
-Mark::Mark( const string& name ) : m_name(name)
+Mark::Mark( const string& name ) 
+    : m_name(name), m_ischeme( nullptr ), m_oscheme( nullptr )
 {
 }
 
@@ -54,7 +55,7 @@ Mark::~Mark()
     }
 }
 
-void Mark::add_scheme( SHandle scheme )
+void Mark::add_scheme( Scheme* scheme )
 {
     m_schemes.push_back( scheme );
 }
@@ -78,7 +79,7 @@ string Mark::remove_next_scheme()
 {
     string code;
     if( m_schemes.size() ) {
-        SHandle sch = m_schemes[m_schemes.size()-1];
+        Scheme* sch = m_schemes[m_schemes.size()-1];
         code = sch->get_code();
         delete sch;
         m_schemes.pop_back();

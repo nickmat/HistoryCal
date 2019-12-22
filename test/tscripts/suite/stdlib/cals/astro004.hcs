@@ -1,11 +1,9 @@
 // astro.hcs  Test the Astronomy calendar.
 
-mark "astro-test";
-
 scheme astro {
   name "Astronomy Day Calendar";
   base jdn;
-  optional nequinox, nsolstice, sequinox, ssolstice;
+  grammar { optional nequinox, nsolstice, sequinox, ssolstice; }
 }
 
 let d = date {g, 2011, 1, 1};
@@ -17,7 +15,6 @@ let ne1s = string,g:dmy (ne1[astro:nequinox]);
 
 write ne0s + ", " + ne1s;
 
-clear "astro-test";
 
 /*[OUTPUT]
 20 Mar 2011, 20 Mar 2012

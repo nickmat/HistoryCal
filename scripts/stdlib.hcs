@@ -24,6 +24,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 */
 
+// Add mark so default library can be removed from memory.
+mark "__:stdlib:__";
+
 // An arithmetic 'if' expression, result is 'a' if 'c' is true, or 'b' if 'c' is false.
 function if(c,a,b) { if c result=a; else result=b; endif }
 

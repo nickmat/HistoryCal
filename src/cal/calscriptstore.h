@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     17th May 2014
- * Copyright:   Copyright (c) 2014 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2019, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -40,15 +40,10 @@ namespace Cal {
     class ScriptStore {
     public:
         ScriptStore()
-            : m_ischeme( nullptr ), m_oscheme( nullptr ), m_prev( nullptr ) {}
+            : m_prev( nullptr ) {}
         ScriptStore( ScriptStore* ss )
-            : m_ischeme( ss->m_ischeme ), m_oscheme( ss->m_oscheme ), m_prev( ss ) {}
+            : m_prev( ss ) {}
 
-        void set_ischeme( Scheme* sch ) { m_ischeme = sch; }
-        void set_oscheme( Scheme* sch ) { m_oscheme = sch; }
-
-        Scheme* get_ischeme() const { return m_ischeme; }
-        Scheme* get_oscheme() const { return m_oscheme; }
         ScriptStore* get_prev() const { return m_prev; }
 
         bool exists( const std::string& name ) const { return m_table.count( name ) == 1; }
@@ -60,12 +55,12 @@ namespace Cal {
             }
             return false;
         }
-        void clear() { m_table.clear(); }
+        void clear() { 
+            m_table.clear();
+        }
 
     private:
         SValueMap m_table;
-        Scheme*   m_ischeme;
-        Scheme*   m_oscheme;
         ScriptStore* m_prev;
     };
 

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2014
- * Copyright:   Copyright (c) 2014 ~ 2018, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2019, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -38,8 +38,8 @@ Cal::ScriptModule Cal::cal_default_scripts[] = {
     { "easter", @(cp.cpp)"easter.hcs" },
     { "liturgical", @(cp.cpp)"liturgical.hcs" },
     { "ce_bce", @(cp.cpp)"ce-bce.hcs" },
-    { "english_reg", @(cp.cpp)"english_reg.hcs" },
-    { "scottish_reg", @(cp.cpp)"scottish_reg.hcs" },
+  /*  { "english_reg", @(cp.cpp)"english_reg.hcs" }, */
+  /*  { "scottish_reg", @(cp.cpp)"scottish_reg.hcs" }, */
     { "iso", @(cp.cpp)"iso.hcs" },
     { "french_rep", @(cpo.cpp)"french_rep.hcs" },
     { "hebrew", @(cpo.cpp)"hebrew.hcs" },
