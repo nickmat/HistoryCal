@@ -1,0 +1,24 @@
+// bugn2.hcs Test file to test bug
+
+// Nested if statements with else or elseif sub-statements in the inner if
+// caused the outer to exit exit early.
+
+let i = 0;
+do while i < 3
+    write " " + i;
+    if i < 3
+        if i mod 2 = 1
+            write " blue";
+        else
+            write " black";
+        endif
+    endif
+    i += 1;
+loop
+
+/*[OUTPUT]
+
+0 1311 4 10
+1 1710 2 23
+
+[OUTPUT]*/
