@@ -1,7 +1,7 @@
 // bugn2.hcs Test file to test bug
 
 // Nested if statements with else or elseif sub-statements in the inner if
-// caused the outer to exit exit early.
+// caused the outer if to exit early.
 
 let i = 0;
 do while i < 3
@@ -17,8 +17,5 @@ do while i < 3
 loop
 
 /*[OUTPUT]
-
-0 1311 4 10
-1 1710 2 23
-
+ 0 black 1 blue 2 black
 [OUTPUT]*/
