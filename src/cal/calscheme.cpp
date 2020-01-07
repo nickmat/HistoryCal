@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     20th September 2013
- * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -142,8 +142,7 @@ RangeList Scheme::fieldvec_to_rlist( const FieldVec& fieldv )
 Field Scheme::jdn_fieldname_to_field( Field jdn, const string& fieldname ) const
 {
     Record rec( m_base, jdn );
-    int index = rec.get_field_index( fieldname );
-    return rec.get_field( index );
+    return rec.get_field( fieldname );
 }
 
 Field Scheme::str_to_jdn( const string& str, const string& fmt )

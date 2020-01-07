@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     20th September 2013
- * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -422,7 +422,7 @@ double Record::get_average_days( Unit unit ) const
     return m_base->get_average_days( &m_f[0], unit );
 }
 
-Field Cal::Record::get_field( int index, const BoolVec* mask ) const
+Field Record::get_field( int index, const BoolVec* mask ) const
 {
     if ( index >= 0 && ( !mask || ( *mask )[index] ) ) {
         if ( index < (int)m_base->record_size() ) {
@@ -431,6 +431,17 @@ Field Cal::Record::get_field( int index, const BoolVec* mask ) const
         return m_base->get_opt_field( &m_f[0], m_jdn, index );
     }
     return f_invalid;
+}
+
+Field Record::get_field( const std::string & fieldname ) const
+{
+    string fn = m_base->get_alias_fieldname( fieldname );
+    int index = m_base->get_fieldname_index( fn );
+    if ( index >= 0 ) {
+        return get_field( index );
+    }
+    OptFieldID opt_id = m_base->get_opt_field_id( fn );
+    return m_base->get_opt_field( &m_f[0], m_jdn, opt_id );
 }
 
 bool Record::is_mask_valid( Field* mask, size_t mask_size ) const

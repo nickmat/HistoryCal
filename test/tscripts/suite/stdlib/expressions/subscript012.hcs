@@ -1,0 +1,8 @@
+// subscript012.hcs Test file for optional fields.
+
+let d = date "19sep1948";
+write string( d[newmoon] );
+
+/*[OUTPUT]
+2 Oct 1948
+[OUTPUT]*/

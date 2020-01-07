@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -79,6 +79,7 @@ namespace Cal {
 
         Field get_field( int index, const BoolVec* mask = nullptr ) const;
         Field get_field_at( int index ) const { return m_f[index]; }
+        Field get_field( const std::string& fieldname ) const;
         void set_field( Field value, size_t index ) { m_f[index] = value; }
 
         bool is_mask_valid( Field* mask, size_t mask_size ) const;
