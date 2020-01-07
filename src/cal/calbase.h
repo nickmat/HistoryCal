@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013 ~ 2019, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -44,6 +44,7 @@ namespace Cal {
         OFID_NULL,
         OFID_wday,      // 7 Day week Mon=1 (1 to 7)
         OFID_wsday,     // 7 Day week Sun=1 (1 to 7)
+        OFID_jwn,       // Julian Week Number, week count from jdn 0.
         OFID_dayinyear, // Day in year (1 to about 366, dep. on scheme)
         OFID_unshift,   // Value before being shifted, (year or day)
         OFID_repeated,  // Where dates can occasionally be repeated ie Easter. (0 or 1).

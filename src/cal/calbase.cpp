@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013 ~ 2019, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -108,6 +108,9 @@ OptFieldID Base::get_opt_field_id( const std::string& fieldname ) const
     if ( fieldname == "wsday" ) {
         return OFID_wsday;
     }
+    if ( fieldname == "jwn" ) {
+        return OFID_jwn;
+    }
     if ( fieldname == "dayinyear" ) {
         return OFID_dayinyear;
     }
@@ -143,6 +146,8 @@ std::string Base::get_opt_fieldname( OptFieldID field_id ) const
         return "wday";
     case OFID_wsday:
         return "wsday";
+    case OFID_jwn:
+        return "jwn";
     case OFID_dayinyear:
         return "dayinyear";
     case OFID_unshift:
@@ -172,6 +177,8 @@ Field Base::get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const
         return day_of_week( jdn ) + 1; // Mon=1, Sun=7
     case OFID_wsday:
         return day_of_week( jdn + 1 ) + 1; // Sun=1, Sun=7
+    case OFID_jwn: // Julian Week Number
+        return jdn / 7;
     case OFID_nequinox: // Northward/Spring equinox.
         return int( solar_longitude_after( spring, jdn ) + m_locale.lon / 360 );
     case OFID_nsolstice: // Northern/Summer solstice.
