@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     24th June 2014
- * Copyright:   Copyright (c) 2014 ~ 2018, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -790,8 +790,10 @@ void SValue::property_op( const SValue& value )
         return;
     }
     if( value.m_str == "size" ) {
-        if( m_type == SVT_RList || m_type == SVT_Record ) {
+        if ( m_type == SVT_RList || m_type == SVT_Record ) {
             set_field( m_rlist.size() );
+        } else if ( m_type == SVT_Str ) {
+            set_field( m_str.size() );
         } else {
             set_error( type_err_mess );
         }

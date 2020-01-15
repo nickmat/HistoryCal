@@ -1,0 +1,10 @@
+// subscript014.hcs Test file for .size property with strings.
+
+let t0 = "";
+let t1 = "Hello";
+
+write t0[.size] + ", " + t1[.size];
+
+/*[OUTPUT]
+0, 5
+[OUTPUT]*/
