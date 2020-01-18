@@ -1,0 +1,12 @@
+// format012.hcs - Test default sub-statement in format statement.
+
+
+format c:CYMD "(Cycle),| (Year),| (Leap:clmon:a=Month)| (Month),| (Day)";
+
+set output c:CYMD;
+
+write date,c:CYMD "77, 26, Leap 7, 27" +", "+ date,c:CYMD "77, 25, Month 8, 17" +", "+ date,c:CYMD "77, 25, 8, 17";
+
+/*[OUTPUT]
+2433179, 2432814, 2432814
+[OUTPUT]*/
