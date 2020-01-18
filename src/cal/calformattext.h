@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st March 2016
- * Copyright:   Copyright (c) 2016 ~ 2019, Nick Matthews.
+ * Copyright:   Copyright (c) 2016 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -35,7 +35,7 @@ namespace Cal {
     class FormatText : public Format
     {
     public:
-        enum Use { Use_inout, Use_output, Use_input, Use_strict };
+        enum Use { Use_inout, Use_output, Use_input };
 
         FormatText( const std::string& code, Grammar* gmr );
 

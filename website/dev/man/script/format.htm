@@ -192,7 +192,6 @@
 <tr><th colspan='3'>Format Sub-Statements used with rules text</th></tr>
 <tr><th>Statement</th><th>Example</th><th>Note</th></tr>
 <tr><td class='code'><b>inout</b> <i>format-string</i>;</td><td class='example'><b>inout</b> "(Day) |(Month:m:a) |(Year)";</td><td>Format string used for both input and output.</td></tr>
-<tr><td class='code'><b>strict</b> <i>format-string</i>;</td><td class='example'><b>strict</b> "(Year::lp:04)|-(Month::lp:02)|-(Day::lp:02)";</td><td>Format string used for both input and output, input includes the inter-field text.</td></tr>
 <tr><td class='code'><b>input</b> <i>format-string</i>;</td><td class='example'><b>input</b> "(Day) |(Month) |(Year)";</td><td>Format string used for just input.</td></tr>
 <tr><td class='code'><b>output</b> <i>format-string</i>;</td><td class='example'><b>output</b> "(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";</td><td>Format string used for just output.</td></tr>
 <tr><td class='code'><b>separators</b> <i>string-expr</i>;</td><td class='example'><b>separators</b> "-";</td><td>Characters to be used to separate date elements. Default is ":,".</td></tr>
@@ -203,7 +202,7 @@
 
 <p>
  The format definition must contain either the
- <code><b>inout</b></code>, <code><b>strict</b></code> or,
+ <code><b>inout</b></code> or,
  one or both of the <code><b>input</b></code> and <code><b>output</b></code> sub-statements.
  All these statements use the <i>format-string</i> to describe
  how text is to be interpreted as a date

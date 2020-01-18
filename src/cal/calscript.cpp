@@ -999,8 +999,6 @@ bool Script::do_format( Grammar* gmr )
                     usefor = FormatText::Use_output;
                 } else if( name == "inout" ) {
                     usefor = FormatText::Use_inout;
-                } else if( name == "strict" ) {
-                    usefor = FormatText::Use_strict;
                 } else if( name == "input" ) {
                     expr( true ).get( informat );
                     continue;

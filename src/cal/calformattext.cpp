@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st March 2016
- * Copyright:   Copyright (c) 2016 ~ 2018, Nick Matthews.
+ * Copyright:   Copyright (c) 2016 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -228,30 +228,11 @@ void FormatText::set_control( const std::string& format, Use usefor )
     ElementControl ele;
     bool do_output = true;
     string fieldout, input, output;
-    bool usefor_output, usefor_input, strict_input;
-    switch( usefor )
-    {
-    case Use_output:
-        usefor_output = true;
+    bool usefor_output = true, usefor_input = true;
+    if ( usefor == Use_output ) {
         usefor_input = false;
-        strict_input = false;
-        break;
-    case Use_input:
+    } else if ( usefor == Use_input ) {
         usefor_output = false;
-        usefor_input = true;
-        strict_input = true;
-        break;
-    case Use_strict:
-        usefor_output = true;
-        usefor_input = true;
-        strict_input = true;
-        break;
-    case Use_inout:
-    default:
-        usefor_output = true;
-        usefor_input = true;
-        strict_input = false;
-        break;
     }
     if( usefor_output ) {
         m_control = format;
@@ -267,16 +248,13 @@ void FormatText::set_control( const std::string& format, Use usefor )
                 do_output = false;
             } else {
                 fieldout += *it;
-                if( strict_input ) {
-                    input += *it;
-                }
             }
             continue;
         }
         if ( *it == ')' ) {
             ele.expand_specifier( get_owner() );
             if ( usefor_input ) {
-                if ( !strict_input && input.size() ) {
+                if ( input.size() ) {
                     input += " ";
                 }
                 input += ele.get_input_text();
