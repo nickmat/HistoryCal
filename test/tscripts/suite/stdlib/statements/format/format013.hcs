@@ -1,0 +1,11 @@
+// format013.hcs - Test manual example format statement.
+
+format j:LONG {
+    output "On the (Day::os) Day of |(Month:m) |in the (Year::os) Year"; 
+}
+
+write string,g:LONG 2432814;
+
+/*[OUTPUT]
+On the 19th Day of September in the 1948th Year
+[OUTPUT]*/
