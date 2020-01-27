@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     13th November 2013
- * Copyright:   Copyright (c) 2013 ~ 2018, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -85,6 +85,8 @@ namespace Cal {
 
         void remove_format( const std::string& fcode );
 
+        void set_base_fieldnames( StringVec fieldnames ) { m_base_fieldnames = fieldnames; }
+        StringVec get_base_fieldnames() const { return m_base_fieldnames; }
         void set_opt_fieldnames( StringVec fieldnames ) { m_opt_fieldnames = fieldnames; }
         StringVec get_opt_fieldnames() const;
         void set_rank_fieldnames( StringVec fieldnames ) { m_rank_fieldnames = fieldnames; }
@@ -108,6 +110,7 @@ namespace Cal {
         FormatMap                  m_formats;
         std::string                m_pref_input_fcode;
         std::string                m_pref_output_fcode;
+        StringVec                  m_base_fieldnames;
         StringVec                  m_opt_fieldnames;
         StringVec                  m_rank_fieldnames;
     };

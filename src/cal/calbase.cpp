@@ -497,6 +497,16 @@ bool Base::attach_grammar( Grammar* gmr )
     if ( gmr == nullptr || m_grammar != nullptr ) {
         return false;
     }
+    // Set base fieldnames or check they are the same.
+    StringVec base_fns = get_base_fieldnames();
+    StringVec gmr_fns = gmr->get_base_fieldnames();
+    if ( gmr_fns.empty() ) {
+        gmr->set_base_fieldnames( base_fns );
+    } else {
+        if ( base_fns != gmr_fns ) {
+            return false;
+        }
+    }
     m_grammar = gmr;
     set_output_fcode( gmr->get_pref_output_fcode() );
     set_input_fcode( gmr->get_pref_input_fcode() );
@@ -641,6 +651,15 @@ int Base::get_opt_fieldname_index( const string& fieldname ) const
         }
     }
     return -1;
+}
+
+StringVec Cal::Base::get_base_fieldnames() const
+{
+    StringVec names( record_size() );
+    for ( size_t i = 0; i < record_size(); i++ ) {
+        names.push_back( get_std_fieldname( i ) );
+    }
+    return names;
 }
 
 std::string Cal::Base::create_def_format_control()

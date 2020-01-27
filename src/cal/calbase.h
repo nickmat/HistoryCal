@@ -221,6 +221,7 @@ namespace Cal {
         unsigned get_valid_field_bitmap( const Field* fields ) const;
 
     private:
+        StringVec get_base_fieldnames() const;
         std::string create_def_format_control();
 
         static const char* s_ymd_fieldnames[];
