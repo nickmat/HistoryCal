@@ -32,6 +32,7 @@
 
 namespace Cal {
 
+    class Base;
     class Calendars;
     class Record;
     class FormatText;
@@ -49,6 +50,9 @@ namespace Cal {
     public:
         Grammar( const std::string& code, Calendars* cals );
         ~Grammar();
+
+        bool constuct( const Base* base = nullptr );
+        bool is_ok() const { return m_ok; }
 
         void set_inherit( const std::string& code );
         void set_pref( const std::string& fcode );
@@ -86,7 +90,7 @@ namespace Cal {
         void remove_format( const std::string& fcode );
 
         void set_base_fieldnames( StringVec fieldnames ) { m_base_fieldnames = fieldnames; }
-        StringVec get_base_fieldnames() const { return m_base_fieldnames; }
+        StringVec get_base_fieldnames() const;
         void set_opt_fieldnames( StringVec fieldnames ) { m_opt_fieldnames = fieldnames; }
         StringVec get_opt_fieldnames() const;
         void set_rank_fieldnames( StringVec fieldnames ) { m_rank_fieldnames = fieldnames; }
@@ -100,6 +104,7 @@ namespace Cal {
 
         Calendars*                 m_cals;
         std::string                m_code;
+        bool                       m_ok;
         Grammar*                   m_inherit;
         std::map<std::string,ElementField> m_elements;
         StringMap                  m_field_alias;

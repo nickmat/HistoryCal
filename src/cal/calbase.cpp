@@ -613,6 +613,16 @@ int Base::opt_id_to_index( OptFieldID id ) const
     return -1;
 }
 
+StringVec Base::get_base_fieldnames() const
+{
+    StringVec names;
+    for ( size_t i = 0; i < record_size(); i++ ) {
+        names.push_back( get_std_fieldname( i ) );
+    }
+    return names;
+}
+
+
 XRefVec Base::get_default_xref_order( int count ) const
 {
     XRefVec xref( record_size(), -1 );
@@ -651,15 +661,6 @@ int Base::get_opt_fieldname_index( const string& fieldname ) const
         }
     }
     return -1;
-}
-
-StringVec Cal::Base::get_base_fieldnames() const
-{
-    StringVec names( record_size() );
-    for ( size_t i = 0; i < record_size(); i++ ) {
-        names.push_back( get_std_fieldname( i ) );
-    }
-    return names;
 }
 
 std::string Cal::Base::create_def_format_control()

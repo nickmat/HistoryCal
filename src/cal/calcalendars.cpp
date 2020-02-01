@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     19th September 2013
- * Copyright:   Copyright (c) 2013 ~ 2019, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -368,15 +368,29 @@ RangeList Calendars::rel_rangelist( SHandle scheme, const RangeList& ranges, Rel
 
 bool Calendars::add_scheme( SHandle sch, const string& code )
 {
-    if( sch == NULL || sch->is_ok() == false  // Only add initialised schemes
+    if ( sch == NULL || sch->is_ok() == false  // Only add initialised schemes
         || m_shandles.count( code )           // that are not aready there. 
-    ) {
+        ) {
         delete sch;
         return false;
     }
     assert( m_marks.size() > 0 );
-    m_marks[m_marks.size()-1]->add_scheme( sch );
+    m_marks[m_marks.size() - 1]->add_scheme( sch );
     m_shandles[code] = sch;
+    return true;
+}
+
+bool Calendars::add_grammar( Grammar* gmr, const string& code )
+{
+    if ( gmr == nullptr || gmr->is_ok() == false  // Only add initialised schemes
+        || m_grammars.count( code )               // that are not aready there. 
+        ) {
+        delete gmr;
+        return false;
+    }
+    assert( m_marks.size() > 0 );
+    m_marks[m_marks.size() - 1]->add_grammar( gmr );
+    m_grammars[code] = gmr;
     return true;
 }
 

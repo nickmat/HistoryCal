@@ -202,6 +202,8 @@ namespace Cal {
         OptFieldID opt_index_to_id( size_t index ) const { return m_opt_fields[index-record_size()]; }
         int opt_id_to_index( OptFieldID id ) const;
 
+        StringVec get_base_fieldnames() const;
+
     protected:
         virtual int get_std_fieldname_index( const std::string& fieldname ) const { return get_ymd_fieldname_index( fieldname ); }
         virtual std::string get_std_fieldname( size_t index ) const { return get_ymd_fieldname( index ); }
@@ -221,7 +223,6 @@ namespace Cal {
         unsigned get_valid_field_bitmap( const Field* fields ) const;
 
     private:
-        StringVec get_base_fieldnames() const;
         std::string create_def_format_control();
 
         static const char* s_ymd_fieldnames[];

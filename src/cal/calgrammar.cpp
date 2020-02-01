@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     13th November 2013
- * Copyright:   Copyright (c) 2013 ~ 2019, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@
 
 #include "calgrammar.h"
 
+#include "calbase.h"
 #include "cal/calendars.h"
 #include "calformatiso.h"
 #include "calformattext.h"
@@ -41,7 +42,7 @@ using namespace Cal;
 using std::string;
 
 Grammar::Grammar( const string& code, Calendars* cals )
-    : m_code(code), m_cals(cals), m_inherit(nullptr)
+    : m_cals(cals), m_code(code), m_ok(false), m_inherit(nullptr)
 {
 }
 
@@ -50,6 +51,23 @@ Grammar::~Grammar()
     for( FormatMap::iterator it = m_formats.begin() ; it != m_formats.end() ; it++ ) {
         delete it->second;
     }
+}
+
+bool Grammar::constuct( const Base* base )
+{
+    if ( m_ok ) {
+        return false; // Only run construct once.
+    }
+    if ( base ) {
+        StringVec base_fns = base->get_base_fieldnames();
+        if ( m_base_fieldnames.empty() ) {
+            m_base_fieldnames = base_fns;
+        } else if ( m_base_fieldnames != base_fns ) {
+            return false;
+        }
+    }
+    m_ok = true;
+    return true;
 }
 
 void Grammar::set_inherit( const string& code )
@@ -382,6 +400,14 @@ Vocab* Grammar::find_vocab( const std::string& code ) const
 void Grammar::remove_format( const string& fcode )
 {
     m_formats.erase( fcode );
+}
+
+StringVec Cal::Grammar::get_base_fieldnames() const
+{
+    if ( m_inherit ) {
+        return m_inherit->get_base_fieldnames();
+    }
+    return m_base_fieldnames;
 }
 
 StringVec Grammar::get_opt_fieldnames() const

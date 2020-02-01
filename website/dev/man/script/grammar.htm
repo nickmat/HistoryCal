@@ -46,6 +46,7 @@
 <tr><th colspan='3'>grammar Sub-Statement List</th></tr>
 <tr><th>Sub-Statement</th><th>Use</th><th>Example</th></tr>
 <tr><td class='code'>inherit</td><td>Inherit all the settings from a previously defined grammar.</td><td class='example'>inherit j;</td></tr>
+<tr><td class='code'>fields</td><td>List of base fields, much match base order.</td><td class='example'>fields year month day;</td></tr>
 <tr><td class='code'>optional</td><td>Use the listed optional fields.</td><td class='example'>optional wday, ce, ceyear;</td></tr>
 <tr><td class='code'>rank</td><td>The field ranking used by the format sub-statements.</td><td class='example'>rank ce, ceyear, month, day, wday;</td></tr>
 <tr><td class='code'>vocabs</td><td>The list of vocabularies used with this grammar.</td><td class='example'>vocabs m, w, jce;</td></tr>
@@ -58,6 +59,17 @@
 <p>
  Create a new grammar by extending an existing one.
  The action of the original grammar is not changed in any way.
+</p>
+
+<h3>fields Sub-Statement</h3>
+<p>
+ Declare the fields that match the scheme base fields.
+ This list is checked whenever the grammar is attached to a scheme.
+ If the match fails, an error is generated.
+ If the grammar inherits, then the inherited fields are used and this statement is ignored.
+</p>
+<p>
+ This sub-statement must be positioned before any sub-statement that uses these fields.
 </p>
 
 <h3>optional Sub-Statement</h3>

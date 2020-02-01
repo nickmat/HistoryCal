@@ -484,7 +484,9 @@ SHandle Script::do_create_scheme( const std::string& code )
                 token = m_ts.next();
                 if ( token.type() == SToken::STT_LCbracket ) {
                     gmr = m_cals->create_grammar( "" );
-                    do_anon_grammar( gmr );
+                    if ( !do_anon_grammar( gmr ) ) {
+                        error( "Unable to create grammar." );
+                    }
                 } else {
                     gmr_code = get_name_or_primary( false );
                     gmr = m_cals->get_grammar( gmr_code );
@@ -830,19 +832,61 @@ bool Script::do_grammar()
         error( "Grammar code missing." );
         return false;
     }
-    if ( m_cals->get_grammar( code ) != NULL ) {
-        error( "grammar \"" + code + "\" already exists." );
+    if ( m_cals->get_grammar( code ) != nullptr ) {
+        error( "Grammar \"" + code + "\" already exists." );
         return false;
     }
+    Grammar* gmr = do_create_grammar( code );
+    return m_cals->add_grammar( gmr, code );
+}
+
+Grammar* Script::do_create_grammar( const string& code )
+{
     if ( m_ts.current().type() != SToken::STT_LCbracket ) {
         error( "'{' expected." );
-        return false;
+        return nullptr;
     }
-    Grammar* gmr = m_cals->create_grammar( code );
-    if ( !gmr ) {
-        return false;
+    Grammar* gmr = new Grammar( code, m_cals );
+    string str;
+    for ( ;;) {
+        SToken token = m_ts.next();
+        if ( token.type() == SToken::STT_LCbracket ) {
+            continue;
+        } else if ( token.type() == SToken::STT_RCbracket ||
+            token.type() == SToken::STT_End ) {
+            break; // All done.
+        } else if ( token.type() == SToken::STT_Name ) {
+            string name = token.get_str();
+            if ( name == "vocabs" ) {
+                do_grammar_vocabs( gmr );
+            } else if ( name == "format" ) {
+                do_format( gmr );
+            } else if ( name == "pref" ) {
+                str = get_name_or_primary( true );
+                gmr->set_pref( str );
+            } else if ( name == "element" ) {
+                do_grammar_element( gmr );
+            } else if ( name == "alias" ) {
+                do_grammar_alias( gmr );
+            } else if ( name == "inherit" ) {
+                str = get_name_or_primary( true );
+                gmr->set_inherit( str );
+            } else if ( name == "fields" ) {
+                StringVec basefields = get_string_list( true );
+                gmr->set_base_fieldnames( basefields );
+            } else if ( name == "optional" ) {
+                StringVec optfields = get_string_list( true );
+                gmr->set_opt_fieldnames( optfields );
+            } else if ( name == "rank" ) {
+                StringVec rankfields = get_string_list( true );
+                gmr->set_rank_fieldnames( rankfields );
+            }
+        } else {
+            error( "Grammar sub-statement expected." );
+        }
     }
-    return do_anon_grammar( gmr );
+    gmr->constuct();
+    return gmr;
 }
 
 bool Script::do_anon_grammar( Grammar* gmr )
@@ -871,6 +915,9 @@ bool Script::do_anon_grammar( Grammar* gmr )
             } else if ( name == "inherit" ) {
                 str = get_name_or_primary( true );
                 gmr->set_inherit( str );
+            } else if ( name == "fields" ) {
+                StringVec basefields = get_string_list( true );
+                gmr->set_base_fieldnames( basefields );
             } else if ( name == "optional" ) {
                 StringVec optfields = get_string_list( true );
                 gmr->set_opt_fieldnames( optfields );

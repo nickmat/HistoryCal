@@ -1,0 +1,18 @@
+// none/statements/grammar001.hcs   Test the grammar definition statement.
+
+grammar X {
+    fields year month day;
+    format dmy "(day) |(month) |(year)";
+}
+
+scheme G {
+    name "Test Gregorian";
+    base gregorian;
+    grammar X;
+}
+
+write string,G:dmy 2345678 + ", " + date,G:dmy "23 2 1710";
+
+/*[OUTPUT]
+23 2 1710, 2345678
+[OUTPUT]*/
