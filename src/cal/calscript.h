@@ -72,7 +72,6 @@ namespace Cal {
         bool do_vocab_tokens( Vocab* voc );
         bool do_grammar();
         Grammar* do_create_grammar( const std::string& code );
-        bool do_anon_grammar( Grammar* gmr );
         bool do_grammar_vocabs( Grammar* gmr );
         bool do_grammar_element( Grammar* gmr );
         bool do_grammar_alias( Grammar* gmr );

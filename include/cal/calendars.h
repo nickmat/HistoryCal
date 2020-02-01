@@ -85,7 +85,6 @@ namespace Cal {
         // The following members are not part of the Cal library public api.
         bool add_scheme( SHandle sch, const std::string& code );
         bool add_grammar( Grammar* gmr, const std::string& code );
-        Grammar* create_grammar( const std::string& code );
         Grammar* get_grammar( const std::string& code ) const;
         Vocab* create_vocab( const std::string& code );
         Vocab* get_vocab( const std::string& code ) const;

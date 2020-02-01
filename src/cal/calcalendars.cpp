@@ -394,18 +394,6 @@ bool Calendars::add_grammar( Grammar* gmr, const string& code )
     return true;
 }
 
-Grammar* Calendars::create_grammar( const string& code )
-{
-    Grammar* gmr = new Grammar( code, this );
-    if ( code.empty() ) {
-        return gmr;
-    }
-    assert( m_marks.size() > 0 );
-    m_marks[m_marks.size()-1]->add_grammar( gmr );
-    m_grammars[code] = gmr;
-    return gmr;
-}
-
 Grammar* Calendars::get_grammar( const string& code ) const
 {
     if( m_grammars.count( code ) > 0 ) {
