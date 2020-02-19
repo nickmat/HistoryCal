@@ -94,6 +94,7 @@ void Record::set_fields( const Field* fields, size_t size )
 
 void Record::set_str( const string& str, const string& fcode, Boundary rb )
 {
+    assert( !fcode.empty() );
     clear_fields();
     string in = full_trim( str );
     if( in == "past" ) {
@@ -109,14 +110,8 @@ void Record::set_str( const string& str, const string& fcode, Boundary rb )
         return;
     }
 
-    string fc;
-    if( fcode.empty() ) {
-        fc = m_base->get_input_fcode();
-    } else {
-        fc = fcode;
-    }
-    Format* fmt = m_base->get_format( fc );
-    if( fmt == NULL ) {
+    Format* fmt = m_base->get_format( fcode );
+    if( fmt == nullptr ) {
         return;
     }
 
@@ -379,11 +374,11 @@ Field Record::get_jdn() const
     return m_base->get_jdn( &m_f[0] );
 }
 
-string Record::get_str( const std::string& fcode ) const
+string Record::get_str( const string& fcode ) const
 {
-    string fc = fcode.empty() ? m_base->get_output_fcode() : fcode;
-    Format* fmt = m_base->get_format( fc );
-    if( fmt == NULL ) {
+    assert( !fcode.empty() );
+    Format* fmt = m_base->get_format( fcode );
+    if( fmt == nullptr ) {
         return "";
     }
     return fmt->get_output( *this );

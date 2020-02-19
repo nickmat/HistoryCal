@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     15th November 2013
- * Copyright:   Copyright (c) 2013 ~ 2019, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -58,13 +58,13 @@ namespace Cal {
         void get_info( Format_info* info ) const;
 
         virtual FormatType get_format_type() const = 0;
-        virtual std::string rlist_to_string( Base* base, const RangeList& ranges ) const;
-        virtual std::string range_to_string( Base* base, Range range ) const;
-        virtual std::string jdn_to_string( Base* base, Field jdn ) const;
+        virtual std::string rlist_to_string( const Base* base, const RangeList& ranges ) const;
+        virtual std::string range_to_string( const Base* base, Range range ) const;
+        virtual std::string jdn_to_string( const Base* base, Field jdn ) const;
         virtual std::string get_output( const Record& record ) const = 0;
         virtual std::string get_control_str() const { return ""; }
 
-        virtual RangeList string_to_rlist( Base* base, const std::string& input ) const = 0;
+        virtual RangeList string_to_rlist( const Base* base, const std::string& input ) const = 0;
         virtual bool set_input( Record* record, const std::string& input, Boundary rb ) const = 0;
 
     private:

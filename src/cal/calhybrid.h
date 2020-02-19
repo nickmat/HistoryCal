@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     23rd September 2013
- * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -35,13 +35,13 @@ namespace Cal {
     class Calendars;
 
     struct HybridData {
-        HybridData() : start(f_invalid), base(NULL), scheme(NULL) {}
+        HybridData() : start(f_invalid), base(nullptr), scheme(nullptr) {}
 
-        bool ok() { return ( start != f_invalid && base != NULL ); }
+        bool ok() { return ( start != f_invalid && base != nullptr ); }
 
-        Field   start;
-        Base*   base;
-        Scheme* scheme; // NULL if not local
+        Field        start;
+        const Base*  base;
+        Scheme*      scheme; // NULL if not local
     };
 
     class Hybrid : public Base

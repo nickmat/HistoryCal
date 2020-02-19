@@ -174,16 +174,12 @@ namespace Cal {
         std::string lookup_token( Field field, const std::string& vcode, bool abbrev ) const;
         std::string get_alias_fieldname( const std::string& alias ) const;
 
-        void get_input_info( SchemeFormatInfo* info ) const;
-        void get_output_info( SchemeFormatInfo* info ) const;
-        std::string get_input_fcode() const;
-        std::string get_output_fcode() const;
+        void get_input_info( SchemeFormatInfo* info, const std::string& inputcode ) const;
+        void get_output_info( SchemeFormatInfo* info, const std::string& outputcode ) const;
         Grammar* get_grammar() const;
         Format* get_format( const std::string& fcode ) const;
 
         bool attach_grammar( Grammar* gmr );
-        void set_input_fcode( const std::string& code ) { m_input_fcode = code; }
-        void set_output_fcode( const std::string& code ) { m_output_fcode = code; }
 
         // Add an optional field to the base.
         // The fieldname must match one of the OptFieldID enum's.
@@ -231,8 +227,6 @@ namespace Cal {
         // We may need to create a default grammar if none exists
         // so we may as well cashe it.
         mutable Grammar* m_grammar;
-        std::string      m_input_fcode;
-        std::string      m_output_fcode;
         // Cache these as they are expensive to create.
         mutable XRefMap  m_xref_inputs;
 

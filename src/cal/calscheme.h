@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     20th September 2013
- * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -45,7 +45,7 @@ namespace Cal {
             BS_NULL, BS_jdn, BS_julian, BS_gregorian, BS_easter, BS_isoweek, BS_isoordinal,
             BS_french, BS_hebrew, BS_islamic, BS_chinese
         };
-        Scheme( const std::string& name, Base* base );
+        Scheme( const std::string& name, const Base* base );
         ~Scheme();
 
         bool is_ok() const;
@@ -54,13 +54,15 @@ namespace Cal {
         Scheme_style get_style() const { return m_style; }
         std::string get_pref_input_format() const;
         void get_info( Scheme_info* info ) const; 
-        Base* get_base() const { return m_base; }
+        std::string get_input_fcode() const;
+        std::string get_output_fcode() const;
+        const Base* get_base() const { return m_base; }
         Format* get_output_format( const std::string& fcode ) const;
 
         void set_code( const std::string& code ) { m_code = code; }
         void set_style( Scheme_style style ) { m_style = style; }
-        void set_input_format( const std::string& code );
-        void set_output_format( const std::string& code );
+        void set_input_format( const std::string& code ) { m_input_fcode = code; }
+        void set_output_format( const std::string& code ) { m_output_fcode = code; }
 
         Field fieldvec_to_jdn( const FieldVec& fieldv );
         FieldVec jdn_to_fieldvec( Field jdn );
@@ -77,8 +79,8 @@ namespace Cal {
         RangeList rel_rangelist( const RangeList& ranges, Rel_info* info );
 
         static Base* create_base( BaseScheme bs, const std::string& data );
-        static Base* create_base_shift( Base* sbase, Field era );
-        static Base* create_base_hybrid( 
+        static Base* create_base_shift( const Base* sbase, Field era );
+        static Base* create_base_hybrid(
             const StringVec& fieldnames,
             const std::vector<HybridData>& data );
         static Base* create_base_regnal( 
@@ -92,7 +94,9 @@ namespace Cal {
         std::string   m_name;
         std::string   m_code;
         Scheme_style  m_style;
-        Base*         m_base;
+        const Base*   m_base;
+        std::string   m_input_fcode;
+        std::string   m_output_fcode;
     };
 
 }

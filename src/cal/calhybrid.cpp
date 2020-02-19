@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     23rd September 2013
- * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -275,7 +275,7 @@ BoolVec Hybrid::mark_balanced_fields(
         rank1[j++] = rank[i] - 1;
     }
 
-    Base* lbase = m_data[left[0]].base;
+    const Base* lbase = m_data[left[0]].base;
     if ( left[0] == right[0] ) {
         BoolVec m = lbase->mark_balanced_fields( &left[1], ljdn, &right[1], ljdn, rank1 );
         m.insert( m.begin(), true );
@@ -283,7 +283,7 @@ BoolVec Hybrid::mark_balanced_fields(
     }
 
     BoolVec mask( extended_size(), true );
-    Base* rbase = m_data[right[0]].base;
+    const Base* rbase = m_data[right[0]].base;
     size_t size = lbase->record_size();
     if ( size != rbase->record_size() ) {
         return mask;

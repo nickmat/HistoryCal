@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     18th March 2015
- * Copyright:   Copyright (c) 2015 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2015 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -35,7 +35,7 @@ namespace Cal {
     class ShiftDay : public Base
     {
     public:
-        ShiftDay( Base* base, Field epoch ) : m_base(base), m_epoch(epoch) {}
+        ShiftDay( const Base* base, Field epoch ) : m_base(base), m_epoch(epoch) {}
 
         bool is_ok() const override { return m_base != NULL && m_epoch != f_invalid; }
 
@@ -55,7 +55,7 @@ namespace Cal {
         void set_fields( Field* fields, Field jdn ) const override { fields[0] = jdn - m_epoch; }
 
     private:
-        Base*  m_base;
+        const Base*  m_base;
         Field  m_epoch;
     };
 

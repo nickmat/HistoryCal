@@ -150,23 +150,25 @@ void Calendars::get_scheme_info( Scheme_info* info, SHandle scheme ) const
 void Calendars::get_input_info( SchemeFormatInfo* info, SHandle scheme ) const
 {
     if( scheme ) {
-        Base* base = scheme->get_base();
-        base->get_input_info( info );
+        const Base* base = scheme->get_base();
+        string inputcode = scheme->get_input_fcode();
+        base->get_input_info( info, inputcode );
     }
 }
 
 void Calendars::get_output_info( SchemeFormatInfo* info, SHandle scheme ) const
 {
     if( scheme ) {
-        Base* base = scheme->get_base();
-        base->get_output_info( info );
+        const Base* base = scheme->get_base();
+        string outcode = scheme->get_output_fcode();
+        base->get_output_info( info, outcode );
     }
 }
 
 void Calendars::get_format_info( Format_info* info, SHandle scheme, const string& fcode ) const
 {
     if( scheme ) {
-        Base* base = scheme->get_base();
+        const Base* base = scheme->get_base();
         Format* fmt = base->get_format( fcode );
         if( fmt ) {
             fmt->get_info( info );
@@ -177,7 +179,7 @@ void Calendars::get_format_info( Format_info* info, SHandle scheme, const string
 void Calendars::get_format_text_info( FormatText_info* info, SHandle scheme, const string& fcode ) const
 {
     if( scheme ) {
-        Base* base = scheme->get_base();
+        const Base* base = scheme->get_base();
         FormatText* fmt = dynamic_cast<FormatText*>( base->get_format( fcode ) );
         if( fmt ) {
             fmt->get_info( &info->info );
@@ -299,15 +301,15 @@ string Calendars::range_to_str( SHandle scheme, Range range, const string& fcode
 RangeList Calendars::str_to_rangelist(
     SHandle scheme, const string& input, const string& fcode )
 {
-    if( scheme == NULL ) {
+    if( scheme == nullptr ) {
         return RangeList(0);
     }
-    Base* base = scheme->get_base();
-    assert( base != NULL );
+    const Base* base = scheme->get_base();
+    assert( base != nullptr );
 
-    string fc = fcode.empty() ? base->get_input_fcode() : fcode;
+    string fc = fcode.empty() ? scheme->get_input_fcode() : fcode;
     Format* fmt = base->get_format( fc );
-    if( fmt == NULL ) {
+    if( fmt == nullptr ) {
         return RangeList(0);
     }
     return fmt->string_to_rlist( base, input );

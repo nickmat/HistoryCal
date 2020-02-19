@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     22nd September 2013
- * Copyright:   Copyright (c) 2013 - 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 - 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -40,7 +40,7 @@ namespace Cal {
     class Shift : public Base
     {
     public:
-        Shift( Base* base, Field era );
+        Shift( const Base* base, Field era );
         ~Shift();
 
         bool is_ok() const override { return m_ok; }
@@ -75,10 +75,10 @@ namespace Cal {
         Field get_adjusted_to_base( const Field* fields ) const;
         Field get_adjusted_to_shift( const Field* fields ) const;
 
-        Base*    m_base;
-        FieldVec m_start_era;
-        FieldVec m_before_era;
-        bool     m_ok;
+        const Base*  m_base;
+        FieldVec     m_start_era;
+        FieldVec     m_before_era;
+        bool         m_ok;
     };
 
 }

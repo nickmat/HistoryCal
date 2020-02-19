@@ -40,12 +40,12 @@ namespace Cal {
         FormatIso( const std::string& code, Grammar* gmr, const StringVec& rules );
 
         FormatType get_format_type() const override { return FT_iso; };
-        std::string rlist_to_string( Base* base, const RangeList& ranges ) const override;
-        std::string range_to_string( Base* base, Range range ) const override;
-        std::string jdn_to_string( Base* base, Field jdn ) const override;
+        std::string rlist_to_string( const Base* base, const RangeList& ranges ) const override;
+        std::string range_to_string( const Base* base, Range range ) const override;
+        std::string jdn_to_string( const Base* base, Field jdn ) const override;
         std::string get_output( const Record& record ) const override { return get_masked_output( record, nullptr ); }
         std::string get_masked_output( const Record& record, const BoolVec* mask ) const;
-        RangeList string_to_rlist( Base* base, const std::string& input ) const override;
+        RangeList string_to_rlist( const Base* base, const std::string& input ) const override;
         bool set_input( Record* record, const std::string& input, Boundary rb ) const override;
 
     private:
@@ -56,7 +56,7 @@ namespace Cal {
         DateRep datetime( Field* fields, const std::string& input, Boundary rb ) const;
         DateRep weekdate( Field* fields, const std::string& str, Boundary rb ) const;
 
-        RangeList string_set_to_rlist( Base* base, const std::string& input ) const;
+        RangeList string_set_to_rlist( const Base* base, const std::string& input ) const;
 
         DateRep  m_daterep;
         bool     m_extended;

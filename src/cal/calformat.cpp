@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     15th November 2013
- * Copyright:   Copyright (c) 2013 ~ 2018, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -60,7 +60,7 @@ void Format::get_info( Format_info* info ) const
     info->style = get_style();
 }
 
-string Format::rlist_to_string( Base* base, const RangeList& ranges ) const
+string Format::rlist_to_string( const Base* base, const RangeList& ranges ) const
 {
     string str;
     for( size_t i = 0 ; i < ranges.size() ; i++ ) {
@@ -72,7 +72,7 @@ string Format::rlist_to_string( Base* base, const RangeList& ranges ) const
     return str;
 }
 
-string Format::range_to_string( Base* base, Range range ) const
+string Format::range_to_string( const Base* base, Range range ) const
 {
     if( range.jdn1 == range.jdn2 ) {
         return jdn_to_string( base, range.jdn1 );
@@ -80,7 +80,7 @@ string Format::range_to_string( Base* base, Range range ) const
     return jdn_to_string( base, range.jdn1 ) + " ~ " + jdn_to_string( base, range.jdn2 );
 }
 
-string Format::jdn_to_string( Base* base, Field jdn ) const
+string Format::jdn_to_string( const Base* base, Field jdn ) const
 {
     if( jdn == f_minimum ) {
         return "past";

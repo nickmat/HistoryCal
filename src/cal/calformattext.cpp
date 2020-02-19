@@ -47,7 +47,7 @@ FormatText::FormatText( const std::string& code, Grammar* gmr )
 {
 }
 
-std::string FormatText::range_to_string( Base* base, Range range ) const
+std::string FormatText::range_to_string( const Base* base, Range range ) const
 {
     if ( range.jdn1 == range.jdn2 ) {
         return jdn_to_string( base, range.jdn1 );
@@ -128,7 +128,7 @@ string FormatText::get_masked_output( const Record& record, const BoolVec* mask 
     return output + fieldout;
 }
 
-RangeList FormatText::string_to_rlist( Base* base, const string& input ) const
+RangeList FormatText::string_to_rlist( const Base* base, const string& input ) const
 {
     if(  input.find( '~' ) != string::npos || input.find( '|' ) != string::npos ) {
         return multirange_str_to_rlist( base, input );
@@ -491,7 +491,7 @@ int FormatText::parse_date( InputField* ifs, size_t size, const string& str ) co
     return i;
 }
 
-RangeList FormatText::multirange_str_to_rlist( Base* base, const string& input ) const
+RangeList FormatText::multirange_str_to_rlist( const Base* base, const string& input ) const
 {
     RangeList rlist;
     string str = input;
@@ -537,7 +537,7 @@ RangeList FormatText::multirange_str_to_rlist( Base* base, const string& input )
     return op_set_well_order( rlist );
 }
 
-RangeList FormatText::bare_str_to_rlist( Base* base, const string& input ) const
+RangeList FormatText::bare_str_to_rlist( const Base* base, const string& input ) const
 {
     Record mask( base, input, get_code(), RB_none );
     return mask.get_rlist_from_mask();

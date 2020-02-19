@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     22nd September 2013
- * Copyright:   Copyright (c) 2013 - 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 - 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -38,7 +38,7 @@ using namespace Cal;
 using namespace std;
 
 
-Shift::Shift( Base* base, Field era ) : m_base(base), m_ok(false), Base()
+Shift::Shift( const Base* base, Field era ) : m_base(base), m_ok(false), Base()
 {
     if( base && era != f_invalid ) {
         Record rec( base, era );

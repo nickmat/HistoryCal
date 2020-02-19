@@ -40,10 +40,10 @@ namespace Cal {
         FormatText( const std::string& code, Grammar* gmr );
 
         FormatType get_format_type() const override { return FT_text; };
-        std::string range_to_string( Base* base, Range range ) const override;
+        std::string range_to_string( const Base* base, Range range ) const override;
         std::string get_output( const Record& record ) const override { return get_masked_output( record, nullptr ); }
         std::string get_masked_output( const Record& record, const BoolVec* mask ) const;
-        RangeList string_to_rlist( Base* base, const std::string& input ) const override;
+        RangeList string_to_rlist( const Base* base, const std::string& input ) const override;
         bool set_input( Record* record, const std::string& input, Boundary rb ) const override;
         std::string get_control_str() const override { return m_control; }
 
@@ -77,8 +77,8 @@ namespace Cal {
         Field get_field( const Record& record, const std::string& fname, const BoolVec* mask ) const;
         int parse_date( InputField* ifs, size_t size, const std::string& str ) const;
 
-        RangeList multirange_str_to_rlist( Base* base, const std::string& input ) const;
-        RangeList bare_str_to_rlist( Base* base, const std::string& input ) const;
+        RangeList multirange_str_to_rlist( const Base* base, const std::string& input ) const;
+        RangeList bare_str_to_rlist( const Base* base, const std::string& input ) const;
 
         std::string m_control;
         std::string m_separators;

@@ -460,24 +460,14 @@ string Base::get_alias_fieldname( const string& alias ) const
     return get_grammar()->get_field_alias( alias );
 }
 
-void Base::get_input_info( SchemeFormatInfo* info ) const
+void Base::get_input_info( SchemeFormatInfo* info, const std::string& inputcode ) const
 {
-    get_grammar()->get_input_formats( info, get_input_fcode() );
+    get_grammar()->get_input_formats( info, inputcode );
 }
 
-void Base::get_output_info( SchemeFormatInfo* info ) const
+void Base::get_output_info( SchemeFormatInfo* info, const std::string& outputcode ) const
 {
-    get_grammar()->get_output_formats( info, get_output_fcode() );
-}
-
-string Base::get_input_fcode() const
-{
-    return m_input_fcode.empty() ? "def" : m_input_fcode;
-}
-
-string Base::get_output_fcode() const
-{
-    return m_output_fcode.empty() ? "def" : m_output_fcode;
+    get_grammar()->get_output_formats( info, outputcode );
 }
 
 Grammar* Base::get_grammar() const
@@ -508,8 +498,6 @@ bool Base::attach_grammar( Grammar* gmr )
         }
     }
     m_grammar = gmr;
-    set_output_fcode( gmr->get_pref_output_fcode() );
-    set_input_fcode( gmr->get_pref_input_fcode() );
     StringVec optfields = gmr->get_opt_fieldnames();
     for ( size_t i = 0; i < optfields.size(); i++ ) {
         add_opt_field( optfields[i] );

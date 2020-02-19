@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st March 2016
- * Copyright:   Copyright (c) 2016 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2016 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -113,7 +113,7 @@ FormatIso::FormatIso( const string& code, Grammar* gmr, const StringVec& rules )
     set_user_output_str( output );
 }
 
-string FormatIso::rlist_to_string( Base* base, const RangeList& ranges ) const
+string FormatIso::rlist_to_string( const Base* base, const RangeList& ranges ) const
 {
     string str;
     for( size_t i = 0 ; i < ranges.size() ; i++ ) {
@@ -128,7 +128,7 @@ string FormatIso::rlist_to_string( Base* base, const RangeList& ranges ) const
     return str;
 }
 
-string FormatIso::range_to_string( Base* base, Range range ) const
+string FormatIso::range_to_string( const Base* base, Range range ) const
 {
     if( range.jdn1 == range.jdn2 ) {
         return jdn_to_string( base, range.jdn1 );
@@ -156,7 +156,7 @@ string FormatIso::range_to_string( Base* base, Range range ) const
     return str1 + sep + str2;
 }
 
-string FormatIso::jdn_to_string( Base* base, Field jdn ) const
+string FormatIso::jdn_to_string( const Base* base, Field jdn ) const
 {
     if( jdn == f_minimum || jdn == f_maximum ) {
         return "";
@@ -251,7 +251,7 @@ string FormatIso::get_masked_output( const Record& record, const BoolVec* mask )
     return str;
 }
 
-RangeList FormatIso::string_to_rlist( Base* base, const string& input ) const
+RangeList FormatIso::string_to_rlist( const Base* base, const string& input ) const
 {
     if( input[0] == '[' ) {
         return string_set_to_rlist( base, input );
@@ -489,7 +489,7 @@ FormatIso::DateRep FormatIso::weekdate( Field* fields, const string& input, Boun
     return DR_null;
 }
 
-RangeList FormatIso::string_set_to_rlist( Base* base, const string& input ) const
+RangeList FormatIso::string_set_to_rlist( const Base* base, const string& input ) const
 {
     RangeList rlist;
     if( input.size() < 6 ) {

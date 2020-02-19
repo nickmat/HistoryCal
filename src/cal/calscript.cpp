@@ -525,6 +525,8 @@ SHandle Script::do_create_scheme( const std::string& code )
     SHandle sch = new Scheme( name, base );
     sch->set_style( style );
     sch->set_code( code );
+    sch->set_input_format( gmr->get_pref_input_fcode() );
+    sch->set_output_format( gmr->get_pref_output_fcode() );
     return sch;
 }
 
@@ -576,7 +578,7 @@ Base* Script::do_base_shift()
     if( sch && m_ts.current().type() == SToken::STT_Comma ) {
         expr( true ).get( era );
     }
-    Base* sbase = NULL;
+    const Base* sbase = nullptr;
     if( sch ) {
         sbase = sch->get_base();
     }
@@ -1558,7 +1560,7 @@ SValue Script::do_subscript( const SValue& left, const SValue& right )
             SHandle sch = m_cals->get_scheme( left.get_str() );
             int index = -1;
             if( sch ) {
-                Base* base = sch->get_base();
+                const Base* base = sch->get_base();
                 index = base->get_fieldname_index( right.get_str() );
             }
             if( index >= 0 ) {

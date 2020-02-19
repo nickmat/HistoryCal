@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     28th March 2014
- * Copyright:   Copyright (c) 2014 ~ 2018, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -38,15 +38,15 @@ namespace Cal {
 
     struct RegnalEra {
         RegnalEra() 
-            : begin(f_minimum), end(f_maximum), base(NULL), scheme(NULL), local(true)
+            : begin(f_minimum), end(f_maximum), base(nullptr), scheme(nullptr), local(true)
         {}
 
-        Field   begin;
-        Field   end;
-        XRefVec xref;
-        Base*   base;
-        SHandle scheme;
-        bool    local;
+        Field       begin;
+        Field       end;
+        XRefVec     xref;
+        const Base* base;
+        SHandle     scheme;
+        bool        local;
     };
 
     class Regnal : public Base

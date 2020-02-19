@@ -56,7 +56,7 @@ using namespace Cal;
 using namespace std;
 
 
-Scheme::Scheme( const std::string& name, Base* base ) 
+Scheme::Scheme( const std::string& name, const Base* base ) 
     : m_name(name), m_style(SCH_STYLE_Default), m_base(base)
 {
 }
@@ -95,27 +95,22 @@ void Scheme::get_info( Scheme_info* info ) const
     }
 }
 
+string Scheme::get_input_fcode() const
+{
+    return m_input_fcode.empty() ? "def" : m_input_fcode;
+}
+
+string Scheme::get_output_fcode() const
+{
+    return m_output_fcode.empty() ? "def" : m_output_fcode;
+}
+
 Format* Scheme::get_output_format( const string& fcode ) const
 {
     if( fcode.empty() ) {
-        string fc = get_base()->get_output_fcode();
-        return get_base()->get_format( fc );
+        return get_base()->get_format( m_output_fcode );
     }
     return get_base()->get_format( fcode );
-}
-
-void Scheme::set_input_format( const std::string& code )
-{
-    if( m_base ) {
-       m_base->set_input_fcode( code );
-    }
-}
-
-void Scheme::set_output_format( const std::string& code )
-{
-    if( m_base ) {
-       m_base->set_output_fcode( code );
-    }
 }
 
 Field Scheme::fieldvec_to_jdn( const FieldVec& fieldv )
@@ -298,9 +293,9 @@ Base* Scheme::create_base( BaseScheme bs, const std::string& data )
     }
 }
 
-Base* Scheme::create_base_shift( Base* sbase, Field epoch )
+Base* Scheme::create_base_shift( const Base* sbase, Field epoch )
 {
-    assert( sbase != NULL );
+    assert( sbase != nullptr );
     Base* base;
     if( sbase->record_size() == 1 ) {
         base = new ShiftDay( sbase, epoch );
@@ -311,7 +306,7 @@ Base* Scheme::create_base_shift( Base* sbase, Field epoch )
         return base;
     }
     delete base;
-    return NULL;
+    return nullptr;
 }
 
 Base* Scheme::create_base_hybrid( 

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     28th March 2014
- * Copyright:   Copyright (c) 2014 ~ 2018, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -93,7 +93,7 @@ Field Cal::Regnal::get_opt_field( const Field * fields, Field jdn, int index ) c
     }
     FieldVec fv = get_base_fields( fields );
     size_t e = get_era_index( jdn );
-    Base* base = m_eras[e].base;
+    const Base* base = m_eras[e].base;
 
 //    int i = base->get_fieldname_index( m_ext_fieldnames[index - record_size()] );
     int i = m_eras[e].xref[index-1];
@@ -218,7 +218,7 @@ BoolVec Cal::Regnal::mark_balanced_fields(
         return mask;
     }
     size_t e = left[0];
-    Base* base = m_eras[e].base;
+    const Base* base = m_eras[e].base;
     Record lrec( base, ljdn );
     Record rrec( base, rjdn );
 
@@ -298,7 +298,7 @@ FieldVec Regnal::get_base_fields( const Field* fields ) const
         FieldVec fs;
         return fs;
     }
-    Base* base = m_eras[e].base;
+    const Base* base = m_eras[e].base;
     FieldVec fs( extended_size()-1, f_invalid );
     for( size_t i = 0 ; i < m_eras[e].xref.size(); i++ ) {
         int index = m_eras[e].xref[i];
