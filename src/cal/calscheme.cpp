@@ -151,7 +151,12 @@ Field Scheme::str_to_jdn( const string& str, const string& fmt )
 
 string Scheme::jdn_to_str( Field jdn, const string& fcode )
 {
-    Format* fmt = get_output_format( fcode );
+    Format* fmt;
+    if ( fcode.empty() ) {
+        fmt = get_output_format( get_output_fcode() );
+    } else {
+        fmt = get_output_format( fcode );
+    }
     if ( fmt == nullptr ) {
         return "(" + fcode + ") Format not found.";
     }
@@ -160,7 +165,12 @@ string Scheme::jdn_to_str( Field jdn, const string& fcode )
 
 string Scheme::range_to_str( Range range, const string& fcode )
 {
-    Format* fmt = get_output_format( fcode );
+    Format* fmt;
+    if ( fcode.empty() ) {
+        fmt = get_output_format( get_output_fcode() );
+    } else {
+        fmt = get_output_format( fcode );
+    }
     if ( fmt == nullptr ) {
         return "(" + fcode + ") Format not found.";
     }
@@ -172,7 +182,12 @@ string Scheme::rangelist_to_str( const RangeList& ranges, const std::string& fco
     if( ranges.empty() ) {
         return "";
     }
-    Format* fmt = get_output_format( fcode );
+    Format* fmt;
+    if ( fcode.empty() ) {
+        fmt = get_output_format( get_output_fcode() );
+    } else {
+        fmt = get_output_format( fcode );
+    }
     if ( fmt == nullptr ) {
         return "(" + fcode + ") Format not found.";
     }
