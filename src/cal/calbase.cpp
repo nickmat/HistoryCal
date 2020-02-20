@@ -513,6 +513,7 @@ bool Base::attach_grammar( Grammar* gmr )
         fmtt->set_control( control );
         fmtt->set_style( FMT_STYLE_Hide );
         FormatUnit* fmtu = gmr->create_format_unit();
+        fmtu->set_style( FMT_STYLE_Hide );
     }
     return true;
 }
