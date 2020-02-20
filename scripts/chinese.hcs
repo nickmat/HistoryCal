@@ -105,8 +105,8 @@ vocab clmon {
 }
 
 grammar c {
+    fields cycle cyear month lmonth day;
     vocabs cyear, clmon;
-    rank cycle, cyear, month, lmonth, day;
     element LM {
         output @if(lmonth=0,?,lmonth);
         pseudo "[Leap]";
