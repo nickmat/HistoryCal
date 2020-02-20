@@ -64,7 +64,7 @@ namespace Cal {
 
         Field get_jdn() const;
         Field jdn() const { return m_jdn; }
-        FieldVec get_fieldvec() { return m_f; };
+        FieldVec get_fieldvec() const { return m_f; };
         std::string get_str( const std::string& fcode ) const;
 
         Field* get_field_ptr() { return &m_f[0]; }

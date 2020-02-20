@@ -57,13 +57,16 @@ using namespace std;
 
 
 Scheme::Scheme( const std::string& name, const Base* base ) 
-    : m_name(name), m_style(SCH_STYLE_Default), m_base(base)
+    : m_name(name), m_style(SCH_STYLE_Default),
+    m_owns_base( true ), m_base(base)
 {
 }
 
 Scheme::~Scheme()
 {
-    delete m_base;
+    if ( m_owns_base ) {
+        delete m_base;
+    }
 }
 
 bool Scheme::is_ok() const

@@ -382,6 +382,22 @@ bool Calendars::add_scheme( SHandle sch, const string& code )
     return true;
 }
 
+bool Calendars::add_temp_scheme( SHandle sch, const string& code )
+{
+    if ( sch == nullptr || sch->is_ok() == false  // Only add initialised schemes
+        || m_shandles.count( code )               // that are not aready there. 
+        ) {
+        return false;
+    }
+    m_shandles[code] = sch;
+    return true;
+}
+
+void Calendars::remove_temp_scheme( const string& code )
+{
+    m_shandles.erase( code );
+}
+
 bool Calendars::add_grammar( Grammar* gmr, const string& code )
 {
     if ( gmr == nullptr || gmr->is_ok() == false  // Only add initialised schemes
@@ -635,12 +651,13 @@ bool Calendars::pop_store()
     return false;
 }
 
-Field Calendars::evaluate_field( const string& expression, const Record& record )
+Field Calendars::evaluate_field(
+    const string& expression, const Record& record, const BoolVec* reveal )
 {
     std::istringstream iss( expression );
     std::ostringstream oss;
     Script scr( this, iss, oss );
-    Field field = scr.evaluate_field( record );
+    Field field = scr.evaluate_field( record, reveal );
     m_last_error = oss.str();
     return field;
 }

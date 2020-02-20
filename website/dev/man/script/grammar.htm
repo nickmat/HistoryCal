@@ -50,6 +50,7 @@
 <tr><td class='code'>optional</td><td>Use the listed optional fields.</td><td class='example'>optional wday, ce, ceyear;</td></tr>
 <tr><td class='code'>rank</td><td>The field ranking used by the format sub-statements.</td><td class='example'>rank ce, ceyear, month, day, wday;</td></tr>
 <tr><td class='code'>vocabs</td><td>The list of vocabularies used with this grammar.</td><td class='example'>vocabs m, w, jce;</td></tr>
+<tr><td class='code'>element</td><td>Calculate an element based on other fields.</td><td class='example'>element Era {output @if(year<500,ce,?);}</td></tr>
 <tr><td class='code'>alias</td><td>Allow the use of more user friendly field names.</td><td class='example'>alias field {WDay, wday; ...}</td></tr>
 <tr><td class='code'>format</td><td>The description of a format.</td><td class='example'>format dmy, "(Day) |(Month:m:a) |(Year)";</td></tr>
 <tr><td class='code'>pref</td><td>The preferred format to use, unless otherwise stated.</td><td class='example'>pref dmy;</td></tr>
@@ -93,6 +94,18 @@
  Declare all the vocab statements to be used.
  The format definitions can only refer to the vocabs listed here.
 </p>
+
+<h3>element Sub-Statement</h3>
+<p>
+ Creates a new field which is not part of the scheme's record, but related to it by means of a mathematical expression. 
+</p>
+<table class='basic'>
+<tr><th colspan='3'>grammar element Sub-Statement</th></tr>
+<tr><th>Sub-Statement</th><th>Use</th><th>Example</th></tr>
+<tr><td class='code'>output</td><td>An expression to process the element before outputting.</td><td class='example'>output @if( year<500, ce, ? );</td></tr>
+<tr><td class='code'>pseudo</td><td>The text to show in the pseudo date for this element.</td><td class='example'>pseudo "[CE<500]";</td></tr>
+</table>
+
 
 <h3>alias Sub-Statement</h3>
 <p>

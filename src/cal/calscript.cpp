@@ -51,7 +51,7 @@ using std::vector;
 
 
 Script::Script( Calendars* cals, std::istream& in, std::ostream& out ) 
-    : m_cals(cals), m_ts(in,out), m_out(&out), m_err(&out), m_record(nullptr)
+    : m_cals(cals), m_ts(in,out), m_out(&out), m_err(&out), m_base(nullptr)
 {
     assert( cals != NULL );
 }
@@ -75,17 +75,38 @@ bool Script::run()
     return ret;
 }
 
-Field Script::evaluate_field( const Record& record )
+Field Script::evaluate_field( const Record& record, const BoolVec* reveal )
 {
-    STokenStream* prev_ts = SValue::set_token_stream( &m_ts );
-    m_record = &record;
-    SValue value = expr( true );
-    m_record = nullptr;
-    Field field;
-    if ( !value.get( field ) ) {
-        field = f_invalid;
+    assert( m_base == nullptr );
+    Field field = f_invalid;
+
+    string scode = "_rec_";
+    string mark = "_eval_";
+    SHandle sch = new Scheme( "", record.get_base() );
+    sch->set_owns_base( false );
+    sch->set_code( scode );
+    if ( m_cals->add_temp_scheme( sch, scode ) ) {
+        STokenStream* prev_ts = SValue::set_token_stream( &m_ts );
+        m_rec.clear();
+        m_bal.clear();
+        m_base = record.get_base();
+        for ( size_t i = 0; i < m_base->extended_size(); i++ ) {
+            m_rec.push_back( record.get_field_at( i ) );
+            m_bal.push_back( ( !reveal || (*reveal)[i] ) ? m_rec[i] : f_invalid );
+        }
+
+        m_cals->add_or_replace_mark( mark );
+        store()->set( "rec", SValue( "_rec_", m_rec ) );
+        store()->set( "bal", SValue( "_rec_", m_bal ) );
+        SValue value = expr( true );
+        m_cals->clear_mark( mark );
+
+        m_base = nullptr;
+        SValue::set_token_stream( prev_ts );
+        value.get( field );
     }
-    SValue::set_token_stream( prev_ts );
+    m_cals->remove_temp_scheme( scode );
+    delete sch;
     return field;
 }
 
@@ -1806,10 +1827,10 @@ SValue Script::get_value_var( const string& name )
     if( name == "today" ) {
         return SValue( Gregorian::today() );
     }
-    if ( m_record ) { // Is it a field name.
-        int index = m_record->get_field_index( name );
+    if ( m_base ) { // Is it a field name.
+        int index = m_base->get_fieldname_index( name );
         if ( index >= 0 ) {
-            return m_record->get_field( index );
+            return m_bal[index];
         }
     }
     SValue value;

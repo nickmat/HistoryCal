@@ -60,6 +60,7 @@ namespace Cal {
         Format* get_output_format( const std::string& fcode ) const;
 
         void set_code( const std::string& code ) { m_code = code; }
+        void set_owns_base( bool owns ) { m_owns_base = owns; }
         void set_style( Scheme_style style ) { m_style = style; }
         void set_input_format( const std::string& code ) { m_input_fcode = code; }
         void set_output_format( const std::string& code ) { m_output_fcode = code; }
@@ -94,6 +95,7 @@ namespace Cal {
         std::string   m_name;
         std::string   m_code;
         Scheme_style  m_style;
+        bool          m_owns_base;
         const Base*   m_base;
         std::string   m_input_fcode;
         std::string   m_output_fcode;

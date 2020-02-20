@@ -79,7 +79,8 @@ namespace Cal {
         std::string get_pref_output_fcode() const { return m_pref_output_fcode; }
         StringVec get_vocab_codes() const;
         StringVec get_vocab_names() const;
-        bool get_element( Field* field, const Record& record, const std::string& fname ) const;
+        bool get_element(
+            Field* field, const Record& record, const std::string& fname, const BoolVec* reveal ) const;
         Calendars* get_calendars() const { return m_cals; }
 
         Field find_token( Vocab** vocab, const std::string& word ) const;

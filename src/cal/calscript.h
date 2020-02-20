@@ -46,7 +46,7 @@ namespace Cal {
         Script( Calendars* cals, std::istream& in, std::ostream& out );
 
         bool run();
-        Field evaluate_field( const Record& record );
+        Field evaluate_field( const Record& record, const BoolVec* reveal );
 
     private:
         bool error( const std::string& mess ) { return m_ts.error( mess ); }
@@ -108,7 +108,9 @@ namespace Cal {
         STokenStream  m_ts;
         std::ostream* m_out;
         std::ostream* m_err;
-        const Record* m_record;
+        FieldVec      m_rec;
+        FieldVec      m_bal;
+        const Base*   m_base;
     };
 
 }

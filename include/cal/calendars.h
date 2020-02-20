@@ -84,6 +84,8 @@ namespace Cal {
 
         // The following members are not part of the Cal library public api.
         bool add_scheme( SHandle sch, const std::string& code );
+        bool add_temp_scheme( SHandle sch, const std::string& code );
+        void remove_temp_scheme( const std::string& code );
         bool add_grammar( Grammar* gmr, const std::string& code );
         Grammar* get_grammar( const std::string& code ) const;
         Vocab* create_vocab( const std::string& code );
@@ -102,7 +104,8 @@ namespace Cal {
         ScriptStore* get_store() const { return m_store; }
         void push_store();
         bool pop_store();
-        Field evaluate_field( const std::string& expression, const Record& record );
+        Field evaluate_field(
+            const std::string& expression, const Record& record, const BoolVec* reveal );
 
     private:
         SHandleMap   m_shandles;

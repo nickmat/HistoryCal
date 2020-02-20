@@ -69,16 +69,16 @@ std::string FormatText::range_to_string( const Base* base, Range range ) const
         }
     }
 
-    BoolVec mask = rec1.mark_balanced_fields( rec2, xref );
-    str1 = get_masked_output( rec1, &mask );
-    str2 = get_masked_output( rec2, &mask );
+    BoolVec reveal = rec1.mark_balanced_fields( rec2, xref );
+    str1 = get_revealed_output( rec1, &reveal );
+    str2 = get_revealed_output( rec2, &reveal );
     if ( str1 == str2 ) {
         return str1;
     }
     return str1 + " ~ " + str2;
 }
 
-string FormatText::get_masked_output( const Record& record, const BoolVec* mask ) const
+string FormatText::get_revealed_output( const Record& record, const BoolVec* reveal ) const
 {
     Element ele;
     string output, fieldout, value;
@@ -104,9 +104,9 @@ string FormatText::get_masked_output( const Record& record, const BoolVec* mask 
             break;
         case doelement:
             if ( *it == ')' ) {
-                Field f = get_field( record, ele.get_field_name(), mask );
+                Field f = get_field( record, ele.get_field_name(), reveal );
                 if ( ele.has_dual_field_name() ) {
-                    Field d = get_field( record, ele.get_dual_field_name(), mask );
+                    Field d = get_field( record, ele.get_dual_field_name(), reveal );
                     value = dual_fields_to_str( f, d );
                 } else {
                     value = ele.get_formatted_element( get_calenders(), f );
@@ -391,14 +391,14 @@ FormatText::CP_Group FormatText::get_cp_group(
 }
 
 Field FormatText::get_field(
-    const Record& record, const std::string& fname, const BoolVec* mask ) const
+    const Record& record, const std::string& fname, const BoolVec* reveal ) const
 {
     int index = record.get_field_index( fname );
     Field field;
-    if ( get_owner()->get_element( &field, record, fname ) ) {
+    if ( get_owner()->get_element( &field, record, fname, reveal ) ) {
         return field;
     }
-    if ( index < 0 || ( mask && !( *mask )[index] ) ) {
+    if ( index < 0 || ( reveal && !( *reveal )[index] ) ) {
         return f_invalid;
     }
     return record.get_field( index );

@@ -326,15 +326,15 @@ StringVec Grammar::get_vocab_names() const
 }
 
 bool Grammar::get_element(
-    Field* field, const Record& record, const string& fname ) const
+    Field* field, const Record& record, const string& fname, const BoolVec* reveal ) const
 {
     if ( m_elements.count( fname ) == 1 ) {
         string expression = m_elements.find( fname )->second.out_expression;
-        *field = m_cals->evaluate_field( expression, record );
+        *field = m_cals->evaluate_field( expression, record, reveal );
         return true;
     }
     if( m_inherit ) {
-        return m_inherit->get_element( field, record, fname );
+        return m_inherit->get_element( field, record, fname, reveal );
     }
     return false;
 }
