@@ -11,8 +11,23 @@ scheme G {
     grammar X;
 }
 
-write string,G:dmy 2345678 + ", " + date,G:dmy "23 2 1710";
+grammar X2 {
+    format dmy "(day) |(month) |(year)";
+}
+
+scheme G2 {
+    name "Test Gregorian 2";
+    base gregorian;
+    grammar X2;
+}
+
+writeln "";
+writeln string,G:dmy 2345678 + ", " + date,G:dmy "23 2 1710";
+writeln string,G2:dmy 2345678 + ", " + date,G2:dmy "23 2 1710";
 
 /*[OUTPUT]
+
 23 2 1710, 2345678
+23 2 1710, 2345678
+
 [OUTPUT]*/
