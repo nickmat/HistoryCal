@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     27th March 2016
- * Copyright:   Copyright (c) 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2016 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -47,7 +47,8 @@ class TestIso : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE_END();
 
     Calendars* m_cal;
-    SHandle    m_sid; // Scheme handle
+    SHandle    m_sid_in;  // Input Scheme handle
+    SHandle    m_sid_out; // Output Scheme handle
     SchemeFormatInfo m_inputs;
     SchemeFormatInfo m_outputs;
 
@@ -71,7 +72,8 @@ CPPUNIT_TEST_SUITE_REGISTRATION( TestIso );
 
 void TestIso::setUp()
 {
-    m_sid = NULL;
+    m_sid_in = nullptr;
+    m_sid_out = nullptr;
     m_cal = new Calendars;
     m_cal->run_script(
         "grammar \"iso\" {"
@@ -80,12 +82,6 @@ void TestIso::setUp()
         " }"
         " format \"y6md\" {"
         "  rules iso8601 caldate year6;"
-        " }"
-        " format \"ywd\" {"
-        "  rules iso8601 week;"
-        " }"
-        " format \"yd\" {"
-        "  rules iso8601 ordinal;"
         " }"
         " format \"set\" {"
         "  rules iso8601 dateset;"
@@ -100,21 +96,34 @@ void TestIso::setUp()
         " base gregorian;"
         " grammar \"iso\";"
         "}"
+
+        "grammar \"isow\" {"
+        " format \"ywd\" {"
+        "  rules iso8601 week;"
+        " }"
+        " pref \"ywd\";"
+        "}"
         "scheme \"isow\" {"
         " name \"ISO:8601 Standard Week\";"
         " base isoweek;"
-        " grammar \"iso\";"
+        " grammar \"isow\";"
+        "}"
+
+        "grammar \"isoo\" {"
+        " format \"yd\" {"
+        "  rules iso8601 ordinal;"
+        " }"
         "}"
         "scheme \"isoo\" {"
         " name \"ISO:8601 Standard Ordinal\";"
         " base isoordinal;"
-        " grammar \"iso\";"
+        " grammar \"isoo\";"
         "}"
     );
-    m_sid = m_cal->get_scheme( "isog" );
-    if( m_sid ) {
-        m_cal->get_input_info( &m_inputs, m_sid );
-        m_cal->get_output_info( &m_outputs, m_sid );
+    m_sid_in = m_sid_out = m_cal->get_scheme( "isog" );
+    if ( m_sid_in ) {
+        m_cal->get_input_info( &m_inputs, m_sid_in );
+        m_cal->get_output_info( &m_outputs, m_sid_out );
     }
 }
 
@@ -125,27 +134,29 @@ void TestIso::tearDown()
 
 void TestIso::testScript()
 {
-    CPPUNIT_ASSERT( m_sid != NULL );
+    CPPUNIT_ASSERT( m_sid_in != nullptr );
+    CPPUNIT_ASSERT( m_sid_out != nullptr );
     Scheme_info info;
-    m_cal->get_scheme_info( &info, m_sid );
+    m_cal->get_scheme_info( &info, m_sid_in );
     string str = "ISO:8601 Standard Date";
     CPPUNIT_ASSERT_EQUAL( str, info.name );
     str = "iso";
     CPPUNIT_ASSERT_EQUAL( str, info.grammar_code );
     CPPUNIT_ASSERT( info.vocab_codes.size() == 0 );
 
-    CPPUNIT_ASSERT( m_inputs.descs.size() == 5 );
+    CPPUNIT_ASSERT( m_inputs.descs.size() == 3 );
     CPPUNIT_ASSERT( find_format( m_inputs, "ymd" ) >= 0 );
-    CPPUNIT_ASSERT( m_outputs.descs.size() == 6 ); 
+    CPPUNIT_ASSERT( m_outputs.descs.size() == 4 ); 
     CPPUNIT_ASSERT( find_format( m_outputs, "ymd" ) >= 0 );
 }
 
 void TestIso::testAddFormat()
 {
-    CPPUNIT_ASSERT( m_sid != NULL );
+    CPPUNIT_ASSERT( m_sid_in != nullptr );
+    CPPUNIT_ASSERT( m_sid_out != nullptr );
     // Confirm starting position
-    CPPUNIT_ASSERT( m_inputs.descs.size() == 5 );
-    CPPUNIT_ASSERT( m_outputs.descs.size() == 6 );
+    CPPUNIT_ASSERT( m_inputs.descs.size() == 3 );
+    CPPUNIT_ASSERT( m_outputs.descs.size() == 4 );
     string expect_err = "Error (1): Unable to create format.\n";
     string err = m_cal->run_script(
         "format \"iso:ymd\", \"(year)|-(month)|-(day)\";"
@@ -156,10 +167,10 @@ void TestIso::testAddFormat()
         "format \"iso:mdy\", \"(month) |(day), |(year)\";"
     );
     CPPUNIT_ASSERT_EQUAL( expect_err, err );
-    m_cal->get_input_info( &m_inputs, m_sid );
-    CPPUNIT_ASSERT( m_inputs.descs.size() == 6 );
-    m_cal->get_output_info( &m_outputs, m_sid );
-    CPPUNIT_ASSERT( m_outputs.descs.size() == 7 );
+    m_cal->get_input_info( &m_inputs, m_sid_in );
+    CPPUNIT_ASSERT( m_inputs.descs.size() == 4 );
+    m_cal->get_output_info( &m_outputs, m_sid_out );
+    CPPUNIT_ASSERT( m_outputs.descs.size() == 5 );
 }
 
 void TestIso::testInputOutput()
@@ -172,15 +183,15 @@ void TestIso::testInputOutput()
     };
     size_t count = sizeof(t) / sizeof(data);
 
-    m_cal->set_input_format( m_sid, "ymd" );
-    m_cal->set_output_format( m_sid, "ymd" );
+    m_cal->set_input_format( m_sid_in, "ymd" );
+    m_cal->set_output_format( m_sid_out, "ymd" );
     // Output is always 'extended'
     for( size_t i = 0 ; i < count ; i++ ) {
-        RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].basic );
-        string str = m_cal->rangelist_to_str( m_sid, rl );
+        RangeList rl = m_cal->str_to_rangelist( m_sid_in, t[i].basic );
+        string str = m_cal->rangelist_to_str( m_sid_out, rl );
         CPPUNIT_ASSERT_EQUAL( t[i].extended, str );
-        rl = m_cal->str_to_rangelist( m_sid, t[i].extended );
-        str = m_cal->rangelist_to_str( m_sid, rl );
+        rl = m_cal->str_to_rangelist( m_sid_in, t[i].extended );
+        str = m_cal->rangelist_to_str( m_sid_out, rl );
         CPPUNIT_ASSERT_EQUAL( t[i].extended, str );
     }
 }
@@ -208,18 +219,18 @@ void TestIso::testInputFormatsGreg()
     };
     size_t count = sizeof(t) / sizeof(data);
 
-    m_cal->set_input_format( m_sid, "ymd" );
-    m_cal->set_output_format( m_sid, "ymd" );
+    m_cal->set_input_format( m_sid_in, "ymd" );
+    m_cal->set_output_format( m_sid_out, "ymd" );
     // Output is always 'extended'
     for( size_t i = 0 ; i < count ; i++ ) {
-        RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in );
-        string str = m_cal->rangelist_to_str( m_sid, rl );
+        RangeList rl = m_cal->str_to_rangelist( m_sid_in, t[i].in );
+        string str = m_cal->rangelist_to_str( m_sid_out, rl );
         CPPUNIT_ASSERT_EQUAL( t[i].out, str );
     }
-    m_cal->set_input_format( m_sid, "y6md" );
+    m_cal->set_input_format( m_sid_in, "y6md" );
     for( size_t i = 0 ; i < count ; i++ ) {
-        RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in2 );
-        string str = m_cal->rangelist_to_str( m_sid, rl );
+        RangeList rl = m_cal->str_to_rangelist( m_sid_in, t[i].in2 );
+        string str = m_cal->rangelist_to_str( m_sid_out, rl );
         CPPUNIT_ASSERT_EQUAL( t[i].out, str );
     }
 }
@@ -231,12 +242,13 @@ void TestIso::testOutputFormatsGreg()
     };
     size_t count1 = sizeof(t1) / sizeof(data1);
 
-    m_cal->set_input_format( m_sid, "ymd" );
-    m_cal->set_output_format( m_sid, "ywd" );
+    m_cal->set_input_format( m_sid_in, "ymd" );
+    m_sid_out = m_cal->get_scheme( "isow" );
+    m_cal->set_output_format( m_sid_out, "ywd" );
     // Output is always 'extended'
     for( size_t i = 0 ; i < count1 ; i++ ) {
-        RangeList rl = m_cal->str_to_rangelist( m_sid, t1[i].in );
-        string str = m_cal->rangelist_to_str( m_sid, rl );
+        RangeList rl = m_cal->str_to_rangelist( m_sid_in, t1[i].in );
+        string str = m_cal->rangelist_to_str( m_sid_out, rl );
         CPPUNIT_ASSERT_EQUAL( t1[i].out, str );
     }
 
@@ -245,11 +257,12 @@ void TestIso::testOutputFormatsGreg()
     };
     size_t count2 = sizeof(t2) / sizeof(data2);
 
-    m_cal->set_output_format( m_sid, "yd" );
+    m_sid_out = m_cal->get_scheme( "isoo" );
+    m_cal->set_output_format( m_sid_out, "yd" );
     // Output is always 'extended'
     for( size_t i = 0 ; i < count2 ; i++ ) {
-        RangeList rl = m_cal->str_to_rangelist( m_sid, t2[i].in );
-        string str = m_cal->rangelist_to_str( m_sid, rl );
+        RangeList rl = m_cal->str_to_rangelist( m_sid_in, t2[i].in );
+        string str = m_cal->rangelist_to_str( m_sid_out, rl );
         CPPUNIT_ASSERT_EQUAL( t2[i].out, str );
     }
 }
@@ -273,19 +286,19 @@ void TestIso::testInputFormatsWeek()
     };
     size_t count = sizeof(t) / sizeof(data);
 
-    m_sid = m_cal->get_scheme( "isow" );
-    m_cal->set_input_format( m_sid, "ymd" );
-    m_cal->set_output_format( m_sid, "ywd" );
+    m_sid_out = m_cal->get_scheme( "isow" );
+    m_cal->set_input_format( m_sid_in, "ymd" );
+    m_cal->set_output_format( m_sid_out, "ywd" );
     // Output is always 'extended'
     for( size_t i = 0 ; i < count ; i++ ) {
-        RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in );
-        string str = m_cal->rangelist_to_str( m_sid, rl );
+        RangeList rl = m_cal->str_to_rangelist( m_sid_in, t[i].in );
+        string str = m_cal->rangelist_to_str( m_sid_out, rl );
         CPPUNIT_ASSERT_EQUAL( t[i].out, str );
     }
-    m_cal->set_input_format( m_sid, "y6md" );
+    m_cal->set_input_format( m_sid_in, "y6md" );
     for( size_t i = 0 ; i < count ; i++ ) {
-        RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in2 );
-        string str = m_cal->rangelist_to_str( m_sid, rl );
+        RangeList rl = m_cal->str_to_rangelist( m_sid_in, t[i].in2 );
+        string str = m_cal->rangelist_to_str( m_sid_out, rl );
         CPPUNIT_ASSERT_EQUAL( t[i].out, str );
     }
 }
@@ -309,19 +322,19 @@ void TestIso::testInputFormatsOrdinal()
     };
     size_t count = sizeof(t) / sizeof(data);
 
-    m_sid = m_cal->get_scheme( "isoo" );
-    m_cal->set_input_format( m_sid, "ymd" );
-    m_cal->set_output_format( m_sid, "yd" );
+    m_sid_out = m_cal->get_scheme( "isoo" );
+    m_cal->set_input_format( m_sid_in, "ymd" );
+    m_cal->set_output_format( m_sid_out, "yd" );
     // Output is always 'extended'
     for( size_t i = 0 ; i < count ; i++ ) {
-        RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in );
-        string str = m_cal->rangelist_to_str( m_sid, rl );
+        RangeList rl = m_cal->str_to_rangelist( m_sid_in, t[i].in );
+        string str = m_cal->rangelist_to_str( m_sid_out, rl );
         CPPUNIT_ASSERT_EQUAL( t[i].out, str );
     }
-    m_cal->set_input_format( m_sid, "y6md" );
+    m_cal->set_input_format( m_sid_in, "y6md" );
     for( size_t i = 0 ; i < count ; i++ ) {
-        RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in2 );
-        string str = m_cal->rangelist_to_str( m_sid, rl );
+        RangeList rl = m_cal->str_to_rangelist( m_sid_in, t[i].in2 );
+        string str = m_cal->rangelist_to_str( m_sid_out, rl );
         CPPUNIT_ASSERT_EQUAL( t[i].out, str );
     }
 }
@@ -337,19 +350,19 @@ void TestIso::testDateSets()
     };
     size_t count = sizeof(t) / sizeof(data);
 
-    m_cal->set_input_format( m_sid, "set" );
-    m_cal->set_output_format( m_sid, "set" );
+    m_cal->set_input_format( m_sid_in, "set" );
+    m_cal->set_output_format( m_sid_out, "set" );
     for( size_t i = 0 ; i < count ; i++ ) {
-        RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in );
-        string str = m_cal->rangelist_to_str( m_sid, rl );
+        RangeList rl = m_cal->str_to_rangelist( m_sid_in, t[i].in );
+        string str = m_cal->rangelist_to_str( m_sid_out, rl );
         CPPUNIT_ASSERT_EQUAL( t[i].out, str );
     }
-    m_cal->set_input_format( m_sid, "set5" );
+    m_cal->set_input_format( m_sid_in, "set5" );
     for( size_t i = 0 ; i < count ; i++ ) {
-        RangeList rl = m_cal->str_to_rangelist( m_sid, t[i].in2 );
-        string str = m_cal->rangelist_to_str( m_sid, rl );
+        RangeList rl = m_cal->str_to_rangelist( m_sid_in, t[i].in2 );
+        string str = m_cal->rangelist_to_str( m_sid_out, rl );
         CPPUNIT_ASSERT_EQUAL( t[i].out, str );
     }
 }
 
-// End of test/unit/testformat.cpp file
+// End of test/unit/testiso.cpp file
