@@ -330,11 +330,28 @@ bool Grammar::get_element(
 {
     if ( m_elements.count( fname ) == 1 ) {
         string expression = m_elements.find( fname )->second.out_expression;
-        *field = m_cals->evaluate_field( expression, record, reveal );
-        return true;
+        if ( !expression.empty() ) {
+            *field = m_cals->evaluate_field( expression, record, reveal );
+            return true;
+        }
     }
     if( m_inherit ) {
         return m_inherit->get_element( field, record, fname, reveal );
+    }
+    return false;
+}
+
+bool Grammar::set_element( Record* record, const string& fname, Field field ) const
+{
+    if ( m_elements.count( fname ) == 1 ) {
+        string expression = m_elements.find( fname )->second.in_expression;
+        if ( !expression.empty() ) {
+            m_cals->evaluate_record( expression, record, fname, field );
+            return true;
+        }
+    }
+    if ( m_inherit ) {
+        return m_inherit->set_element( record, fname, field );
     }
     return false;
 }

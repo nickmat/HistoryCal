@@ -662,4 +662,14 @@ Field Calendars::evaluate_field(
     return field;
 }
 
+void Calendars::evaluate_record(
+    const string& expression, Record* record, const string& fname, Field field )
+{
+    std::istringstream iss( expression );
+    std::ostringstream oss;
+    Script scr( this, iss, oss );
+    scr.evaluate_record( record, fname, field );
+    m_last_error = oss.str();
+}
+
 // End of src/cal/calcalendars.cpp file

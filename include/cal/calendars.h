@@ -106,6 +106,8 @@ namespace Cal {
         bool pop_store();
         Field evaluate_field(
             const std::string& expression, const Record& record, const BoolVec* reveal );
+        void evaluate_record(
+            const std::string& expression, Record* record, const std::string& fname, Field field );
 
     private:
         SHandleMap   m_shandles;

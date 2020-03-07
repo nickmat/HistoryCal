@@ -47,6 +47,7 @@ namespace Cal {
 
         bool run();
         Field evaluate_field( const Record& record, const BoolVec* reveal );
+        void evaluate_record( Record* record, const std::string& fname, Field field );
 
     private:
         bool error( const std::string& mess ) { return m_ts.error( mess ); }

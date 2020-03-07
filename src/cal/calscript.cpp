@@ -110,6 +110,41 @@ Field Script::evaluate_field( const Record& record, const BoolVec* reveal )
     return field;
 }
 
+void Script::evaluate_record( Record* record, const string& fname, Field field )
+{
+    assert( m_base == nullptr );
+
+    string scode = "_rec_";
+    string mark = "_eval_";
+    SHandle sch = new Scheme( "", record->get_base() );
+    sch->set_owns_base( false );
+    sch->set_code( scode );
+    if ( m_cals->add_temp_scheme( sch, scode ) ) {
+        STokenStream* prev_ts = SValue::set_token_stream( &m_ts );
+        m_rec.clear();
+        m_bal.clear();
+        m_base = record->get_base();
+        for ( size_t i = 0; i < m_base->extended_size(); i++ ) {
+            m_bal.push_back( record->get_field_at( i ) );
+        }
+
+        m_cals->add_or_replace_mark( mark );
+        store()->set( "bal", SValue( "_rec_", m_bal ) );
+        store()->set( fname, field );
+        SValue value = expr( true );
+        m_cals->clear_mark( mark );
+
+        m_base = nullptr;
+        SValue::set_token_stream( prev_ts );
+        if ( value.type() == SValue::SVT_Record ) {
+            FieldVec fv = value.get_record();
+            record->set_fields( &fv[0], m_base->extended_size() );
+        }
+    }
+    m_cals->remove_temp_scheme( scode );
+    delete sch;
+}
+
 ScriptStore* Script::store() const
 {
     return m_cals->get_store();
@@ -945,6 +980,8 @@ bool Script::do_grammar_element( Grammar* gmr )
             string sub = token.get_str();
             if ( sub == "output" ) {
                 ef.out_expression = m_ts.read_until( ";", "" );
+            } else if ( sub == "input" ) {
+                ef.in_expression = m_ts.read_until( ";", "" );
             } else if ( sub == "pseudo" ) {
                 expr( true ).get( ef.pseudo );
             }

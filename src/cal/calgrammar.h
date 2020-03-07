@@ -41,6 +41,7 @@ namespace Cal {
 
     struct ElementField
     {
+        std::string in_expression;
         std::string out_expression;
         std::string pseudo;
     };
@@ -81,6 +82,7 @@ namespace Cal {
         StringVec get_vocab_names() const;
         bool get_element(
             Field* field, const Record& record, const std::string& fname, const BoolVec* reveal ) const;
+        bool set_element( Record* record, const std::string& fname, Field field ) const;
         Calendars* get_calendars() const { return m_cals; }
 
         Field find_token( Vocab** vocab, const std::string& word ) const;
@@ -107,7 +109,7 @@ namespace Cal {
         std::string                m_code;
         bool                       m_ok;
         Grammar*                   m_inherit;
-        std::map<std::string,ElementField> m_elements;
+        std::map<std::string, ElementField> m_elements;
         StringMap                  m_field_alias;
         StringMap                  m_num_pseudo_alias;
         StringMap                  m_unit_alias;
