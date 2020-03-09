@@ -1463,6 +1463,10 @@ SValue Script::primary( bool get )
         value.set_field( f_invalid );
         m_ts.next();
         break;
+    case SToken::STT_Star:
+        value.set_field( f_invalid2 );
+        m_ts.next();
+        break;
     case SToken::STT_String:
         value.set_str( token.get_str() );
         m_ts.next();
@@ -1569,13 +1573,23 @@ SValue Script::get_record( bool get )
     FieldVec fields;
     token = m_ts.current();
 
+    bool comma_next = true;
     for(;;) {
         switch( token.type() )
         {
         case SToken::STT_End:
         case SToken::STT_RCbracket:
+            if ( !comma_next ) {
+                fields.push_back( f_invalid2 );
+            }
             return SValue( scode, fields );
         case SToken::STT_Comma:
+            if ( comma_next ) {
+                comma_next = false;
+            } else {
+                fields.push_back( f_invalid2 );
+                comma_next = true;
+            }
             break;
         default:
             {
@@ -1588,6 +1602,7 @@ SValue Script::get_record( bool get )
                 }
             }
             token = m_ts.current();
+            comma_next = true;
             continue;
         }
         token = m_ts.next();

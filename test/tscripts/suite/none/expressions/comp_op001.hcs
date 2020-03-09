@@ -20,6 +20,7 @@ writeln (r1b = r1a) + ", " + (r1a = r1b);
 writeln r1 <> r2;
 writeln r1 < r2;
 writeln r1 >= r2;
+writeln {G,1710,*,23,*} = {G,1710,?,23};
 
 /*[OUTPUT]
 
@@ -31,5 +32,6 @@ true, true
 true
 Error (21): Can only compare a Record for equal or not equal.
 Error (22): Can only compare a Record for equal or not equal.
+true
 
 [OUTPUT]*/

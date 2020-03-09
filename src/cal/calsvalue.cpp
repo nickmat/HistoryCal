@@ -165,12 +165,7 @@ bool SValue::get( string& str ) const
     case SVT_Record:
         str += "{\"" + m_str + "\"";
         for( size_t i = 0 ; i < m_rlist.size() ; i++ ) {
-            str += ", ";
-            if( m_rlist[i].jdn1 == f_invalid ) {
-                str += "?";
-            } else {
-                str += field_to_str( m_rlist[i].jdn1 );
-            }
+            str += ", " + field_to_str( m_rlist[i].jdn1, SI_qmark );
         }
         str += "}";
         return true;

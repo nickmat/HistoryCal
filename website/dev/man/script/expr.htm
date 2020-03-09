@@ -54,6 +54,7 @@
  The value is substituted when the keyword is first encountered.
 </td></tr>
 <tr><td><b>?</b></td><td>An unknown or indeterminate value.</td></tr>
+<tr><td><b>*</b></td><td>A wildcard value, currently only used for fields within records.</td></tr>
 </table>
 
 <h3>Range</h3>
@@ -93,8 +94,12 @@
  The scheme must be defined before the record can be used.
  The format of the record type is '{"sig", field_1, field_2, field_3}'
  where 'sig' is the scheme code and the field values are in record-default order.
- If not all field values are given, the '?' value is assumed for those missing.
+ If not all field values are given, the '*' value is assumed for those missing.
  If the scheme code is missing, the default input scheme is assumed.
+</p>
+<p>
+ The record can only be compared for equality.
+ When they are, wildcard '*' values are considered equal to unknown '?' values.
 </p>
 
 <h3>String</h3>

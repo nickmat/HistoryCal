@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     6th May 2015
- * Copyright:   Copyright (c) 2015 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2015 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -59,9 +59,15 @@ static void ascii_tolower( string& str )
 
 string Cal::field_to_str( Field field, ShowInvalid si )
 {
-    if( field== f_invalid ) {
-        if( si == SI_qmark ) {
+    if ( field == f_invalid ) {
+        if ( si == SI_qmark ) {
             return "?";
+        }
+        return "";
+    }
+    if ( field == f_invalid2 ) {
+        if ( si == SI_qmark ) {
+            return "*";
         }
         return "";
     }
