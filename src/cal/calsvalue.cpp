@@ -390,8 +390,35 @@ void SValue::equal( const SValue& value )
                 }
             }
             break;
+        case SVT_Record:
+            {
+                result = ( get_str() == value.get_str() );
+                if ( result ) {
+                    FieldVec vrec = value.get_record();
+                    FieldVec trec = get_record();
+                    size_t size = std::max( vrec.size(), trec.size() );
+                    for ( size_t i = 0; i < size; i++ ) {
+                        if ( i == vrec.size() ) {
+                            vrec.push_back( f_invalid );
+                        } else if ( vrec[i] == f_invalid2 ) {
+                            vrec[i] = f_invalid;
+                        }
+                        if ( i == trec.size() ) {
+                            trec.push_back( f_invalid );
+                        } else if ( trec[i] == f_invalid2 ) {
+                            trec[i] = f_invalid;
+                        }
+                        if ( trec[i] != vrec[i] ) {
+                            result = false;
+                            break;
+                        }
+                    }
+                }
+            }
+            break;
         default:
-            result = true;
+            set_error( "Type cannot be compared." );
+            return;
         }
         set_bool( result );
         return;
@@ -421,8 +448,12 @@ void SValue::greater_than( const SValue& value )
         case SVT_RList:
             set_error( "Can only compare a Range for equal or not equal." );
             return;
+        case SVT_Record:
+            set_error( "Can only compare a Record for equal or not equal." );
+            return;
         default:
-            result = true;
+            set_error( "Type cannot be compared." );
+            return;
         }
         set_bool( result );
         return;
@@ -452,8 +483,12 @@ void SValue::less_than( const SValue& value )
         case SVT_RList:
             set_error( "Can only compare a Range for equal or not equal." );
             return;
+        case SVT_Record:
+            set_error( "Can only compare a Record for equal or not equal." );
+            return;
         default:
-            result = true;
+            set_error( "Type cannot be compared." );
+            return;
         }
         set_bool( result );
         return;
