@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     24th June 2014
- * Copyright:   Copyright (c) 2014 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -99,6 +99,7 @@ namespace Cal {
         void range_op( const SValue& value );
         void subscript_op( const SValue& value );
         void property_op( const SValue& value );
+        void over_op( const SValue& value );
 
         void negate(); // Unitary minus
         void logical_not();

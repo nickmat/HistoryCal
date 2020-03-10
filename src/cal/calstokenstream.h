@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     24th June 2014
- * Copyright:   Copyright (c) 2014 ~ 2018, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -48,7 +48,7 @@ namespace Cal {
             STT_Vline, STT_Ampersand, STT_Exclamation, STT_Carrot, STT_At,
             STT_Lbracket, STT_Rbracket, STT_LCbracket, STT_RCbracket,
             STT_LSbracket, STT_RSbracket, 
-            STT_mod, STT_and, STT_or, STT_not,
+            STT_over, STT_mod, STT_and, STT_or, STT_not,
             STT_str_cast, STT_date, STT_record, STT_convert, STT_error,
             STT_NotEqual,    //  "<>"
             STT_GtThan,      //  ">"

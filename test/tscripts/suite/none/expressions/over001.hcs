@@ -1,0 +1,32 @@
+// none/expressions/over001.hcs  Test over op with record types.
+
+scheme G { name "Test Gregorian"; base gregorian; grammar { optional wday; } }
+set inout G:def;
+
+let r1 = {"G",1799,3,12};
+let r2 = {G,1748,*,23};
+let r3 = {,1710,*,?,};
+let r4 = {,1710};
+let r5 = {,,3};
+
+writeln "";
+writeln "r1 r2, " + r1 over r2 + ", " + r2 over r1;
+writeln "r1 r3, " + r1 over r3 + ", " + r3 over r1;
+writeln "r2 r3, " + r2 over r3 + ", " + r3 over r2;
+writeln "r1 r4, " + r1 over r4 + ", " + r4 over r1;
+writeln "r2 r4, " + r2 over r4 + ", " + r4 over r2;
+writeln "r1 r5, " + r1 over r5 + ", " + r5 over r1;
+writeln "r2 r5, " + r2 over r5 + ", " + r5 over r2;
+
+
+/*[OUTPUT]
+
+r1 r2, {"G", 1799, 3, 12}, {"G", 1748, 3, 23}
+r1 r3, {"G", 1799, 3, 12, *}, {"G", 1710, 3, ?, *}
+r2 r3, {"G", 1748, *, 23, *}, {"G", 1710, *, ?, *}
+r1 r4, {"G", 1799, 3, 12}, {"G", 1710, 3, 12}
+r2 r4, {"G", 1748, *, 23}, {"G", 1710, *, 23}
+r1 r5, {"G", 1799, 3, 12}, {"G", 1799, 3, 12}
+r2 r5, {"G", 1748, 3, 23}, {"G", 1748, 3, 23}
+
+[OUTPUT]*/

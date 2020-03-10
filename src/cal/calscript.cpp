@@ -1379,20 +1379,37 @@ SValue Script::sum( bool get )
 
 SValue Script::term( bool get )
 {
-    SValue left = subscript( get );
+    SValue left = over( get );
 
     for(;;) {
         SToken token = m_ts.current();
         switch( token.type() )
         {
         case SToken::STT_Star:
-            left.multiply( subscript( true ) );
+            left.multiply( over( true ) );
             break;
         case SToken::STT_Divide:
-            left.divide( subscript( true ) );
+            left.divide( over( true ) );
             break;
         case SToken::STT_mod:
-            left.modulus( subscript( true ) );
+            left.modulus( over( true ) );
+            break;
+        default:
+            return left;
+        }
+    }
+}
+
+SValue Cal::Script::over( bool get )
+{
+    SValue left = subscript( get );
+
+    for ( ;;) {
+        SToken token = m_ts.current();
+        switch ( token.type() )
+        {
+        case SToken::STT_over:
+            left.over_op( subscript( true ) );
             break;
         default:
             return left;

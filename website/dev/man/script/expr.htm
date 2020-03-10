@@ -360,6 +360,18 @@
  can be used with boolean types only. Any other type will produce an error.
 </p>
 
+<h3>Masking Operator</h3>
+<p>
+ The masking operator 'over' is implemented
+ to allow one record value to form a mask with wildcard values.
+ For <b>a over b</b> any wildcard field values in <b>a</b>
+ are replaced with the corresponding field value from <b>b</b>. 
+</p>
+<p>
+ Currently only implemented for record type values,
+ but it may be implemented for other number types in future.
+</p>
+
 <h3>Subscript operators</h3>
 <p>
  The subscript operators allow access to to the various parts of the more complex value types.
@@ -570,6 +582,8 @@
 <tr><td class='code' colspan='4'></td></tr>
 <tr><td class='code'>[]</td><td>Subscript</td><td class='example'>date_value<b>[</b>string_value<b>]</b></td><td class='example'>field_value</td></tr>
 <tr><td class='code'>[.<i>name</i>]</td><td>Property</td><td class='example'>value<b>[.</b>name<b>]</b></td><td class='example'>value</td></tr>
+<tr><td class='code' colspan='4'></td></tr>
+<tr><td class='code'>over</td><td>Over mask</td><td class='example'>record_value <b>over</b> record_value</td><td class='example'>record_value</td></tr>
 <tr><td class='code' colspan='4'></td></tr>
 <tr><td class='code'>*</td><td>Multiply</td><td class='example'>field_value <b>*</b> field_value</td><td class='example'>field_value</td></tr>
 <tr><td class='code'>/</td><td>Divide</td><td class='example'>field_value <b>/</b> field_value</td><td class='example'>field_value</td></tr>

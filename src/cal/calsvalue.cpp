@@ -866,6 +866,30 @@ void SValue::property_op( const SValue& value )
     set_error( "Property not recognised." );
 }
 
+void SValue::over_op( const SValue& value )
+{
+    if ( propagate_error( value ) ) {
+        return;
+    }
+    // left side: m_rlist
+    // right side: value.m_rlist
+    // Note: the scheme code is ignored.
+    if ( m_type == SVT_Record && value.m_type == SVT_Record ) {
+        for ( size_t i = 0; i < value.m_rlist.size(); i++ ) {
+            if ( i >= m_rlist.size() ) {
+                m_rlist.push_back( value.m_rlist[i] );
+            } else if ( m_rlist[i].jdn1 == f_invalid2 ) {
+                m_rlist[i] = value.m_rlist[i];
+            }
+            if ( i >= value.m_rlist.size() ) {
+                break;
+            }
+        }
+        return;
+    }
+    set_error( "Can only use operator 'over' with Record types." );
+}
+
 void SValue::negate()
 {
     switch( m_type )
