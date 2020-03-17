@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     18th May 2014
- * Copyright:   Copyright (c) 2014 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCalTest is free software: you can redistribute it and/or modify
@@ -36,9 +36,9 @@
 #include <fstream>
 #include <sstream>
 
-#define VERSION   "0.9.0"
+#define VERSION   "0.9.1"
 #define PROGNAME  "HistoryCalTest"
-#define COPYRIGHT  "2014 - 20019 Nick Matthews"
+#define COPYRIGHT  "2014 - 2020 Nick Matthews"
 
 const char* g_version = VERSION;
 const char* g_progName = PROGNAME;
@@ -52,6 +52,12 @@ const char* g_title = PROGNAME " - Version " VERSION " Debug\n";
 
 using namespace Cal;
 using namespace std;
+
+struct TestResults {
+    TestResults() : tests( 0 ), fails( 0 ) {}
+    int tests;
+    int fails;
+};
 
 string left_trim( const string& str )
 {
@@ -112,28 +118,23 @@ string run_test( Calendars* cal, const string& filename )
     return result;
 }
 
-string run_full_test( Calendars* cal, const string& path )
+string run_full_test( TestResults* totals, Calendars* cal, const string& path )
 {
-    clock_t t = clock();
     vector<string> filenames;
     string result;
-    int errcnt = 0;
     get_filenames( filenames, path );
     for( size_t i = 0 ; i < filenames.size() ; i++ ) {
+        totals->tests++;
         string error = run_test( cal, filenames[i] );
         if( !error.empty() ) {
-            errcnt++;
+            totals->fails++;
             result += "\n\n" + error;
         }
     }
-    double dt = ((double) clock() - t) / CLOCKS_PER_SEC;
-
-    return  result + "\n\nRun (" + to_string( filenames.size() ) + ") "
-        "  fail (" + to_string( errcnt ) + ")"
-        "  Timed: " + to_string(dt) + "s\n\n";
+    return result;
 }
 
-string run_test_script( Calendars* cal, const string& filename )
+string run_test_script( TestResults* totals, Calendars* cal, const string& filename )
 {
     string script = read_file( filename );
     string output = cal->run_script( script );
@@ -149,12 +150,15 @@ string run_test_script( Calendars* cal, const string& filename )
     string result = filename + "  ";
     if ( output.empty() ) {
         result += "No output\n";
+        totals->fails++;
     } else if ( output == expected ) {
         result += "Pass: " + output + "\n\n";
     } else {
         result += "\n Expected: " + expected + "\n"
             + "   Output: " + output + "\n\n";
+        totals->fails++;
     }
+    totals->tests++;
     return result;
 }
 
@@ -162,10 +166,12 @@ int main( int argc, char* argv[] )
 {
     cout << g_title << "\n";
 
+    clock_t t = clock();
     Calendars* cal_stdlib = nullptr;
     Calendars* cal_none = nullptr;
     Calendars* cal = nullptr;
     string result;
+    TestResults totals;
     for ( int i = 1; i < argc; i++ ) {
         string arg = argv[i];
         if ( arg == "-t" ) {
@@ -190,15 +196,22 @@ int main( int argc, char* argv[] )
             cal = cal_stdlib = new Calendars( Init_script_default );
         }
         if ( cf == CF_file ) {
-            result += run_test_script( cal, arg );
+            result += run_test_script( &totals, cal, arg );
             continue;
         } else if ( cf == CF_dir ) {
-            result += run_full_test( cal, arg );
+            result += run_full_test( &totals, cal, arg );
             continue;
         }
         result += "Unknown command line switch " + arg + "\n\n";
     }
     cout << result;
+
+    double dt = ((double) clock() - t) / CLOCKS_PER_SEC;
+
+    cout << "\n\nRun (" + to_string( totals.tests ) + ") "
+        "  fail (" + to_string( totals.fails ) + ")"
+        "  Timed: " + to_string( dt ) + "s\n\n";
+
     return 0;
 }
 
