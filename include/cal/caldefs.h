@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     21st September 2013
- * Copyright:   Copyright (c) 2013 ~ 2018, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -82,6 +82,10 @@ namespace Cal {
     typedef std::map<std::string,std::string> StringMap;
     typedef std::vector<int> XRefVec;
     typedef std::vector<bool> BoolVec;
+
+    inline void stringvec_cat( StringVec& a, const StringVec& b ) {
+        a.insert( a.end(), b.begin(), b.end() );
+    }
 
     const Field f_invalid  = INT_MIN;      // -2147483648;
     const Field f_minimum  = -(INT_MAX-2); // -2147483645;
