@@ -80,6 +80,7 @@ namespace Cal {
         Field get_field( int index, const BoolVec* mask = nullptr ) const;
         Field get_field_at( int index ) const { return m_f[index]; }
         Field get_field( const std::string& fieldname ) const;
+        void get_fields( Field* fields, size_t size ) const;
         void set_field( Field value, size_t index ) { m_f[index] = value; }
 
         bool is_mask_valid( Field* mask, size_t mask_size ) const;

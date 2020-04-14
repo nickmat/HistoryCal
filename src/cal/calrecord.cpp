@@ -439,6 +439,13 @@ Field Record::get_field( const std::string & fieldname ) const
     return m_base->get_opt_field( &m_f[0], m_jdn, opt_id );
 }
 
+void Record::get_fields( Field* fields, size_t size ) const
+{
+    for ( size_t i = 0; i < size; i++ ) {
+        fields[i] = m_f[i];
+    }
+}
+
 bool Record::is_mask_valid( Field* mask, size_t mask_size ) const
 {
     size_t size = std::min( mask_size, m_base->extended_size() );
