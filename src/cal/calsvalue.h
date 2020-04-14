@@ -56,6 +56,7 @@ namespace Cal {
         void set_range( Range range );
         void set_rlist( RangeList rlist );
         void set_record( const std::string& scode, const FieldVec& fields );
+        void set_record_scode( const std::string& scode );
 
         void set_error( const std::string& str );
 

@@ -98,6 +98,13 @@ void SValue::set_record( const string& scode, const FieldVec& fields )
     }
 }
 
+void SValue::set_record_scode( const string& scode )
+{
+    if ( m_type == SVT_Record ) {
+        m_str = scode;
+    }
+}
+
 void SValue::set_error( const string& str )
 {
     m_type = SVT_Error;
