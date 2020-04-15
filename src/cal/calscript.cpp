@@ -134,7 +134,7 @@ void Script::evaluate_record( Record* record, const string& fname, Field field )
         store()->set( "rec", rec );
         store()->set( fname, field );
         SValue value = expr( true );
-        value.over_op( rec );
+        value.divide( rec );
         m_cals->clear_mark( mark );
 
         SValue::set_token_stream( prev_ts );
@@ -1404,37 +1404,20 @@ SValue Script::sum( bool get )
 
 SValue Script::term( bool get )
 {
-    SValue left = over( get );
+    SValue left = subscript( get );
 
     for(;;) {
         SToken token = m_ts.current();
         switch( token.type() )
         {
         case SToken::STT_Star:
-            left.multiply( over( true ) );
+            left.multiply( subscript( true ) );
             break;
         case SToken::STT_Divide:
-            left.divide( over( true ) );
+            left.divide( subscript( true ) );
             break;
         case SToken::STT_mod:
-            left.modulus( over( true ) );
-            break;
-        default:
-            return left;
-        }
-    }
-}
-
-SValue Cal::Script::over( bool get )
-{
-    SValue left = subscript( get );
-
-    for ( ;;) {
-        SToken token = m_ts.current();
-        switch ( token.type() )
-        {
-        case SToken::STT_over:
-            left.over_op( subscript( true ) );
+            left.modulus( subscript( true ) );
             break;
         default:
             return left;

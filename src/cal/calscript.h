@@ -87,7 +87,6 @@ namespace Cal {
         SValue range( bool get );
         SValue sum( bool get );
         SValue term( bool get );
-        SValue over( bool get );
         SValue subscript( bool get );
         SValue primary( bool get );
         std::string get_name_or_primary( bool get );

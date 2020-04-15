@@ -279,11 +279,14 @@
  Multiplication of past and future values is an error.
 </p>
 <p>
- For the division operator, the following conditions apply.<br />
+ For the normal division operator, the following conditions apply.<br />
  The divisor must be a non-zero integer value. Using the values 0, ?, past or future results in an error.<br />
  If the dividend is past and the divisor valid, the result is also past.<br />
  If the dividend is future and the divisor valid, the result is also future.<br />
  Division of the ? value results in an error.
+</p>
+<p>
+ Division where both sides are record values results in the <a href='#over'>over mask</a>' operation.
 </p>
 <p>
  For the modulo operator, the following conditions apply.<br />
@@ -328,7 +331,7 @@
  <tr><td class='example'>48 ~ 25 ~ 5 ~ 10</td><td class='example'>5 ~ 48</td></tr>
 </table>
 
-<h3>Set Operators</h3>
+<h3 id='set'>Set Operators</h3>
 <p>
  The Complement '!' is a unary prefix operator which operates on a rlist.
  The Union '|', Intersection '&amp;', Symmetric difference '^' and Relative complement '\'
@@ -354,22 +357,19 @@
  Use with any other type results in an error.
 </p>
 
-<h3>Boolean Operators</h3>
+<h3 id='boolian'>Boolean Operators</h3>
 <p>
  The unary prefix operator 'not' and the binary operators 'and' and 'or'
  can be used with boolean types only. Any other type will produce an error.
 </p>
 
-<h3>Masking Operator</h3>
+<h3 id='over'>Over Masking Operator</h3>
 <p>
- The masking operator 'over' is implemented
- to allow one record value to form a mask with wildcard values.
- For <b>a over b</b> any wildcard field values in <b>a</b>
+ The masking operator 'over' is implemented for record types only
+ and overloads the '/' operator.
+ It allow one record value to form a mask with wildcard values.
+ For <b>a / b</b> any wildcard field values in <b>a</b>
  are replaced with the corresponding field value from <b>b</b>. 
-</p>
-<p>
- Currently only implemented for record type values,
- but it may be implemented for other number types in future.
 </p>
 
 <h3>Subscript operators</h3>
@@ -583,10 +583,11 @@
 <tr><td class='code'>[]</td><td>Subscript</td><td class='example'>date_value<b>[</b>string_value<b>]</b></td><td class='example'>field_value</td></tr>
 <tr><td class='code'>[.<i>name</i>]</td><td>Property</td><td class='example'>value<b>[.</b>name<b>]</b></td><td class='example'>value</td></tr>
 <tr><td class='code' colspan='4'></td></tr>
-<tr><td class='code'>over</td><td>Over mask</td><td class='example'>record_value <b>over</b> record_value</td><td class='example'>record_value</td></tr>
-<tr><td class='code' colspan='4'></td></tr>
 <tr><td class='code'>*</td><td>Multiply</td><td class='example'>field_value <b>*</b> field_value</td><td class='example'>field_value</td></tr>
-<tr><td class='code'>/</td><td>Divide</td><td class='example'>field_value <b>/</b> field_value</td><td class='example'>field_value</td></tr>
+<tr><td class='code'>/</td><td>Divide<br />Over mask</td>
+ <td class='example'>field_value <b>/</b> field_value<br />record_value <b>/</b> record_value</td>
+ <td class='example'>field_value<br />record_value</td>
+</tr>
 <tr><td class='code'>mod</td><td>Modulo</td><td class='example'>field_value <b>mod</b> field_value</td><td class='example'>field_value</td></tr>
 <tr><td class='code' colspan='4'></td></tr>
 <tr><td class='code'>+</td><td>Plus</td>

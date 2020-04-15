@@ -599,11 +599,11 @@ void SValue::multiply( const SValue& value )
 
 void SValue::divide( const SValue& value )
 {
-    if( propagate_error( value ) ) {
+    if ( propagate_error( value ) ) {
         return;
     }
-    if( m_type == SVT_Field && value.m_type == SVT_Field ) {
-        switch( value.m_range.jdn1 )
+    if ( m_type == SVT_Field && value.m_type == SVT_Field ) {
+        switch ( value.m_range.jdn1 )
         {
         case 0:
             set_error( "Division by zero." );
@@ -619,13 +619,28 @@ void SValue::divide( const SValue& value )
             return;
         }
         Field result = divide( m_range.jdn1, value.m_range.jdn1 );
-        if( result != f_invalid ) {
+        if ( result != f_invalid ) {
             set_field( result );
         } else {
             set_error( "Division has invalid result." );
         }
+    } else if( m_type == SVT_Record && value.m_type == SVT_Record ) {
+        // Overload divide for the 'over' operation.
+        // left side: m_rlist
+        // right side: value.m_rlist
+        // Note: the scheme code is ignored.
+        for ( size_t i = 0; i < value.m_rlist.size(); i++ ) {
+            if ( i >= m_rlist.size() ) {
+                m_rlist.push_back( value.m_rlist[i] );
+            } else if ( m_rlist[i].jdn1 == f_invalid2 ) {
+                m_rlist[i] = value.m_rlist[i];
+            }
+            if ( i >= value.m_rlist.size() ) {
+                break;
+            }
+        }
     } else {
-        set_error( "Can only divide fields." );
+        set_error( "Can only divide fields or records." );
     }
 }
 
@@ -871,30 +886,6 @@ void SValue::property_op( const SValue& value )
         }
     }
     set_error( "Property not recognised." );
-}
-
-void SValue::over_op( const SValue& value )
-{
-    if ( propagate_error( value ) ) {
-        return;
-    }
-    // left side: m_rlist
-    // right side: value.m_rlist
-    // Note: the scheme code is ignored.
-    if ( m_type == SVT_Record && value.m_type == SVT_Record ) {
-        for ( size_t i = 0; i < value.m_rlist.size(); i++ ) {
-            if ( i >= m_rlist.size() ) {
-                m_rlist.push_back( value.m_rlist[i] );
-            } else if ( m_rlist[i].jdn1 == f_invalid2 ) {
-                m_rlist[i] = value.m_rlist[i];
-            }
-            if ( i >= value.m_rlist.size() ) {
-                break;
-            }
-        }
-        return;
-    }
-    set_error( "Can only use operator 'over' with Record types." );
 }
 
 void SValue::negate()

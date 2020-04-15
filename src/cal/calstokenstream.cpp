@@ -100,8 +100,6 @@ SToken STokenStream::next()
             set_type( SToken::STT_not );
         } else if ( str == "mod" ) {
             set_type( SToken::STT_mod );
-        } else if ( str == "over" ) {
-            set_type( SToken::STT_over );
         } else if( str == "string" ) {
             set_type( SToken::STT_str_cast );
         } else if( str == "date" ) {
