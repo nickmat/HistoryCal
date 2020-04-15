@@ -67,10 +67,11 @@
  Declare the fields that match the scheme base fields.
  This list is checked whenever the grammar is attached to a scheme.
  If the match fails, an error is generated.
- If the grammar inherits, then the inherited fields are used and this statement is ignored.
 </p>
 <p>
- This sub-statement must be positioned before any sub-statement that uses these fields.
+ If the grammar inherits,
+ then the inherited fields are appended to these fields,
+ if any.
 </p>
 
 <h3>optional Sub-Statement</h3>

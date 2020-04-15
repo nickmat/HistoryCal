@@ -1,28 +1,43 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Name:        scripts/ce-bce.hcs
- * Project:     Cal: Programmable Historical Calendar library.
- * Purpose:     Common Era and Before Common Era - default script.
- * Author:      Nick Matthews
- * Website:     http://historycal.org
- * Created:     17th June 2015
- * Copyright:   Copyright (c) 2015 ~ 2020, Nick Matthews.
- * Licence:     GNU GPLv3
- *
- *  The Cal library is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The Cal library is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with the Cal library.  If not, see <http://www.gnu.org/licenses/>.
- *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-*/
+// none/schemes/julian_jce_001.hcs Original default version of jce
+
+function if(c,a,b) { if c result=a; else result=b; endif }
+
+vocab w {
+    name "Weekday names";
+    fieldname wday;
+    lang en;
+    pseudo    Weekday,  WDay;
+    tokens {
+        1, "Monday",    "Mon";
+        2, "Tuesday",   "Tue";
+        3, "Wednesday", "Wed";
+        4, "Thursday",  "Thur";
+        5, "Friday",    "Fri";
+        6, "Saturday",  "Sat";
+        7, "Sunday",    "Sun";
+    }
+}
+
+vocab m {
+    name "Month names";
+    fieldname month;
+    lang en;
+    pseudo     Month,     Mon;
+    tokens {
+        1,  "January",   "Jan";
+        2,  "February",  "Feb";
+        3,  "March",     "Mar";
+        4,  "April",     "Apr";
+        5,  "May";
+        6,  "June",      "Jun";
+        7,  "July",      "Jul";
+        8,  "August",    "Aug";
+        9,  "September", "Sep";
+        10, "October",   "Oct";
+        11, "November",  "Nov";
+        12, "December",  "Dec";
+    }
+}
 
 vocab jce {
     name "Historic Era";
@@ -65,6 +80,7 @@ grammar jce {
         w, week;
     }
     format  dmy,    "(Day) |(Month:m:a) |(Year)| (Era:jce:a=CE)";
+    /*
     format  dmye,    "(Day) |(Month:m:a) |(Year)| (CEra:jce:a=CE)";
     format  wdmy,   "(WDay:w:a) |(Day) |(Month:m:a) |(Year)| (Era:jce:a=CE)";
     format  out {
@@ -77,6 +93,7 @@ grammar jce {
     format "wdmy+", "(WDay:w) |(Day) |(Month:m) |(Year) |(CEra:jce=CE)";
     format  mdy,    "(Month:m:a) |(Day), |(Year) |(CEra:jce:a=CE)";
     format  ymd,    "(Year)|(CEra:jce:a=CE)|:(Month:m:a)|:(Day)";
+    */
     pref dmy;
 }
 
@@ -86,10 +103,19 @@ scheme jce {
     grammar jce;
 }
 
-scheme gce {
-    name "Gregorian Common Era";
-    base gregorian;
-    grammar jce;
-}
+let d1 = date,jce:dmy "14sep948"; // 2067572  j:dmy# 14 Sep 948
+let d2 = date,jce:dmy "20sep148ce"; // 1775378  j:dmy# 20 Sep 148
+let d3 = date,jce:dmy "22sep149bce"; // 1667266  j:dmy# 22 Sep -148
 
-// End of scripts/ce-bce.hcs file
+writeln "";
+writeln string,jce:dmy d1;
+writeln string,jce:dmy d2;
+writeln string,jce:dmy d3;
+
+/*[OUTPUT]
+
+14 Sep 948
+20 Sep 148 CE
+22 Sep 149 BCE
+
+[OUTPUT]*/

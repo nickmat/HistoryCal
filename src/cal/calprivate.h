@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     14th November 2014
- * Copyright:   Copyright (c) 2014 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -35,7 +35,7 @@ namespace Cal {
     class Vocab;
 
     enum InputFieldType { 
-        IFT_null, IFT_quest, IFT_number, IFT_dual1, IFT_dual2, IFT_vocab
+        IFT_null, IFT_quest, IFT_number, IFT_dual1, IFT_dual2, IFT_vocab, IFT_calc
     };
 
     struct InputField

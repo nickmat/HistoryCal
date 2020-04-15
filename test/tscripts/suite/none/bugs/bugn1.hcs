@@ -1,12 +1,16 @@
 // bug1.hcs Test file to test bug
 
-grammar J { format dmy "(day) |(month) |(year)"; }
+grammar J {
+    fields year month day;
+    format dmy "(day) |(month) |(year)";
+}
 
 scheme J { base julian; grammar J;}
 scheme G { base gregorian; grammar J; }
 
 grammar JG {
     inherit J;
+    fields scheme year month day;
     format dmys "(day) |(month) |(year) |(scheme)";
 }
 

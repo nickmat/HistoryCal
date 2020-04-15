@@ -183,7 +183,7 @@ void Calendars::get_format_text_info( FormatText_info* info, SHandle scheme, con
         FormatText* fmt = dynamic_cast<FormatText*>( base->get_format( fcode ) );
         if( fmt ) {
             fmt->get_info( &info->info );
-            info->control_str = fmt->get_control();
+            info->control_str = fmt->get_control_in_str();
         }
     }
 }

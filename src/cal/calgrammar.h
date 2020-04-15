@@ -44,6 +44,7 @@ namespace Cal {
         std::string in_expression;
         std::string out_expression;
         std::string pseudo;
+        std::string alias;
     };
 
     class Grammar
@@ -52,7 +53,9 @@ namespace Cal {
         Grammar( const std::string& code, Calendars* cals );
         ~Grammar();
 
-        bool constuct( const Base* base = nullptr );
+        bool constuct( const Base* base );
+        void create_def_format();
+        void create_u_format();
         bool is_ok() const { return m_ok; }
 
         void set_inherit( const std::string& code );
@@ -60,7 +63,7 @@ namespace Cal {
         void add_vocab( Vocab* vocab );
         FormatText* create_format_text( const std::string& code );
         FormatIso* create_format_iso( const std::string& code, const StringVec& rules );
-        FormatUnit* create_format_unit( const std::string& code = "u" );
+        FormatUnit* create_format_unit( const std::string& code );
         bool add_format( Format* fmt );
         void add_element( const std::string& elem, const ElementField& ef );
         void add_alias( const std::string& alias, const StringVec& pairs );
@@ -80,6 +83,7 @@ namespace Cal {
         std::string get_pref_output_fcode() const { return m_pref_output_fcode; }
         StringVec get_vocab_codes() const;
         StringVec get_vocab_names() const;
+        ElementField* get_calc_field( const std::string& name );
         bool get_element(
             Field* field, const Record& record, const std::string& fname, const BoolVec* reveal ) const;
         bool set_element( Record* record, const std::string& fname, Field field ) const;
@@ -93,11 +97,13 @@ namespace Cal {
         void remove_format( const std::string& fcode );
 
         void set_base_fieldnames( StringVec fieldnames ) { m_base_fieldnames = fieldnames; }
-        StringVec get_base_fieldnames() const;
+        StringVec get_base_fieldnames() const { return m_base_fieldnames; }
         void set_opt_fieldnames( StringVec fieldnames ) { m_opt_fieldnames = fieldnames; }
-        StringVec get_opt_fieldnames() const;
+        StringVec get_opt_fieldnames() const { return m_opt_fieldnames; }
         void set_rank_fieldnames( StringVec fieldnames ) { m_rank_fieldnames = fieldnames; }
-        StringVec get_rank_fieldnames() const;
+        StringVec get_rank_fieldnames() const{ return m_rank_fieldnames; }
+        int get_rank_field_index( const std::string& fieldname ) const;
+        StringVec get_record_fieldnames() const { return m_record_fieldnames; }
 
         int next_format_priority() { return -int( m_formats.size() + 1 ); }
 
@@ -121,6 +127,8 @@ namespace Cal {
         StringVec                  m_base_fieldnames;
         StringVec                  m_opt_fieldnames;
         StringVec                  m_rank_fieldnames;
+        size_t                     m_sig_rank_size;
+        StringVec                  m_record_fieldnames;
     };
 
 }

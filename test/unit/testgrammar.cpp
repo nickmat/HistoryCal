@@ -82,6 +82,7 @@ void TestGrammar::setUp()
         "}\n"
 
         "grammar \"j\" {"
+        " fields year month day;"
         " alias field {"
         "  \"WDay\",\"wday\"; \"Day\",\"day\"; \"Month\",\"month\"; \"Year\",\"year\";"
         " }"

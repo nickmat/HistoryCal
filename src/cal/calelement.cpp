@@ -5,7 +5,7 @@
 * Author:      Nick Matthews
 * Website:     http://historycal.org
 * Created:     15th February 2018
-* Copyright:   Copyright (c) 2018, Nick Matthews.
+* Copyright:   Copyright (c) 2018 ~ 2020, Nick Matthews.
 * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -170,7 +170,11 @@ bool ElementControl::expand_specifier( Grammar* gmr )
     if ( !m_dual_field_name.empty() ) {
         m_type = IFT_dual2;
     }
-    m_record_field_name = gmr->get_field_alias( m_field_name );
+    m_calc_field = gmr->get_calc_field( m_field_name );
+    string rfn = gmr->get_field_alias( m_field_name );
+    if ( gmr->get_rank_field_index( rfn ) >= 0 ) {
+        m_record_field_name = rfn;
+    }
     m_field_output_name = gmr->get_element_pseudo_name( m_field_name );
     if ( m_voc ) {
         m_type = IFT_vocab;

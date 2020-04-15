@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     15th February 2018
- * Copyright:   Copyright (c) 2018, Nick Matthews.
+ * Copyright:   Copyright (c) 2018 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -33,6 +33,7 @@
 namespace Cal {
 
     class Calendars;
+    struct ElementField;
 
     class Element
     {
@@ -69,7 +70,7 @@ namespace Cal {
     {
     public:
         ElementControl() : Element(), m_type( IFT_number ), m_voc( nullptr ),
-            m_default_value( f_invalid ) {}
+            m_calc_field(nullptr), m_default_value( f_invalid ) {}
 
         void clear();
         bool expand_specifier( Grammar* gmr );
@@ -81,16 +82,19 @@ namespace Cal {
         std::string get_default_text() const { return m_default_text; }
 
         Vocab* get_vocab() const { return m_voc; }
+        ElementField* get_calc_field() const { return m_calc_field; }
         InputFieldType get_type() const { return m_type; }
         Field get_default_value() const { return m_default_value; }
 
         bool has_dual_field() const { return !m_dual_record_field_name.empty(); }
         bool has_vocab() const { return m_voc != nullptr; }
         bool has_valid_default() const { return m_default_value != f_invalid; }
+        bool has_calc_field() const { return m_calc_field != nullptr; }
 
     private:
         InputFieldType m_type;
         Vocab* m_voc;
+        ElementField* m_calc_field;
         std::string m_record_field_name;
         std::string m_dual_record_field_name;
         std::string m_field_output_name;

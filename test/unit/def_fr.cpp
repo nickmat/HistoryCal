@@ -204,7 +204,7 @@ void TestDef_fr::testStrTable_cdmy()
 {
     m_cal->set_input_format( m_sid, "cdmy" );
     m_cal->set_output_format( m_sid, "cdmy-" );
-    for( size_t i = 0 ; i < MaxSample ; i++ ) {
+    for( size_t i = 16 ; i < MaxSample ; i++ ) {
         string sample( test_strs[i][1] ); 
         Field jdn = m_cal->str_to_jdn( m_sid, sample );
         CPPUNIT_ASSERT_EQUAL( testJdnValues[i], jdn );

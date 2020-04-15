@@ -43,6 +43,9 @@ namespace Cal {
         Format( const std::string& code, Grammar* gmr );
         virtual ~Format();
 
+        virtual bool construct() { return m_ok = true; }
+        bool is_ok() const { return m_ok; }
+
         void set_priority( int priority ) { m_priority = priority; }
         void set_user_input_str( const std::string str ) { m_input_str = str; }
         void set_user_output_str( const std::string str ) { m_output_str = str; }
@@ -62,14 +65,19 @@ namespace Cal {
         virtual std::string range_to_string( const Base* base, Range range ) const;
         virtual std::string jdn_to_string( const Base* base, Field jdn ) const;
         virtual std::string get_output( const Record& record ) const = 0;
-        virtual std::string get_control_str() const { return ""; }
+        virtual std::string get_control_in_str() const { return ""; }
+        virtual std::string get_control_out_str() const { return ""; }
 
         virtual RangeList string_to_rlist( const Base* base, const std::string& input ) const = 0;
         virtual bool set_input( Record* record, const std::string& input, Boundary rb ) const = 0;
 
+    protected:
+        void set_ok( bool ok ) { m_ok = ok; }
+
     private:
         std::string  m_code;
         Grammar*     m_owner;
+        bool         m_ok;
         // The priority value is used when the format in/out descriptor string
         // is the same for more than one format.
         // If this string is used to select a format (ie from a pick list)

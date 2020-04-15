@@ -35,6 +35,8 @@ function if(c,a,b) { if c result=a; else result=b; endif }
 
 // Note, this striped down grammar is designed for output only.
 grammar FR {
+    fields year month day;
+
     // Output only if Complementary day
     element CDay { output @if( month=13, day, ? ); }
     // Output only if not a Complementary day

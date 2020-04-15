@@ -35,9 +35,11 @@ namespace Cal {
     class FormatText : public Format
     {
     public:
-        enum Use { Use_inout, Use_output, Use_input };
-
         FormatText( const std::string& code, Grammar* gmr );
+
+        bool construct() override;
+        void setup_control_in();
+        void setup_control_out();
 
         FormatType get_format_type() const override { return FT_text; };
         std::string range_to_string( const Base* base, Range range ) const override;
@@ -45,19 +47,14 @@ namespace Cal {
         std::string get_revealed_output( const Record& record, const BoolVec* reveal ) const;
         RangeList string_to_rlist( const Base* base, const std::string& input ) const override;
         bool set_input( Record* record, const std::string& input, Boundary rb ) const override;
-        std::string get_control_str() const override { return m_control; }
+        std::string get_control_in_str() const override { return m_control_in; }
+        std::string get_control_out_str() const override { return m_control_out; }
 
-        bool resolve_input(
-            const Base* base, Field* fields, const InputFieldVec& input ) const;
-
-        void set_control( const std::string& format, Use usefor = Use_inout );
+        void set_control_in( const std::string& format ) { m_control_in = format; }
+        void set_control_out( const std::string& format ) { m_control_out = format; }
         void set_separators( const std::string& sep ) { m_separators = sep; }
-        std::string get_control() const { return m_control; }
 
-        StringVec get_input_fields() const { return m_input_fields; }
-
-        std::string get_input_field( Vocab* vocab ) const;
-        std::string get_1st_input_field( InputFieldType type ) const;
+        StringVec get_input_fields() const { return m_format_order; }
 
         void set_rank_fieldnames( StringVec fieldnames ) { m_rank_fieldnames = fieldnames; }
         void set_rankout_fieldnames( StringVec fieldnames ) { m_rankout_fieldnames = fieldnames; }
@@ -76,21 +73,25 @@ namespace Cal {
             std::string::const_iterator end ) const;
         Field get_field( const Record& record, const std::string& fname, const BoolVec* reveal ) const;
         int parse_date( InputField* ifs, size_t size, const std::string& str ) const;
+        bool resolve_input( const Base* base, Field* fields, InputFieldVec& input ) const;
 
         RangeList multirange_str_to_rlist( const Base* base, const std::string& input ) const;
         RangeList bare_str_to_rlist( const Base* base, const std::string& input ) const;
 
-        std::string m_control;
+        std::string m_control_in;
+        std::string m_control_out;
         std::string m_separators;
 
-        std::vector<Vocab*> m_vocabs;
-        std::vector<InputFieldType> m_types;
-        StringVec   m_input_fields;
+        StringVec   m_format_order;
+        StringVec   m_rankin_order;
 
         StringVec   m_default_names;
         FieldVec    m_default_values;
 
+        std::string m_dual2_fieldname;
+
         StringVec   m_rank_fieldnames;
+        StringVec   m_rankin_fieldnames;
         StringVec   m_rankout_fieldnames;
     };
 

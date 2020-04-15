@@ -1,0 +1,25 @@
+// none/expressions/primitives001.hcs  Test record type primitives.
+
+grammar J {
+    fields year month day;
+    optional wday;
+}
+grammar G {
+    inherit J;
+}
+
+scheme G {
+    name "Test Gregorian";
+    base gregorian;
+    grammar G;
+}
+
+set inout G:def;
+
+let r1 = 2345678;
+
+write record r1;
+
+/*[OUTPUT]
+{"G", 1710, 2, 23, ?}
+[OUTPUT]*/

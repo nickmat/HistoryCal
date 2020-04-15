@@ -42,13 +42,14 @@ using namespace Cal;
 using std::string;
 
 Grammar::Grammar( const string& code, Calendars* cals )
-    : m_cals(cals), m_code(code), m_ok(false), m_inherit(nullptr)
+    : m_cals( cals ), m_code( code ), m_ok( false ), m_inherit( nullptr ),
+    m_sig_rank_size(0)
 {
 }
 
 Grammar::~Grammar()
 {
-    for( FormatMap::iterator it = m_formats.begin() ; it != m_formats.end() ; it++ ) {
+    for ( FormatMap::iterator it = m_formats.begin(); it != m_formats.end(); it++ ) {
         delete it->second;
     }
 }
@@ -58,16 +59,114 @@ bool Grammar::constuct( const Base* base )
     if ( m_ok ) {
         return false; // Only run construct once.
     }
-    if ( base ) {
-        StringVec base_fns = base->get_base_fieldnames();
+
+    if ( m_inherit ) {
         if ( m_base_fieldnames.empty() ) {
-            m_base_fieldnames = base_fns;
-        } else if ( m_base_fieldnames != base_fns ) {
-            return false;
+            // Use the same as original.
+            m_base_fieldnames = m_inherit->m_base_fieldnames;
+            if ( m_rank_fieldnames.empty() ) {
+                m_rank_fieldnames = m_inherit->m_rank_fieldnames;
+                m_sig_rank_size = m_inherit->m_sig_rank_size;
+            }
+        } else {
+            // Check inherited base fieldnames are all included
+            StringVec base_fns = m_inherit->m_base_fieldnames;
+            for ( string iname : m_inherit->m_base_fieldnames ) {
+                bool found = false;
+                for ( string name : m_base_fieldnames ) {
+                    if ( iname == name ) {
+                        found = true;
+                        break;
+                    }
+                }
+                if ( !found ) {
+                    return false;
+                }
+            }
         }
+        StringVec opt_fields = m_opt_fieldnames;
+        m_opt_fieldnames = m_inherit->m_opt_fieldnames;
+        for ( string name : opt_fields ) {
+            bool found = false;
+            for ( string orig_name : m_inherit->m_opt_fieldnames ) {
+                if ( name == orig_name ) {
+                    found = true;
+                    break;
+                }
+            }
+            if ( !found ) {
+                m_opt_fieldnames.push_back( name );
+            }
+        }
+    }
+    if ( base && m_base_fieldnames.empty() ) { // Anonymous grammar.
+        m_base_fieldnames = base->get_base_fieldnames();
+    }
+    if ( m_base_fieldnames.empty() ) {
+        return false;
+    }
+
+    if ( m_sig_rank_size == 0 ) {
+        m_sig_rank_size = m_rank_fieldnames.size();
+    }
+    if ( m_sig_rank_size == 0 ) {
+        m_sig_rank_size = m_base_fieldnames.size();
+    }
+
+    m_record_fieldnames = m_base_fieldnames;
+    stringvec_cat( m_record_fieldnames, m_opt_fieldnames );
+
+    // Pad out ranking field names
+    StringVec rank_fields = m_rank_fieldnames;
+    for ( string name : m_record_fieldnames ) {
+        bool found = false;
+        for( string rank_name : m_rank_fieldnames ) {
+            if ( name == rank_name ) {
+                found = true;
+                break;
+            }
+        }
+        if ( !found ) {
+            m_rank_fieldnames.push_back( name );
+        }
+    }
+
+    create_def_format();
+    create_u_format();
+
+    // Construct all contained format definitions.
+    for ( auto pair : m_formats ) {
+        pair.second->construct();
     }
     m_ok = true;
     return true;
+}
+
+void Cal::Grammar::create_def_format()
+{
+    FormatText* fmt = create_format_text( "def" );
+    if ( fmt == nullptr ) {
+        return;
+    }
+    string control;
+    for ( string fieldname : m_record_fieldnames ) {
+        if ( !control.empty() ) {
+            control += "| ";
+        }
+        control += "(" + fieldname + ")";
+    }
+    fmt->set_control_in( control );
+    fmt->set_control_out( control );
+    fmt->set_style( FMT_STYLE_Hide );
+}
+
+void Cal::Grammar::create_u_format()
+{
+    FormatUnit* fmt = create_format_unit( "u" );
+    if ( fmt == nullptr ) {
+        return;
+    }
+    fmt->set_style( FMT_STYLE_Hide );
 }
 
 void Grammar::set_inherit( const string& code )
@@ -187,6 +286,12 @@ string Grammar::get_field_alias( const string& fname ) const
 {
     if( m_field_alias.count( fname ) > 0 ) {
         return m_field_alias.find( fname )->second;
+    }
+    if ( m_elements.count( fname ) > 0 ) {
+        string fn = m_elements.find( fname )->second.alias;
+        if ( !fn.empty() ) {
+            return fn;
+        }
     }
     if( m_inherit ) {
         return m_inherit->get_field_alias( fname );
@@ -325,6 +430,14 @@ StringVec Grammar::get_vocab_names() const
     return vec;
 }
 
+ElementField* Grammar::get_calc_field( const string& name )
+{
+    if ( m_elements.count( name ) == 1 ) {
+        return &m_elements.find( name )->second;
+    }
+    return nullptr;
+}
+
 bool Grammar::get_element(
     Field* field, const Record& record, const string& fname, const BoolVec* reveal ) const
 {
@@ -419,30 +532,16 @@ void Grammar::remove_format( const string& fcode )
     m_formats.erase( fcode );
 }
 
-StringVec Cal::Grammar::get_base_fieldnames() const
+int Grammar::get_rank_field_index( const string& fieldname ) const
 {
-    if ( m_inherit ) {
-        return m_inherit->get_base_fieldnames();
+    int cnt = 0;
+    for ( string name : m_rank_fieldnames ) {
+        if ( name == fieldname ) {
+            return cnt;
+        }
+        cnt++;
     }
-    return m_base_fieldnames;
-}
-
-StringVec Grammar::get_opt_fieldnames() const
-{
-    if( m_inherit ) {
-        StringVec ofns = m_inherit->get_opt_fieldnames();
-        ofns.insert( ofns.end(), m_opt_fieldnames.begin(), m_opt_fieldnames.end() );
-        return ofns;
-    }
-    return m_opt_fieldnames;
-}
-
-StringVec Grammar::get_rank_fieldnames() const
-{
-    if( m_rank_fieldnames.empty() && m_inherit ) {
-        return m_inherit->get_rank_fieldnames();
-    }
-    return m_rank_fieldnames;
+    return -1;
 }
 
 void Grammar::get_format_info( SchemeFormatInfo* info, const string& cur_code, INFO type ) const

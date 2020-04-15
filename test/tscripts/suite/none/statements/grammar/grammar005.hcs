@@ -1,0 +1,17 @@
+// none/statements/grammar005.hcs   Test the grammar definition statement.
+
+grammar X { 
+    // Missing fields sub-statement.
+    format dmy "(day) |(month) |(year)";
+}
+
+scheme G {
+    name "Test Gregorian";
+    base gregorian;
+    grammar X;
+}
+
+/*[OUTPUT]
+Error (6): Unable to construct grammar "X".
+
+[OUTPUT]*/

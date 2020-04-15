@@ -502,19 +502,6 @@ bool Base::attach_grammar( Grammar* gmr )
     for ( size_t i = 0; i < optfields.size(); i++ ) {
         add_opt_field( optfields[i] );
     }
-    Format* fmt = gmr->get_format( "def" );
-    string control = create_def_format_control();
-    if ( fmt ) {
-        if ( control != fmt->get_control_str() ) {
-            return false;
-        }
-    } else {
-        FormatText* fmtt = gmr->create_format_text( "def" );
-        fmtt->set_control( control );
-        fmtt->set_style( FMT_STYLE_Hide );
-        FormatUnit* fmtu = gmr->create_format_unit();
-        fmtu->set_style( FMT_STYLE_Hide );
-    }
     return true;
 }
 
@@ -606,7 +593,7 @@ StringVec Base::get_base_fieldnames() const
 {
     StringVec names;
     for ( size_t i = 0; i < record_size(); i++ ) {
-        names.push_back( get_std_fieldname( i ) );
+        names.push_back( get_fieldname( i ) );
     }
     return names;
 }
@@ -650,18 +637,6 @@ int Base::get_opt_fieldname_index( const string& fieldname ) const
         }
     }
     return -1;
-}
-
-std::string Cal::Base::create_def_format_control()
-{
-    string control;
-    for ( size_t i = 0; i < extended_size(); i++ ) {
-        if ( i > 0 ) {
-            control += "| ";
-        }
-        control += "(" + get_fieldname( i ) + ")";
-    }
-    return control;
 }
 
 XRefVec Base::create_xref( const StringVec& fieldnames ) const 

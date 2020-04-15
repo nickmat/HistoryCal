@@ -40,8 +40,8 @@ using namespace Cal;
 using std::string;
 
 Format::Format( const std::string& code, Grammar* gmr ) 
-    : m_code(code), m_owner(gmr), m_priority(gmr->next_format_priority()),
-    m_style(FMT_STYLE_Default)
+    : m_code(code), m_owner(gmr), m_ok(false),
+    m_priority(gmr->next_format_priority()), m_style(FMT_STYLE_Default)
 {
 }
 

@@ -51,7 +51,8 @@ using std::vector;
 
 
 Script::Script( Calendars* cals, std::istream& in, std::ostream& out ) 
-    : m_cals(cals), m_ts(in,out), m_out(&out), m_err(&out), m_base(nullptr)
+    : m_cals(cals), m_ts(in,out), m_out(&out), m_err(&out),
+    m_jdn(f_invalid), m_base(nullptr)
 {
     assert( cals != NULL );
 }
@@ -88,16 +89,16 @@ Field Script::evaluate_field( const Record& record, const BoolVec* reveal )
     if ( m_cals->add_temp_scheme( sch, scode ) ) {
         STokenStream* prev_ts = SValue::set_token_stream( &m_ts );
         m_rec.clear();
-        m_bal.clear();
         m_base = record.get_base();
+        m_jdn = record.get_jdn();
         for ( size_t i = 0; i < m_base->extended_size(); i++ ) {
-            m_rec.push_back( record.get_field_at( i ) );
-            m_bal.push_back( ( !reveal || (*reveal)[i] ) ? m_rec[i] : f_invalid );
+            bool hide = ( reveal && !( *reveal )[i] );
+            Field field = hide ? f_invalid : record.get_field_at( i );
+            m_rec.push_back( field );
         }
 
         m_cals->add_or_replace_mark( mark );
         store()->set( "rec", SValue( "_rec_", m_rec ) );
-        store()->set( "bal", SValue( "_rec_", m_bal ) );
         SValue value = expr( true );
         m_cals->clear_mark( mark );
 
@@ -122,24 +123,26 @@ void Script::evaluate_record( Record* record, const string& fname, Field field )
     if ( m_cals->add_temp_scheme( sch, scode ) ) {
         STokenStream* prev_ts = SValue::set_token_stream( &m_ts );
         m_rec.clear();
-        m_bal.clear();
+        m_jdn = record->get_jdn();
         m_base = record->get_base();
         for ( size_t i = 0; i < m_base->extended_size(); i++ ) {
-            m_bal.push_back( record->get_field_at( i ) );
+            m_rec.push_back( record->get_field_at( i ) );
         }
 
         m_cals->add_or_replace_mark( mark );
-        store()->set( "bal", SValue( "_rec_", m_bal ) );
+        SValue rec = SValue( "_rec_", m_rec );
+        store()->set( "rec", rec );
         store()->set( fname, field );
         SValue value = expr( true );
+        value.over_op( rec );
         m_cals->clear_mark( mark );
 
-        m_base = nullptr;
         SValue::set_token_stream( prev_ts );
         if ( value.type() == SValue::SVT_Record ) {
             FieldVec fv = value.get_record();
             record->set_fields( &fv[0], m_base->extended_size() );
         }
+        m_base = nullptr;
     }
     m_cals->remove_temp_scheme( scode );
     delete sch;
@@ -539,7 +542,7 @@ SHandle Script::do_create_scheme( const std::string& code )
             } else if( token.get_str() == "grammar" ) {
                 token = m_ts.next();
                 if ( token.type() == SToken::STT_LCbracket ) {
-                    gmr = do_create_grammar( "" );
+                    gmr = do_create_grammar( "", base );
                     if ( gmr == nullptr ) {
                         error( "Unable to create grammar." );
                     }
@@ -568,6 +571,7 @@ SHandle Script::do_create_scheme( const std::string& code )
     }
     if ( gmr == nullptr ) {
         gmr = new Grammar( "", m_cals );
+        gmr->constuct( base );
     }
     if ( !base->attach_grammar( gmr ) ) {
         if ( gmr_code.empty() ) {
@@ -894,11 +898,11 @@ bool Script::do_grammar()
         error( "Grammar \"" + code + "\" already exists." );
         return false;
     }
-    Grammar* gmr = do_create_grammar( code );
+    Grammar* gmr = do_create_grammar( code, nullptr );
     return m_cals->add_grammar( gmr, code );
 }
 
-Grammar* Script::do_create_grammar( const string& code )
+Grammar* Script::do_create_grammar( const string& code, const Base* base )
 {
     if ( m_ts.current().type() != SToken::STT_LCbracket ) {
         error( "'{' expected." );
@@ -943,10 +947,11 @@ Grammar* Script::do_create_grammar( const string& code )
             error( "Grammar sub-statement expected." );
         }
     }
-    gmr->constuct();
+    gmr->constuct( base );
     if ( !gmr->is_ok() ) {
         delete gmr;
         gmr = nullptr;
+        error( "Unable to construct grammar \"" + code + "\"." );
     }
     return gmr;
 }
@@ -984,10 +989,14 @@ bool Script::do_grammar_element( Grammar* gmr )
                 ef.in_expression = m_ts.read_until( ";", "" );
             } else if ( sub == "pseudo" ) {
                 expr( true ).get( ef.pseudo );
+            } else if ( sub == "alias" ) {
+                ef.alias = get_name_or_primary( true );
+            } else {
+                error( "Grammar element sub-statement expected." );
             }
         }
     }
-    if ( name.empty() || ef.out_expression.empty() ) {
+    if ( name.empty() ) {
         return false;
     }
     gmr->add_element( name, ef );
@@ -1042,8 +1051,7 @@ bool Script::do_grammar_alias( Grammar* gmr )
 // as in "gmr:fmt"
 bool Script::do_format( Grammar* gmr )
 {
-    string format, informat, separators;
-    FormatText::Use usefor = FormatText::Use_inout;
+    string format_in, format_out, separators;
     StringVec rankfields, rankoutfields, rules;
     Format_style style = FMT_STYLE_Default;
     string code = get_name_or_primary( true );
@@ -1064,47 +1072,56 @@ bool Script::do_format( Grammar* gmr )
             if( token.type() == SToken::STT_Name ) {
                 string name = token.get_str();
                 if( name == "output" ) {
-                    usefor = FormatText::Use_output;
-                } else if( name == "inout" ) {
-                    usefor = FormatText::Use_inout;
-                } else if( name == "input" ) {
-                    expr( true ).get( informat );
+                    expr( true ).get( format_out );
                     continue;
-                } else if( name == "separators" ) {
+                }
+                if( name == "inout" ) {
+                    expr( true ).get( format_out );
+                    format_in = format_out;
+                    continue;
+                }
+                if( name == "input" ) {
+                    expr( true ).get( format_in );
+                    continue;
+                }
+                if( name == "separators" ) {
                     expr( true ).get( separators );
                     continue;
-                } else if ( name == "rank" ) {
+                }
+                if ( name == "rank" ) {
                     rankfields = get_string_list( true );
                     continue;
-                } else if ( name == "rankout" ) {
+                }
+                if ( name == "rankout" ) {
                     rankoutfields = get_string_list( true );
                     continue;
-                } else if ( name == "rules" ) {
+                }
+                if ( name == "rules" ) {
                     rules = get_string_list( true );
                     continue;
-                } else if(name == "style" ) {
+                }
+                if(name == "style" ) {
                     string str = get_name_or_primary( true );
                     if ( str == "hide" ) {
                         style = FMT_STYLE_Hide;
                     } else if ( str != "none" ) {
                         error( "Style name expected." );
                     }
-                } else {
-                    error( "Expected format sub-statement." );
                     continue;
                 }
-                expr( true ).get( format );
+                error( "Expected format sub-statement." );
             }
         }
     } else {
         if( m_ts.current().type() == SToken::STT_Comma ) {
             m_ts.next();
         }
-        expr( false ).get( format );
-        if( format.empty() ) {
+        expr( false ).get( format_out );
+        if( format_out.empty() ) {
             error( "Format missing." );
             return false;
         }
+        format_in = format_out;
         if( m_ts.current().type() != SToken::STT_Semicolon ) {
             error( "';' expected." );
             return false;
@@ -1113,7 +1130,7 @@ bool Script::do_format( Grammar* gmr )
 
     Format* fmt = nullptr;
     if( rules.empty() || rules[0] == "text" ) {
-        if( format.empty() ) {
+        if( format_in.empty() && format_out.empty() ) {
             error( "Format string not found." );
             return false;
         }
@@ -1131,9 +1148,11 @@ bool Script::do_format( Grammar* gmr )
         if ( rankoutfields.size() ) {
             fmtt->set_rankout_fieldnames( rankoutfields );
         }
-        fmtt->set_control( format, usefor );
-        if( informat.size() ) {
-            fmtt->set_control( informat, FormatText::Use_input );
+        if ( !format_out.empty() ) {
+            fmtt->set_control_out( format_out );
+        }
+        if ( !format_in.empty() ) {
+            fmtt->set_control_in( format_in );
         }
         fmt = fmtt;
     } else if ( rules[0] == "iso8601" ) {
@@ -1153,6 +1172,12 @@ bool Script::do_format( Grammar* gmr )
         return false;
     }
     fmt->set_style( style );
+    if ( gmr == nullptr ) {
+        if ( !fmt->construct() ) {
+            delete fmt;
+            return false;
+        }
+    }
     return true;
 }
 
@@ -1897,9 +1922,20 @@ SValue Script::get_value_var( const string& name )
         return SValue( Gregorian::today() );
     }
     if ( m_base ) { // Is it a field name.
-        int index = m_base->get_fieldname_index( name );
-        if ( index >= 0 ) {
-            return m_bal[index];
+        string scode, fname;
+        split_code( &scode, &fname, name );
+        if ( scode.empty() ) {
+            // name starts with ':'.
+            int index = m_base->get_fieldname_index( fname );
+            if ( index >= 0 ) {
+                return m_base->get_field( &m_rec[0], m_jdn, index );
+            }
+        } else {
+            // name does not start with ':'.
+            int index = m_base->get_fieldname_index( name );
+            if ( index >= 0 ) {
+                return m_rec[index];
+            }
         }
     }
     SValue value;

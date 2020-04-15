@@ -72,7 +72,7 @@ namespace Cal {
         bool do_vocab();
         bool do_vocab_tokens( Vocab* voc );
         bool do_grammar();
-        Grammar* do_create_grammar( const std::string& code );
+        Grammar* do_create_grammar( const std::string& code, const Base* base );
         bool do_grammar_vocabs( Grammar* gmr );
         bool do_grammar_element( Grammar* gmr );
         bool do_grammar_alias( Grammar* gmr );
@@ -110,8 +110,9 @@ namespace Cal {
         STokenStream  m_ts;
         std::ostream* m_out;
         std::ostream* m_err;
+
         FieldVec      m_rec;
-        FieldVec      m_bal;
+        Field         m_jdn;
         const Base*   m_base;
     };
 

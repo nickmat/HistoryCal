@@ -98,6 +98,8 @@ namespace Cal {
         virtual size_t record_size() const = 0;
         // Return the number of extended (read-only) Fields available.
         virtual size_t extended_size() const { return record_size() + m_opt_fields.size(); }
+        // Return the number of significant fields for the current rank order.
+        virtual size_t sig_size() const { return record_size(); }
 
         // Returns the index to the named Record field, or -1 if not found.
         virtual int get_fieldname_index( const std::string& fieldname ) const;
@@ -219,8 +221,6 @@ namespace Cal {
         unsigned get_valid_field_bitmap( const Field* fields ) const;
 
     private:
-        std::string create_def_format_control();
-
         static const char* s_ymd_fieldnames[];
         static size_t s_sizeof_ymd_fieldnames;
 

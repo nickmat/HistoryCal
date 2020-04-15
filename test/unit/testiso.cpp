@@ -77,6 +77,7 @@ void TestIso::setUp()
     m_cal = new Calendars;
     m_cal->run_script(
         "grammar \"iso\" {"
+        " fields year month day;"
         " format \"ymd\" {"
         "  rules iso8601 caldate;"
         " }"
@@ -98,6 +99,7 @@ void TestIso::setUp()
         "}"
 
         "grammar \"isow\" {"
+        " fields year week wday;"
         " format \"ywd\" {"
         "  rules iso8601 week;"
         " }"
@@ -110,6 +112,7 @@ void TestIso::setUp()
         "}"
 
         "grammar \"isoo\" {"
+        " fields year day;"
         " format \"yd\" {"
         "  rules iso8601 ordinal;"
         " }"

@@ -1,0 +1,89 @@
+// none/schemes/french001.hcs   Test French Rep. scheme.
+
+vocab FRM {
+    name "Month names";
+    fieldname month;
+    lang en;
+    pseudo    Month,  Mon;
+    tokens {
+        1, "Vendémiaire",      "Vend";
+        2, "Brumaire",         "Brum";
+        3, "Frimaire",         "Frim";
+        4, "Nivôse",           "Nivo";
+        5, "Pluviôse",         "Pluv";
+        6, "Ventôse",          "Vent";
+        7, "Germinal",         "Germ";
+        8, "Floréal",          "Flor";
+        9, "Prairial",         "Prai";
+        10, "Messidor",        "Mess";
+        11, "Thermidor",       "Ther";
+        12, "Fructidor",       "Fruc";
+        13, "Complémentaires", "Comp";
+    }
+}
+
+vocab FRCOMP {
+    name "Complementary Days";
+    fieldname CDay;
+    lang en;
+    pseudo    CompDay,           CDay;
+    tokens {
+        1, "Fête de la Vertu",      "Ver";
+        2, "Fête du Génie",         "Gen";
+        3, "Fête du Travail",       "Trav";
+        4, "Fête de l'Opinion",     "Opin";
+        5, "Fête des Récompenses",  "Rec";
+        6, "Fête de la Révolution", "Rev";
+    }
+}
+
+function if(c,a,b) { if c result=a; else result=b; endif }
+
+grammar FR {
+    fields year month day;
+    vocabs FRM, FRCOMP;
+
+    element CDay {
+        output @if( month=13, day, ? ); // Output only if Complementary day.
+        input { "", , 13, CDay };  // If comp day is entered, it must be month 13.
+    }
+    element MDay {
+        output @if( month<>13, day, ? ); // Output only if not a Complementary day
+        alias day;
+    }
+    element NMonth {
+        output @if( month<>13 or day=?, month, ? ); // Suppress month if it's the Complementary month unless it's all Complementary days
+        alias month;       
+    }
+
+    format cdmy "(CDay:FRCOMP:a) |(MDay) |(NMonth:FRM:a) |(year)";
+/*
+    format cdmy {
+        input  "(day) |(month) |(year)";
+        output "(CDay:FRCOMP:a) |(MDay) |(NMonth:FRM:a) |(year)";
+    }
+*/
+}
+
+scheme FR {
+    name "Test French Republican";
+    base french;
+    grammar FR;
+}
+
+writeln "";
+writeln string,FR:cdmy 2345678 +", "+ date,FR:cdmy "4 Vent -82";
+writeln string,FR:cdmy 2432814 +", "+ date,FR:cdmy "Trav 156";
+writeln string,FR:cdmy (2432812 ~ 2432817) +", "+ date,FR:cdmy "Comp 156";
+writeln string,FR:cdmy (2432602 ~ 2432631) +", "+ date,FR:cdmy "Vent 156";
+writeln string,FR:cdmy (2432452 ~ 2432817) +", "+ date,FR:cdmy "156";
+
+/*[OUTPUT]
+
+4 Vent -82, 2345678
+Trav 156, 2432814
+Comp 156, 2432812 ~ 2432817
+Vent 156, 2432602 ~ 2432631
+156, 2432452 ~ 2432817
+
+[OUTPUT]*/

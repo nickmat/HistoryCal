@@ -68,6 +68,7 @@ Cal::ScriptModule Cal::cal_default_scripts[] = {
  "}\n" },
     { "jdn",  /* jdn.hcs */
  "grammar d {\n"
+ "fields day;\n"
  "alias pseudo {\n"
  "ddddd, day;\n"
  "}\n"
@@ -380,7 +381,7 @@ Cal::ScriptModule Cal::cal_default_scripts[] = {
  "rank ce, ceyear, month, day;\n"
  "vocabs m, w, jce;\n"
  "element Era {\n"
- "output @if(year<500,ce,?);\n"
+ "output @if(year<500,:ce,?);\n"
  "pseudo \"[CE<500]\";\n"
  "}\n"
  "alias field {\n"

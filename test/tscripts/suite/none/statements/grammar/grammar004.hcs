@@ -1,0 +1,71 @@
+// none/statements/grammar004.hcs   Test the grammar sub-statement element for input.
+
+vocab FRM {
+    name "Test Month names";
+    fieldname month;
+    tokens {
+        1,  "Vend";
+        2,  "Brum";
+        3,  "Frim";
+        4,  "Nivo";
+        5,  "Pluv";
+        6,  "Vent";
+        7,  "Germ";
+        8,  "Flor";
+        9,  "Prai";
+        10, "Mess";
+        11, "Ther";
+        12, "Fruc";
+        13, "Comp";
+    }
+}
+
+vocab FRCOMP {
+    name "Test Complementary Days";
+    fieldname CDay;
+    tokens {
+        1, "Ver";
+        2, "Gen";
+        3, "Trav";
+        4, "Opin";
+        5, "Rec";
+        6, "Rev";
+    }
+}
+
+// Note, this striped down grammar is designed for input only.
+grammar FR {
+    fields year month day;
+    vocabs FRM FRCOMP;
+
+    element CDay {
+        input { "", , 13, CDay };
+    }
+
+    format cdmy {
+        inout "(day) |(month) |(year)";
+    }
+}
+
+scheme FR {
+    name "Test French Republican";
+    base french;
+    grammar FR;
+}
+
+writeln "";
+writeln date,FR:cdmy "4 Vent -82";
+writeln date,FR:cdmy "Trav 156";
+writeln date,FR:cdmy "Comp 156";
+writeln date,FR:cdmy "Vent 156";
+writeln date,FR:cdmy "156";
+
+/*[OUTPUT]
+
+2345678
+2432814
+2432812 ~ 2432817
+2432602 ~ 2432631
+2432452 ~ 2432817
+
+[OUTPUT]*/

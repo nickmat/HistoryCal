@@ -36,18 +36,123 @@
 #include "caltext.h"
 #include "calvocab.h"
 
+#include <algorithm>
 #include <cassert>
 
 using namespace Cal;
 using std::string;
 
 
-FormatText::FormatText( const std::string& code, Grammar* gmr )
+FormatText::FormatText( const string& code, Grammar* gmr )
 : Format( code, gmr ), m_separators(":,")
 {
 }
 
-std::string FormatText::range_to_string( const Base* base, Range range ) const
+bool Cal::FormatText::construct()
+{
+    if ( !m_control_in.empty() ) {
+        setup_control_in();
+    }
+    if ( !m_control_out.empty() ) {
+        setup_control_out();
+    }
+    set_ok( true );
+    return true;
+}
+
+void FormatText::setup_control_in()
+{
+    ElementControl ele;
+    bool do_output = true;
+    string fieldout, input, output;
+    for ( auto it = m_control_in.begin(); it != m_control_in.end(); it++ ) {
+        if ( do_output ) {
+            if ( *it == '|' ) {
+                fieldout.clear();
+            } else if ( *it == '(' ) {
+                do_output = false;
+            } else {
+                fieldout += *it;
+            }
+            continue;
+        }
+        if ( *it == ')' ) {
+            ele.expand_specifier( get_owner() );
+
+            if ( input.size() ) {
+                input += " ";
+            }
+            input += ele.get_input_text();
+            InputFieldType type = ele.get_type();
+            if ( ele.has_dual_field() ) {
+                input += "/";
+                m_dual2_fieldname = ele.get_dual_record_field_name();
+                type = IFT_dual1;
+            }
+            string fieldname = ele.get_record_field_name();
+            if ( !fieldname.empty() ) {
+                if ( ele.has_valid_default() ) {
+                    m_default_names.push_back( fieldname );
+                    m_default_values.push_back( ele.get_default_value() );
+                } else {
+                    m_format_order.push_back( fieldname );
+                }
+            }
+            fieldout += ele.get_field_output_name();
+            ele.clear();
+            do_output = true;
+        } else if ( !do_output ) {
+            ele.add_char( *it );
+        }
+    }
+    set_user_input_str( input );
+    StringVec rank_list = get_rank_fieldnames();
+    for ( string rank_name : rank_list ) {
+        for ( string format_name : m_format_order ) {
+            if ( rank_name == format_name ) {
+                m_rankin_order.push_back( rank_name );
+                break;
+            }
+        }
+    }
+}
+
+void FormatText::setup_control_out()
+{
+    ElementControl ele;
+    string fieldout, input, output;
+    bool do_output = true;
+
+    for ( auto it = m_control_out.begin(); it != m_control_out.end(); it++ ) {
+        if ( do_output ) {
+            if ( *it == '|' ) {
+                output += fieldout;
+                fieldout.clear();
+            } else if ( *it == '(' ) {
+                do_output = false;
+            } else {
+                fieldout += *it;
+            }
+            continue;
+        }
+        if ( *it == ')' ) {
+            ele.expand_specifier( get_owner() );
+            fieldout += ele.get_field_output_name();
+            ele.clear();
+            do_output = true;
+        } else if ( !do_output ) {
+            ele.add_char( *it );
+        }
+    }
+    output += fieldout;
+    set_user_output_str( output );
+    assert( get_owner() );
+    if ( m_rankout_fieldnames.empty() ) {
+        m_rankout_fieldnames = get_rank_fieldnames();
+    }
+}
+
+string FormatText::range_to_string( const Base* base, Range range ) const
 {
     if ( range.jdn1 == range.jdn2 ) {
         return jdn_to_string( base, range.jdn1 );
@@ -57,14 +162,14 @@ std::string FormatText::range_to_string( const Base* base, Range range ) const
     Record rec2( base, range.jdn2 );
 
     StringVec ranknames = get_rankout_fieldnames();
-    size_t rank_size = ranknames.empty() ? base->record_size() : ranknames.size();
-    XRefVec xref( rank_size );
+    XRefVec xref( base->sig_size() );
     if ( ranknames.empty() ) {
-        for ( size_t i = 0; i < rank_size; i++ ) {
+        for ( size_t i = 0; i < xref.size(); i++ ) {
             xref[i] = i;
         }
     } else {
-        for ( size_t i = 0; i < rank_size; i++ ) {
+        size_t size = std::min( xref.size(), ranknames.size() );
+        for ( size_t i = 0; i < size; i++ ) {
             xref[i] = base->get_fieldname_index( ranknames[i] );
         }
     }
@@ -84,7 +189,7 @@ string FormatText::get_revealed_output( const Record& record, const BoolVec* rev
     string output, fieldout, value;
     enum State { ignore, dooutput, doelement };
     State state = dooutput;
-    for ( string::const_iterator it = m_control.begin(); it != m_control.end(); it++ ) {
+    for ( auto it = m_control_out.begin(); it != m_control_out.end(); it++ ) {
         switch ( state )
         {
         case ignore:
@@ -159,176 +264,6 @@ bool FormatText::set_input( Record* record, const std::string& input, Boundary r
     return ret;
 }
 
-bool FormatText::resolve_input(
-    const Base* base, Field* fields, const InputFieldVec& input ) const
-{
-    size_t cnt = 0;
-    FieldVec fs( base->extended_size(), f_invalid );
-    for ( size_t i = 0; i < m_default_names.size(); i++ ) {
-        int index = base->get_fieldname_index( m_default_names[i] );
-        if ( index >= 0 ) {
-            fields[index] = m_default_values[i];
-        }
-    }
-    for ( size_t i = 0; i < input.size(); i++ ) {
-        if ( input[i].type == IFT_null ) {
-            continue;
-        }
-        string fname;
-        if ( input[i].type == IFT_dual2 ) {
-            fname = get_1st_input_field( IFT_dual2 );
-            if ( fname.empty() ) {
-                continue; // Ignore if we can't find it.
-            }
-        }
-        if ( input[i].vocab ) {
-            fname = input[i].vocab->get_fieldname();
-            if ( fname.empty() ) {
-                fname = get_input_field( input[i].vocab );
-                if ( fname.empty() ) {
-                    continue; // Give up.
-                }
-            }
-        }
-        if ( fname.size() ) {
-            if ( !is_input_field( fname ) ) {
-                int index = base->get_fieldname_index( fname );
-                if ( index < 0 ) continue;
-                // Input an extended field
-                fields[index] = input[i].value;
-                continue;
-            }
-        }
-        fs[cnt] = input[i].value;
-        cnt++;
-    }
-    if ( cnt < 1 ) {
-        return false;
-    }
-    XRefVec xref = base->get_xref_order( cnt, this );
-    if ( xref.empty() ) {
-        return false;
-    }
-    for ( size_t i = 0; i < cnt; i++ ) {
-        int x = xref[i];
-        if ( x >= 0 && x < (int)base->extended_size() ) {
-            fields[x] = fs[i];
-        }
-    }
-    for ( size_t i = base->record_size(); i < base->extended_size(); i++ ) {
-        if ( fields[i] != f_invalid ) {
-            base->resolve_opt_input( fields, i );
-        }
-    }
-    return true;
-}
-
-void FormatText::set_control( const std::string& format, Use usefor )
-{
-    ElementControl ele;
-    bool do_output = true;
-    string fieldout, input, output;
-    bool usefor_output = true, usefor_input = true;
-    if ( usefor == Use_output ) {
-        usefor_input = false;
-    } else if ( usefor == Use_input ) {
-        usefor_output = false;
-    }
-    if( usefor_output ) {
-        m_control = format;
-    }
-    for( string::const_iterator it = format.begin() ; it != format.end() ; it++ ) {
-        if( do_output ) {
-            if( *it == '|' ) {
-                if( usefor_output ) {
-                    output += fieldout;
-                }
-                fieldout.clear();
-            } else if( *it == '(' ) {
-                do_output = false;
-            } else {
-                fieldout += *it;
-            }
-            continue;
-        }
-        if ( *it == ')' ) {
-            ele.expand_specifier( get_owner() );
-            if ( usefor_input ) {
-                if ( input.size() ) {
-                    input += " ";
-                }
-                input += ele.get_input_text();
-                if ( ele.has_dual_field() ) {
-                    input += "/";
-                    m_input_fields.push_back( ele.get_dual_record_field_name() );
-                    m_vocabs.push_back( NULL );
-                    m_types.push_back( IFT_dual1 );
-                }
-                if ( ele.has_valid_default() ) {
-                    m_default_names.push_back( ele.get_record_field_name() );
-                    m_default_values.push_back( ele.get_default_value() );
-                } else {
-                    m_input_fields.push_back( ele.get_record_field_name() );
-                    m_vocabs.push_back( ele.get_vocab() );
-                    m_types.push_back( ele.get_type() );
-                }
-            }
-            fieldout += ele.get_field_output_name();
-            ele.clear();
-            do_output = true;
-        } else if( !do_output )  {
-            ele.add_char( *it );
-        }
-    }
-    if( usefor_output ) {
-        output += fieldout;
-        set_user_output_str( output );
-    }
-    if( usefor_input ) {
-        set_user_input_str( input );
-        if ( !m_default_names.empty() ) {
-            // We need to remove the default field from the ranking fields.
-            if ( m_rank_fieldnames.empty() ) {
-                m_rank_fieldnames = get_rank_fieldnames();
-            }
-            for ( auto it = m_rank_fieldnames.begin(); it != m_rank_fieldnames.end(); ) {
-                bool matched = false;
-                for ( auto name : m_default_names ) {
-                    if ( name == *it ) {
-                        matched = true;
-                        break;
-                    }
-                }
-                if ( matched ) {
-                    it = m_rank_fieldnames.erase( it );
-                } else {
-                    it++;
-                }
-            }
-        }
-    }
-}
-
-string FormatText::get_input_field( Vocab* vocab ) const
-{
-    for( size_t i = 0 ; i < m_vocabs.size() ; i++ ) {
-        if( vocab == m_vocabs[i] ) {
-            return m_input_fields[i];
-        }
-    }
-    return "";
-}
-
-string FormatText::get_1st_input_field( InputFieldType type ) const
-{
-    for( size_t i = 0 ; i < m_types.size() ; i++ ) {
-        if( type == m_types[i] ) {
-            return m_input_fields[i];
-        }
-    }
-    return "";
-}
-
 StringVec FormatText::get_rank_fieldnames() const
 {
     if ( m_rank_fieldnames.empty() ) {
@@ -347,8 +282,8 @@ StringVec FormatText::get_rankout_fieldnames() const
 
 bool FormatText::is_input_field( const std::string& fieldname ) const
 {
-    for( size_t i = 0 ; i < m_input_fields.size() ; i++ ) {
-        if( fieldname == m_input_fields[i] ) {
+    for( size_t i = 0 ; i < m_format_order.size() ; i++ ) {
+        if( fieldname == m_format_order[i] ) {
             return true;
         }
     }
@@ -430,14 +365,11 @@ int FormatText::parse_date( InputField* ifs, size_t size, const string& str ) co
                         ifs[i].value = str_to_field( token );
                         ifs[i].type = IFT_dual1;
                         i++;
-                        // Default is dual dates are the same.
-                        ifs[i].value = ifs[i-1].value;
-                        ifs[i].type = IFT_dual2;
-                        i++;
                         dual = true;
                     } else if( dual ) {
-                        assert( i >= 2 );
-                        ifs[i-1].value = str_to_dual2( ifs[i-2].value, token );
+                        assert( i >= 1 );
+                        ifs[i].value = str_to_dual2( ifs[i-1].value, token );
+                        ifs[i].type = IFT_dual2;
                         dual = false;
                     } else {
                         ifs[i].value = str_to_field( token );
@@ -489,6 +421,84 @@ int FormatText::parse_date( InputField* ifs, size_t size, const string& str ) co
         }
     }
     return i;
+}
+
+bool FormatText::resolve_input(
+    const Base* base, Field* fields, InputFieldVec& input ) const
+{
+    size_t size = base->extended_size();
+    FieldVec fs( size, f_invalid );
+    for ( size_t i = 0; i < m_default_names.size(); i++ ) {
+        int index = base->get_fieldname_index( m_default_names[i] );
+        if ( index >= 0 ) {
+            fields[index] = m_default_values[i];
+        }
+    }
+    FieldVec element_list;
+    bool has_elements = false;;
+    for ( size_t i = 0; i < input.size(); i++ ) {
+        if ( input[i].type == IFT_dual2 ) {
+            int index = base->get_fieldname_index( m_dual2_fieldname );
+            if ( index >= 0 ) {
+                fields[index] = input[i].value;
+            }
+            continue;
+        }
+        if ( input[i].type == IFT_vocab ) {
+            string vname = input[i].vocab->get_fieldname();
+            if ( !is_input_field( vname ) ) {
+                int index = base->get_fieldname_index( vname );
+                if ( index >= 0 ) {
+                    fields[index] = input[i].value;
+                    continue;
+                } else {
+                    // Assume field is an element
+                    input[i].type = IFT_calc;
+                    has_elements = true;
+                    continue;
+                }
+            }
+        }
+        if ( input[i].type != IFT_null ) {
+            element_list.push_back( input[i].value );
+        }
+    }
+    StringVec format_order;
+    size_t element_size = element_list.size();
+    for ( string fname : m_format_order ) {
+        for ( size_t i = 0; i < element_size; i++ ) {
+            if ( fname == m_rankin_order[i] ) {
+                format_order.push_back( fname );
+                break;
+            }
+        }
+    }
+    if ( element_size != format_order.size() ) {
+        return false;
+    }
+    for ( size_t i = 0; i < element_size; i++ ) {
+        int index = base->get_fieldname_index( format_order[i] );
+        if ( index >= 0 ) {
+            fields[index] = element_list[i];
+        } else {
+            return false;
+        }
+    }
+    if ( has_elements ) {
+        Record record( base, fields, size );
+        for ( auto infield : input ) {
+            if ( infield.type == IFT_calc ) {
+                get_owner()->set_element( &record, infield.vocab->get_fieldname(), infield.value );
+            }
+        }
+        record.get_fields( fields, size );
+    }
+    for ( size_t i = base->record_size(); i < base->extended_size(); i++ ) {
+        if ( fields[i] != f_invalid ) {
+            base->resolve_opt_input( fields, i );
+        }
+    }
+    return true;
 }
 
 RangeList FormatText::multirange_str_to_rlist( const Base* base, const string& input ) const

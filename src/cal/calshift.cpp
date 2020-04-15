@@ -180,8 +180,11 @@ BoolVec Shift::mark_balanced_fields(
     }
     FieldVec l = get_vec_adjusted_to_base( left );
     FieldVec r = get_vec_adjusted_to_base( right );
-    assert( r.size() >= rank.size() );
-    return m_base->mark_balanced_fields( &l[0], ljdn, &r[0], rjdn, rank );
+    XRefVec rank_adjust = rank;
+    while ( rank_adjust.size() > sig_size() ) {
+        rank_adjust.pop_back();
+    }
+    return m_base->mark_balanced_fields( &l[0], ljdn, &r[0], rjdn, rank_adjust );
 }
 
 void Shift::set_fields( Field* fields, Field jdn ) const
