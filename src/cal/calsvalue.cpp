@@ -29,7 +29,7 @@
 
 #include "calmath.h"
 #include "calsetmath.h"
-#include "calstokenstream.h"
+#include "calscript.h"
 #include "caltext.h"
 
 #include <algorithm>
@@ -38,7 +38,6 @@
 using namespace std;
 using namespace Cal;
 
-STokenStream* SValue::m_ts = NULL;
 
 SValue::SValue( const SValue& value )
 {
@@ -107,9 +106,10 @@ void SValue::set_record_scode( const string& scode )
 
 void SValue::set_error( const string& str )
 {
+    STokenStream* ts = Script::get_current_ts();
     m_type = SVT_Error;
-    if ( m_ts ) {
-        m_str = "Error (" + field_to_str( m_ts->get_line() ) + "): " + str;
+    if ( ts ) {
+        m_str = "Error (" + field_to_str( ts->get_line() ) + "): " + str;
     } else {
         m_str = str;
     }
@@ -945,14 +945,6 @@ void SValue::compliment()
     }
     set_error( "Cannot convert to RList." );
 }
-
-STokenStream* SValue::set_token_stream( STokenStream* ts )
-{
-    STokenStream* old = m_ts;
-    m_ts = ts;
-    return old;
-}
-
 
 Field SValue::add( Field left, Field right ) const
 {

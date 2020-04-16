@@ -50,6 +50,8 @@ using std::string;
 using std::vector;
 
 
+STokenStream* Script::s_current_ts = nullptr;
+
 Script::Script( Calendars* cals, std::istream& in, std::ostream& out ) 
     : m_cals(cals), m_ts(in,out), m_out(&out), m_err(&out),
     m_jdn(f_invalid), m_base(nullptr)
@@ -60,7 +62,8 @@ Script::Script( Calendars* cals, std::istream& in, std::ostream& out )
 bool Script::run()
 {
     bool ret = false;
-    STokenStream* prev_ts = SValue::set_token_stream( &m_ts );
+    STokenStream* prev_ts = s_current_ts;
+    s_current_ts = &m_ts;
     for(;;) {
         m_ts.next();
         if( m_ts.current().type() == SToken::STT_End ) {
@@ -72,7 +75,7 @@ bool Script::run()
             break;
         }
     }
-    SValue::set_token_stream( prev_ts );
+    s_current_ts = prev_ts;
     return ret;
 }
 
@@ -87,7 +90,8 @@ Field Script::evaluate_field( const Record& record, const BoolVec* reveal )
     sch->set_owns_base( false );
     sch->set_code( scode );
     if ( m_cals->add_temp_scheme( sch, scode ) ) {
-        STokenStream* prev_ts = SValue::set_token_stream( &m_ts );
+        STokenStream* prev_ts = s_current_ts;
+        s_current_ts = &m_ts;
         m_rec.clear();
         m_base = record.get_base();
         m_jdn = record.get_jdn();
@@ -103,7 +107,7 @@ Field Script::evaluate_field( const Record& record, const BoolVec* reveal )
         m_cals->clear_mark( mark );
 
         m_base = nullptr;
-        SValue::set_token_stream( prev_ts );
+        s_current_ts = prev_ts;
         value.get( field );
     }
     m_cals->remove_temp_scheme( scode );
@@ -121,7 +125,8 @@ void Script::evaluate_record( Record* record, const string& fname, Field field )
     sch->set_owns_base( false );
     sch->set_code( scode );
     if ( m_cals->add_temp_scheme( sch, scode ) ) {
-        STokenStream* prev_ts = SValue::set_token_stream( &m_ts );
+        STokenStream* prev_ts = s_current_ts;
+        s_current_ts = &m_ts;
         m_rec.clear();
         m_jdn = record->get_jdn();
         m_base = record->get_base();
@@ -137,7 +142,7 @@ void Script::evaluate_record( Record* record, const string& fname, Field field )
         value.divide( rec );
         m_cals->clear_mark( mark );
 
-        SValue::set_token_stream( prev_ts );
+        s_current_ts = prev_ts;
         if ( value.type() == SValue::SVT_Record ) {
             FieldVec fv = value.get_record();
             record->set_fields( &fv[0], m_base->extended_size() );

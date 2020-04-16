@@ -49,6 +49,8 @@ namespace Cal {
         Field evaluate_field( const Record& record, const BoolVec* reveal );
         void evaluate_record( Record* record, const std::string& fname, Field field );
 
+        static STokenStream* get_current_ts() { return s_current_ts; }
+
     private:
         bool error( const std::string& mess ) { return m_ts.error( mess ); }
         ScriptStore* store() const;
@@ -105,6 +107,7 @@ namespace Cal {
 
         int line() const { return m_ts.get_line(); }
 
+        static STokenStream* s_current_ts;
         Calendars*    m_cals;
         STokenStream  m_ts;
         std::ostream* m_out;

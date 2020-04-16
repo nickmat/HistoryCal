@@ -32,8 +32,6 @@
 
 namespace Cal {
 
-    class STokenStream;
-
     class SValue
     {
     public:
@@ -105,9 +103,8 @@ namespace Cal {
         void logical_not();
         void compliment();
 
-        static STokenStream* set_token_stream( STokenStream* ts );
-
         Type type() const { return m_type; }
+
     private:
         Field add( Field left, Field right ) const;
         FieldVec add( const FieldVec& left, const FieldVec& right ) const;
@@ -123,7 +120,6 @@ namespace Cal {
         std::string m_str;
         Range       m_range;
         RangeList   m_rlist;
-        static STokenStream* m_ts;
     };
 
     typedef std::vector<SValue> SValueVec;
