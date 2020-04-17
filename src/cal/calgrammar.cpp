@@ -532,6 +532,14 @@ void Grammar::remove_format( const string& fcode )
     m_formats.erase( fcode );
 }
 
+size_t Cal::Grammar::get_sig_rank_size() const
+{
+    if ( m_sig_rank_size == 0 ) {
+        return m_base_fieldnames.size();
+    }
+    return m_sig_rank_size;
+}
+
 int Grammar::get_rank_field_index( const string& fieldname ) const
 {
     int cnt = 0;

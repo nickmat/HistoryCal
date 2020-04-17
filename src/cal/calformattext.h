@@ -60,6 +60,7 @@ namespace Cal {
         void set_rankout_fieldnames( StringVec fieldnames ) { m_rankout_fieldnames = fieldnames; }
         StringVec get_rank_fieldnames() const;
         StringVec get_rankout_fieldnames() const;
+        size_t get_sig_rank_size() const;
 
     private:
         enum CP_Group {
@@ -93,6 +94,7 @@ namespace Cal {
         StringVec   m_rank_fieldnames;
         StringVec   m_rankin_fieldnames;
         StringVec   m_rankout_fieldnames;
+        size_t      m_sig_rank_size;
     };
 
 }

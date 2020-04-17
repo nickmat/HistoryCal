@@ -44,7 +44,7 @@ using std::string;
 
 
 FormatText::FormatText( const string& code, Grammar* gmr )
-: Format( code, gmr ), m_separators(":,")
+: Format( code, gmr ), m_separators(":,"), m_sig_rank_size(0)
 {
 }
 
@@ -150,6 +150,7 @@ void FormatText::setup_control_out()
     if ( m_rankout_fieldnames.empty() ) {
         m_rankout_fieldnames = get_rank_fieldnames();
     }
+    m_sig_rank_size = get_sig_rank_size();
 }
 
 string FormatText::range_to_string( const Base* base, Range range ) const
@@ -162,7 +163,7 @@ string FormatText::range_to_string( const Base* base, Range range ) const
     Record rec2( base, range.jdn2 );
 
     StringVec ranknames = get_rankout_fieldnames();
-    XRefVec xref( base->sig_size() );
+    XRefVec xref( m_sig_rank_size );
     if ( ranknames.empty() ) {
         for ( size_t i = 0; i < xref.size(); i++ ) {
             xref[i] = i;
@@ -278,6 +279,14 @@ StringVec FormatText::get_rankout_fieldnames() const
         return get_rank_fieldnames();
     }
     return m_rankout_fieldnames;
+}
+
+size_t Cal::FormatText::get_sig_rank_size() const
+{
+    if ( m_sig_rank_size == 0 ) {
+        return get_owner()->get_sig_rank_size();
+    }
+    return m_sig_rank_size;
 }
 
 bool FormatText::is_input_field( const std::string& fieldname ) const

@@ -102,6 +102,7 @@ namespace Cal {
         StringVec get_opt_fieldnames() const { return m_opt_fieldnames; }
         void set_rank_fieldnames( StringVec fieldnames ) { m_rank_fieldnames = fieldnames; }
         StringVec get_rank_fieldnames() const{ return m_rank_fieldnames; }
+        size_t get_sig_rank_size() const;
         int get_rank_field_index( const std::string& fieldname ) const;
         StringVec get_record_fieldnames() const { return m_record_fieldnames; }
 
