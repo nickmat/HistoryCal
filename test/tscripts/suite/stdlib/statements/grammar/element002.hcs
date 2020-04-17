@@ -2,7 +2,7 @@
 
 grammar x {
     inherit jce;
-    element opCE { output @if(year>499,?,ce); }
+    element opCE { output @if(year>199,?,:ce); }
     alias field { opCE, ce; }
     format opdmy "(Day) |(Month:m:a) |(Year)| (opCE:jce)";
     pref opdmy;
@@ -14,11 +14,11 @@ scheme x {
     grammar x;
 }
 
-let d1 = date,j:dmy "dec499";
-let d2 = date,j:dmy "jan500";
+let d1 = date,j:dmy "dec199";
+let d2 = date,j:dmy "jan200";
 
 write string,x (d1 ~ d2);
 
 /*[OUTPUT]
-Dec 499 Common Era ~ Jan 500
+Dec 199 Common Era ~ Jan 200
 [OUTPUT]*/
