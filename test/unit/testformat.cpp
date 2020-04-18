@@ -67,7 +67,8 @@ void TestFormat::setUp()
     m_cal = new Calendars;
     m_cal->run_script(
         "vocab \"m\" {"
-        " name \"Month names\"; lang \"en\"; stylename \"Month\", \"Mon\";"
+        " name \"Month names\"; lang \"en\"; pseudo \"Month\", \"Mon\";"
+        " fieldname month;"
         " tokens {"
         "  1, \"January\", \"Jan\"; 2, \"Febuary\", \"Feb\"; 3, \"March\", \"Mar\";"
         "  4, \"April\", \"Apr\"; 5, \"May\"; 6, \"June\", \"Jun\";"
@@ -77,7 +78,8 @@ void TestFormat::setUp()
         "}\n"
 
         "vocab \"w\" {"
-        " name \"Weekday names\"; lang \"en\"; stylename \"Weekday\", \"WDay\";"
+        " name \"Weekday names\"; lang \"en\"; pseudo \"Weekday\", \"WDay\";"
+        " fieldname wday;"
         " tokens {"
         "  1, \"Monday\", \"Mon\"; 2, \"Tuesday\", \"Tue\"; 3, \"Wednesday\", \"Wed\";"
         "  4, \"Thursday\", \"Thur\"; 5, \"Friday\", \"Fri\"; 6, \"Saturday\", \"Sat\";"
@@ -86,6 +88,7 @@ void TestFormat::setUp()
         "}\n"
 
         "grammar \"j\" {"
+        " fields year month day;\n"
         " alias field {"
         "  \"WDay\",\"wday\"; \"Day\",\"day\"; \"Month\",\"month\"; \"Year\",\"year\";"
         " }"
