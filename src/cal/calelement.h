@@ -41,7 +41,7 @@ namespace Cal {
         Element() : m_state( DO_FIELD ) {}
         virtual ~Element() {}
 
-        void clear();
+        virtual void clear();
         void add_char( char ch );
         void add_string( const std::string& str );
 
@@ -66,19 +66,18 @@ namespace Cal {
 
     };
 
-    class ElementControl : public Element
+    class ElementControlIn : public Element
     {
     public:
-        ElementControl() : Element(), m_type( IFT_number ), m_voc( nullptr ),
-            m_calc_field(nullptr), m_default_value( f_invalid ) {}
+        ElementControlIn() : Element(), m_type( IFT_number ), m_voc( nullptr ),
+            m_calc_field( nullptr ), m_default_value( f_invalid ) {}
 
-        void clear();
+        void clear() override;
         bool expand_specifier( Grammar* gmr );
 
         std::string get_input_text() const;
         std::string get_dual_record_field_name() const { return m_dual_record_field_name; }
         std::string get_record_field_name() const { return m_record_field_name; }
-        std::string get_field_output_name() const { return m_field_output_name; }
         std::string get_default_text() const { return m_default_text; }
 
         Vocab* get_vocab() const { return m_voc; }
@@ -87,9 +86,7 @@ namespace Cal {
         Field get_default_value() const { return m_default_value; }
 
         bool has_dual_field() const { return !m_dual_record_field_name.empty(); }
-        bool has_vocab() const { return m_voc != nullptr; }
         bool has_valid_default() const { return m_default_value != f_invalid; }
-        bool has_calc_field() const { return m_calc_field != nullptr; }
 
     private:
         InputFieldType m_type;
@@ -97,8 +94,21 @@ namespace Cal {
         ElementField* m_calc_field;
         std::string m_record_field_name;
         std::string m_dual_record_field_name;
-        std::string m_field_output_name;
         Field m_default_value;
+    };
+
+    class ElementControlOut : public Element
+    {
+    public:
+        ElementControlOut() : Element() {}
+
+        void clear() override;
+        bool expand_specifier( Grammar* gmr );
+
+        std::string get_field_output_name() const { return m_field_output_name; }
+
+    private:
+        std::string m_field_output_name;
     };
 
 }

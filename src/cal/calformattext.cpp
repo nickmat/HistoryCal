@@ -62,17 +62,13 @@ bool Cal::FormatText::construct()
 
 void FormatText::setup_control_in()
 {
-    ElementControl ele;
+    ElementControlIn ele;
     bool do_output = true;
-    string fieldout, input, output;
+    string input;
     for ( auto it = m_control_in.begin(); it != m_control_in.end(); it++ ) {
         if ( do_output ) {
-            if ( *it == '|' ) {
-                fieldout.clear();
-            } else if ( *it == '(' ) {
+            if ( *it == '(' ) {
                 do_output = false;
-            } else {
-                fieldout += *it;
             }
             continue;
         }
@@ -98,7 +94,6 @@ void FormatText::setup_control_in()
                     m_format_order.push_back( fieldname );
                 }
             }
-            fieldout += ele.get_field_output_name();
             ele.clear();
             do_output = true;
         } else if ( !do_output ) {
@@ -119,8 +114,14 @@ void FormatText::setup_control_in()
 
 void FormatText::setup_control_out()
 {
-    ElementControl ele;
-    string fieldout, input, output;
+    assert( get_owner() );
+    if ( m_rankout_fieldnames.empty() ) {
+        m_rankout_fieldnames = get_rank_fieldnames();
+    }
+    m_sig_rank_size = get_sig_rank_size();
+
+    ElementControlOut ele;
+    string fieldout, output;
     bool do_output = true;
 
     for ( auto it = m_control_out.begin(); it != m_control_out.end(); it++ ) {
@@ -146,11 +147,6 @@ void FormatText::setup_control_out()
     }
     output += fieldout;
     set_user_output_str( output );
-    assert( get_owner() );
-    if ( m_rankout_fieldnames.empty() ) {
-        m_rankout_fieldnames = get_rank_fieldnames();
-    }
-    m_sig_rank_size = get_sig_rank_size();
 }
 
 string FormatText::range_to_string( const Base* base, Range range ) const

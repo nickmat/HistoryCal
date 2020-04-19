@@ -152,19 +152,19 @@ Field Element::get_converted_field( Calendars* cal, const string& str ) const
     return f_invalid;
 }
 
-void ElementControl::clear()
+
+void ElementControlIn::clear()
 {
     Element::clear();
     m_type = IFT_number;
     m_voc = nullptr;
     m_record_field_name.clear();
     m_dual_record_field_name.clear();
-    m_field_output_name.clear();
     m_default_value = f_invalid;
 }
 
 
-bool ElementControl::expand_specifier( Grammar* gmr )
+bool ElementControlIn::expand_specifier( Grammar* gmr )
 {
     m_voc = gmr->find_vocab( m_vcode );
     if ( !m_dual_field_name.empty() ) {
@@ -175,17 +175,43 @@ bool ElementControl::expand_specifier( Grammar* gmr )
     if ( gmr->get_rank_field_index( rfn ) >= 0 ) {
         m_record_field_name = rfn;
     }
-    m_field_output_name = gmr->get_element_pseudo_name( m_field_name );
     if ( m_voc ) {
         m_type = IFT_vocab;
+        m_default_value = m_voc->find( m_default_text );
+    } else if ( !m_dual_field_name.empty() ) {
+        m_dual_record_field_name = gmr->get_field_alias( m_dual_field_name );
+    }
+    return true;
+}
+
+std::string ElementControlIn::get_input_text() const
+{
+    if ( m_default_text.empty() ) {
+        return m_field_name;
+    }
+    return "[" + m_default_text + "]";
+}
+
+
+void ElementControlOut::clear()
+{
+    Element::clear();
+    m_field_output_name.clear();
+}
+
+
+bool ElementControlOut::expand_specifier( Grammar* gmr )
+{
+    Vocab* voc = gmr->find_vocab( m_vcode );
+    m_field_output_name = gmr->get_element_pseudo_name( m_field_name );
+    if ( voc ) {
         if ( m_field_output_name.empty() ) {
             if ( m_spec == "a" ) {
-                m_field_output_name = m_voc->get_pseudo_name( Vocab::pseudo_abbrev );
+                m_field_output_name = voc->get_pseudo_name( Vocab::pseudo_abbrev );
             } else {
-                m_field_output_name = m_voc->get_pseudo_name( Vocab::pseudo_full );
+                m_field_output_name = voc->get_pseudo_name( Vocab::pseudo_full );
             }
         }
-        m_default_value = m_voc->find( m_default_text );
     } else if ( m_vcode.empty() && !m_spec.empty() ) {
         StringStyle ss = SS_undefined;
         if ( m_qualifier == "u" ) {
@@ -205,21 +231,13 @@ bool ElementControl::expand_specifier( Grammar* gmr )
             m_field_output_name = get_left_pad_style( m_field_output_name, m_qualifier );
         }
     } else if ( !m_dual_field_name.empty() ) {
-        m_dual_record_field_name = gmr->get_field_alias( m_dual_field_name );
         m_field_output_name = gmr->get_num_pseudo_alias( m_field_name ) +
             "/" + gmr->get_num_pseudo_alias( m_dual_field_name );
-    } else if( m_field_output_name.empty() ) {
+    } else if ( m_field_output_name.empty() ) {
         m_field_output_name = gmr->get_num_pseudo_alias( m_field_name );
     }
     return true;
 }
 
-std::string ElementControl::get_input_text() const
-{
-    if ( m_default_text.empty() ) {
-        return m_field_name;
-    }
-    return "[" + m_default_text + "]";
-}
 
 // End of src/cal/calelement.cpp file
