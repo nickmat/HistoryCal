@@ -44,7 +44,7 @@ using std::string;
 
 
 FormatText::FormatText( const string& code, Grammar* gmr )
-: Format( code, gmr ), m_separators(":,"), m_sig_rank_size(0)
+: Format( code, gmr ), m_separators(":,"), m_sig_rank_size(0), m_shorthand(true)
 {
 }
 
@@ -139,6 +139,12 @@ void FormatText::setup_control_out()
         if ( *it == ')' ) {
             ele.expand_specifier( get_owner() );
             fieldout += ele.get_field_output_name();
+            if ( m_shorthand ) {
+                string rfn = get_owner()->get_field_alias( ele.get_field_name() );
+                if ( is_non_sig_record_name( rfn ) ) {
+                    m_shorthand = false;
+                }
+            }
             ele.clear();
             do_output = true;
         } else if ( !do_output ) {
@@ -158,22 +164,27 @@ string FormatText::range_to_string( const Base* base, Range range ) const
     Record rec1( base, range.jdn1 );
     Record rec2( base, range.jdn2 );
 
-    StringVec ranknames = get_rankout_fieldnames();
-    XRefVec xref( m_sig_rank_size );
-    if ( ranknames.empty() ) {
-        for ( size_t i = 0; i < xref.size(); i++ ) {
-            xref[i] = i;
+    if ( m_shorthand ) {
+        StringVec ranknames = get_rankout_fieldnames();
+        XRefVec xref( m_sig_rank_size );
+        if ( ranknames.empty() ) {
+            for ( size_t i = 0; i < xref.size(); i++ ) {
+                xref[i] = i;
+            }
+        } else {
+            size_t size = std::min( xref.size(), ranknames.size() );
+            for ( size_t i = 0; i < size; i++ ) {
+                xref[i] = base->get_fieldname_index( ranknames[i] );
+            }
         }
-    } else {
-        size_t size = std::min( xref.size(), ranknames.size() );
-        for ( size_t i = 0; i < size; i++ ) {
-            xref[i] = base->get_fieldname_index( ranknames[i] );
-        }
-    }
 
-    BoolVec reveal = rec1.mark_balanced_fields( rec2, xref );
-    str1 = get_revealed_output( rec1, &reveal );
-    str2 = get_revealed_output( rec2, &reveal );
+        BoolVec reveal = rec1.mark_balanced_fields( rec2, xref );
+        str1 = get_revealed_output( rec1, &reveal );
+        str2 = get_revealed_output( rec2, &reveal );
+    } else {
+        str1 = get_output( rec1 );
+        str2 = get_output( rec2 );
+    }
     if ( str1 == str2 ) {
         return str1;
     }
@@ -289,6 +300,16 @@ bool FormatText::is_input_field( const std::string& fieldname ) const
 {
     for( size_t i = 0 ; i < m_format_order.size() ; i++ ) {
         if( fieldname == m_format_order[i] ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool FormatText::is_non_sig_record_name( const string& fieldname ) const
+{
+    for ( size_t i = m_sig_rank_size; i < m_rankout_fieldnames.size(); i++ ) {
+        if ( fieldname == m_rankout_fieldnames[i] ) {
             return true;
         }
     }

@@ -1,6 +1,6 @@
 // none/schemes/french001.hcs   Test French Rep. scheme.
 
-vocab FRM {
+vocab frm {
     name "Month names";
     fieldname month;
     lang en;
@@ -22,7 +22,26 @@ vocab FRM {
     }
 }
 
-vocab FRCOMP {
+vocab frdd {
+    name "Decade Day";
+    fieldname dday;
+    lang en;
+    pseudo    DecDay,  DDay;
+    tokens {
+        1, "Primidi",  "Prim";
+        2, "Duodi",    "Duo";
+        3, "Tridi",    "Tri";
+        4, "Quartidi", "Quar";
+        5, "Quintidi", "Quin";
+        6, "Sextidi",  "Sext";
+        7, "Septidi",  "Sept";
+        8, "Octidi",   "Oct";
+        9, "Nonidi",   "Non";
+        10, "Décadi",  "Dec";
+    }
+}
+
+vocab frcomp {
     name "Complementary Days";
     fieldname CDay;
     lang en;
@@ -39,9 +58,10 @@ vocab FRCOMP {
 
 function if(c,a,b) { if c result=a; else result=b; endif }
 
-grammar FR {
+grammar fr {
     fields year month day;
-    vocabs FRM, FRCOMP;
+    optional dday;
+    vocabs frm, frcomp, frdd;
 
     element CDay {
         output @if( month=13, day, ? ); // Output only if Complementary day.
@@ -56,28 +76,35 @@ grammar FR {
         alias month;       
     }
 
-    format cdmy "(CDay:FRCOMP:a) |(MDay) |(NMonth:FRM:a) |(year)";
+    format dcdmy "(dday:frdd:a) |(CDay:frcomp:a) |(MDay) |(NMonth:frm:a) |(year)";
+    /*
+    format dcdmy {
+        input "(Day) |(Month) |(Year)";
+        output "(DecDay:frdd) |(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";
+        rankout year, nmonth, nmday, cday, dday;
+    }
+    */
 }
 
-scheme FR {
+scheme fr {
     name "Test French Republican";
     base french;
-    grammar FR;
+    grammar fr;
 }
 
 writeln "";
-writeln string,FR:cdmy 2345678 +", "+ date,FR:cdmy "4 Vent -82";
-writeln string,FR:cdmy 2432814 +", "+ date,FR:cdmy "Trav 156";
-writeln string,FR:cdmy (2432812 ~ 2432817) +", "+ date,FR:cdmy "Comp 156";
-writeln string,FR:cdmy (2432602 ~ 2432631) +", "+ date,FR:cdmy "Vent 156";
-writeln string,FR:cdmy (2432452 ~ 2432817) +", "+ date,FR:cdmy "156";
+writeln string,fr:dcdmy 2345678 +", "+ date,fr:dcdmy "Quar 4 Vent -82";
+writeln string,fr:dcdmy 2432814 +", "+ date,fr:dcdmy "Trav 156";
+writeln string,fr:dcdmy (2432812 ~ 2432817) +", "+ date,fr:dcdmy "Comp 156";
+writeln string,fr:dcdmy (2432602 ~ 2432631) +", "+ date,fr:dcdmy "Vent 156";
+writeln string,fr:dcdmy (2432452 ~ 2432817) +", "+ date,fr:dcdmy "156";
 
 /*[OUTPUT]
 
-4 Vent -82, 2345678
+Quar 4 Vent -82, 2345678
 Trav 156, 2432814
-Comp 156, 2432812 ~ 2432817
-Vent 156, 2432602 ~ 2432631
-156, 2432452 ~ 2432817
+Ver 156 ~ Rev 156, 2432812 ~ 2432817
+Prim 1 Vent 156 ~ Dec 30 Vent 156, 2432602 ~ 2432631
+Prim 1 Vend 156 ~ Rev 156, 2432452 ~ 2432817
 
 [OUTPUT]*/

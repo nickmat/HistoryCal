@@ -69,6 +69,7 @@ namespace Cal {
         };
 
         bool is_input_field( const std::string& fieldname ) const;
+        bool is_non_sig_record_name( const std::string& fieldname ) const;
         CP_Group get_cp_group( 
             std::string::const_iterator it,
             std::string::const_iterator end ) const;
@@ -95,6 +96,7 @@ namespace Cal {
         StringVec   m_rankin_fieldnames;
         StringVec   m_rankout_fieldnames;
         size_t      m_sig_rank_size;
+        bool        m_shorthand;
     };
 
 }
