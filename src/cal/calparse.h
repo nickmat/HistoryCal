@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     20th September 2013
- * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -39,6 +39,8 @@ namespace Cal {
     Field str_to_field( const std::string& str );
     Field str_to_dual2( Field dual1, const std::string& str );
     double str_to_double( const std::string& str );
+    Field convert_roman_numerals( const std::string& str );
+
     std::string make_key( const std::string& str );
     bool split_code( std::string* scheme, std::string* format, const std::string& str );
     std::string parse_date_expr( const std::string& str );

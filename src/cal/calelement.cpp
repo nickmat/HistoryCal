@@ -139,6 +139,9 @@ Field Element::get_converted_field( Calendars* cal, const string& str ) const
     }
 
     if ( m_vcode.empty() ) {
+        if ( m_spec == "rn" ) {
+            return convert_roman_numerals( str );
+        }
         if ( m_spec == "os" ) {
             return str_to_field( str );
         }

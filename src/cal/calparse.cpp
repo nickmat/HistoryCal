@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     20th September 2013
- * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 ~ 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -95,6 +95,68 @@ Field Cal::str_to_dual2( Field dual1, const string& str2 )
 double Cal::str_to_double( const std::string& str )
 {
     return std::strtod( str.c_str(), NULL );
+}
+
+static Field get_roman_value( int ch, bool& decimal )
+{
+    switch ( ch )
+    {
+    case 'I': case 'i': decimal = true;  return 1;
+    case 'V': case 'v': decimal = false; return 5;
+    case 'X': case 'x': decimal = true;  return 10;
+    case 'L': case 'l': decimal = false; return 50;
+    case 'C': case 'c': decimal = true;  return 100;
+    case 'D': case 'd': decimal = false; return 500;
+    case 'M': case 'm': decimal = true;  return 1000;
+    default:  decimal = false; return f_invalid;
+    }
+}
+
+Field Cal::convert_roman_numerals( const string& num )
+{
+    Field result = 0, prev = 1001, curr;
+    bool dec = false;
+    for ( auto it = num.begin(); it != num.end(); it++ ) {
+        curr = get_roman_value( *it, dec );
+        if ( curr == f_invalid ) {
+            return f_invalid;
+        }
+        if ( curr >= prev ) {
+            return f_invalid;
+        }
+        prev = curr;
+        auto it2 = it + 1;
+        if ( it2 != num.end() ) {
+            bool dec2;
+            Field curr2 = get_roman_value( *it2, dec2 );
+            if ( curr2 == f_invalid ) {
+                return f_invalid;
+            }
+            if ( dec ) {
+                if ( curr == curr2 ) { // Repeated char
+                    auto it3 = it2 + 1;
+                    if ( it3 != num.end() ) {
+                        Field curr3 = get_roman_value( *it3, dec2 );
+                        if ( curr3 == curr ) {
+                            result += curr;
+                            it++;
+                        }
+                    }
+                    result += curr;
+                    it++;
+                } else if ( ( curr == 1 && ( curr2 == 5 || curr2 == 10 ) ) ||
+                    ( curr == 10 && ( curr2 == 50 || curr2 == 100 ) ) ||
+                    ( curr == 100 && ( curr2 == 500 || curr2 == 1000 ) ) ) {
+                    // Subtract from next.
+                    result -= curr;
+                    curr = curr2;
+                    it++;
+                }
+            }
+        }
+        result += curr;
+    }
+    return result;
 }
 
 string Cal::make_key( const string& str )
