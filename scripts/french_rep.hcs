@@ -67,7 +67,7 @@ vocab frdd {
 
 vocab frcomp {
     name "Complementary Days";
-    fieldname cday;
+    fieldname CDay;
     lang en;
     pseudo    CompDay,           CDay;
     tokens {
@@ -82,7 +82,7 @@ vocab frcomp {
 
 grammar fr {
     fields year month day;
-    optional nmonth, nmday, cday, dday, wday;
+    optional dday, wday;
     vocabs frm, frcomp, frdd, w;
     alias field {
         Day,     day;
@@ -90,9 +90,6 @@ grammar fr {
         Year,    year;
         DecDay,  dday;
         WDay,    wday;
-        NMonth,  nmonth;
-        NMDay,   nmday;
-        CompDay, cday;
     }
     alias pseudo {
         dd,   Day;
@@ -100,9 +97,9 @@ grammar fr {
         yyyy, Year;
         mm,   NMonth;
         dd,   NMDay;
+        "[c]", CDay;
         w,    WDay;
         d,    DecDay;
-        c,    CompDay;
     }
     alias unit {
         d,   day;
@@ -111,44 +108,30 @@ grammar fr {
         m,   month;
         y,   year;
     }
-    format dmy,    "(Day) |(Month:frm:a) |(Year)";
-    format "dmy+", "(Day) |(Month:frm) |(Year)";
-    format ymd,    "(Year)|,(Month:frm:a)|,(Day)";
-    format cdmy {
-        input "(Day) |(Month) |(Year)";
-        output "(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";
-        rankout year, nmonth, nmday, cday;
+
+    element CDay {
+        output @if( month=13, day, ? ); // Output only if Complementary day.
+        input { "", , 13, CDay };  // If comp day is entered, it must be month 13.
+        pseudo CompDay;
     }
-    format out {
-        input "(Day) |(Month) |(Year)";
-        output "(CompDay:frcomp) |(NMDay) |(NMonth:frm) |an (Year::rn)";
-        rankout year, nmonth, nmday, cday;
+    element MDay {
+        output @if( month<>13, day, ? ); // Output only if not a Complementary day
+        alias day;
     }
-    format dcdmy {
-        input "(Day) |(Month) |(Year)";
-        output "(DecDay:frdd) |(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";
-        rankout year, nmonth, nmday, cday, dday;
+    element NMonth {
+        output @if( month<>13 or day=?, month, ? ); // Suppress month if it's the Complementary month unless it's all Complementary days
+        alias month;       
     }
-    format wcdmy {
-        input "(Day) |(Month) |(Year)";
-        output "(WDay:w), |(CompDay:frcomp) |(NMDay) |(NMonth:frm) |(Year)";
-        rankout year, nmonth, nmday, cday, wday;
-    }
-    format "cdmy-" {
-        input "(Day) |(Month) |(Year)";
-        output "(CompDay:frcomp:a) |(NMDay) |(NMonth:frm:a) |(Year)";
-        rankout year, nmonth, nmday, cday;
-    }
-    format "dcdmy-" {
-        input "(Day) |(Month) |(Year)";
-        output "(DecDay:frdd:a) |(CompDay:frcomp:a) |(NMDay) |(NMonth:frm:a) |(Year)";
-        rankout year, nmonth, nmday, cday, dday;
-    }
-    format "wcdmy-" {
-        input "(Day) |(Month) |(Year)";
-        output "(WDay:w:a), |(CompDay:frcomp:a) |(NMDay) |(NMonth:frm:a) |(Year)";
-        rankout year, nmonth, nmday, cday, wday;
-    }
+    format dmy      "(Day) |(Month:frm:a) |(Year)";
+    format "dmy+"   "(Day) |(Month:frm) |(Year)";
+    format ymd      "(Year)|,(Month:frm:a)|,(Day)";
+    format cdmy     "(CDay:frcomp) |(MDay) |(NMonth:frm) |(Year)";
+    format out      "(CDay:frcomp) |(MDay) |(NMonth:frm) |(Year::rn)";
+    format dcdmy    "(DecDay:frdd) |(CDay:frcomp) |(MDay) |(NMonth:frm) |(Year)";
+    format wcdmy    "(WDay:w), |(CDay:frcomp) |(MDay) |(NMonth:frm) |(Year)";
+    format "cdmy-"  "(CDay:frcomp:a) |(MDay) |(NMonth:frm:a) |(Year)";
+    format "dcdmy-" "(DecDay:frdd:a) |(CDay:frcomp:a) |(MDay) |(NMonth:frm:a) |(Year)";
+    format "wcdmy-" "(WDay:w:a), |(CDay:frcomp:a) |(MDay) |(NMonth:frm:a) |(Year)";
     pref cdmy;
 }
 
