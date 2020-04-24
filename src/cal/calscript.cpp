@@ -993,7 +993,7 @@ bool Script::do_grammar_element( Grammar* gmr )
             } else if ( sub == "input" ) {
                 ef.in_expression = m_ts.read_until( ";", "" );
             } else if ( sub == "pseudo" ) {
-                expr( true ).get( ef.pseudo );
+                ef.pseudo = get_name_or_primary( true );
             } else if ( sub == "alias" ) {
                 ef.alias = get_name_or_primary( true );
             } else {

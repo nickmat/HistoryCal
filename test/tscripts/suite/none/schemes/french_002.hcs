@@ -66,6 +66,7 @@ grammar fr {
     element CDay {
         output @if( month=13, day, ? ); // Output only if Complementary day.
         input { "", , 13, CDay };  // If comp day is entered, it must be month 13.
+        pseudo CompDay;
     }
     element MDay {
         output @if( month<>13, day, ? ); // Output only if not a Complementary day
