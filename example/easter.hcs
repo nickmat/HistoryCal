@@ -1,6 +1,6 @@
 // easter.hcs example file to display a list of Easter Sundays.
 
-mark example.easter;
+mark example_easter;
 
 let start = 1950;
 let finish = 1955;
@@ -30,4 +30,4 @@ do
   start += 1;
 loop
 
-clear example.easter;
+clear example_easter;

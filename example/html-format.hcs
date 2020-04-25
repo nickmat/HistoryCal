@@ -1,6 +1,6 @@
 // Add a new format to the "j" grammar for html output.
 
-mark example.html;
+mark example_html;
 
 format j:html {
     output "<span class='date'>|(Day)<sup>(Day:!os)</sup> |<b>(Month:m)</b> |(Year)|</span>";

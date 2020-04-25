@@ -1,6 +1,6 @@
 // Modified Julian Day and Rata Die
 
-mark example.MJD;
+mark example_MJD;
 
 scheme MJD {
     name "Modified Julian Day";

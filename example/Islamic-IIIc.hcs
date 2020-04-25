@@ -2,9 +2,9 @@
 // Leap year on 2, 5, 8, 10, 13, 16, 19, 21, 24, 27 and 29 years of 30 cycle.
 // Epoch 1 1 1 = j:mdy# 16 Jul 622
 
-mark example.i_IIIc;
+mark example_I3c;
 
-scheme "I.IIIc" {
+scheme I3c {
     name "Islamic Tabular IIIc";
     base islamic IIIc;
     grammar i;
