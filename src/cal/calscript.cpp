@@ -1379,6 +1379,7 @@ SValue Script::range( bool get )
         switch( token.type() )
         {
         case SToken::STT_Tilde:
+        case SToken::STT_DotDot:
             left.range_op( sum( true ) );
             break;
         default:

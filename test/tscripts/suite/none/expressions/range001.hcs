@@ -1,0 +1,13 @@
+// none/expressions/range001.hcs  Test range operator
+
+writeln "";
+
+writeln (4..1) +", "+ (1..4);
+writeln 6..8..5;
+
+/*[OUTPUT]
+
+1 ~ 4, 1 ~ 4
+5 ~ 8
+
+[OUTPUT]*/

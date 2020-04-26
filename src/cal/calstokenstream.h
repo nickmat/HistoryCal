@@ -50,6 +50,7 @@ namespace Cal {
             STT_LSbracket, STT_RSbracket, 
             STT_mod, STT_and, STT_or, STT_not,
             STT_str_cast, STT_date, STT_record, STT_convert, STT_error,
+            STT_DotDot,      //  ".."
             STT_NotEqual,    //  "<>"
             STT_GtThan,      //  ">"
             STT_GtThanEq,    //  ">="
