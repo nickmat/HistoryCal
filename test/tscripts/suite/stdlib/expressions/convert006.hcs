@@ -4,7 +4,7 @@ writeln "";
 
 writeln convert,":lp:-4" 7;
 writeln convert,:lp:03 21;
-writeln convert,:lp:.6 1948;
+writeln convert,":lp:.6" 1948;
 
 /*[OUTPUT]
 

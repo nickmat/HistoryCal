@@ -1,13 +1,13 @@
 // function005.hcs - Test function statement.
 
-function write.age(on, dob) {
+function write_age(on, dob) {
     if on - dob <= 0
         writeln "Date 'on' must be after 'dob'";
         end;
     endif
     let age = on[g:year] - dob[g:year];
-    let on.birthday = date {g, on[g:year], dob[g:month], dob[g:day] };
-    if on - on.birthday < 0 
+    let on_birthday = date {g, on[g:year], dob[g:month], dob[g:day] };
+    if on - on_birthday < 0 
         age -= 1;
     endif
     write "Age is: " + age + " years.";
@@ -16,7 +16,7 @@ function write.age(on, dob) {
 set input g:dmy;
 set output g:dmy;
 
-call write.age(date "1may2017", date "19sep1948");
+call write_age(date "1may2017", date "19sep1948");
 
 /*[OUTPUT]
 Age is: 68 years.

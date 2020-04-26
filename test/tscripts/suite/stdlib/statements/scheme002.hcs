@@ -1,7 +1,5 @@
 // scheme002.hcs  Test repeated scheme definition error.
 
-mark test.scheme002;
-
 writeln "";
 
 scheme test002 {
@@ -14,11 +12,10 @@ scheme test002 {
   base julian;
 }
 
-clear test.scheme002;
 
 */
 /*[OUTPUT]
 
-Error (12): Scheme "test002" already exists.
+Error (10): Scheme "test002" already exists.
 
 [OUTPUT]*/

@@ -1,6 +1,6 @@
 // function011.hcs - Test default functions.
 
-function test.dob(age, on, sch) {
+function test_dob(age, on, sch) {
     if sch[.type] = "string"
         set input (sch);        
     endif
@@ -13,7 +13,7 @@ function test.dob(age, on, sch) {
 
 set inout g:dmy;
 
-write string @test.dob(68);
+write string @test_dob(68);
 
 /*[OUTPUT]
 2 May 1948 ~ 1 May 1949

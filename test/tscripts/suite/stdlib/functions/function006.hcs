@@ -1,6 +1,6 @@
 // function006.hcs - Test function in expression.
 
-function test.dob(age, on) {
+function test_dob(age, on) {
     result = date {g, on[g:year] - age - 1, on[g:month], on[g:day]}
         ~ date {g, on[g:year] - age, on[g:month], on[g:day]};
 }
@@ -8,7 +8,7 @@ function test.dob(age, on) {
 set input g:dmy;
 set output g:dmy;
 
-write "Was born: " + string @test.dob(68, date "1may2017") + " if 68 on 1 May 2017";
+write "Was born: " + string @test_dob(68, date "1may2017") + " if 68 on 1 May 2017";
 
 /*[OUTPUT]
 Was born: 1 May 1948 ~ 1 May 1949 if 68 on 1 May 2017

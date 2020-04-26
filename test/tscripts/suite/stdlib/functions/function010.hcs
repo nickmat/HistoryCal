@@ -1,10 +1,10 @@
 // function010.hcs - Test function in a expression with arguments and defaults.
 
-function test.mult(m1=50, m2=2) {
+function test_mult(m1=50, m2=2) {
     result = m1 * m2;
 }
 
-write @test.mult;
+write @test_mult;
 
 /*[OUTPUT]
 100

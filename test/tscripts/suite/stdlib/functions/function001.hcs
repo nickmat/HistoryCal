@@ -1,7 +1,5 @@
 // function001.hcs - Test function statement.
 
-mark test.function001;
-
 function say {
     write "Hello, " + string,g:dmy 2432814;
 }
@@ -9,8 +7,6 @@ function say {
 write "Start ";
 call say;
 write " done.";
-
-clear test.function001;
 
 /*[OUTPUT]
 Start Hello, 19 Sep 1948 done.

@@ -2,14 +2,14 @@
 
 let d = 2432814;
 
-scheme G.ASTRO {
+scheme G_ASTRO {
   name "Gregorian Astronomy";
   base gregorian;
   grammar { optional newmoon, nequinox; }
   style hide;
 }
 
-write string,G.ASTRO d;
+write string,G_ASTRO d;
 
 
 */

@@ -1,14 +1,14 @@
 // function007.hcs - Test function in a expression with no arguments.
 
-function get.ten {
+function get_ten {
     result = 10;
 }
 
 set input g:dmy;
 set output g:dmy;
 
-write "get.ten returns: " + @get.ten + " exactly";
+write "get_ten returns: " + @get_ten + " exactly";
 
 /*[OUTPUT]
-get.ten returns: 10 exactly
+get_ten returns: 10 exactly
 [OUTPUT]*/

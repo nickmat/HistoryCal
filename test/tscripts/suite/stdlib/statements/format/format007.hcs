@@ -1,12 +1,9 @@
 // format007.hcs Test format statement, ordinal suffix.
 
-mark format.test;
-
 format j:DMY { output "(Day)-(Day::oa) |(Month:m) |(Year)"; }
 
 write string,g:DMY 2432814;
 
-clear format.test;
 
 /*[OUTPUT]
 19-th September 1948

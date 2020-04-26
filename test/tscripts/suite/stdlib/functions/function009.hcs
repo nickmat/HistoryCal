@@ -1,6 +1,6 @@
 // function009.hcs - Test function in a expression with arguments.
 
-function test.dob(age, on, sch) {
+function test_dob(age, on, sch) {
     if sch <> ""
         set input (sch);
     endif
@@ -11,8 +11,8 @@ function test.dob(age, on, sch) {
 set inout g:dmy;
 
 writeln "";
-writeln string @test.dob(68, date "18sep2017", "g");
-writeln string @test.dob(69, date "19sep2017", "g");
+writeln string @test_dob(68, date "18sep2017", "g");
+writeln string @test_dob(69, date "19sep2017", "g");
 
 /*[OUTPUT]
 

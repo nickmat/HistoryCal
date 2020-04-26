@@ -1,12 +1,9 @@
 // format009.hcs Test format statement, left padded numbers.
 
-mark format.test;
-
 format j:YMD "(Year::lp:06)|-(Month::lp:02)|-(Day::lp:2)";
 
 write string,g:YMD 2432814;
 
-clear format.test;
 
 /*[OUTPUT]
 001948-09-19

@@ -1,13 +1,10 @@
 // format004.hcs Test format statement, example/html-format.hcs included in release.
 
-mark format.test;
-
 format j:html {
     output "<span class='date'>|(Day)<sup>(Day::oa)</sup> |<b>(Month:m)</b> |(Year)|</span>";
 }
 write string,g:html 2432814;
 
-clear format.test;
 
 /*[OUTPUT]
 <span class='date'>19<sup>th</sup> <b>September</b> 1948</span>
