@@ -1,15 +1,15 @@
-// statements/element002.hcs   Test the grammar element sub-statement.
+// statements/calculate002.hcs   Test the grammar calculate sub-statement.
 
 grammar x {
     inherit jce;
-    element opCE { output @if(year>199,?,:ce); }
+    calculate opCE { output @if(year>199,?,:ce); }
     alias field { opCE, ce; }
     format opdmy "(Day) |(Month:m:a) |(Year)| (opCE:jce)";
     pref opdmy;
 }
 
 scheme x {
-    name "Test for grammar element sub-statement";
+    name "Test for grammar calculate sub-statement";
     base julian;
     grammar x;
 }

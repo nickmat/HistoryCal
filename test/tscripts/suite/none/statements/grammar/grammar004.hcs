@@ -1,4 +1,4 @@
-// none/statements/grammar004.hcs   Test the grammar sub-statement element for input.
+// none/statements/grammar004.hcs   Test the grammar sub-statement calculate for input.
 
 vocab FRM {
     name "Test Month names";
@@ -38,7 +38,7 @@ grammar FR {
     fields year month day;
     vocabs FRM FRCOMP;
 
-    element CDay {
+    calculate CDay {
         input { "", , 13, CDay };
     }
 

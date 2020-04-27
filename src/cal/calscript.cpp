@@ -931,8 +931,8 @@ Grammar* Script::do_create_grammar( const string& code, const Base* base )
             } else if ( name == "pref" ) {
                 str = get_name_or_primary( true );
                 gmr->set_pref( str );
-            } else if ( name == "element" ) {
-                do_grammar_element( gmr );
+            } else if ( name == "calculate" ) {
+                do_grammar_calculate( gmr );
             } else if ( name == "alias" ) {
                 do_grammar_alias( gmr );
             } else if ( name == "inherit" ) {
@@ -971,7 +971,7 @@ bool Script::do_grammar_vocabs( Grammar* gmr )
     return true;
 }
 
-bool Script::do_grammar_element( Grammar* gmr )
+bool Script::do_grammar_calculate( Grammar* gmr )
 {
     string name = get_name_or_primary( true );
     if ( m_ts.current().type() != SToken::STT_LCbracket ) {
@@ -997,7 +997,7 @@ bool Script::do_grammar_element( Grammar* gmr )
             } else if ( sub == "alias" ) {
                 ef.alias = get_name_or_primary( true );
             } else {
-                error( "Grammar element sub-statement expected." );
+                error( "Grammar calculate sub-statement expected." );
             }
         }
     }

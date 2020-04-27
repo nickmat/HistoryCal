@@ -55,7 +55,7 @@ grammar jce {
     optional wday, ce, ceyear;
     rank ce, ceyear, month, day;
     vocabs m, w, jce;
-    element Era {
+    calculate Era {
         output @if(year<500,:ce,?);
         pseudo "[CE<500]";
     }

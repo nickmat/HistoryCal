@@ -76,7 +76,7 @@ namespace Cal {
         bool do_grammar();
         Grammar* do_create_grammar( const std::string& code, const Base* base );
         bool do_grammar_vocabs( Grammar* gmr );
-        bool do_grammar_element( Grammar* gmr );
+        bool do_grammar_calculate( Grammar* gmr );
         bool do_grammar_alias( Grammar* gmr );
         bool do_format( Grammar* gmr );
         FieldVec do_fixed_fields( const StringVec& fieldnames );

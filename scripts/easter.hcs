@@ -39,7 +39,7 @@ vocab rpt {
 grammar je {
     fields year month day hist;
     optional wday repeated;
-    element Rpt {
+    calculate Rpt {
         output @if(repeated=0,?,1);
         pseudo "[Repeated]";
     }

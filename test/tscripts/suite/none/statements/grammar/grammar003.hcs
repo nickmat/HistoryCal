@@ -1,4 +1,4 @@
-// none/statements/grammar003.hcs   Test the grammar sub-statement element for output.
+// none/statements/grammar003.hcs   Test the grammar sub-statement calculate for output.
 
 vocab FRM {
     name "Test Month names";
@@ -38,11 +38,11 @@ grammar FR {
     fields year month day;
 
     // Output only if Complementary day
-    element CDay { output @if( month=13, day, ? ); }
+    calculate CDay { output @if( month=13, day, ? ); }
     // Output only if not a Complementary day
-    element MDay { output @if( month<>13, day, ? ); }
+    calculate MDay { output @if( month<>13, day, ? ); }
     // Suppress month if it's the Complementary month unless it's all Complementary days
-    element NMonth { output @if( month<>13 or day=?, month, ? ); }
+    calculate NMonth { output @if( month<>13 or day=?, month, ? ); }
 
     format cdmy {
         output "(CDay:FRCOMP) |(MDay) |(NMonth:FRM) |(year)";

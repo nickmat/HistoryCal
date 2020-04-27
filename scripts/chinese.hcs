@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     15th April 2017
- * Copyright:   Copyright (c) 2017 ~ 2018, Nick Matthews.
+ * Copyright:   Copyright (c) 2017 .. 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -107,7 +107,7 @@ vocab clmon {
 grammar c {
     fields cycle cyear month lmonth day;
     vocabs cyear, clmon;
-    element LM {
+    calculate LM {
         output @if(lmonth=0,?,lmonth);
         pseudo "[Leap]";
     }

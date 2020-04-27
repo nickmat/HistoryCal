@@ -63,16 +63,16 @@ grammar fr {
     optional dday;
     vocabs frm, frcomp, frdd;
 
-    element CDay {
+    calculate CDay {
         output @if( month=13, day, ? ); // Output only if Complementary day.
         input { "", , 13, CDay };  // If comp day is entered, it must be month 13.
         pseudo CompDay;
     }
-    element MDay {
+    calculate MDay {
         output @if( month<>13, day, ? ); // Output only if not a Complementary day
         alias day;
     }
-    element NMonth {
+    calculate NMonth {
         output @if( month<>13 or day=?, month, ? ); // Suppress month if it's the Complementary month unless it's all Complementary days
         alias month;       
     }
