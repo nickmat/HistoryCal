@@ -100,7 +100,7 @@ void FormatText::setup_control_in()
             ele.add_char( *it );
         }
     }
-    set_user_input_str( input );
+    set_empty_user_input_str( input );
     StringVec rank_list = get_rank_fieldnames();
     for ( string rank_name : rank_list ) {
         for ( string format_name : m_format_order ) {
@@ -152,7 +152,7 @@ void FormatText::setup_control_out()
         }
     }
     output += fieldout;
-    set_user_output_str( output );
+    set_empty_user_output_str( output );
 }
 
 string FormatText::range_to_string( const Base* base, Range range ) const

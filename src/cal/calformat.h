@@ -48,7 +48,9 @@ namespace Cal {
 
         void set_priority( int priority ) { m_priority = priority; }
         void set_user_input_str( const std::string str ) { m_input_str = str; }
+        void set_empty_user_input_str( const std::string str ) { if( m_input_str.empty() ) m_input_str = str; }
         void set_user_output_str( const std::string str ) { m_output_str = str; }
+        void set_empty_user_output_str( const std::string str ) { if ( m_output_str.empty() ) m_output_str = str; }
         void set_style( Format_style style ) { m_style = style; }
 
         std::string get_code() const { return m_code; }

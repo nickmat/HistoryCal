@@ -1056,7 +1056,7 @@ bool Script::do_grammar_alias( Grammar* gmr )
 // as in "gmr:fmt"
 bool Script::do_format( Grammar* gmr )
 {
-    string format_in, format_out, separators;
+    string format_in, format_out, instring, outstring, separators;
     StringVec rankfields, rankoutfields, rules;
     Format_style style = FMT_STYLE_Default;
     string code = get_name_or_primary( true );
@@ -1085,8 +1085,16 @@ bool Script::do_format( Grammar* gmr )
                     format_in = format_out;
                     continue;
                 }
-                if( name == "input" ) {
+                if ( name == "input" ) {
                     expr( true ).get( format_in );
+                    continue;
+                }
+                if ( name == "instring" ) {
+                    expr( true ).get( instring );
+                    continue;
+                }
+                if ( name == "outstring" ) {
+                    expr( true ).get( outstring );
                     continue;
                 }
                 if( name == "separators" ) {
@@ -1158,6 +1166,12 @@ bool Script::do_format( Grammar* gmr )
         }
         if ( !format_in.empty() ) {
             fmtt->set_control_in( format_in );
+        }
+        if ( !instring.empty() ) {
+            fmtt->set_user_input_str( instring );
+        }
+        if ( !instring.empty() ) {
+            fmtt->set_user_output_str( outstring );
         }
         fmt = fmtt;
     } else if ( rules[0] == "iso8601" ) {
