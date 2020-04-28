@@ -93,11 +93,11 @@ grammar fr {
     }
     alias pseudo {
         dd,   Day;
+        dd,   MDay;
         mm,   Month;
         yyyy, Year;
         mm,   NMonth;
         dd,   NMDay;
-        "[c]", CDay;
         w,    WDay;
         d,    DecDay;
     }
@@ -112,7 +112,6 @@ grammar fr {
     calculate CDay {
         output @if( month=13, day, ? ); // Output only if Complementary day.
         input { "", , 13, CDay };  // If comp day is entered, it must be month 13.
-        pseudo CompDay;
     }
     calculate MDay {
         output @if( month<>13, day, ? ); // Output only if not a Complementary day
@@ -125,13 +124,33 @@ grammar fr {
     format dmy      "(Day) |(Month:frm:a) |(Year)";
     format "dmy+"   "(Day) |(Month:frm) |(Year)";
     format ymd      "(Year)|,(Month:frm:a)|,(Day)";
-    format cdmy     "(CDay:frcomp) |(MDay) |(NMonth:frm) |(Year)";
-    format out      "(CDay:frcomp) |(MDay) |(NMonth:frm) |(Year::rn)";
-    format dcdmy    "(DecDay:frdd) |(CDay:frcomp) |(MDay) |(NMonth:frm) |(Year)";
-    format wcdmy    "(WDay:w), |(CDay:frcomp) |(MDay) |(NMonth:frm) |(Year)";
-    format "cdmy-"  "(CDay:frcomp:a) |(MDay) |(NMonth:frm:a) |(Year)";
-    format "dcdmy-" "(DecDay:frdd:a) |(CDay:frcomp:a) |(MDay) |(NMonth:frm:a) |(Year)";
-    format "wcdmy-" "(WDay:w:a), |(CDay:frcomp:a) |(MDay) |(NMonth:frm:a) |(Year)";
+    format cdmy {
+        inout "(CDay:frcomp) |(MDay) |(NMonth:frm) |(Year)";
+        instring "Day Month Year";
+    }
+    format out {
+        output "(CDay:frcomp) |(MDay) |(NMonth:frm) |an (Year::rn)";
+    }
+    format dcdmy {
+        inout "(DecDay:frdd) |(CDay:frcomp) |(MDay) |(NMonth:frm) |(Year)";
+        instring "Day Month Year";
+    }
+    format wcdmy {
+        inout "(WDay:w), |(CDay:frcomp) |(MDay) |(NMonth:frm) |(Year)";
+        instring "Day Month Year";
+    }
+    format "cdmy-" {
+        inout "(CDay:frcomp:a) |(MDay) |(NMonth:frm:a) |(Year)";
+        instring "Day Month Year";
+    }
+    format "dcdmy-" {
+        inout "(DecDay:frdd:a) |(CDay:frcomp:a) |(MDay) |(NMonth:frm:a) |(Year)";
+        instring "Day Month Year";
+    }
+    format "wcdmy-" {
+        inout "(WDay:w:a), |(CDay:frcomp:a) |(MDay) |(NMonth:frm:a) |(Year)";
+        instring "Day Month Year";
+    }
     pref cdmy;
 }
 
