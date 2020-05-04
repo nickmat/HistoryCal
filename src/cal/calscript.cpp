@@ -176,6 +176,7 @@ bool Script::statement()
         if ( name == "scheme" ) return do_scheme();
         if ( name == "call" ) return do_call();
         if ( name == "vocab" ) return do_vocab();
+        if ( name == "lexicon" ) return do_vocab();
         if ( name == "grammar" ) return do_grammar();
         if ( name == "format" ) return do_format( nullptr );
         if ( name == "function" ) return do_function();
@@ -924,7 +925,7 @@ Grammar* Script::do_create_grammar( const string& code, const Base* base )
             break; // All done.
         } else if ( token.type() == SToken::STT_Name ) {
             string name = token.get_str();
-            if ( name == "vocabs" ) {
+            if ( name == "vocabs" || name == "lexicons" ) {
                 do_grammar_vocabs( gmr );
             } else if ( name == "format" ) {
                 do_format( gmr );
