@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     18th May 2014
- * Copyright:   Copyright (c) 2014 ~ 2018, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 .. 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCalScript is free software: you can redistribute it and/or modify
@@ -37,7 +37,7 @@
 #include <Wincon.h>
 #endif
 
-#define VERSION   "0.9.0"
+#define VERSION   "0.10.0"
 #define PROGNAME  "HistoryCalScript"
 #define COPYRIGHT  "2014 ~ 2018 Nick Matthews"
 
@@ -311,8 +311,12 @@ bool terminated_word( const string& statement, const string& end )
 string get_statement( const string& start, StmtType type )
 {
     string statement = start + "\n";
-    for ( ;;) {
-        cout << ".... ";
+    for ( int lnum = 2;; lnum++ ) {
+        string prompt = to_string( lnum );
+        while ( prompt.size() < 4 ) {
+            prompt += ".";
+        }
+        cout << prompt << " ";
         string line;
         getline( cin, line );
         line = left_trim( line );
@@ -439,7 +443,7 @@ int main( int argc, char* argv[] )
                 }
             } else if (
                 word == "function" || word == "scheme" || word == "grammar"
-                || word == "vocab" )
+                || word == "vocab" || word == "lexicon" )
             {
                 if ( !terminated_curlybracket( tail ) ) {
                     cmnd = get_statement( cmnd, ST_curlybracket );
