@@ -108,7 +108,7 @@
 <table class='code lfloat'>
 <tr><th>Default Script</th></tr>
 <tr><td
->vocab jce {
+>lexicon jce {
     name "Historic Era";
     fieldname ce;
     lang en;
@@ -122,7 +122,7 @@
 grammar jce {
     optional wday, ce, ceyear;
     rank ce, ceyear, month, day;
-    vocabs m, w, jce;
+    lexicons m, w, jce;
     alias field {
         WDay,  wday;
         Day,   day;
@@ -166,10 +166,10 @@ scheme jce {
 </table>
 <p>
  The script makes use of the <b>Optional Field</b> <code>wday</code>
- to output weekdays and so it requires the <a href='7dayweek.htm'>7 Day Week</a> <b>vocab</b> "w".
+ to output weekdays and so it requires the <a href='7dayweek.htm'>7 Day Week</a> <b>lexicon</b> "w".
 </p>
 <p>
- It also requires the <a href='j.htm'>Julian</a> <code>month</code> <b>vocab</b> "m".
+ It also requires the <a href='j.htm'>Julian</a> <code>month</code> <b>lexicon</b> "m".
 </p>
 
 </div><!--id=content-->

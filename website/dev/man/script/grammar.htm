@@ -26,7 +26,7 @@
   <a href='../../../dev/man/script/index.htm' class='m-item'>Script</a>
   <a href='grammar.htm' class='m-item thispage'>Define grammar</a>
   <a href='../../../dev/man/script/format.htm' class='m-item nav'>►</a>
-  <a href='../../../dev/man/script/vocab.htm' class='m-item nav'>◄</a>
+  <a href='../../../dev/man/script/lexicon.htm' class='m-item nav'>◄</a>
  </div>
 
 <div id='content' class='nomenu'>
@@ -49,7 +49,7 @@
 <tr><td class='code'>fields</td><td>List of base fields, much match base order.</td><td class='example'>fields year month day;</td></tr>
 <tr><td class='code'>optional</td><td>Use the listed optional fields.</td><td class='example'>optional wday, ce, ceyear;</td></tr>
 <tr><td class='code'>rank</td><td>The field ranking used by the format sub-statements.</td><td class='example'>rank ce, ceyear, month, day, wday;</td></tr>
-<tr><td class='code'>vocabs</td><td>The list of vocabularies used with this grammar.</td><td class='example'>vocabs m, w, jce;</td></tr>
+<tr><td class='code'>lexicons</td><td>The list of lexicons used with this grammar.</td><td class='example'>lexicons m, w, jce;</td></tr>
 <tr><td class='code'>calculate</td><td>Calculate an element based on other fields.</td><td class='example'>calculate Era {output @if(year<500,ce,?);}</td></tr>
 <tr><td class='code'>alias</td><td>Allow the use of more user friendly field names.</td><td class='example'>alias field {WDay, wday; ...}</td></tr>
 <tr><td class='code'>format</td><td>The description of a format.</td><td class='example'>format dmy, "(Day) |(Month:m:a) |(Year)";</td></tr>
@@ -90,10 +90,10 @@
  unless the format statement has its own rank sub-statement.
 </p>
 
-<h3>vocabs Sub-Statement</h3>
+<h3>lexicons Sub-Statement</h3>
 <p>
- Declare all the vocab statements to be used.
- The format definitions can only refer to the vocabs listed here.
+ Declare all the lexicon statements to be used.
+ The format definitions can only refer to the lexicons listed here.
 </p>
 
 <h3>calculate Sub-Statement</h3>
@@ -178,7 +178,7 @@
   <a href='../../../dev/man/script/index.htm' class='m-item'>Script</a>
   <a href='grammar.htm' class='m-item thispage'>Define grammar</a>
   <a href='../../../dev/man/script/format.htm' class='m-item nav'>►</a>
-  <a href='../../../dev/man/script/vocab.htm' class='m-item nav'>◄</a>
+  <a href='../../../dev/man/script/lexicon.htm' class='m-item nav'>◄</a>
  </div>
 
  <div class='tail'></div>

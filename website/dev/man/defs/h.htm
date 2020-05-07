@@ -184,7 +184,7 @@ falls and thus, the length of the year.
 <table class='code lfloat'>
 <tr><th>Default Script</th></tr>
 <tr><td
->vocab hm {
+>lexicon hm {
     name "Month names";
     fieldname month;
     lang en;
@@ -206,7 +206,7 @@ falls and thus, the length of the year.
     }
 }
 
-vocab hw {
+lexicon hw {
     name "Weekday names";
     fieldname wsday; // Note: Days are numbered from Sunday, unlike "wday".
     lang en;
@@ -224,7 +224,7 @@ vocab hw {
 
 grammar h {
     optional wsday;
-    vocabs hm, hw;
+    lexicons hm, hw;
     alias field {
         WDay,  wsday;
         Day,   day;

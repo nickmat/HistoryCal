@@ -37,7 +37,7 @@
   <a href='../../../dev/man/script/do.htm' class='m-item'>do ... loop</a>
   <a href='../../../dev/man/script/function.htm' class='m-item'>function &amp; call</a>
   <a href='../../../dev/man/script/mark.htm' class='m-item'>mark &amp; clear</a>
-  <a href='../../../dev/man/script/vocab.htm' class='m-item'>Define vocab</a>
+  <a href='../../../dev/man/script/lexicon.htm' class='m-item'>Define lexicon</a>
   <a href='../../../dev/man/script/grammar.htm' class='m-item'>Define grammar</a>
   <a href='../../../dev/man/script/format.htm' class='m-item'>Define format</a>
   <a href='../../../dev/man/script/scheme.htm' class='m-item'>Define scheme</a>
@@ -167,7 +167,7 @@ writeln "Hello world!";
 <p>
  The Cal code library is used by defining scheme entities.
  This is done by using the <b>scheme</b> statement in the script language.
- The scheme entity makes use of <b>vocab</b> (vocabulary), <b>format</b> and <b>grammar</b> entities.
+ The scheme entity makes use of <b>lexicon</b>, <b>format</b> and <b>grammar</b> entities.
  These are all identified by a code name.
  Because the script always knows, by context, which type of entity is being referred to,
  the different types can reuse the same code name.
@@ -241,7 +241,7 @@ endif</td></tr>
   base julian;
 }</td></tr>
 <tr><td class='code'><a href='set.htm'>set</a></td><td>Set a global default setting.</td><td class='example'>set output g:iso;</td></tr>
-<tr><td class='code'><a href='vocab.htm'>vocab</a></td><td>Define a Vocabulary for a calendar field.</td><td class='example'>vocab ce {
+<tr><td class='code'><a href='lexicon.htm'>lexicon</a></td><td>Define a Lexicon for a calendar field.</td><td class='example'>lexicon ce {
   name "Historic Era";
   tokens {
     0, "Before Christ", "BC";

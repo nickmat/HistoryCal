@@ -84,7 +84,7 @@
           { "name": "do", "label": "do ... loop" },
           { "name": "function", "label": "function & call" },
           { "name": "mark", "label": "mark & clear" },
-          { "name": "vocab", "label": "Define vocab" },
+          { "name": "lexicon", "label": "Define lexicon" },
           { "name": "grammar", "label": "Define grammar" },
           { "name": "format", "label": "Define format" },
           { "name": "scheme", "label": "Define scheme" },

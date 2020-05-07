@@ -159,7 +159,7 @@
 <table class='code lfloat'>
 <tr><th>Default Script</th></tr>
 <tr><td
->vocab frm {
+>lexicon frm {
     name "Month names";
     fieldname month;
     lang en;
@@ -181,7 +181,7 @@
     }
 }
 
-vocab frdd {
+lexicon frdd {
     name "Decade Day";
     fieldname dday;
     lang en;
@@ -200,7 +200,7 @@ vocab frdd {
     }
 }
 
-vocab frcomp {
+lexicon frcomp {
     name "Complementary Days";
     fieldname cday;
     lang en;
@@ -217,7 +217,7 @@ vocab frcomp {
 
 grammar fr {
     optional nmonth, nmday, cday, dday, wday;
-    vocabs frm, frcomp, frdd, w;
+    lexicons frm, frcomp, frdd, w;
     alias field {
         Day,     day;
         Month,   month;
@@ -294,7 +294,7 @@ scheme fr {
 </td></tr>
 </table>
 <p>
- The script also requires the <a href='7dayweek.htm'>7-Day week</a> vocab "w".
+ The script also requires the <a href='7dayweek.htm'>7-Day week</a> lexicon "w".
 </p>
 
 </div><!--id=content-->

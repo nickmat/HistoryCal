@@ -110,7 +110,7 @@
 <table class='code lfloat'>
 <tr><th>Default Script</th></tr>
 <tr><td
->vocab im {
+>lexicon im {
     name "Month names";
     fieldname month;
     lang en;
@@ -131,7 +131,7 @@
     }
 }
 
-vocab iw {
+lexicon iw {
     name "Weekday names";
     fieldname wsday; // Note: Days are numbered from Sunday, unlike "wday".
     lang en;
@@ -149,7 +149,7 @@ vocab iw {
 
 grammar i {
     optional wsday;
-    vocabs im, iw;
+    lexicons im, iw;
     alias field {
         WDay,  wsday;
         Day,   day;

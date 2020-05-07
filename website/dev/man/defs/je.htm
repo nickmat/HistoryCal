@@ -82,7 +82,7 @@
 <table class='code lfloat'>
 <tr><th>Default Script</th></tr>
 <tr><td
->vocab rpt {
+>lexicon rpt {
   name "Repeated Date";
   fieldname repeated;
   lang en;
@@ -114,7 +114,7 @@ grammar je {
       y,    Hist;
       r,    Rpt;
   }
-  vocabs m, w, rpt;
+  lexicons m, w, rpt;
   format dmy "(Day) |(Month:m:a) |(Year/Hist)| (Rpt:rpt:a)";
   format "dmy+" "(Day) |(Month:m) |(Year/Hist)| (Rpt:rpt)";
   format mdy "(Month:m:a) |(Day), |(Year/Hist)| (Rpt:rpt:a)";
@@ -131,7 +131,7 @@ scheme je {
 </table>
 <p>
   The script makes use of the optional field <code>wday</code>
-  to output weekdays and is thus requires the <a href='7dayweek.htm'>7 Day Week</a> vocab "w".
+  to output weekdays and is thus requires the <a href='7dayweek.htm'>7 Day Week</a> lexicon "w".
  </p>
 </div><!--id=content-->
 

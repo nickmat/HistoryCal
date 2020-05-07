@@ -171,7 +171,7 @@
 
 <h3>Entity Codes</h3>
 <p>
- The vocab, grammar, scheme and format entities are identified by (normally short) codes.
+ The lexicon, grammar, scheme and format entities are identified by (normally short) codes.
  These codes are written as names or literal strings.
  The characters used in the codes can be any UTF-8 character except the ':' and '#' characters.
  (Note, other restrictions may be included in future versions.)
@@ -531,9 +531,9 @@
  <tr><td colspan='2'>The above examples assume a system input and output setting of "g:dmy".</td></tr>
 </table>
 
-<h4>Cast convert (Vocab's)</h4>
+<h4>Cast convert (lexicons)</h4>
 <p>
- The convert cast uses a supplied vocab definition to convert a field to a string
+ The convert cast uses a supplied lexicon definition to convert a field to a string
  and a string to a field. Using the cast on any other type results in an error.
 </p>
 <table class='basic'>
@@ -576,7 +576,7 @@
 <tr><td class='code'>date</td><td>Date cast</td><td class='example'><b>date,sig</b> string_value<br /><b>date</b> record_value</td><td class='example'>date_value</td></tr>
 <tr><td class='code'>record</td><td>Record cast</td><td class='example'><b>record,sig</b> string_value<br /><b>record</b> field_value</td><td class='example'>record_value</td></tr>
 <tr><td class='code'>string</td><td>String cast</td><td class='example'><b>string,sig</b> date_value<br /><b>string,sig</b> record_value</td><td class='example'>string_value</td></tr>
-<tr><td class='code'>convert</td><td>Vocab cast</td><td class='example'><b>convert,sig</b> field_value<br /><b>convert,sig</b> string_value</td><td class='example'>string_value<br />field_value</td></tr>
+<tr><td class='code'>convert</td><td>Lexicon cast</td><td class='example'><b>convert,sig</b> field_value<br /><b>convert,sig</b> string_value</td><td class='example'>string_value<br />field_value</td></tr>
 <tr><td class='code'>error</td><td>Error cast</td><td class='example'><b>error</b> string_value</td><td class='example'>error_value</td></tr>
 <tr><td class='code'>@</td><td>Function</td><td class='example'><b>@name</b><br /><b>@name(</b>expr, ...<b>)</b></td><td class='example'>value</td></tr>
 <tr><td class='code' colspan='4'></td></tr>
@@ -629,7 +629,7 @@
 </p>
 <p>
  The other statement words
- <b>call, clear, end, format, function, grammar, let, mark, scheme, set, vocab, write, writeln</b>
+ <b>call, clear, end, format, function, grammar, let, mark, scheme, set, lexicon, write, writeln</b>
  are not strictly keyword, but must be used with care.
  If they are used as variable names then all assignments must start with 'let'.
 </p>
