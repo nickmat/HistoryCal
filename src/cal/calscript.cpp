@@ -1699,7 +1699,7 @@ SValue Script::str_cast()
     SToken token = m_ts.next();
     SHandle sch = nullptr;
     string sig, scode, fcode;
-    if( token.type() == SToken::STT_Comma ) {
+    if( token.type() == SToken::STT_Comma || token.type() == SToken::STT_Dot ) {
         // Includes scheme:format signiture
         sig = get_name_or_primary( true );
         split_code( &scode, &fcode, sig );
@@ -1736,7 +1736,7 @@ SValue Script::date_cast()
     SToken token = m_ts.next();
     SHandle sch = nullptr;
     string sig, scode, fcode;
-    if( token.type() == SToken::STT_Comma ) {
+    if( token.type() == SToken::STT_Comma || token.type() == SToken::STT_Dot ) {
         // Includes scheme:format signiture
         sig = get_name_or_primary( true );
         split_code( &scode, &fcode, sig );
@@ -1771,7 +1771,7 @@ SValue Script::record_cast()
     SToken token = m_ts.next();
     SHandle sch = nullptr;
     string sig, scode, fcode;
-    if( token.type() == SToken::STT_Comma ) {
+    if( token.type() == SToken::STT_Comma || token.type() == SToken::STT_Dot ) {
         // Includes scheme:format signiture
         sig = get_name_or_primary( true );
         split_code( &scode, &fcode, sig );
@@ -1812,7 +1812,7 @@ SValue Script::convert_cast()
 {
     SToken token = m_ts.next();
     string sig;
-    if ( token.type() == SToken::STT_Comma ) {
+    if ( token.type() == SToken::STT_Comma || token.type() == SToken::STT_Dot ) {
         sig = get_name_or_primary( true );
     }
     SValue value = primary( false );
