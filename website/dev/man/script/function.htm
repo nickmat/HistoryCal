@@ -59,11 +59,11 @@
    <br />
    <b>call</b> <i>name</i><b>;</b>
   </td>
-  <td class='example'><b>function</b> wr.today <b>{</b>
-    write string,g:dmy today;
+  <td class='example'><b>function</b> wr_today <b>{</b>
+    write string.g:dmy today;
 <b>}</b>
     ...
-<b>call</b> wr.today<b>;</b></td>
+<b>call</b> wr_today<b>;</b></td>
   <td>21 May 2017</td>
  </tr>
  <tr> <!-- See test file - test\tscripts\suite\functions\function013.hcs -->
@@ -74,11 +74,11 @@
    <br />
    write <b>@</b><i>name</i><b>;</b>
   </td>
-  <td class='example'><b>function</b> get.today <b>{</b>
-    result = "(" + string,g:dmy today + ")";
+  <td class='example'><b>function</b> get_today <b>{</b>
+    result = "(" + string.g:dmy today + ")";
 <b>}</b>
     ...
-write <b>@</b>get.today;</td>
+write <b>@</b>get_today;</td>
   <td>(21 May 2017)</td>
  </tr>
  <tr> <!-- See test file - test\tscripts\suite\functions\function014.hcs -->
@@ -89,12 +89,12 @@ write <b>@</b>get.today;</td>
    <br />
    <b>call</b> <i>name</i><b>(</b><i>value1</i><b>,</b> <i>value2</i><b>);</b>
   </td>
-  <td class='example'><b>function</b> wr.range.plus<b>(</b>start<b>,</b> duration = 7<b>){</b>
-    write string,g:dmy( start ~ start + duration );
+  <td class='example'><b>function</b> wr_range_plus<b>(</b>start<b>,</b> duration = 7<b>){</b>
+    write string.g:dmy( start .. start + duration );
 <b>}</b>
     ...
-<b>call</b> wr.range.plus<b>(</b>date,g:dmy "19sep1948"<b>,</b> 14<b>);</b></td>
-  <td>19 Sep 1948 ~ 3 Oct 1948</td>
+<b>call</b> wr_range_plus<b>(</b>date.g:dmy "19sep1948"<b>,</b> 14<b>);</b></td>
+  <td>19 Sep 1948 .. 3 Oct 1948</td>
  </tr>
  <tr> <!-- See test file - test\tscripts\suite\functions\function015.hcs -->
   <td class='code'>
@@ -104,12 +104,12 @@ write <b>@</b>get.today;</td>
    <br />
    write <b>@</b><i>name</i><b>(</b><i>value1</i><b>,</b> <i>value2</i><b>);</b>
   </td>
-  <td class='example'><b>function</b> range.plus<b>(</b>start<b>,</b> duration = 7<b>){</b>
-    result = start ~ start + duration;
+  <td class='example'><b>function</b> range_plus<b>(</b>start<b>,</b> duration = 7<b>){</b>
+    result = start .. start + duration;
 <b>}</b>
     ...
-write string,g:dmy <b>@</b>range.plus<b>(</b>2432814<b>);</b></td>
-  <td>19 Sep 1948 ~ 26 Sep 1948</td>
+write string.g:dmy <b>@</b>range_plus<b>(</b>2432814<b>);</b></td>
+  <td>19 Sep 1948 .. 26 Sep 1948</td>
  </tr>
  <tr>
   <td colspan='3'>Written when today = "g:dmy# 21 May 2017"</td>

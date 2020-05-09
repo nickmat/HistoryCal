@@ -71,8 +71,8 @@
  </tr>
  <tr>
   <td class='code'><i>name</i> <b>=</b> <i>expr</i><b>;</b></td>
-  <td class='example'>result = 50 ~ 30;</td>
-  <td>result holds range value 30 ~ 50</td>
+  <td class='example'>result = 50 .. 30;</td>
+  <td>result holds range value 30 .. 50</td>
  </tr>
  <tr>
   <td class='code'><i>name</i> <b>=</b> <i>expr</i><b>;</b></td>
@@ -89,14 +89,14 @@
 <table class='code'>
 <tr><th>Example Script</th></tr>
 <tr><td
->let day = date,g:dmy "1sep2017";
-let result = string,g:dmy (day + 5 * 7);
+>let day = date.g:dmy "1sep2017";
+let result = string.g:dmy (day + 5 * 7);
 
 writeln "Date 5 weeks from " + string,g:dmy day + " is: " + result;
 
 day -= 2 * 7;
 
-writeln "and a fortnight before was " + string,g:dmy day;
+writeln "and a fortnight before was " + string.g:dmy day;
 </td></tr>
 <tr><td class='note'>
 <b>Output:-</b><br />

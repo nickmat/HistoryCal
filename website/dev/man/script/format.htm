@@ -53,7 +53,7 @@
     output "On the (Day::os) Day of |(Month:m) |in the (Year::os) Year"; 
 <b>}</b>
     ...
-<b>write</b> string,g:LONG 2432814;</td>
+<b>write</b> string.g:LONG 2432814;</td>
   <td>On the 19th Day of September in the 1948th Year</td>
  </tr>
  <tr>
@@ -62,7 +62,7 @@
   </td> <!-- See test file - test/tscripts/suite/statements/format001.hcs -->
   <td class='example'><b>format</b> g:MYD  "(Month:m:a) |(Year)|, (Day)"; 
     ...
-<b>write</b> date,g:MYD "Sep1948 19" + "; " + string,g:MYD 2432814</td>
+<b>write</b> date.g:MYD "Sep1948 19" + "; " + string.g:MYD 2432814</td>
   <td>2432814; Sep 1948, 19</td>
  </tr>
  <tr>
@@ -80,7 +80,7 @@
 <b>}</b>
 <b>scheme</b> XS <b>{</b> base gregorian; grammar XG; <b>}</b>
     ...
-<b>write</b> string,XS:dXmy 2432814;</td>
+<b>write</b> string.XS:dXmy 2432814;</td>
   <td>19 IX 1948</td>
  </tr>
  </table>
@@ -135,10 +135,10 @@
 
 <table class='basic'>
 <tr><th>Example</th><th>Result</th></tr>
-<tr><td class='example'>date,g:u "9month1948year19day"</td><td>2432814</td></tr> <!-- see suite/expressions/date004.hcs -->
-<tr><td class='example'>date,g:u "1948y 19d 9m"</td><td>2432814</td></tr> <!-- see suite/expressions/date013.hcs -->
-<tr><td class='example'>record,g:u "9 Month"</td><td>{"g", ?, 9, ?, ?}</td></tr> <!-- see suite/expressions/record008.hcs -->
-<tr><td class='example'>string,g:u 2432814</td><td>"1948y 9m 19d"</td></tr> <!-- see suite/expressions/string010.hcs -->
+<tr><td class='example'>date.g:u "9month1948year19day"</td><td>2432814</td></tr> <!-- see suite/expressions/date004.hcs -->
+<tr><td class='example'>date.g:u "1948y 19d 9m"</td><td>2432814</td></tr> <!-- see suite/expressions/date013.hcs -->
+<tr><td class='example'>record.g:u "9 Month"</td><td>{"g", ?, 9, ?, ?}</td></tr> <!-- see suite/expressions/record008.hcs -->
+<tr><td class='example'>string.g:u 2432814</td><td>"1948y 9m 19d"</td></tr> <!-- see suite/expressions/string010.hcs -->
 </table>
 <p>
  Note, this aspect of the language is still being actively developed.

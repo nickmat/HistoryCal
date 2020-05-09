@@ -214,7 +214,7 @@ writeln "Hello world!";
 <table class='basic'>
 <tr><th colspan='3'>Statement List</th></tr>
 <tr><th>Statement</th><th>Use</th><th>Example</th></tr>
-<tr><td class='code'><a href='function.htm'>call</a></td><td>Run a predefined function.</td><td class='example'>call today.fr;</td></tr>
+<tr><td class='code'><a href='function.htm'>call</a></td><td>Run a predefined function.</td><td class='example'>call today_fr;</td></tr>
 <tr><td class='code'><a href='mark.htm'>clear</a></td><td>Delete all variables.</td><td class='example'>clear;</td></tr>
 <tr><td class='code'><a href='do.htm'>do</a></td><td>Run script until a condition is met.</td><td class='example'>do while y &lt;= 2015
   writeln "1 Jan " + y;
@@ -222,8 +222,8 @@ writeln "Hello world!";
 loop</td></tr>
 <tr><td class='code'><a href='end.htm'>end</a></td><td>Stop running the script.</td><td class='example'>end;</td></tr>
 <tr><td class='code'><a href='format.htm'>format</a></td><td>Define a Format for a grammar</td><td class='example'>format j:ydm, "(Year)| (Day)| (Month:m)";</td></tr>
-<tr><td class='code'><a href='function.htm'>function</a></td><td>Define a Function which can be called later.</td><td class='example'>function today.fr {
-  write string,fr:out today;
+<tr><td class='code'><a href='function.htm'>function</a></td><td>Define a Function which can be called later.</td><td class='example'>function today_fr {
+  write string.fr:out today;
 }</td></tr>
 <tr><td class='code'><a href='grammar.htm'>grammar</a></td><td>Define a Grammar for a calendar.</td><td class='example'>grammar J {
   inherit j;

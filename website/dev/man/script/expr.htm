@@ -61,11 +61,13 @@
 <p>
  A range is expressed as two field values which denote the first and last values of an inclusive, continuous list.
  Both values may be the same, which implies a list of one value.
- A range is written using the '~' operator. (a ~ b) is identical to (b ~ a).
- When a range is output as a string, it is always written with the lower value first.
+ A range is written using the '..' operator.
+ Currently the '~' character may also be used, but this may be removed in future versions.
+ Note, (a .. b) is identical to (b .. a),
+ but when a range is output as a string it is always written with the lower value first.
 </p>
 <p>
- The 'past' and 'future' values are permitted in a range but not the '?' value.
+ The 'past' and 'future' values are permitted in a range but not the '?' or '*' values.
 </p>
 <p>
  A field may be promoted to a range with the upper and lower values the same. 
@@ -77,7 +79,8 @@
 <h3>Rlist</h3>
 <p>
  An rlist is a list of ranges. The list may contain zero or more ranges.
- If the rlist has more than one range, it is written using the '|' union operator.
+ If the rlist has more than one range,
+ it is written using the '|' union operator between ranges.
  When an rlist is output, it is always written as a <a href='../calculate.htm#well-ordered'>well ordered list</a>.
 </p>
 <p>
@@ -148,11 +151,11 @@
  How a name is treated depends upon the context, as detailed below.
 </p>
 <p>
- Names are constructed from alphanumeric, '_' underline, ':' colon and '.' dot characters.
- They can not start with a numeric or dot character.
+ Names are constructed from alphanumeric, '_' underline and ':' colon characters.
+ They can not start with a numeric character.
 </p>
 <p>
- In some cases the script may accept either a name or a literal string. 
+ In some cases the script may accept either a name, a literal string or a string expression in '()' parentheses.
 </p>
 
 <h3>Variables</h3>
@@ -185,9 +188,9 @@
 </p>
 <table class='basic'>
 <tr><th>Signature</th><th>Example</th></tr>
-<tr><td class='code'>scheme</td><td class='example'>write string,j today;</td></tr>
-<tr><td class='code'>scheme:format</td><td class='example'>write string,"g:dmy+" today;</td></tr>
-<tr><td class='code'>:format</td><td class='example'>write string,:iso today;</td></tr>
+<tr><td class='code'>scheme</td><td class='example'>write string.j today;</td></tr>
+<tr><td class='code'>scheme:format</td><td class='example'>write string."g:dmy+" today;</td></tr>
+<tr><td class='code'>:format</td><td class='example'>write string.:iso today;</td></tr>
 </table>
 
 <h2>Operators</h2>
@@ -218,11 +221,11 @@
  -? = ?
 </p>
 <p>
- Negation of a range negates both limits, so -(a ~ b) = (-b ~ -a).
+ Negation of a range negates both limits, so -(a .. b) = (-b .. -a).
 </p>
 <p>
  Negation of an rlist negates all the ranges, but retains the well orderedness,<br />
- so -(a ~ b | c ~ d) = (-d ~ -c | -b ~ -a).
+ so -(a .. b | c .. d) = (-d .. -c | -b .. -a).
 </p>
 
 <h4>Addition and Subtraction</h4>
@@ -235,28 +238,28 @@
 </p>
 <p>
  Subtraction is carried out by adding the negated right hand side.
- So a - b = a + -b and (a ~ b) - (c ~ d) = (a ~ b) + (-d ~ -c).
+ So a - b = a + -b and (a .. b) - (c .. d) = (a .. b) + (-d .. -c).
 </p>
 <table class='basic'>
 <tr><th>Expression</th><th>Example</th><th>Result</th></tr>
 <tr><td class='code'>field_type + field_type</td><td class='example'>5 + 10<br />past + 123<br />past + future</td><td class='example'>15<br />past<br />Error</td></tr>
 <tr>
  <td class='code'>range_type + field_type<br />field_type + range_type</td>
- <td class='example'>(8 ~ 16) + 20<br />250 + (500 ~ future)<br />past + (500 ~ future)</td>
- <td class='example'>28 ~ 36<br />750 ~ future<br />Error</td>
+ <td class='example'>(8 .. 16) + 20<br />250 + (500 .. future)<br />past + (500 .. future)</td>
+ <td class='example'>28 .. 36<br />750 .. future<br />Error</td>
  </tr>
-<tr><td class='code'>range_type + range_type</td><td class='example'>(8 ~ 16) + (10 ~ 20)</td><td class='example'>18 ~ 36</td></tr>
+<tr><td class='code'>range_type + range_type</td><td class='example'>(8 .. 16) + (10 .. 20)</td><td class='example'>18 .. 36</td></tr>
 <tr>
  <td class='code'>rlist_type + field_type<br />field_type + rlist_type</td>
- <td class='example'>(8 ~ 16 | 20 ~ 50) + 20<br />250 + (past ~ 90 | 500 ~ future)</td>
- <td class='example'>28 ~ 36 | 40 ~ 70<br />past ~ 340 | 750 ~ future</td>
+ <td class='example'>(8 .. 16 | 20 .. 50) + 20<br />250 + (past .. 90 | 500 .. future)</td>
+ <td class='example'>28 .. 36 | 40 .. 70<br />past .. 340 | 750 .. future</td>
 </tr>
 <tr>
  <td class='code'>rlist_type + range_type<br />range_type + rlist_type</td>
- <td class='example'>(8 ~ 16 | 20 ~ 50) + (10 ~ 20)<br />(10 ~ 25) + (past ~ 9 | 50 ~ future)</td>
- <td class='example'>18 ~ 36 | 30 ~ 70<br />past ~ 34 | 60 ~ future</td>
+ <td class='example'>(8 .. 16 | 20 .. 50) + (10 .. 20)<br />(10 .. 25) + (past .. 9 | 50 .. future)</td>
+ <td class='example'>18 .. 36 | 30 .. 70<br />past .. 34 | 60 .. future</td>
 </tr>
-<tr><td class='code'>rlist_type + rlist_type</td><td class='example'>(8 ~ 16 | 20 ~ 50) + (15 ~ 18 | 25 ~ 27)</td><td class='example'>Error. Unable to add or subtract rlists.</td></tr>
+<tr><td class='code'>rlist_type + rlist_type</td><td class='example'>(8 .. 16 | 20 .. 50) + (15 .. 18 | 25 .. 27)</td><td class='example'>Error. Unable to add or subtract rlists.</td></tr>
 </table>
 
 <h4>String Concatenation</h4>
@@ -319,16 +322,16 @@
  The order of the operands is not significant.<br />
  The operands can be either field or range types.<br />
  The values past and future may be used.<br />
- Use of the ? value is an error.
+ Use of the ? or * value is an error.
 </p>
 <table class='basic'>
 <tr><th>Example</th><th>Result</th></tr>
- <tr><td class='example'>5 ~ 10</td><td class='example'>5 ~ 10</td></tr>
- <tr><td class='example'>123 ~ past</td><td class='example'>past ~ 123</td></tr>
- <tr><td class='example'>? ~ 40</td><td class='example'>Error</td></tr>
- <tr><td class='example'>(5 ~ 10) ~ 6</td><td class='example'>5 ~ 10</td></tr>
- <tr><td class='example'>(5 ~ 10) ~ (15 ~ 8)</td><td class='example'>5 ~ 15</td></tr>
- <tr><td class='example'>48 ~ 25 ~ 5 ~ 10</td><td class='example'>5 ~ 48</td></tr>
+ <tr><td class='example'>5 .. 10</td><td class='example'>5 .. 10</td></tr>
+ <tr><td class='example'>123 .. past</td><td class='example'>past .. 123</td></tr>
+ <tr><td class='example'>? .. 40</td><td class='example'>Error</td></tr>
+ <tr><td class='example'>(5 .. 10) .. 6</td><td class='example'>5 .. 10</td></tr>
+ <tr><td class='example'>(5 .. 10) .. (15 .. 8)</td><td class='example'>5 .. 15</td></tr>
+ <tr><td class='example'>48 .. 25 .. 5 .. 10</td><td class='example'>5 .. 48</td></tr>
 </table>
 
 <h3 id='set'>Set Operators</h3>
@@ -402,7 +405,7 @@
 </p>
 <table class='basic'> <!-- See test file subscript006.hcs -->
 <tr><th>Example</th><th>Result</th></tr>
- <tr><td class='example'>(8~16|20~50|75~99)[1]</td><td class='example'>20 ~ 50</td></tr>
+ <tr><td class='example'>(8..16|20..50|75..99)[1]</td><td class='example'>20 .. 50</td></tr>
  <tr><td class='example'>{g,1948,9,19}[0]</td><td class='example'>1948</td></tr>
  <tr><td class='example'>{g,1948,9,19,?}[wday]</td><td class='example'>?</td></tr>
  <tr><td class='example'>2432814[g:wday]</td><td class='example'>7</td></tr>
@@ -416,14 +419,14 @@
 </p>
 <table class='basic'>
 <tr><th>Property</th><th>Use</th><th>Result</th><th>Comment</th></tr>
-<tr><td class='code'>low</td><td class='example'>(7~16)[.low]</td><td class='example'>7</td><td>Return the lower bound of a range or rlist.</td></tr>
-<tr><td class='code'>high</td><td class='example'>(7~16)[.high]</td><td class='example'>16</td><td>Return the upper bound of a range or rlist.</td></tr>
-<tr><td class='code'>span</td><td class='example'>(7~16)[.span]</td><td class='example'>10</td><td rowspan='2'>Return the inclusive count between upper and lower bounds of a range or rlist.</td></tr>
-<tr><td class='code'>span</td><td class='example'>(21|79~88|100~120|200~210)[.span]</td><td class='example'>190</td></tr>
-<tr><td class='code'>size</td><td class='example'>(21|79~88|100~120|200~210)[.size]</td><td class='example'>4</td><td rowspan='2'>Return the number of elements in a rlist or record.</td></tr>
+<tr><td class='code'>low</td><td class='example'>(7..16)[.low]</td><td class='example'>7</td><td>Return the lower bound of a range or rlist.</td></tr>
+<tr><td class='code'>high</td><td class='example'>(7..16)[.high]</td><td class='example'>16</td><td>Return the upper bound of a range or rlist.</td></tr>
+<tr><td class='code'>span</td><td class='example'>(7..16)[.span]</td><td class='example'>10</td><td rowspan='2'>Return the inclusive count between upper and lower bounds of a range or rlist.</td></tr>
+<tr><td class='code'>span</td><td class='example'>(21|79..88|100..120|200..210)[.span]</td><td class='example'>190</td></tr>
+<tr><td class='code'>size</td><td class='example'>(21|79..88|100..120|200..210)[.size]</td><td class='example'>4</td><td rowspan='2'>Return the number of elements in a rlist or record.</td></tr>
 <tr><td class='code'>size</td><td class='example'>{g,1948,9,19}[.size]</td><td class='example'>3</td></tr>
 <tr><td class='code'>size</td><td class='example'>"Hello"[.size]</td><td class='example'>5</td><td>Return the number of charaters in a string. May not match the number of unicode code points.</td></tr>
-<tr><td class='code'>envelope</td><td class='example'>(21|79~88|100~120|200~210)[.envelope]</td><td class='example'>21 ~ 210</td><td>Return the enclosing range af an rlist.</td></tr>
+<tr><td class='code'>envelope</td><td class='example'>(21|79..88|100..120|200..210)[.envelope]</td><td class='example'>21 .. 210</td><td>Return the enclosing range af an rlist.</td></tr>
 <tr><td class='code'>scheme</td><td class='example'>{g,1948,9,19}[.scheme]</td><td class='example'>"g"</td><td>Return the scheme code string of a record.</td></tr>
 <tr><td class='code'>type</td><td class='example'>2432814[.type]</td><td class='example'>"field"</td><td>Return the type of value as a string.</td></tr>
 </table>
@@ -457,7 +460,7 @@
 <p>
  The cast operators are used to convert values between different types.
  If additional information is required (such as scheme and/or format)
- then a comma and signature can be added to the cast.
+ then a dot and signature can be added to the cast.
  If it is omitted, the system wide default values are assumed.  
 </p>
 
@@ -479,10 +482,10 @@
 <table class='basic'>
 <tr><th>Example</th><th>Result</th></tr>
  <tr><td class='example'>date "19sep1948"</td><td class='example'>2432814</td></tr>
- <tr><td class='example'>date "1940~1950|1945~1955"</td><td class='example'>2429630 ~ 2435473</td></tr>
- <tr><td class='example'>date,g:iso "[1940..1950,1945..1955]"</td><td class='example'>2429630 ~ 2435473</td></tr>
+ <tr><td class='example'>date "1940..1950|1945..1955"</td><td class='example'>2429630 .. 2435473</td></tr>
+ <tr><td class='example'>date.g:iso "[1940..1950,1945..1955]"</td><td class='example'>2429630 .. 2435473</td></tr>
  <tr><td class='example'>date {g, 1948, 9, 19}</td><td class='example'>2432814</td></tr>
- <tr><td class='example'>date {g, 1948}</td><td class='example'>2432552 ~ 2432917</td></tr>
+ <tr><td class='example'>date {g, 1948}</td><td class='example'>2432552 .. 2432917</td></tr>
  <tr><td colspan='2'>The above examples assume a system input setting of "g:dmy".</td></tr>
 </table>
 
@@ -497,9 +500,9 @@
 </p>
 <table class='basic'>
 <tr><th>Example</th><th>Result</th></tr>
- <tr><td class='example'>string,"g:dmy+" 2432814</td><td class='example'>"19 September 1948"</td></tr>
- <tr><td class='example'>string,g 2429630~2435473</td><td class='example'>"1940 ~ 1955"</td></tr>
- <tr><td class='example'>string,g:iso 2429630 ~ 2429995 | 2433283 ~ 2435473</td><td class='example'>"[1940,1950..1955]"</td></tr>
+ <tr><td class='example'>string."g:dmy+" 2432814</td><td class='example'>"19 September 1948"</td></tr>
+ <tr><td class='example'>string.g 2429630..2435473</td><td class='example'>"1940 .. 1955"</td></tr>
+ <tr><td class='example'>string.g:iso 2429630 .. 2429995 | 2433283 .. 2435473</td><td class='example'>"[1940,1950..1955]"</td></tr>
  <tr><td class='example'>string {g, 1948, 9, 19}</td><td class='example'>"19 Sep 1948"</td></tr>
  <tr><td class='example'>string {j, 1948}</td><td class='example'>"1948"</td></tr>
  <tr><td colspan='2'>The above examples assume a system output setting of "g:dmy".</td></tr>
@@ -523,11 +526,11 @@
 </p>
 <table class='basic'>
 <tr><th>Example</th><th>Result</th></tr>
- <tr><td class='example'>record,g:dmy "19sep1948"</td><td class='example'>{"g", 1948, 9, 19, ?}</td></tr>
+ <tr><td class='example'>record.g:dmy "19sep1948"</td><td class='example'>{"g", 1948, 9, 19, ?}</td></tr>
  <tr><td class='example'>record "21??"</td><td class='example'>{"g", ?, ?, 21, ?}</td></tr>
- <tr><td class='example'>record,:u "1948Year 9Month 19Day"</td><td class='example'>{"g", 1948, 9, 19, ?}</td></tr>
- <tr><td class='example'>record,j 2432814</td><td class='example'>{"j", 1948, 9, 6, ?}</td></tr>
- <tr><td class='example'>record 2429630~2435473</td><td class='example'>Error</td></tr>
+ <tr><td class='example'>record.:u "1948Year 9Month 19Day"</td><td class='example'>{"g", 1948, 9, 19, ?}</td></tr>
+ <tr><td class='example'>record.j 2432814</td><td class='example'>{"j", 1948, 9, 6, ?}</td></tr>
+ <tr><td class='example'>record 2429630..2435473</td><td class='example'>Error</td></tr>
  <tr><td colspan='2'>The above examples assume a system input and output setting of "g:dmy".</td></tr>
 </table>
 
@@ -538,9 +541,9 @@
 </p>
 <table class='basic'>
 <tr><th>Example</th><th>Result</th></tr>
- <tr><td class='example'>convert,w 7</td><td class='example'>"Sunday"</td></tr>
- <tr><td class='example'>convert,ws:a 7</td><td class='example'>"Sat"</td></tr>
- <tr><td class='example'>convert,w "wed"</td><td class='example'>3</td></tr>
+ <tr><td class='example'>convert.w 7</td><td class='example'>"Sunday"</td></tr>
+ <tr><td class='example'>convert.ws:a 7</td><td class='example'>"Sat"</td></tr>
+ <tr><td class='example'>convert.w "wed"</td><td class='example'>3</td></tr>
 </table>
 
 <h4>Cast error</h4>
@@ -596,8 +599,8 @@
 </tr>
 <tr><td class='code'>-</td><td>Minus</td><td class='example'>number_value <b>-</b> number_value</td><td class='example'>number_value</td></tr>
 <tr><td class='code' colspan='4'></td></tr>
-<tr><td class='code'>~</td><td>Range</td>
- <td class='example'>field_value <b>~</b> field_value<br />range_value <b>~</b> range_value</td>
+<tr><td class='code'>..</td><td>Range</td>
+ <td class='example'>field_value <b>..</b> field_value<br />range_value <b>..</b> range_value</td>
  <td class='example'>range_value<br />range_value</td>
 </tr>
 <tr><td class='code' colspan='4'></td></tr>

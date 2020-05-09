@@ -47,7 +47,7 @@
  <tr><th>Format</th><th>Example</th><th>Output</th></tr>
  <tr>
   <td class='code'><b>write</b> <i>str_expr</i><b>;</b></td>
-  <td class='example'>write "Today is: " + string,g:dmy today;</td>
+  <td class='example'>write "Today is: " + string.g:dmy today;</td>
   <td>Today is: 14 Oct 2016</td>
  </tr>
  <tr>
@@ -57,12 +57,12 @@
  </tr>
  <tr>
   <td class='code'><b>write</b> <i>rlist_expr</i><b>;</b></td>
-  <td class='example'>write today ~ today + 50 \ today + 25;</td>
-  <td>2457676 ~ 2457700 | 2457702 ~ 2457726</td>
+  <td class='example'>write today .. today + 50 \ today + 25;</td>
+  <td>2457676 .. 2457700 | 2457702 .. 2457726</td>
  </tr>
  <tr>
   <td class='code'><b>write</b> <i>record_expr</i><b>;</b></td>
-  <td class='example'>write record,g today;</td>
+  <td class='example'>write record.g today;</td>
   <td>{"g", 2016, 10, 14, ?}</td>
  </tr>
  <tr>

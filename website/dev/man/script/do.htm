@@ -58,10 +58,10 @@
      <i>statements ...</i><br />
    <b>loop</b>
   </td>
-  <td class='example'>let day = date,g:dmy "1apr2017";
+  <td class='example'>let day = date.g:dmy "1apr2017";
 <b>do</b>
-    writeln string,"g:wdmy+" day;
-    <b>until</b> day >= date,g:dmy "1may2017"
+    writeln string."g:wdmy+" day;
+    <b>until</b> day >= date.g:dmy "1may2017"
     day += 7;
 <b>loop</b></td>
   <td>
