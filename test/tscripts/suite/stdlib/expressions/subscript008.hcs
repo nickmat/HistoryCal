@@ -1,6 +1,6 @@
 // subscript008.hcs Test file for example subscript and property expressions.
 
-let list = 21|79~88|100~120|200~210;
+let list = 21|79..88|100..120|200..210;
 let cnt = 0;
 let total = 0;
 
@@ -14,5 +14,5 @@ write "Number of days in " + list + " is " + total;
 clear;
 
 /*[OUTPUT]
-Number of days in 21 | 79 ~ 88 | 100 ~ 120 | 200 ~ 210 is 43
+Number of days in 21 | 79 .. 88 | 100 .. 120 | 200 .. 210 is 43
 [OUTPUT]*/

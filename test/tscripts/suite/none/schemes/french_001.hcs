@@ -66,18 +66,18 @@ scheme FR {
 }
 
 writeln "";
-writeln string,FR:cdmy 2345678 +", "+ date,FR:cdmy "4 Vent -82";
-writeln string,FR:cdmy 2432814 +", "+ date,FR:cdmy "Trav 156";
-writeln string,FR:cdmy (2432812 ~ 2432817) +", "+ date,FR:cdmy "Comp 156";
-writeln string,FR:cdmy (2432602 ~ 2432631) +", "+ date,FR:cdmy "Vent 156";
-writeln string,FR:cdmy (2432452 ~ 2432817) +", "+ date,FR:cdmy "156";
+writeln string.FR:cdmy 2345678 +", "+ date.FR:cdmy "4 Vent -82";
+writeln string.FR:cdmy 2432814 +", "+ date.FR:cdmy "Trav 156";
+writeln string.FR:cdmy (2432812 .. 2432817) +", "+ date.FR:cdmy "Comp 156";
+writeln string.FR:cdmy (2432602 .. 2432631) +", "+ date.FR:cdmy "Vent 156";
+writeln string.FR:cdmy (2432452 .. 2432817) +", "+ date.FR:cdmy "156";
 
 /*[OUTPUT]
 
 4 Vent -82, 2345678
 Trav 156, 2432814
-Comp 156, 2432812 ~ 2432817
-Vent 156, 2432602 ~ 2432631
-156, 2432452 ~ 2432817
+Comp 156, 2432812 .. 2432817
+Vent 156, 2432602 .. 2432631
+156, 2432452 .. 2432817
 
 [OUTPUT]*/

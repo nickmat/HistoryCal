@@ -14,11 +14,11 @@ scheme x {
     grammar x;
 }
 
-let d1 = date,j:dmy "dec199";
-let d2 = date,j:dmy "jan200";
+let d1 = date.j:dmy "dec199";
+let d2 = date.j:dmy "jan200";
 
-write string,x (d1 ~ d2);
+write string.x (d1 .. d2);
 
 /*[OUTPUT]
-Dec 199 Common Era ~ Jan 200
+Dec 199 Common Era .. Jan 200
 [OUTPUT]*/

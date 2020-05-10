@@ -1,8 +1,8 @@
 // minus007.hcs Test subtraction expressions with rlists and ranges
 
-let a = (8 ~ 10 | 12 ~ 25) - (2 ~ 11);
+let a = (8 .. 10 | 12 .. 25) - (2 .. 11);
 
-let b = (2 ~ 11) - (8 ~ 10 | 12 ~ 25);
+let b = (2 .. 11) - (8 .. 10 | 12 .. 25);
 
 let c = a = -b;
 
@@ -11,5 +11,5 @@ write a +", "+ b +", "+ c;
 clear;
 
 /*[OUTPUT]
--3 ~ 8 | 1 ~ 23, -23 ~ -1 | -8 ~ 3, true
+-3 .. 8 | 1 .. 23, -23 .. -1 | -8 .. 3, true
 [OUTPUT]*/

@@ -1,8 +1,8 @@
 // subscript007.hcs Test file to test subscript property expressions.
 
 let a = 4;
-let b = 7 ~ 16;
-let c = 21|79~88|100~120|200~210;
+let b = 7 .. 16;
+let c = 21|79..88|100..120|200..210;
 let d = {g,1948,9,19};
 
 writeln a[.low] + ", " + a[.high] + ", " + b[.low] + ", " + b[.high];
@@ -17,7 +17,7 @@ clear;
 4, 4, 7, 16
 1, 10, 190, 10
 4, 3
-21 ~ 210
+21 .. 210
 g
 
 [OUTPUT]*/

@@ -1,15 +1,15 @@
 // minus005.hcs Test file to test subtraction with ranges
 
-let a = (100 ~ 129) - 4;
+let a = (100 .. 129) - 4;
 
-let b = 4 - (100 ~ 129);
+let b = 4 - (100 .. 129);
 
-let c = (100 ~ 129) - (10 ~ 25);
+let c = (100 .. 129) - (10 .. 25);
 
 write a +", "+ b +", "+ c;
 
 clear;
 
 /*[OUTPUT]
-96 ~ 125, -125 ~ -96, 75 ~ 119
+96 .. 125, -125 .. -96, 75 .. 119
 [OUTPUT]*/

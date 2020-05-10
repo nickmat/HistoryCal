@@ -4,24 +4,24 @@
 //     "18 Apr 1815", " 9 Apr 1816", "25 Mar 1817", "14 Apr 1818", " 6 Apr 1819",
 
 writeln "";
-writeln date,je:dmy "Sep 1815";  //j# Sep 1815
-writeln date,je:dmy "Feb 1815";  //j# Feb 1816 [Leap year]
-writeln date,je:dmy "Feb 1816";  //j# Feb 1817 [Common year]
-writeln date,je:dmy "Apr 1816";  //j#(  9 Apr 1816 ~ 30 Apr 1816 )
-writeln date,je:dmy "Mar 1816";  //j#(  1 Mar 1817 ~ 24 Mar 1817 )
-writeln date,je:dmy "Mar 1817";  //j#( 25 Mar 1817 ~ 31 Mar 1817 |  Mar 1818 )
-writeln date,je:dmy "Apr 1817";  //j#( Apr 1817 |  1 Apr 1818 ~ 13 Apr 1818 )
-writeln date,je:dmy "Apr 1818";  //j#( 14 Apr 1818 ~ 30 Apr 1818 |  1 Apr 1819 ~  5 Apr 1819 )
+writeln date.je:dmy "Sep 1815";  //j# Sep 1815
+writeln date.je:dmy "Feb 1815";  //j# Feb 1816 [Leap year]
+writeln date.je:dmy "Feb 1816";  //j# Feb 1817 [Common year]
+writeln date.je:dmy "Apr 1816";  //j#(  9 Apr 1816 .. 30 Apr 1816 )
+writeln date.je:dmy "Mar 1816";  //j#(  1 Mar 1817 .. 24 Mar 1817 )
+writeln date.je:dmy "Mar 1817";  //j#( 25 Mar 1817 .. 31 Mar 1817 |  Mar 1818 )
+writeln date.je:dmy "Apr 1817";  //j#( Apr 1817 |  1 Apr 1818 .. 13 Apr 1818 )
+writeln date.je:dmy "Apr 1818";  //j#( 14 Apr 1818 .. 30 Apr 1818 |  1 Apr 1819 ..  5 Apr 1819 )
 
 /*[OUTPUT]
 
-2384230 ~ 2384259
-2384383 ~ 2384411
-2384749 ~ 2384776
-2384451 ~ 2384472
-2384777 ~ 2384800
-2384801 ~ 2384807 | 2385142 ~ 2385172
-2384808 ~ 2384837 | 2385173 ~ 2385185
-2385186 ~ 2385202 | 2385538 ~ 2385542
+2384230 .. 2384259
+2384383 .. 2384411
+2384749 .. 2384776
+2384451 .. 2384472
+2384777 .. 2384800
+2384801 .. 2384807 | 2385142 .. 2385172
+2384808 .. 2384837 | 2385173 .. 2385185
+2385186 .. 2385202 | 2385538 .. 2385542
 
 [OUTPUT]*/

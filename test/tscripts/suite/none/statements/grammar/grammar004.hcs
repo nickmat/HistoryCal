@@ -54,18 +54,18 @@ scheme FR {
 }
 
 writeln "";
-writeln date,FR:cdmy "4 Vent -82";
-writeln date,FR:cdmy "Trav 156";
-writeln date,FR:cdmy "Comp 156";
-writeln date,FR:cdmy "Vent 156";
-writeln date,FR:cdmy "156";
+writeln date.FR:cdmy "4 Vent -82";
+writeln date.FR:cdmy "Trav 156";
+writeln date.FR:cdmy "Comp 156";
+writeln date.FR:cdmy "Vent 156";
+writeln date.FR:cdmy "156";
 
 /*[OUTPUT]
 
 2345678
 2432814
-2432812 ~ 2432817
-2432602 ~ 2432631
-2432452 ~ 2432817
+2432812 .. 2432817
+2432602 .. 2432631
+2432452 .. 2432817
 
 [OUTPUT]*/

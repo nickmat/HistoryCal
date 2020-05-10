@@ -1,17 +1,16 @@
 // range002.hcs Test range operator with rlist types.
 
-let a = 3 ~ 5 | 7 ~ 10;
+let a = 3 .. 5 | 7 .. 10;
 
-let b = 4 ~ 5 | 7 ~ 10 ~ 16;
+let b = 4 .. 5 | 7 .. 10 .. 16;
 
-let c = a ~ b;
+let c = a .. b;
 
 write c;
 
-clear;
 
 /*[OUTPUT]
-3 ~ 16
+3 .. 16
 [OUTPUT]*/
 
 

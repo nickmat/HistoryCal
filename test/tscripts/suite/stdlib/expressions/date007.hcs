@@ -2,12 +2,12 @@
 
 set input "g";
 
-let r = date"1940"~date"1950"|date"1945"~date"1955";
+let r = date"1940"..date"1950"|date"1945"..date"1955";
 
 write r;
 
 clear;
 
 /*[OUTPUT]
-2429630 ~ 2435473
+2429630 .. 2435473
 [OUTPUT]*/

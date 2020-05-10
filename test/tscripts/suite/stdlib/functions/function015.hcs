@@ -1,11 +1,11 @@
 // function015.hcs - Test manual example functions.
 
 function range_plus(start, duration = 7) {
-    result = start ~ start + duration;
+    result = start .. start + duration;
 }
 
-write string,g:dmy @range_plus(2432814);
+write string.g:dmy @range_plus(2432814);
 
 /*[OUTPUT]
-19 Sep 1948 ~ 26 Sep 1948
+19 Sep 1948 .. 26 Sep 1948
 [OUTPUT]*/

@@ -1,7 +1,7 @@
 // write010.hcs Test range subtraction
 
-write ( 2429630 ~ 2433647 ) - 3;
+write ( 2429630 .. 2433647 ) - 3;
 
 /*[OUTPUT]
-2429627 ~ 2433644
+2429627 .. 2433644
 [OUTPUT]*/

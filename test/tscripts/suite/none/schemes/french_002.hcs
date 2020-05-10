@@ -94,18 +94,18 @@ scheme fr {
 }
 
 writeln "";
-writeln string,fr:dcdmy 2345678 +", "+ date,fr:dcdmy "Quar 4 Vent -82";
-writeln string,fr:dcdmy 2432814 +", "+ date,fr:dcdmy "Trav 156";
-writeln string,fr:dcdmy (2432812 ~ 2432817) +", "+ date,fr:dcdmy "Comp 156";
-writeln string,fr:dcdmy (2432602 ~ 2432631) +", "+ date,fr:dcdmy "Vent 156";
-writeln string,fr:dcdmy (2432452 ~ 2432817) +", "+ date,fr:dcdmy "156";
+writeln string.fr:dcdmy 2345678 +", "+ date.fr:dcdmy "Quar 4 Vent -82";
+writeln string.fr:dcdmy 2432814 +", "+ date.fr:dcdmy "Trav 156";
+writeln string.fr:dcdmy (2432812 .. 2432817) +", "+ date.fr:dcdmy "Comp 156";
+writeln string.fr:dcdmy (2432602 .. 2432631) +", "+ date.fr:dcdmy "Vent 156";
+writeln string.fr:dcdmy (2432452 .. 2432817) +", "+ date.fr:dcdmy "156";
 
 /*[OUTPUT]
 
 Quar 4 Vent -82, 2345678
 Trav 156, 2432814
-Ver 156 ~ Rev 156, 2432812 ~ 2432817
-Prim 1 Vent 156 ~ Dec 30 Vent 156, 2432602 ~ 2432631
-Prim 1 Vend 156 ~ Rev 156, 2432452 ~ 2432817
+Ver 156 .. Rev 156, 2432812 .. 2432817
+Prim 1 Vent 156 .. Dec 30 Vent 156, 2432602 .. 2432631
+Prim 1 Vend 156 .. Rev 156, 2432452 .. 2432817
 
 [OUTPUT]*/

@@ -8,7 +8,7 @@ function test_dob(age, on, sch) {
         on = date "1may2017"; // We can't test with the 'today' value since it's always changing
     endif
     result = date { , on[year] - age - 1, on[month], on[day]} + 1
-        ~ date { , on[year] - age, on[month], on[day]};
+        .. date { , on[year] - age, on[month], on[day]};
 }
 
 set inout g:dmy;
@@ -16,5 +16,5 @@ set inout g:dmy;
 write string @test_dob(68);
 
 /*[OUTPUT]
-2 May 1948 ~ 1 May 1949
+2 May 1948 .. 1 May 1949
 [OUTPUT]*/

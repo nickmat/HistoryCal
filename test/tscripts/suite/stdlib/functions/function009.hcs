@@ -5,7 +5,7 @@ function test_dob(age, on, sch) {
         set input (sch);
     endif
     result = date {(sch), on[year] - age - 1, on[month], on[day]} + 1
-        ~ date {(sch), on[year] - age, on[month], on[day]};
+        .. date {(sch), on[year] - age, on[month], on[day]};
 }
 
 set inout g:dmy;
@@ -16,7 +16,7 @@ writeln string @test_dob(69, date "19sep2017", "g");
 
 /*[OUTPUT]
 
-19 Sep 1948 ~ 18 Sep 1949
-20 Sep 1947 ~ 19 Sep 1948
+19 Sep 1948 .. 18 Sep 1949
+20 Sep 1947 .. 19 Sep 1948
 
 [OUTPUT]*/
