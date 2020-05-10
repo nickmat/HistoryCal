@@ -155,7 +155,7 @@ bool SValue::get( string& str ) const
     case SVT_Range:
         str = field_to_str( m_range.jdn1 );
         if( m_range.jdn1 != m_range.jdn2 ) {
-            str += " ~ " + field_to_str( m_range.jdn2 );
+            str += " .. " + field_to_str( m_range.jdn2 );
         }
         return true;
     case SVT_RList:
@@ -165,7 +165,7 @@ bool SValue::get( string& str ) const
             }
             str += field_to_str( m_rlist[i].jdn1 );
             if( m_rlist[i].jdn1 != m_rlist[i].jdn2 ) {
-                str += " ~ " + field_to_str( m_rlist[i].jdn2 );
+                str += " .. " + field_to_str( m_rlist[i].jdn2 );
             }
         }
         return true;

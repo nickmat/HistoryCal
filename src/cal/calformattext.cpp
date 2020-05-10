@@ -188,7 +188,7 @@ string FormatText::range_to_string( const Base* base, Range range ) const
     if ( str1 == str2 ) {
         return str1;
     }
-    return str1 + " ~ " + str2;
+    return str1 + " .. " + str2;
 }
 
 string FormatText::get_revealed_output( const Record& record, const BoolVec* reveal ) const
@@ -243,7 +243,9 @@ string FormatText::get_revealed_output( const Record& record, const BoolVec* rev
 
 RangeList FormatText::string_to_rlist( const Base* base, const string& input ) const
 {
-    if(  input.find( '~' ) != string::npos || input.find( '|' ) != string::npos ) {
+    if(  input.find( '~' ) != string::npos ||
+        input.find( "..") != string::npos ||
+        input.find( '|' ) != string::npos ) {
         return multirange_str_to_rlist( base, input );
     }
     return bare_str_to_rlist( base, input );
