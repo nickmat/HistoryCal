@@ -58,6 +58,15 @@ namespace Cal {
         double lon; // Degrees longtitude from Greenwich Meridian, positive East.
     };
 
+    template < class T, class V >
+    int find_in_vec( const T& item, const V& vec ) {
+        for ( size_t i = 0; i < vec.size(); i++ ) {
+            if ( item == vec[i] ) {
+                return int( i );
+            }
+        }
+        return -1;
+    }
 }
 
 #endif // CAL_CALPRIVATE_H_GUARD
