@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     17th March 2016
- * Copyright:   Copyright (c) 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2016 .. 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -209,8 +209,8 @@ void TestDef_isow::testISOFormats()
 {
     struct data { string in, out, jdn; } t[] = {
         { "1948-W38-7", "1948-W38-7", "2432814" },
-        { "1948-W38", "1948-W38", "2432808 ~ 2432814" },
-        { "1948", "1948-W01-4/1948-W53-5", "2432552 ~ 2432917" }, // Note, not 1948-W01-1/1948-W53-7
+        { "1948-W38", "1948-W38", "2432808 .. 2432814" },
+        { "1948", "1948-W01-4/1948-W53-5", "2432552 .. 2432917" }, // Note, not 1948-W01-1/1948-W53-7
     };
     size_t count = sizeof(t) / sizeof(data);
 

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     8th October 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 .. 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -141,7 +141,7 @@ void TestGregorian::testRanges()
         stringstream tst; 
         tst << testGValues[i].year << " "
             << testGValues[i].month << " "
-            << testGValues[i].day << " ~ "
+            << testGValues[i].day << " .. "
             << testGValues[i+1].year << " "
             << testGValues[i+1].month << " "
             << testGValues[i+1].day;

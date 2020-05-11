@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th June 2016
- * Copyright:   Copyright (c) 2016 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2016 .. 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -149,7 +149,7 @@ void TestChinese::testRanges()
             << testCValues[i].year << " "
             << testCValues[i].month << " "
             << testCValues[i].lmonth << " "
-            << testCValues[i].day << " ~ "
+            << testCValues[i].day << " .. "
             << testCValues[i+1].cycle << " "
             << testCValues[i+1].year << " "
             << testCValues[i+1].month << " "

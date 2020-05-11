@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     28th February 2014
- * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 .. 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -175,11 +175,11 @@ void TestDef_g::testRangeShorthand()
         { "19sep1948", "19 Sep 1948" },
         { "sep1948", "Sep 1948" },
         { "1948", "1948" },
-        { "1feb1948 ~ 29feb1948", "Feb 1948" },
-        { "1jan1948 ~ 31dec1948", "1948" },
-        { "1948 ~ sep1948", "Jan 1948 ~ Sep 1948" },
-        { "1948~19sep1948", "1 Jan 1948 ~ 19 Sep 1948" },
-        { "19sep1948~1948", "19 Sep 1948 ~ 31 Dec 1948" },
+        { "1feb1948 .. 29feb1948", "Feb 1948" },
+        { "1jan1948 .. 31dec1948", "1948" },
+        { "1948 .. sep1948", "Jan 1948 .. Sep 1948" },
+        { "1948..19sep1948", "1 Jan 1948 .. 19 Sep 1948" },
+        { "19sep1948..1948", "19 Sep 1948 .. 31 Dec 1948" },
         { "19 ? 1948", invalid }
     };
     size_t count = sizeof(t) / sizeof(data);

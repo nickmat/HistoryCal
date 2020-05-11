@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     9th October 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 .. 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -145,7 +145,7 @@ void TestJ325::testRanges()
         stringstream tst;
         tst << testJ325Values[i].year << " "
             << testJ325Values[i].month << " "
-            << testJ325Values[i].day << " ~ "
+            << testJ325Values[i].day << " .. "
             << testJ325Values[i+1].year << " "
             << testJ325Values[i+1].month << " "
             << testJ325Values[i+1].day;
@@ -154,7 +154,7 @@ void TestJ325::testRanges()
         CPPUNIT_ASSERT_EQUAL( testJdnValues[i], rng.jdn1 );
         CPPUNIT_ASSERT_EQUAL( testJdnValues[i+1], rng.jdn2 );
         string rngstr = m_cal->range_to_str( m_sid, rng );
-        value = testJ325Values[i].str + " ~ " + testJ325Values[i+1].str;
+        value = testJ325Values[i].str + " .. " + testJ325Values[i+1].str;
         CPPUNIT_ASSERT_EQUAL( value, rngstr );
     }
 }
@@ -164,14 +164,14 @@ void TestJ325::testRangeShorthand()
     struct data { string in; string out; } t[] = {
         { "1948 9 6", "1948 9 6" },
         { "1942 2 23", "1942 2 23" },
-        { "1948 3 25 ~ 1948 3 24", "1948" },
+        { "1948 3 25 .. 1948 3 24", "1948" },
         { "1948 ? ?", "1948" },
-        { "1948 2 1 ~ 1948 2 28", "1948 2" },
+        { "1948 2 1 .. 1948 2 28", "1948 2" },
         { "1948 2 ?", "1948 2" },
-        { "1948 4 1 ~ 1948 4 30", "1948 4" },
+        { "1948 4 1 .. 1948 4 30", "1948 4" },
         { "1948 4 ?", "1948 4" },
-        { "1948 3 ?", "1948 3 25 ~ 1948 3 31 | 1948 3 1 ~ 1948 3 24" },
-        { "1948 3 25 ~ 1948 4 3", "1948 3 25 ~ 1948 4 3" },
+        { "1948 3 ?", "1948 3 25 .. 1948 3 31 | 1948 3 1 .. 1948 3 24" },
+        { "1948 3 25 .. 1948 4 3", "1948 3 25 .. 1948 4 3" },
         { "1948 ? 19", invalid },
     };
     size_t count = sizeof(t) / sizeof(data);

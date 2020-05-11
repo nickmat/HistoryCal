@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     9th December 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 .. 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -141,7 +141,7 @@ void TestHebrew::testRanges()
         stringstream tst; 
         tst << testHValues[i].year << " "
             << testHValues[i].month << " "
-            << testHValues[i].day << " ~ "
+            << testHValues[i].day << " .. "
             << testHValues[i+1].year << " "
             << testHValues[i+1].month << " "
             << testHValues[i+1].day;

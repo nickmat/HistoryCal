@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     18th March 2015
- * Copyright:   Copyright (c) 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2015 .. 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -157,7 +157,7 @@ void TestShiftDay::testRanges()
     Cal::SHandle sid = m_cal->get_scheme( "mjd" );
     for( int i = 0 ; i < MaxSample-1 ; i++ ) {
         stringstream tst;
-        tst << test_values[i][0] << " ~ "
+        tst << test_values[i][0] << " .. "
             << test_values[i+1][0];
         string value = tst.str();
         Range rng = m_cal->str_to_range( sid, value );
@@ -169,7 +169,7 @@ void TestShiftDay::testRanges()
     sid = m_cal->get_scheme( "rd" );
     for( int i = 0 ; i < MaxSample-1 ; i++ ) {
         stringstream tst;
-        tst << test_values[i][1] << " ~ "
+        tst << test_values[i][1] << " .. "
             << test_values[i+1][1];
         string value = tst.str();
         Range rng = m_cal->str_to_range( sid, value );

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     4th March 2014
- * Copyright:   Copyright (c) 2014 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 .. 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -170,18 +170,18 @@ void TestDef_j325::testRangeShorthand()
     struct data { string in; string out1; string out2; } t[] = {
         { "6 sep 1948", "6 Sep 1948", "6 Sep 1948" },
         { "23feb1942", "23 Feb 1942", "23 Feb 1942/3" },
-        { "25 March 1948 ~ 24 3 1948", "1948", "1948 ~ 1948/9" },
-        { "1948", "1948", "1948 ~ 1948/9" },
-        { "1feb1948 ~ 28 feb 1948", "Feb 1948", "Feb 1948/9" },
+        { "25 March 1948 .. 24 3 1948", "1948", "1948 .. 1948/9" },
+        { "1948", "1948", "1948 .. 1948/9" },
+        { "1feb1948 .. 28 feb 1948", "Feb 1948", "Feb 1948/9" },
         { "Feb1948", "Feb 1948", "Feb 1948/9" },
-        { "1 Apr 1948 ~ 30 4 1948", "Apr 1948", "Apr 1948" },
+        { "1 Apr 1948 .. 30 4 1948", "Apr 1948", "Apr 1948" },
         { "? 4 1948", "Apr 1948", "Apr 1948" },
         { 
             "Mar 1948", 
-            "25 Mar 1948 ~ 31 Mar 1948 | 1 Mar 1948 ~ 24 Mar 1948",
-            "25 Mar 1948 ~ 31 Mar 1948 | 1 Mar 1948/9 ~ 24 Mar 1948/9"
+            "25 Mar 1948 .. 31 Mar 1948 | 1 Mar 1948 .. 24 Mar 1948",
+            "25 Mar 1948 .. 31 Mar 1948 | 1 Mar 1948/9 .. 24 Mar 1948/9"
         },
-        { "25 Mar 1948 ~ Apr 1948", "25 Mar 1948 ~ 30 Apr 1948", "25 Mar 1948 ~ 30 Apr 1948" },
+        { "25 Mar 1948 .. Apr 1948", "25 Mar 1948 .. 30 Apr 1948", "25 Mar 1948 .. 30 Apr 1948" },
         { "19 ? 1948", "", "" },
     };
     size_t count = sizeof(t) / sizeof(data);

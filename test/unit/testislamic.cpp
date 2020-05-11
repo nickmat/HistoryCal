@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     16th December 2014
- * Copyright:   Copyright (c) 2014 - 2015, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 .. 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -141,13 +141,13 @@ void TestIslamic::testRanges()
         stringstream tst; 
         tst << testIValues[i].year << " "
             << testIValues[i].month << " "
-            << testIValues[i].day << " ~ "
+            << testIValues[i].day << " .. "
             << testIValues[i+1].year << " "
             << testIValues[i+1].month << " "
             << testIValues[i+1].day;
         string value = tst.str();
-        if( value == "897 6 1 ~ 960 9 30" ) { // this should collapse
-            value = "897 6 ~ 960 9";          // to this.
+        if( value == "897 6 1 .. 960 9 30" ) { // this should collapse
+            value = "897 6 .. 960 9";          // to this.
         }
         Range rng = m_cal->str_to_range( m_sid, value/*, 0*/ );
         CPPUNIT_ASSERT_EQUAL( testJdnValues[i], rng.jdn1 );

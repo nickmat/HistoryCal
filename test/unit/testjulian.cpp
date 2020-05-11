@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     7th October 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 .. 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -140,7 +140,7 @@ void TestJulian::testRanges()
         stringstream tst; 
         tst << testJBValues[i].year << " "
             << testJBValues[i].month << " "
-            << testJBValues[i].day << " ~ "
+            << testJBValues[i].day << " .. "
             << testJBValues[i+1].year << " "
             << testJBValues[i+1].month << " "
             << testJBValues[i+1].day;
