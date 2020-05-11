@@ -539,6 +539,12 @@ RangeList FormatText::multirange_str_to_rlist( const Base* base, const string& i
         pos1 = str.find( '|' );
         rangestr = str.substr( 0, pos1 );
         size_t pos2 = rangestr.find( '~' );
+        if ( pos2 == string::npos ) {
+            pos2 = rangestr.find( ".." );
+            if ( pos2 != string::npos ) {
+                pos2++; // Step over second dot.
+            }
+        }
         if( pos2 == string::npos ) {
             // single value
             RangeList rl = bare_str_to_rlist( base, rangestr );
