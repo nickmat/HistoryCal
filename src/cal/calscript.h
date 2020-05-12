@@ -104,6 +104,7 @@ namespace Cal {
         SValue function_call();
 
         SValue get_value_var( const std::string& name );
+        SValue scheme_property();
 
         int line() const { return m_ts.get_line(); }
 

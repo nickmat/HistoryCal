@@ -1,0 +1,12 @@
+// stdlib/expressions/property001.hcs Test scheme properties.
+
+writeln "";
+writeln scheme..name;
+writeln scheme.fr.name;
+
+/*[OUTPUT]
+
+Gregorian
+French Republic
+
+[OUTPUT]*/

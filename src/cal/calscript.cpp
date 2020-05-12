@@ -1942,11 +1942,52 @@ SValue Script::get_value_var( const string& name )
             }
         }
     }
+    if ( name == "scheme" ) {
+        return scheme_property();
+    }
     SValue value;
     if( store()->get( &value, name ) ) {
         return value;
     }
     value.set_error( "Variable \"" + name + "\" not found." );
+    return value;
+}
+
+SValue Script::scheme_property()
+{
+    SToken token = m_ts.next();
+    SHandle sch = nullptr;
+    string scode;
+    SValue value;
+    if ( token.type() == SToken::STT_Dot ) {
+        scode = get_name_or_primary( true );
+        sch = m_cals->get_scheme( scode );
+        token = m_ts.current();
+        if ( token.type() != SToken::STT_Dot ) {
+            value.set_error( "Dot '.' expected." );
+            return value;
+        }
+    } else if ( token.type() == SToken::STT_DotDot ) {
+        sch = m_cals->get_ischeme();
+    } else {
+        value.set_error( "Dot '.' or Double Dot '..' expected." );
+        return value;
+    }
+    if ( sch == nullptr ) {
+        value.set_error( "Can not find scheme." );
+        return value;
+    }
+    token = m_ts.next();
+    if ( token.type() != SToken::STT_Name ) {
+        value.set_error( "Property name expected.." );
+        return value;
+    }
+    string prop = token.get_str();
+    if ( prop == "name" ) {
+        value.set_str( sch->get_name() );
+    } else {
+        value.set_error( "Property not found." );
+    }
     return value;
 }
 
