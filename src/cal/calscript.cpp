@@ -1985,6 +1985,8 @@ SValue Script::scheme_property()
     string prop = token.get_str();
     if ( prop == "name" ) {
         value.set_str( sch->get_name() );
+    } else if ( prop == "code" ) {
+        value.set_str( sch->get_code() );
     } else {
         value.set_error( "Property not found." );
     }

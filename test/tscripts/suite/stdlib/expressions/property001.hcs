@@ -2,11 +2,20 @@
 
 writeln "";
 writeln scheme..name;
+writeln scheme..code;
 writeln scheme.fr.name;
+
+let c = "j";
+writeln scheme.(c).name;
+writeln scheme.(c).code;
+
 
 /*[OUTPUT]
 
 Gregorian
+g
 French Republic
+Julian
+j
 
 [OUTPUT]*/
