@@ -1945,6 +1945,9 @@ SValue Script::get_value_var( const string& name )
     if ( name == "scheme" ) {
         return scheme_property();
     }
+    if ( name == "lexicon" ) {
+        return lexicon_property();
+    }
     SValue value;
     if( store()->get( &value, name ) ) {
         return value;
@@ -1987,6 +1990,39 @@ SValue Script::scheme_property()
         value.set_str( sch->get_name() );
     } else if ( prop == "code" ) {
         value.set_str( sch->get_code() );
+    } else {
+        value.set_error( "Property not found." );
+    }
+    return value;
+}
+
+SValue Script::lexicon_property()
+{
+    SToken token = m_ts.next();
+    Vocab* lex = nullptr;
+    string lcode;
+    SValue value;
+    if ( token.type() == SToken::STT_Dot ) {
+        lcode = get_name_or_primary( true );
+        lex = m_cals->get_vocab( lcode );
+    } else {
+        value.set_error( "Dot '.' expected." );
+        return value;
+    }
+    if ( lex == nullptr ) {
+        value.set_error( "Can not find lexicon." );
+        return value;
+    }
+    token = m_ts.next();
+    if ( token.type() != SToken::STT_Name ) {
+        value.set_error( "Property name expected.." );
+        return value;
+    }
+    string prop = token.get_str();
+    if ( prop == "name" ) {
+        value.set_str( lex->get_name() );
+    } else if ( prop == "fieldname" ) {
+        value.set_str( lex->get_fieldname() );
     } else {
         value.set_error( "Property not found." );
     }
