@@ -62,8 +62,8 @@ namespace Cal {
         bool do_set();
         bool do_let();
         bool do_assign( const std::string& name );
-        bool do_write();
-        bool do_writeln();
+        bool do_write( const std::string& term = "" );
+        bool do_writeln() { return do_write( "\n" ); }
         bool do_scheme();
         SHandle do_create_scheme( const std::string& code );
         Base* do_base();
@@ -82,6 +82,7 @@ namespace Cal {
         FieldVec do_fixed_fields( const StringVec& fieldnames );
         bool do_function();
         bool do_call();
+        bool do_file();
 
         SValue expr( bool get );
         SValue compare( bool get );

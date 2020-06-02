@@ -29,6 +29,7 @@
 
 #include "cal/calendars.h"
 #include "calelement.h"
+#include "calfile.h"
 #include "calformatiso.h"
 #include "calformattext.h"
 #include "calformatunit.h"
@@ -180,6 +181,7 @@ bool Script::statement()
         if ( name == "grammar" ) return do_grammar();
         if ( name == "format" ) return do_format( nullptr );
         if ( name == "function" ) return do_function();
+        if ( name == "file" ) return do_file();
         if ( store()->exists( name ) ) return do_assign( name );
     }
     else if ( token.type() == SToken::STT_Semicolon ) {
@@ -473,12 +475,30 @@ bool Script::do_assign( const std::string& name )
     return true;
 }
 
-bool Script::do_write()
+bool Script::do_write( const string& term )
 {
-    SValue value = expr( true );
+    SToken token = m_ts.next();
+    string filecode;
+    if ( token.type() == SToken::STT_Dot ) {
+        filecode = get_name_or_primary( true );
+    }
+    std::ostream* out = nullptr;
+    if ( !filecode.empty() ) {
+        File* file = m_cals->get_file( filecode );
+        if ( file == nullptr ) {
+            error( "File \"" + filecode + "\" not found." );
+            return false;
+        }
+        out = file->get_out();
+    }
+    if ( out == nullptr ) {
+        out = m_out;
+    }
+
+    SValue value = expr( false );
     string str;
     if( value.get( str ) ) {
-        *m_out << str;
+        *out << str << term;
     } else {
         error( "Unable to output string" );
         return false;
@@ -491,13 +511,6 @@ bool Script::do_write()
         return false;
     }
     return true;
-}
-
-bool Script::do_writeln()
-{
-    bool ret = do_write();
-    *m_out << string("\n");
-    return ret;
 }
 
 bool Script::do_scheme()
@@ -1301,6 +1314,50 @@ bool Cal::Script::do_call()
     }
     if ( m_ts.current().type() != SToken::STT_Semicolon ) {
         error( "';' expected." );
+        return false;
+    }
+    return true;
+}
+
+bool Cal::Script::do_file()
+{
+    string code = get_name_or_primary( true );
+    if ( code.empty() ) {
+        error( "File code missing." );
+        return false;
+    }
+    string name;
+    expr( false ).get( name );
+    if ( name.empty() ) {
+        error( "Filename missing." );
+        return false;
+    }
+    File::FileType type = File::FT_null;
+    if ( m_ts.current().type() != SToken::STT_Semicolon ) {
+        string type = get_name_or_primary( true );
+        if ( type.empty() ) {
+            error( "';' or switch expected." );
+            return false;
+        }
+        if ( type == "write" ) {
+            type = File::FT_write;
+        } else if ( type == "append" ) {
+            type = File::FT_append;
+        }
+    }
+    if ( m_ts.current().type() != SToken::STT_Semicolon ) {
+        error( "';' expected." );
+        return false;
+    }
+    File* file = m_cals->create_file( code );
+    if ( type != File::FT_null ) {
+        file->set_filetype( type );
+    }
+    file->set_filename( name );
+    bool ok = file->open();
+    if ( !ok ) {
+        delete file;
+        error( "Unable to open file: " + name );
         return false;
     }
     return true;

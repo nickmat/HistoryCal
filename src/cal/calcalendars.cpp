@@ -29,6 +29,7 @@
 
 #include "calbase.h"
 #include "caldefscripts.h"
+#include "calfile.h"
 #include "calformatiso.h"
 #include "calformattext.h"
 #include "calformatunit.h"
@@ -531,12 +532,29 @@ Function* Calendars::create_function( const string & code )
     return fun;
 }
 
-Function* Calendars::get_function( const string & code ) const
+Function* Calendars::get_function( const string& code ) const
 {
     if ( m_functions.count( code ) > 0 ) {
         return m_functions.find( code )->second;
     }
     return NULL;
+}
+
+File* Calendars::create_file( const string& code )
+{
+    File* file = new File( code );
+    assert( m_marks.size() > 0 );
+    m_marks[m_marks.size() - 1]->add_file( file );
+    m_files[code] = file;
+    return file;
+}
+
+File* Calendars::get_file( const string& code ) const
+{
+    if ( m_files.count( code ) > 0 ) {
+        return m_files.find( code )->second;
+    }
+    return nullptr;
 }
 
 void Calendars::add_or_replace_mark( const string& name )
@@ -594,6 +612,13 @@ bool Calendars::clear_mark( const string& name )
                 break;
             }
             m_functions.erase( code );
+        }
+        for ( ;;) {
+            code = m_marks[i]->remove_next_file();
+            if ( code.empty() ) {
+                break;
+            }
+            m_files.erase( code );
         }
         delete m_marks[i];
         m_marks.pop_back();

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     28th October 2014
- * Copyright:   Copyright (c) 2014 ~ 2019, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 .. 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@
 
 #include "calmark.h"
 
+#include "calfile.h"
 #include "calfunction.h"
 #include "calformat.h"
 #include "calgrammar.h"
@@ -135,6 +136,18 @@ string Mark::remove_next_function()
         code = func->get_code();
         delete func;
         m_functions.pop_back();
+    }
+    return code;
+}
+
+string Mark::remove_next_file()
+{
+    string code;
+    if ( m_files.size() ) {
+        File* file = m_files[m_files.size() - 1];
+        code = file->get_code();
+        delete file;
+        m_files.pop_back();
     }
     return code;
 }

@@ -68,6 +68,8 @@ namespace Cal {
     typedef std::vector<Mark*> MarkVec;
     class Function;
     typedef std::map<std::string,Function*> FunctionMap;
+    class File;
+    typedef std::map<std::string, File*> FileMap;
 
     // Field must be at least 32 bit, use int for now.
     // Change to int_fast32_t if possible

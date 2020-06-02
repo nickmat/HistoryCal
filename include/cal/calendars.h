@@ -95,6 +95,8 @@ namespace Cal {
         FormatUnit* create_format_unit( const std::string& code, Grammar* gmr );
         Function* create_function( const std::string& code );
         Function* get_function( const std::string& code ) const;
+        File* create_file( const std::string& code );
+        File* get_file( const std::string& code ) const;
         void add_or_replace_mark( const std::string& name );
         bool clear_mark( const std::string& name );
         void set_ischeme( Scheme* sch );
@@ -114,6 +116,7 @@ namespace Cal {
         GrammarMap   m_grammars;
         VocabMap     m_vocabs;
         FunctionMap  m_functions;
+        FileMap      m_files;
         MarkVec      m_marks;
         ScriptStore* m_store;
         std::string  m_init_error;

@@ -36,7 +36,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <_ProjectFileVersion>14.0.23107.0</_ProjectFileVersion>
+    <_ProjectFileVersion>14.0.25431.1</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
@@ -136,6 +136,7 @@
     <ClCompile Include="..\..\src\cal\caldlist.cpp" />
     <ClCompile Include="..\..\src\cal\caleaster.cpp" />
     <ClCompile Include="..\..\src\cal\calelement.cpp" />
+    <ClCompile Include="..\..\src\cal\calfile.cpp" />
     <ClCompile Include="..\..\src\cal\calformat.cpp" />
     <ClCompile Include="..\..\src\cal\calformatiso.cpp" />
     <ClCompile Include="..\..\src\cal\calformattext.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="..\..\src\cal\caldlist.h" />
     <ClInclude Include="..\..\src\cal\caleaster.h" />
     <ClInclude Include="..\..\src\cal\calelement.h" />
+    <ClInclude Include="..\..\src\cal\calfile.h" />
     <ClInclude Include="..\..\src\cal\calformat.h" />
     <ClInclude Include="..\..\src\cal\calformatiso.h" />
     <ClInclude Include="..\..\src\cal\calformattext.h" />
