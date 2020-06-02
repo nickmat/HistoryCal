@@ -126,9 +126,8 @@ SToken STokenStream::next()
                 }
             }
             if( ch == '\n' ) {
+                // We are allowing new lines in comments at the moment.
                 m_line++;
-                error( "Newline in string literal." );
-                break;
             }
             text += ch;
         }
