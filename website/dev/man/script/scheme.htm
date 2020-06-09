@@ -360,14 +360,13 @@ shift jdn, 2400001; // Change jdn to Modified Julian Day</td></tr>
 <tr><th colspan='2'>hybrid Sub-Statement</th></tr>
 <tr><th>Sub-Statement</th><th>Example</th></tr>
 <tr><td class='code'>hybrid { fields <i>name1</i>, <i>name2</i>, <i>name3</i>; ... }</td><td class='example'>fields year, month, day;</td></tr>
-<tr><td class='code'>hybrid { ... scheme <i>scheme.code</i>; ... }</td><td class='example'>scheme ja; // Julian Annunciation</td></tr>
-<tr><td class='code'>hybrid { ... change <i>date.field</i>; ... }</td><td class='example'>change 2360976; // j:dmy# 1 Jan 1752</td></tr>
-<tr><td class='code'>hybrid { ... scheme <i>scheme.code</i>; ... }</td><td class='example'>scheme j; // Julian</td></tr>
+<tr><td class='code'>hybrid { ... scheme <i>scode</i>; ... }</td><td class='example'>scheme ja; // Julian Annunciation</td></tr>
+<tr><td class='code'>hybrid { ... change <i>date_value</i>; ... }</td><td class='example'>change 2360976; // j:dmy# 1 Jan 1752</td></tr>
+<tr><td class='code'>hybrid { ... scheme {<i>scheme sub-statements</i>} ... }</td><td class='example'>scheme { base julian; }</td></tr>
 </table>
 <p>
- Note, schemes must be defined before they can used as part of a hybrid scheme.
- If you want to create a scheme only for inclusion in a hybrid scheme,
- then it can be hidden using the 'style hide;' sub-statement.
+ Note, a schemes must either be defined before use,
+ or created in place anonymously.
 </p>
 
 <h3>regnal Sub-Statement</h3>

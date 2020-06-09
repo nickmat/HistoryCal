@@ -689,16 +689,19 @@ Base* Script::do_base_hybrid()
             if( token.get_str() == "fields" ) {
                 fieldnames = get_string_list( true );
             } else if( token.get_str() == "scheme" ) {
-                string scode = get_name_or_primary( true );
+                string scode;
                 Scheme* sch;
-                if( m_ts.current().type() == SToken::STT_Semicolon ) {
-                    sch = m_cals->get_scheme( scode );
-                } else {
-                    // Create new scheme 
-                    sch = do_create_scheme( scode );
+                token = m_ts.next();
+                if ( token.type() == SToken::STT_LCbracket ) {
+                    // Create anonymous scheme
+                    sch = do_create_scheme( "" );
                     data.scheme = sch;
+                } else {
+                    // Find scheme
+                    scode = get_name_or_primary( false );
+                    sch = m_cals->get_scheme( scode );
                 }
-                if( sch == NULL ) {
+                if( sch == nullptr ) {
                     error( "Can not find/create scheme " + scode );
                     continue;
                 }
