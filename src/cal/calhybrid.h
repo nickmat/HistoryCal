@@ -59,6 +59,7 @@ namespace Cal {
         Field get_jdn( const Field* fields ) const override;
 
         Field get_opt_field( const Field* fields, Field jdn, OptFieldID id ) const override;
+        Field get_rec_field_first( const Field* fields, size_t index ) const override;
         Field get_rec_field_last( const Field* fields, size_t index ) const override;
 
         bool set_fields_as_begin_first( Field* fields, const Field* mask ) const override;
@@ -72,8 +73,6 @@ namespace Cal {
         void set_fields( Field* fields, Field jdn ) const override;
 
         bool fields_ok( const Field* fields ) const override;
-
-        void resolve_opt_input( Field* fields, size_t index ) const override;
 
     protected:
         StringVec get_rank_fieldnames() const override { return m_fieldnames; }
