@@ -585,7 +585,7 @@ SHandle Script::do_create_scheme( const std::string& code )
         if ( gmr_code.empty() ) {
             delete gmr;
         }
-        error( "Scheme not created." );
+        error( "Scheme \"" + code + "\" not created." );
         return nullptr;
     }
     if ( gmr == nullptr ) {
@@ -654,13 +654,15 @@ Base* Script::do_base_shift()
     string scode = get_name_or_primary( true );
     SHandle sch = m_cals->get_scheme( scode );
     Field era = f_invalid;
-    if( sch && m_ts.current().type() == SToken::STT_Comma ) {
+    if ( sch && m_ts.current().type() == SToken::STT_Comma ) {
         expr( true ).get( era );
     }
-    const Base* sbase = nullptr;
-    if( sch ) {
-        sbase = sch->get_base();
+    if ( !sch ) {
+        error( "Scheme \"" + scode + "\" not found." );
+        return nullptr;
     }
+    const Base* sbase = nullptr;
+    sbase = sch->get_base();
     return Scheme::create_base_shift( sbase, era );
 }
 

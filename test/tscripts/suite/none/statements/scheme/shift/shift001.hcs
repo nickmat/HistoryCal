@@ -1,0 +1,13 @@
+// none/statements/scheme/shift/shift001.hcs   Test file
+
+writeln "";
+
+scheme T { shift X, 1721507; } // j:dmy# 25 Mar 1
+
+/*[OUTPUT]
+
+Error (5): Scheme "X" not found.
+Error (5): Scheme "T" not created.
+
+[OUTPUT]*/
+
