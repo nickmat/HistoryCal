@@ -652,17 +652,19 @@ Base* Script::do_base()
 Base* Script::do_base_shift()
 {
     string scode = get_name_or_primary( true );
-    SHandle sch = m_cals->get_scheme( scode );
-    Field era = f_invalid;
-    if ( sch && m_ts.current().type() == SToken::STT_Comma ) {
-        expr( true ).get( era );
+    Scheme* sch = m_cals->get_scheme( scode );
+
+    if ( m_ts.current().type() == SToken::STT_Comma ) {
+        m_ts.next();
     }
+    Field era = f_invalid;
+    expr( false ).get( era );
+
     if ( !sch ) {
         error( "Scheme \"" + scode + "\" not found." );
         return nullptr;
     }
-    const Base* sbase = nullptr;
-    sbase = sch->get_base();
+    const Base* sbase = sch->get_base();
     return Scheme::create_base_shift( sbase, era );
 }
 
