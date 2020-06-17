@@ -46,7 +46,7 @@
 </p>
 <p>
  The scheme must include one, and only one, of the sub-statements:
- 'base', 'shift', 'hybrid' or 'regnal'. Other sub-statements are optional.
+ 'base', 'shift', 'epoch', 'hybrid' or 'regnal'. Other sub-statements are optional.
 </p>
 
 <table class='basic'>
@@ -54,7 +54,8 @@
 <tr><th>Sub-Statement</th><th>Use</th><th>Example</th></tr>
 <tr><td class='code'>name</td><td>A descriptive name for the scheme.</td><td class='example'>name "Julian Annunciation";</td></tr>
 <tr><td class='code'>base</td><td>Scheme uses one of the base calendars.</td><td class='example'>base gregorian;</td></tr>
-<tr><td class='code'>shift</td><td>Scheme uses one of the base calendars with the era shifted.</td><td class='example'>shift j, 1721507;</td></tr>
+<tr><td class='code'>shift</td><td>Scheme uses one of the base calendars with the era shifted. (Obsolete)</td><td class='example'>shift j, 1721507;</td></tr>
+<tr><td class='code'>epoch</td><td>Scheme uses one of the base calendars with the era shifted.</td><td class='example'>epoch 1721507 julian;</td></tr>
 <tr><td class='code'>hybrid</td><td>Scheme uses more than one the base calendars.</td><td class='example'>hybrid { ... }</td></tr>
 <tr><td class='code'>regnal</td><td>Scheme uses calendars with a succession of eras.</td><td class='example'>regnal { ... }</td></tr>
 <tr><td class='code' rowspan='2'>grammar</td><td>Predefined grammar to be used.</td><td class='example'>grammar jce;</td></tr>
@@ -260,7 +261,7 @@ The New Moon after 19 Sep 1948 is 2 Oct 1948
  See the default script for the <a href='../defs/c.htm'>Chinese calendar</a> for more details.
 </p>
 
-<h3>shift Sub-Statement</h3>
+<h3>shift Sub-Statement (Obsolete - see epoch)</h3>
 <p>
  Calendars normally have two separate parts to their definitions.
  There is the definition that describes how the days are counted within the year,
@@ -305,6 +306,58 @@ shift jdn, 2400001; // Change jdn to Modified Julian Day</td></tr>
     name "Julian September Start Calendar";
     shift j, date.j:dmy "1 Sep 0";
     grammar j_sh;
+}
+</td></tr>
+</table>
+
+
+<h3>epoch Sub-Statement</h3>
+<p>
+ Calendars normally have two separate parts to their definitions.
+ There is the definition that describes how the days are counted within the year,
+ then there is the method of counting those years.
+ One common occurrence is that different calendar schemes may use the same method
+ to count the days with the year but very different ways of counting the years.
+ The year count may start at any point of the year,
+ not just the point normally considered the start of the year (New Years Day).
+</p>
+<p>
+ For instance, when Julius Caesar introduced the Julian calendar,
+ New Years Day was considered to be 1st January.
+ However, not all calendar systems increased the year count on this day.
+ When the AD (Anno Domini) Julian calendar was first used,
+ the year change occurred on the 25th December.
+ Later, many other dates were used, for instance, 25th March,
+ the Feast of the Annunciation.
+</p>
+<p>
+ We can also use the epoch variant to change the era,
+ even if the year change remains the 1st January,
+ as with the <a href='../defs/se.htm'>Julian Spanish Era</a> calendar.
+ It will also work with day count calendars,
+ to create day count calendar that starts at a different date,
+ such as the Modified Julian Day calendar.
+</p>
+<table class='basic'>
+<tr><th colspan='2'>epoch Sub-Statement</th></tr>
+<tr><th>Sub-Statement</th><th>Example</th></tr>
+<tr>
+ <td class='code'>epoch <i>date-field</i> <i>base-scheme</i>;</td>
+ <td class='example'>epoch 1721417 julian; // j:dmy# 25 Dec 0
+epoch 2400001 jdn; // Modified Julian Day</td>
+</tr>
+</table>
+<p>
+ The sub-statement consists of the 'epoch' keyword followed by the epoch date
+ followed by the base scheme.
+</p>
+<table class='code'>
+<tr><th>Example Script</th></tr> <!-- See test/shift001.hcs -->
+<tr><td class='example'
+>scheme JS {
+    name "Julian September Start Calendar";
+    epoch date.j:dmy "1 Sep 0" julian;
+    grammar jepoch;
 }
 </td></tr>
 </table>

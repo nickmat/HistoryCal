@@ -1,0 +1,13 @@
+// none/statements/scheme/epoch/epoch003.hcs   Test file
+
+scheme JA { epoch 1721507 julian; } // j:dmy# 25 Mar 1
+
+writeln "";
+let d1 = date.JA "1752";       // 2361311 .. 2361341
+writeln d1 + " -> " + string.JA d1;
+
+/*[OUTPUT]
+
+2361060 .. 2361424 -> 1752
+
+[OUTPUT]*/

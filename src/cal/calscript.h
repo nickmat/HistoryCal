@@ -66,8 +66,9 @@ namespace Cal {
         bool do_writeln() { return do_write( "\n" ); }
         bool do_scheme();
         SHandle do_create_scheme( const std::string& code );
-        Base* do_base();
+        Base* do_base( bool get );
         Base* do_base_shift();
+        Base* do_base_epoch();
         Base* do_base_hybrid();
         Base* do_base_regnal();
         bool do_regnal_era( RegnalEra& era, StringVec& fieldnames );

@@ -551,11 +551,13 @@ SHandle Script::do_create_scheme( const std::string& code )
             if( token.get_str() == "name" ) {
                 expr( true ).get( name );
             } else if( token.get_str() == "base" ) {
-                base = do_base();
+                base = do_base( true );
             } else if( token.get_str() == "shift" ) {
                 base = do_base_shift();
-            } else if( token.get_str() == "hybrid" ) {
+            } else if ( token.get_str() == "hybrid" ) {
                 base = do_base_hybrid();
+            } else if ( token.get_str() == "epoch" ) {
+                base = do_base_epoch();
             } else if( token.get_str() == "regnal" ) {
                 base = do_base_regnal();
             } else if( token.get_str() == "grammar" ) {
@@ -609,11 +611,11 @@ SHandle Script::do_create_scheme( const std::string& code )
     return sch;
 }
 
-Base* Script::do_base()
+Base* Script::do_base( bool get )
 {
     Scheme::BaseScheme bs = Scheme::BS_NULL;
     string data;
-    SToken token = m_ts.next();
+    SToken token = get ? m_ts.next() : m_ts.current();
     if( token.type() == SToken::STT_Name ) {
         if( token.get_str() == "jdn" ) {
             bs = Scheme::BS_jdn;
@@ -666,6 +668,14 @@ Base* Script::do_base_shift()
     }
     const Base* sbase = sch->get_base();
     return Scheme::create_base_shift( sbase, era );
+}
+
+Base* Script::do_base_epoch()
+{
+    Field epoch = f_invalid;
+    expr( true ).get( epoch );
+    Base* base = do_base( false );
+    return Scheme::create_base_shift( base, epoch );
 }
 
 Base* Script::do_base_hybrid()

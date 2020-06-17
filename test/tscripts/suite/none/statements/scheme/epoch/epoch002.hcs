@@ -1,0 +1,22 @@
+// none/statements/scheme/epoch/epoch002.hcs   Test file
+
+scheme JA { epoch 1721507 julian; } // j:dmy# 25 Mar 1
+
+writeln "";
+let d1 = date.JA "1752 12";       // 2361311 .. 2361341
+writeln d1 + " -> " + string.JA d1;
+let d1 = date.JA "1752 1";        // 2361342 .. 2361372
+writeln d1 + " -> " + string.JA d1;
+let d1 = date.JA "1752 3";        // 2361424
+writeln d1 + " -> " + string.JA d1;
+let d1 = date.JA "1753 3";        // 2361425
+writeln d1 + " -> " + string.JA d1;
+
+/*[OUTPUT]
+
+2361311 .. 2361341 -> 1752 12
+2361342 .. 2361372 -> 1752 1
+2361060 .. 2361066 | 2361401 .. 2361424 -> 1752 3 25 .. 1752 3 31 | 1752 3 1 .. 1752 3 24
+2361425 .. 2361431 | 2361766 .. 2361789 -> 1753 3 25 .. 1753 3 31 | 1753 3 1 .. 1753 3 24
+
+[OUTPUT]*/
