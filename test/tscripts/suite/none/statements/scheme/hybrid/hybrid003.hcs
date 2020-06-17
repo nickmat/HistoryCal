@@ -1,0 +1,36 @@
+// none/statements/scheme/hybrid/hybrid003.hcs   Test file
+
+scheme J { base julian; }
+scheme JA { shift J 1721507; } // j:dmy# 25 Mar 1
+
+// This creates a gap so the dates 1 Jan 1752 .. 24 Mar 1752 are invalid
+// JA# 31 Dec 1751 is followed by J# 1 Jan 1752 (and not JA# 1 Jan 1751)
+scheme T {
+    name "Test Hybrid";
+    hybrid {
+        fields year month day;
+        scheme JA;
+        change 2360976;    // j# 1 Jan 1752
+        scheme J;
+    }
+}
+
+writeln "";
+let d1 = date.T "1750 3 24";        // 2360693
+writeln d1 + " -> " + string.T d1;
+let d1 = date.T "1751 3 25";        // 2360694
+writeln d1 + " -> " + string.T d1;
+let d1 = date.T "1751 12 31";       // 2360975
+writeln d1 + " -> " + string.T d1;
+let d1 = date.T "1752 1 1";         // 2360976
+writeln d1 + " -> " + string.T d1;
+
+/*[OUTPUT]
+
+2360693 -> 1750 3 24 0
+2360694 -> 1751 3 25 0
+2360975 -> 1751 12 31 0
+2360976 -> 1752 1 1 1
+
+[OUTPUT]*/
+

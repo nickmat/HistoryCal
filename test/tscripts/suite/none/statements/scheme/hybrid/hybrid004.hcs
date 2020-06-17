@@ -1,0 +1,37 @@
+// none/statements/scheme/hybrid/hybrid004.hcs   Test file
+
+scheme J { base julian; }
+scheme JAP { shift J 1721142; } // j:dmy# 25 Mar 0
+
+// This creates an overlap so the dates 25 Mar 1752 .. 31 Dec 1752
+// are are repeated, first in the JAP scheme and then in the J scheme.
+// JA# 31 Dec 1751 is followed by J# 1 Jan 1752 (and not JA# 1 Jan 1751)
+scheme T {
+    name "Test Hybrid";
+    hybrid {
+        fields year month day;
+        scheme JAP;
+        change 2360976;    // j# 1 Jan 1752
+        scheme J;
+    }
+}
+
+writeln "";
+let d1 = date.T "1751 3 24";        // 2360693
+writeln d1 + " -> " + string.T d1;
+let d1 = date.T "1751 3 25";        // 2360694 | 2361060
+writeln d1 + " -> " + string.T d1;
+let d1 = date.T "1751 12 31";       // 2360975 | 2361341
+writeln d1 + " -> " + string.T d1;
+let d1 = date.T "1752 1 1";         // 2360976
+writeln d1 + " -> " + string.T d1;
+
+/*[OUTPUT]
+
+2360693 -> 1751 3 24 0
+2360694 | 2361060 -> 1751 3 25 0 | 1751 3 25 1
+2360975 | 2361341 -> 1751 12 31 0 | 1751 12 31 1
+2360976 -> 1752 1 1 1
+
+[OUTPUT]*/
+
