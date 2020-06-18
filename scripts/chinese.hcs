@@ -24,7 +24,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 */
 
-vocab cyear {
+lexicon cyear {
     name "Year names";
     fieldname cyear;
     lang en;
@@ -93,7 +93,7 @@ vocab cyear {
     }
 }
 
-vocab clmon {
+lexicon clmon {
     name "Leap month";
     fieldname lmonth;
     lang en;
@@ -106,7 +106,7 @@ vocab clmon {
 
 grammar c {
     fields cycle cyear month lmonth day;
-    vocabs cyear, clmon;
+    lexicons cyear, clmon;
     calculate LM {
         output @if(lmonth=0,?,lmonth);
         pseudo "[Leap]";

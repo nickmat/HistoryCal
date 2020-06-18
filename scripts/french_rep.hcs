@@ -24,7 +24,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 */
 
-vocab frm {
+lexicon frm {
     name "Month names";
     fieldname month;
     lang en;
@@ -46,7 +46,7 @@ vocab frm {
     }
 }
 
-vocab frdd {
+lexicon frdd {
     name "Decade Day";
     fieldname dday;
     lang en;
@@ -65,7 +65,7 @@ vocab frdd {
     }
 }
 
-vocab frcomp {
+lexicon frcomp {
     name "Complementary Days";
     fieldname CDay;
     lang en;
@@ -83,7 +83,7 @@ vocab frcomp {
 grammar fr {
     fields year month day;
     optional dday, wday;
-    vocabs frm, frcomp, frdd, w;
+    lexicons frm, frcomp, frdd, w;
     alias field {
         Day,     day;
         Month,   month;

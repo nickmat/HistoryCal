@@ -1,25 +1,25 @@
 // Display today's date in various calendar formats
 
 writeln "Today is :-";
-writeln "Gregorian: " + string,g:full today;
+writeln "Gregorian: " + string.g:full today;
 writeln "    ISO Week No: " + today[isow:week] +
         "    Ordinal Day No: " + today[isoo:day];
 
 writeln "Western Christian Liturgical:-";
-writeln "    " + string,"glit:wly+" today;
+writeln "    " + string."glit:wly+" today;
 
 writeln "English Regnal:-";
-writeln "    " + string,er:full today;
+writeln "    " + string.er:full today;
 
-writeln "Julian Annunciation: " + string,ja:out today;
+writeln "Julian Annunciation: " + string.ja:out today;
 
 writeln "Orthodox Christian Liturgical:-";
-writeln "    " + string,"jlit:wly+" today;
+writeln "    " + string."jlit:wly+" today;
 
-writeln "French Republic: " + string,fr:out today;
+writeln "French Republic: " + string.fr:out today;
 
-writeln "Hebrew: " + string,h:wdmy today;
+writeln "Hebrew: " + string.h:wdmy today;
 
-writeln "Islamic Tabular: " + string,i:wdmy today;
+writeln "Islamic Tabular: " + string.i:wdmy today;
 
-writeln "Chinese: " + string,c:full today;
+writeln "Chinese: " + string.c:full today;

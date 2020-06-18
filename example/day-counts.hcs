@@ -4,25 +4,25 @@ mark example_MJD;
 
 scheme MJD {
     name "Modified Julian Day";
-    shift jdn, 2400001;
+    epoch 2400001 jdn;
     grammar d;
 }
 
 scheme RD {
     name "Rata Die";
-    shift jdn, 1721425;
+    epoch 1721425 jdn;
     grammar d;
 }
 
 grammar JD {
     inherit d;
     format d {
-        output "(Day).5";
+        output "(day).5";
     }
 }
 
 scheme JD {
     name "Julian Day";
-    shift jdn, 1;
+    epoch 1 jdn;
     grammar JD;
 }

@@ -24,7 +24,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 */
 
-vocab jg {
+lexicon jg {
     name "Scheme names";
     fieldname scheme;
     lang en;
@@ -37,8 +37,8 @@ vocab jg {
 
 grammar jg {
     inherit j;
-    fields scheme year month day;
-    vocabs jg;
+    fields year month day scheme;
+    lexicons jg;
     alias field {
         Scheme, scheme;
     }
@@ -61,7 +61,7 @@ scheme ay {
     grammar jg;
 }
 
-vocab jajg {
+lexicon jajg {
     name "Scheme names";
     fieldname scheme;
     lang en;
@@ -74,9 +74,9 @@ vocab jajg {
 }
 
 grammar hy {
-    fields scheme year month day;
+    fields year month day scheme;
     optional unshift, wday;
-    vocabs w, m, jajg;
+    lexicons w, m, jajg;
     alias field {
         WDay,        wday;
         Day,         day;

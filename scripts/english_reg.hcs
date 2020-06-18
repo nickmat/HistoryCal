@@ -24,7 +24,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 */
 
-vocab er {
+lexicon er {
     name "English Monarchs";
     fieldname era;
     lang en;
@@ -80,7 +80,7 @@ vocab er {
     }
 }
 
-vocab on {
+lexicon on {
     name "Scheme names";
     fieldname scheme;
     lang en;
@@ -91,7 +91,7 @@ vocab on {
     }
 }
 
-vocab part {
+lexicon part {
     name "Part of Reign Year";
     fieldname part;
     lang en;
@@ -121,7 +121,7 @@ grammar er {
         y, "Hist-Year";
         s, Scheme;
     }
-    vocabs er, m, w, on, part;
+    lexicons er, m, w, on, part;
     format dmyr,  "(Day) |(Month:m:a)|, (Part:part)| (Year/Hist-Year) |(Reign:er)|, (Scheme:on:a)";
     format wdmyr, "(WDay:w:a) |(Day) |(Month:m:a)| (Year/Hist-Year) |(Reign:er)|, (Scheme:on:a)";
     format full {
@@ -130,6 +130,7 @@ grammar er {
     pref dmyr;
 }
 
+// This needs a complete rewrite
 scheme er {
     name "English Regnal";
     regnal {

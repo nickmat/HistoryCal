@@ -24,7 +24,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 */
 
-vocab jce {
+lexicon jce {
     name "Historic Era";
     fieldname ce;
     lang en;
@@ -39,7 +39,7 @@ grammar jce {
     fields year month day;
     optional wday, ce, ceyear;
     rank ce, ceyear, month, day;
-    vocabs m, w, jce;
+    lexicons m, w, jce;
     calculate Era {
         output @if(year<500,:ce,?);
         pseudo "[CE<500]";

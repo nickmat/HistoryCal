@@ -5,27 +5,15 @@ mark example_easter;
 let start = 1950;
 let finish = 1955;
 
-scheme J_EASTER {
-  name "Julian Easter Test";
-  base julian;
-  optional easter;
-}
-
-scheme G_EASTER {
-  name "Gregorian Easter Test";
-  base gregorian;
-  optional easter;
-}
-
 writeln "Easter Sunday for years " + start + " to " + finish + ":";
 writeln "";
 writeln "Catholic,  Orthodox";
 writeln "";
 
 do
-  let ge = date {g, start, 1, 1}[G_EASTER:easter];
-  let je = date {j, start, 1, 1}[J_EASTER:easter];
-  writeln string,"g:dmy+" ge + ", " + string,"g:dmy+" je ;
+  let ge = date {g, start, 1, 1}[g:easter];
+  let je = date {j, start, 1, 1}[j:easter];
+  writeln string."g:dmy+" ge + ", " + string."g:dmy+" je ;
   until start = finish;
   start += 1;
 loop

@@ -25,7 +25,7 @@
 */
 
 
-vocab w {
+lexicon w {
     name "Weekday names";
     fieldname wday;
     lang en;
@@ -41,7 +41,7 @@ vocab w {
     }
 }
 
-vocab ws {
+lexicon ws {
     name "Weekday names";
     fieldname wsday;
     lang en;

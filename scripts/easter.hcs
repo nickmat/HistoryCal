@@ -25,7 +25,7 @@
 */
 
 
-vocab rpt {
+lexicon rpt {
     name "Repeated Date";
     fieldname repeated;
     lang en;
@@ -58,7 +58,7 @@ grammar je {
         y,    Hist;
         r,    Rpt;
     }
-    vocabs m, w, rpt;
+    lexicons m, w, rpt;
     format dmy "(Day) |(Month:m:a) |(Year/Hist)| (Rpt:rpt:a)";
     format "dmy+" "(Day) |(Month:m) |(Year/Hist)| (Rpt:rpt)";
     format mdy "(Month:m:a) |(Day), |(Year/Hist)| (Rpt:rpt:a)";

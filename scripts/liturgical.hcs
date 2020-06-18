@@ -25,7 +25,7 @@
 */
 
 
-vocab lit {
+lexicon lit {
     name "Liturgy Weeks";
     fieldname litweek;
     lang en;
@@ -100,7 +100,7 @@ grammar lit {
     fields year month day;
     optional wsday, litweek;
     rank year, litweek, wsday;
-    vocabs m, ws, lit;
+    lexicons m, ws, lit;
     alias field {
         WDay,    wsday;
         Day,     day;
