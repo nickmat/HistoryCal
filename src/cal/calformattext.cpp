@@ -357,11 +357,14 @@ Field FormatText::get_field(
     const Record& record, const std::string& fname, const BoolVec* reveal ) const
 {
     int index = record.get_field_index( fname );
+    if ( index < 0 || ( reveal && size_t( index ) >= reveal->size() ) ) {
+        return f_invalid;
+    }
     Field field;
     if ( get_owner()->get_element( &field, record, fname, reveal ) ) {
         return field;
     }
-    if ( index < 0 || ( reveal && !( *reveal )[index] ) ) {
+    if ( reveal && !( *reveal )[index] ) {
         return f_invalid;
     }
     return record.get_field( index );
