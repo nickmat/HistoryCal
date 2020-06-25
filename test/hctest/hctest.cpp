@@ -36,7 +36,7 @@
 #include <fstream>
 #include <sstream>
 
-#define VERSION   "0.9.1"
+#define VERSION   "0.10.0"
 #define PROGNAME  "HistoryCalTest"
 #define COPYRIGHT  "2014 - 2020 Nick Matthews"
 
@@ -54,9 +54,10 @@ using namespace Cal;
 using namespace std;
 
 struct TestResults {
-    TestResults() : tests( 0 ), fails( 0 ) {}
+    TestResults() : tests( 0 ), fails( 0 ), skips( 0 ) {}
     int tests;
     int fails;
+    int skips;
 };
 
 string left_trim( const string& str )
@@ -87,13 +88,19 @@ string read_file( const string& name )
     return std::string( std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>() );
 }
 
-string run_test( Calendars* cal, const string& filename )
+string run_test( TestResults* totals, Calendars* cal, const string& filename )
 {
-    cal->run_script( "mark __:test:__; clear;" ); // All test should start clean;
     string script = read_file( filename );
+    size_t pos1 = script.find( "/*[SKIP]*/\n" );
+    if ( pos1 != string::npos ) {
+        totals->skips++;
+        return "";
+    }
+    cal->run_script( "mark __:test:__; clear;" ); // All test should start clean;
     string output = cal->run_script( script );
+    totals->tests++;
     string expected;
-    size_t pos1 = script.find( "/*[OUTPUT]\n" );
+    pos1 = script.find( "/*[OUTPUT]\n" );
     if( pos1 != string::npos ) {
         pos1 += 11;
         size_t pos2 = script.find( "\n[OUTPUT]*/", pos1 );
@@ -124,8 +131,7 @@ string run_full_test( TestResults* totals, Calendars* cal, const string& path )
     string result;
     get_filenames( filenames, path );
     for( size_t i = 0 ; i < filenames.size() ; i++ ) {
-        totals->tests++;
-        string error = run_test( cal, filenames[i] );
+        string error = run_test( totals, cal, filenames[i] );
         if( !error.empty() ) {
             totals->fails++;
             result += "\n\n" + error;
@@ -210,6 +216,7 @@ int main( int argc, char* argv[] )
 
     cout << "\n\nRun (" + to_string( totals.tests ) + ") "
         "  fail (" + to_string( totals.fails ) + ")"
+        "  skip (" + to_string( totals.skips ) + ")"
         "  Timed: " + to_string( dt ) + "s\n\n";
 
     return 0;
