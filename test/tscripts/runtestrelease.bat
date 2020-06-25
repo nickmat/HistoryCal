@@ -1,4 +1,4 @@
 @echo off
-..\..\build\vc-working\release\hctest.exe suite/stdlib -n suite/none
+..\..\build\vc-working\release\hctest.exe -s suite/stdlib -n suite/none
 
 pause
