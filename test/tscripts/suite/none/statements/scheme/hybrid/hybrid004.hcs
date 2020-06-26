@@ -1,7 +1,7 @@
 // none/statements/scheme/hybrid/hybrid004.hcs   Test file
 
 scheme J { base julian; }
-scheme JAP { shift J 1721142; } // j:dmy# 25 Mar 0
+scheme JAP { epoch 1721142 julian; } // j:dmy# 25 Mar 0
 
 // This creates an overlap so the dates 25 Mar 1752 .. 31 Dec 1752
 // are are repeated, first in the JAP scheme and then in the J scheme.

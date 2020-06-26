@@ -61,8 +61,8 @@ void TestShiftDay::setUp()
     m_cal = new Calendars;
     m_cal->run_script(
         "scheme \"jdn\" {name \"Julian Day Number\"; base jdn;}"
-        "scheme \"mjd\" {name \"Modified Julian Day\"; shift \"jdn\", 2400001;}"
-        "scheme \"rd\" {name \"Rata Die\"; shift \"jdn\", 1721425;}"
+        "scheme \"mjd\" {name \"Modified Julian Day\"; epoch 2400001 jdn;}"
+        "scheme \"rd\" {name \"Rata Die\"; epoch 1721425 jdn;}"
     );
 }
 

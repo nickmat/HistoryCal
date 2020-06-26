@@ -10,7 +10,7 @@ scheme G { base gregorian; grammar J; }
 
 grammar JG {
     inherit J;
-    fields scheme year month day;
+    fields year month day scheme;
     format dmys "(day) |(month) |(year) |(scheme)";
 }
 
@@ -31,7 +31,7 @@ writeln string,AY 2345678;
 
 /*[OUTPUT]
 
-0 1311 4 10
-1 1710 2 23
+1311 4 10 0
+1710 2 23 1
 
 [OUTPUT]*/

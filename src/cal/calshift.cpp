@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Name:        src/cal/calshift.cpp
  * Project:     Cal: Programmable Historical Calendar library.
- * Purpose:     Base Shift variant calendar implimentation.
+ * Purpose:     Base Epoch shifted variant calendar implimentation.
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     22nd September 2013
@@ -51,6 +51,7 @@ Shift::Shift( const Base* base, Field era ) : m_base(base), m_ok(false), Base()
 
 Shift::~Shift()
 {
+    delete m_base;
 }
 
 Field Shift::get_jdn( const Field* fields ) const

@@ -552,8 +552,6 @@ SHandle Script::do_create_scheme( const std::string& code )
                 expr( true ).get( name );
             } else if( token.get_str() == "base" ) {
                 base = do_base( true );
-            } else if( token.get_str() == "shift" ) {
-                base = do_base_shift();
             } else if ( token.get_str() == "hybrid" ) {
                 base = do_base_hybrid();
             } else if ( token.get_str() == "epoch" ) {
@@ -649,25 +647,6 @@ Base* Script::do_base( bool get )
         error( "Base name expected." );
     }
     return Scheme::create_base( bs, data );
-}
-
-Base* Script::do_base_shift()
-{
-    string scode = get_name_or_primary( true );
-    Scheme* sch = m_cals->get_scheme( scode );
-
-    if ( m_ts.current().type() == SToken::STT_Comma ) {
-        m_ts.next();
-    }
-    Field era = f_invalid;
-    expr( false ).get( era );
-
-    if ( !sch ) {
-        error( "Scheme \"" + scode + "\" not found." );
-        return nullptr;
-    }
-    const Base* sbase = sch->get_base();
-    return Scheme::create_base_shift( sbase, era );
 }
 
 Base* Script::do_base_epoch()

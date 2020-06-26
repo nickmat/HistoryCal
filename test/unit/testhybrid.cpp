@@ -65,7 +65,7 @@ void TestHybrid::setUp()
     m_cal = new Calendars;
     m_cal->run_script(
         "scheme \"j\" {name \"Julian\"; base julian;}\n"
-        "scheme \"ja\" {name \"Julian Annunciation\"; shift \"j\", 1721507;}\n"
+        "scheme \"ja\" {name \"Julian Annunciation\"; epoch 1721507 julian;}\n"
         "scheme \"g\" {name \"Gregorian\"; base gregorian;}\n"
 
         // This creates an overlap between the 3 and 13 incl. of sep 1752

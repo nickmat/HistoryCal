@@ -1,7 +1,7 @@
 // none/statements/scheme/hybrid/hybrid003.hcs   Test file
 
 scheme J { base julian; }
-scheme JA { shift J 1721507; } // j:dmy# 25 Mar 1
+scheme JA { epoch 1721507 julian; } // j:dmy# 25 Mar 1
 
 // This creates a gap so the dates 1 Jan 1752 .. 24 Mar 1752 are invalid
 // JA# 31 Dec 1751 is followed by J# 1 Jan 1752 (and not JA# 1 Jan 1751)

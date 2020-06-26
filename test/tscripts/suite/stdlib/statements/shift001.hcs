@@ -4,7 +4,7 @@ mark "JS-test";
 
 scheme JS {
     name "Julian September Start Calendar";
-    shift j, date,j:dmy "1 Sep 1";
+    epoch date,j:dmy "1 Sep 1" julian;
     grammar j_sh;
 }
 

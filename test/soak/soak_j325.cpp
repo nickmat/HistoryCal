@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     4th March 2014
- * Copyright:   Copyright (c) 2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 .. 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -60,8 +60,7 @@ void Soak_j325::setUp()
     m_sid = NULL;
     m_cal = new Calendars;
     m_cal->run_script(
-        "scheme \"jb\" {name \"Julian Base\"; base julian;}"
-        "scheme \"j325\" {name \"Julian Lady Day\"; shift \"jb\", 1721507;}"
+        "scheme \"j325\" {name \"Julian Lady Day\"; epoch 1721507 julian;}"
     );
     m_sid = m_cal->get_scheme( "j325" );
 }
