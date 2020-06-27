@@ -1,4 +1,5 @@
 // none/statements/grammar003.hcs   Test the grammar sub-statement calculate for output.
+/*[SKIP]*/ // Still working on this
 
 vocab FRM {
     name "Test Month names";

@@ -36,7 +36,7 @@
 #include <fstream>
 #include <sstream>
 
-#define VERSION   "0.10.0"
+#define VERSION   "0.10.1"
 #define PROGNAME  "HistoryCalTest"
 #define COPYRIGHT  "2014 - 2020 Nick Matthews"
 
@@ -93,7 +93,7 @@ string read_file( const string& name )
 string run_test( TestResults* totals, Calendars* cal, const string& filename )
 {
     string script = read_file( filename );
-    size_t pos1 = script.find( "\n/*[SKIP]*/\n" );
+    size_t pos1 = script.find( "\n/*[SKIP]*/" );
     if ( pos1 != string::npos ) {
         totals->skips++;
         if ( totals->show_skips ) {

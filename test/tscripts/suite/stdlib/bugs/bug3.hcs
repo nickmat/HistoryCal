@@ -1,4 +1,5 @@
 // bug3.hcs Test file to test bug
+/*[SKIP]*/ // Don't do regal schemes at the moment
 
 write string,sr:dmyr (2091460 ~ 2095262);
 

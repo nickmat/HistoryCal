@@ -1,4 +1,5 @@
 // none/schemes/french001.hcs   Test French Rep. scheme.
+/*[SKIP]*/ // Still working on this
 
 vocab frm {
     name "Month names";

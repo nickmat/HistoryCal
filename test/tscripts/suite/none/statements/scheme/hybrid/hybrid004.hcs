@@ -1,4 +1,5 @@
 // none/statements/scheme/hybrid/hybrid004.hcs   Test file
+/*[SKIP]*/ // Still working on this
 
 scheme J { base julian; }
 scheme JAP { epoch 1721142 julian; } // j:dmy# 25 Mar 0
