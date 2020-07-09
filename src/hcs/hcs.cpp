@@ -25,6 +25,8 @@
 
 */
 
+#include "hcsresource.h"
+
 #include <cal/calendars.h>
 #include <utf8/utf8api.h>
 
