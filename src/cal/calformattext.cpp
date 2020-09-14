@@ -177,8 +177,10 @@ string FormatText::range_to_string( const Base* base, Range range ) const
                 xref[i] = base->get_fieldname_index( ranknames[i] );
             }
         }
-
         BoolVec reveal = rec1.mark_balanced_fields( rec2, xref );
+        for ( size_t i = xref.size(); i < ranknames.size(); i++ ) {
+            reveal.push_back( true );
+        }
         str1 = get_revealed_output( rec1, &reveal );
         str2 = get_revealed_output( rec2, &reveal );
     } else {
