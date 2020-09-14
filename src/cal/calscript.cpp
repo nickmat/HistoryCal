@@ -1903,7 +1903,10 @@ SValue Script::function_call()
         value.set_error( "Function name expected." );
         return value;
     }
-    string funcode = token.get_str();
+    string name = token.get_str();
+    if ( name == "read" ) {
+        return at_read();
+    }
     token = m_ts.next();
     vector<SValue> args;
     if ( token.type() == SToken::STT_Lbracket ) {
@@ -1923,9 +1926,9 @@ SValue Script::function_call()
         }
         token = m_ts.next();
     }
-    Function* fun = m_cals->get_function( funcode );
+    Function* fun = m_cals->get_function( name );
     if ( fun == nullptr ) {
-        value.set_error( "Function " + funcode + " not found." );
+        value.set_error( "Function " + name + " not found." );
         return value;
     }
 
@@ -1956,6 +1959,45 @@ SValue Script::function_call()
     m_ts = prev_ts;
 
     return value;
+}
+
+// Evaluate the built-in read function:
+// @read( prompt = "" )
+// If prompt is given, it is output to stdout first,
+// then input is read from stdin until a newline.
+// The result is always a string.
+
+SValue Cal::Script::at_read()
+{
+    // TODO: Create function to read in the argumente and returns a SValueVec.
+    SValue value;
+    SToken token = m_ts.next();
+    SValueVec args;
+    if ( token.type() == SToken::STT_Lbracket ) {
+        for ( ;; ) {
+            SValue arg = expr( true );
+            args.push_back( arg );
+            token = m_ts.current();
+            if ( token.type() == SToken::STT_Rbracket ||
+                token.type() == SToken::STT_End )
+            {
+                break;
+            }
+            if ( token.type() != SToken::STT_Comma ) {
+                value.set_error( "',' expected." );
+                return value;
+            }
+        }
+        token = m_ts.next();
+    }
+
+    SValue prompt, file;
+    if ( args.size() > 0 && args[0].type() == SValue::SVT_Str ) {
+        std::cout << args[0].get_str();
+    }
+    string input;
+    std::getline(std::cin,input);
+    return input;
 }
 
 SValue Script::get_value_var( const string& name )

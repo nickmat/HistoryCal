@@ -103,6 +103,7 @@ namespace Cal {
         SValue convert_cast();
         SValue error_cast();
         SValue function_call();
+        SValue at_read();
 
         SValue get_value_var( const std::string& name );
         SValue scheme_property();
