@@ -102,6 +102,7 @@ namespace Cal {
         SValue record_cast();
         SValue convert_cast();
         SValue error_cast();
+        SValueVec get_args( SValue& value );
         SValue function_call();
         SValue at_read();
 

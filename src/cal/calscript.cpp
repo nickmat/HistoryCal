@@ -1895,20 +1895,10 @@ SValue Script::error_cast()
     return value;
 }
 
-SValue Script::function_call()
+SValueVec Script::get_args( SValue& value )
 {
-    SValue value;
     SToken token = m_ts.next();
-    if ( token.type() != SToken::STT_Name ) {
-        value.set_error( "Function name expected." );
-        return value;
-    }
-    string name = token.get_str();
-    if ( name == "read" ) {
-        return at_read();
-    }
-    token = m_ts.next();
-    vector<SValue> args;
+    SValueVec args;
     if ( token.type() == SToken::STT_Lbracket ) {
         for ( ;; ) {
             SValue arg = expr( true );
@@ -1921,10 +1911,30 @@ SValue Script::function_call()
             }
             if ( token.type() != SToken::STT_Comma ) {
                 value.set_error( "',' expected." );
-                return value;
+                return SValueVec();
             }
         }
         token = m_ts.next();
+    }
+    return args;
+}
+
+SValue Script::function_call()
+{
+    SValue value;
+    SToken token = m_ts.next();
+    if ( token.type() != SToken::STT_Name ) {
+        value.set_error( "Function name expected." );
+        return value;
+    }
+    string name = token.get_str();
+    if ( name == "read" ) {
+        return at_read();
+    }
+
+    SValueVec args = get_args( value );
+    if ( value.is_error() ) {
+        return value;
     }
     Function* fun = m_cals->get_function( name );
     if ( fun == nullptr ) {
@@ -1969,29 +1979,11 @@ SValue Script::function_call()
 
 SValue Cal::Script::at_read()
 {
-    // TODO: Create function to read in the argumente and returns a SValueVec.
     SValue value;
-    SToken token = m_ts.next();
-    SValueVec args;
-    if ( token.type() == SToken::STT_Lbracket ) {
-        for ( ;; ) {
-            SValue arg = expr( true );
-            args.push_back( arg );
-            token = m_ts.current();
-            if ( token.type() == SToken::STT_Rbracket ||
-                token.type() == SToken::STT_End )
-            {
-                break;
-            }
-            if ( token.type() != SToken::STT_Comma ) {
-                value.set_error( "',' expected." );
-                return value;
-            }
-        }
-        token = m_ts.next();
+    SValueVec args = get_args( value );
+    if ( value.is_error() ) {
+        return value;
     }
-
-    SValue prompt, file;
     if ( args.size() > 0 && args[0].type() == SValue::SVT_Str ) {
         std::cout << args[0].get_str();
     }
