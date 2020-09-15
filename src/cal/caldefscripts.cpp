@@ -33,8 +33,7 @@
 
 Cal::ScriptModule Cal::cal_default_scripts[] = {
     { "stdlib",  /* stdlib.hcs */
- "mark \"__:stdlib:__\";\n"
- "function if(c,a,b) { if c result=a; else result=b; endif }\n" },
+ "mark \"__:stdlib:__\";\n" },
     { "base",  /* base.hcs */
  "lexicon w {\n"
  "name \"Weekday names\";\n"

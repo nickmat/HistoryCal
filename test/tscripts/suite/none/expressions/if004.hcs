@@ -1,0 +1,10 @@
+// none/expressions/if004.hcs - Test @if 1st arg error.
+
+writeln "";
+writeln @if(0,true,false);
+
+/*[OUTPUT]
+
+Error (4): 1st argument of @if must be a boolean.
+
+[OUTPUT]*/

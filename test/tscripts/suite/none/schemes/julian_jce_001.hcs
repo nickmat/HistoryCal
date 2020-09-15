@@ -1,7 +1,5 @@
 // none/schemes/julian_jce_001.hcs Original default version of jce
 
-function if(c,a,b) { if c result=a; else result=b; endif }
-
 vocab w {
     name "Weekday names";
     fieldname wday;

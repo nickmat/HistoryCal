@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     31 January 2018
- * Copyright:   Copyright (c) 2018, Nick Matthews.
+ * Copyright:   Copyright (c) 2018..2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -27,7 +27,5 @@
 // Add mark so default library can be removed from memory.
 mark "__:stdlib:__";
 
-// An arithmetic 'if' expression, result is 'a' if 'c' is true, or 'b' if 'c' is false.
-function if(c,a,b) { if c result=a; else result=b; endif }
 
 // End of scripts/stdlib.hcs file

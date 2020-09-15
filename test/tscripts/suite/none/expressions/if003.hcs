@@ -1,0 +1,10 @@
+// none/expressions/if003.hcs - Test @if has 3 args error.
+
+writeln "";
+writeln @if(true);
+
+/*[OUTPUT]
+
+Error (4): @if requires 3 arguments.
+
+[OUTPUT]*/

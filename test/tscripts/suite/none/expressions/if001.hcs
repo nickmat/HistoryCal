@@ -1,4 +1,4 @@
-// functions/if001.hcs - Test @if function. Works with if statement.
+// none/expressions/if001.hcs - Test @if function works with if statement.
 
 writeln "";
 if @if(true,true,false)

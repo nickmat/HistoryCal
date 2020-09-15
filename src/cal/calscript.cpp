@@ -1248,6 +1248,13 @@ bool Script::do_function()
         error( "Function name missing." );
         return false;
     }
+    const char* builtin[] = { "if", "read" };
+    for ( auto bi : builtin ) {
+        if ( code.compare( bi ) == 0 ) {
+            error( "Can not redefine built-in function \"@" + string(bi) + "\"." );
+            return false;
+        }
+    }
     if ( m_cals->get_function( code ) != NULL ) {
         error( "function \"" + code + "\" already exists." );
         return false;
@@ -1928,7 +1935,9 @@ SValue Script::function_call()
         return value;
     }
     string name = token.get_str();
-    if ( name == "read" ) {
+    if ( name == "if" ) {
+        return at_if();
+    } else if ( name == "read" ) {
         return at_read();
     }
 
@@ -1971,12 +1980,38 @@ SValue Script::function_call()
     return value;
 }
 
-// Evaluate the built-in read function:
+// Evaluate the built-in @if function:
+// @if( c, a, b )
+// An arithmetic 'if' expression,
+// result is 'a' if 'c' is true, or 'b' if 'c' is false.
+// Equivalent to the statement:
+// function if(c,a,b) { if c result=a; else result=b; endif }
+SValue Cal::Script::at_if()
+{
+    SValue value;
+    SValueVec args = get_args( value );
+    if ( value.is_error() ) {
+        return value;
+    }
+    if ( args.size() != 3 ) {
+        value.set_error( "@if requires 3 arguments." );
+        return value;
+    }
+    if ( args[0].type() != SValue::SVT_Bool ) {
+        value.set_error( "1st argument of @if must be a boolean." );
+        return value;
+    }
+    if ( args[0].get_bool() ) {
+        return args[1];
+    }
+    return args[2];
+}
+
+// Evaluate the built-in @read function:
 // @read( prompt = "" )
 // If prompt is given, it is output to stdout first,
 // then input is read from stdin until a newline.
 // The result is always a string.
-
 SValue Cal::Script::at_read()
 {
     SValue value;

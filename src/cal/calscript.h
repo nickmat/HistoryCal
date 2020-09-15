@@ -104,6 +104,7 @@ namespace Cal {
         SValue error_cast();
         SValueVec get_args( SValue& value );
         SValue function_call();
+        SValue at_if();
         SValue at_read();
 
         SValue get_value_var( const std::string& name );
