@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2013
- * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 .. 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCal is free software: you can redistribute it and/or modify
@@ -77,6 +77,12 @@ private:
         Cal::SchemeFormatInfo  m_output_info;
         bool             m_show_interm;
         bool             m_show_count;
+};
+
+class HcInOut : public Cal::InOut
+{
+public:
+    std::string get_input( const std::string& prompt ) override;
 };
 
 #endif // SRC_HCAL_HCFRAME_H_GUARD

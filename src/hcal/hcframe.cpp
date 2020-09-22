@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2013
- * Copyright:   Copyright (c) 2013 ~ 2017, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 .. 2020, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCal is free software: you can redistribute it and/or modify
@@ -81,7 +81,7 @@ wxString RangesToString( RangeList rlist )
  */
 HcFrame::HcFrame(
     const wxString& title, const wxPoint& pos, const wxSize& size, long style )
-    : m_cal(Init_script_default), m_from("g"), m_to("g"),
+    : m_cal(Init_script_default, new HcInOut ), m_from("g"), m_to("g"),
     m_show_interm(false), m_show_count(false),
     hcFbFrame( (wxFrame*) NULL, wxID_ANY, title, pos, size, style )
 {
@@ -433,5 +433,16 @@ void HcFrame::CalculateOutput()
     m_textOutput->SetValue( output );
 }
 
-// End of src/hcal/hcframe.cpp file
+string HcInOut::get_input( const string& prompt )
+{
+    wxTextEntryDialog dialog(
+        nullptr, Utf8ToWxStr( prompt ),
+        _( "HistoryCal Script Input" ), "", wxOK | wxCANCEL
+    );
+    if ( dialog.ShowModal() == wxID_OK ) {
+        return WxStrToUtf8( dialog.GetValue() );
+    }
+    return "";
+}
 
+// End of src/hcal/hcframe.cpp file
