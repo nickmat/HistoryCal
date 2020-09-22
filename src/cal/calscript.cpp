@@ -53,7 +53,7 @@ using std::vector;
 
 STokenStream* Script::s_current_ts = nullptr;
 
-Script::Script( Calendars* cals, std::istream& in, std::ostream& out ) 
+Script::Script( Calendars* cals, std::istream& in, std::ostream& out )
     : m_cals(cals), m_ts(in,out), m_out(&out), m_err(&out),
     m_jdn(f_invalid), m_base(nullptr)
 {
@@ -2012,19 +2012,18 @@ SValue Cal::Script::at_if()
 // If prompt is given, it is output to stdout first,
 // then input is read from stdin until a newline.
 // The result is always a string.
-SValue Cal::Script::at_read()
+SValue Script::at_read()
 {
     SValue value;
     SValueVec args = get_args( value );
     if ( value.is_error() ) {
         return value;
     }
+    string prompt;
     if ( args.size() > 0 && args[0].type() == SValue::SVT_Str ) {
-        std::cout << args[0].get_str();
+        prompt = args[0].get_str();
     }
-    string input;
-    std::getline(std::cin,input);
-    return input;
+    return m_cals->read_input( prompt );
 }
 
 SValue Script::get_value_var( const string& name )

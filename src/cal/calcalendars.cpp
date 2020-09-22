@@ -52,7 +52,8 @@ using namespace Cal;
 using std::string;
 
 
-Calendars::Calendars( Init_schemes init )
+Calendars::Calendars( Init_schemes init, InOut* inout )
+    : m_inout( inout )
 {
     Mark* mark = new Mark( "" );
     m_marks.push_back( mark );
@@ -72,6 +73,9 @@ Calendars::Calendars( Init_schemes init )
         }
         break;
     }
+    if ( !m_inout ) {
+        m_inout = new InOut;
+    }
 }
 
 Calendars::~Calendars()
@@ -81,6 +85,7 @@ Calendars::~Calendars()
     }
     while ( pop_store() );
     delete m_store;
+    delete m_inout;
 }
 
 const char* Calendars::version()
@@ -695,6 +700,22 @@ void Calendars::evaluate_record(
     Script scr( this, iss, oss );
     scr.evaluate_record( record, fname, field );
     m_last_error = oss.str();
+}
+
+string Calendars::read_input( const string& prompt ) const
+{
+    return m_inout->get_input( prompt );
+}
+
+//================[InOut class base]====================
+
+string InOut::get_input( const string& prompt ) {
+    if ( !prompt.empty() ) {
+        std::cout << prompt;
+    }
+    string result;
+    std::getline( std::cin, result );
+    return result;
 }
 
 // End of src/cal/calcalendars.cpp file

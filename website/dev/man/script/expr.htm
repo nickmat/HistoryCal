@@ -443,6 +443,10 @@
  but in this case the function result (if one is assigned) is ignored.
  It can also be called in an expression using the at '@' operator.
 </p>
+<h4>Built-in Functions</h4>
+<p>
+ There are a number of built-in functions that are always available.
+</p>
 
 <table class='basic'>
 <tr><th>Example</th><th>Result</th></tr><!-- See function008.hcs test file -->
@@ -455,6 +459,32 @@
 }</td><td class='example'></td></tr>
  <tr><td class='example'>4 * @power(2,4) + 10</td><td class='example'>74</td></tr>
 </table>
+
+<h4>@if( comp, t, f ) Built-in Function</h4>
+<p>
+ The @if function behaves similar to the C language ? : tertiary operator.
+ If the comp argument is true the result is the t argument,
+ otherwise the result is the f argument.
+ The function is equivalent to the following statement.
+</p>
+<table class='code'>
+<tr><td
+>function if( comp, t, f ) { if comp result = t; else result = f; endif }
+</td></tr>
+</table>
+
+<h4>@read( prompt = "" ) Built-in Function</h4>
+<p>
+ The current version is limited to writing and reading from the standard in/out streams.
+</p>
+<p>
+ If given, the prompt is written to standard out.
+ Then the standard is stream is read up to the next new line.
+</p>
+<p>
+ The result of the function is always a string value.
+ Use the convert cast to read a field value.
+</p>
 
 <h3>Type Conversions</h3>
 <p>

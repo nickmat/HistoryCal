@@ -37,13 +37,14 @@ namespace Cal {
     class FormatText;
     class FormatIso;
     class FormatUnit;
+    class InOut;
 
     enum Init_schemes { Init_script_none, Init_script_default };
 
     class Calendars
     {
     public:
-        DLLIMPEXP_CAL Calendars( Init_schemes = Init_script_none );
+        DLLIMPEXP_CAL Calendars( Init_schemes = Init_script_none, InOut* inout = nullptr );
         DLLIMPEXP_CAL ~Calendars();
 
         DLLIMPEXP_CAL static const char* version();
@@ -110,6 +111,7 @@ namespace Cal {
             const std::string& expression, const Record& record, const BoolVec* reveal );
         void evaluate_record(
             const std::string& expression, Record* record, const std::string& fname, Field field );
+        std::string read_input( const std::string& prompt ) const;
 
     private:
         SHandleMap   m_shandles;
@@ -121,6 +123,17 @@ namespace Cal {
         ScriptStore* m_store;
         std::string  m_init_error;
         std::string  m_last_error;
+        InOut*       m_inout;
+    };
+
+    //================[InOut class base]====================
+
+    class InOut {
+    public:
+        DLLIMPEXP_CAL InOut() {}
+        DLLIMPEXP_CAL virtual ~InOut() {}
+
+        DLLIMPEXP_CAL virtual std::string get_input( const std::string& prompt );
     };
 
 }
