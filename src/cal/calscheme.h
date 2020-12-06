@@ -57,6 +57,7 @@ namespace Cal {
         std::string get_input_fcode() const;
         std::string get_output_fcode() const;
         const Base* get_base() const { return m_base; }
+        const Grammar* get_grammar() const { return m_base->get_grammar(); }
         Format* get_output_format( const std::string& fcode ) const;
 
         void set_code( const std::string& code ) { m_code = code; }

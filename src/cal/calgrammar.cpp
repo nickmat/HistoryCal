@@ -376,6 +376,11 @@ string Grammar::get_input_format( const string& code ) const
     return "";
 }
 
+bool Grammar::has_input_format() const
+{
+    return has_format( INPUT_INFO );
+}
+
 void Grammar::get_input_formats( SchemeFormatInfo* info, const std::string& cur_code ) const
 {
     if( info != NULL ) {
@@ -383,6 +388,11 @@ void Grammar::get_input_formats( SchemeFormatInfo* info, const std::string& cur_
         info->current = 0;
         get_format_info( info, cur_code, INPUT_INFO );
     }
+}
+
+bool Grammar::has_output_format() const
+{
+    return has_format( OUTPUT_INFO );
 }
 
 void Grammar::get_output_formats( SchemeFormatInfo* info, const std::string& cur_code ) const
@@ -550,6 +560,24 @@ int Grammar::get_rank_field_index( const string& fieldname ) const
         cnt++;
     }
     return -1;
+}
+
+bool Grammar::has_format( INFO type ) const
+{
+    for ( auto pair : m_formats ) {
+        Format* fmt = pair.second;
+        if ( fmt->get_style() == FMT_STYLE_Hide ) {
+            continue;
+        }
+        string str = type == INPUT_INFO ? fmt->get_user_input_str() : fmt->get_user_output_str();
+        if ( !str.empty() ) {
+            return true;
+        }
+    }
+    if ( m_inherit ) {
+        return m_inherit->has_format( type );
+    }
+    return false;
 }
 
 void Grammar::get_format_info( SchemeFormatInfo* info, const string& cur_code, INFO type ) const

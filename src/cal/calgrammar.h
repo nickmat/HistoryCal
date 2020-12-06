@@ -76,7 +76,9 @@ namespace Cal {
         std::string get_element_pseudo_name( const std::string& fname ) const;
         Unit get_unit_alias( const std::string& fname ) const;
         std::string get_input_format( const std::string& code ) const;
+        bool has_input_format() const;
         void get_input_formats( SchemeFormatInfo* info, const std::string& cur_code ) const;
+        bool has_output_format() const;
         void get_output_formats( SchemeFormatInfo* info, const std::string& cur_code ) const;
         Format* get_format( const std::string& code ) const;
         std::string get_pref_input_fcode() const { return m_pref_input_fcode; }
@@ -110,6 +112,7 @@ namespace Cal {
 
     private:
         enum INFO { INPUT_INFO, OUTPUT_INFO };
+        bool has_format( INFO type ) const;
         void get_format_info( SchemeFormatInfo* info, const std::string& cur_code, INFO type ) const;
 
         Calendars*                 m_cals;

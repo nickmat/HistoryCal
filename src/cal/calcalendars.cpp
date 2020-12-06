@@ -141,6 +141,10 @@ SchemeList Calendars::get_scheme_list() const
         sdata.code = it->first;
         sdata.handle = it->second;
         sdata.name = sdata.handle->get_name();
+        const Grammar* gmr = sdata.handle->get_grammar();
+        assert( gmr != nullptr );
+        sdata.has_in_format = gmr->has_input_format();
+        sdata.has_out_format = gmr->has_output_format();
         slist.push_back( sdata );
     }
     return slist;

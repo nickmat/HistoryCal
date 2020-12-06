@@ -52,9 +52,13 @@ namespace Cal {
 
     struct SchemeData
     {
+        SchemeData() : handle(nullptr), has_in_format( false ), has_out_format( false ) {}
+
         std::string code;
         std::string name;
         SHandle     handle;
+        bool        has_in_format;
+        bool        has_out_format;
     };
     typedef std::vector<SchemeData> SchemeList;
 

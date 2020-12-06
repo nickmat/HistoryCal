@@ -302,15 +302,19 @@ void HcFrame::UpdateSchemeLists()
     for( size_t i = 0 ; i < m_schemes.size() ; i++ ) {
         wxString entry = Utf8ToWxStr( m_schemes[i].code ) + "#  "
             + Utf8ToWxStr( m_schemes[i].name );
-        m_comboBoxInput->Append( entry );
-        if( m_schemes[i].code == m_from ) {
-            m_comboBoxInput->SetSelection( i );
-            from_found = true;
+        if ( m_schemes[i].has_in_format ) {
+            m_comboBoxInput->Append( entry );
+            if ( m_schemes[i].code == m_from ) {
+                m_comboBoxInput->SetSelection( i );
+                from_found = true;
+            }
         }
-        m_comboBoxOutput->Append( entry );
-        if( m_schemes[i].code == m_to ) {
-            m_comboBoxOutput->SetSelection( i );
-            to_found = true;
+        if ( m_schemes[i].has_out_format ) {
+            m_comboBoxOutput->Append( entry );
+            if ( m_schemes[i].code == m_to ) {
+                m_comboBoxOutput->SetSelection( i );
+                to_found = true;
+            }
         }
     }
     // Ensure m_from and m_to have valid scheme codes.
