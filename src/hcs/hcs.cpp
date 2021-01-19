@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     18th May 2014
- * Copyright:   Copyright (c) 2014 .. 2020, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 .. 2021, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCalScript is free software: you can redistribute it and/or modify
@@ -407,6 +407,7 @@ int main( int argc, char* argv[] )
     } else {
         cal = new Calendars;
     }
+    cal->run_script("let answer = null;");
 
     // Run script files if given.
     for( size_t i = 0 ; i < filenames.size() ; i++ ) {
@@ -464,7 +465,7 @@ int main( int argc, char* argv[] )
                 }
             } else {
                 if ( !terminated_semicolon( cmnd ) && !cmnd.empty() ) {
-                    cmnd = "write " + cmnd + "//*/\n;";
+                    cmnd = "let answer = " + cmnd + "; write answer//*/\n;";
                 }
             }
             string output = cal->run_script( cmnd );
