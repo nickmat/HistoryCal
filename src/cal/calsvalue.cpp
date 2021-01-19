@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     24th June 2014
- * Copyright:   Copyright (c) 2014 ~ 2020, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 .. 2021, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -418,12 +418,18 @@ void SValue::equal( const SValue& value )
                 }
             }
             break;
+        case SVT_Null:
+            result = true;
+            break;
         default:
             set_error( "Type cannot be compared." );
             return;
         }
         set_bool( result );
         return;
+    }
+    if (m_type == SVT_Null || value.type() == SVT_Null) {
+        return set_bool(false);
     }
     set_error( "Must compare same types." );
 }
@@ -452,6 +458,9 @@ void SValue::greater_than( const SValue& value )
             return;
         case SVT_Record:
             set_error( "Can only compare a Record for equal or not equal." );
+            return;
+        case SVT_Null:
+            set_error( "Can only compare a null value for equal or not equal." );
             return;
         default:
             set_error( "Type cannot be compared." );
@@ -487,6 +496,9 @@ void SValue::less_than( const SValue& value )
             return;
         case SVT_Record:
             set_error( "Can only compare a Record for equal or not equal." );
+            return;
+        case SVT_Null:
+            set_error( "Can only compare a null value for equal or not equal." );
             return;
         default:
             set_error( "Type cannot be compared." );

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     7th May 2014
- * Copyright:   Copyright (c) 2014 ~ 2020, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 .. 2021, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -2033,6 +2033,9 @@ SValue Script::get_value_var( const string& name )
     }
     if( name == "false" ) {
         return SValue( false );
+    }
+    if ( name == "null" ) {
+        return SValue();
     }
     if( name == "invalid" ) {
         return SValue( f_invalid );
