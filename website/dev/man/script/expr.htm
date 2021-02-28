@@ -576,14 +576,17 @@
 
 <h4>Cast convert (lexicons)</h4>
 <p>
- The convert cast uses a supplied lexicon definition to convert a field to a string
- and a string to a field. Using the cast on any other type results in an error.
+ The convert cast converts between a string and a field.
+ If a lexicon code is given with the cast then that lexicon is used to provide the conversion.
+ Using the cast on any type other than a field or string results in an error.
 </p>
 <table class='basic'>
 <tr><th>Example</th><th>Result</th></tr>
  <tr><td class='example'>convert.w 7</td><td class='example'>"Sunday"</td></tr>
  <tr><td class='example'>convert.ws:a 7</td><td class='example'>"Sat"</td></tr>
  <tr><td class='example'>convert.w "wed"</td><td class='example'>3</td></tr>
+ <tr><td class='example'>convert "10"</td><td class='example'>10</td></tr>
+ <tr><td class='example'>convert 10</td><td class='example'>"10"</td></tr>
 </table>
 
 <h4>Cast error</h4>
@@ -616,10 +619,10 @@
 <tr><td class='code'>!</td><td>Complement</td><td class='example'><b>!</b>rlist_value</td><td class='example'>rlist_value</td></tr>
 <tr><td class='code'>not</td><td>Logical not</td><td class='example'><b>not </b>bool_value</td><td class='example'>bool_value</td></tr>
 <tr><td class='code'>-</td><td>Unary minus</td><td class='example'><b>-</b>number_value</td><td class='example'>number_value</td></tr>
-<tr><td class='code'>date</td><td>Date cast</td><td class='example'><b>date,sig</b> string_value<br /><b>date</b> record_value</td><td class='example'>date_value</td></tr>
-<tr><td class='code'>record</td><td>Record cast</td><td class='example'><b>record,sig</b> string_value<br /><b>record</b> field_value</td><td class='example'>record_value</td></tr>
-<tr><td class='code'>string</td><td>String cast</td><td class='example'><b>string,sig</b> date_value<br /><b>string,sig</b> record_value</td><td class='example'>string_value</td></tr>
-<tr><td class='code'>convert</td><td>Lexicon cast</td><td class='example'><b>convert,sig</b> field_value<br /><b>convert,sig</b> string_value</td><td class='example'>string_value<br />field_value</td></tr>
+<tr><td class='code'>date</td><td>Date cast</td><td class='example'><b>date.sig</b> string_value<br /><b>date</b> record_value</td><td class='example'>date_value</td></tr>
+<tr><td class='code'>record</td><td>Record cast</td><td class='example'><b>record.sig</b> string_value<br /><b>record</b> field_value</td><td class='example'>record_value</td></tr>
+<tr><td class='code'>string</td><td>String cast</td><td class='example'><b>string.sig</b> date_value<br /><b>string.sig</b> record_value</td><td class='example'>string_value</td></tr>
+<tr><td class='code'>convert</td><td>Lexicon cast</td><td class='example'><b>convert.sig</b> field_value<br /><b>convert.sig</b> string_value</td><td class='example'>string_value<br />field_value</td></tr>
 <tr><td class='code'>error</td><td>Error cast</td><td class='example'><b>error</b> string_value</td><td class='example'>error_value</td></tr>
 <tr><td class='code'>@</td><td>Function</td><td class='example'><b>@name</b><br /><b>@name(</b>expr, ...<b>)</b></td><td class='example'>value</td></tr>
 <tr><td class='code' colspan='4'></td></tr>
