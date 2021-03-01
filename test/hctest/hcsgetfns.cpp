@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     20th June 2014
- * Copyright:   Copyright (c) 2014 - 2019, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 .. 2021, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCalTest is free software: you can redistribute it and/or modify
@@ -45,15 +45,16 @@ CheckFile check_file( const std::string& name )
     DIR* dir = opendir( name.c_str() );
     if ( dir != nullptr ) {
         closedir( dir );
-        return CF_dir;
+        return CheckFile::dir;
     }
 
-    FILE* file;
-    if ( fopen_s( &file, name.c_str(), "r" ) == 0 ) {
+    FILE* file = nullptr;
+    fopen_s( &file, name.c_str(), "r" );
+    if ( file != nullptr ) {
         fclose( file );
-        return CF_file;
+        return CheckFile::file;
     }
-    return CF_none;
+    return CheckFile::none;
 }
 
 void get_filenames( vector<string>& vec, const string& path )

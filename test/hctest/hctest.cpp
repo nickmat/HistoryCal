@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     18th May 2014
- * Copyright:   Copyright (c) 2014 ~ 2020, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 .. 2021, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCalTest is free software: you can redistribute it and/or modify
@@ -36,9 +36,9 @@
 #include <fstream>
 #include <sstream>
 
-#define VERSION   "0.10.1"
+#define VERSION   "0.10.2"
 #define PROGNAME  "HistoryCalTest"
-#define COPYRIGHT  "2014 - 2020 Nick Matthews"
+#define COPYRIGHT  "2014..2021 Nick Matthews"
 
 const char* g_version = VERSION;
 const char* g_progName = PROGNAME;
@@ -208,13 +208,13 @@ int main( int argc, char* argv[] )
             continue;
         }
         CheckFile cf = check_file( arg );
-        if ( !cal && cf != CF_none ) {
+        if ( !cal && cf != CheckFile::none ) {
             cal = cal_stdlib = new Calendars( Init_script_default );
         }
-        if ( cf == CF_file ) {
+        if ( cf == CheckFile::file ) {
             result += run_test_script( &totals, cal, arg );
             continue;
-        } else if ( cf == CF_dir ) {
+        } else if ( cf == CheckFile::dir ) {
             result += run_full_test( &totals, cal, arg );
             continue;
         }
