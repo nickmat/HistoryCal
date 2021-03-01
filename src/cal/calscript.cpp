@@ -768,7 +768,7 @@ bool Script::do_regnal_era( RegnalEra& era, StringVec& fieldnames )
     }
     Range range( f_minimum, f_maximum );
     StringVec matchs;
-    SHandle sch;
+    SHandle sch = nullptr;
     bool local = true;
     for(;;) {
         SToken token = m_ts.next();
@@ -800,7 +800,7 @@ bool Script::do_regnal_era( RegnalEra& era, StringVec& fieldnames )
             }
         }
     }
-    if ( sch == NULL ) {
+    if ( sch == nullptr ) {
         error( "Unable to create scheme." );
         return false;
     }
