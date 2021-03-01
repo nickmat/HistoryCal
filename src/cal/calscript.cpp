@@ -1930,23 +1930,25 @@ SValue Script::function_call()
 {
     SValue value;
     SToken token = m_ts.next();
-    if ( token.type() != SToken::STT_Name ) {
+    if( token.type() != SToken::STT_Name ) {
         value.set_error( "Function name expected." );
         return value;
     }
     string name = token.get_str();
-    if ( name == "if" ) {
+    if( name == "if" ) {
         return at_if();
-    } else if ( name == "read" ) {
+    } else if( name == "read" ) {
         return at_read();
+    } else if( name == "phrase" ) {
+        return at_phrase();
     }
 
     SValueVec args = get_args( value );
-    if ( value.is_error() ) {
+    if( value.is_error() ) {
         return value;
     }
     Function* fun = m_cals->get_function( name );
-    if ( fun == nullptr ) {
+    if( fun == nullptr ) {
         value.set_error( "Function " + name + " not found." );
         return value;
     }
@@ -1958,8 +1960,8 @@ SValue Script::function_call()
     m_cals->push_store();
 
     store()->set( "result", SValue() );
-    for ( size_t i = 0; i < fun->get_arg_size(); i++ ) {
-        if ( i < args.size() ) {
+    for( size_t i = 0; i < fun->get_arg_size(); i++ ) {
+        if( i < args.size() ) {
             store()->set( fun->get_arg_name( i ), args[i] );
         } else {
             store()->set( fun->get_arg_name( i ), fun->get_default_value( i ) );
@@ -1967,8 +1969,8 @@ SValue Script::function_call()
     }
 
     m_ts.next();
-    while ( statement() ) {
-        if ( m_ts.next().type() == SToken::STT_End ) {
+    while( statement() ) {
+        if( m_ts.next().type() == SToken::STT_End ) {
             break;
         }
     }
@@ -1986,7 +1988,7 @@ SValue Script::function_call()
 // result is 'a' if 'c' is true, or 'b' if 'c' is false.
 // Equivalent to the statement:
 // function if(c,a,b) { if c result=a; else result=b; endif }
-SValue Cal::Script::at_if()
+SValue Script::at_if()
 {
     SValue value;
     SValueVec args = get_args( value );
@@ -2024,6 +2026,28 @@ SValue Script::at_read()
         prompt = args[0].get_str();
     }
     return m_cals->read_input( prompt );
+}
+
+SValue Script::at_phrase()
+{
+    SValue value;
+    SValueVec args = get_args( value );
+    if( value.is_error() ) {
+        return value;
+    }
+    if( args.size() != 1 || args[0].type() != SValue::SVT_Str ) {
+        value.set_error( "@phrase requires 1 string argument." );
+        return value;
+    }
+    string script = parse_date_expr( args[0].get_str() );
+    if( !script.empty() ) {
+        STokenStream prev_ts = m_ts;
+        std::istringstream iss( script );
+        m_ts.reset_in( &iss );
+        value = expr( true );
+        m_ts = prev_ts;
+    }
+    return value;
 }
 
 SValue Script::get_value_var( const string& name )

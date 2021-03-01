@@ -1,0 +1,8 @@
+// suite/stdlib/expressions/phrase/phrase001.hcs
+// Test @phrase with default date value.
+
+write @phrase( "19 Sep 1948" );
+
+/*[OUTPUT]
+2432814
+[OUTPUT]*/

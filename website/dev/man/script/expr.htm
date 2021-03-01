@@ -453,11 +453,6 @@
  but in this case the function result (if one is assigned) is ignored.
  It can also be called in an expression using the at '@' operator.
 </p>
-<h4>Built-in Functions</h4>
-<p>
- There are a number of built-in functions that are always available.
-</p>
-
 <table class='basic'>
 <tr><th>Example</th><th>Result</th></tr><!-- See function008.hcs test file -->
  <tr><td class='example'>function power(number, power) {
@@ -469,6 +464,11 @@
 }</td><td class='example'></td></tr>
  <tr><td class='example'>4 * @power(2,4) + 10</td><td class='example'>74</td></tr>
 </table>
+
+<h4>Built-in Functions</h4>
+<p>
+ There are a number of built-in functions that are always available.
+</p>
 
 <h4>@if( comp, t, f ) Built-in Function</h4>
 <p>
@@ -494,6 +494,12 @@
 <p>
  The result of the function is always a string value.
  Use the convert cast to read a field value.
+</p>
+
+<h4>@phrase( date_phrase_text ) Built-in Function</h4>
+<p>
+    The phrase function takes a date phrase
+    and results in a date field, range or rlist.
 </p>
 
 <h3>Type Conversions</h3>

@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     7th May 2014
- * Copyright:   Copyright (c) 2014 ~ 2020, Nick Matthews.
+ * Copyright:   Copyright (c) 2014 .. 2021, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -106,6 +106,7 @@ namespace Cal {
         SValue function_call();
         SValue at_if();
         SValue at_read();
+        SValue at_phrase();
 
         SValue get_value_var( const std::string& name );
         SValue scheme_property();
