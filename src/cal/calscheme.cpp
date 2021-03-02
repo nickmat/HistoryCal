@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     20th September 2013
- * Copyright:   Copyright (c) 2013 ~ 2020, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 .. 2021, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -282,32 +282,32 @@ Unit Scheme::str_to_unit( const std::string& str ) const
     return unit;
 }
 
-Base* Scheme::create_base( BaseScheme bs, const std::string& data ) 
+Base* Scheme::create_base( BaseName bs, const std::string& data ) 
 {
     switch( bs )
     {
-    case BS_jdn: 
+    case BaseName::jdn:
         return new Jdn( data );
-    case BS_julian: 
+    case BaseName::julian:
         return new Julian( data );
-    case BS_gregorian: 
+    case BaseName::gregorian:
         return new Gregorian( data );
-    case BS_isoweek: 
+    case BaseName::isoweek:
         return new IsoWeek( data );
-    case BS_isoordinal: 
+    case BaseName::isoordinal:
         return new IsoOrdinal( data );
-    case BS_french: 
+    case BaseName::french:
         return new French( data );
-    case BS_hebrew: 
+    case BaseName::hebrew:
         return new Hebrew( data );
-    case BS_islamic:
+    case BaseName::islamic:
         return new Islamic( data );
-    case BS_chinese:
+    case BaseName::chinese:
         return new Chinese( data );
-    case BS_easter:
+    case BaseName::easter:
         return new Easter( data );
     default:
-        return NULL;
+        return nullptr;
     }
 }
 

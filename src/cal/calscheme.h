@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     20th September 2013
- * Copyright:   Copyright (c) 2013 ~ 2020, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 .. 2021, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  The Cal library is free software: you can redistribute it and/or modify
@@ -41,9 +41,9 @@ namespace Cal {
     class Scheme
     {
     public:
-        enum BaseScheme { 
-            BS_NULL, BS_jdn, BS_julian, BS_gregorian, BS_easter, BS_isoweek, BS_isoordinal,
-            BS_french, BS_hebrew, BS_islamic, BS_chinese
+        enum class BaseName {
+            null, jdn, julian, gregorian, easter, isoweek, isoordinal,
+            french, hebrew, islamic, chinese
         };
         Scheme( const std::string& name, const Base* base );
         ~Scheme();
@@ -80,7 +80,7 @@ namespace Cal {
         bool str_to_rel_info( const std::string& str, Rel_info* info ) const;
         RangeList rel_rangelist( const RangeList& ranges, Rel_info* info );
 
-        static Base* create_base( BaseScheme bs, const std::string& data );
+        static Base* create_base( BaseName bs, const std::string& data );
         static Base* create_base_shift( const Base* sbase, Field era );
         static Base* create_base_hybrid(
             const StringVec& fieldnames,

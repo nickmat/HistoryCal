@@ -611,33 +611,33 @@ SHandle Script::do_create_scheme( const std::string& code )
 
 Base* Script::do_base( bool get )
 {
-    Scheme::BaseScheme bs = Scheme::BS_NULL;
+    Scheme::BaseName bs = Scheme::BaseName::null;
     string data;
     SToken token = get ? m_ts.next() : m_ts.current();
     if( token.type() == SToken::STT_Name ) {
         if( token.get_str() == "jdn" ) {
-            bs = Scheme::BS_jdn;
+            bs = Scheme::BaseName::jdn;
         } else if( token.get_str() == "julian" ) {
-            bs = Scheme::BS_julian;
+            bs = Scheme::BaseName::julian;
         } else if( token.get_str() == "gregorian" ) {
-            bs = Scheme::BS_gregorian;
+            bs = Scheme::BaseName::gregorian;
         } else if( token.get_str() == "isoweek" ) {
-            bs = Scheme::BS_isoweek;
+            bs = Scheme::BaseName::isoweek;
         } else if( token.get_str() == "isoordinal" ) {
-            bs = Scheme::BS_isoordinal;
+            bs = Scheme::BaseName::isoordinal;
         } else if( token.get_str() == "french" ) {
-            bs = Scheme::BS_french;
+            bs = Scheme::BaseName::french;
         } else if( token.get_str() == "hebrew" ) {
-            bs = Scheme::BS_hebrew;
+            bs = Scheme::BaseName::hebrew;
         } else if( token.get_str() == "islamic" ) {
-            bs = Scheme::BS_islamic;
+            bs = Scheme::BaseName::islamic;
         } else if ( token.get_str() == "chinese" ) {
-            bs = Scheme::BS_chinese;
+            bs = Scheme::BaseName::chinese;
         } else if ( token.get_str() == "easter" ) {
-            bs = Scheme::BS_easter;
+            bs = Scheme::BaseName::easter;
         } else {
             error( "Base scheme not recognised." );
-            return NULL;
+            return nullptr;
         }
         token = m_ts.next();
         if( token.type() != SToken::STT_Semicolon ) {
