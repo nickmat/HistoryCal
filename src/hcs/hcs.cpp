@@ -56,7 +56,7 @@ const char* g_title = PROGNAME " - Version " VERSION " Debug\n";
 using namespace Cal;
 using namespace std;
 
-enum StmtType { ST_semicolon, ST_curlybracket, ST_both, ST_if_endif, ST_do_loop };
+enum class StmtType { semicolon, curlybracket, both, if_endif, do_loop };
 
 string left_trim( const string& str )
 {
@@ -328,27 +328,27 @@ string get_statement( const string& start, StmtType type )
         statement += line + "\n";
         switch ( type )
         {
-        case ST_semicolon:
+        case StmtType::semicolon:
             if ( terminated_semicolon( statement ) ) {
                 return statement;
             }
             break;
-        case ST_curlybracket:
+        case StmtType::curlybracket:
             if ( terminated_curlybracket( statement ) ) {
                 return statement;
             }
             break;
-        case ST_both:
+        case StmtType::both:
             if ( terminated_both( statement ) ) {
                 return statement;
             }
             break;
-        case ST_if_endif:
+        case StmtType::if_endif:
             if ( terminated_word( statement, "endif" ) ) {
                 return statement;
             }
             break;
-        case ST_do_loop:
+        case StmtType::do_loop:
             if ( terminated_word( statement, "loop" ) ) {
                 return statement;
             }
@@ -442,26 +442,26 @@ int main( int argc, char* argv[] )
                 || word == "call" )
             {
                 if ( !terminated_semicolon( tail ) ) {
-                    cmnd = get_statement( cmnd, ST_semicolon );
+                    cmnd = get_statement( cmnd, StmtType::semicolon );
                 }
             } else if (
                 word == "function" || word == "scheme" || word == "grammar"
                 || word == "vocab" || word == "lexicon" )
             {
                 if ( !terminated_curlybracket( tail ) ) {
-                    cmnd = get_statement( cmnd, ST_curlybracket );
+                    cmnd = get_statement( cmnd, StmtType::curlybracket );
                 }
             } else if ( word == "format" ) {
                 if ( !terminated_both( tail ) ) {
-                    cmnd = get_statement( cmnd, ST_both );
+                    cmnd = get_statement( cmnd, StmtType::both );
                 }
             } else if ( word == "if" ) {
                 if ( !terminated_word( cmnd, "endif" ) ) {
-                    cmnd = get_statement( cmnd, ST_if_endif );
+                    cmnd = get_statement( cmnd, StmtType::if_endif );
                 }
             } else if ( word == "do" ) {
                 if ( !terminated_word( cmnd, "loop" ) ) {
-                    cmnd = get_statement( cmnd, ST_do_loop );
+                    cmnd = get_statement( cmnd, StmtType::do_loop );
                 }
             } else {
                 if ( !terminated_semicolon( cmnd ) && !cmnd.empty() ) {
