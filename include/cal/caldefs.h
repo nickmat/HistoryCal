@@ -28,13 +28,13 @@
 #ifndef CAL_CALDEFS_H_GUARD
 #define CAL_CALDEFS_H_GUARD
 
-#if defined(_WIN32) || defined(__WIN32__)
+#if defined(_WINDLL) && ( defined(_WIN32) || defined(__WIN32__) )
   #if defined(MAKINGLIB_CAL) || defined(cal_EXPORTS)
     #define  DLLIMPEXP_CAL  __declspec(dllexport)
   #else
     #define  DLLIMPEXP_CAL  __declspec(dllimport)
   #endif /* MAKINGLIB_CAL */
-#else  // *nix
+#else  // *nix or static
   #define DLLIMPEXP_CAL
 #endif // _WIN32
 

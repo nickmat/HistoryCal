@@ -29,13 +29,13 @@
 #ifndef UTF8API_H_GUARD
 #define UTF8API_H_GUARD
 
-#if defined(_WIN32) || defined(__WIN32__)
-  #if defined(MAKINGLIB_UTF8API) || defined(utf8api_EXPORTS)
+#if defined(_WINDLL) && ( defined(_WIN32) || defined(__WIN32__) )
+#if defined(MAKINGLIB_UTF8API) || defined(utf8api_EXPORTS)
     #define  DLLIMPEXP_UTF8API  __declspec(dllexport)
   #else
     #define  DLLIMPEXP_UTF8API  __declspec(dllimport)
   #endif // MAKINGLIB_UTF8API
-#else  // *nix
+#else  // *nix or static
   #define DLLIMPEXP_UTF8API
 #endif
 

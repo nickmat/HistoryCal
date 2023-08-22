@@ -1,15 +1,15 @@
 # Test CMake
 
-cmake_minimum_required (VERSION 3.10)
+cmake_minimum_required (VERSION 3.25)
 
 project( hcal )
 
-option( BUILD_SHARED_LIBS "Set static libs" ON )
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+option( BUILD_SHARED_LIBS "Set static libs" OFF )
+set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR} )
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED On)
 
-add_subdirectory(wxWidgets)
+add_subdirectory(3rdparty/wxWidgets)
 add_subdirectory(src/cal)
 add_subdirectory(src/utf8)
 add_subdirectory(src/hcs)
