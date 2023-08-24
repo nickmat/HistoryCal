@@ -1,9 +1,9 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# Name:        tests/CMakeLists.txt
-# Project:     cdBuild: Common Data, Build Database files.
+# Name:        test/unit/CMakeLists.txt
+# Project:     Cal Unit test: Unit Tests for Cal library API.
 # Author:      Nick Matthews
 # Website:     http://thefamilypack.org
-# Created:     9th January 2023
+# Created:     24th August 2023
 # Copyright:   Copyright (c) 2023, Nick Matthews.
 # Licence:     GNU GPLv3
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -47,10 +47,8 @@ set( TESTS_HEADERS
     testcommon.h
 )
 
-include_directories( ./ )
 include_directories( ../../3rdparty/CppUnit/include )
 
 add_executable( unit ${TESTS_FILES} ${TESTS_HEADERS} )
-target_compile_options( unit PRIVATE "-DWITH_CMAKE" )
 
 target_link_libraries( unit PRIVATE cppunit cal )
