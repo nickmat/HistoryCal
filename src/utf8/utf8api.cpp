@@ -26,9 +26,9 @@
 */
 
 
-#include "utf8/utf8api.h"
+#include <utf8/utf8api.h>
 
-#include "utf8proc.h"
+#include <utf8proc/utf8proc.h>
 #include <cstring>
 #include <cstdlib>
 
