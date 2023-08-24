@@ -1,4 +1,4 @@
-#HistoryCal v0.1.0
+# HistoryCal v0.1.0
 
 ![Glich logo](./images/logo2/logo2.png)
 

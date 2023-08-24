@@ -5,3 +5,6 @@
 	path = 3rdparty/CppUnit
 	url = https://github.com/nickmat/CppUnit.git
 	branch = TFP
+[submodule "3rdparty/glich"]
+	path = 3rdparty/glich
+	url = https://github.com/nickmat/glich.git
