@@ -1,6 +1,6 @@
 #HistoryCal v0.1.0
 
-![Glich logo](./image/logo2/logo2.svg)
+![Glich logo](./images/logo2/logo2.png)
 
 Welcome to the latest release of HistoryCal, an ambitious multi-platform
 historical date and calendar calculator.
