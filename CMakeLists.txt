@@ -1,6 +1,6 @@
 # Test CMake
 
-cmake_minimum_required (VERSION 3.25)
+cmake_minimum_required( VERSION 3.25 )
 
 project( hcal )
 
@@ -17,3 +17,4 @@ add_subdirectory( src/hcs )
 add_subdirectory( src/hcal )
 add_subdirectory( test/hctest )
 add_subdirectory( test/unit )
+add_subdirectory( test/soak )
