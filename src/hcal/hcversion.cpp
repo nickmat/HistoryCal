@@ -57,7 +57,7 @@ const char* hcVersion = VERSION;
 /*! A string containing a long hand version name and copyright message.
  */
 const char* hcTitle = "HistoryCal - V" VERSION "\n"
-                      "Copyright (c) 2013 ~ 2016  Nick Matthews\n\n";
+                      "Copyright (c) 2013 ~ 2023  Nick Matthews\n\n";
 
 /*************************************************************************//**
 
