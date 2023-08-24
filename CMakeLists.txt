@@ -13,6 +13,7 @@ include_directories( include )
 
 add_subdirectory( 3rdparty/CppUnit/src/cppunit )
 add_subdirectory( 3rdparty/glich )
+include_directories( 3rdparty/glich/include )
 add_subdirectory( 3rdparty/wxWidgets )
 add_subdirectory( src/cal )
 add_subdirectory( src/hcs )
