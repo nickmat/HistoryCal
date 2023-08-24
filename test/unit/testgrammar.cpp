@@ -139,7 +139,7 @@ void TestGrammar::testSchemeInput()
     SchemeFormatInfo input;
     m_cal->get_input_info( &input, m_sid );
     size_t size = input.descs.size();
-    CPPUNIT_ASSERT_EQUAL( 4U, size );
+    CPPUNIT_ASSERT_EQUAL( size_t(4), size );
     for( size_t i = 0 ; i < size ; i++ ) {
         for( size_t j = 0 ; j < input.descs[i].codes.size() ; j++ ) {
             string str;
@@ -158,7 +158,7 @@ void TestGrammar::testSchemeInput()
             CPPUNIT_ASSERT_EQUAL( str, input.descs[i].desc );
         }
     }
-    CPPUNIT_ASSERT_EQUAL( 0U, input.current );
+    CPPUNIT_ASSERT_EQUAL( size_t(0), input.current );
 }
 
 void TestGrammar::testSchemeOutput()
@@ -166,7 +166,7 @@ void TestGrammar::testSchemeOutput()
     SchemeFormatInfo output;
     m_cal->get_output_info( &output, m_sid );
     size_t size = output.descs.size();
-    CPPUNIT_ASSERT_EQUAL( 6U, size );
+    CPPUNIT_ASSERT_EQUAL( size_t(6), size );
     for( size_t i = 0 ; i < size ; i++ ) {
         string str;
         for( size_t j = 0 ; j < output.descs[i].codes.size() ; j++ ) {
@@ -189,7 +189,7 @@ void TestGrammar::testSchemeOutput()
             CPPUNIT_ASSERT_EQUAL( str, output.descs[i].desc );
         }
     }
-    CPPUNIT_ASSERT_EQUAL( 0U, output.current );
+    CPPUNIT_ASSERT_EQUAL( size_t(0), output.current );
 }
 
 // End of src/test/testgrammar.cpp file

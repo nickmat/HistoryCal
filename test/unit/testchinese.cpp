@@ -183,7 +183,7 @@ void TestChinese::testShortHand()
             str2 = t[i].in;
         }
         CPPUNIT_ASSERT_EQUAL( str2, str );
-        CPPUNIT_ASSERT_EQUAL( 1U, rl.size() );
+        CPPUNIT_ASSERT_EQUAL( size_t(1), rl.size() );
         CPPUNIT_ASSERT_EQUAL( t[i].beg, rl[0].jdn1 );
         CPPUNIT_ASSERT_EQUAL( t[i].end, rl[0].jdn2 );
     }
