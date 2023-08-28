@@ -26,7 +26,7 @@
 
 
 #include "hcfbformatdlg.h"
-#include "cal/calendars.h"
+#include <glc/glc.h>
 
 #ifndef SRC_HCAL_HCFORMATDLG_H_GUARD
 #define SRC_HCAL_HCFORMATDLG_H_GUARD
@@ -34,8 +34,8 @@
 class hcFormatDlg : public fbFormatDlg
 {
 public:
-    hcFormatDlg( wxWindow* parent, Cal::Calendars* cal,
-        Cal::SHandle sch, const std::string& fcode, const std::string& init );
+    hcFormatDlg( wxWindow* parent, glich::Glich* glc,
+       const std::string& scode, const std::string& fcode, const std::string& init);
 
     std::string get_script() const { return m_script; }
 
@@ -45,13 +45,14 @@ private:
 
     virtual void OnIdle( wxIdleEvent& event );
 
-    Cal::Calendars*  m_cal;
-    Cal::SHandle     m_scheme;
-    std::string      m_fcode;
-    std::string      m_gcode;
-    std::string      m_based_on;
-    std::string      m_control;
-    std::string      m_script;
+    glich::Glich* m_glc;
+    std::string   m_scode;
+        
+    std::string   m_fcode;
+    std::string   m_gcode;
+    std::string   m_based_on;
+    std::string   m_control;
+    std::string   m_script;
 };
 
 #endif // SRC_HCAL_HCFORMATDLG_H_GUARD

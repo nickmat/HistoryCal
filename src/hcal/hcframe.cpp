@@ -44,31 +44,31 @@
 
 #include <utf8/utf8api.h>
 
-using namespace std;
-using namespace Cal;
+using namespace glich;
+using std::string;
 
 #ifndef wxHAS_IMAGES_IN_RESOURCES
     #include "hcal.xpm"
 #endif
 
-wxString RangesToString( RangeList rlist )
+wxString RangesToString( RList rlist )
 {
     wxString str;
     for( size_t i = 0 ; i < rlist.size() ; i++ ) {
         if( i > 0 ) {
             str << " | ";
         }
-        if( rlist[i].jdn1 == f_minimum ) {
+        if( rlist[i].m_beg == f_minimum ) {
             str << "min";
         } else {
-            str << rlist[i].jdn1;
+            str << rlist[i].m_beg;
         }
-        if( rlist[i].jdn1 != rlist[i].jdn2 ) {
+        if( rlist[i].m_beg != rlist[i].m_end ) {
             str << " ~ ";
-            if( rlist[i].jdn2 == f_maximum ) {
+            if( rlist[i].m_end == f_maximum ) {
                 str << "max";
             } else {
-                str << rlist[i].jdn2;
+                str << rlist[i].m_end;
             }
         }
     }
@@ -81,7 +81,7 @@ wxString RangesToString( RangeList rlist )
  */
 HcFrame::HcFrame(
     const wxString& title, const wxPoint& pos, const wxSize& size, long style )
-    : m_cal(Init_script_default, new HcInOut ), m_from("g"), m_to("g"),
+    : m_glc( InitLibrary::Hics, new HcInOut ), m_from("g"), m_to("g"),
     m_show_interm(false), m_show_count(false),
     hcFbFrame( (wxFrame*) NULL, wxID_ANY, title, pos, size, style )
 {
@@ -94,8 +94,8 @@ HcFrame::HcFrame(
 
     m_textInput->SetFocus();
 
-    if ( !m_cal.get_init_error().empty() ) {
-        wxMessageBox( m_cal.get_init_error(), "Default Script Error" );
+    if ( !m_glc.get_init_error().empty() ) {
+        wxMessageBox( m_glc.get_init_error(), "Default Script Error" );
     }
 }
 
@@ -111,7 +111,7 @@ void HcFrame::OnRunScript( wxCommandEvent& event )
     wxFileDialog dialog( this, caption, defaultDir, defaultFName, wildcard, wxFD_OPEN );
     if( dialog.ShowModal() == wxID_OK ) {
         std::string path = WxStrToUtf8( dialog.GetPath() );
-        wxString result = Utf8ToWxStr( m_cal.run_script_file( path ) );
+        wxString result = Utf8ToWxStr( m_glc.run_script_file( path ) );
         if( result.size() ) {
             wxMessageBox( result, path );
         }
@@ -154,16 +154,16 @@ void HcFrame::OnToggleCount( wxCommandEvent& event )
 void HcFrame::OnNewFormat( wxCommandEvent& event )
 {
     string script;
-    hcNewFormatDlg nfdlg( this, &m_cal, m_from, m_to );
+    hcNewFormatDlg nfdlg( this, &m_glc, m_from, m_to );
     if( nfdlg.ShowModal() == wxID_OK ) {
-        SHandle sh = nfdlg.GetScheme();
+        string scode = nfdlg.GetSCode();
         string fcode = nfdlg.GetFCode();
         string init = nfdlg.GetBasedFCode();
-        if( sh && !fcode.empty() ) {
+        if( !scode.empty() && !fcode.empty() ) {
             if( nfdlg.GetIsoFlag() ) {
                 // TODO: ISO Format dialog
             } else {
-                hcFormatDlg fdlg( this, &m_cal, sh, fcode, init );
+                hcFormatDlg fdlg( this, &m_glc, scode, fcode, init );
                 if( fdlg.ShowModal() == wxID_OK ) {
                     script = fdlg.get_script();
                 }
@@ -171,7 +171,7 @@ void HcFrame::OnNewFormat( wxCommandEvent& event )
         }
     }
     if( !script.empty() ) {
-        m_cal.run_script( script );
+        m_glc.run_script( script );
         UpdateSchemeLists();
         wxMessageBox( "Edit format OK" );
     }
@@ -198,13 +198,13 @@ void HcFrame::OnAbout( wxCommandEvent& event )
         wxString::Format(
             _("%s"
             "Built with %s\n"
-            "and calendar library %s\n"
+            "and Glich library %s\n"
             "with utf8proc library %s\n"
             "by %s\n"
             "running under %s."),
             hcTitle,
             wxVERSION_STRING,
-            m_cal.version(),
+            m_glc.version(),
             Utf8api::version(),
             hcGetCompilerVersion(),
             wxGetOsDescription().c_str()
@@ -240,7 +240,7 @@ void HcFrame::OnSelectInputFormat( wxCommandEvent& event )
 void HcFrame::OnSelectVocab( wxCommandEvent& event )
 {
     Scheme_info info;
-    m_cal.get_scheme_info( &info, m_cal.get_scheme( m_from ) );
+    m_glc.get_scheme_info( &info, m_from );
     UpdateTextTokens( &info );
 }
 
@@ -266,7 +266,7 @@ void HcFrame::OnSelectToken( wxCommandEvent& event )
 void HcFrame::OnCheckTextFull( wxCommandEvent& event )
 {
     Scheme_info info;
-    m_cal.get_scheme_info( &info, m_cal.get_scheme( m_from ) );
+    m_glc.get_scheme_info( &info, m_from );
     UpdateTextTokens( &info );
 }
 
@@ -295,26 +295,21 @@ void HcFrame::OnSelectOutputFormat( wxCommandEvent& event )
 
 void HcFrame::UpdateSchemeLists()
 {
-    m_schemes = m_cal.get_scheme_list();
+    m_schemes = m_glc.get_scheme_list( SchemeStyle::Default );
     m_comboBoxInput->Clear();
     m_comboBoxOutput->Clear();
     bool from_found = false, to_found = false;
     for( size_t i = 0 ; i < m_schemes.size() ; i++ ) {
-        wxString entry = Utf8ToWxStr( m_schemes[i].code ) + "#  "
-            + Utf8ToWxStr( m_schemes[i].name );
-        if ( m_schemes[i].has_in_format ) {
-            m_comboBoxInput->Append( entry );
-            if ( m_schemes[i].code == m_from ) {
-                m_comboBoxInput->SetSelection( i );
-                from_found = true;
-            }
+        wxString entry = Utf8ToWxStr( m_schemes[i].code ) + "#  " + Utf8ToWxStr( m_schemes[i].name );
+        m_comboBoxInput->Append( entry );
+        if( m_schemes[i].code == m_from ) {
+            m_comboBoxInput->SetSelection( i );
+            from_found = true;
         }
-        if ( m_schemes[i].has_out_format ) {
-            m_comboBoxOutput->Append( entry );
-            if ( m_schemes[i].code == m_to ) {
-                m_comboBoxOutput->SetSelection( i );
-                to_found = true;
-            }
+        m_comboBoxOutput->Append( entry );
+        if( m_schemes[i].code == m_to ) {
+            m_comboBoxOutput->SetSelection( i );
+            to_found = true;
         }
     }
     // Ensure m_from and m_to have valid scheme codes.
@@ -336,7 +331,7 @@ void HcFrame::UpdateSchemeLists()
 void HcFrame::UpdateInputFormat()
 {
     m_comboBoxInFormat->Clear();
-    m_cal.get_input_info( &m_input_info, m_cal.get_scheme( m_from ) );
+    m_glc.get_input_info( &m_input_info, m_from );
     for( size_t i = 0 ; i < m_input_info.descs.size() ; i++ ) {
         wxString fmt = ":" + Utf8ToWxStr( m_input_info.descs[i].codes[0].code ) + "#  "
             + Utf8ToWxStr( m_input_info.descs[i].desc );
@@ -351,11 +346,11 @@ void HcFrame::UpdateTextVocabs()
 {
     m_comboBoxVocab->Clear();
     Scheme_info info;
-    m_cal.get_scheme_info( &info, m_cal.get_scheme( m_from ) );
-    for( size_t i = 0 ; i < info.vocab_names.size() ; i++ ) {
-        m_comboBoxVocab->Append( Utf8ToWxStr( info.vocab_names[i] ) );
+    m_glc.get_scheme_info( &info,  m_from );
+    for( size_t i = 0 ; i < info.lexicon_names.size() ; i++ ) {
+        m_comboBoxVocab->Append( Utf8ToWxStr( info.lexicon_names[i] ) );
     }
-    if( info.vocab_names.empty() ) {
+    if( info.lexicon_names.empty() ) {
         m_comboBoxVocab->Append( "<None>" );
     }
     m_comboBoxVocab->SetSelection( 0 );
@@ -365,11 +360,11 @@ void HcFrame::UpdateTextVocabs()
 void HcFrame::UpdateTextTokens( Scheme_info* sinfo )
 {
     m_comboBoxToken->Clear();
-    Vocab_info vinfo;
-    if( sinfo->vocab_codes.size() ) {
+    Lexicon_info vinfo;
+    if( sinfo->lexicon_codes.size() ) {
         int sel = m_comboBoxVocab->GetSelection();
-        string code = sinfo->vocab_codes[sel];
-        m_cal.get_vocab_info( &vinfo, code );
+        string code = sinfo->lexicon_codes[sel];
+        m_glc.get_lexicon_info( &vinfo, code );
     }
     for( size_t i = 0 ; i < vinfo.words.size() ; i++ ) {
         if( m_checkTextFull->GetValue() ) {
@@ -387,7 +382,7 @@ void HcFrame::UpdateTextTokens( Scheme_info* sinfo )
 void HcFrame::UpdateOutputFormat()
 {
     m_comboBoxOutFormat->Clear();
-    m_cal.get_output_info( &m_output_info, m_cal.get_scheme( m_to ) );
+    m_glc.get_output_info( &m_output_info, m_to );
     for( size_t i = 0 ; i < m_output_info.descs.size() ; i++ ) {
         wxString fmt = ":" + Utf8ToWxStr( m_output_info.descs[i].codes[0].code ) + "#  "
             + Utf8ToWxStr( m_output_info.descs[i].desc );
@@ -401,28 +396,26 @@ void HcFrame::UpdateOutputFormat()
 void HcFrame::CalculateOutput()
 {
     wxString inter, output;
-    SHandle sch_from = m_cal.get_scheme( m_from );
-    SHandle sch_to = m_cal.get_scheme( m_to );
 
     int infmt = m_comboBoxInFormat->GetSelection();
-    m_cal.set_input_format( sch_from, m_input_info.descs[infmt].codes[0].code );
+    string in_sig = m_from + ":" + m_input_info.descs[infmt].codes[0].code;
     int outfmt = m_comboBoxOutFormat->GetSelection();
-    m_cal.set_output_format( sch_to, m_output_info.descs[outfmt].codes[0].code );
+    string out_sig = m_to + ":" + m_output_info.descs[outfmt].codes[0].code;
     string input = WxStrToUtf8( m_textInput->GetValue() );
-    if( input.size() ) {
-        RangeList ranges = m_cal.expr_str_to_rangelist( sch_from, input );
+    if( !input.empty() ) {
+        RList ranges = m_glc.date_phrase_to_rlist( input, in_sig );
 
         inter << RangesToString( ranges );
 
-        output << Utf8ToWxStr( m_cal.rangelist_to_str( sch_to, ranges ) );
+        output << Utf8ToWxStr( m_glc.rlist_to_text( ranges, m_to ) );
         size_t rsize = ranges.size();
         if( m_show_count && rsize ) {
-            if( ranges[0].jdn1 == f_minimum || ranges[rsize-1].jdn2 == f_maximum ) {
+            if( ranges[0].m_beg == f_minimum || ranges[rsize-1].m_end == f_maximum ) {
                 output << "  [Infinite days]";
             } else {
                 int days = 0;
                 for( size_t i = 0 ; i < rsize ; i++ ) {
-                    days += ranges[i].jdn2 - ranges[i].jdn1 + 1;
+                    days += ranges[i].m_end - ranges[i].m_beg + 1;
                 }
                 if( days > 1 ) {
                     output << "  [" << days << " days]";
@@ -441,7 +434,7 @@ string HcInOut::get_input( const string& prompt )
 {
     wxTextEntryDialog dialog(
         nullptr, Utf8ToWxStr( prompt ),
-        _( "HistoryCal Script Input" ), "", wxOK | wxCANCEL
+        _( "Glich Script Input" ), "", wxOK | wxCANCEL
     );
     if ( dialog.ShowModal() == wxID_OK ) {
         return WxStrToUtf8( dialog.GetValue() );

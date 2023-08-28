@@ -38,19 +38,20 @@
 
 #include "hcconvert.h"
 
-using namespace Cal;
+using namespace glich;
 using std::string;
 
 hcNewFormatDlg::hcNewFormatDlg(
-    wxWindow* parent, Calendars* cal,
+    wxWindow* parent, Glich* glc,
     const string& in_scode, const string& out_scode )
-    : m_cal(cal), m_scheme(NULL), m_iso(false), fbNewFormatDlg( parent )
+    : m_glc(glc), m_in_scode(in_scode), m_out_scode(out_scode),
+    m_scheme(nullptr), m_iso(false), fbNewFormatDlg( parent )
 {
-    m_in_scheme = cal->get_scheme( in_scode );
-    m_out_scheme = cal->get_scheme( out_scode );
+    m_in_scheme = glc->get_scheme( in_scode );
+    m_out_scheme = glc->get_scheme( out_scode );
 
-    cal->get_scheme_info( &m_in_sinfo, m_in_scheme );
-    cal->get_scheme_info( &m_out_sinfo, m_out_scheme );
+    glc->get_scheme_info( &m_in_sinfo, in_scode );
+    glc->get_scheme_info( &m_out_sinfo, out_scode );
 }
 
 void hcNewFormatDlg::OnSelectScheme( wxCommandEvent& event )
@@ -63,7 +64,7 @@ bool hcNewFormatDlg::TransferDataToWindow()
     m_radioBtnInSch->SetLabel( Utf8ToWxStr(m_in_sinfo.code+"#  "+m_in_sinfo.name) );
     m_radioBtnOutSch->SetLabel( Utf8ToWxStr(m_out_sinfo.code+"#  "+m_out_sinfo.name) );
     m_radioBtnOutSch->SetValue( true );
-    m_schemes = m_cal->get_scheme_list();
+    m_schemes = m_glc->get_scheme_list();
     for( size_t i = 0 ; i < m_schemes.size() ; i++ ) {
         wxString entry = Utf8ToWxStr(m_schemes[i].code+"#  "+m_schemes[i].name);
         m_comboBoxSchemes->Append( entry );
@@ -79,13 +80,13 @@ bool hcNewFormatDlg::TransferDataToWindow()
 bool hcNewFormatDlg::TransferDataFromWindow()
 {
     if( m_radioBtnInSch->GetValue() ) {
-        m_scheme = m_in_scheme;
+        m_scode = m_in_scode;
     } else if( m_radioBtnOutSch->GetValue() ) {
-        m_scheme = m_out_scheme;
+        m_scode = m_out_scode;
     } else {
         int i = m_comboBoxSchemes->GetSelection();
         if( i >= 0 ) {
-            m_scheme = m_schemes[i].handle;
+            m_scode = m_schemes[i].code;
         }
     }
     m_fcode = m_textCtrlFCode->GetValue();
@@ -94,9 +95,9 @@ bool hcNewFormatDlg::TransferDataFromWindow()
     int sel = m_comboBoxFormats->GetSelection();
     if( sel > 0 ) {
         Scheme_info sinfo;
-        m_cal->get_scheme_info( &sinfo, m_scheme );
+        m_glc->get_scheme_info( &sinfo, m_scode );
         SchemeFormatInfo finfo;
-        m_cal->get_output_info( &finfo, m_scheme );
+        m_glc->get_output_info( &finfo, m_scode );
         m_based_fcode = Utf8ToWxStr( finfo.descs[sel-1].codes[0].code );
     }
     return true;
@@ -104,22 +105,22 @@ bool hcNewFormatDlg::TransferDataFromWindow()
 
 void hcNewFormatDlg::UpdateFormatList()
 {
-    SHandle scheme = NULL;
+    string scode;
     if( m_radioBtnOutSch->GetValue() ) {
-        scheme = m_in_scheme;
+        scode = m_in_scode;
     } else if( m_radioBtnInSch->GetValue() ) {
-        scheme = m_out_scheme;
+        scode = m_out_scode;
     } else {
         int i = m_comboBoxSchemes->GetSelection();
         if( i >= 0 ) {
-            scheme = m_schemes[i].handle;
+            scode = m_schemes[i].code;
         }
     }
 
     Scheme_info sinfo;
-    m_cal->get_scheme_info( &sinfo, scheme );
+    m_glc->get_scheme_info( &sinfo, scode );
     SchemeFormatInfo finfo;
-    m_cal->get_output_info( &finfo, scheme );
+    m_glc->get_output_info( &finfo, scode );
     m_comboBoxFormats->Clear();
     m_comboBoxFormats->Append( "< NONE >" );
     for( size_t i = 0 ; i < finfo.descs.size() ; i++ ) {

@@ -45,7 +45,7 @@
 #define VERSION_CONFIG   " debug"
 #endif
 
-#define VERSION_NUM   "0.0.7"
+#define VERSION_NUM   "0.1.0"
 
 
 #define VERSION   VERSION_NUM VERSION_STATUS VERSION_CONFIG
@@ -83,8 +83,10 @@ const char* hcTitle = "HistoryCal - V" VERSION "\n"
 
  26jun16  v0.0.6   Use Cal library version 0.2.7. See docs/hcal-changes.txt
 
-  active  v0.0.7   Use Cal library version 0.2.7.
-                   Add GUI for formating. 
+cancelled v0.0.7   Use Cal library version 0.2.7.
+                   Add GUI for formating.
+
+  active  v0.1.0   Replace Cal library with Glich library.
 
  See also website http://historycal.org
 

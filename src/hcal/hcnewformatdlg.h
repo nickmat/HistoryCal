@@ -26,7 +26,7 @@
 
 
 #include "hcfbformatdlg.h"
-#include "cal/calendars.h"
+#include <glc/glc.h>
 
 #ifndef SRC_HCAL_HCNEWFORMATDLG_H_GUARD
 #define SRC_HCAL_HCNEWFORMATDLG_H_GUARD
@@ -35,11 +35,12 @@ class hcNewFormatDlg : public fbNewFormatDlg
 {
 public:
     hcNewFormatDlg(
-        wxWindow* parent, Cal::Calendars* cal,
+        wxWindow* parent, glich::Glich* glc,
         const std::string& in_scode, const std::string& out_scode );
 
-    Cal::SHandle GetScheme() const { return m_scheme; }
+    glich::Scheme* GetScheme() const { return m_scheme; }
     bool GetIsoFlag() const { return m_iso; }
+    std::string GetSCode() const { return m_scode; }
     std::string GetFCode() const { return m_fcode; }
     std::string GetBasedFCode() const { return m_based_fcode; }
 
@@ -52,14 +53,17 @@ private:
 
     void UpdateFormatList();
 
-    Cal::Calendars*  m_cal;
-    Cal::SchemeList  m_schemes;
-    Cal::SHandle     m_in_scheme;
-    Cal::SHandle     m_out_scheme;
-    Cal::Scheme_info m_in_sinfo;
-    Cal::Scheme_info m_out_sinfo;
+    glich::Glich*      m_glc;
+    glich::SchemeList  m_schemes;
+    std::string        m_in_scode;
+    glich::Scheme*     m_in_scheme;
+    std::string        m_out_scode;
+    glich::Scheme*     m_out_scheme;
+    glich::Scheme_info m_in_sinfo;
+    glich::Scheme_info m_out_sinfo;
 
-    Cal::SHandle     m_scheme;
+    std::string      m_scode;
+    glich::Scheme*   m_scheme;
     std::string      m_fcode;
     bool             m_iso;
     std::string      m_based_fcode;

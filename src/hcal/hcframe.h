@@ -28,8 +28,8 @@
 #define SRC_HCAL_HCFRAME_H_GUARD
 
 #include "hcfbframe.h"
+#include <glc/glc.h>
 
-#include <cal/calendars.h>
 
 /*! \brief The main HistoryCal application frame.
  *
@@ -65,21 +65,21 @@ private:
         void UpdateSchemeLists();
         void UpdateInputFormat();
         void UpdateTextVocabs();
-        void UpdateTextTokens( Cal::Scheme_info* info );
+        void UpdateTextTokens( glich::Scheme_info* info );
         void UpdateOutputFormat();
         void CalculateOutput();
 
-        Cal::Calendars   m_cal;
-        std::string      m_from;
-        std::string      m_to;
-        Cal::SchemeList  m_schemes;
-        Cal::SchemeFormatInfo  m_input_info;
-        Cal::SchemeFormatInfo  m_output_info;
-        bool             m_show_interm;
-        bool             m_show_count;
+        glich::Glich m_glc;
+        std::string  m_from;
+        std::string  m_to;
+        glich::SchemeList        m_schemes;
+        glich::SchemeFormatInfo  m_input_info;
+        glich::SchemeFormatInfo  m_output_info;
+        bool m_show_interm;
+        bool m_show_count;
 };
 
-class HcInOut : public Cal::InOut
+class HcInOut : public glich::InOut
 {
 public:
     std::string get_input( const std::string& prompt ) override;

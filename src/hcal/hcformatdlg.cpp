@@ -38,13 +38,13 @@
 
 #include "hcconvert.h"
 
-using namespace Cal;
+using namespace glich;
 using std::string;
 
 hcFormatDlg::hcFormatDlg(
-    wxWindow* parent, Calendars* cal, SHandle sch,
+    wxWindow* parent, Glich* glc, const string& scode,
     const string& fcode, const string& init )
-    : m_cal(cal), m_scheme(sch), m_fcode(fcode), m_based_on(init),
+    : m_glc(glc), m_scode(scode), m_fcode(fcode), m_based_on(init),
     fbFormatDlg( parent )
 {
 }
@@ -52,7 +52,7 @@ hcFormatDlg::hcFormatDlg(
 bool hcFormatDlg::TransferDataToWindow()
 {
     Scheme_info sinfo;
-    m_cal->get_scheme_info( &sinfo, m_scheme );
+    m_glc->get_scheme_info( &sinfo, m_scode );
     m_gcode = sinfo.grammar_code;
     string sch_name = sinfo.code + "#  " + sinfo.name;
     m_textCtrlSCode->SetValue( Utf8ToWxStr( sch_name ) );
@@ -60,8 +60,7 @@ bool hcFormatDlg::TransferDataToWindow()
 
     if( !m_based_on.empty() ) {
         FormatText_info finfo;
-        m_cal->get_format_text_info( &finfo, m_scheme, m_based_on );
-        wxASSERT( finfo.info.type == FT_text );
+        m_glc->get_format_text_info( &finfo, m_scode, m_based_on );
         m_textCtrlControl->SetValue( Utf8ToWxStr( finfo.control_str ) );
         m_textCtrlInputStr->SetValue( Utf8ToWxStr( finfo.info.input_str ) );
         m_textCtrlOutputStr->SetValue( Utf8ToWxStr( finfo.info.output_str ) );
@@ -91,11 +90,10 @@ void hcFormatDlg::OnIdle( wxIdleEvent& event )
             "mark \"####\";\n"
             "format \"" + m_gcode + ":" + m_fcode + "\", \"" + current + "\";\n"
         ;
-        m_cal->run_script( script );
+        m_glc->run_script( script );
         FormatText_info finfo;
-        m_cal->get_format_text_info( &finfo, m_scheme, m_fcode );
-        m_cal->run_script( "mark \"####\";" );
-        wxASSERT( finfo.info.type == FT_text );
+        m_glc->get_format_text_info( &finfo, m_scode, m_fcode );
+        m_glc->run_script( "mark \"####\";" );
 
         m_textCtrlInputStr->SetValue( Utf8ToWxStr( finfo.info.input_str ) );
         m_textCtrlOutputStr->SetValue( Utf8ToWxStr( finfo.info.output_str ) );
