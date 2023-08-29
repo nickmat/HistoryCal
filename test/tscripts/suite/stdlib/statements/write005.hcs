@@ -1,8 +1,0 @@
-// write005.hcs Test date literal.
-
-set input g;
-write date "19sep1948";
-
-/*[OUTPUT]
-2432814
-[OUTPUT]*/

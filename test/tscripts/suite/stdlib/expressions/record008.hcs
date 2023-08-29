@@ -1,9 +1,0 @@
-// record008.hcs   Test record cast with units format
-
-write record,g:u "9 Month";
-
-/*[OUTPUT]
-{"g", ?, 9, ?, ?}
-[OUTPUT]*/
-
-

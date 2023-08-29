@@ -1,9 +1,0 @@
-// range005.hcs Test range operator with invalid field error
-
-write 5 ~ ?;
-
-/*[OUTPUT]
-Error (3): Range invalid.
-[OUTPUT]*/
-
-

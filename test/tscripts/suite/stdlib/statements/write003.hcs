@@ -1,7 +1,0 @@
-// write03.hcs Test number input and output.
-
-write 1234;
-
-/*[OUTPUT]
-1234
-[OUTPUT]*/

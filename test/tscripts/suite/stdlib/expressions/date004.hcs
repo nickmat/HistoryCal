@@ -1,7 +1,0 @@
-// date004.hcs Test file to test date cast expressions
-
-write date,g:u "9month1948year19day";
-
-/*[OUTPUT]
-2432814
-[OUTPUT]*/

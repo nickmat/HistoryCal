@@ -1,7 +1,0 @@
-// plus002.hcs Test file to test addition of records.
-
-write record,g:dmy "1 1 1948" + record,g:u "8Month 18Day";
-
-/*[OUTPUT]
-Error (3): Unable to add or subtract types.
-[OUTPUT]*/

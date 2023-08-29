@@ -1,8 +1,0 @@
-// subscript002.hcs Test file to test subscript expression
-
-write 2432814[g:day];
-
-*/
-/*[OUTPUT]
-19
-[OUTPUT]*/

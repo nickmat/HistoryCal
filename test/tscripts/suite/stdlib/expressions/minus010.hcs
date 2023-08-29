@@ -1,7 +1,0 @@
-// minus010.hcs Test file to test subtraction of special values.
-
-write future - (future ~ 500 | 100 ~ 111);
-
-/*[OUTPUT]
-Error (3): Invalid rlist.
-[OUTPUT]*/

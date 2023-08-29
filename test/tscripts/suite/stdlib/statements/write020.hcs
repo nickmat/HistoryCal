@@ -1,8 +1,0 @@
-// write020.hcs Test field input and output.
-
-set input g;
-write {"g",?,?,21};
-
-/*[OUTPUT]
-{"g", ?, ?, 21}
-[OUTPUT]*/

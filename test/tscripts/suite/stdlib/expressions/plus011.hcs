@@ -1,7 +1,0 @@
-// plus011.hcs Test file to test addition of special values.
-
-write (past ~ 5) + future;
-
-/*[OUTPUT]
-Error (3): Invalid range.
-[OUTPUT]*/

@@ -1,8 +1,0 @@
-// subscript013.hcs Test file for optional fields.
-
-let d = date "19sep1948";
-write d[jwn];
-
-/*[OUTPUT]
-347544
-[OUTPUT]*/

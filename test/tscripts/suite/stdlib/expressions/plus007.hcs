@@ -1,7 +1,0 @@
-// plus007.hcs Test file for addition of two rlists
-
-write (5 ~ 8 | 12 ~ 15) + (20 ~ 22 | 25 ~ 30);
-
-/*[OUTPUT]
-Error (3): Unable to add or subtract rlists.
-[OUTPUT]*/

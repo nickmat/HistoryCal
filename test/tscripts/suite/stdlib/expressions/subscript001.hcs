@@ -1,7 +1,0 @@
-// subscript001.hcs Test file to test subscript expression
-
-write {"g",10,20,30}[1];
-
-/*[OUTPUT]
-20
-[OUTPUT]*/

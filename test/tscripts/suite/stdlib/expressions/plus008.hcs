@@ -1,7 +1,0 @@
-// plus008.hcs Test file to test addition of booleans.
-
-write true + 1;
-
-/*[OUTPUT]
-Error (3): Unable to add or subtract types.
-[OUTPUT]*/

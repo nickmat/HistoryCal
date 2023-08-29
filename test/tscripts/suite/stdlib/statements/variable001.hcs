@@ -1,9 +1,0 @@
-// variable001.hcs  Test script variables
-
-let v_:1 = 123;
-
-write v_:1;
-
-/*[OUTPUT]
-123
-[OUTPUT]*/

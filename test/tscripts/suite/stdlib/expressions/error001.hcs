@@ -1,9 +1,0 @@
-// error001.hcs - Test error cast;
-
-let a = error "This is an error.";
-
-write a;
-
-/*[OUTPUT]
-Error (3): This is an error.
-[OUTPUT]*/

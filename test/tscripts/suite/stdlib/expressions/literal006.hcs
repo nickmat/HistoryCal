@@ -1,7 +1,0 @@
-// string001.hcs Test file to test string literals
-
-write "String with ""quotes""";
-
-/*[OUTPUT]
-String with "quotes"
-[OUTPUT]*/

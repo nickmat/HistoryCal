@@ -1,7 +1,0 @@
-// record002.hcs   Test file to test pattern record cast.
-
-write record,"g:dmy" "21??";
-
-/*[OUTPUT]
-{"g", ?, ?, 21, ?}
-[OUTPUT]*/

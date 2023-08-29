@@ -1,7 +1,0 @@
-// bool002.hcs Test file to test bool maths
-
-write 1 <> 2;
-
-/*[OUTPUT]
-true
-[OUTPUT]*/

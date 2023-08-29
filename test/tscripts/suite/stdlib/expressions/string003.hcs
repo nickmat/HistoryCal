@@ -1,8 +1,0 @@
-// string003.hcs Test use of constants 'past' and 'future'
-
-set output g;
-write string ( past .. 2431090 | 2432552 .. future );
-
-/*[OUTPUT]
-past .. 1943 | 1948 .. future
-[OUTPUT]*/

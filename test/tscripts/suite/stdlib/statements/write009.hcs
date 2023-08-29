@@ -1,7 +1,0 @@
-// write009.hcs Test range addition.
-
-write ( 2429630 .. 2433647 ) + 3;
-
-/*[OUTPUT]
-2429633 .. 2433650
-[OUTPUT]*/

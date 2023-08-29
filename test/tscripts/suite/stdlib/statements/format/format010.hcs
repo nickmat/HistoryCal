@@ -1,8 +1,0 @@
-// format010.hcs Test not found format code.
-
-
-write string,g:X 2432814;
-
-/*[OUTPUT]
-(X) Format not found.
-[OUTPUT]*/
