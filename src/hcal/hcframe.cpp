@@ -51,29 +51,6 @@ using std::string;
     #include "hcal.xpm"
 #endif
 
-wxString RangesToString( RList rlist )
-{
-    wxString str;
-    for( size_t i = 0 ; i < rlist.size() ; i++ ) {
-        if( i > 0 ) {
-            str << " | ";
-        }
-        if( rlist[i].m_beg == f_minimum ) {
-            str << "min";
-        } else {
-            str << rlist[i].m_beg;
-        }
-        if( rlist[i].m_beg != rlist[i].m_end ) {
-            str << " ~ ";
-            if( rlist[i].m_end == f_maximum ) {
-                str << "max";
-            } else {
-                str << rlist[i].m_end;
-            }
-        }
-    }
-    return str;
-}
 
 /*! \brief Frame constructor.
  *
@@ -405,7 +382,7 @@ void HcFrame::CalculateOutput()
     if( !input.empty() ) {
         RList ranges = m_glc.date_phrase_to_rlist( input, in_sig );
 
-        inter << RangesToString( ranges );
+        inter << Utf8ToWxStr( m_glc.rlist_to_text( ranges, "jdn" ) );
 
         output << Utf8ToWxStr( m_glc.rlist_to_text( ranges, m_to ) );
         size_t rsize = ranges.size();
