@@ -38,8 +38,6 @@
 #include "hcframe.h"
 
 #include "hcconvert.h"
-#include "hcformatdlg.h"
-#include "hcnewformatdlg.h"
 #include "hcversion.h"
 
 #include <utf8/utf8api.h>
