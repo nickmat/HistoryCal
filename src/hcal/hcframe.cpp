@@ -384,7 +384,7 @@ void HcFrame::CalculateOutput()
 
         inter << Utf8ToWxStr( m_glc.rlist_to_text( ranges, "jdn" ) );
 
-        output << Utf8ToWxStr( m_glc.rlist_to_text( ranges, m_to ) );
+        output << Utf8ToWxStr( m_glc.rlist_to_text( ranges, out_sig ) );
         size_t rsize = ranges.size();
         if( m_show_count && rsize ) {
             if( ranges[0].m_beg == f_minimum || ranges[rsize-1].m_end == f_maximum ) {
