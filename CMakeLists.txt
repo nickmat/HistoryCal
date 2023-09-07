@@ -1,4 +1,12 @@
-# Test CMake
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Name:        CMakeLists.txt
+# Project:     hcal: HistoryCal Application.
+# Author:      Nick Matthews
+# Website:     http://historycal.org/
+# Created:     22nd January 2021
+# Copyright:   Copyright (c) 2021..2023, Nick Matthews.
+# Licence:     GNU GPLv3
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 cmake_minimum_required( VERSION 3.25 )
 
@@ -11,13 +19,7 @@ set( CMAKE_CXX_STANDARD_REQUIRED On )
 
 include_directories( include )
 
-#add_subdirectory( 3rdparty/CppUnit/src/cppunit )
 add_subdirectory( 3rdparty/glich )
 include_directories( 3rdparty/glich/include )
 add_subdirectory( 3rdparty/wxWidgets )
-#add_subdirectory( src/cal )
-#add_subdirectory( src/hcs )
 add_subdirectory( src/hcal )
-#add_subdirectory( test/hctest )
-#add_subdirectory( test/unit )
-#add_subdirectory( test/soak )
