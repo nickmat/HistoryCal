@@ -1,12 +1,11 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun 17 2015)
+// C++ code generated with wxFormBuilder (version 3.10.1-0-g8feb16b3)
 // http://www.wxformbuilder.org/
 //
-// PLEASE DO "NOT" EDIT THIS FILE!
+// PLEASE DO *NOT* EDIT THIS FILE!
 ///////////////////////////////////////////////////////////////////////////
 
-#ifndef __HCFBFRAME_H__
-#define __HCFBFRAME_H__
+#pragma once
 
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
@@ -34,10 +33,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 /// Class hcFbFrame
 ///////////////////////////////////////////////////////////////////////////////
-class hcFbFrame : public wxFrame 
+class hcFbFrame : public wxFrame
 {
 	private:
-	
+
 	protected:
 		wxMenuItem* m_menuViewInterm;
 		wxMenuItem* m_menuViewCount;
@@ -53,13 +52,12 @@ class hcFbFrame : public wxFrame
 		wxComboBox* m_comboBoxOutput;
 		wxComboBox* m_comboBoxOutFormat;
 		wxTextCtrl* m_textOutput;
-		
-		// Virtual event handlers, overide them in your derived class
+
+		// Virtual event handlers, override them in your derived class
 		virtual void OnRunScript( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnExit( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnToggleInterm( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnToggleCount( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnNewFormat( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnWebsite( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAbout( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSelectInput( wxCommandEvent& event ) { event.Skip(); }
@@ -71,14 +69,13 @@ class hcFbFrame : public wxFrame
 		virtual void OnButtonConvert( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSelectOutput( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSelectOutputFormat( wxCommandEvent& event ) { event.Skip(); }
-		
-	
+
+
 	public:
-		
+
 		hcFbFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("HistoryCal"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
-		
+
 		~hcFbFrame();
-	
+
 };
 
-#endif //__HCFBFRAME_H__

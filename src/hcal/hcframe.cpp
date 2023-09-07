@@ -128,32 +128,6 @@ void HcFrame::OnToggleCount( wxCommandEvent& event )
     CalculateOutput();
 }
 
-void HcFrame::OnNewFormat( wxCommandEvent& event )
-{
-    string script;
-    hcNewFormatDlg nfdlg( this, &m_glc, m_from, m_to );
-    if( nfdlg.ShowModal() == wxID_OK ) {
-        string scode = nfdlg.GetSCode();
-        string fcode = nfdlg.GetFCode();
-        string init = nfdlg.GetBasedFCode();
-        if( !scode.empty() && !fcode.empty() ) {
-            if( nfdlg.GetIsoFlag() ) {
-                // TODO: ISO Format dialog
-            } else {
-                hcFormatDlg fdlg( this, &m_glc, scode, fcode, init );
-                if( fdlg.ShowModal() == wxID_OK ) {
-                    script = fdlg.get_script();
-                }
-            }
-        }
-    }
-    if( !script.empty() ) {
-        m_glc.run_script( script );
-        UpdateSchemeLists();
-        wxMessageBox( "Edit format OK" );
-    }
-}
-
 /*! \brief Called on a Help, TFP Website menu option event.
  *
  */

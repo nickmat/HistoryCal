@@ -44,23 +44,22 @@ public:
         long style = wxDEFAULT_FRAME_STYLE );
 
 private:
-		virtual void OnRunScript( wxCommandEvent& event );
-		virtual void OnExit( wxCommandEvent& event );
-		virtual void OnToggleInterm( wxCommandEvent& event );
-		virtual void OnToggleCount( wxCommandEvent& event );
-		virtual void OnNewFormat( wxCommandEvent& event );
-		virtual void OnWebsite( wxCommandEvent& event );
-		virtual void OnAbout( wxCommandEvent& event );
+		void OnRunScript( wxCommandEvent& event ) override;
+		void OnExit( wxCommandEvent& event ) override;
+		void OnToggleInterm( wxCommandEvent& event ) override;
+		void OnToggleCount( wxCommandEvent& event ) override;
+		void OnWebsite( wxCommandEvent& event ) override;
+		void OnAbout( wxCommandEvent& event ) override;
 
-        virtual void OnSelectInput( wxCommandEvent& event );
-		virtual void OnSelectInputFormat( wxCommandEvent& event );
-		virtual void OnSelectVocab( wxCommandEvent& event );
-		virtual void OnSelectToken( wxCommandEvent& event );
-		virtual void OnCheckTextFull( wxCommandEvent& event );
-		virtual void OnInputEnter( wxCommandEvent& event );
-		virtual void OnButtonConvert( wxCommandEvent& event );
-		virtual void OnSelectOutput( wxCommandEvent& event );
-		virtual void OnSelectOutputFormat( wxCommandEvent& event );
+        void OnSelectInput( wxCommandEvent& event ) override;
+		void OnSelectInputFormat( wxCommandEvent& event ) override;
+		void OnSelectVocab( wxCommandEvent& event ) override;
+		void OnSelectToken( wxCommandEvent& event ) override;
+		void OnCheckTextFull( wxCommandEvent& event ) override;
+		void OnInputEnter( wxCommandEvent& event ) override;
+		void OnButtonConvert( wxCommandEvent& event ) override;
+		void OnSelectOutput( wxCommandEvent& event ) override;
+		void OnSelectOutputFormat( wxCommandEvent& event ) override;
 
         void UpdateSchemeLists();
         void UpdateInputFormat();
