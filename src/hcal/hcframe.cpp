@@ -79,7 +79,7 @@ HcFrame::HcFrame(
 void HcFrame::OnRunScript( wxCommandEvent& event )
 {
     wxString caption = _("Select Script");
-    wxString wildcard = _("HistoryCal Script (*.hcs)|*.hcs");
+    wxString wildcard = _("Glich Script (*.glcs)|*.glcs");
     wxString defaultDir = ".";
     wxString defaultFName = wxEmptyString;
 

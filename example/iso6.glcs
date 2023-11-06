@@ -10,10 +10,10 @@ format g:iso_y6set {
     rules iso8601 dateset year6;
 }
 
-format isow:y6wd {
+format gw:iso_y6wd {
     rules iso8601 week year6;
 }
 
-format isoo:y6d {
+format go:iso_y6d {
     rules iso8601 ordinal year6;
 }

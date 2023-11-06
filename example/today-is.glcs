@@ -1,0 +1,10 @@
+// Display today's date in various calendar formats
+
+write "Today is :-" nl;
+write "Gregorian: " + @text.g:full( today ) nl;
+write "    ISO Week No: " + @record.gw( today )[week] +
+        "    Ordinal Day No: " + @record.go( today)[day] nl;
+
+write "Julian Annunciation Florence: " + @text.ja:out( today ) nl;
+
+write "Julian Annunciation Pisa: " + @text.jap:out( today );

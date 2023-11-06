@@ -1,0 +1,7 @@
+// Add a new format to the "j" grammar for html output.
+
+mark example_html;
+
+format j:html {
+    output "<span class='date'>|{day}<sup>{day::oa}</sup> |<b>{month:m}</b> |{year}|</span>";
+}
