@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2013
- * Copyright:   Copyright (c) 2013-2014, Nick Matthews.
+ * Copyright:   Copyright (c) 2013-2023, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCal is free software: you can redistribute it and/or modify
@@ -30,9 +30,8 @@
 
 class HcApp: public wxApp
 {
-    virtual bool OnInit();
-
-    wxFrame *frame;
+    bool OnInit() override;
+    int OnExit() override;
 };
 
 wxDECLARE_APP( HcApp );

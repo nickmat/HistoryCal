@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2013
- * Copyright:   Copyright (c) 2013 .. 2020, Nick Matthews.
+ * Copyright:   Copyright (c) 2013 .. 2023, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCal is free software: you can redistribute it and/or modify
@@ -68,7 +68,6 @@ private:
         void UpdateOutputFormat();
         void CalculateOutput();
 
-        glich::Glich m_glc;
         std::string  m_from;
         std::string  m_to;
         glich::SchemeList        m_schemes;
@@ -76,12 +75,6 @@ private:
         glich::SchemeFormatInfo  m_output_info;
         bool m_show_interm;
         bool m_show_count;
-};
-
-class HcInOut : public glich::InOut
-{
-public:
-    std::string get_input( const std::string& prompt ) override;
 };
 
 #endif // SRC_HCAL_HCFRAME_H_GUARD
