@@ -185,7 +185,7 @@ hcFbFrame::hcFbFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	bSizer4 = new wxBoxSizer( wxHORIZONTAL );
 
 	m_textOutput = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY|wxTE_WORDWRAP );
-	m_textOutput->SetMinSize( wxSize( 300,50 ) );
+	m_textOutput->SetMinSize( wxSize( 400,80 ) );
 
 	bSizer4->Add( m_textOutput, 1, wxALL|wxEXPAND, 5 );
 
