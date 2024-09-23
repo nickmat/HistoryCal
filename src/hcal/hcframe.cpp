@@ -70,8 +70,8 @@ HcFrame::HcFrame(
 
     m_textInput->SetFocus();
 
-    if ( !get_glc()->get_init_error().empty() ) {
-        wxMessageBox( get_glc()->get_init_error(), "Default Script Error" );
+    if ( !glc().get_init_error().empty() ) {
+        wxMessageBox( glc().get_init_error(), "Default Script Error" );
     }
 }
 
@@ -87,7 +87,7 @@ void HcFrame::OnRunScript( wxCommandEvent& event )
     wxFileDialog dialog( this, caption, defaultDir, defaultFName, wildcard, wxFD_OPEN );
     if( dialog.ShowModal() == wxID_OK ) {
         std::string path = WxStrToUtf8( dialog.GetPath() );
-        wxString result = Utf8ToWxStr( get_glc()->run_script_file( path ) );
+        wxString result = Utf8ToWxStr( glc().run_script_file( path ) );
         if( result.size() ) {
             wxMessageBox( result, path );
         }
@@ -154,7 +154,7 @@ void HcFrame::OnAbout( wxCommandEvent& event )
             "running under %s."),
             hcTitle,
             wxVERSION_STRING,
-            get_glc()->version(),
+            glc().version(),
             Utf8api::version(),
             hcGetCompilerVersion(),
             wxGetOsDescription().c_str()
@@ -190,7 +190,7 @@ void HcFrame::OnSelectInputFormat( wxCommandEvent& event )
 void HcFrame::OnSelectVocab( wxCommandEvent& event )
 {
     Scheme_info info;
-    get_glc()->get_scheme_info( &info, m_from );
+    glc().get_scheme_info( &info, m_from );
     UpdateTextTokens( &info );
 }
 
@@ -216,7 +216,7 @@ void HcFrame::OnSelectToken( wxCommandEvent& event )
 void HcFrame::OnCheckTextFull( wxCommandEvent& event )
 {
     Scheme_info info;
-    get_glc()->get_scheme_info( &info, m_from );
+    glc().get_scheme_info( &info, m_from );
     UpdateTextTokens( &info );
 }
 
@@ -245,7 +245,7 @@ void HcFrame::OnSelectOutputFormat( wxCommandEvent& event )
 
 void HcFrame::UpdateSchemeLists()
 {
-    m_schemes = get_glc()->get_scheme_list( SchemeStyle::Default );
+    m_schemes = glc().get_scheme_list( SchemeStyle::Default );
     m_comboBoxInput->Clear();
     m_comboBoxOutput->Clear();
     bool from_found = false, to_found = false;
@@ -281,7 +281,7 @@ void HcFrame::UpdateSchemeLists()
 void HcFrame::UpdateInputFormat()
 {
     m_comboBoxInFormat->Clear();
-    get_glc()->get_input_info( &m_input_info, m_from );
+    glc().get_input_info( &m_input_info, m_from );
     for( size_t i = 0 ; i < m_input_info.descs.size() ; i++ ) {
         wxString fmt = ":" + Utf8ToWxStr( m_input_info.descs[i].codes[0].code ) + "#  "
             + Utf8ToWxStr( m_input_info.descs[i].desc );
@@ -296,7 +296,7 @@ void HcFrame::UpdateTextVocabs()
 {
     m_comboBoxVocab->Clear();
     Scheme_info info;
-    get_glc()->get_scheme_info( &info,  m_from );
+    glc().get_scheme_info( &info,  m_from );
     for( size_t i = 0 ; i < info.lexicon_names.size() ; i++ ) {
         m_comboBoxVocab->Append( Utf8ToWxStr( info.lexicon_names[i] ) );
     }
@@ -314,7 +314,7 @@ void HcFrame::UpdateTextTokens( Scheme_info* sinfo )
     if( sinfo->lexicon_codes.size() ) {
         int sel = m_comboBoxVocab->GetSelection();
         string code = sinfo->lexicon_codes[sel];
-        get_glc()->get_lexicon_info( &vinfo, code );
+        glc().get_lexicon_info( &vinfo, code );
     }
     for( size_t i = 0 ; i < vinfo.words.size() ; i++ ) {
         if( m_checkTextFull->GetValue() ) {
@@ -332,7 +332,7 @@ void HcFrame::UpdateTextTokens( Scheme_info* sinfo )
 void HcFrame::UpdateOutputFormat()
 {
     m_comboBoxOutFormat->Clear();
-    get_glc()->get_output_info( &m_output_info, m_to );
+    glc().get_output_info( &m_output_info, m_to );
     for( size_t i = 0 ; i < m_output_info.descs.size() ; i++ ) {
         wxString fmt = ":" + Utf8ToWxStr( m_output_info.descs[i].codes[0].code ) + "#  "
             + Utf8ToWxStr( m_output_info.descs[i].desc );
@@ -353,11 +353,11 @@ void HcFrame::CalculateOutput()
     string out_sig = m_to + ":" + m_output_info.descs[outfmt].codes[0].code;
     string input = WxStrToUtf8( m_textInput->GetValue() );
     if( !input.empty() ) {
-        RList ranges = get_glc()->date_phrase_to_rlist( input, in_sig );
+        RList ranges = glc().date_phrase_to_rlist( input, in_sig );
 
-        inter << Utf8ToWxStr( get_glc()->rlist_to_text( ranges, "jdn" ) );
+        inter << Utf8ToWxStr( glc().rlist_to_text( ranges, "jdn" ) );
 
-        output << Utf8ToWxStr( get_glc()->rlist_to_text( ranges, out_sig ) );
+        output << Utf8ToWxStr( glc().rlist_to_text( ranges, out_sig ) );
         size_t rsize = ranges.size();
         if( m_show_count && rsize ) {
             if( ranges[0].m_beg == f_minimum || ranges[rsize-1].m_end == f_maximum ) {
