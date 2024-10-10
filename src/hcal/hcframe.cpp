@@ -245,7 +245,7 @@ void HcFrame::OnSelectOutputFormat( wxCommandEvent& event )
 
 void HcFrame::UpdateSchemeLists()
 {
-    m_schemes = glc().get_scheme_list( SchemeStyle::Default );
+    m_schemes = glc().get_scheme_list( Visibility::visible );
     m_comboBoxInput->Clear();
     m_comboBoxOutput->Clear();
     bool from_found = false, to_found = false;
