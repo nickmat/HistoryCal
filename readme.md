@@ -7,7 +7,14 @@ historical date and calendar calculator.
 
 For more details and links to a compiled version for Windows (10 and 11) and the source code, please visit the website at http://historycal.org
 
-In previous versions,
-the source code had been compiled on gnu/linux Ubuntu (Mint) and OS X (Yosemite).
-See the file build/build.txt for details.
-Version v0.1.0 has changed to a CMake build and has been tested on Windows only.
+To build the the program on Windows with Visual Studio 2022,
+the following should work:-
+```
+git clone --recurse-submodules https://github.com/nickmat/HistoryCal.git
+cd HistoryCal\build
+.\cmake-vc-working.bat
+vc-working\hcal.sln
+```
+If all goes well, this will open Visual Studio 2022 (or later)
+with all the source files, including third-party ones,
+available to build the HistoryCal program under the project name "hcal".
