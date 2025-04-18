@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2013
- * Copyright:   Copyright (c) 2013 .. 2023, Nick Matthews.
+ * Copyright:   Copyright (c) 2013..2025, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCal is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@
 #define SRC_HCAL_HCFRAME_H_GUARD
 
 #include "hcfbframe.h"
-#include <glc/glc.h>
+#include <glc/hic.h>
 
 
 /*! \brief The main HistoryCal application frame.

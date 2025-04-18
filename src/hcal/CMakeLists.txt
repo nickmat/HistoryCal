@@ -4,7 +4,7 @@
 # Author:      Nick Matthews
 # Website:     http://historycal.org/
 # Created:     22nd January 2021
-# Copyright:   Copyright (c) 2021..2023, Nick Matthews.
+# Copyright:   Copyright (c) 2021..2025, Nick Matthews.
 # Licence:     GNU GPLv3
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -26,4 +26,4 @@ add_executable(hcal WIN32 ${HCAL_SOURCES} ${HCAL_HEADERS} hcal.rc)
 
 set_property(TARGET hcal PROPERTY CXX_STANDARD 17)
 
-target_link_libraries (hcal PUBLIC glc wx::net wx::core wx::base)
+target_link_libraries (hcal PUBLIC hic glc wx::net wx::core wx::base)

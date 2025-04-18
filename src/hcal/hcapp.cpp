@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2013
- * Copyright:   Copyright (c) 2013-2023, Nick Matthews.
+ * Copyright:   Copyright (c) 2013..2025, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCal is free software: you can redistribute it and/or modify
@@ -40,7 +40,7 @@
 #include "hcconvert.h"
 #include "hcframe.h"
 
-#include <glc/glc.h>
+#include <glc/hic.h>
 
 
 IMPLEMENT_APP(HcApp)
@@ -66,7 +66,7 @@ std::string HcInOut::get_input( const std::string& prompt )
 
 bool HcApp::OnInit()
 {
-    glich::init_glc( glich::InitLibrary::Hics, new HcInOut );
+    glich::init_hic( glich::InitLibrary::Hics, new HcInOut );
 
     long style = wxMINIMIZE_BOX | wxRESIZE_BORDER | wxSYSTEM_MENU |
         wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN | wxTAB_TRAVERSAL;
@@ -77,7 +77,7 @@ bool HcApp::OnInit()
 
 int HcApp::OnExit()
 {
-    glich::exit_glc();
+    glich::exit_hic();
     return 0;
 }
 
