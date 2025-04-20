@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - Value Types</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />Script Value Types
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/script/index.htm' class='m-item'>Glich Script</a>
+  <a href='types.htm' class='m-item thispage'>Value Types</a>
+  <a href='../../../../dev/man2/script/script/expr.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/script/index.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Value Types</h2>
+<p>
+ Glich supports the following value types.
+</p>
+<ul>
+ <li><b>String</b> - A sequence of unicode (UTF-8) characters.</li>
+ <li><b>Float</b> - A floating point number, includes <b>±inf</b> (infinity) and <b>nan</b> (not a number).</li>
+ <li><b>Number</b> - An integer number, can hold a value in the approximately range of ±10<sup>19</sup>.</li>
+ <li><b>Field</b> - An integer number in the range of ±2147483644, <b>±infinity</b> and an undefined value '<b>?</b>'.</li>
+ <li><b>Range</b> - One or more consecutive fields.</li>
+ <li><b>RList</b> - A well-ordered set (list) of ranges. Includes the <b>empty</b> set.</li>
+ <li><b>Boolean</b> - The boolean value <b>true</b> or <b>false</b>.</li>
+ <li><b>Object</b> - A named object and a collection of values and functions.</li>
+ <li><b>Blob</b> - A block of binary data. Can be used for binary files such as images.</li>
+ <li><b>Error</b> - If an error occurs during an expression, an error value is created.</li>
+ <li><b>Null</b> - A value which has no defined content.</li>
+</ul>
+
+<h3>String</h3>
+<p>
+ A string is sequence of unicode (UTF-8) characters.
+ It is written by enclosing the text in double quotes <b>'"'</b>.
+ If a double quote is required in the text, use two double quotes together.
+ For example, the value "Say ""Hello""" would print as Say "Hello".
+</p>
+
+<h3>Float</h3>
+<p>
+ A floating point number.
+</p>
+<p>
+ A float may hold the following special values.
+</p>
+<table class='basic'>
+<tr><th>Keyword</th><th>Meaning</th></tr>
+<tr><td><b>inf</b></td><td>Infinity. Can be preceded by a plus <b>'+'</b> or minus <b>'-'</b> sign.</td></tr>
+<tr><td><b>nan</b></td><td>Not a number.</td></tr>
+</table>
+<p>
+ Any operation with <b>nan</b> results in <b>nan</b>,
+ with the exception of equal <b>=</b> and not equal <b>&lt;&gt;</b>.
+</p>
+<p>
+ <span class='example'>float_type</span> is also part of the
+ <span class='example'>numeric_type</span> and
+ <span class='example'>any_numeric_type</span> groups.
+</p>
+
+<h3>Number</h3>
+<p>
+ A number is a 64 bit signed integer value.
+</p>
+<p>
+ <span class='example'>number_type</span> is also part of the
+ <span class='example'>integer_type</span>,
+ <span class='example'>numeric_type</span> and
+ <span class='example'>any_numeric_type</span> groups.
+</p>
+
+<h3>Field</h3>
+<p>
+ A field is a 32 bit signed integer value with some fixed values.
+ It is used to form integer ranges and sets.
+ It can be used with the set operands:
+ complement <b>'!'</b>, union <b>'|'</b>, intersection <b>'&amp;'</b>,
+ symmetric difference <b>'^'</b> and relative compliment <b>'\'</b>.
+</p>
+<p>
+ A field may hold the following special values.
+</p>
+<table class='basic'>
+<tr><th>Keyword</th><th>Meaning</th></tr>
+<tr><td><b>infinite</b></td><td>Can be preceded by a plus <b>'+'</b> or minus <b>'-'</b> sign.</td></tr>
+<tr><td><b>?</b></td><td>An unknown or indeterminate value.</td></tr>
+</table>
+<p>
+ <span class='example'>field_type</span> is also part of the
+ <span class='example'>set_type</span>,
+ <span class='example'>integer_type</span>,
+ <span class='example'>numeric_type</span> and
+ <span class='example'>any_numeric_type</span> groups.
+</p>
+
+<h3>Range</h3>
+<p>
+ A range is expressed as two field values which denote the first and last values of an inclusive, continuous list.
+ Both values may be the same, which implies a list of one value.
+ A range is written using the <b>'..'</b> operator.
+ Note, (a..b) is identical to (b..a).
+ When a range is output as a string it is always written with the lower value first.
+</p>
+<p>
+ The <b>infinity</b> value is permitted in a range but not the <b>'?'</b> value.
+</p>
+<p>
+ A field may be promoted to a range with the upper and lower values equal. 
+</p>
+<p>
+ A range may only be demoted to a field if both values are equal. 
+</p>
+<p>
+ <span class='example'>range_type</span> is also part of the
+ <span class='example'>set_type</span>,
+ <span class='example'>combined_type</span> and
+ <span class='example'>any_numeric_type</span> groups.
+</p>
+
+<h3>Rlist</h3>
+<p>
+ An rlist is a list of ranges. The list may contain zero or more ranges.
+ If the rlist has more than one range,
+ it is written using the union <b>'|'</b> operator between ranges.
+ When an rlist is output, it is always written as a <b>well ordered list</b>.
+</p>
+<p>
+  A well ordered list can be described as when,
+  ranges are always shown with the lowest value first,
+  multiple ranges do not overlap or abut one another and are in ascending order.
+</p>
+<p>
+ The rlist may hold the special value keyword <b>'empty'</b>,
+ meaning it is the empty or null set.
+</p>
+<p>
+ A range may be promoted to an rlist with a single range. 
+</p>
+<p>
+ An rlist may only be demoted to a range if, after conversion to a well ordered list,
+ it contains a single range.
+</p>
+<p>
+ <span class='example'>rlist_type</span> is also part of the
+ <span class='example'>set_type</span>,
+ <span class='example'>combined_type</span> and
+ <span class='example'>any_numeric_type</span> groups.
+</p>
+
+<h3>Boolean</h3>
+<p>
+ A boolean value holds one of the two keywords <b>'true'</b> or <b>'false'</b>.
+</p>
+
+<h3>Object</h3>
+<p>
+ An object value holds a collection of other values.
+ It has to be defined and given a code first.
+ After its definition it can written by enclosing the values in curly brackets,
+ starting with the objects code name.
+</p>
+<p>
+ The language contains one built-in general purpose object
+ that does not need to be defined before use.
+ This is documented <a href='bi-objects.htm'>here</a>.
+</p>
+
+<h3>Blob</h3>
+<p>
+ Can be used for binary data, as listed below.
+</p>
+
+<table class='basic'>
+<tr><th>Blob Type</th><th>Description</th></tr>
+<tr><td><b>unknown</b></td><td>Unknown binary data</td></tr>
+<tr><td><b>file</b></td><td>Represents any binary file</td></tr>
+<tr><td><b>jpeg, png</b></td><td>Image data.</td></tr>
+<tr><td><b>mp3</b></td><td>Audio data.</td></tr>
+<tr><td><b>mp4</b></td><td>Video data.</td></tr>
+</table>
+
+<p>
+ Currently, this type can only be used with the function <b>@load:blob</b> and command <b>save:blob</b>.
+</p>
+<p>
+ When a string description of a blob is required, it is given in the form
+ <code>blob:<i>type</i>:<i>size</i></code>. For example 
+ <span class='example'>blob:png:1999</span>.
+</p>
+
+<h3>Error</h3>
+<p>
+ An error value is created whenever an operation is carried which has undefined results.
+ When written out, the value should print text that describes where and why
+ the error was created.
+</p>
+
+<h3>Null</h3>
+<p>
+ A null value holds the keyword <b>'null'</b>.
+</p>
+<p>
+ Only the equal <b>'='</b> and not equal <b>'&lt;&gt;'</b> operators may be used with null values.
+ The equals operator returns 'true' if both values are null
+ and 'false' otherwise.
+ Any other operation with null is undefined and results in an error value.
+</p>
+<p>
+ Null values can be used as place-holder values within an object value.
+</p>
+
+<h2>Summary of Types</h2>
+
+<table class='basic'>
+<tr><td><b>string</b></td><td class="code">string_type</td><td colspan="4"></td></tr>
+<tr><td><b>float</b></td><td class="code">float_type</td><td rowspan="2"></td><td></td><td class="code" rowspan="3">numeric_type</td><td class="code" rowspan="5">any_numeric_type</td></tr>
+<tr><td><b>number</b></td><td class="code">number_type</td><td rowspan="2" class="code">integer_type</td></tr>
+<tr><td><b>field</b></td><td class="code">field_type</td><td  class="code"rowspan="3">set_type</td></tr>
+<tr><td><b>range</b></td><td class="code">range_type</td><td class="code" rowspan="2">combined_type</td><td rowspan="2"></td></tr>
+<tr><td><b>rlist</b></td><td class="code">rlist_type</td></tr>
+<tr><td><b>boolean</b></td><td class="code">bool_type</td><td colspan="4"></td></tr>
+<tr><td><b>object</b></td><td class="code">object_type</td><td class="code" colspan="4">named_object_type</td></tr>
+<tr><td><b>blob</b></td><td class="code">blob_type</td><td colspan="4"></td></tr>
+<tr><td><b>error</b></td><td class="code">error_type</td><td colspan="4"></td></tr>
+<tr><td><b>null</b></td><td class="code">null_type</td><td colspan="4"></td></tr>
+</table>
+
+<h2>Automatic Type Conversions</h2>
+<p>
+ When an operation expects two numeric types then, if both types are the same,
+ this will be the type of the output.
+ If the types differ, one of the types will attempt to be converted as follows.
+</p>
+<p>
+ If either type is a <b>float</b>, the other type will be converted to a float.
+</p>
+<p>
+ If the types are a <b>number</b> and a <b>field</b>, in either order,
+ the number is converted to a field if possible.
+ If the conversion would causes an overflow, it is converted to the unknown <b>?</b> value.
+</p>
+<p>
+ Set types are automatically promoted or demoted as required to suit the operation.
+ If a demotion is required but not possible then an error type is returned.
+ Promotions are always possible.
+</p>
+<p>
+ Any other operation with unmatched types will return an error type.
+</p>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/script/index.htm' class='m-item'>Glich Script</a>
+  <a href='types.htm' class='m-item thispage'>Value Types</a>
+  <a href='../../../../dev/man2/script/script/expr.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/script/index.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>22<sup>nd</sup> September 2024</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

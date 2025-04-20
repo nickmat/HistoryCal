@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - Define file</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />Define file
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../../dev/index.htm' class='m-item'>Development</a>
+    <a href='../../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../../dev/man2/script/script/index.htm' class='m-item'>Glich Script</a>
+  <a href='../../../../../dev/man2/script/script/stmts/index.htm' class='m-item'>Statements</a>
+  <a href='file.htm' class='m-item thispage'>Define file</a>
+  <a href='../../../../../dev/man2/script/script/stmts/let.htm' class='m-item nav'>►</a>
+  <a href='../../../../../dev/man2/script/script/stmts/write.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+ <h2>Statement: file</h2>
+ <p>
+  The file statement is used to both define a <b>file code</b>
+  and to open a text file for later use with the
+  <a href="write.htm">write statement</a> or <a href="bi-functions.htm#read">@read function</a>.
+ </p>
+<table class='basic'>
+ <tr><th colspan='3'>file Statement</th></tr>
+ <tr><th>Format</th><th>Example</th><th>Note</th></tr>
+ <tr>
+  <td class='code'><b>file</b> <i>filecode</i><b>;</b></td>
+  <td class='example'>file note;</td>
+  <td>Define a file code.</td>
+ </tr>
+ <tr>
+  <td class='code'><b>file</b> <i>filecode mode filename</i><b>;</b></td>
+  <td class='example'>file note append "note.txt";</td>
+  <td>Define a file code and prepare a file for use.</td>
+ </tr>
+ <tr>
+  <td class='code'><b>file.</b><i>filecode mode filename</i><b>;</b></td>
+  <td class='example'>file input read "input.txt";</td>
+  <td>Prepare an already defined file code file for use.</td>
+ </tr>
+</table>
+
+<p>
+ The filename is expected in the form of a string expression.
+</p>
+<p>
+ The mode can be one of the following names:
+</p>
+<table class='basic'>
+ <tr><th>Mode</th><th>Note</th></tr>
+ <tr>
+  <td class='code'><b>read</b></td>
+  <td>Open an existing file for reading text.</td>
+ </tr>
+ <tr>
+  <td class='code'><b>write</b></td>
+  <td>Open for writing, truncating any existing text.</td>
+ </tr>
+ <tr>
+  <td class='code'><b>append</b></td>
+  <td>Open for writing, adding new text to the end.</td>
+ </tr>
+</table>
+
+<p>
+ The file code can only be defined once.
+ To open or reopen a file, the file code must be used as a qualifier,
+ by adding a '.' (period) between the 'file' and 'filecode'.
+</p>
+
+<!-- This example is based on test script test\glcscripts\suite\glich\statements\file\file005.glcs-->
+<table class='code'>
+<tr><th>Example Script</th></tr>
+<tr><td class='example'
+>let filename = "Notes-file.txt";
+file note write filename;
+write.note "This is a test string." nl;
+write.note "And this is a second." nl;
+
+file.note read filename;
+write @read.note nl;
+write @read.note;
+</td></tr>
+<tr><td class='note'>
+<b>Output:-</b><br />
+<code>This is a test string.
+And this is a second.</code>
+</td></tr>
+</table>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../../dev/index.htm' class='m-item'>Development</a>
+    <a href='../../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../../dev/man2/script/script/index.htm' class='m-item'>Glich Script</a>
+  <a href='../../../../../dev/man2/script/script/stmts/index.htm' class='m-item'>Statements</a>
+  <a href='file.htm' class='m-item thispage'>Define file</a>
+  <a href='../../../../../dev/man2/script/script/stmts/let.htm' class='m-item nav'>►</a>
+  <a href='../../../../../dev/man2/script/script/stmts/write.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>10<sup>th</sup> November 2023</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

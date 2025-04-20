@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - Define object</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />Define object
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../../dev/index.htm' class='m-item'>Development</a>
+    <a href='../../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../../dev/man2/script/script/index.htm' class='m-item'>Glich Script</a>
+  <a href='../../../../../dev/man2/script/script/stmts/index.htm' class='m-item'>Statements</a>
+  <a href='object.htm' class='m-item thispage'>Define object</a>
+  <a href='../../../../../dev/man2/script/script/stmts/module.htm' class='m-item nav'>►</a>
+  <a href='../../../../../dev/man2/script/script/stmts/command.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Statement: object</h2>
+<p>
+ An <b>object</b> statement defines an object type
+ which can later be used to create an object value.
+ An object value is an array of other values
+ which can referenced by number or given names.
+ Additionally functions can be defined which can be called
+ using the function operator <b>'@'</b>.
+</p>
+<p>
+ Two sub-statements can be used in an object definition.
+ Both are optional.
+</p>
+
+<table class='basic'>
+<tr><th colspan='2'>object Sub-Statement List</th></tr>
+<tr><th>Sub-Statement</th><th>Use</th></tr>
+<tr><td class='code'><b>values</b></td><td>A list values that are used as local variables.</td></tr>
+<tr><td class='code'><b>function</b></td><td>As normal function but has access to the values.</td></tr>
+</table>
+
+<table class='basic'>
+<tr><th colspan='2'>object Statement</th></tr>
+<tr><th>Example</th><th>Output</th></tr>
+<tr> <!-- See test file - test\glcscripts\suite\glich\examples\object-def-01.glcs -->
+<td class='example'><b>object</b> complex <b>{</b>
+    <b>values</b> real imaginary<b>;</b>
+    <b>function</b> add<b>(</b> comp <b>){</b>
+        if (comp[.object] = "complex")
+            <b>result</b> = {complex real+comp[real], imaginary+comp[imaginary]};
+        else
+            <b>result</b> = error "Must have 'complex' argument";
+        endif
+    <b>}</b>
+<b>}</b>
+
+let c1 = {complex 5, 9};
+let c2 = c1 @add( {complex 20, 6} );
+let c2 = {complex 20, 6};
+
+write c1 @add( c2 ) nl;
+write c1 @add( 1 ) nl;
+</td>
+<td>{complex 25, 15}<br />
+Error (9): Must have 'complex' argument
+</tr>
+</table>
+
+<h3>Sub-Statement: values</h3>
+<p>
+ The values sub-statement consists of a list of names terminated with a semicolon.
+ These are the names given to the fist values, in the order given.
+</p>
+<p>
+ The values in the object value array can be accessed or assigned to
+ by using the subscript <b>'[' ']'</b> operator.
+</p>
+
+<h3 id="function">Sub-Statement: function</h3>
+<p>
+ The function sub-statement is similar other functions
+ except it has access to the objects values and it is instigated
+ with the function <b>'@'</b> operator following an object value.
+</p>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../../dev/index.htm' class='m-item'>Development</a>
+    <a href='../../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../../dev/man2/script/script/index.htm' class='m-item'>Glich Script</a>
+  <a href='../../../../../dev/man2/script/script/stmts/index.htm' class='m-item'>Statements</a>
+  <a href='object.htm' class='m-item thispage'>Define object</a>
+  <a href='../../../../../dev/man2/script/script/stmts/module.htm' class='m-item nav'>►</a>
+  <a href='../../../../../dev/man2/script/script/stmts/command.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>9<sup>th</sup> March 2023</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

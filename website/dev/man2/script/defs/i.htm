@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - i</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />i - Islamic Tabular
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='i.htm' class='m-item thispage'>i</a>
+  <a href='../../../../dev/man2/script/defs/ims.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/h.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Calendar Description - Scheme i</h2>
+<p>
+ The Islamic calendar is a lunar calendar used throughout the Arabic and Muslim areas.
+</p>
+
+<h3>Use Case</h3>
+<p>
+ This arithmetical version is commonly used for planning purposes
+ and where details of the calendar being used is unknown.
+</p>
+
+<h3>Definition</h3>
+<table class='record'>
+<tr><th colspan='4'>Record</th></tr>
+<tr><td>year</td><td>month</td><td>day</td><td class='rdonly'>wsday</td></tr>
+</table>
+
+<p class='lclear'>
+ The year consists of twelve lunar months which in a common year alternate between of 30 and 29 days.
+ In a leap year, the 12<sup>th</sup> month has 30 days instead of the usual 29. 
+ A common year has 354 days and a leap year 355 days.
+</p>
+<p>
+ Leap years occur on a 30 year cycle in years 2, 5, 7, 10, 13, 16, 18, 21, 24, 26 and 29.
+</p>
+
+<div class='p'>
+ The <b>Epoch</b> is set at the civil epoch, which is:-
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>i</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>1</td><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>j</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>622</td><td>7</td><td>16</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>1948440</td></tr>
+ </table>.
+</div>
+
+<p></p>
+<table class='basic data lfloat'>
+
+<tr><th colspan='5'>Month Names - Lexicon im</th></tr>
+<tr><th rowspan='2'>Number</th><th colspan='2'>Name</th><th colspan='2'>Number of Days</th></tr>
+<tr><th>Full</th><th>Abrev.</th><th>Common</th><th>Leap</th></tr>
+
+<tr><td>1</td><td>Muḥarram</td><td>Muharram</td><td>30</td><td>30</td></tr>
+<tr><td>2</td><td>Ṣafar</td><td>Safar</td><td>29</td><td>29</td></tr>
+<tr><td>3</td><td>Rabī‘ al-Awwal</td><td>Rabi' I</td><td>30</td><td>30</td></tr>
+<tr><td>4</td><td>Rabī‘ al-Ākhir</td><td>Rabi' II</td><td>29</td><td>29</td></tr>
+<tr><td>5</td><td>Jumādá al-Ūlá</td><td>Jumada I</td><td>30</td><td>30</td></tr>
+<tr><td>6</td><td>Jumādá al-Ākhira</td><td>Jumada II</td><td>29</td><td>29</td></tr>
+<tr><td>7</td><td>Rajab</td><td>Rajab</td><td>30</td><td>30</td></tr>
+<tr><td>8</td><td>Sha‘bān</td><td>Sha'aban</td><td>29</td><td>29</td></tr>
+<tr><td>9</td><td>Ramaḍān</td><td>Ramadan</td><td>30</td><td>30</td></tr>
+<tr><td>10</td><td>Shawwāl</td><td>Shawwal</td><td>29</td><td>29</td></tr>
+<tr><td>11</td><td>Dhū al-Qa‘dah</td><td>Dhu al-Qi'dah</td><td>30</td><td>30</td></tr>
+<tr><td>12</td><td>Dhū al-Ḥijjah</td><td>Dhu al-Hijjah</td><td>29</td><td>30</td></tr>
+</table>
+
+<table class='basic data lfloat'>
+<tr><th colspan='3'>Week Names - Lexicon iw</th></tr>
+<tr><th rowspan='2'>Number</th><th colspan='2'>Name</th></tr>
+<tr><th>Full</th><th>Abrev.</th></tr>
+<tr><td>1</td><td>Yawm al-Aḥad</td><td>Ahad</td></tr>
+<tr><td>2</td><td>Yawm al-Ithnayn</td><td>Ithn</td></tr>
+<tr><td>3</td><td>Yawm ath-Thulāthāʼ</td><td>Thal</td></tr>
+<tr><td>4</td><td>Yawm al-Arbi‘ā’</td><td>Arda</td></tr>
+<tr><td>5</td><td>Yawm al-Khamīs</td><td>Kham</td></tr>
+<tr><td>6</td><td>Yawm al-Jumu‘ah</td><td>Jumu</td></tr>
+<tr><td>7</td><td>Yawm as-Sabt</td><td>Sabt</td></tr>
+</table>
+
+<h3 class="clear">Formats</h3>
+<p>
+ The formats supplied with this scheme.
+</p>
+
+<table class='basic data'>
+<tr><th colspan='6'>Formats - Grammar i</th></tr>
+<tr><th>Code</th><th>Rule</th><th>Pseudo:in</th><th>Pseudo:out</th><th>Example</th><th>Note</th></tr>
+<tr><td><b>dmy</b></td><td>text</td><td>day month year</td><td>dd Month yyyy</td><td class='example'>22 Dhū al-Ḥijjah 1445</td><td>D, S</td></tr>
+<tr><td><b>dmy_a</b></td><td>text</td><td>day month year</td><td>dd Mon yyyy</td><td class='example'>22 Dhu al-Hijjah 1445</td><td>S</td></tr>
+<tr><td><b>dmy_d</b></td><td>text</td><td>day month year</td><td>dd mm yyyy</td><td class='example'>22 12 1445</td><td>S</td></tr>
+<tr><td><b>wdmy</b></td><td>text</td><td>wsday day month year</td><td>Weekday dd Month yyyy</td><td class='example'>Yawm as-Sabt 22 Dhū al-Ḥijjah 1445</td><td></td></tr>
+<tr><td><b>wdmy_a</b></td><td>text</td><td>wsday day month year</td><td>WDay dd Mon yyyy</td><td class='example'>Sabt 22 Dhu al-Hijjah 1445</td><td></td></tr>
+<tr><td><b>ymd</b></td><td>text</td><td>year month day</td><td>yyyy Mon dd</td><td class='example'>1445 Dhu al-Hijjah 22</td><td>S</td></tr>
+<tr><td><b>def</b></td><td>text</td><td>year month day</td><td>yyyy mm dd</td><td class='example'>1445 12 22</td><td>H, S</td></tr>
+<tr><td><b>u</b></td><td>unit</td><td>9y 9m 9d</td><td>9y 9m 9d</td><td class='example'>1445y 12m 22d</td><td>H</td></tr>
+<tr><td colspan='6'>Notes: D = Default, H = Hidden, S = Range shortcut supported.
+Example based on jdn# 2460491</td></tr>
+</table>
+
+<h3>Script</h3>
+<table class='code lfloat'>
+<tr><th>Script - Module hics:islamic</th></tr>
+<tr><td
+>lexicon im {
+    name "Islamic Month names";
+    fieldname month;
+    lang en;
+    pseudo    Month, Mon;
+    tokens {
+        1, "Muḥarram",         "Muharram";
+        2, "Ṣafar",            "Safar";
+        3, "Rabī‘ al-Awwal",   "Rabi' I";
+        4, "Rabī‘ al-Ākhir",   "Rabi' II";
+        5, "Jumādá al-Ūlá",    "Jumada I";
+        6, "Jumādá al-Ākhira", "Jumada II";
+        7, "Rajab";
+        8, "Sha‘bān",          "Sha'aban";
+        9, "Ramaḍān",          "Ramadan";
+        10, "Shawwāl",         "Shawwal";
+        11, "Dhū al-Qa‘dah",   "Dhu al-Qa'dah";
+        12, "Dhū al-Ḥijjah",   "Dhu al-Hijjah";
+    }
+}
+lexicon iw {
+    name "Islamic Weekday names";
+    fieldname wsday; // Note: Days are numbered from Sunday, unlike "wday".
+    lang en;
+    pseudo    Weekday, WDay;
+    tokens {
+        1, "Yawm al-Aḥad",       "Ahad"; // Sunday
+        2, "Yawm al-Ithnayn",    "Ithn"; // Monday
+        3, "Yawm ath-Thulāthāʼ", "Thul"; // Tuesday
+        4, "Yawm al-Arbi‘ā’",    "Arbi"; // Wednesday
+        5, "Yawm al-Khamīs",     "Kham"; // Thursday
+        6, "Yawm al-Jumu‘ah",    "Jumu"; // Friday
+        7, "Yawm as-Sabt",       "Sabt"; // Saturday
+    }
+}
+grammar i {
+    fields year month day;
+    optional wsday;
+    lexicons im iw;
+    alias pseudo { w wsday; dd day; mm month; yyyy year; }
+    alias unit { d day; m month; y year; }
+    format  dmy    "{day} |{month:im} |{year}";
+    format  dmy_a  "{day} |{month:im:a} |{year}";
+    format  dmy_d  "{day} |{month} |{year}";
+    format  wdmy   "{wsday:iw} |{day} |{month:im} |{year}";
+    format  wdmy_a "{wsday:iw:a} |{day} |{month:im:a} |{year}";
+    format  ymd    "{year}| {month:im:a}| {day}";
+    preferred dmy;
+}
+scheme i {
+    name "Islamic Tabular";
+    base islamic IIc;
+    grammar i;
+}
+</td></tr>
+</table>
+<p class="clear">
+  Note, the use of optional field "<a href='7dayweek.htm'>wsday</a>" in which the week starts on Sunday (day 1).
+</p>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='i.htm' class='m-item thispage'>i</a>
+  <a href='../../../../dev/man2/script/defs/ims.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/h.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>23<sup>rd</sup> June 2024</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

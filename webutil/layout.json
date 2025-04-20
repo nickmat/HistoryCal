@@ -64,6 +64,7 @@
     ]},
     { "folder": "dev", "name": "index", "label": "Development", "title": "Development", "subtitle": "Introduction", "content": [
       { "insert": "manual-0-0-7.json" },
+      { "insert": "manual-0-1-0.json" },
       { "name": "routemap", "label": "Route Map", "title": "Development" },
       { "folder": "lib", "name": "index", "label": "Cal Library", "title": "Cal Library", "subtitle": "Introduction" },
       { "folder": "scripts", "name": "index", "label": "Scripts", "title": "Scripts", "subtitle": "Introduction", "content": [

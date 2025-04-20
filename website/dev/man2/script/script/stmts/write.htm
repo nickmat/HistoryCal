@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - write Statement</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />write Statement
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../../dev/index.htm' class='m-item'>Development</a>
+    <a href='../../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../../dev/man2/script/script/index.htm' class='m-item'>Glich Script</a>
+  <a href='../../../../../dev/man2/script/script/stmts/index.htm' class='m-item'>Statements</a>
+  <a href='write.htm' class='m-item thispage'>write Statement</a>
+  <a href='../../../../../dev/man2/script/script/stmts/file.htm' class='m-item nav'>►</a>
+  <a href='../../../../../dev/man2/script/script/stmts/index.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Statement: write</h2>
+<p>
+ The write statement is intended to provide written output.
+</p>
+<table class='basic'>
+ <tr><th colspan='3'>write Statement</th></tr>
+ <tr><th>Format</th><th>Example</th><th>Output</th></tr>
+ <tr>
+  <td class='code'><b>write</b> <i>expr</i><b>;</b></td>
+  <td class='example'>write "Triangular number T4 = " + (1+2+3+4);</td>
+  <td>Triangular number T4 = 10</td>
+ </tr>
+ <tr>
+  <td class='code'><b>write</b> <i>expr<b>,</b> expr</i><b>;</b></td>
+  <td class='example'>let a = {: ,5/2,,}; write "Object", a;</td>
+  <td>Object, {: null, 2.5, null, null}</td>
+ </tr>
+ <tr>
+  <td class='code'><b>write</b> <i>expr <b>nl</b> expr</i><b>;</b></td>
+  <td class='example'>write "Well ordered rlist" nl 10..20 & !15;</td>
+  <td>Well ordered rlist<br />10..14 | 16..20</td>
+ </tr>
+ <tr>
+  <td class='code'><b>write</b><i>.filecode expr</i><b>;</b></td>
+  <td class='example'>write.text "Next line in the text file" nl;</td>
+  <td></td>
+ </tr>
+</table>
+<p>
+ The <code>expr</code> is a value which is the result of an expression.
+ It is first evaluated and then "stringified",
+ or converted into text.
+</p>
+<p>
+ It should be noted the the plus operator '+' is used for both
+ numerical addition and string concatenation.
+ The rule is, if both sides of the operator are numbers,
+ the values are added together.
+ But if one side is a string,
+ the other side is converted to a string and the two concatenated.
+ Since operators of equal precedence are evaluated from left to right,
+ one string to the left of a succession of numbers being added
+ will affect them all.
+ When in doubt, put all calculations in parentheses.
+</p>
+<table class='code'>
+ <tr><th>Example</th><th>Result</th></tr>
+ <tr><td>write 5 + 10 + 15;</td><td class='note'>30</td></tr>
+ <tr><td>write "" + 5 + 10 + 15;</td><td class='note'>51015</td></tr>
+ <tr><td>write "" + 5 + (10 + 15);</td><td class='note'>525</td></tr>
+ <tr><td>write !0;</td><td class='note'>-infinity..-1 | 1..+infinity</td></tr>
+ <tr><td>write {: ,10};</td><td class='note'>{: null, 10}</td></tr>
+ <tr><td>write @load:blob( "glich32.png" );</td><td class='note'>blob:png:1999</td></tr>
+</table>
+
+<p>
+ In addition to expressions, the write statement can contain ',' (comma)
+ character and the <b>nl</b> constant. The comma will output the string ", ".
+ The nl value outputs a new line character.
+</p>
+
+<h3>Output</h3>
+<p>
+ If the write statement has a <code>filecode</code> qualifier,
+ the output will be sent to the appropriate file.
+ Otherwise output is sent to the standard output device.
+</p>
+<p>
+ Exactly how the standard output is displayed will depend upon the program running the script.
+ The glcs interactive terminal program simply outputs the text to the following line.
+ The Gliched editor displays the output in the output window.
+</p>
+
+<h2>Statement: writeln</h2>
+<p>
+ The <b>writeln</b> statement is the same as the <b>write</b> statement
+ except writeln adds a newline character to the end of the output.
+</p>
+<p>
+ The following two statements are identical:
+ <code>writeln "some text";</code> and <code>write "some text" nl;</code>
+ The second is preferred.
+</p>
+<p>
+ The writeln statement may be removed in a future version.
+</p>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../../dev/index.htm' class='m-item'>Development</a>
+    <a href='../../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../../dev/man2/script/script/index.htm' class='m-item'>Glich Script</a>
+  <a href='../../../../../dev/man2/script/script/stmts/index.htm' class='m-item'>Statements</a>
+  <a href='write.htm' class='m-item thispage'>write Statement</a>
+  <a href='../../../../../dev/man2/script/script/stmts/file.htm' class='m-item nav'>►</a>
+  <a href='../../../../../dev/man2/script/script/stmts/index.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>9<sup>th</sup> March 2023</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

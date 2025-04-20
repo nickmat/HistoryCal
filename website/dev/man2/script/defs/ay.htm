@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - ay</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />ay - Astronomical Year
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='ay.htm' class='m-item thispage'>ay</a>
+  <a href='../../../../dev/man2/script/defs/fr.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/go.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Calendar Description - Scheme ay</h2>
+<p>
+ The Astronomical Year calendar is a hybrid variant combining the <a href='j.htm'>Julian</a>
+ and the <a href='g.htm'>Gregorian</a> calendars.
+ The calendar contains the year zero and prior years are shown as negative.
+</p>
+<p>
+ See <a href='https://en.wikipedia.org/wiki/Astronomical_year_numbering'>Wikipedia entry</a>.</li>
+</p>
+
+<h3>Use Case</h3>
+<ul>
+ <li>This calendar is commonly used by astronomers.
+ Typically only the year value is used.
+</ul>
+
+<h3>Definition</h3>
+<p class='lclear'>
+ The <b>Record</b> consists of four <b>Fields</b> named <code>scheme,</code> <code>year,</code>
+ <code>month</code> and <code>day.</code>
+</p>
+<table class='record'>
+<tr><th colspan='4'>Record - Default Order</th></tr>
+<tr><td>scheme</td><td>year</td><td>month</td><td>day</td></tr>
+</table>
+<table class='record'>
+<tr><th colspan='4'>Record - Ranking Order</th></tr>
+<tr><td>year</td><td>month</td><td>day</td><td>scheme</td></tr>
+</table>
+<table class='basic data rfloat'>
+<tr><th colspan='5'>Historic Era</th></tr>
+<tr><th colspan='2'>Calendar Scheme</th><th>Start</th><th>Finish</th><th>Range</th></tr>
+<tr><td>0</td><td><a href='j.htm'>Julian</a></td><td>past</td><td>j# 4 Oct 1582</td><td>past..2299160</td></tr>
+<tr><td>1</td><td><a href='g.htm'>Gregorian</a></td><td>g# 15 Oct 1582</td><td>future</td><td>2299161..future</td></tr>
+</table>
+<p>
+</p>
+<p class='lclear'>
+ For the range past..2299160 (j# 4 Oct 1582) the Julian Calendar is used.
+ There is zero and negative years.
+ For the range (g# 15 Oct 1582) 2299161..future the Gregorian calendar is used.
+</p>
+<p>
+ The year 1582 has 355 days.
+</p>
+<p>
+ As a Hybrid calendar, it has no single epoch.
+</p>
+
+<h3>Formats</h3>
+<p>
+ The formats supplied with this scheme.
+</p>
+
+<table class='basic data'>
+<tr><th colspan='5'>Formats - Grammar jg</th></tr>
+<tr><th>Code</th><th>Rule</th><th>Pseudo</th><th>Example</th><th>Note</th></tr>
+<tr><td><b>dmy</b></td><td>text</td><td><b>Input:</b> day month year<br /><b>Output:</b> dd Mon yyyy</td><td class='example'>4 Oct 1582<br />15 Oct 1582<td>D, S</td></tr>
+<tr><td><b>dmy+</b></td><td>text</td><td><b>Input:</b> day month year<br /><b>Output:</b> dd Month yyyy</td><td class='example'>4 October 1582<br />15 October 1582<td>S</td></tr>
+<tr><td><b>mdy</b></td><td>text</td><td><b>Input:</b> month day year<br /><b>Output:</b> Mon dd, yyyy</td><td class='example'>Oct 4, 1582<br />Oct 15, 1582<td>S</td></tr>
+<tr><td><b>mdy+</b></td><td>text</td><td><b>Input:</b> month day year<br /><b>Output:</b> Month dd, yyyy</td><td class='example'>October 4, 1582<br />October 15, 1582<td>S</td></tr>
+<tr><td><b>dmys</b></td><td>text</td><td><b>Input:</b> day month year scheme<br /><b>Output:</b> dd Mon yyyy sch</td><td class='example'>4 Oct 1582 j<br />15 Oct 1582 g<td></td></tr>
+<tr><td><b>dmys+</b></td><td>text</td><td><b>Input:</b> day month year scheme<br /><b>Output:</b> dd Month yyyy Scheme</td><td class='example'>4 October 1582 Julian<br />15 October 1582 Gregorian<td></td></tr>
+<tr><td><b>mdys</b></td><td>text</td><td><b>Input:</b> month day year scheme<br /><b>Output:</b> Mon dd, yyyy sch</td><td class='example'>Oct 4, 1582 j<br />Oct 15, 1582 g<td></td></tr>
+<tr><td><b>mdys+</b></td><td>text</td><td><b>Input:</b> month day year scheme<br /><b>Output:</b> Month dd, yyyy Scheme</td><td class='example'>October 4, 1582 Julian<br />October 15, 1582 Gregorian<td></td></tr>
+<tr><td><b>def</b></td><td>text</td><td><b>Input:</b> scheme year month day<br /><b>Output:</b> s yyyy mm dd</td><td class='example'>0 1582 10 4<br />1 1582 10 15<td>H</td></tr>
+<tr><td><b>u</b></td><td>unit</td><td><b>Input:</b> 9s 9y 9m 9d<br /><b>Output:</b> 9s 9y 9m 9d</td><td class='example'>0s 1582y 10m 4d<br />1s 1582y 10m 15d<td>H</td></tr>
+<tr><td colspan='6'>Notes: D = Default, H = Hidden, S = Range shortcut supported.
+Example based on jdn# 2299160 and 2299161</td></tr>
+</table>
+
+<h3>Script</h3>
+<table class='code lfloat'>
+<tr><th>Script - Module hics:ay</th></tr>
+<tr><td
+>lexicon jg {
+    name "Hybrid Julian and Gregorian scheme names";
+    fieldname scheme;
+    lang en;
+    pseudo    Scheme sch;
+    tokens {
+        0, "Julian",     "j";
+        1, "Gregorian",  "g";
+    }
+}
+grammar jg {
+    name "Hybrid Julian and Gregorian";
+    fields scheme year month day;
+    rank year month day;
+    lexicons m jg;
+    alias pseudo { dd day; mm month; yyyy year; s scheme; }
+    alias unit { d day; m month; y year; s scheme; }
+    format  dmy    "{day} |{month:m:a} |{year}";
+    format "dmy+"  "{day} |{month:m} |{year}";
+    format  mdy    "{month:m:a} |{day}, |{year}";
+    format "mdy+"  "{month:m} |{day}, |{year}";
+    format  dmys   "{day} |{month:m:a} |{year} |{scheme:jg:a}";
+    format "dmys+" "{day} |{month:m} |{year} |{scheme:jg}";
+    format  mdys   "{month:m:a} |{day}, |{year} |{scheme:jg:a}";
+    format "mdys+" "{month:m} |{day}, |{year} |{scheme:jg}";
+    preferred dmy;
+}
+scheme ay {
+    name "Astronomical Year";
+    base hybrid {
+        fields scheme year month day;
+        scheme 0 { base julian; }
+        change 2299161;  // g# 15 Oct 1582
+        scheme 1 { base gregorian; }
+    }
+    grammar jg;
+}
+</td></tr>
+</table>
+<p class='lclear'>
+ The script uses the <b>lexicon</b> "m" definition
+ from the <a href="j.htm"><b>j</b> Julian</a> scheme.
+</p>
+
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='ay.htm' class='m-item thispage'>ay</a>
+  <a href='../../../../dev/man2/script/defs/fr.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/go.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>27<sup>th</sup> July 2023</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

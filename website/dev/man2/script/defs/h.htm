@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - h</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />h - Hebrew
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='h.htm' class='m-item thispage'>h</a>
+  <a href='../../../../dev/man2/script/defs/i.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/fr.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Calendar Description - Scheme h</h2>
+<p>
+ The Hebrew calendar, also known as the Jewish calendar,
+ is a lunisolar arithmetical calendar based on the 19 year Metonic cycle.
+ In 7 of the 19 years, an extra month, named "Adar I" is added before "Adar"
+ (and "Adar" is renamed "Adar II").
+</p>
+<p>
+ Prior to using the this calendar, a observational system was used,
+ both in determining the start of the lunar month and,
+ by using natural phenomena, in adding the intercalated month.
+ The Metonic cycle may have used to check and confirm the observations,
+ but it was not until Hillel II in the fourth century CE
+ that this replaced the observational system.
+ The rules for calculations slowly evolved until around the 12th century,
+ when the calendar described here was formulated.
+</p>
+
+<h3>Use Case</h3>
+<p>
+ The mathematics of the calendar is commonly attributed Hillel II in the fourth century CE.
+ From then it slowly evolved until it reached its current form in approximately the 12th century.
+</p>
+<ul>
+ <li>Social records within Jewish communities worldwide.</li>
+ <li>Israel since its inception in 1948.</li>
+</ul>
+
+<h3>Definition</h3>
+<table class='record'>
+<tr><th colspan='6'>Record - Default order</th></tr>
+<tr><td>year</td><td>month</td><td>day</td><td class='rec-calc'>cmonth</td><td class='rec-opt'>wsday</td></tr>
+</table>
+<table class='record'>
+<tr><th colspan='6'>Record - Ranking order</th></tr>
+<tr><td>year</td><td class='rec-calc'>cmonth</td><td>day</td><td class='rec-opt'>wsday</td><td>month</td></tr>
+</table>
+
+<table class='basic data rfloat'>
+<tr><th colspan='6'>Month Names - Lexicons hm &amp; hcm</th></tr>
+<tr><th rowspan='2'>Number</th><th colspan='3'>Name</th><th rowspan='2' colspan='2'>Note</th></tr>
+<tr><th>Full</th><th>Abrev.</th><th>Alternative</th></tr>
+<tr><td>7</td><td>Tishrei</td><td>Tsh</td><td>Tishri</td><td>30</td><td></td></tr>
+<tr><td>8</td><td>Cheshvan</td><td>Csh</td><td>Marheshvan, Heshvan</td><td>29</td><td>30 days in complete year</td></tr>
+<tr><td>9</td><td>Kislev</td><td>Ksl</td><td></td><td>30</td><td>29 days in deficient year</td></tr>
+<tr><td>10</td><td>Tevet</td><td>Tvt</td><td></td><td>29</td><td></td></tr>
+<tr><td>11</td><td>Shevat</td><td>Shv</td><td>Shvat</td><td>30</td><td></td></tr>
+<tr><td>12</td><td>Adar</td><td>Adr</td><td></td><td>29</td><td>Common year only.</td></tr>
+<tr><td>14</td><td>Adar I</td><td>Ads</td><td></td><td>30</td><td>Leap year only. Lexicon <b>hcm</b> only</td></tr>
+<tr><td>13</td><td>Adar II</td><td>Ads</td><td></td><td>29</td><td>Leap year only.</td></tr>
+<tr><td>1</td><td>Nissan</td><td>Nsn</td><td>Nisan</td><td>30</td><td></td></tr>
+<tr><td>2</td><td>Iyar</td><td>Iyr</td><td>Iyyar</td><td>29</td><td></td></tr>
+<tr><td>3</td><td>Sivan</td><td>Svn</td><td></td><td>30</td><td></td></tr>
+<tr><td>4</td><td>Tammuz</td><td>Tmz</td><td>Tamaz</td><td>29</td><td></td></tr>
+<tr><td>5</td><td>Av</td><td>Aav</td><td></td><td>30</td><td></td></tr>
+<tr><td>6</td><td>Elul</td><td>Ell</td><td></td><td>29</td><td></td></tr>
+</table>
+
+<table class='basic data clear rfloat'>
+<tr><th colspan='3'>Week Names - Lexicon hw</th></tr>
+<tr><th rowspan='2'>Number</th><th colspan='2'>Name</th></tr>
+<tr><th>Full</th><th>Abrev.</th></tr>
+<tr><td>1</td><td>Yom Rishon</td><td>Rish</td></tr>
+<tr><td>2</td><td>Yom Sheni</td><td>Shen</td></tr>
+<tr><td>3</td><td>Yom Shelishi</td><td>Shel</td></tr>
+<tr><td>4</td><td>Yom Revi'i</td><td>Revi</td></tr>
+<tr><td>5</td><td>Yom Hamishi</td><td>Hami</td></tr>
+<tr><td>6</td><td>Yom Shishi</td><td>Shis</td></tr>
+<tr><td>7</td><td>Yom Shabbat</td><td>Shab</td></tr>
+</table>
+
+<p class='lclear'>
+The year length is one of 353, 354, 355, 383, 384 or 385 days,
+and average approximately 365.24682 days.
+Days start at sunset, the conversion here is for midday.
+</p>
+<p>
+Months are linked to the Lunar cycle starting near the new moon
+and are 29 or 30 days long.
+</p>
+<p>
+Regular years consist of 12 months and leap years of 13 months.
+Leap years occur on the 3rd, 6th, 8th, 11th, 14th, 17th and 19th years
+of a 19 year cycle beginning in year 1.
+</p>
+<p>
+In a common year, the months are numbered 1 to 12
+In a leap year an additional 30 day month, traditionally unnumbered,
+is inserted between months 11 and 12.
+However, in this scheme, the additional month is numbered 12 and
+the existing 12th month is renumbered 13.
+The length of each month is shown in the given table.
+</p>
+<p>
+The length of a nominal regular year or leap year is 354 or 384 days,
+the length of a complete year is 355 or 385 days whilst that of a
+deficient year is 353 or 383 days.
+</p>
+<p>
+In both common and leap years,
+the year count in increased on the 1st day of the 7th month.
+</p>
+<p>
+The New Year (the day the year count is increased)
+occurs on the 1st day of the 7th month.
+</p>
+<p>
+The calendar is also linked to the 7 day week,
+with the days numbered 1 to 7, and with Sunday equal to day 1.
+</p>
+<p>
+The following rules are used to determine when the New Year
+falls and thus, the length of the year.
+</p>
+<ol>
+ <li>
+  If the time of the new moon is at midday or after
+  then the New Year is delayed by one day.
+ </li>
+ <li>
+  If the New Year were to fall on a Sunday, Wednesday or Friday
+  then the New Year is delayed by one day
+  or 2 days if combined with the previous rule.
+ </li>
+ <li>
+  If the previous rules combine to increase the length
+  of the following year to 356 days,
+  the current New Year is delayed by a day.
+ </li>
+ <li>
+  If the previous rules combine to decrease the length
+  of the previous year to 382 days,
+  the current New Year is delayed by a day.
+ </li>
+</ol>
+
+<div class='p'>
+ The <b>Epoch</b> is set at
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>h</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>7</td><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>j</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>-3760</td><td>10</td><td>7</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>347998</td></tr>
+ </table>.
+</div>
+
+<h3>Formats</h3>
+<p>
+  One problem with formatting the month name, is the difference in the Adar month name in common and leap years.
+  The 12th month name is "Adar" in a common year and "Adar I" in a leap year.
+  We cope with this by creating a calculated field named cmonth.
+  For a cmonth field, the 12th month is renumbered to 14th in a leap year.
+  In all other respects, the cmonth field is the same as the month field.
+</p>
+<p>
+ The formats supplied with this scheme.
+</p>
+
+<table class='basic data'>
+<tr><th colspan='5'>Formats - Grammar h</th></tr>
+<tr><th>Code</th><th>Rule</th><th>Pseudo</th><th>Example</th><th>Note</th></tr>
+<tr><td><b>dmy_a</b></td><td>text</td><td><b>Input:</b> day cmonth year<br /><b>Output:</b> dd Mon yyyy</td><td class='example'>30 Adf 5784<br />29 Ads 5784<br />29 Adr 5785</td><td>S</td></tr>
+<tr><td><b>dmy</b></td><td>text</td><td><b>Input:</b> day cmonth year<br /><b>Output:</b> dd Month yyyy</td><td class='example'>30 Adar I 5784<br />29 Adar II 5784<br />29 Adar 5785</td><td>D, S</td></tr>
+<tr><td><b>dmy-</b></td><td>text</td><td><b>Input:</b> day month year<br /><b>Output:</b> dd mm yyyy</td><td class='example'>30 12 5784<br />29 13 5784<br />29 12 5785</td><td>S</td></tr>
+<tr><td><b>wdmy</b></td><td>text</td><td><b>Input:</b> wsday day cmonth year<br /><b>Output:</b> Weekday dd Month yyyy</td><td class='example'>Yom Rishon 30 Adar I 5784<br />Yom Sheni 29 Adar II 5784<br />Yom Shabbat 29 Adar 5785</td><td></td></tr>
+<tr><td><b>ymd</b></td><td>text</td><td><b>Input:</b> year cmonth day<br /><b>Output:</b> yyyy Month dd</td><td class='example'>5784 Adar I 30<br />5784 Adar II 29<br />5785 Adar 29</td><td>S</td></tr>
+<tr><td><b>ymd-</b></td><td>text</td><td><b>Input:</b> year month day<br /><b>Output:</b> yyyy mm dd</td><td class='example'>5784 12 30<br />5784 13 29<br />5785 12 29</td><td>S</td></tr>
+<tr><td><b>gedcom</b></td><td>text</td><td><b>Input:</b> day month year<br /><b>Output:</b> dd MON yyyy</td><td class='example'>30 ADR 5784<br />29 ADS 5784<br />29 ADR 5785</td><td>S</td></tr>
+<tr><td><b>def</b></td><td>text</td><td><b>Input:</b> year month day cmonth<br /><b>Output:</b> yyyy mm dd mm</td><td class='example'>5784 12 30 14<br />5784 13 29 13<br />5785 12 29 12</td><td>H</td></tr>
+<tr><td><b>u</b></td><td>unit</td><td><b>Input:</b> 9y 9m 9d 9cm<br /><b>Output:</b> 9y 9m 9d 9cm</td><td class='example'>5784y 12m 30d 14cm<br />5784y 13m 29d 13cm<br />5785y 12m 29d 12cm</td><td>H</td></tr>
+<tr><td colspan='6'>Notes: D = Default, H = Hidden.
+Example based on jdn# 2460380, 2460409 and 2460764</td></tr>
+</table>
+
+<h3>Script</h3>
+<table class='code lfloat'>
+<tr><th>Script - Module hics:hebrew</th></tr>
+<tr><td
+>lexicon hm {
+    name "Month names";
+    fieldname month;
+    lang en;
+    pseudo     Month,     Mon;
+    tokens {
+        1, "Nissan",   "Nsn", "Nisan";
+        2, "Iyar",     "Iyr", "Iyyar";
+        3, "Sivan",    "Svn";
+        4, "Tammuz",   "Tmz", "Tamaz";
+        5, "Av",       "Aav";
+        6, "Elul",     "Ell";
+        7, "Tishrei",  "Tsh", "Tishri";
+        8, "Cheshvan", "Csh", "Marheshvan", "Heshvan";
+        9, "Kislev",   "Ksl";
+        10, "Tevet",   "Tvt";
+        11, "Shevat",  "Shv", "Shvat";
+        12, "Adar",    "Adr";
+        13, "Adar II", "Ads";
+    }
+}
+lexicon hcm {
+    name "Complete Month names";
+    fieldname cmonth;
+    inherit hm;
+    tokens {
+        14, "Adar I",  "Adf";
+    }
+}
+lexicon hw {
+    name "Weekday names";
+    fieldname wsday; // Note: Days are numbered from Sunday, unlike "wday".
+    lang en;
+    pseudo    Weekday,      WDay;
+    tokens {
+        1, "Yom Rishon",   "Rish"; // Sunday
+        2, "Yom Sheni",    "Shen"; // Monday
+        3, "Yom Shelishi", "Shel"; // Tuesday
+        4, "Yom Revi'i",   "Revi"; // Wednesday
+        5, "Yom Hamishi",  "Hami"; // Thursday
+        6, "Yom Shishi",   "Shis"; // Friday
+        7, "Yom Shabbat",  "Shab"; // Saturday
+    }
+}
+grammar h {
+    name "Hebrew";
+    fields year month day;
+    calculated cmonth;
+    optional wsday;
+    rank year cmonth day;
+    lexicons hm, hcm, hw;
+    alias pseudo { w wsday; dd day; mm month; mm cmonth; yyyy year; }
+    alias unit { d day; m month; y year; cm cmonth; }
+    function calc_cmonth {
+        cmonth = @if( month=12 and @leapyear.hebrew(year), 14, month );
+        result = this;
+    }
+    function calc_month {
+        month = @if( cmonth=14, 12, cmonth );
+        result = this;
+    }
+    use { calculate calc_cmonth; from:text calc_month; }
+    format  dmy_a "{day} |{cmonth:hcm:a} |{year}";
+    format  dmy   "{day} |{cmonth:hcm} |{year}";
+    format "dmy-" {
+        inout "{day} |{month} |{year}";
+        rank year month day;
+        use:in calc_cmonth;
+    }
+    format  wdmy  "{wsday:hw} |{day} |{cmonth:hcm} |{year}";
+    format  ymd   "{year}| {cmonth:hcm}| {day}";
+    format "ymd-" {
+        inout "{year}| {month}| {day}";
+        rank year month day;
+        use:in calc_cmonth;
+    }
+    format gedcom {
+        inout "{day} |{month:hm:a:u} |{year}";
+        rank year month day;
+        use:in calc_cmonth;
+    }
+    preferred dmy;
+}
+scheme h {
+    name "Hebrew";
+    base hebrew;
+    grammar h;
+}
+</td></tr>
+</table>
+<p class="clear">
+ The Month name abreviations are those used by the
+ <a href='http://www.phpgedview.net/ged551-5.pdf'>GEDCOM standard version 5.5.1 Page 53</a> (PDF).
+</p>
+<p>
+  Note, the use of optional field "<a href='7dayweek.htm'>wsday</a>" in which the week starts on Sunday (day 1).
+</p>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='h.htm' class='m-item thispage'>h</a>
+  <a href='../../../../dev/man2/script/defs/i.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/fr.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>4<sup>th</sup> June 2024</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

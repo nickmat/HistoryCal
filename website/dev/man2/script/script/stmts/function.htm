@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - Define function</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />Define function
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../../dev/index.htm' class='m-item'>Development</a>
+    <a href='../../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../../dev/man2/script/script/index.htm' class='m-item'>Glich Script</a>
+  <a href='../../../../../dev/man2/script/script/stmts/index.htm' class='m-item'>Statements</a>
+  <a href='function.htm' class='m-item thispage'>Define function</a>
+  <a href='../../../../../dev/man2/script/script/stmts/command.htm' class='m-item nav'>►</a>
+  <a href='../../../../../dev/man2/script/script/stmts/do.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+
+<h2>Statement: function</h2>
+<p>
+ A function statement defines a function that can be used in an expression
+ with the function operator '@'.
+ The dot operator can be used to add an
+ optional qualifying string to the function name.
+ Arguments may also be passed to the function.
+ These, with the qualifier, become local variables within the function.
+ When calling the function, these values may be given values or omitted.
+ An argument can be given a default value when the function is defined.
+ The default for the qualifier is an empty string.
+</p>
+<p>
+ When the function is run, the arguments are treated as local variables.
+ An addition local variable named 'result' is created,
+ and this is the value given to the function when it used in an expression.
+ Additional variables that are created within the function will be local
+ and their values lost when the function completes.
+ Variables created outside of the function cannot be seen whilst inside.
+</p>
+<p>
+ The statement 'end;' can be used at any time to exit the function immediately.
+ This will just exit the function, not the script.
+</p>
+
+<table class='basic'>
+<tr><th>function Statement Format</th></tr>
+<tr> <!-- See test file - test\glcscripts\suite\glich\statements\function\function015.glcs -->
+<td class='code'><b>function</b> <i>name.qualifier</i><b>(</b><i>arg</i>[<b>=</b><i>value</i>]<b>,</b> <i>arg</i>[<b>=</b><i>value</i>]<b>) {</b>
+    ... <b>result</b> = <i>expr</i><b>; ...</b>
+<b>}</b>
+
+write <b>@</b><i>name.qualifier</i><b>(</b><i>value1</i><b>,</b> <i>value2</i><b>);</b>
+write <b>@</b><i>name</i><b>(</b><i>value1</i><b>);</b>
+write <b>@</b><i>name.qualifier</i><b>;</b>
+write <b>@</b><i>name</i><b>;</b></td>
+
+</tr>
+<tr> <!-- See test file - test\tscripts\suite\functions\function013.hcs -->
+<td class='code'><b>function</b> <i>name</i> <b>{</b>
+    ... <b>result</b> = <i>expr</i><b>;</b> ...
+<b>}</b>
+
+write <b>@</b><i>name</i><b>;</b></td>
+</tr>
+</table>
+
+<table class='basic'>
+<tr><th colspan='2'>function Statement</th></tr>
+<tr><th>Example</th><th>Output</th></tr>
+<tr> <!-- See test file - test\glcscripts\suite\glich\statements\functions\function015.glcs -->
+<td class='example'><b>function</b> range_plus<b>(</b>start<b>,</b> duration = 7<b>){</b>
+    if duration < 1
+        <b>result</b> = @error( "Duration must be above zero." );
+        end;
+    endif
+    <b>result</b> = start .. start + duration - 1;
+<b>}</b>
+
+let r = <b>@</b>range_plus<b>(</b>100<b>)</b>;
+
+write r + ", Duration: " + r[.span] nl;
+write <b>@</b>range_plus<b>(</b> 100, 0 <b>)</b>;</td>
+<td>100..106, Duration: 7<br />
+Error (3): Duration must be above zero.</td>
+</tr>
+<tr> <!-- See test file - test\glcscripts\suite\hics-lib\functions\function013.hcs -->
+  <td class='example'>// Requires the hics extensions.
+<b>function</b> this_week.day_start <b>{</b>
+    if day_start = "sun"
+        let day = @record.jwsn( today )[day];
+    else
+        let day = @record.jwn( today )[day];
+    endif
+    let start = today - day + 1;
+    result = start .. ( start + 6 );
+<b>}</b>
+
+write @text( @this_week ) nl;
+write @text( @this_week.sun );
+</td>
+  <td>10 Apr 2023..16 Apr 2023<br />9 Apr 2023..15 Apr 2023</td>
+ </tr>
+ <tr>
+  <td colspan='2'>Written when today = "g:dmy# 14 Apr 2023"<br />
+and uses the hidden schemes "<a href='../defs/jwn.htm'>jwn</a>" and "<a href='../defs/jwsn.htm'>jwsn</a>".</td>
+ </tr>
+</table>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../../dev/index.htm' class='m-item'>Development</a>
+    <a href='../../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../../dev/man2/script/script/index.htm' class='m-item'>Glich Script</a>
+  <a href='../../../../../dev/man2/script/script/stmts/index.htm' class='m-item'>Statements</a>
+  <a href='function.htm' class='m-item thispage'>Define function</a>
+  <a href='../../../../../dev/man2/script/script/stmts/command.htm' class='m-item nav'>►</a>
+  <a href='../../../../../dev/man2/script/script/stmts/do.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>9<sup>th</sup> March 2023</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

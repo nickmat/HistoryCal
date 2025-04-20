@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - Hics Library</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/hcal.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/big-list.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />Hics Library Calendar Index
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <a href='../../../../index.htm' class='m-item'>Home</a>
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='index.htm' class='m-item thispage'>Hics Library</a>
+  <a href='../../../../dev/man2/script/defs/jdn.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/hics/phrase.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<table class='index'>
+   <tr>
+    <td><a href="#Chinese">Chinese</a></td>
+    <td><a href="#French-Republic">French Republic</a></td>
+    <td><a href="#General">General</a></td>
+    <td><a href="#General-Hybrid">General Hybrid</a></td>
+    <td><a href="#Gregorian">Gregorian</a></td>
+    <td><a href="#Hebrew">Hebrew</a></td>
+   </tr>
+   <tr>
+    <td><a href="#Islamic">Islamic</a></td>
+    <td><a href="#Julian">Julian</a></td>
+    <td colspan='4' class="na"></td>
+   </tr>
+<!--
+   <tr>
+    <td><a href="#???">???</a></td>
+    <td colspan='5' class="na">&nbsp;</td>
+   </tr>
+-->
+  </table>
+
+  <table class='big-list'>
+   <thead>
+    <tr>
+     <th>Code</th>
+     <th>Name</th>
+     <th>Description</th>
+    </tr>
+   </thead>
+   <tbody>
+
+    <tr id='General' class='head'>
+     <td colspan='3'><b>General</b></td>
+    </tr>
+    <tr>
+     <td>jdn</td>
+     <td class='label link'><a href="jdn.htm" class="m-item">Julian Day Number</a></td>
+     <td>
+      The internal day count date representation used by the Glich Hics extension.
+      A minor variation of the "Julian Day".
+     </td>
+    </tr>
+    <tr>
+     <td>mjd</td>
+     <td class='label link'><a href="mjd.htm" class="m-item">Modified Julian Day</a></td>
+     <td>
+      A day count calendar scheme, a shorter version of the Julian Day.
+     </td>
+    </tr>
+    <tr>
+     <td>rd</td>
+     <td class='label link'><a href="rd.htm" class="m-item">Rata Die</a></td>
+     <td>
+      A day count calendar scheme, used in the book "Calendrical Calculations".
+     </td>
+    </tr>
+    <tr>
+     <td>jwn</td>
+     <td class='link label'><a href="jwn.htm" class="m-item">Julian Week Number</a></td>
+     <td>
+      A 7 day week (Monday start) count calendar, analogous to the day count jdn calendar scheme.
+     </td>
+    </tr>
+    <tr>
+     <td>jwsn</td>
+     <td class='link label'><a href="jwsn.htm" class="m-item">Julian Week (Sunday) Number</a></td>
+     <td>
+      A 7 day week (Sunday start) count calendar, alternative to jwn calendar scheme.
+     </td>
+    </tr>
+
+    <tr id='Julian' class='head'>
+     <td colspan='3'><b>Julian</b></td>
+    </tr>
+    <tr>
+     <td>j</td>
+     <td class='label link'><a href="j.htm" class="m-item">Julian</a></td>
+     <td>
+      The simplest version of the Julian calendar, includes year zero. As used in astronomy.
+     </td>
+    </tr>
+    <tr>
+     <td>jce</td>
+     <td class='label link'><a href="jce.htm" class="m-item">Julian Common Era</a></td>
+     <td>
+      A version of the Julian calendar commonly used by historians. Year is marked as BCE or CE.
+     </td>
+    </tr>
+    <tr>
+     <td>jn</td>
+     <td class='label link'><a href="jn.htm" class="m-item">Julian Nativity</a></td>
+     <td>
+      A Julian calendar with the year change on the preceding 25th December.
+     </td>
+    </tr>
+    <tr>
+     <td>ja</td>
+     <td class='label link'><a href="ja.htm" class="m-item">Julian Annunciation Florence</a></td>
+     <td>
+      A Julian calendar with the year change on the 25th March, <i>calculus florentinus</i>.
+     </td>
+    </tr>
+    <tr>
+     <td>jap</td>
+     <td class='label link'><a href="jap.htm" class="m-item">Julian Annunciation Pisa</a></td>
+     <td>
+      A Julian calendar with the year change on the preceding 25th March, <i>calculus pisanus</i>.
+     </td>
+    </tr>
+    <tr>
+     <td>je</td>
+     <td class='label link'><a href="je.htm" class="m-item">Julian Easter</a></td>
+     <td>
+      A Julian calendar with the year change on Easter Sunday.
+     </td>
+    </tr>
+    <tr>
+     <td>eh</td>
+     <td class='label link'><a href="eh.htm" class="m-item">Julian Era Hispanica</a></td>
+     <td>
+      A Julian calendar with the epoch of 1st January -37.
+     </td>
+    </tr>
+
+    <tr id='Gregorian' class='head'>
+     <td colspan='3'><b>Gregorian</b></td>
+    </tr>
+    <tr>
+     <td>g</td>
+     <td class='label link'><a href="g.htm" class="m-item">Gregorian</a></td>
+     <td>
+      The Gregorian calendar.
+     </td>
+    </tr>
+    <tr>
+     <td>gw</td>
+     <td class='label link'><a href="gw.htm" class="m-item">Gregorian ISO Week</a></td>
+     <td>
+      A Gregorian calendar with year, week in year and day of week.
+      Based on the ISO:8601 standard.
+     </td>
+    </tr>
+    <tr>
+     <td>go</td>
+     <td class='label link'><a href="go.htm" class="m-item">Gregorian Ordinal</a></td>
+     <td>
+      A Gregorian calendar with year and day of year.
+     </td>
+    </tr>
+
+    <tr id='General-Hybrid' class='head'>
+     <td colspan='3'><b>General Hybrid</b></td>
+    </tr>
+    <tr>
+     <td>ay</td>
+     <td class='label link'><a href="ay.htm" class="m-item">Astronomical Year</a></td>
+     <td>
+      The Astronomical Year calendar.
+     </td>
+    </tr>
+
+    <tr id='French-Republic' class='head'>
+     <td colspan='3'><b>French Republic</b></td>
+    </tr>
+    <tr>
+     <td>fr</td>
+     <td class='label link'><a href="fr.htm" class="m-item">French Republic</a></td>
+     <td>
+      An astronomical calendar introduced after the French Revolution. 
+     </td>
+    </tr>
+
+    <tr id='Hebrew' class='head'>
+     <td colspan='3'><b>Hebrew</b></td>
+    </tr>
+    <tr>
+     <td>h</td>
+     <td class='label link'><a href="h.htm" class="m-item">Hebrew</a></td>
+     <td>
+      Hebrew Arithmetical calendar.
+     </td>
+    </tr>
+
+    <tr id='Islamic' class='head'>
+     <td colspan='3'><b>Islamic</b></td>
+    </tr>
+    <tr>
+     <td>i</td>
+     <td class='label link'><a href="i.htm" class="m-item">Islamic Tabular</a></td>
+     <td>
+      Islamic tabular calendar.
+     </td>
+    </tr>
+    <tr>
+     <td>ims</td>
+     <td class='label link'><a href="ims.htm" class="m-item">Islamic Microsoft Hijri</a></td>
+     <td>
+      Islamic Microsoft Hijri calendar.
+     </td>
+    </tr>
+    <tr>
+     <td>if</td>
+     <td class='label link'><a href="if.htm" class="m-item">Islamic Fātimid</a></td>
+     <td>
+      Islamic Fātimid calendar.
+     </td>
+    </tr>
+
+    <tr id='Chinese' class='head'>
+     <td colspan='3'><b>Chinese</b></td>
+    </tr>
+    <tr>
+     <td>c</td>
+     <td class='label link'><a href="c.htm" class="m-item">Chinese</a></td>
+     <td>
+      The lunisolar Chinese calendar.
+     </td>
+    </tr>
+
+   </tbody>
+  </table>
+<br />
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <a href='../../../../index.htm' class='m-item'>Home</a>
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='index.htm' class='m-item thispage'>Hics Library</a>
+  <a href='../../../../dev/man2/script/defs/jdn.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/hics/phrase.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>19<sup>th</sup> July 2023</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

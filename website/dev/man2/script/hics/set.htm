@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - set Extensions</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />set Extensions
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/hics/index.htm' class='m-item'>Hics Extension</a>
+  <a href='set.htm' class='m-item thispage'>set Extensions</a>
+  <a href='../../../../dev/man2/script/hics/bi-objects.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/hics/scheme.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Statement: set - Hics Extensions</h2>
+<p>
+ The <b>set</b> statement is part of the Glich language.
+ The Hics extension adds new properties and values to the statement.
+</p>
+
+<table class='basic'>
+ <tr><th>Format</th><th>Example</th></tr>
+ <tr>
+  <td class='code'><b>set</b> <i>property value</i><b>;</b></td>
+  <td class='example'><b>set</b> context hics;</td>
+ </tr>
+</table>
+
+<p>
+ The following properties can be changed with the set statement.
+</p>
+
+<table class='basic'>
+<tr><th colspan='2'>Hics Property extension</th></tr>
+<tr><th>Property</th><th>Use</th></tr>
+<tr><td class='code'><b>context</b></td><td>Set the output text of certain values.</td></tr>
+<tr><td class='code'><b>input</b></td><td>Set the default calendar scheme input.</td></tr>
+<tr><td class='code'><b>output</b></td><td>Set the default calendar scheme output.</td></tr>
+<tr><td class='code'><b>inout</b></td><td>Set the default calendar scheme for both input and output.</td></tr>
+</table>
+
+<h3>Setting Property: context</h3>
+<p>
+ The <b>context</b> property changes some defaults values
+ to suit different contexts.
+ There are currently two possible values: <b>glich</b>, the default
+ and <b>hics</b> for use with the hics extensions.
+</p>
+
+<table class='basic'>
+ <tr><th>Format</th></tr>
+ <tr><td class='code'><b>set</b> context glich; // Default without Hics library.</td></tr>
+ <tr><td class='code'><b>set</b> context hics;  // Default with Hics library.</td></tr>
+</table>
+
+<p>
+ The settings make the following changes to the input and output.
+</p>
+
+<table class='basic'>
+ <tr><th></th><th>glich</th><th>hics</th></tr>
+ <tr><td>Field maximum output:</td><td>"+infinity"</td><td>"future"</td></tr>
+ <tr><td>Field minimum output:</td><td>"-infinity"</td><td>"past"</td></tr>
+</table>
+
+<h3>Setting Properties: input, output and inout</h3>
+<p>
+ The system maintains two setting, <b>input</b> and <b>output</b>
+ which can be set directly with the <b>input</b> and <b>output</b> properties.
+ The <b>inout</b> property will set set both <b>input</b> and <b>output</b>
+ settings at the same time.
+</p>
+<p>
+ The settings are in the form of a scheme:format signature.
+ They control the action of the <b>@date</b>, <b>@text</b> and <b>@scheme</b> conversion functions.
+</p>
+
+<table class='basic'>
+ <tr><th>Format</th></tr>
+ <tr><td class='code'><b>set</b> inout g:dmy; // Default for Hics library.</td></tr>
+ <tr><td class='code'><b>set</b> input j:dmy;</td></tr>
+ <tr><td class='code'><b>set</b> output h:dmy;</td></tr> 
+</table>
+
+<p>
+ Whenever one of the conversion functions is used without a qualifier,
+ then either the input or output will be used, as shown in the table.
+</p>
+
+<table class='basic'>
+<tr><th>Function</th><th>Default Modifier</th><th>Result Value</th></tr>
+<tr><td>@date(<i>text_value</i>)</td><td>input setting</td><td><i>set_type</i></td></tr>
+<tr><td>@date(<i>scheme_object</i>)</td><td>qualifier not required</td><td><i>set_type</i></td></tr>
+<tr><td>@text(<i>set_type</i>)</td><td>output setting</td><td><i>string_type</i></td></tr>
+<tr><td>@text(<i>scheme_object</i>)</td><td>qualifier not required</td><td><i>string_type</i></td></tr>
+<tr><td>@scheme(<i>set_type</i>)</td><td>output setting</td><td><i>scheme_object</i></td></tr>
+<tr><td>@scheme(<i>text_value</i>)</td><td>input setting</td><td><i>scheme_object</i></td></tr>
+</table>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/hics/index.htm' class='m-item'>Hics Extension</a>
+  <a href='set.htm' class='m-item thispage'>set Extensions</a>
+  <a href='../../../../dev/man2/script/hics/bi-objects.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/hics/scheme.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>20<sup>th</sup> June 2023</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

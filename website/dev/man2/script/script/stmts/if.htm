@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - if Statement</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />if Statement
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../../dev/index.htm' class='m-item'>Development</a>
+    <a href='../../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../../dev/man2/script/script/index.htm' class='m-item'>Glich Script</a>
+  <a href='../../../../../dev/man2/script/script/stmts/index.htm' class='m-item'>Statements</a>
+  <a href='if.htm' class='m-item thispage'>if Statement</a>
+  <a href='../../../../../dev/man2/script/script/stmts/do.htm' class='m-item nav'>►</a>
+  <a href='../../../../../dev/man2/script/script/stmts/end.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Statement: if</h2>
+<p>
+ An <b>if</b> statement allows one or more statements to be run,
+ depending on a given condition.
+</p>
+<p>
+ The statement may include zero or more '<b>elseif</b> condition' sub-statements
+ and an optional '<b>else</b>' sub-statement.
+ The statement must end with the <b>endif</b> keyword.
+</p>
+
+<table class='basic'>
+ <tr><th>if Statement Format</th></tr>
+ <tr>
+  <td class='code'><b>if</b> <i>bool_expr</i>
+    <i>statements ...</i>
+<b>elseif</b> <i>bool_expr</i>
+    <i>statements ...</i>
+<b>elseif</b> <i>bool_expr</i>
+    <i>statements ...</i>
+<b>else</b>
+    <i>statements ...</i>
+<b>endif</b></td>
+ </tr>
+</table>
+
+<table class='basic'>
+ <tr><th>Example</th></tr>
+ <tr>
+  <td class='example'><b>if</b> value = 10
+    write "Value is a round 10" nl;
+<b>elseif</b> value &lt; 5
+    write "Value as less than 5" nl;
+<b>elseif</b> value = 100
+    write "Value is exactly 100" nl;
+<b>else</b>
+    write "Value is boring" nl;
+<b>endif</b></td>
+ </tr>
+</table>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../../dev/index.htm' class='m-item'>Development</a>
+    <a href='../../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../../dev/man2/script/script/index.htm' class='m-item'>Glich Script</a>
+  <a href='../../../../../dev/man2/script/script/stmts/index.htm' class='m-item'>Statements</a>
+  <a href='if.htm' class='m-item thispage'>if Statement</a>
+  <a href='../../../../../dev/man2/script/script/stmts/do.htm' class='m-item nav'>►</a>
+  <a href='../../../../../dev/man2/script/script/stmts/end.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>9<sup>th</sup> March 2023</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

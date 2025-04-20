@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - Define scheme</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />Define scheme
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/hics/index.htm' class='m-item'>Hics Extension</a>
+  <a href='scheme.htm' class='m-item thispage'>Define scheme</a>
+  <a href='../../../../dev/man2/script/hics/set.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/hics/format.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Statement: scheme</h2>
+<p>
+ Before any calendar can be used as input or output,
+ it must be defined using the 'scheme' definition statement.
+ The layout of the statement varies according to the calendar type being defined.
+</p>
+<p>
+ The scheme must be given a unique (within all other schemes) code name
+ by which it can be referred to.
+ It may then contain the following sub-statements in between '{' and '}' braces.
+</p>
+<p>
+ The scheme must include the base sub-statement.
+ Other sub-statements are optional.
+</p>
+
+<table class='basic'>
+<tr><th colspan='3'>scheme Sub-Statement List</th></tr>
+<tr><th>Sub-Statement</th><th>Use</th><th>Example</th></tr>
+<tr><td class='code'>name</td><td>A descriptive name for the scheme.</td><td class='example'>name "Julian Annunciation";</td></tr>
+<tr><td class='code'>base</td><td>The base calendar used by the scheme.</td><td class='example'>base julian;</td></tr>
+<tr><td class='code'>epoch</td><td>Scheme uses a different epoch to the base calendar.</td><td class='example'>epoch 1721507;</td></tr>
+<tr><td class='code' rowspan='2'>grammar</td><td>Predefined grammar to be used.</td><td class='example'>grammar jce;</td></tr>
+<tr><td>Anonymous grammar definition.</td><td class='example'>grammar { optional wday; }</td></tr>
+<tr><td class='code'>visible</td><td>The default visibility in scheme lists.</td><td class='example'>visible no;</td></tr>
+</table>
+
+<h3>Sub-Statement: name</h3>
+<p>
+ Gives a descriptive name to the calendar scheme.
+ This name would normally be shown to the user whenever they need to select a scheme.
+ Although this statement is optional, any operational scheme should include it.
+</p>
+
+<h3>Sub-Statement: base</h3>
+<p>
+ The Hics extension has the ability to work with with a number of calendars
+ and scheme types.
+ This list will be extended in the future.
+</p>
+<table class='basic'>
+<tr><th colspan='4'>Base Calendars</th></tr>
+<tr><th>Name</th><th>Base-name</th><th>Description</th><th>Reference Scheme</th></tr>
+<tr><td>Julian Day Number</td><td class='code'>jdn</td><td>A day count calendar used internally by Glich.</td><td><a href='../defs/jdn.htm'>jdn</a></td></tr>
+<tr><td>Julian Week Number</td><td class='code'>jwn</td><td>A week count calendar based on Julian Day Number.</td><td><a href='../defs/jwn.htm'>jwn</a></td></tr>
+<tr><td>Julian</td><td class='code'>julian</td><td>The base for the Julian calendar variants.</td><td><a href='../defs/j.htm'>j</a></td></tr>
+<tr><td>Gregorian</td><td class='code'>gregorian</td><td>The modified Julian calendar used world wide.</td><td><a href='../defs/g.htm'>g</a></td></tr>
+<tr><td>ISO Week</td><td class='code'>isoweek</td><td>A solar calendar with numbered 7 day weeks, based on Gregorian.</td><td><a href='../defs/gw.htm'>gw</a></td></tr>
+<tr><td>Gregorian Ordinal</td><td class='code'>ordinal</td><td>A solar calendar with numbered days, based on Gregorian.</td><td><a href='../defs/go.htm'>go</a></td></tr>
+<tr><td>Hebrew</td><td class='code'>hebrew</td><td>The calendar used by Jewish communities.</td><td><!--<a href='../defs/h.htm'>h</a>--></td></tr>
+<tr><td>French Republic</td><td class='code'>french</td><td>The calendar used for a while by the French Republic.</td><td><!--<a href='../defs/fr.htm'>fr</a>--></td></tr>
+<tr><td>Islamic Tabular</td><td class='code'>islamic</td><td>A tabular version of the calendar used by Muslim communities.</td><td><!--<a href='../defs/i.htm'>i</a>--></td></tr>
+<tr><td>Chinese</td><td class='code'>chinese</td><td>The lunisolar calendar used by China and other Asian countries.</td><td><!--<a href='../defs/c.htm'>c</a>--></td></tr>
+<tr><td>Hybrid</td><td class='code'>hybrid</td><td>A calendar created by combining two or more similar schemes.</td><td><a href='../defs/ay.htm'>ay</a></td></tr>
+<!--<tr><td>Regnal</td><td class='code'>regnal</td><td>Scheme uses calendars with a succession of eras based on Monarch or official office.</td><td></td></tr>-->
+</table>
+
+<p>
+ The base sub-statement will create one of the built-in calendar schemes.
+ These schemes have associated with them a default record containing a fixed number of named fields.
+ The record may be extended by adding calculated fields and optional values.
+</p>
+<p>
+ The base-name keyword may be followed by further keywords which further define the scheme.
+ These are detailed below with the base-name description.
+</p>
+<p>
+ All base sub-statements may include the location keyword.
+ This pinpoints an exact location for identifying the local time.
+ This may be needed for calculating astronomical features required by the scheme.
+ For example the day that a new moon occurs.
+ Unless otherwise stated, the default location is the Greenwich Observatory, England.
+</p>
+<table class='basic'>
+<tr><th colspan='4'>Base Keywords</th></tr>
+<tr><th>Keyword</th><th>Description</th><th>Default</th></tr>
+<tr><td class='code'>loc:<i>latitude</i>:<i>longitude</i></td><td>Location for local time</td><td class='code'>"loc:51.4772:0.0"</td></tr>
+</table>
+<div class='tip'><div class='inner'>
+ <p>
+  Note, keywords must not contain spaces.
+ </p>
+ <p>
+  If they do not conform to the 'name' conventions
+  (such as containing negative numbers)
+  they should be enclosed in '<b>"</b>' (double quote) marks.
+ </p>
+</div></div>
+
+<h4>Sub-Statement: base jdn</h4>
+<p>
+ This sub-statement implements the Julian Day Number day count calendar.
+ The calendar has a record with a single fixed field named 'day'.
+ If a field is used to represent a date in the script,
+ then by default it is a jdn (Julian Day Number).
+</p>
+<p>
+ An additional keyword <code>epoch:<i>date</i></code> may be used
+ to create any day count calendar scheme by changing the scheme's epoch.
+</p>
+<table class='basic'>
+<tr><th colspan='4'>Base jdn Keyword</th></tr>
+<tr><th>Keyword</th><th>Description</th><th>Example</th><th>Reference Scheme</th></tr>
+<tr><td class='code'>epoch:<i>date</i></td><td>Change the day count epoch.</td><td class="example">base jdn epoch:2400002</td><td><a href='../defs/mjd.htm'>mjd</a></td></tr>
+</table>
+
+<h4>Sub-Statement: base jwn</h4>
+<p>
+ This sub-statement implements a Julian Week Number day count calendar.
+ There no known use of this calendar outside of Glich and is included
+ for completeness. The calendar has a record with two fixed fields
+ named 'week' and 'day'.
+</p>
+<p>
+ Week days are normally handles by other schemes as an optional field.
+ The optional field names depend on the day the week starts.
+</p>
+<table class='basic'>
+<tr><th colspan='4'>Base jwn Keywords</th></tr>
+<tr><th>Keyword</th><th>Description</th><th>Default Epoch</th><th>Reference Scheme</th></tr>
+<tr><td class='code'>monday</td><td>Week start Monday. Default</td><td class='code'>1w 1d = jdn 7d</td><td><a href='../defs/jwn.htm'>jwn</a></td></tr>
+<tr><td class='code'>tuesday</td><td>Week start Tuesday.</td><td class='code'>1w 1d = jdn 1d</td><td></td></tr>
+<tr><td class='code'>wednesday</td><td>Week start Wednesday.</td><td class='code'>1w 1d = jdn 2d</td><td></td></tr>
+<tr><td class='code'>thursday</td><td>Week start Thursday.</td><td class='code'>1w 1d = jdn 3d</td><td></td></tr>
+<tr><td class='code'>friday</td><td>Week start Friday.</td><td class='code'>1w 1d = jdn 4d</td><td></td></tr>
+<tr><td class='code'>saturday</td><td>Week start Saturday.</td><td class='code'>1w 1d = jdn 5d</td><td></td></tr>
+<tr><td class='code'>sunday</td><td>Week start Sunday.</td><td class='code'>1w 1d = jdn 6d</td><td><a href='../defs/jwsn.htm'>jwsn</a></td></tr>
+</table>
+
+<h4>base julian Sub-Statement</h4>
+<p>
+ This sub-statement implements the Julian calendar.
+ The calendar has a record with three fixed fields named 'year', 'month' and 'day',
+ ranked in that order.
+ The year is divided into 12 months numbered 1 to 12.
+ The months have the following number of days, 31, 28/29, 31, 30, 31, 30, 31, 31, 30, 31, 30 and 31,
+ numbered from 1.
+ If the year is divisible  by 4 then it is a leap year and the second month has 29 days,
+ otherwise it is a common year and it has 28 days.
+ The epoch is jdn# 1721424.
+</p>
+<p>
+ An additional keyword <code>year:<i>offset</i></code> may be used
+ which effectively changes the epoch by a fixed number of years.
+</p>
+<table class='basic'>
+<tr><th colspan='4'>Base julian Keyword</th></tr>
+<tr><th>Keyword</th><th>Description</th><th>Example</th><th>Reference Scheme</th></tr>
+<tr><td class='code'>year:<i>offset</i></td><td>Offset the year by a fixed amount.</td><td class="example">base julian "year:-38"</td><td><a href='../defs/eh.htm'>eh</a></td></tr>
+</table>
+
+<h4>base gregorian Sub-Statement</h4>
+<p>
+ This sub-statement implements the Gregorian calendar.
+ The calendar is identical to the Julian calendar except the epoch is jdn# 1721426
+ and century years not divisible by 4 are common years.
+</p>
+
+<h4>base isoweek Sub-Statement</h4>
+<p>
+ This sub-statement implements the ISO 8601 Week calendar,
+ a variant of the Gregorian calendar.
+ The calendar has a record with three fixed fields named 'year', 'week' and 'wday',
+ ranked in that order.
+ Weeks are a repeating cycle of 7 days numbered 1 to 7.
+ The epoch is jdn# 1721426, a Monday.
+ The year starts on the week day 1 (Monday) that is closest to the Gregorian year start.
+</p>
+
+<h4>base isoordinal Sub-Statement</h4>
+<p>
+ This sub-statement implements the ISO 8601 Ordinal calendar,
+ a variant of the Gregorian calendar.
+ The calendar has a record with two fixed fields named 'year' and 'day',
+ ranked in that order.
+ The year has the same value as the Gregorian year.
+ The day is numbered 1 to 365 days in a common year and 1 to 366 in a leap year.
+</p>
+
+<h4>base hebrew Sub-Statement</h4>
+<p>
+ This sub-statement implements the arithmetical lunisolar Hebrew calendar
+ used by Jewish communities since the 12th century.
+ The calendar has a record with three fixed fields named 'year', 'month' and 'day',
+ ranked in that order.
+ The year is divided into 12 months in a common year and 13 in a leap year.
+ The months have the following number of days,
+ 30, 29, 30, 29, 30, 29, 30, 29/30, 29/30, 29, 30 and 29/30 (29),
+ numbered from 1.
+ The epoch is jdn# 347998 (jce:dmy# 7 Oct 3761 BCE).
+ See the default script <a href='../defs/h.htm'>Hebrew calendar</a> definition for more details.
+</p>
+
+<h4>base french Sub-Statement</h4>
+<p>
+ This sub-statement implements the calendar established following the creation of the French Republic.
+ The calendar has a record with three fixed fields named 'year', 'month' and 'day',
+ ranked in that order.
+ The year is divided into 12 months of 30 days and a 13th period of 5 or 6 days.
+ The months and days are numbered from 1.
+ The first day of the year occurs on the autumnal equinox as measured at the Paris Observatory.
+ The epoch is jdn# 2375840 (g:dmy# 22 Sep 1792).
+</p>
+
+<h4>base islamic Sub-Statement</h4>
+<p>
+ This sub-statement implements the arithmetical lunar Islamic calendar.
+ (The observational Islamic calendar will be implemented in a future version.)
+ The calendar has a record with three fixed fields named 'year', 'month' and 'day',
+ ranked in that order.
+ The year is divided into 12 months in a year.
+ The months have the following number of days,
+ 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30 and 29/30,
+ numbered from 1.
+ The length 12th month is 29 in a common year and 30 in a leap year.
+ Determination of a leap year is based on the 30 year <a href='https://en.wikipedia.org/wiki/Metonic_cycle'>Metonic cycle</a>.
+ Two alternative epochs may be used, 
+ jdn# 1948439 (j:wdmy# Thur 15 Jul 622) or
+ jdn# 1948440 (j:wdmy# Fri 16 Jul 622).
+ The arrangement is selected using an additional keyword
+ based on the descriptions given by <a href='http://www.staff.science.uu.nl/~gent0113/islam/islam_tabcal_variants.htm'>R.H. van Gent</a>.
+</p>
+<table class='basic'>
+<tr><th colspan='4'>Tabular Islamic Calendars</th></tr>
+<tr><th>Keyword</th><th>Leap years within Metonic cycle</th><th>Epoch (j:wdmy)</th><th>Reference Scheme</th></tr>
+<tr><td class='code'>Ia</td><td>2, 5, 7, 10, 13, 15, 18, 21, 24, 26 &amp; 29</td><td>Thur 15 Jul 622</td><td></td></tr>
+<tr><td class='code'>Ic</td><td>2, 5, 7, 10, 13, 15, 18, 21, 24, 26 &amp; 29</td><td>Fri 16 Jul 622</td><td></td></tr>
+<tr><td class='code'>IIa</td><td>2, 5, 7, 10, 13, 16, 18, 21, 24, 26 &amp; 29</td><td>Thur 15 Jul 622</td><td><a href='../defs/ims.htm'>ims</a></td></tr>
+<tr><td class='code'>IIc</td><td>2, 5, 7, 10, 13, 16, 18, 21, 24, 26 &amp; 29</td><td>Fri 16 Jul 622</td><td><a href='../defs/i.htm'>i</a></td></tr>
+<tr><td class='code'>IIIa</td><td>2, 5, 8, 10, 13, 16, 19, 21, 24, 27 &amp; 29</td><td>Thur 15 Jul 622</td><td><a href='../defs/if.htm'>if</a></td></tr>
+<tr><td class='code'>IIIc</td><td>2, 5, 8, 10, 13, 16, 19, 21, 24, 27 &amp; 29</td><td>Fri 16 Jul 622</td><td></td></tr>
+<tr><td class='code'>IVa</td><td>2, 5, 8, 11, 13, 16, 19, 21, 24, 27 &amp; 30</td><td>Thur 15 Jul 622</td><td></td></tr>
+<tr><td class='code'>IVc</td><td>2, 5, 8, 11, 13, 16, 19, 21, 24, 27 &amp; 30</td><td>Fri 16 Jul 622</td><td></td></tr>
+</table>
+<p>
+ If the additional keyword is not given, IIc is assumed.
+</p>
+
+<h4>base chinese Sub-Statement</h4>
+<p>
+ This sub-statement implements the lunisolar Chinese calendar.
+ The calendar has a record with five fixed fields named 'cycle', 'cyear', 'month', 'lmonth' and 'day',
+ ranked in that order.
+ 
+ A cycle is divided into 60 Chinese years (cyear).
+ The year is divided into 12 lunar months in a common year and one month is repeated in a leap year.
+ The lmonth field is always zero, 
+ except in a leap year when the during the repeated month it has the value of 1.
+ Each month starts on the day of the new moon and has 29 or 30 days.
+ The epoch is jdn# 758326 (jce:dmy# 8 Mar 2637 BCE).
+ See the default script for the <a href='../defs/c.htm'>Chinese calendar</a> for more details.
+</p>
+
+<h3>epoch Shift Sub-Statement</h3>
+<p>
+ Calendars normally have two separate parts to their definitions.
+ There is the definition that describes how the days are counted within the year,
+ then there is the method of counting those years.
+ One common occurrence is that different calendar schemes may use the same method
+ to count the days with the year but have different ways of counting the years.
+ The year count may start at any point of the year,
+ not just the point normally considered the start of the year (New Years Day).
+</p>
+<p>
+ For instance, when Julius Caesar introduced the Julian calendar,
+ New Years Day was considered to be 1st January.
+ However, not all calendar systems increased the year count on this day.
+ When the AD (Anno Domini) Julian calendar was first used,
+ the year change occurred on the 25th December.
+ Later, many other dates were used, for instance, 25th March,
+ the Feast of the Annunciation.
+</p>
+<p>
+ We can also use the epoch variant to change the era,
+ even if the year change remains the 1st January,
+ as with the <a href='../defs/se.htm'>Julian Spanish Era</a> calendar.
+ It will also work with day count calendars,
+ to create day count calendar that starts at a different date,
+ such as the Modified Julian Day calendar.
+</p>
+<table class='basic'>
+<tr><th colspan='2'>epoch Sub-Statement</th></tr>
+<tr><th>Sub-Statement</th><th>Example</th></tr>
+<tr>
+ <td class='code'>epoch <i>date-field</i> <i>base-scheme</i>;</td>
+ <td class='example'>epoch 1721417 julian; // j:dmy# 25 Dec 0
+epoch 2400001 jdn; // Modified Julian Day</td>
+</tr>
+</table>
+<p>
+ The sub-statement consists of the 'epoch' keyword followed by the epoch date
+ followed by the base scheme.
+</p>
+<table class='code'>
+<tr><th>Example Script</th></tr> <!-- See test/shift001.hcs -->
+<tr><td class='example'
+>scheme JS {
+    name "Julian September Start Calendar";
+    epoch date.j:dmy "1 Sep 0" julian;
+    grammar jepoch;
+}
+</td></tr>
+</table>
+
+<h3>hybrid Sub-Statement</h3>
+<p>
+ When an authority changes from one calender system to another,
+ and where the underling system is the same,
+ we can create a hybrid calender.
+ This occurred quite often with the Julian and Gregorian calenders.
+ Not only do they switch between them,
+ they may also change the year count change date.
+</p>
+<p>
+ In order for a hybrid calendar to be useful,
+ the change over must occur in an organised way, on a particular day.
+ Where it is possible, a hybrid calendar can simplify things.
+</p>
+<p>
+ The hybrid calendar has the appearance of adding or removing days from the calender.
+ On the occasions that days are added, this produces an ambiguity.
+ When one of these ambiguities occurs,
+ entering a date may produces two possible results.
+ An additional element is required to indicate the required day,
+ for example, the precise scheme being used.
+ Alternatively, something like the day of the week can be added.
+</p>
+<p>
+ The sub-statement consists of a sequence of further sub-statements between braces,
+ starting with a 'fields' statement that lists the fields used.
+ This is followed by the initial 'scheme' statement,
+ followed by one or more 'change' and 'scheme' statement pairs.
+</p>
+<table class='code'>
+<tr><th>Example Script</th></tr> <!-- See test/xxxx.hcs -->
+<tr><td
+>scheme eng {
+    name "English Hybrid";
+    hybrid {
+        fields year, month, day;
+        scheme ja;
+        change 2360976;  // j:dmy# 1 Jan 1752
+        scheme j;
+        change 2361222;  // g:dmy# 14 Sep 1752
+        scheme g;
+    }
+    grammar hy; // See default script <a href='../defs/eng.htm'>eng</a>
+}
+</td></tr>
+</table>
+<table class='basic'>
+<tr><th colspan='2'>hybrid Sub-Statement</th></tr>
+<tr><th>Sub-Statement</th><th>Example</th></tr>
+<tr><td class='code'>hybrid { fields <i>name1</i>, <i>name2</i>, <i>name3</i>; ... }</td><td class='example'>fields year, month, day;</td></tr>
+<tr><td class='code'>hybrid { ... scheme <i>scode</i>; ... }</td><td class='example'>scheme ja; // Julian Annunciation</td></tr>
+<tr><td class='code'>hybrid { ... change <i>date_value</i>; ... }</td><td class='example'>change 2360976; // j:dmy# 1 Jan 1752</td></tr>
+<tr><td class='code'>hybrid { ... scheme {<i>scheme sub-statements</i>} ... }</td><td class='example'>scheme { base julian; }</td></tr>
+</table>
+<p>
+ Note, a schemes must either be defined before use,
+ or created in place anonymously.
+</p>
+
+<h3>regnal Sub-Statement</h3>
+<p>
+ A common method of numbering the years in a calendar
+ is to number them from the start of the reign of a monarch or official.
+ Such calendars are still in use today.
+</p>
+<p>
+ A calendar based on this system is really a sequence of shifted calendars,
+ the era of each based on the start of the reign.
+ We can also specify the date range covered by each era,
+ which may overlap or have gaps.
+ A default calendar is also defined and is used if no suitable range is found.
+</p>
+<table class='basic'>
+<tr><th colspan='2'>regnal Sub-Statement</th></tr>
+<tr><th>Sub-Statement</th><th>Example</th></tr>
+<tr><td class='code'>regnal { fields <i>name1</i>, <i>name2</i>, <i>name3</i>; ... }</td><td class='example'>fields year, month, day;</td></tr>
+<tr><td class='code'>regnal { ... extended <i>name1</i>, <i>name2</i>; ... }</td><td class='example'>extended hyear;</td></tr>
+<tr><td class='code'>regnal { ... fixed <i>date.field</i> = <i>value</i>; ... }</td><td class='example'>fixed year = 1;</td></tr>
+<tr><td class='code'>regnal { ... era { <i>era-sub-statements</i> } }</td><td class='example'>era { scheme j; } // Julian default scheme</td></tr>
+</table>
+
+<h3>grammar Sub-Statement</h3>
+<p>
+ This can be used to link to a previously defined grammar (using its grammar code)
+ or to define an anonymous grammar.
+ One or zero grammar sub-statements can be defined.
+</p>
+
+<h3>visible Sub-Statement</h3>
+<p>
+ When a scheme list is requested,
+ this attribute determines if the scheme is to be included.
+ The default is visible yes.
+</p>
+<table class='basic'>
+ <tr><th colspan='2'>visible Sub-Statement</th></tr>
+ <tr><th>Description</th><th>Switch</th></tr>
+ <tr><td>Show scheme is scheme list.</td><td class='code'>visible yes;</td></tr>
+ <tr><td>Do not show in the scheme list.</td><td class='code'>visible no;</td></tr>
+</table>
+    
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/hics/index.htm' class='m-item'>Hics Extension</a>
+  <a href='scheme.htm' class='m-item thispage'>Define scheme</a>
+  <a href='../../../../dev/man2/script/hics/set.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/hics/format.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>20<sup>th</sup> June 2023</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

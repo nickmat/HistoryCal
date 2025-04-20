@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - go</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />go - Gregorian Ordinal
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='go.htm' class='m-item thispage'>go</a>
+  <a href='../../../../dev/man2/script/defs/ay.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/gw.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Calendar Description - Scheme go</h2>
+<p>
+ The Ordinal calendar is defined in terms of the <a href='g.htm'>Gregorian</a> calendar.
+ It consists of a count of years and days.
+ It is also (confusingly) known as the <i>Julian Date</i>
+ and the day number as the <i>Julian Day</i> but these terms are not recommended.
+</p>
+<p>
+ The year is identical to the Gregorian year.
+ The day is the ordinal number of days since 1st of January in that year.
+ The number of days in a year is 365 or 366,
+ the same as the equivalent Gregorian year.
+</p>
+
+<h3>Use Case</h3>
+<p>
+ Often used by modern day industry, where it may be referred to as <i>Julian date</i>.
+</p>
+<p>
+ Details of the scheme where published in 1973 by the International Standards Organisation
+ in their ISO 2711:1973 document.
+ This was superseded in 2004 by the ISO 8601:2004 and later publications.
+</p>
+
+<h3>Definition</h3>
+<p>
+ The Ordinal calendar is defined in terms of the Gregorian calendar.
+</p>
+<p>
+  The <b>Record</b> consists of two <b>Fields</b> named <code>year</code>
+  and <code>day</code>.
+</p>
+<table class='record'>
+<tr><th colspan='2'>Record</th></tr>
+<tr><td>year</td><td>day</td></tr>
+</table>
+<p class='lclear'>
+ The year length and number are the same as the <a href='g.htm'><b>g</b> Gregorian</a> calendar scheme.
+ Day one is defined as 1st January.
+</p>
+
+<p style='display:inline;'>
+ The <b>Epoch</b> is set at
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>go</td><th>year</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>g</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>1</td><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>1721426</td></tr>
+ </table>.
+</p>
+
+<h3>Formats</h3>
+<p>
+ The formats supplied with this scheme.
+</p>
+<p>
+ Details of the the ISO 8601 standard format is shown in the format statement
+ <a href='..\hics\format.htm#rules-iso8601'>rules iso8601 section</a>
+ with examples to show how to extend the available formats.
+</p>
+
+<table class='basic data'>
+<tr><th colspan='6'>Formats - Grammar go</th></tr>
+<tr><th>Code</th><th>Rule</th><th>Pseudo:in</th><th>Pseudo:out</th><th>Example</th><th>Note</th></tr>
+<tr><td><b>yd</b></td><td>text</td><td>year day</td><td>yyyy ddd</td><td class='example'>2023 39</td><td>D, S</td></tr>
+<tr><td><b>iso</b></td><td>iso8601</td><td>ISO:8601 Ordinal -YYYY</td><td>-YYYY-DDD</td><td class='example'>2023-039</td><td>S</td></tr>
+<tr><td><b>def</b></td><td>text</td><td>year day</td><td>yyyy ddd</td><td class='example'>2023 39</td><td>H, S</td></tr>
+<tr><td><b>u</b></td><td>unit</td><td>9y 9d</td><td>9y 9d</td><td class='example'>2023y 39d</td><td>H</td></tr>
+<tr><td colspan='6'>Notes: D = Default, H = Hidden, S = Range shortcut supported.
+Example based on jdn# 2459984</td></tr>
+</table>
+
+<h3>Script</h3>
+<table class='code lfloat'>
+<tr><th>Script - Module hics:gregorian</th></tr>
+<tr><td
+>grammar go {
+    name "Year Day";
+    fields year day;
+    alias pseudo { ddd day; yyyy year; }
+    alias unit { d day; y year; }
+    format yd "{year}| {day}";
+    format iso { rules iso8601 ordinal minus; }
+    preferred yd;
+}
+scheme go {
+    name "Gregorian Ordinal";
+    base ordinal;
+    grammar go;
+}
+</td></tr>
+</table>
+<p>
+ The script has no dependencies. 
+</p>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='go.htm' class='m-item thispage'>go</a>
+  <a href='../../../../dev/man2/script/defs/ay.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/gw.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>19<sup>th</sup> July 2023</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

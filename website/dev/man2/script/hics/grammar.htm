@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - Define grammar</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />Define grammar
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/hics/index.htm' class='m-item'>Hics Extension</a>
+  <a href='grammar.htm' class='m-item thispage'>Define grammar</a>
+  <a href='../../../../dev/man2/script/hics/format.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/hics/lexicon.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Statement: grammar</h2>
+<p>
+ The grammar statement contains a number of sub-statements
+ which describe how a scheme's input and output is written.
+</p>
+<p>
+ The grammar must be given a unique (within all other grammars) code name
+ by which it can be referred to.
+ It may then contain the following sub-statements in between '{' and '}' braces.
+</p>
+
+<table class='basic'>
+<tr><th colspan='3'>grammar Sub-Statement List</th></tr>
+<tr><th>Sub-Statement</th><th>Use</th><th>Example</th></tr>
+<tr><td class='code'>name</td><td>Give the grammar a text description.</td><td class='example'>name "Julian calendar schemes";</td></tr>
+<tr><td class='code'>inherit</td><td>Inherit all the settings from a previously defined grammar.</td><td class='example'>inherit j;</td></tr>
+<tr><td class='code'>fields</td><td>List of base fields, must match base order.</td><td class='example'>fields year month day;</td></tr>
+<tr><td class='code'>calculated</td><td>List of calculated fields.</td><td class='example'>calculated ce ceyear;</td></tr>
+<tr><td class='code'>optional</td><td>List of optional fields.</td><td class='example'>optional wday;</td></tr>
+<tr><td class='code'>rank</td><td>The field ranking used by the format sub-statements.</td><td class='example'>rank ce ceyear month day;</td></tr>
+<tr><td class='code'>lexicons</td><td>The list of lexicons used with this grammar.</td><td class='example'>lexicons m w jce;</td></tr>
+<tr><td class='code'>alias</td><td>Allow the use of alternative field names.</td><td class='example'>alias field {WDay wday; ...}</td></tr>
+<tr><td class='code'>function</td><td>A function to be available to an attached scheme.</td><td class='example'>function code { ... result = this; }</td></tr>
+<tr><td class='code'>use</td><td>The default functions to be used by format.</td><td class='example'>use { calculate cmonth; from:text month; }</td></tr>
+<tr><td class='code'>format</td><td>The description of the formats.</td><td class='example'>format dmy "{day} |{month:m:a} |{year}";</td></tr>
+<tr><td class='code'>preferred</td><td>The preferred format to use, unless otherwise stated.</td><td class='example'>preferred dmy;</td></tr>
+</table>
+
+<h3>Sub-Statement: name</h3>
+<p>
+ Gives a descriptive name to the grammar.
+ This gives a way to document the purpose of the grammar, which will help in reuse.
+</p>
+
+<h3>Sub-Statement: inherit</h3>
+<p>
+ Create a new grammar by extending an existing one.
+ The action of the original grammar is not changed in any way.
+</p>
+
+<h3>Sub-Statement: fields</h3>
+<p>
+ Declare the required fields that match the intended scheme base required fields.
+ This list is checked whenever the grammar is attached to a scheme.
+ If the match fails, an error is generated.
+</p>
+<p>
+ If the grammar inherits, then the inherited fields are appended those given.
+</p>
+
+<h3>Sub-Statement: calculated</h3>
+<p>
+ List fields which are calculated based on the required fields.
+</p>
+
+<h3>Sub-Statement: optional</h3>
+<p>
+ Declare all the optional fields required.
+ The format definitions can only refer to the required and calculated fields
+ plus the extended fields listed here.
+</p>
+
+<h3>Sub-Statement: rank</h3>
+<p>
+ This is the ranking order to be used by the format statements,
+ unless the format statement has its own rank sub-statement.
+</p>
+<p>
+ Ranking is used with shortcut ranges.
+ For example, "Jul 2023" is a shortcut for the range of all the days in July 2023.
+</p>
+<p>
+ We create the shortcut by omitting the fields to the right of the ranking list.
+</p>
+
+<h3>Sub-Statement: lexicons</h3>
+<p>
+ Declare all the lexicon statements to be used.
+ The format definitions can only refer to the lexicons listed here.
+</p>
+
+<h3>Sub-Statement: alias</h3>
+<p>
+ In a number of places, it is preferable to use a different name than the default.
+ The statement takes the form:-
+</p>
+<table class='basic'>
+ <tr>
+  <td class='code'><b>alias <i>type</i> {</b> <i>alias field-name</i><b>;</b> <i>alias field-name</i><b>;</b> ... <b>}</b></td>
+ </tr>
+</table>
+<p>
+ Where <i>type</i> is one of: <b>field</b>, <b>pseudo</b>, <b>unit</b> or <b>lexicon</b>.
+</p>
+<table class='basic'>
+<tr><th colspan='3'>grammar alias Sub-Statement</th></tr>
+<tr><th>Sub-Statement</th><th>Use</th><th>Example</th></tr>
+<tr><td class='code'>alias field</td><td>Allow the use of more user friendly field names.</td><td class='example'>alias field {WDay wday; ...}</td></tr>
+<tr><td class='code'>alias pseudo</td><td>The pseudonym matching numbers in the pseudo date.</td><td class='example'>alias pseudo {w wday; dd day; ...}</td></tr>
+<tr><td class='code'>alias unit</td><td>Alternative field name when used as a unit.</td><td class='example'>alias field {d day; m month; ...}</td></tr>
+<tr><td class='code'>alias lexicon</td><td>When the register name does not match the lexicon name.</td><td class='example'>alias lexicon {wday day; ...}</td></tr>
+</table>
+<p>
+ Note, the alias does not replace the field-name, but gives a preferred alternative.
+</p>
+
+<h3>Sub-Statement: alias field</h3>
+<p>
+ Create user friendly names for the fields used in the format strings.
+</p>
+
+<h3>Sub-Statement: alias pseudo</h3>
+<p>
+ When the date format needs to show that numbers will be displayed
+ for a particular element in a particular position,
+ the pseudo alias shown here will be used in creating the pseudo date.
+</p>
+<p>
+ Note, if a lexicon is used to provide output,
+ the pseudo name will be provided by the lexicon definition.
+</p>
+
+<h3>Sub-Statement: alias unit</h3>
+<p>
+ The universal unit format ":u" expects input in one or more 'number unit' pairs.
+ The unit given is (in order of lookup) the unit alias, the field alias or the default field name.
+</p>
+
+<h3>Sub-Statement: function</h3>
+<p>
+ This defines a function that can be used by any scheme which has attached the grammar.
+ The function is defined in the same way as an
+ <a href='../script/object.htm#function'>object function</a>.
+</p>
+<p>
+ The default, calculated and optional field names
+ will be available to the function as local variables.
+ To actually make changes to the scheme object,
+ the function should set the result to 'this' (the modified scheme object).
+</p>
+
+<h3 id="use">Sub-Statement: use</h3>
+<p>
+ Define the default functions to be used by format sub-statements.
+ Either define the functions directly or refer to those automatically created.
+</p>
+<table class='basic'>
+<tr><th colspan='3'>grammar use Sub-Statement</th></tr>
+<tr><th>Code</th><th>Note</th><th>Example</th></tr>
+<tr>
+<td class='code'>use {
+    calculate <i>create-calculated</i>;
+    from:text <i>create-default</i>;
+}</td>
+<td>
+Create all calculated fields from the default fields.<br>
+Create all fields the fields provided from the text.<br>
+</td>
+<td class='example'>use {
+    calculate calc_cmonth;
+    from:text calc_month;
+}</td>
+</tr>
+<tr>
+<td class='code'>use epoch;</td>
+<td>Used with schemes that define an epoch date.</td>
+<td class='example'>use epoch;</td>
+</tr>
+</table>
+<p>
+ A format may use a function in two different ways.
+</p>
+<ol>
+ <li>
+  Converting a jdn (Julian Day Number) to a text string
+  which uses calculated fields.
+  The jdn is converted into the default fields
+  and a function would complete the calculated fields
+  before formulating the text string.
+  This uses the <code>calculate</code> function.
+ </li>
+ <li>
+  When converting a text string to a jdn.
+  The date elements are composed into their fields
+  and any calculated fields are used to complete the default fields.
+  The default fields are then used to obtain the jdn value.
+  This uses the <code>from:text</code> function.
+ </li>
+</ol>
+<p>
+ If a format does not use the default function for text input,
+ then the format sub-statement <b><a href='format.htm#use-in'>use:in</a></b> should be used to specify it.
+</p>
+
+<h3>Sub-Statement: format</h3>
+<p>
+ Apart from the grammar:format signature,
+ the format sub-statement is the same as <a href='format.htm'>format statement</a>.
+</p>
+<p>
+ A grammar may have many format sub-statements.
+</p>
+
+<h3>Sub-Statement: preferred</h3>
+<p>
+ The preferred format to use.
+ If this sub-statement is missing, the first format listed is used. 
+</p>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/hics/index.htm' class='m-item'>Hics Extension</a>
+  <a href='grammar.htm' class='m-item thispage'>Define grammar</a>
+  <a href='../../../../dev/man2/script/hics/format.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/hics/lexicon.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>20<sup>th</sup> June 2023</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

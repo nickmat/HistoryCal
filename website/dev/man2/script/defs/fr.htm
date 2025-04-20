@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - fr</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />fr - French Republican
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='fr.htm' class='m-item thispage'>fr</a>
+  <a href='../../../../dev/man2/script/defs/h.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/ay.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Calendar Description - Scheme fr</h2>
+<p>
+ The French Republican calendar was part of the reforms brought in after the
+ French Revolution, the same reforms that lead to the metric system.
+</p>
+<p>
+ The calendar consists of 12 months of thirty days each
+ and five (six in a leap year) additional days (Complémentaires) at the end of the year.
+ The year change is the autumnal equinox as measured at the Paris Observatory
+ which sets the first day of the first month, Vendémiaire.
+</p>
+<p>
+ Each month was divided into three 10 day periods called Décades and
+ the days were named according to their position.
+ The last day, Décadi, was a public holiday.
+</p>
+<p>
+ The use of Décades was discontinued in Apr 1802 (Gregorian) and
+ the 7-day Week restored.
+</p>
+<p>
+ See also the <a href='https://en.wikipedia.org/wiki/French_Republican_calendar'>Wikipedia entry</a>.</li>
+</p>
+
+<h3>Use Case</h3>
+<p>
+ The calendar had a short life, the details below being the only recorded uses.
+</p>
+<ul>
+ <li>France, 24 Nov 1793 to 31 Dec 1805 (Gregorian).</li>
+ <li>Paris, May 1871 (Gregorian) during the "Paris Commune".</li>
+</ul>
+
+<h3>Definition</h3>
+
+<table class='basic data rfloat'>
+<tr><th colspan='4'>Days in Month</th></tr>
+<tr><th rowspan='2'>Number</th><th rowspan='2'>Name</th><th colspan='2'>Number of Days</th></tr>
+<tr><th>Common</th><th>Leap</th></tr>
+<tr><td>1</td><td>Vendémiaire</td><td>30</td><td>30</td></tr>
+<tr><td>2</td><td>Brumaire</td><td>30</td><td>30</td></tr>
+<tr><td>3</td><td>Frimaire</td><td>30</td><td>30</td></tr>
+<tr><td>4</td><td>Nivôse</td><td>30</td><td>30</td></tr>
+<tr><td>5</td><td>Pluviôse</td><td>30</td><td>30</td></tr>
+<tr><td>6</td><td>Ventôse</td><td>30</td><td>30</td></tr>
+<tr><td>7</td><td>Germinal</td><td>30</td><td>30</td></tr>
+<tr><td>8</td><td>Floréal</td><td>30</td><td>30</td></tr>
+<tr><td>9</td><td>Prairial</td><td>30</td><td>30</td></tr>
+<tr><td>10</td><td>Messidor</td><td>30</td><td>30</td></tr>
+<tr><td>11</td><td>Thermidor</td><td>30</td><td>30</td></tr>
+<tr><td>12</td><td>Fructidor</td><td>30</td><td>30</td></tr>
+<tr><td>13</td><td>Complémentaires</td><td>5</td><td>6</td></tr>
+</table>
+
+<table class='record'>
+<tr><th colspan='8'>Record - Default order</th></tr>
+<tr>
+ <td>year</td><td>month</td><td>day</td>
+ <td class='rec-calc'>nmonth</td>
+ <td class='rec-calc'>nmday</td>
+ <td class='rec-calc'>cday</td>
+ <td class='rec-calc'>dday</td>
+ <td class='rec-opt'>wday</td>
+</tr>
+</table>
+
+<table class='record'>
+<tr><th colspan='8'>Record - Ranking order</th></tr>
+<tr>
+ <td><b>year</b></td>
+ <td class='rec-calc'><b>nmonth</b></td>
+ <td class='rec-calc'><b>nmday</b></td>
+ <td class='rec-calc'>cday</td>
+ <td class='rec-calc'>dday</td>
+ <td class='rec-opt'>wday</td>
+ <td>month</td>
+ <td>day</td>
+</tr>
+</table>
+
+<p class='lclear'>
+ The year length is 365 or 366 days long,
+ averaging the tropical year of approximately 365.24219 days.
+ Days start at midnight.
+</p>
+<p>
+ The <b>Record</b> consists of three base <b>Fields</b> named <code>year</code>.
+ <code>month</code> and <code>day</code>.
+ There are 13 months in a year.
+ All the months contain 30 days except the 13th
+ which contains 5 days in a common year and 6 in a leap year.
+</p>
+<p>
+ To assist in formatting, the record contains 3 calculated fields:
+ <code>nmonth</code>, <code>nmday</code> and <code>cday</code>.
+ During the first 12 months, <code>nmonth,</code> and <code>nmday</code>
+ contain the same as <code>month</code> and <code>day</code>,
+ whilst <code>cday</code> holds the null value.
+ During the 13th month, <code>nmonth</code> and <code>nmday</code> contain the null values
+ and <code>cday</code> is the same as the <code>day</code> field.
+</p>
+<p>
+ Each full month is divided into 3 décades or 10 day weeks.
+ The calculated field <code>dday</code> provides the day of the décade.
+</p>
+<p>
+ The calendar was still in use when the 7 day week was re-introduced.
+ The optional field <code>wday</code> is included to provide the day of the week.
+</p>
+
+<div class='p'>
+ The <b>Epoch</b> is set at
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>fr</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>1</td><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>g</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1792</td><td>9</td><td>22</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>2375840</td></tr>
+ </table>.
+</div>
+
+<h3>Formats</h3>
+<p>
+ When this scheme was in use,
+ the usual method of formatting was: day of month, the month name, the year.
+ During the five or six day Complémentaires period, just the day's name and the year were given.
+ The year was usually written in Roman numerals.
+</p>
+<p>
+ To simplify the format, particularly for automated systems,
+ the Complémentaires period can be treated as a short month
+ and the format is then always: day of month, month name, the year.
+</p>
+<p>
+ Two lexicons for the month names are provided,
+ <b>frnm</b> which is just the 12 month names
+ and <b>frm</b> which includes the Complémentaires month.
+</p>
+<table class='basic data lfloat'>
+<tr><th colspan='3'>Month Names - Lexicon frnm</th></tr>
+<tr><th>Number</th><th>Name</th><th>Abrev.</th></tr>
+<tr><td>1</td><td>Vendémiaire</td><td>Vend</td></tr>
+<tr><td>2</td><td>Brumaire</td><td>Brum</td></tr>
+<tr><td>3</td><td>Frimaire</td><td>Frim</td></tr>
+<tr><td>4</td><td>Nivôse</td><td>Nivo</td></tr>
+<tr><td>5</td><td>Pluviôse</td><td>Pluv</td></tr>
+<tr><td>6</td><td>Ventôse</td><td>Vent</td></tr>
+<tr><td>7</td><td>Germinal</td><td>Germ</td></tr>
+<tr><td>8</td><td>Floréal</td><td>Flor</td></tr>
+<tr><td>9</td><td>Prairial</td><td>Prai</td></tr>
+<tr><td>10</td><td>Messidor</td><td>Mess</td></tr>
+<tr><td>11</td><td>Thermidor</td><td>Ther</td></tr>
+<tr><td>12</td><td>Fructidor</td><td>Fruc</td></tr>
+</table>
+
+<table class='basic data lfloat'>
+<tr><th colspan='3'>Month Names - Lexicon frm</th></tr>
+<tr><th>Number</th><th>Name</th><th>Abrev.</th></tr>
+<tr><td colspan='3'>All enries in <b>frnm</b> plus:-</td></tr>
+<tr><td>13</td><td>Complémentaires</td><td>Comp</td></tr>
+</table>
+
+<table class='basic data lfloat'>
+<tr><th colspan='3'>Complémentaire Day Names - Lexicon frcomp</th></tr>
+<tr><th>Number</th><th>Name</th><th>Abrev.</th></tr>
+<tr><td>1</td><td>Fête de la Vertu</td><td>Ver</td></tr>
+<tr><td>2</td><td>Fête du Génie</td><td>Gen</td></tr>
+<tr><td>3</td><td>Fête du Travail</td><td>Trav</td></tr>
+<tr><td>4</td><td>Fête de l'Opinion</td><td>Opin</td></tr>
+<tr><td>5</td><td>Fête des Récompenses</td><td>Rec</td></tr>
+<tr><td>6</td><td>Fête de la Révolution</td><td>Rev</td></tr>
+</table>
+
+<p class="clear"></p>
+<table class='basic data lfloat'>
+<tr><th colspan='3'>Décade Day Name - Lexicon frdd</th></tr>
+<tr><th>Number</th><th>Name</th><th>Abrev.</th></tr>
+<tr><td>1</td><td>Primidi</td><td>Prim</td></tr>
+<tr><td>2</td><td>Duodi</td><td>Duo</td></tr>
+<tr><td>3</td><td>Tridi</td><td>Tri</td></tr>
+<tr><td>4</td><td>Quartidi</td><td>Quar</td></tr>
+<tr><td>5</td><td>Quintidi</td><td>Quin</td></tr>
+<tr><td>6</td><td>Sextidi</td><td>Sext</td></tr>
+<tr><td>7</td><td>Septidi</td><td>Sept</td></tr>
+<tr><td>8</td><td>Octidi</td><td>Oct</td></tr>
+<tr><td>9</td><td>Nonidi</td><td>Non</td></tr>
+<tr><td>10</td><td>Décadi</td><td>Dec</td></tr>
+</table>
+<p>
+ The day of the week may also be included in the format.
+ The 10 day week was introduced as part of the calendar scheme.
+ Later the 7 day week was re-introduced by popular demand.
+</p>
+
+<p class='clear'>
+ The formats supplied with this scheme.
+</p>
+
+<table class='basic data'>
+<tr><th colspan='5'>Formats - Grammar fr</th></tr>
+<tr><th>Code</th><th>Rule</th><th>Pseudo</th><th>Example</th><th>Note</th></tr>
+<tr><td><b>dmy_a</b></td><td>text</td><td><b>Input:</b> day month year<br /><b>Output:</b> dd Mon yyyy</td><td class='example'>5 Comp 232<br />1 Vend 233<td>S</td></tr>
+<tr><td><b>dmy</b></td><td>text</td><td><b>Input:</b> day month year<br /><b>Output:</b> dd Month yyyy</td><td class='example'>5 Complémentaires 232<br />1 Vendémiaire 233<td>D, S</td></tr>
+<tr><td><b>ymd</b></td><td>text</td><td><b>Input:</b> year month day<br /><b>Output:</b> yyyy Month dd</td><td class='example'>232 Complémentaires 5<br />233 Vendémiaire 1<td>S</td></tr>
+<tr><td><b>cdmy</b></td><td>text</td><td><b>Input:</b> cday nmday nmonth year<br /><b>Output:</b> CompDay dd Month yyyy</td><td class='example'>Fête des Récompenses 232<br />1 Vendémiaire 233<td></td></tr>
+<tr><td><b>cdmy-</b></td><td>text</td><td><b>Input:</b> cday nmday nmonth year<br /><b>Output:</b> CDay dd Mon yyyy</td><td class='example'>Rec 232<br />1 Vend 233<td></td></tr>
+<tr><td><b>out</b></td><td>text</td><td><b>Output:</b> CompDay dd Month an yyyy[X]</td><td class='example'>Fête des Récompenses an CCXXXII<br />1 Vendémiaire an CCXXXIII<td></td></tr>
+<tr><td><b>dcdmy</b></td><td>text</td><td><b>Input:</b> dday cday nmday nmonth year<br /><b>Output:</b> DecDay CompDay dd Month yyyy</td><td class='example'>Fête des Récompenses 232<br />Primidi 1 Vendémiaire 233<td></td></tr>
+<tr><td><b>dcdmy-</b></td><td>text</td><td><b>Input:</b> dday cday nmday nmonth year<br /><b>Output:</b> DDay CDay dd Mon yyyy</td><td class='example'>Rec 232<br />Prim 1 Vend 233<td></td></tr>
+<tr><td><b>wcdmy</b></td><td>text</td><td><b>Input:</b> wday cday nmday nmonth year<br /><b>Output:</b> Weekday, CompDay dd Month yyyy</td><td class='example'>Saturday, Fête des Récompenses 232<br />Sunday, 1 Vendémiaire 233<td></td></tr>
+<tr><td><b>wcdmy-</b></td><td>text</td><td><b>Input:</b> wday cday nmday nmonth year<br /><b>Output:</b> Wday, CDay dd Mon yyyy</td><td class='example'>Sat, Rec 232<br />Sun, 1 Vend 233<td></td></tr>
+<tr><td><b>gedcom</b></td><td>text</td><td><b>Input:</b> day month year<br /><b>Output:</b> dd MON yyyy</td><td class='example'>5 COMP 232<br />1 VEND 233<td>S</td></tr>
+<tr><td><b>def</b></td><td>text</td><td><b>Input:</b> year month day nmonth nmday cday dday<br /><b>Output:</b> yyyy mm dd mm dd c d</td><td class='example'>232 13 5 5<br />233 1 1 1 1 1<td>H</td></tr>
+<tr><td><b>u</b></td><td>unit</td><td><b>Input:</b> 9y 9m 9d 9nm 9nd 9cd 9dd<br /><b>Output:</b> 9y 9m 9d 9nm 9nd 9cd 9dd</td><td class='example'>232y 13m 5d 5cd<br />233y 1m 1d 1nm 1nd 1dd<td>H</td></tr>
+<tr><td colspan='6'>Notes: D = Default, H = Hidden, S = Range shortcut supported.
+Example based on jdn# 2460575 and 2460576</td></tr>
+</table>
+
+<h3>Script</h3>
+<table class='code lfloat'>
+<tr><th>Script - Module hics:french_rep</th></tr>
+<tr><td
+>lexicon frnm {
+    name "Normal Month names";
+    fieldname nmonth;
+    lang en;
+    pseudo    Month,  Mon;
+    tokens {
+        1, "Vendémiaire",      "Vend";
+        2, "Brumaire",         "Brum";
+        3, "Frimaire",         "Frim";
+        4, "Nivôse",           "Nivo";
+        5, "Pluviôse",         "Pluv";
+        6, "Ventôse",          "Vent";
+        7, "Germinal",         "Germ";
+        8, "Floréal",          "Flor";
+        9, "Prairial",         "Prai";
+        10, "Messidor",        "Mess";
+        11, "Thermidor",       "Ther";
+        12, "Fructidor",       "Fruc";
+    }
+}
+lexicon frm {
+    name "Month names";
+    inherit frnm;
+    fieldname month;
+    tokens {
+        13, "Complémentaires", "Comp";
+    }
+}
+lexicon frcomp {
+    name "Complementary Days";
+    fieldname cday;
+    lang en;
+    pseudo    CompDay,           CDay;
+    tokens {
+        1, "Fête de la Vertu",      "Ver";
+        2, "Fête du Génie",         "Gen";
+        3, "Fête du Travail",       "Trav";
+        4, "Fête de l'Opinion",     "Opin";
+        5, "Fête des Récompenses",  "Rec";
+        6, "Fête de la Révolution", "Rev";
+    }
+}
+lexicon frdd {
+    name "Decade Day";
+    fieldname dday;
+    lang en;
+    pseudo    DecDay,  DDay;
+    tokens {
+        1, "Primidi",  "Prim";
+        2, "Duodi",    "Duo";
+        3, "Tridi",    "Tri";
+        4, "Quartidi", "Quar";
+        5, "Quintidi", "Quin";
+        6, "Sextidi",  "Sext";
+        7, "Septidi",  "Sept";
+        8, "Octidi",   "Oct";
+        9, "Nonidi",   "Non";
+        10, "Décadi",  "Dec";
+    }
+}
+grammar fr {
+    name "French Republic";
+    fields year month day;
+    calculated nmonth nmday cday, dday;
+    optional wday;
+    rank year nmonth nmday;
+    lexicons frm, frnm, frcomp, frdd, w;
+    alias pseudo { dd day; mm month; yyyy year; mm nmonth; dd nmday; c cday; d dday; w wday; }
+    alias unit { d day; m month; y year; nm nmonth; nd nmday; cd cday; dd dday; }
+    // Record: year month day nmonth nmday cday dday wday
+    function calc_to_def {
+        if cday = null
+            month = nmonth;
+            day = nmday;
+            dday = ( (day - 1) mod 10 ) + 1;
+        else
+            month = 13;
+            day = cday;
+            dday = null;
+        endif
+        result = this;
+    }
+    function def_to_calc {
+        if month &lt;&gt; null
+            if month &lt; 13
+                nmonth = month;
+                nmday = day;
+                cday = null;
+                dday = ( (day - 1) mod 10 ) + 1;
+            else
+                nmonth = null;
+                nmday = null;
+                cday = day;
+                dday = null;
+            endif
+        endif
+        result = this;
+    }
+    use { calculate def_to_calc; from:text calc_to_def; }
+    format dmy_a {
+        inout "{day} |{month:frm:a} |{year}";
+        rank year month day;
+        use:in def_to_calc;
+    }
+    format dmy {
+        inout "{day} |{month:frm} |{year}";
+        rank year month day;
+        use:in def_to_calc;
+    }
+    format ymd {
+        inout "{year}| {month:frm}| {day}";
+        rank year month day;
+        use:in def_to_calc;
+    }
+    format  cdmy   "{cday:frcomp} |{nmday} |{nmonth:frnm} |{year}";
+    format "cdmy-" "{cday:frcomp:a} |{nmday} |{nmonth:frnm:a} |{year}";
+    format out {
+        output "{cday:frcomp} |{nmday} |{nmonth:frnm} |an {year::rn}";
+    }
+    format  dcdmy   "{dday:frdd} |{cday:frcomp} |{nmday} |{nmonth:frnm} |{year}";
+    format "dcdmy-" "{dday:frdd:a} |{cday:frcomp:a} |{nmday} |{nmonth:frnm:a} |{year}";
+    format  wcdmy   "{wday:w}, |{cday:frcomp} |{nmday} |{nmonth:frnm} |{year}";
+    format "wcdmy-" "{wday:w:a}, |{cday:frcomp:a} |{nmday} |{nmonth:frnm:a} |{year}";
+    format gedcom {
+        inout "{day} |{month:frm:a:u} |{year}";
+        rank year month day;
+        use:in def_to_calc;
+    }
+    preferred dmy;
+}
+scheme fr {
+    name "French Republic";
+    base french;
+    grammar fr;
+}
+</td></tr>
+</table>
+<p class="clear">
+ The script uses the lexicon "w" definition from the
+ <a href='jwn.htm'><b>jwn</b> Julian Week Number</a> scheme
+ for the optional field <code>wday</code>.
+</p>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='fr.htm' class='m-item thispage'>fr</a>
+  <a href='../../../../dev/man2/script/defs/h.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/ay.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>19<sup>th</sup> June 2024</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

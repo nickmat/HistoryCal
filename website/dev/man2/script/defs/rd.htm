@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - rd</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />rd - Rata Die
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='rd.htm' class='m-item thispage'>rd</a>
+  <a href='../../../../dev/man2/script/defs/jwn.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/mjd.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Calendar Description - Scheme rd</h2>
+<p>
+ The Rata Die calendar is a day count scheme with the epoch set at the 1st January year 1
+ of the proleptic Gregorian calendar.
+</p>
+<p>
+ Because this calendar scheme has limited historical value,
+ its visibility is set at hidden.
+</p>
+
+<h3>Use Case</h3>
+<p>
+ Calendar is used as the base scheme to define the calendars in the book <i>Calendrical Calculations</i>
+ by <i>Nachum Dershowitz</i> and <i>Edward M. Reingold</i>.
+</p>
+
+<h3>Definition</h3>
+<p>
+ Days start at midnight.
+</p>
+<p>
+ The <b>Record</b> consists of a single <b>Field</b> named <code>day.</code>
+</p>
+<table class='record'>
+<tr><th>Record</th></tr>
+<tr><td>day</td></tr>
+</table>
+<p class='lclear'>
+ The count starts at the Gregorian date of 1st January in the year 1.
+</p>
+<div class='p'>
+The Epoch is set at
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>rd</td><th>day</th></tr>
+   <tr class='value'><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>g</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>1</td><td>1</td></tr>
+ </table>.
+ =
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+   <tr class='value'><td>1721426</td></tr>
+ </table>
+</div>
+
+<h3>Formats</h3>
+<p>
+ The formats supplied with this scheme.
+</p>
+
+<table class='basic data'>
+<tr><th colspan='6'>Formats - Grammar d</th></tr>
+<tr><th>Code</th><th>Rule</th><th>Pseudo:in</th><th>Pseudo:out</th><th>Example</th><th>Note</th></tr>
+<tr><td><b>d</b></td><td>text</td><td>day</td><td>dddd</td><td class='example'>728714</td><td>D</td></tr>
+<tr><td><b>def</b></td><td>text</td><td>day</td><td>dddd</td><td class='example'>728714</td><td>H</td></tr>
+<tr><td><b>u</b></td><td>unit</td><td>9d</td><td>9d</td><td class='example'>728714d</td><td>H</td></tr>
+<tr><td colspan='6'>Notes: D = Default, H = Hidden.
+Example based on jdn# 2450139</td></tr>
+</table>
+
+<h3>Script</h3>
+<table class='code lfloat'>
+<tr><th>Script - Module hics:jdn</th></tr>
+<tr><td
+>scheme rd {
+    name "Rata Die";
+    base jdn epoch:1721426; // g:dmy# 1 Jan 1
+    grammar d;
+    visible no;
+}
+</td></tr>
+</table>
+<p>
+ It uses the <b>grammar</b> "d" day count definition from
+ <a href='jdn.htm'><b>jdn</b> Julian</a> also in the module hics:jdn.
+</p>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='rd.htm' class='m-item thispage'>rd</a>
+  <a href='../../../../dev/man2/script/defs/jwn.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/mjd.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>7<sup>th</sup> November 2024</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

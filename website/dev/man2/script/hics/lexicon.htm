@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - Define lexicon</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />Define lexicon
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/hics/index.htm' class='m-item'>Hics Extension</a>
+  <a href='lexicon.htm' class='m-item thispage'>Define lexicon</a>
+  <a href='../../../../dev/man2/script/hics/grammar.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/hics/index.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Statement: lexicon</h2>
+<p>
+ The lexicon statement defines a lexicon which can later be incorporated into a
+ <a href='grammar.htm'>grammar</a> definition.
+ It describes a series of text tokens and their equivalent numerical values.
+</p>
+<p>
+ The lexicon must be given a unique (within all other lexicons) code name
+ by which it can be referred to.
+ It then must contain the following sub-statements in between '{' and '}' braces.
+</p>
+
+<table class='basic'>
+<tr><th colspan='3'>lexicon Sub-Statement List</th></tr>
+<tr><th>Sub-Statement</th><th>Use</th><th>Example</th></tr>
+<tr><td class='code'>name</td><td>Give the lexicon a text description.</td><td class='example'>name "Month names";</td></tr>
+<tr><td class='code'>inherit</td><td>Inherit the settings and tokens from previously defined lexicon.</td><td class='example'>inherit hm;</td></tr>
+<tr><td class='code'>fieldname</td><td>The field name normally associated with this lexicon.</td><td class='example'>fieldname month;</td></tr>
+<tr><td class='code'>lang</td><td>The language used. (Not in use yet.)</td><td class='example'>lang en;</td></tr>
+<tr><td class='code'>pseudo</td><td>The text used by by the <a href='../gloss.htm#pseudo-date'>pseudo date</a> to describe the lexicon.</td><td class='example'>pseudo Month, Mon";</td></tr>
+<tr><td class='code'>tokens</td><td>A list of values, tokens and an optional abbreviation.</td><td class='example'>tokens {1, January, Jan; ...}</td></tr>
+</table>
+
+<h3>Sub-Statement: name</h3>
+<p>
+ Gives a descriptive name to the lexicon.
+ Used to provide a list of available lexicons to the host program.
+</p>
+
+<h3>Sub-Statement: inherit</h3>
+<p>
+ This allows a lexicon to be extended with additional tokens or selectively replaced.
+ Other details, such as the fieldname sub-statement, may be replaced.
+</p>
+
+<h3>Sub-Statement: fieldname</h3>
+<p>
+ This statement links the lexicon to a particular field name for a given scheme.
+ This can be used when deciphering text formats
+ as the position of these elements does not need to be known in advance.
+</p>
+
+<h3>Sub-Statement: lang</h3>
+<p>
+ This statement sets the language for the lexicon.
+ Multi-lingual versions of the program have not yet been developed,
+ so this is available for the future.
+</p>
+
+<h3>Sub-Statement: pseudo</h3>
+<p>
+ The pseudo text is used by a format definition
+ when creating the pseudo date used to show the intended output.
+ The pseudo date is the text shown when selecting the output format,
+ as in the string "dd Mon yyyy" for the dmy format.
+ The 'Mon' in that string indicates that output
+ will use the abbreviated value from the lexicon.
+</p>
+
+<h3>Sub-Statement: tokens</h3>
+<p>
+ A list of the value and token names.
+ A second token for a value may be given to be used as an abbreviation.
+ Additional values may be added after the abbreviation
+ to provide alternative names or spellings
+ which will be recognised.
+</p>
+<p>
+ Each token takes the form of a comer separated list of the value, token, optional abbreviaton
+ terminated with a ';' semi-colon.
+ The list of tokens is enclosed within '{' '}' braces.
+</p>
+<p>
+ If the token name does not conform to a script name token,
+ then they must be enclosed in '"' double quotes.
+</p>
+
+<table class='code'>
+<tr><th>Example Script</th></tr>
+<tr><td
+>lexicon w {
+    name "Weekday names";
+    fieldname wday;
+    lang en;
+    pseudo Weekday,   WDay;
+    tokens {
+        1, Monday,    Mon;
+        2, Tuesday,   Tue;
+        3, Wednesday, Wed;
+        4, Thursday,  Thur;
+        5, Friday,    Fri;
+        6, Saturday,  Sat;
+        7, Sunday,    Sun;
+    }
+}</td></tr>
+</table>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/hics/index.htm' class='m-item'>Hics Extension</a>
+  <a href='lexicon.htm' class='m-item thispage'>Define lexicon</a>
+  <a href='../../../../dev/man2/script/hics/grammar.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/hics/index.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>20<sup>th</sup> June 2023</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

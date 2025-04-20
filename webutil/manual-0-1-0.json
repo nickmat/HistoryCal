@@ -1,0 +1,15 @@
+{ "folder": "man2", "name": "index", "label": "V0.1.0 Manual", "title": "V0.1.0 Manual", "subtitle": "Introduction", "content": [
+  { "name": "convert", "label": "Conversions", "subtitle": "Date Conversions" },
+  { "name": "ranges", "label": "Date Ranges" },
+  { "name": "calculate", "label": "Calculations", "subtitle": "Date Calculations" },
+  { "name": "formatting", "label": "Formatting", "subtitle": "Date Formatting" },
+  { "folder": "cal", "name": "index", "label": "Calendars", "content": [
+    { "name": "roman", "label": "Roman", "subtitle": "Roman Calendars" },
+    { "label": "French Republic", "subtitle": "French Republic Calendar" },
+    { "label": "Hebrew", "subtitle": "Hebrew Calendar" },
+    { "label": "Islamic", "subtitle": "Islamic Calendars" },
+    { "label": "Chinese", "subtitle": "Chinese Calendars" }
+  ]},
+  { "insert": "script-0-3-0.json" },
+  { "name": "gloss", "label": "Glossary" }
+]}

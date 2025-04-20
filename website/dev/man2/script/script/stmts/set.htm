@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - set Statement</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />set Statement
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../../dev/index.htm' class='m-item'>Development</a>
+    <a href='../../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../../dev/man2/script/script/index.htm' class='m-item'>Glich Script</a>
+  <a href='../../../../../dev/man2/script/script/stmts/index.htm' class='m-item'>Statements</a>
+  <a href='set.htm' class='m-item thispage'>set Statement</a>
+  <a href='../../../../../dev/man2/script/script/bi-constants.htm' class='m-item nav'>►</a>
+  <a href='../../../../../dev/man2/script/script/stmts/mark.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Statement: set</h2>
+<p>
+ The <b>set</b> statement is used to set various system wide settings
+ and defaults.
+</p>
+
+<table class='basic'>
+ <tr><th>Format</th><th>Example</th></tr>
+ <tr>
+  <td class='code'><b>set</b> <i>property value</i><b>;</b></td>
+  <td class='example'><b>set</b> integer field;</td>
+ </tr>
+</table>
+
+<p>
+ The following properties can be changed with the set statement.
+</p>
+
+<table class='basic'>
+<tr><th colspan='2'>Language Properties</th></tr>
+<tr><th>Property</th><th>Use</th></tr>
+<tr><td class='code'><b>integer</b></td><td>Default type integer input values.</td></tr>
+<tr><td class='code'><b>write:text</b></td><td>Write text with or without quotes.</td></tr>
+</table>
+
+<h3>Setting Property: integer</h3>
+<p>
+ The integer setting determines what type of value an integer is input,
+ if postfix letter is not given.
+</p>
+
+<table class='basic'>
+ <tr><th>Format</th></tr>
+ <tr><td class='code'><b>set</b> integer number; // Default</td></tr>
+ <tr><td class='code'><b>set</b> integer field;</td></tr>
+</table>
+
+<table class='basic'>
+ <tr><th>Example</th></tr>
+ <tr>
+  <td class='example'>set integer number;
+let a = 10n;
+let b = 10f;
+let c = 10;
+write a[.type], b[.type], c[.type] nl;
+set integer field;
+let a = 10n;
+let b = 10f;
+let c = 10;
+write a[.type], b[.type], c[.type] nl;</td>
+ </tr>
+ <tr>
+  <td><b>Output:-</b><br />
+number, field, number<br />
+number, field, field</td>
+ </tr>
+</table>
+
+<h3>Setting Property: write:text</h3>
+<p>
+ This property affects the way the <b>write</b> statement
+ outputs string values.
+</p>
+
+<table class='basic'>
+ <tr><th>Format</th></tr>
+ <tr><td class='code'><b>set</b> write:text plain; // Default</td></tr>
+ <tr><td class='code'><b>set</b> write:text quoted;</td></tr>
+</table>
+
+<table class='basic'>
+ <tr><th>Example</th></tr>
+ <tr>
+  <td class='example'>let t = "She said " + @quote( "hi" );
+write t nl;
+set write:text quoted;
+write t nl;
+set write:text plain;
+write t;</td>
+ </tr>
+ <tr>
+  <td><b>Output:-</b><br />
+She said "hi"<br />
+"She said ""hi"""<br />
+She said "hi"</td>
+ </tr>
+</table>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../../dev/index.htm' class='m-item'>Development</a>
+    <a href='../../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../../dev/man2/script/script/index.htm' class='m-item'>Glich Script</a>
+  <a href='../../../../../dev/man2/script/script/stmts/index.htm' class='m-item'>Statements</a>
+  <a href='set.htm' class='m-item thispage'>set Statement</a>
+  <a href='../../../../../dev/man2/script/script/bi-constants.htm' class='m-item nav'>►</a>
+  <a href='../../../../../dev/man2/script/script/stmts/mark.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>9<sup>th</sup> March 2023</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

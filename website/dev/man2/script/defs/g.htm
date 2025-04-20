@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - g</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />g - Gregorian
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='g.htm' class='m-item thispage'>g</a>
+  <a href='../../../../dev/man2/script/defs/gw.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/eh.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Calendar Description - Scheme g</h2>
+<p>
+ This Gregorian calendar implements the changes made to the <a href='j.htm'>Julian</a> calendar by
+ Pope Gregory XIII. There were three changes made, a change to the way leap
+ years are determined, the year number change date (New Year) fixed to
+ 1st January, and the removal of excess days (compared to the solar year) that
+ had built up since AD 325 (the year the First Council of Nicaea was held).
+</p>
+<p>
+ The proleptic Gregorian calendar follows the ISO 8601 standard.
+ The year zero is included, years before year zero are given as negative.
+</p>
+
+<h3>Use Case</h3>
+<p>
+ The Gregorian calendar was first introduced in Catholic
+ countries in 1582 and has since be adopted by most of the world and has
+ become the most commonly used calendar today.
+</p>
+<p>
+ The Gregorian calendar is set as the default calendar scheme in the Hics library.
+</p>
+
+<h3>Definition</h3>
+<p>
+ The Gregorian calendar is based on a solar year of 365.2425 days.
+ Days start at midnight.
+</p>
+<p>
+  The <b>Record</b> consists of three <b>Fields</b> named <code>year,</code>
+ <code>month</code> and <code>day</code> and the extended <b>Field</b> named
+ <code>wday</code>.
+</p>
+<table class='record'>
+<tr><th colspan='4'>Record</th></tr>
+<tr><td>year</td><td>month</td><td>day</td><td class='rdonly'>wday</td></tr>
+</table>
+<p class='lclear'>
+ There are two types of years, a
+ common year and a leap year. Years are leap years when the current era
+ year is divisible by 4 but not by 100 unless divisible by 400.
+</p>
+<p style='display:inline;'>
+ The <b>Epoch</b> is set at
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>g</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>1</td><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>j</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>1</td><td>3</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>1721426</td></tr>
+ </table>.
+</p>
+<p>
+ In all other respects, the calendar is the same as the <a href='j.htm'>Julian</a> calendar.
+</p>
+
+<h3>Formats</h3>
+<p>
+ The formats supplies the same formats as the <a href='j.htm'><b>j</b> Julian</a> scheme
+ with the addition of two ISO 8601 formats.
+</p>
+<p>
+ Details of the the ISO 8601 standard format is shown in the format statement
+ <a href='..\hics\format.htm#rules-iso8601'>rules iso8601 section</a>
+ with examples to show how to extend the available formats.
+</p>
+
+<table class='basic data'>
+<tr><th colspan='6'>Formats - Grammar g</th></tr>
+<tr><th>Code</th><th>Rule</th><th>Pseudo:in</th><th>Pseudo:out</th><th>Example</th><th>Note</th></tr>
+<tr><td><b>iso</b></td><td>iso8601</td><td>ISO:8601 Date -YYYY</td><td>-YYYY-MM-DD</td><td class='example'>2023-02-08</td><td>S</td></tr>
+<tr><td><b>iso_set</b></td><td>iso8601</td><td>ISO:8601 Date -YYYY</td><td>[-YYYY-MM-DD]</td><td class='example'>[2023-02-08]</td><td>S</td></tr>
+<tr><td><b>dmy</b></td><td>text</td><td>day month year</td><td>dd Mon yyyy</td><td class='example'>8 Feb 2023</td><td>D, S</td></tr>
+<tr><td><b>dmy+</b></td><td>text</td><td>day month year</td><td>dd Month yyyy</td><td class='example'>8 February 2023</td><td>S</td></tr>
+<tr><td><b>wdmy</b></td><td>text</td><td>wday day month year</td><td>Wday dd Mon yyyy</td><td class='example'>Wed 8 Feb 2023</td><td></td></tr>
+<tr><td><b>wdmy+</b></td><td>text</td><td>wday day month year</td><td>Weekday dd Month yyyy</td><td class='example'>Wednesday 8 February 2023</td><td></td></tr>
+<tr><td><b>out</b></td><td>text</td><td></td><td>ddth Month yyyy</td><td class='example'>8th February 2023</td><td>S</td></tr>
+<tr><td><b>full</b></td><td>text</td><td></td><td>Weekday ddth Month yyyy</td><td class='example'>Wednesday 8th February 2023</td><td></td></tr>
+<tr><td><b>mdy</b></td><td>text</td><td>month day year</td><td>Mon dd, yyyy</td><td class='example'>Feb 8, 2023</td><td>S</td></tr>
+<tr><td><b>mdy+</b></td><td>text</td><td>month day year</td><td>Month dd, yyyy</td><td class='example'>February 8, 2023</td><td>S</td></tr>
+<tr><td><b>wmdy</b></td><td>text</td><td>wday month day year</td><td>Wday, Mon dd, yyyy</td><td class='example'>Wed, Feb 8, 2023</td><td></td></tr>
+<tr><td><b>wmdy+</b></td><td>text</td><td>wday month day year</td><td>Weekday, Month dd, yyyy</td><td class='example'>Wednesday, February 8, 2023</td><td></td></tr>
+<tr><td><b>ymd</b></td><td>text</td><td>year month day</td><td>yyyy:Mon:dd</td><td class='example'>2023:Feb:8</td><td>S</td></tr>
+<tr><td><b>def</b></td><td>text</td><td>year month day</td><td>yyyy mm dd</td><td class='example'>2023 2 8</td><td>H, S</td></tr>
+<tr><td><b>u</b></td><td>unit</td><td>9y 9m 9d</td><td>9y 9m 9d</td><td class='example'>2023y 2m 8d</td><td>H</td></tr>
+<tr><td colspan='6'>Notes: D = Default, H = Hidden, S = Range shortcut supported.
+Example based on jdn# 2459984</td></tr>
+</table>
+
+<h3>Script</h3>
+<table class='code lfloat'>
+<tr><th>Script - Module hics:gregorian</th></tr>
+<tr><td
+>grammar g {
+    name "Gregorian";
+    inherit j;
+    format iso { rules iso8601 minus; }
+    format iso_set { rules iso8601 dateset minus; }
+    preferred dmy;
+}
+scheme g {
+    name "Gregorian";
+    base gregorian;
+    grammar g;
+}
+</td></tr>
+</table>
+<p class='lclear'>
+ The <b>grammar</b> "g" inherits from the <b>grammar</b> "j" definition from
+ <a href='j.htm'><b>j</b> Julian</a>.
+</p>
+<p>
+ This scheme is set as the system default in the <b>hics:hic_lib</b> module.
+</p>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='g.htm' class='m-item thispage'>g</a>
+  <a href='../../../../dev/man2/script/defs/gw.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/eh.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>19<sup>th</sup> July 2023</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - jwsn</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />jwsn - Julian Week (Sunday) Number
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='jwsn.htm' class='m-item thispage'>jwsn</a>
+  <a href='../../../../dev/man2/script/defs/j.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/jwn.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Calendar Description - Scheme jwsn</h2>
+<p>
+ The <b>Julian Week (Sunday) Number</b> is a count of weeks,
+ a variation of the <a href='jwn.htm'><b>Julian Week Number</b></a> scheme.
+</p>
+<p>
+ This scheme is based on the week starting on a Sunday,
+ i.e. day 1 = Sunday.
+</p>
+<p>
+ Because this calendar scheme has limited historical value,
+ its visibility is set at hidden.
+</p>
+
+<h3>Use Case</h3>
+<p>
+ It is commonly used with the The Hebrew, Islamic calendars and variants.
+ They use the optional field <code>wsday</code>.
+</p>
+<p>
+ The week field number has some value when considering week differences and ranges.
+ It can also be used with modular arithmetic to create regular weekly intervals.
+</p>
+
+<h3>Definition</h3>
+
+<table class='basic data rfloat'>
+<tr><th colspan='3'>Week Names - Lexicon ws</th></tr>
+<tr><th rowspan='2'>Number</th><th colspan='2'>Name</th></tr>
+<tr><th>Full</th><th>Abrev.</th></tr>
+<tr><td>1</td><td>Sunday</td><td>Sun</td></tr>
+<tr><td>2</td><td>Monday</td><td>Mon</td></tr>
+<tr><td>3</td><td>Tuesday</td><td>Tue</td></tr>
+<tr><td>4</td><td>Wednesday</td><td>Wed</td></tr>
+<tr><td>5</td><td>Thursday</td><td>Thur</td></tr>
+<tr><td>6</td><td>Friday</td><td>Fri</td></tr>
+<tr><td>7</td><td>Saturday</td><td>Sat</td></tr>
+</table>
+
+
+<p>
+ The day start is not defined and will depend on context.
+</p>
+<p>
+ The <b>Record</b> consists of two <b>Field</b>s named <code>week</code> and <code>day.</code>
+</p>
+<table class='record'>
+<tr><th colspan='2'>Record</th></tr>
+<tr><td>week</td><td>day</td></tr>
+</table>
+
+<p class='lclear'>
+ The calendar is a repeating cycle of 7 days, starting with the first Sunday.
+ The weeks are counted from the same era as the jdn scheme.
+</p>
+<div>
+ The <b>Epoch</b> is set at
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jwsn</td><th>week</th><th>day</th></tr>
+  <tr class='value'><td>1</td><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>6</td></tr>
+ </table>
+ a Sunday.
+</div>
+
+<h3>Formats</h3>
+<p>
+ The formats supplied with this scheme.
+</p>
+
+<table class='basic data'>
+<tr><th colspan='6'>Formats - Grammar jwsn</th></tr>
+<tr><th>Code</th><th>Rule</th><th>Pseudo:in</th><th>Pseudo:out</th><th>Example</th><th>Note</th></tr>
+<tr><td><b>wd</b></td><td>text</td><td>week day</td><td>wwwww d</td><td class='example'>351518 7</td><td>S</td></tr>
+<tr><td><b>wday</b></td><td>text</td><td>week day</td><td>wwwww Wday</td><td class='example'>351518 Sat</td><td>D, S</td></tr>
+<tr><td><b>wday+</b></td><td>text</td><td>week day</td><td>wwwww Weekday</td><td class='example'>351518 Saturday</td><td>S</td></tr>
+<tr><td><b>def</b></td><td>text</td><td>week day</td><td>wwwww d</td><td class='example'>351518 7</td><td>H, S</td></tr>
+<tr><td><b>u</b></td><td>unit</td><td>9w 9d</td><td>9w 9d</td><td class='example'>351518w 7d</td><td>H</td></tr>
+<tr><td colspan='6'>Notes: D = Default, H = Hidden, S = Range shortcut supported.
+Example based on jdn# 2460631</td></tr>
+</table>
+
+<h3>Script</h3>
+<table class='code lfloat'>
+<tr><th>Script - Module hics:week</th></tr>
+<tr><td
+>lexicon ws {
+    name "Weekday names Sunday start";
+    fieldname wsday;
+    lang en;
+    pseudo    Weekday,  Wday;
+    tokens {
+        1, "Sunday",    "Sun";
+        2, "Monday",    "Mon";
+        3, "Tuesday",   "Tue";
+        4, "Wednesday", "Wed";
+        5, "Thursday",  "Thur";
+        6, "Friday",    "Fri";
+        7, "Saturday",  "Sat";
+    }
+}
+grammar jwsn {
+    name "Julian Week Number (Sunday)";
+    fields week day;
+    lexicons ws;
+    alias lexicon { wsday day; }
+    alias pseudo { wwwww week; d day; }
+    alias unit { d day; w week; }
+    format  wd      "{week}| {day}";
+    format  wday    "{week}| {day:ws:a}";
+    format "wday+", "{week}| {day:ws}";
+    preferred wday;
+}
+scheme jwsn {
+    name "Julian Week (Sunday) Number";
+    base jwn sunday;
+    grammar jwsn;
+    visible no;
+}
+</td></tr>
+</table>
+<p>
+ The script has no dependencies.
+</p>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='jwsn.htm' class='m-item thispage'>jwsn</a>
+  <a href='../../../../dev/man2/script/defs/j.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/jwn.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>19<sup>th</sup> July 2023</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

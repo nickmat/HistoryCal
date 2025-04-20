@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - je</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />je - Julian Easter
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='je.htm' class='m-item thispage'>je</a>
+  <a href='../../../../dev/man2/script/defs/eh.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/jap.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Calendar Description - Scheme je</h2>
+<p>
+ The Julian Easter scheme is a variant of the <a href='j.htm'>Julian</a> calendar obtained
+ by shifting the year change forward from the 1st January to Easter Sunday for the year in question.
+ Because Easter varies from 22nd March to 25th April, the length of the year varies.
+ Some years a few days will occur twice in an Easter year
+ and sometimes a few days will be invalid for that year.
+</p>
+
+<h3>Use Case</h3>
+<p>
+ Used in some French provinces around the 13th century.
+</p>
+<p>
+ A variant of this calendar was used in the English Regnal calendar
+ as King John used the year from Ascension Day (40 days following Easter Sunday).
+</p>
+
+<h3>Definition</h3>
+<table class='record'>
+<tr><th colspan='7'>Record - Default order</th></tr>
+<tr><td>eyear</td><td>repeat</td><td>month</td><td>day</td><td class='rec-calc'>repeated</td><td class='rec-opt'>hyear</td><td class='rec-opt'>wsday</td></tr>
+</table>
+<table class='record'>
+<tr><th colspan='7'>Record - Ranking order</th></tr>
+<tr><td>eyear</td><td>month</td><td>day</td><td>repeat</td><td class='rec-calc'>repeated</td><td class='rec-opt'>hyear</td><td class='rec-opt'>wsday</td></tr>
+</table>
+<p class='lclear'>
+ The Julian Easter calendar is based on <a href='j.htm'>Julian</a> calendar
+ and the same days of the year the <a href='j.htm'>Julian</a> calendar except the year change occurs on Easter Sunday.
+ The calendar is given the nominal epoch of 27th March 1, the calculated day of Easter in the Julian year 1.
+</p>
+<p style='display:inline;'>
+ The <b>Epoch</b> is set at
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>je</td><th>year</th><th>month</th><th>day</th><th>hist</th></tr>
+   <tr class='value'><td>1</td><td>3</td><td>27</td><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>j</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>3</td><td>27</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>1721509</td></tr>
+ </table>.
+</p>
+
+<h3>Formats</h3>
+<p>
+ Range shortcut formats (where only part of the date is written - such as the year)
+ has not been implemented for this scheme.
+</p>
+<p>
+ Formatting a date for schemes where the New Year date (Historical Year)
+ and Year number increment date (Civil Year) is different
+ can lead to confusion if it is not made clear which year is displayed.
+ Only the dual dating system is used for the visible formats of this scheme.
+</p>
+
+<h4>Dual Dates</h4>
+<p>
+ The Civil year is always shown in full.
+ If this is the same as the Historical year then this is the only year shown.
+ If the years differ, then the last digit (or as many as are different)
+ is shown. This is separated from the Civil year with a '/' slash character. 
+</p>
+<p>
+ When inputting a date, the historical year is optional.
+</p>
+
+<h4>Repeated Days</h4>
+<p>
+ The nature of this scheme is that every few years the month and day values
+ overlap the year number increase.
+ The default field <code>repeat</code> is used to show when this occurs,
+ it has the value of 0 normally, but when the month and day overlap,
+ it has the value 1.
+</p>
+<p>
+ As the repeat overlap only occurs rarely it is confusing to keep
+ displaying the first use of the eyear, month, day
+ and only indicate when it is repeated.
+ A calculated field <code>repeated</code> is used
+ that has the value <code>null</code> when <code>repeat = 0</code> 
+ and <code>1</code> when <code>repeat = 1</code>.
+ Formats that use the <code>repeated</code> field,
+ only display it when the day is repeated for the second time.
+</p>
+
+<table class='basic data lfloat'>
+<tr><th colspan='3'>Repeated Date - Lexicons rpt and rptd</th></tr>
+<tr><th>Number</th><th>Name</th><th>Abbrev.</th></tr>
+<tr><td>0</td><td>First</td><td>F</td></tr>
+<tr><td>1</td><td>Repeated</td><td>Rpt</td></tr>
+</table>
+<p>
+ The lexicon <code>rpt</code> is associated with the field <code>repeat</code>.
+</p>
+<p>
+ The lexicon <code>rptd</code> is associated with the field <code>repeated</code>.
+</p>
+
+<p class="clear"></p>
+<h4>Available Formats</h4>
+<table class='basic data'>
+<tr><th colspan='5'>Formats - Grammar je</th></tr>
+<tr><th>Code</th><th>Rule</th><th>Pseudo</th><th>Example</th><th>Note</th></tr>
+<tr><td><b>dmy</b></td><td>text</td><td><b>Input:</b> day month eyear repeated<br /><b>Output:</b> dd Month yyyy/h Repeated</td><td class='example'>2 April 2022/3<br />3 April 2023<br />3 April 2023/4 Repeated</td><td>D</td></tr>
+<tr><td><b>dmy_a</b></td><td>text</td><td><b>Input:</b> day month eyear repeated<br /><b>Output:</b> dd Mon yyyy/h Rpt</td><td class='example'>2 Apr 2022/3<br />3 Apr 2023<br />3 Apr 2023/4 Rpt</td><td></td></tr>
+<tr><td><b>wdmy</b></td><td>text</td><td><b>Input:</b> wsday day month eyear repeated<br /><b>Output:</b> Weekday dd Month yyyy/h Repeated</td><td class='example'>Saturday 2 April 2022/3<br />Sunday 3 April 2023<br />Tuesday 3 April 2023/4 Repeated</td><td></td></tr>
+<tr><td><b>wdmy_a</b></td><td>text</td><td><b>Input:</b> wsday day month eyear repeated<br /><b>Output:</b> Wday dd Mon yyyy/h Rpt</td><td class='example'>Sat 2 Apr 2022/3<br />Sun 3 Apr 2023<br />Tue 3 Apr 2023/4 Rpt</td><td></td></tr>
+<tr><td><b>mdy</b></td><td>text</td><td><b>Input:</b> month day eyear repeated<br /><b>Output:</b> Month dd, yyyy/h Repeated</td><td class='example'>April 2, 2022/3<br />April 3, 2023<br />April 3, 2023/4 Repeated</td><td></td></tr>
+<tr><td><b>mdy_a</b></td><td>text</td><td><b>Input:</b> month day eyear repeated<br /><b>Output:</b> Mon dd, yyyy/h Rpt</td><td class='example'>Apr 2, 2022/3<br />Apr 3, 2023<br />Apr 3, 2023/4 Rpt</td><td></td></tr>
+<tr><td><b>all</b></td><td>text</td><td><b>Input:</b> wsday day month eyear repeat<br /><b>Output:</b> Weekday dd Month yyyy/h Repeated</td><td class='example'>Saturday 2 April 2022/3 First<br />Sunday 3 April 2023 First<br />Tuesday 3 April 2023/4 Repeated</td><td></td></tr>
+<tr><td><b>all_a</b></td><td>text</td><td><b>Input:</b> wsday day month eyear repeat<br /><b>Output:</b> Wday dd Mon yyyy/h Rpt</td><td class='example'>Sat 2 Apr 2022/3 F<br />Sun 3 Apr 2023 F<br />Tue 3 Apr 2023/4 Rpt</td><td></td></tr>
+<tr><td><b>def</b></td><td>text</td><td><b>Input:</b> eyear repeat month day repeated<br /><b>Output:</b> yyyy rpt mm dd repeated</td><td class='example'>2022 0 4 2<br />2023 0 4 3<br />2023 1 4 3 1</td><td>H</td></tr>
+<tr><td><b>u</b></td><td>unit</td><td><b>Input:</b> 9y 9r 9m 9d 9rptd<br /><b>Output:</b> 9y 9r 9m 9d 9rptd</td><td class='example'>2022y 0r 4m 2d<br />2023y 0r 4m 3d<br />2023y 1r 4m 3d 1rptd</td><td>H</td></tr>
+<tr><td colspan='6'>Notes: D = Default, H = Hidden.
+Example based on jdn# 2460050, 2460051 and 2460417</td></tr>
+</table>
+
+<h3>Script</h3>
+<table class='code lfloat'>
+<tr><th>Script - Module hics:easter</th></tr>
+<tr><td
+>lexicon rpt {
+  name "Repeated Date";
+  fieldname repeat;
+  lang en;
+  pseudo  Repeated,   Rpt;
+  tokens {
+      0, "First",    "F";
+      1, "Repeated", "Rpt";
+  }
+}
+lexicon rptd {
+  inherit rpt;
+  fieldname repeated;
+}
+grammar je {
+    fields eyear repeat month day;
+    calculated repeated; 
+    optional hyear wsday;
+    rank eyear month day;
+    lexicons m ws rpt rptd;
+    alias pseudo { w wsday; rpt repeat; dd day; mm month; yyyy eyear; h hyear; }
+    alias unit { d day; r repeat; m month; y eyear; rptd repeated; }
+    function def_to_calc {
+        repeated = @if( repeat=1, 1, null );
+        result = this;
+    }
+    function calc_to_def {
+        repeat = @if( repeated=1, 1, 0 );
+        result = this;
+    }
+    use { calculate def_to_calc; from:text calc_to_def; }
+    format dmy    "{day} |{month:m} |{eyear/hyear}| {repeated:rptd}";
+    format dmy_a  "{day} |{month:m:a} |{eyear/hyear}| {repeated:rptd:a}";
+    format wdmy   "{wsday:ws} |{day} |{month:m} |{eyear/hyear}| {repeated:rptd}";
+    format wdmy_a "{wsday:ws:a} |{day} |{month:m:a} |{eyear/hyear}| {repeated:rptd:a}";
+    format mdy    "{month:m} |{day}, |{eyear/hyear}| {repeated:rptd}";
+    format mdy_a  "{month:m:a} |{day}, |{eyear/hyear}| {repeated:rptd:a}";
+    format all    "{wsday:ws} |{day} |{month:m} |{eyear/hyear}| {repeat:rpt}";
+    format all_a  "{wsday:ws:a} |{day} |{month:m:a} |{eyear/hyear}| {repeat:rpt:a}";
+    preferred dmy;
+}
+scheme je {
+  name "Julian Easter";
+  base easter;
+  grammar je;
+}
+</td></tr>
+</table>
+<p class='clear'>
+ The script uses the <b>lexicon</b> "m" definition from
+ <a href='j.htm'><b>j</b> Julian</a> for the <code>month</code> field
+ and "w" definition from the
+ <a href='jwsn.htm'><b>jwsn</b> Julian Week (Sunday) Number</a> scheme
+ for the optional field <code>wsday.</code>
+</p>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='je.htm' class='m-item thispage'>je</a>
+  <a href='../../../../dev/man2/script/defs/eh.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/jap.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>5<sup>th</sup> August 2024</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

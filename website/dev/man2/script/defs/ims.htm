@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - ims</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />ims - Islamic Microsoft Hijri
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='ims.htm' class='m-item thispage'>ims</a>
+  <a href='../../../../dev/man2/script/defs/if.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/i.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Calendar Description - Scheme ims</h2>
+<p>
+ The Islamic calendar is a lunar calendar used throughout the Arabic and Muslim areas.
+</p>
+
+<h3>Use Case</h3>
+<p>
+ This version is used in some Microsoft applications, notably Excel.
+</p>
+
+<h3>Definition</h3>
+<table class='record'>
+<tr><th colspan='4'>Record</th></tr>
+<tr><td>year</td><td>month</td><td>day</td><td class='rdonly'>wsday</td></tr>
+</table>
+
+<p class='lclear'>
+ The year consists of twelve lunar months which in a common year alternate between of 30 and 29 days.
+ In a leap year, the 12<sup>th</sup> month has 30 days instead of the usual 29. 
+ A common year has 354 days and a leap year 355 days.
+</p>
+<p>
+ Leap years occur on a 30 year cycle in years 2, 5, 7, 10, 13, 16, 18, 21, 24, 26 and 29.
+</p>
+
+<div class='p'>
+ The <b>Epoch</b> is set at the astronomical epoch, which is:-
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>i</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>1</td><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>j</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>622</td><td>7</td><td>15</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>1948439</td></tr>
+ </table>.
+</div>
+
+<h3 class="clear">Formats</h3>
+<p>
+ The formats supplied with this scheme.
+</p>
+
+<table class='basic data'>
+<tr><th colspan='6'>Formats - Grammar i</th></tr>
+<tr><th>Code</th><th>Rule</th><th>Pseudo:in</th><th>Pseudo:out</th><th>Example</th><th>Note</th></tr>
+<tr><td><b>dmy</b></td><td>text</td><td>day month year</td><td>dd Month yyyy</td><td class='example'>23 Dhū al-Ḥijjah 1445</td><td>D, S</td></tr>
+<tr><td><b>dmy_a</b></td><td>text</td><td>day month year</td><td>dd Mon yyyy</td><td class='example'>23 Dhu al-Hijjah 1445</td><td>S</td></tr>
+<tr><td><b>dmy_d</b></td><td>text</td><td>day month year</td><td>dd mm yyyy</td><td class='example'>23 12 1445</td><td>S</td></tr>
+<tr><td><b>wdmy</b></td><td>text</td><td>wsday day month year</td><td>Weekday dd Month yyyy</td><td class='example'>Yawm as-Sabt 23 Dhū al-Ḥijjah 1445</td><td></td></tr>
+<tr><td><b>wdmy_a</b></td><td>text</td><td>wsday day month year</td><td>WDay dd Mon yyyy</td><td class='example'>Sabt 23 Dhu al-Hijjah 1445</td><td></td></tr>
+<tr><td><b>ymd</b></td><td>text</td><td>year month day</td><td>yyyy Mon dd</td><td class='example'>1445 Dhu al-Hijjah 23</td><td>S</td></tr>
+<tr><td><b>def</b></td><td>text</td><td>year month day</td><td>yyyy mm dd</td><td class='example'>1445 12 23</td><td>H, S</td></tr>
+<tr><td><b>u</b></td><td>unit</td><td>9y 9m 9d</td><td>9y 9m 9d</td><td class='example'>1445y 12m 23d</td><td>H</td></tr>
+<tr><td colspan='6'>Notes: D = Default, H = Hidden, S = Range shortcut supported.
+Example based on jdn# 2460491</td></tr>
+</table>
+
+<h3>Script</h3>
+<table class='code lfloat'>
+<tr><th>Script - Module hics:islamic</th></tr>
+<tr><td
+>scheme ims {
+    name "Islamic Microsoft Hijri";
+    base islamic IIa;
+    grammar i;
+}
+</td></tr>
+</table>
+
+<p>
+ The scheme uses the "i" grammar and lexicons "im" and "iw"
+ as defined for the <a href='i.htm'>Islamic Tabular</a> calendar.
+</p>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='ims.htm' class='m-item thispage'>ims</a>
+  <a href='../../../../dev/man2/script/defs/if.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/i.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>23<sup>rd</sup> June 2024</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

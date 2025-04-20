@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - eh</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />eh - Julian Era Hispanica
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='eh.htm' class='m-item thispage'>eh</a>
+  <a href='../../../../dev/man2/script/defs/g.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/je.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Calendar Description - Scheme eh</h2>
+<p>
+ The Julian Era Hispanica calendar is a variant of the <a href='j.htm'>Julian</a> calendar.
+ The calendar is also known as Spanish Era or Caesar Ara.
+ The year number is increased on the 1st of January,
+ but the year count starts with year one in year -37 (or 38 BCE).
+</p>
+
+<h3>Use Case</h3>
+<p>
+ The calendar originated with the Visigoths in about the third century
+ and continued to be used in Spain and Portugal until the fifteenth century.
+</p>
+<ul>
+ <li>In Catalonia to 1180.</li>
+ <li>In Aragon to 1350.</li>
+ <li>In Valencia to 1358.</li>
+ <li>In Castile to 1382.</li>
+ <li>In Portugal to 1420.</li>
+</ul>
+
+<h3>Definition</h3>
+<p>
+ The Julian Era Hispanica calendar is based on <a href='j.htm'>Julian</a> calendar and
+ has the same definition except it has a different epoch.
+</p>
+<p>
+ The <b>Record</b> consists of three <b>Fields</b> named <code>year,</code>
+ <code>month,</code> and <code>day</code> and the <b>Optional Field</b> 
+ <code>wday.</code>
+</p>
+<table class='record'>
+<tr><th colspan='6'>Record</th></tr>
+<tr><td>year</td><td>month</td><td>day</td><td class='rec-opt'>wday</td></tr>
+</table>
+<p class='lclear'>
+ The calendar scheme is implemented by adding 38 to the Julian year value.
+</p>
+<div class='p'>
+ The <b>Epoch</b> is set at
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>eh</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>1</td><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>j</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>-37</td><td>1</td><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>1707544</td></tr>
+ </table>.
+</div>
+
+<h3>Formats</h3>
+<p>
+ The formats supplied are the same as the <a href='j.htm'><b>j</b> Julian</a> scheme.
+</p>
+
+<table class='basic data'>
+<tr><th colspan='6'>Formats - Grammar j</th></tr>
+<tr><th>Code</th><th>Rule</th><th>Pseudo:in</th><th>Pseudo:out</th><th>Example</th><th>Note</th></tr>
+<tr><td><b>dmy</b></td><td>text</td><td>day month year</td><td>dd Mon yyyy</td><td class='example'>26 Jan 2061</td><td>D, S</td></tr>
+<tr><td><b>dmy+</b></td><td>text</td><td>day month year</td><td>dd Month yyyy</td><td class='example'>26 January 2061</td><td>S</td></tr>
+<tr><td><b>wdmy</b></td><td>text</td><td>wday day month year</td><td>Wday dd Mon yyyy</td><td class='example'>Wed 26 Jan 2061</td><td></td></tr>
+<tr><td><b>wdmy+</b></td><td>text</td><td>wday day month year</td><td>Weekday dd Month yyyy</td><td class='example'>Wednesday 26 January 2061</td><td></td></tr>
+<tr><td><b>out</b></td><td>text</td><td></td><td>ddth Month yyyy</td><td class='example'>26th January 2061</td><td>S</td></tr>
+<tr><td><b>full</b></td><td>text</td><td></td><td>Weekday ddth Month yyyy</td><td class='example'>Wednesday 26th January 2061</td><td></td></tr>
+<tr><td><b>mdy</b></td><td>text</td><td>month day year</td><td>Mon dd, yyyy</td><td class='example'>Jan 26, 2061</td><td>S</td></tr>
+<tr><td><b>mdy+</b></td><td>text</td><td>month day year</td><td>Month dd, yyyy</td><td class='example'>January 26, 2061</td><td>S</td></tr>
+<tr><td><b>wmdy</b></td><td>text</td><td>wday month day year</td><td>Wday, Mon dd, yyyy</td><td class='example'>Wed, Jan 26, 2061</td><td></td></tr>
+<tr><td><b>wmdy+</b></td><td>text</td><td>wday month day year</td><td>Weekday, Month dd, yyyy</td><td class='example'>Wednesday, January 26, 2061</td><td></td></tr>
+<tr><td><b>ymd</b></td><td>text</td><td>year month day</td><td>yyyy:Mon:dd</td><td class='example'>2061:Jan:26</td><td>S</td></tr>
+<tr><td><b>def</b></td><td>text</td><td>year month day</td><td>yyyy mm dd</td><td class='example'>2061 1 26</td><td>H, S</td></tr>
+<tr><td><b>u</b></td><td>unit</td><td>9y 9m 9d</td><td>9y 9m 9d</td><td class='example'>2061y 1m 26d</td><td>H</td></tr>
+<tr><td colspan='6'>Notes: D = Default, H = Hidden, S = Range shortcut supported.
+Example based on jdn# 2459984</td></tr>
+</table>
+
+<h3>Script</h3>
+<table class='code lfloat'>
+<tr><th>Script - Module hics:eh</th></tr>
+<tr><td
+>scheme eh {
+    name "Julian Era Hispanica";
+    base julian "year:-38";
+    grammar j;
+}
+</td></tr>
+</table>
+
+<p>
+ The script uses the <b>grammar</b> "j" definition from
+ <a href='j.htm'><b>j</b> Julian</a>.
+</p>
+<p>
+ It also uses the <b>lexicon</b> "m" definition from
+ <a href='j.htm'><b>j</b> Julian</a> for the <code>month</code> field
+ and "w" definition from the
+ <a href='jwn.htm'><b>jwn</b> Julian Week Number</a> scheme
+ for the optional field <code>wday.</code>
+</p>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='eh.htm' class='m-item thispage'>eh</a>
+  <a href='../../../../dev/man2/script/defs/g.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/je.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>19<sup>th</sup> July 2023</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

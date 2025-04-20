@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - Built-in Functions</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />Built-in Functions
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/script/index.htm' class='m-item'>Glich Script</a>
+  <a href='bi-functions.htm' class='m-item thispage'>Built-in Functions</a>
+  <a href='../../../../dev/man2/script/script/bi-commands.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/script/bi-constants.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Introduction</h2>
+<p>
+ The language has a number of functions built-in which are always available.
+ These are described below in the following groups:-
+</p>
+
+<table class='basic'>
+<tr><th>Group</th><th>Functions</th></tr>
+<tr><td>General purpose</td><td>@if, @quote, @read, @filesys, @version, @global</td></tr>
+<tr><td>Type conversion</td><td>@error, @string, @field, @range, @rlist, @number, @float</td></tr>
+<tr><td>Value properties</td><td>@type, @low, @high, @span, @size, @envelope, @object</td></tr>
+<tr><td>Manage blobs</td><td>@load:blob</td></tr>
+</table>
+
+<p>
+ Additional mathematical functions will be added in the future.
+</p>
+
+<h3>General Purpose</h3>
+
+<table class='basic'>
+<tr><th>Function</th><th>Description</th></tr>
+<tr><td>@<b>if</b>( <i>comp, t, f</i> )</td><td>Acts as a comparison operator.</td></tr>
+<tr><td>@<b>quote</b>( <i>value</i> )</td><td>Stringize the value and enclose in <b>"</b> quotes.</td></tr>
+<tr><td>@<b>read</b>.<i>input</i>( <i>prompt</i> )</td><td>Obtain text from file or console.</td></tr>
+<tr><td>@<b>filesys</b></td><td>Examine and control the file system.</td></tr>
+<tr><td>@<b>version</b></td><td>Return the current Glich version.</td></tr>
+<tr><td>@<b>global</b></td><td>Select the global variable if both global and local exist.</td></tr>
+</table>
+
+<h4>Function: @if( comp, t, f )</h4>
+<p>
+ The @if function behaves similar to the C language ? : tertiary operator.
+ If the comp argument is true the result is the t argument,
+ otherwise the result is the f argument.
+ The function is equivalent to the following statement.
+</p>
+<table class='code'>
+<tr><td
+>function if( comp, t, f ) { if comp result = t; else result = f; endif }
+</td></tr>
+</table>
+
+<h4>Function @quote( value )</h4>
+<p>
+ The quote function is identical to the string function below,
+ except the resulting text is enclosed in <b>"</b> double quotes
+</p>
+<table class='basic'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>@quote( 1 = 2 )</td><td class='example'>"false"</td></tr>
+ <tr><td class='example'>@quote( 345f )</td><td class='example'>"345"</td></tr>
+ <tr><td class='example'>@quote( 50 | 5 .. 10 )</td><td class='example'>"5..10 | 50"</td></tr>
+ <tr><td class='example'>@quote( "Text" )</td><td class='example'>"Text"</td></tr>
+ <tr><td class='example'>@quote( "say ""hello""" )</td><td class='example'>"say ""hello"""</td></tr>
+</table>
+
+<h4 id="read">Function: @read.filecode( prompt = "" )</h4>
+
+<p>
+ Provide external text input.
+ If the function is not qualified, the nature of the input will depend upon program running the script.
+ An optional prompt may be supplied. How this is used will also depend on the running program.
+</p>
+<p>
+ If the function is qualified with a file code then
+ the function will return the next line of text from the file,
+ starting at the first line.
+ The file code must have been successfully defined using the <a href="file.htm">file statement</a> first.
+</p>
+
+<h4 id="filesys">Function: @filesys</h4>
+<p>
+ The filesys function and its qualifiers give limited control
+ over the underlying file system.
+</p>
+
+<table class='basic'>
+<tr><th>Function</th><th>Description</th></tr>
+<tr><td>@<b>filesys</b></td><td>Return the current working directory.</td></tr>
+<tr><td>@<b>filesys.cd</b>( <i>path</i> )</td><td>Change the current working directory.</td></tr>
+<tr><td>@<b>filesys.dir</b></td><td>Return object listing all files in the current directory.</td></tr>
+<tr><td>@<b>filesys.exists</b>( <i>path</i> )</td><td>Return true if the path exists.</td></tr>
+<tr><td>@<b>filesys.exists.file</b>( <i>path</i> )</td><td>Return true if the file exists.</td></tr>
+<tr><td>@<b>filesys.exists.dir</b>( <i>path</i> )</td><td>Return true if the directory exists.</td></tr>
+</table>
+
+<p>
+ The @filesys function without any qualifiers or arguments
+ will return a string value holding the current working directory.
+ If the script creates or opens any files,
+ this is where they will be located.
+</p>
+
+<h4 id="filesys">Function: @filesys.cd( path )</h4>
+<p>
+ The @filesys.cd( path ) qualified function will change the current working directory
+ to the given (absolute or relative) path.
+ It will return the new current working directory if successful.
+ If the change fails, an error value is returned.
+</p>
+
+<h4 id="filesys">Function: @filesys.dir</h4>
+<p>
+ The @filesys.dir qualified function will return a general object
+ containing the current directory as its first value
+ followed by a list of all directories and files it contains.
+ Directories will have the prefix "D: " and the files "F: ".
+</p>
+
+<h4 id="filesys">Function: @filesys.exists( path )</h4>
+<p>
+ The @filesys.dir qualified function will return the boolean value
+ true if the (absolute or relative) path is a valid directory or file,
+ and false otherwise.
+</p>
+<p>
+ The "file" or "dir" additional qualifiers are used to specify
+ which type of path we are testing for.
+</p>
+
+<h4 id='version'>Function: @version</h4>
+
+<p>
+ Return the current version string or version number (in string form).
+</p>
+
+<table class='basic'>
+<tr><th>Function</th><th>Description</th></tr>
+<tr><td>@<b>version</b></td><td>Return the version number and configuration.</td></tr>
+<tr><td>@<b>version.number</b></td><td>Return just the version number.</td></tr>
+</table>
+
+<h4 id='version'>Function: @global</h4>
+<p>
+ If a variable name is used for a local and a global variable,
+ just the name will give the local value.
+ The @global.name function will give the global value.
+</p>
+<table class='basic'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>let value = 100;
+global value = "hundred";
+write value, @global.value;</td><td class='example'>100, hundred</td></tr>
+</table>
+
+<h3>Type Conversion</h3>
+
+<table class='basic'>
+<tr><th>Function</th><th>Description</th></tr>
+<tr><td>@<b>error</b>( <i>message</i> )</td><td>Create an error value.</td></tr>
+<tr><td>@<b>string</b>( <i>value</i> )</td><td>Stringize the value.</td></tr>
+<tr><td>@<b>field</b>( <i>value</i>, <i>default</i> = ? )</td><td>Convert value to a field type.</td></tr>
+<tr><td>@<b>range</b>( <i>value</i>, <i>default</i> = 0..0 )</td><td>Convert value to a range type.</td></tr>
+<tr><td>@<b>rlist</b>( <i>value</i>, <i>default</i> = empty )</td><td>Convert value to a rlist type.</td></tr>
+<tr><td>@<b>number</b>( <i>value</i>, <i>default</i> = 0 )</td><td>Convert value to a number type.</td></tr>
+<tr><td>@<b>float</b>( <i>value</i>, <i>default</i> = nan )</td><td>Convert value to a float type.</td></tr>
+</table>
+
+<h4>Function @error( message )</h4>
+<p>
+ The error function converts a string message into an error value.
+ This can be used to signal an unusable value in a calculation or function.
+</p>
+<p>
+ The prefix "Error ("<i>line</i>"): " is added to message,
+ where <i>line</i> is the line number of the the error function.
+</p>
+<table class='basic'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>@error( "Age is negative." )</td><td class='example'>Error (10): Age is negative.</td></tr>
+ <tr><td class='example'>@error( "Age of " + age + " is too high." )</td><td class='example'>Error (10): Age of 150 is too high.</td></tr>
+</table>
+
+<h4>Function @string( value )</h4>
+<p>
+ The string function converts any value type (including error types) to a string value.
+ The conversion follows the same rules as the write statement uses.
+</p>
+<table class='basic'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>@string( null )</td><td class='example'>null</td></tr>
+ <tr><td class='example'>@string( 1 = 2 )</td><td class='example'>false</td></tr>
+ <tr><td class='example'>@string( 123n )</td><td class='example'>123</td></tr>
+ <tr><td class='example'>@string( 345f )</td><td class='example'>345</td></tr>
+ <tr><td class='example'>@string( 1.2 )</td><td class='example'>1.2</td></tr>
+ <tr><td class='example'>@string( 10 .. 20 )</td><td class='example'>10..20</td></tr>
+ <tr><td class='example'>@string( 50 | 5 .. 10 )</td><td class='example'>5..10 | 50</td></tr>
+ <tr><td class='example'>@string( {:,11} )</td><td class='example'>{: null, 11}</td></tr>
+ <tr><td class='example'>@string( @error( "Test" ) )</td><td class='example'>Error (1): Test</td></tr>
+ <tr><td class='example'>@string( "Text" )</td><td class='example'>Text</td></tr>
+ <tr><td class='example'>@string( "say ""hello""" )</td><td class='example'>say "hello"</td></tr>
+</table>
+
+<h4>Function @field( value, default )</h4>
+<p>
+ The field function converts the value, where possible, to a field.
+ If the conversion is not possible then the optional default value is used.
+ If the default is not given or cannot be used,
+ the function returns the unknown '?' value.
+</p>
+<p>
+ Conversion of the float type rounds the value to the nearest integer and tests for limits.
+</p>
+
+<table class='basic'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>@field( null )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@field( null, 0 )</td><td class='example'>0</td></tr>
+ <tr><td class='example'>@field( 1 = 2 )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@field( 123n, 0 )</td><td class='example'>123</td></tr>
+ <tr><td class='example'>@field( 345f )</td><td class='example'>345</td></tr>
+ <tr><td class='example'>@field( 1.7 )</td><td class='example'>2</td></tr>
+ <tr><td class='example'>@field( 1.7, 10 )</td><td class='example'>2</td></tr>
+ <tr><td class='example'>@field( 10 .. 20 )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@field( 50 | 5 .. 10, 0 )</td><td class='example'>0</td></tr>
+ <tr><td class='example'>@field( {:,11} )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@field( @error( "Test" ), 0 )</td><td class='example'>0</td></tr>
+ <tr><td class='example'>@field( "-50" )</td><td class='example'>-50</td></tr>
+ <tr><td class='example'>@field( "10 + 2" )</td><td class='example'>12</td></tr>
+</table>
+
+<h4>Function @range( value, default )</h4>
+<p>
+ The range function converts the value, where possible, to a range.
+ If the conversion is not possible then the optional default value is used.
+ If the default is not given or cannot be used,
+ the function returns the 0..0 range value
+ (which normally gets demoted to the field 0).
+</p>
+<table class='basic'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>@range( 123n, 0 )</td><td class='example'>123..123</td></tr>
+ <tr><td class='example'>@range( 345f )</td><td class='example'>345..345</td></tr>
+ <tr><td class='example'>@range( 1.7 )</td><td class='example'>0..0</td></tr>
+ <tr><td class='example'>@range( 1.7, 10..12 )</td><td class='example'>10..12</td></tr>
+ <tr><td class='example'>@range( 10 .. 20 )</td><td class='example'>10..20</td></tr>
+ <tr><td class='example'>@field( 50 | 5 .. 10 )</td><td class='example'>0..0</td></tr>
+ <tr><td class='example'>@field( "50 .. 55" )</td><td class='example'>50..55</td></tr>
+</table>
+
+<h4>Function @rlist( value, default )</h4>
+<p>
+ The rlist function converts the value, where possible, to an rlist.
+ If the conversion is not possible then the optional default value is used.
+ If the default is not given or cannot be used,
+ the function returns the empty rlist value.
+</p>
+<table class='basic'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>@rlist( 123n, 0 )</td><td class='example'>123..123</td></tr>
+ <tr><td class='example'>@rlist( 345f )</td><td class='example'>345..345</td></tr>
+ <tr><td class='example'>@rlist( 1.7 )</td><td class='example'>empty</td></tr>
+ <tr><td class='example'>@rlist( 1.7, past..future )</td><td class='example'>past..future</td></tr>
+ <tr><td class='example'>@rlist( 10 .. 20 )</td><td class='example'>10..20</td></tr>
+ <tr><td class='example'>@rlist( 50 | 5 .. 10 )</td><td class='example'>5..10 | 50</td></tr>
+ <tr><td class='example'>@rlist( "50 .. 55|10" )</td><td class='example'>10 | 50..55</td></tr>
+ <tr><td class='example'>@rlist( "!0" )</td><td class='example'>-infinity..-1 | 1..+infinity</td></tr>
+ <tr><td colspan='2'>The output of the range limit names will depend on the script context setting.</td></tr>
+</table>
+
+<h4>Function @number( value, default )</h4>
+<p>
+ The number function converts the value, where possible, to a number.
+ If the conversion is not possible then the optional default value is used.
+ If the default is not given or cannot be used,
+ the function returns 0.
+</p>
+<p>
+ Conversion of the float type rounds the value to the nearest integer.
+</p>
+
+<table class='basic'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>@number( 123n, 100 )</td><td class='example'>123</td></tr>
+ <tr><td class='example'>@number( 345f )</td><td class='example'>345</td></tr>
+ <tr><td class='example'>@number( 1.7 )</td><td class='example'>2</td></tr>
+ <tr><td class='example'>@number( 1.7, 10 )</td><td class='example'>2</td></tr>
+ <tr><td class='example'>@number( 10 .. 20 )</td><td class='example'>0</td></tr>
+ <tr><td class='example'>@number( 50 | 5 .. 10, 50 )</td><td class='example'>50</td></tr>
+ <tr><td class='example'>@number( "-50" )</td><td class='example'>-50</td></tr>
+ <tr><td class='example'>@number( "10 + 2" )</td><td class='example'>12</td></tr>
+</table>
+
+<h4>Function @float( value, default )</h4>
+<p>
+ The float function converts the value, where possible, to a float.
+ If the conversion is not possible then the optional default value is used.
+ If the default is not given or cannot be used,
+ the function returns nan (not a number).
+</p>
+
+<table class='basic'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>@float( 123n, 100 )</td><td class='example'>123.0</td></tr>
+ <tr><td class='example'>@float( 345f )</td><td class='example'>345.0</td></tr>
+ <tr><td class='example'>@float( 1.7 )</td><td class='example'>1.7</td></tr>
+ <tr><td class='example'>@float( 10 .. 10 )</td><td class='example'>10.0</td></tr>
+ <tr><td class='example'>@float( 50 | 5 .. 10, 50 )</td><td class='example'>50.0</td></tr>
+ <tr><td class='example'>@float( {:,11} )</td><td class='example'>nan</td></tr>
+ <tr><td class='example'>@float( "-50" )</td><td class='example'>-50.0</td></tr>
+ <tr><td class='example'>@float( "10 + 2" )</td><td class='example'>12.0</td></tr>
+</table>
+
+<h3>Value Properties</h3>
+
+<table class='basic'>
+<tr><th>Function</th><th>Description</th></tr>
+<tr><td>@<b>type</b>( <i>value</i> )</td><td>Return the type of value as a string.</td></tr>
+<tr><td>@<b>low</b>( <i>value</i> )</td><td>Return the lower bound of a range or rlist.</td></tr>
+<tr><td>@<b>high</b>( <i>value</i> )</td><td>Return the upper bound of a range or rlist.</td></tr>
+<tr><td>@<b>span</b>( <i>value</i> )</td><td>Return the inclusive count between upper and lower bounds of a range or rlist.</td></tr>
+<tr><td>@<b>size</b>( <i>value</i> )</td><td>Return the number of elements in a rlist, object or string</td></tr>
+<tr><td>@<b>envelope</b>( <i>value</i> )</td><td>Return the enclosing range af an rlist.</td></tr>
+<tr><td>@<b>object</b>( <i>value</i> )</td><td>Return the object code name.</td></tr>
+</table>
+
+<h4>Function: @type( value )</h4>
+<p>
+ The function returns a <b>string</b> type with the name of the value type,
+ as shown in the table below.
+</p>
+<p>
+ An <b>error</b> value is not passed through, but the value type "error" is returned instead.
+</p>
+<table class='basic'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>@type( 123n )</td><td class='example'>number</td></tr>
+ <tr><td class='example'>@type( 456f )</td><td class='example'>field</td></tr>
+ <tr><td class='example'>@type( 10.5 )</td><td class='example'>float</td></tr>
+ <tr><td class='example'>@type( "text" )</td><td class='example'>string</td></tr>
+ <tr><td class='example'>@type( 5..10 )</td><td class='example'>range</td></tr>
+ <tr><td class='example'>@type( 4..8 | 10..18 )</td><td class='example'>rlist</td></tr>
+ <tr><td class='example'>@type( {: 10, 20, 30} )</td><td class='example'>object</td></tr>
+ <tr><td class='example'>@type( true )</td><td class='example'>bool</td></tr>
+ <tr><td class='example'>@type( null )</td><td class='example'>null</td></tr>
+ <tr><td class='example'>@type( @error( "Whoops" ) )</td><td class='example'>error</td></tr>
+</table>
+
+<h4>Function: @low( value )</h4>
+<p>
+ If <i>value</i> is of type <b>range</b>, the function returns the lower <b>field</b> value.
+ If <i>value</i> is of type <b>rlist</b>, the function returns the lower <b>field</b> of the first range in the rlist.
+</p>
+<p>
+ If the value is a <i>numeric_type</i>, then the value is returned unchanged.
+ An <b>error</b> value will also be returned unchanged.
+ All other <i>values</i> will return the <b>field</b> value <b>?</b> (invalid).
+</p>
+<table class='basic'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>@low( 123n )</td><td class='example'>123</td></tr>
+ <tr><td class='example'>@low( 456f )</td><td class='example'>456</td></tr>
+ <tr><td class='example'>@low( 10.5 )</td><td class='example'>10.5</td></tr>
+ <tr><td class='example'>@low( "text" )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@low( 5..10 )</td><td class='example'>5</td></tr>
+ <tr><td class='example'>@low( 4..8 | 10..18 )</td><td class='example'>4</td></tr>
+ <tr><td class='example'>@low( {: 10, 20, 30} )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@low( true )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@low( null )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@low( @error( "Whoops" ) )</td><td class='example'>Error (12): Whoops</td></tr>
+</table>
+
+<h4>Function: @high( value )</h4>
+<p>
+ If <i>value</i> is of type <b>range</b>, the function returns the higher <b>field</b> value.
+ If <i>value</i> is of type <b>rlist</b>, the function returns the higher <b>field</b> of the last range in the rlist.
+</p>
+<p>
+ If the value is a <i>numeric_type</i>, then the value is returned unchanged.
+ An <b>error</b> value will also be returned unchanged.
+ All other <i>values</i> will return the <b>field</b> value <b>?</b> (invalid).
+</p>
+<table class='basic'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>@high( 123n )</td><td class='example'>123</td></tr>
+ <tr><td class='example'>@high( 456f )</td><td class='example'>456</td></tr>
+ <tr><td class='example'>@high( 10.5 )</td><td class='example'>10.5</td></tr>
+ <tr><td class='example'>@high( "text" )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@high( 5..10 )</td><td class='example'>10</td></tr>
+ <tr><td class='example'>@high( 4..8 | 10..18 )</td><td class='example'>18</td></tr>
+ <tr><td class='example'>@high( {: 10, 20, 30} )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@high( true )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@high( null )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@high( @error( "Whoops" ) )</td><td class='example'>Error (12): Whoops</td></tr>
+</table>
+
+<h4>Function: @span( value )</h4>
+<p>
+ If the value is an <i>integer_type</i>, then the function returns the <b>field</b> value 1.
+ If <i>value</i> is of type <b>range</b> or <b>rlist</b>, the function returns the
+ inclusive count between upper and lower bounds of the range or rlist.
+</p>
+<p>
+ An <b>error</b> value will be returned unchanged.
+ All other <i>values</i> will return the <b>field</b> value <b>?</b> (invalid).
+</p>
+<table class='basic'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>@span( 123n )</td><td class='example'>1</td></tr>
+ <tr><td class='example'>@span( 456f )</td><td class='example'>1</td></tr>
+ <tr><td class='example'>@span( 10.5 )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@span( "text" )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@span( 5..10 )</td><td class='example'>6</td></tr>
+ <tr><td class='example'>@span( 4..8 | 10..18 )</td><td class='example'>15</td></tr>
+ <tr><td class='example'>@span( {: 10, 20, 30} )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@span( true )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@span( null )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@span( @error( "Whoops" ) )</td><td class='example'>Error (12): Whoops</td></tr>
+</table>
+
+<h4>Function: @size( value )</h4>
+<p>
+ If <i>value</i> is of type <b>text</b>, the function returns the number of characters in the string.
+ If <i>value</i> is of type <b>rlist</b>, the function returns the number of ranges in the rlist.
+ If <i>value</i> is of type <b>object</b>, the function returns the number of elements in the object.
+</p>
+<p>
+ An <b>error</b> value will be returned unchanged.
+ All other <i>values</i> will return the number 0.
+</p>
+<table class='basic'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>@size( 123n )</td><td class='example'>0</td></tr>
+ <tr><td class='example'>@size( 456f )</td><td class='example'>0</td></tr>
+ <tr><td class='example'>@size( 10.5 )</td><td class='example'>0</td></tr>
+ <tr><td class='example'>@size( "text" )</td><td class='example'>4</td></tr>
+ <tr><td class='example'>@size( 5..10 )</td><td class='example'>0</td></tr>
+ <tr><td class='example'>@size( 4..8 | 10..18 )</td><td class='example'>2</td></tr>
+ <tr><td class='example'>@size( {: 10, 20, 30} )</td><td class='example'>3</td></tr>
+ <tr><td class='example'>@size( true )</td><td class='example'>0</td></tr>
+ <tr><td class='example'>@size( null )</td><td class='example'>0</td></tr>
+ <tr><td class='example'>@size( @error( "Whoops" ) )</td><td class='example'>Error (12): Whoops</td></tr>
+</table>
+
+<h4>Function: @envelope( value )</h4>
+<p>
+ The @envelope function is only intended to be used with an <b>rlist</b> value,
+ when it returns the enclosing <b>range</b> value.
+</p>
+<p>
+ An <b>error</b> value will be returned unchanged.
+ All other <i>values</i> will return the <b>field</b> value <b>?</b> (invalid).
+</p>
+<table class='basic'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>@envelope( 123n )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@envelope( 456f )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@envelope( 10.5 )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@envelope( "text" )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@envelope( 5..10 )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@envelope( 4..8 | 10..18 )</td><td class='example'>4..18</td></tr>
+ <tr><td class='example'>@envelope( {: 10, 20, 30} )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@envelope( true )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@envelope( null )</td><td class='example'>?</td></tr>
+ <tr><td class='example'>@envelope( @error( "Whoops" ) )</td><td class='example'>Error (12): Whoops</td></tr>
+</table>
+
+<h4>Function: @object( value )</h4>
+
+<p>
+ The @object function is only intended to be used with an <b>object</b> value,
+ when it returns the objects <b>code</b> name string value.
+</p>
+<p>
+ An <b>error</b> value will be returned unchanged.
+ All other <i>values</i> will return an empty string value <b>""</b>.
+</p>
+<table class='basic'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>@object( 123n )</td><td class='example'>""</td></tr>
+ <tr><td class='example'>@object( 456f )</td><td class='example'>""</td></tr>
+ <tr><td class='example'>@object( 10.5 )</td><td class='example'>""</td></tr>
+ <tr><td class='example'>@object( "text" )</td><td class='example'>""</td></tr>
+ <tr><td class='example'>@object( 5..10 )</td><td class='example'>""</td></tr>
+ <tr><td class='example'>@object( 4..8 | 10..18 )</td><td class='example'>""</td></tr>
+ <tr><td class='example'>@object( {: 10, 20, 30} )</td><td class='example'>":"</td></tr>
+ <tr><td class='example'>@object( true )</td><td class='example'>""</td></tr>
+ <tr><td class='example'>@object( null )</td><td class='example'>""</td></tr>
+ <tr><td class='example'>@object( @error( "Whoops" ) )</td><td class='example'>Error (12): Whoops</td></tr>
+</table>
+
+<h3>Manage Blobs</h3>
+<p>
+ Blob values are created using the @load:blob function.
+ They are saved using the save:blob command.
+</p>
+<table class='basic'>
+<tr><th>Function</th><th>Description</th></tr>
+<tr><td>@<b>load:blob</b>( <i>filename</i> )</td><td>Load a blob from a file.</td></tr>
+</table>
+
+<h4>Function: @load:blob( filename )</h4>
+<p>
+ If the file exists and can be opened,
+ the function returns a blob with the files binary data.
+ Otherwise, the function returns an error value.
+ The blob type is determined by the file extension where possible.
+</p>
+<table class='basic'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>@load:blob( "glich32.png" )</td><td class='example'>blob:png:1999</td></tr>
+</table>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/script/index.htm' class='m-item'>Glich Script</a>
+  <a href='bi-functions.htm' class='m-item thispage'>Built-in Functions</a>
+  <a href='../../../../dev/man2/script/script/bi-commands.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/script/bi-constants.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>21<sup>st</sup> October 2015</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - Built-in Objects</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />Built-in Objects
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/script/index.htm' class='m-item'>Glich Script</a>
+  <a href='bi-objects.htm' class='m-item thispage'>Built-in Objects</a>
+  <a href='../../../../dev/man2/script/hics/index.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/script/bi-commands.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Introduction</h2>
+<p>
+ Glich has just one built-in object,
+ the general purpose object with the code name <b>":"</b> (colon).
+</p>
+<p>
+ There is also one built-in object function.
+ This is available for all objects irrespective of the object definition.
+</p>
+
+<h3>Built-in Objects</h3>
+
+<h4>General Purpose Object ":"</h4>
+<p>
+ The {:} object can be used as a variable length array of values.
+ Its definition is equivalent to the following statement.
+</p>
+
+<table class='code'>
+<tr><td
+>object : {}
+</td></tr>
+</table>
+
+<table class='basic'>
+<tr><th>Example</th><th>Output</th></tr>
+<tr> <!-- See test file - test\glcscripts\suite\glich\built-in\objects\object-colon001.glcs -->
+<td class='example'>let x = {: 1,,3};
+write x nl;
+x[4] = 5;
+write x nl;
+</td>
+<td>{: 1, null, 3}<br />
+{: 1, null, 3, null, 5}
+</tr>
+</table>
+
+<h3>Built-in Object Functions</h3>
+
+<table class='basic'>
+<tr><th>Function</th><th>Description</th></tr>
+<tr><td><i>object_type</i> <b>@mask</b>( <i>object_type</i> )</td><td>Overlays one object value on another.</td></tr>
+<tr><td><i>object_type</i> <b>@size</b></td><td>Return the number of elements.</td></tr>
+<tr><td><i>object_type</i> <b>@obj:name</b></td><td>Return the code name of the object as a string.</td></tr>
+<tr><td><i>object_type</i> <b>@obj:list</b></td><td>Return object values as a string.</td></tr>
+</table>
+
+<h4>Object Function <code>ovalue @mask( value )</code></h4>
+<p>
+ The elements of the value object are used to replace any values
+ in the calling ovalue object that are of type null.
+</p>
+<p>
+ The length and object definition do not need to match.
+</p>
+
+<table class='basic'>
+<tr><th>Example</th><th>Output</th></tr>
+<tr> <!-- See test file - test\glcscripts\suite\glich\built-in\objects\object-colon002.glcs -->
+<td class='example'>let x = {: 1,,3,,5};
+write x nl;
+x = x @mask( {: 10, 20, 30} );
+write x nl;
+x = x @mask( {: ,,,400,500,600} );
+write x nl;
+</td>
+<td>{: 1, null, 3, null, 5}<br />
+{: 1, 20, 3, null, 5}<br />
+{: 1, 20, 3, 400, 5, 600}
+</tr>
+</table>
+
+<h4>Object Function <code>ovalue @size</code></h4>
+<p>
+ Return the number of elements.
+</p>
+
+<table class='basic'>
+<tr><th>Example</th><th>Output</th></tr>
+<tr>
+<td class='example'>{: 1, 2, 3}@size</td><td>3</tr>
+</table>
+
+<h4>Object Function <code>ovalue @obj:name</code></h4>
+<p>
+ Return the code name of the object as a string.
+</p>
+
+<table class='basic'>
+<tr><th>Example</th><th>Output</th></tr>
+<tr>
+<td class='example'>{test 1, 2, 3}@obj:name</td><td>"test"</tr>
+</table>
+
+<h4>Object Function <code>ovalue @obj:list</code></h4>
+<p>
+ Return an annotated list of an objects contents as a string, one line per value.
+</p>
+
+<table class='basic'>
+<tr><th>Example</th><th>Output</th></tr>
+<tr>
+<td class='example'>object test { values first second; }
+{test "One hundred", 101, 102}@obj:list</td><td>first = "One hundred"<br />
+second = 101<br />
+2 = 102</tr>
+</table>
+
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/script/index.htm' class='m-item'>Glich Script</a>
+  <a href='bi-objects.htm' class='m-item thispage'>Built-in Objects</a>
+  <a href='../../../../dev/man2/script/hics/index.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/script/bi-commands.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>5<sup>th</sup> October 2023</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

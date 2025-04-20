@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - Glich Script</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />Glich Script Language
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <a href='../../../../index.htm' class='m-item'>Home</a>
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='index.htm' class='m-item thispage'>Glich Script</a>
+  <a href='../../../../dev/man2/script/script/types.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='menu'>
+  <a href='../../../../dev/man2/script/script/types.htm' class='m-item'>Value Types</a>
+  <a href='../../../../dev/man2/script/script/expr.htm' class='m-item'>Expressions</a>
+  <a href='../../../../dev/man2/script/script/stmts/index.htm' class='m-item'>Statements</a>
+  <a href='../../../../dev/man2/script/script/bi-constants.htm' class='m-item'>Built-in Constants</a>
+  <a href='../../../../dev/man2/script/script/bi-functions.htm' class='m-item'>Built-in Functions</a>
+  <a href='../../../../dev/man2/script/script/bi-commands.htm' class='m-item'>Built-in Commands</a>
+  <a href='../../../../dev/man2/script/script/bi-objects.htm' class='m-item'>Built-in Objects</a>
+  <a href='../../../../map.htm' class='m-item'>Site Map</a>
+  <div class='menu-plus'>
+   The project page at<br />
+   <a href='https://sourceforge.net/projects/historycal'>
+    <img src='../../../../sys/sf-logo-13.png'
+     width='120' height='30'
+     alt='SourceForge.net'
+    />
+   </a><br />
+   Code repository at<br />
+   <a href='https://github.com/nickmat/HistoryCal'>
+    <img src='../../../../sys/github_logo.png' height='30' alt='GitHub' />
+   </a><br />
+   <a href='https://sourceforge.net/projects/historycal/files'>
+    <img src='../../../../sys/download-button.png' alt='Download' />
+   </a>
+  </div>
+ </div>
+
+<div id='content'>
+
+<h2>Introduction</h2>
+<p>
+ Although it is designed to be extended, Glich is perfectly usable in its base form.
+ A particular feature is its ability to perform integer set operations
+ and to handle infinite integer ranges.
+</p>
+
+<h3>Hello World</h3>
+<p>
+ A script consists of one or more statements.
+ As is usual in these circumstances, we present a hello world script.
+</p>
+<table class='code'>
+<tr><th>Hello Script</th></tr>
+<tr><td
+>// Hello world script.
+
+write "Hello world!" nl;
+</td></tr>
+</table>
+<img class='scrnprnt' src='../images/glcs-hello.png' alt='Hello World message screen print' />
+<p>
+ Using a text editor, copy the script and save as "hello.glcs".
+ '.glcs' is the standard extension for Glich scripts.
+ Run the Glich Script by starting the Glich interactive program glcs.exe
+ and run the script with the command 'run hello.glcs'
+ This should then result in the output shown.
+</p>
+<p>
+ Scripts always use the UTF-8 character set.
+</p>
+
+<h3 class='clear'>Comments and White Space</h3>
+<table class='code'>
+<tr><td
+>// A single line comment
+/*
+  This is a
+  multi-line
+  comment.
+*/
+</td></tr>
+</table>
+<p>
+ The first line is a single line comment.
+ Every thing from the "//" token to the end of the line taken to be a comment.
+</p>
+<p>
+ Multi-line comments are included by placing them between the
+ "/*" and "*/" tokens. Multi-line comments cannot be nested.
+</p>
+<p>
+ Tabs, spaces, newlines and comments can appear anywhere within a script
+ without its meaning being affecting.
+ They are required only when necessary to separate tokens.
+</p>
+
+<h3>Tokens</h3>
+<p>
+ The tokens that make up the script can be categorised into three groups,
+ operators, literals and names.
+</p>
+<p>
+ Operators are used to construct expressions.
+ Mostly they are non-alphanumeric characters but they also include some text words.
+ A complete list is given in the <a href='expr.htm#operator-list'>Operator List</a> table.
+ Where words are used, they are reserved and cannot be used as names.
+</p>
+<p>
+ Literals can be numbers, text strings or collections of these values as objects.
+ Numbers consist of the numeric characters '0-9' and optionally a type character.
+ At this time, two types of integer numbers and a floating point number can be used,
+ Numbers, Fields and Floats.
+ Text strings are placed between '"' double quote characters.
+ If you need to include a double quote in the text, use two together,
+ as in "Say ""Hello""".
+</p>
+<p>
+ Names are constructed from alphanumeric, '_' underline and ':' colon characters.
+ They can not start with a numeric character.
+ The meaning of a name is dependant on the context
+ and the same name can be used for different purposes in a script.
+ Names are used as statements, sub-statements, statements arguments and variables. 
+</p>
+
+<h3>Entities and Codes</h3>
+<p>
+ A code name is the term used to describe the name given to created entities
+ such as <b>file</b>s, <b>function</b>s, <b>command</b>s and <b>object</b>s.
+ It is always a text string but it need not be in quotes
+ if it conforms with the name standard.
+</p>
+<p>
+ A code name can use any character except white space and the '#' hash character.
+ The ':' colon character may be restricted for some objects as well,
+ as these may be used to combine codes into signatures.
+ (More characters may be added to the excluded list in the future.)
+ If the code conforms to the script name token definition it can be written directly,
+ otherwise it must be written as a literal (i.e. in double quotes).
+ If an expression is used to form a code, it must be placed in parenthesis.
+</p>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <a href='../../../../index.htm' class='m-item'>Home</a>
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='index.htm' class='m-item thispage'>Glich Script</a>
+  <a href='../../../../dev/man2/script/script/types.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>8<sup>th</sup> February 2023</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

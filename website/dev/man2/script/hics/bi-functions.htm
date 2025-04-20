@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - Built-in Functions</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />Built-in Functions
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/hics/index.htm' class='m-item'>Hics Extension</a>
+  <a href='bi-functions.htm' class='m-item thispage'>Built-in Functions</a>
+  <a href='../../../../dev/man2/script/hics/phrase.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/hics/bi-objects.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Hics Extension Built-in Functions</h2>
+<p>
+ The hics extension adds four functions,
+ text, date, record and element.
+</p>
+
+<h3>Type Conversions</h3>
+<p>
+ The hics extension can uniquely describe a single day in Earth's past or future
+ in three different ways.
+</p>
+<ul>
+ <li><b>Date</b> A Julian Day Number (jdn). Uses a <b>Field</b> value type.</li>
+ <li><b>Text</b>
+  A character string with a defined calendar scheme and format.
+  Uses a <b>String</b> value type.
+ </li>
+ <li><b>Record</b>
+  A scheme object with fields as defined by the scheme definition.
+  Uses an <b>Object</b> value type.
+ </li>
+</ul>
+<p>
+ The script language uses functions to convert between these forms.
+</p>
+<p>
+ Additionally, a text element and field in a record can be converted
+ using an <b>element</b> function.
+</p>
+
+<table class='basic'>
+<tr><th>Function</th><th>Description</th></tr>
+<tr><td>@<b>date</b>.<i>sch:fmt</i>( <i>string_type</i> )<br />@<b>date</b>( <i>scheme_object_type</i> )<br /></td><td>Converts to a set_type.</td></tr>
+<tr><td>@<b>text</b>.<i>sch:fmt</i>( <i>set_type</i> )<br />@<b>text</b>.<i>sch:fmt</i>( <i>scheme_object_type</i> )<br /></td><td>Converts to a string_type.</td></tr>
+<tr><td>@<b>record</b>.<i>sch</i>( <i>set_type</i> )<br />@<b>record</b>.<i>sch:fmt</i>( <i>string_type</i> )<br /></td><td>Converts to a scheme_object_type.</td></tr>
+<tr><td>@<b>element</b>.<i>qual</i>( <i>field_type</i> )<br />@<b>element</b>.<i>qual</i>( <i>string_type</i> )<br /></td>
+  <td>Converts field_type to string_type.<br />Converts string_type to field_type.</td></tr>
+<tr><td>@<b>phrase</b>( <i>string_type</i> )</td><td>Converts phrase string to a set_type.</td></tr>
+</table>
+
+<h4>Function date</h4>
+<p>
+ A date, in this context, means a rlist or an well ordered list of ranges.
+ The date function converts to these types from a text string or a record (scheme object).
+ The date function puts these two record types into a consistent rlist type.
+ The rlist will then be demoted to a range or field if appropriate.
+</p>
+<p>
+ If the original type is a string,
+ then the function will need to know the scheme and format to be used.
+ To convert to a record then the record scheme is required.
+ If these are missing, the system output default settings are used.
+ Note the a string description of an rlist may include embedded range and union symbols,
+ but this is different from a Date Phrase.
+ For instance, only one scheme format can be used for the conversion.
+</p>
+<table class='basic'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>@date( "19sep1948" )</td><td class='example'>2432814</td></tr>
+ <tr><td class='example'>@date( "1940..1950|1945..1955" )</td><td class='example'>2429630 .. 2435473</td></tr>
+ <tr><td class='example'>@date.g:iso( "[1940..1950,1945..1955]" )</td><td class='example'>2429630 .. 2435473</td></tr>
+ <tr><td class='example'>@date( {s:g 1948, 9, 19} )</td><td class='example'>2432814</td></tr>
+ <tr><td class='example'>@date( {s:g 1948} )</td><td class='example'>2432552 .. 2432917</td></tr>
+ <tr><td colspan='2'>The above examples assume a system input setting of "g:dmy".</td></tr>
+</table>
+
+<h4>Function text</h4>
+<p>
+ The text function converts a field, range, rlist or record type into a string type.
+</p>
+<p>
+ Except for a record type, the scheme code signature must be provided.
+ If the format code is not included in the signature,
+ then the default for that scheme is used.
+</p>
+<table class='basic'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>@text."g:dmy+"( 2432814 )</td><td class='example'>"19 September 1948"</td></tr>
+ <tr><td class='example'>@text.g( 2429630..2435473 )</td><td class='example'>"1940 .. 1955"</td></tr>
+ <tr><td class='example'>@text.g:iso( 2429630..2429995 | 2433283..2435473 )</td><td class='example'>"[1940,1950..1955]"</td></tr>
+ <tr><td class='example'>@text( {s:g 1948, 9, 19} )</td><td class='example'>"19 Sep 1948"</td></tr>
+ <tr><td class='example'>@text( {s:j 1948} )</td><td class='example'>"1948"</td></tr>
+ <tr><td colspan='2'>The above examples assume a system output setting of "g:dmy".</td></tr>
+</table>
+
+<h4>Function record</h4>
+<p>
+ The record function converts a field (as a julian day number) or string type into a record type.
+ At this time, using the record function with a range or rlist type is an error.
+</p>
+<p>
+ If a scheme:format signature is not given,
+ then to convert a field, the output default setting is used,
+ whereas if converting a string, the input default is used.
+</p>
+<p>
+ Note that a record created from the function always has all the fields included, even the optional ones.
+ Only main fields are given values though.
+ Records created using the record operator '{}' only include the given fields,
+ even if this does not fully qualify a date.
+</p>
+<table class='basic'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>@record.g:dmy( "19sep1948" )</td><td class='example'>{s:g 1948, 9, 19, 7}</td></tr>
+ <tr><td class='example'>@record( "21??" )</td><td class='example'>{s:g null, null, 21, null}</td></tr>
+ <tr><td class='example'>@record.:u( "1948year 9month 19day" )</td><td class='example'>{s:g 1948, 9, 19, 7}</td></tr>
+ <tr><td class='example'>@record.j( 2432814 )</td><td class='example'>{s:j 1948, 9, 6, 7}</td></tr>
+ <tr><td class='example'>@record( 2429630..2435473 )</td><td class='example'>Error</td></tr>
+ <tr><td colspan='2'>The above examples assume a system input and output setting of "g:dmy".</td></tr>
+</table>
+
+<h4>Function element</h4>
+<p>
+ The element function converts between a string and a field.
+ If a lexicon code is given with the function
+ then that lexicon is used to provide the conversion.
+ Using the function on any type other than a field or string results in an error.
+</p>
+<table class='basic'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>@element.w( 7 )</td><td class='example'>"Sunday"</td></tr>
+ <tr><td class='example'>@element.ws:a( 7 )</td><td class='example'>"Sat"</td></tr>
+ <tr><td class='example'>@element.w( "wed" )</td><td class='example'>3</td></tr>
+ <tr><td class='example'>@element.:rn( "xiv" )</td><td class='example'>14</td></tr>
+ <tr><td class='example'>@element.:rn( 14 )</td><td class='example'>"XIV"</td></tr>
+ <tr><td class='example'>@element.:rn:l( 14 )</td><td class='example'>"xiv"</td></tr>
+ <tr><td class='example'>@element.:os( 2 )</td><td class='example'>"2nd"</td></tr>
+ <tr><td class='example'>@element.:oa( 2 )</td><td class='example'>"nd"</td></tr>
+ <tr><td class='example'>@element.:oa:u( 2 )</td><td class='example'>"ND"</td></tr>
+ <tr><td class='example'>@element( "10" )</td><td class='example'>10</td></tr>
+ <tr><td class='example'>@element( 10 )</td><td class='example'>"10"</td></tr>
+</table>
+
+<h4>Function phrase</h4>
+<p>
+ A date phrase is a meta language similar to the Glich language
+ but designed to write a period or periods of time in days.
+ A default calendar scheme can be defined for the phrase,
+ and elements within the phrase can use different calendar schemes.
+</p>
+<p>See the <a href='phrase.htm'>Date Phrase Meta Language</a> page for details.</p>
+<p>
+ The phrase function takes a date phrase string
+ and converts it to a well ordered rlist.
+</p>
+<table class='basic'>
+<tr><th>Example</th><th>Result</th></tr>
+ <tr><td class='example'>@phrase.g:dmy( "10nov2023" )</td><td class='example'>2460259</td></tr>
+ <tr><td class='example'>@phrase( "!today&.2023" )</td><td class='example'>2459946..2460258 | 2460260..2460310</td></tr>
+ <tr><td class='example'>@phrase( "8mar1741 | j:dmy# 8mar1741 | ja:dmc# 8mar1741" )</td><td class='example'>2357014 | 2357025 | 2357390</td></tr>
+ <tr><td class='example'>@phrase( "1890..1900 | 1910..1920" )</td><td class='example'>2411369..2415385 | 2418673..2422690</td></tr>
+ <tr><td colspan='2'>The above examples assume a system input and output setting of "g:dmy" and today = 10 Nov 2023.</td></tr>
+</table>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/hics/index.htm' class='m-item'>Hics Extension</a>
+  <a href='bi-functions.htm' class='m-item thispage'>Built-in Functions</a>
+  <a href='../../../../dev/man2/script/hics/phrase.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/hics/bi-objects.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>20<sup>th</sup> June 2023</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

@@ -184,6 +184,7 @@ padding: 0.1em 0.5em 0.1em 0.5em;
 }
 table.basic td.code {
 font-family: "Courier New", Courier, monospace;
+white-space: pre;
 }
 table.basic td.example {
 background-color: mintcream;
@@ -239,6 +240,11 @@ table.lfloat {
 display: inline-table;
 float: left;
 margin-top: 0;
+}
+span.example {
+background-color: mintcream;
+	font-family: 'Courier New', Courier, monospace;
+	white-space: pre;
 }
 img.diag {
 padding: 0;

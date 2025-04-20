@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - j</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />j - Julian
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='j.htm' class='m-item thispage'>j</a>
+  <a href='../../../../dev/man2/script/defs/jce.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/jwsn.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Calendar Description - Scheme j</h2>
+<p>
+ This Julian calendar is the simplest possible interpretation of the
+ calendar introduced by Julius Caesar, amended by Augustus Caesar and using the
+ Current Era (also known as Common Era or Christian Era) year count.
+ This version is also known as Julian Astronomical calendar as it is the version
+ generally used by astronomers. The year change is the 1st January, the year
+ zero is included, years before year zero are given as negative. There is no
+ attempt to allow for the irregular leap years that occurred when the calendar
+ was first introduced.
+</p>
+
+<h3>Use Case</h3>
+<p>
+ The Julian calendar has been used throughout Europe and the European colonies
+ since its introduction by Julius Caesar, but in many different variants. In this
+ form, some of its known uses are:
+</p>
+<ul>
+ <li>Scotland, from 1 Jan 1600 to 2 Sep 1752.</li>
+ <li>England and its overseas territories, from 1 Jan 1752 to 2 Sep 1752.</li>
+ <li>Astronomers, for all dates before 31 Dec 1582 (Gregorian).</li>
+ <li>The Hics extension uses it as the base calendar for many variants.</li>
+</ul>
+
+<h3>Definition</h3>
+<table class='basic data rfloat'>
+
+<tr><th colspan='5'>Month Names - Lexicon m</th></tr>
+<tr><th rowspan='2'>Number</th><th colspan='2'>Name</th><th colspan='2'>Number of Days</th></tr>
+<tr><th>Full</th><th>Abrev.</th><th>Common</th><th>Leap</th></tr>
+
+<tr><td>1</td><td>January</td><td>Jan</td><td>31</td><td>31</td></tr>
+<tr><td>2</td><td>February</td><td>Feb</td><td>28</td><td>29</td></tr>
+<tr><td>3</td><td>March</td><td>Mar</td><td>31</td><td>31</td></tr>
+<tr><td>4</td><td>April</td><td>Apr</td><td>30</td><td>30</td></tr>
+<tr><td>5</td><td>May</td><td>May</td><td>31</td><td>31</td></tr>
+<tr><td>6</td><td>June</td><td>Jun</td><td>30</td><td>30</td></tr>
+<tr><td>7</td><td>July</td><td>Jul</td><td>31</td><td>31</td></tr>
+<tr><td>8</td><td>August</td><td>Aug</td><td>31</td><td>31</td></tr>
+<tr><td>9</td><td>September</td><td>Sep</td><td>30</td><td>30</td></tr>
+<tr><td>10</td><td>October</td><td>Oct</td><td>31</td><td>31</td></tr>
+<tr><td>11</td><td>November</td><td>Nov</td><td>30</td><td>30</td></tr>
+<tr><td>12</td><td>December</td><td>Dec</td><td>31</td><td>31</td></tr>
+</table>
+<p>
+ The Julian calendar is based on a solar year of 365.25 days.
+ Days start at midnight, but there may be some local variation in this..
+</p>
+<p>
+ The <b>Record</b> consists of three <b>Fields</b> named <code>year,</code>
+ <code>month,</code> and <code>day</code> and the <b>Optional Field</b> 
+ <code>wday.</code>
+</p>
+<table class='record'>
+<tr><th colspan='4'>Record</th></tr>
+<tr><td>year</td><td>month</td><td>day</td><td class='rdonly'>wday</td></tr>
+</table>
+<p class='lclear'>
+ There are two types of years, a common year and a leap year,
+ which follow the repeating pattern of three common years then one leap year.
+ There are twelve <code>months</code> in a <code>year</code> numbered 1 to 12.
+ The number of <code>days</code> in a <code>month</code> varies between 28 and 31, and are numbered from 1,
+ as shown in the table opposite. This gives a total of 365 days in a common year and 366 in a leap year.
+</p>
+<div>
+ The <b>Epoch</b> is set at
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>j</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>1</td><td>1</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>1721424</td></tr>
+ </table>.
+</div>
+
+<h3>Formats</h3>
+<p>
+ The formats supplied with this scheme.
+</p>
+
+<table class='basic data'>
+<tr><th colspan='6'>Formats - Grammar j</th></tr>
+<tr><th>Code</th><th>Rule</th><th>Pseudo:in</th><th>Pseudo:out</th><th>Example</th><th>Note</th></tr>
+<tr><td><b>dmy</b></td><td>text</td><td>day month year</td><td>dd Mon yyyy</td><td class='example'>26 Jan 2023</td><td>D, S</td></tr>
+<tr><td><b>dmy+</b></td><td>text</td><td>day month year</td><td>dd Month yyyy</td><td class='example'>26 January 2023</td><td>S</td></tr>
+<tr><td><b>wdmy</b></td><td>text</td><td>wday day month year</td><td>Wday dd Mon yyyy</td><td class='example'>Wed 26 Jan 2023</td><td></td></tr>
+<tr><td><b>wdmy+</b></td><td>text</td><td>wday day month year</td><td>Weekday dd Month yyyy</td><td class='example'>Wednesday 26 January 2023</td><td></td></tr>
+<tr><td><b>out</b></td><td>text</td><td></td><td>ddth Month yyyy</td><td class='example'>26th January 2023</td><td>S</td></tr>
+<tr><td><b>full</b></td><td>text</td><td></td><td>Weekday ddth Month yyyy</td><td class='example'>Wednesday 26th January 2023</td><td></td></tr>
+<tr><td><b>mdy</b></td><td>text</td><td>month day year</td><td>Mon dd, yyyy</td><td class='example'>Jan 26, 2023</td><td>S</td></tr>
+<tr><td><b>mdy+</b></td><td>text</td><td>month day year</td><td>Month dd, yyyy</td><td class='example'>January 26, 2023</td><td>S</td></tr>
+<tr><td><b>wmdy</b></td><td>text</td><td>wday month day year</td><td>Wday, Mon dd, yyyy</td><td class='example'>Wed, Jan 26, 2023</td><td></td></tr>
+<tr><td><b>wmdy+</b></td><td>text</td><td>wday month day year</td><td>Weekday, Month dd, yyyy</td><td class='example'>Wednesday, January 26, 2023</td><td></td></tr>
+<tr><td><b>ymd</b></td><td>text</td><td>year month day</td><td>yyyy:Mon:dd</td><td class='example'>2023:Jan:26</td><td>S</td></tr>
+<tr><td><b>def</b></td><td>text</td><td>year month day</td><td>yyyy mm dd</td><td class='example'>2023 1 26</td><td>H, S</td></tr>
+<tr><td><b>u</b></td><td>unit</td><td>9y 9m 9d</td><td>9y 9m 9d</td><td class='example'>2023y 1m 26d</td><td>H</td></tr>
+<tr><td colspan='6'>Notes: D = Default, H = Hidden, S = Range shortcut supported.
+Example based on jdn# 2459984</td></tr>
+</table>
+
+<h3>Script</h3>
+<table class='code lfloat'>
+<tr><th>Script - Module hics:julian</th></tr>
+<tr><td
+>lexicon m {
+    name "Month names";
+    fieldname month;
+    lang en;
+    pseudo     Month,     Mon;
+    tokens {
+        1,  "January",   "Jan";
+        2,  "February",  "Feb";
+        3,  "March",     "Mar";
+        4,  "April",     "Apr";
+        5,  "May";
+        6,  "June",      "Jun";
+        7,  "July",      "Jul";
+        8,  "August",    "Aug";
+        9,  "September", "Sep";
+        10, "October",   "Oct";
+        11, "November",  "Nov";
+        12, "December",  "Dec";
+    }
+}
+grammar j {
+    name "Julian";
+    fields year month day;
+    optional wday;
+    lexicons m, w;
+    alias pseudo { w wday; dd day; mm month; yyyy year; }
+    alias unit { d day; m month; y year; }
+    format dmy "{day} |{month:m:a} |{year}";
+    format "dmy+" "{day} |{month:m} |{year}";
+    format wdmy "{wday:w:a} |{day} |{month:m:a} |{year}";
+    format "wdmy+" "{wday:w} |{day} |{month:m} |{year}";
+    format out { output "{day::os} |{month:m} |{year}"; }
+    format full { output "{wday:w} |{day::os} |{month:m} |{year}"; }
+    format mdy "{month:m:a} |{day}, |{year}";
+    format "mdy+" "{month:m} |{day}, |{year}";
+    format wmdy "{wday:w:a}, |{month:m:a} |{day}, |{year}";
+    format "wmdy+" "{wday:w}, |{month:m} |{day}, |{year}";
+    format ymd "{year}|:{month:m:a}|:{day}";
+    preferred dmy;
+}
+scheme j {
+    name "Julian";
+    base julian;
+    grammar j;
+}
+</td></tr>
+</table>
+<p class='lclear'>
+ The script uses the lexicon "w" definition from the
+ <a href='jwn.htm'><b>jwn</b> Julian Week Number</a> scheme
+ for the optional field <code>wday.</code>
+</p>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='j.htm' class='m-item thispage'>j</a>
+  <a href='../../../../dev/man2/script/defs/jce.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/jwsn.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>19<sup>th</sup> July 2023</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

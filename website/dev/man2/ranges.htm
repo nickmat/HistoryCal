@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - Date Ranges</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - V0.1.0 Manual<br />Date Ranges
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <a href='../../index.htm' class='m-item'>Home</a>
+  <a href='../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='ranges.htm' class='m-item thispage'>Date Ranges</a>
+  <a href='../../dev/man2/calculate.htm' class='m-item nav'>►</a>
+  <a href='../../dev/man2/convert.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+
+
+
+<h2>Date Ranges</h2>
+<img class='scrnprnt' src='sp/sp7.png' alt='Screen Print 7' />
+<p>
+ An important aspect of The HistoryCal calculator is its ability to work with ranges.
+ It is not always possible to determine exactly when events in the past occurred and using
+ a range, or ranges, of dates which include the date in question, is one way of dealing with the problem.
+</p>
+<p>
+ Ranges are always inclusive and the '~' (tilde) character is placed between the start and finish dates.
+ For example, "8 Jun 1837 ~ 9 Jan 1901". Spaces around the ~ are optional.
+ The earlier date must always be placed first.
+ If the dates are equal, then it is treated as if just a single date has been entered.
+</p>
+<p>
+ Tip. If you are not sure which is the earlier of two dates, replace the '~' (tilde)
+ with the '|' (vertical bar). The calculator will always output the earlier date first.
+</p>
+
+<h3>Range Shorthand</h3>
+<p>
+ We can use a shorthand way of expressing a range simply by omitting one or more of the calendar elements.
+ So the Gregorian date "Sep 1948" is shorthand for the range "1 Sep 1948 ~ 30 Sep 1948",
+ and the date "1948" is shorthand for "1 Jan 1948 ~ 31 Dec 1948".
+ We can use a combination of both methods as in "Feb 1948 ~ May 1948" which equals "1 Feb 1948 ~ 31 May 1948"
+ or "1876 ~ 1891" which equals "1 Jan 1876 ~ 31 Dec 1891".
+</p>
+
+<h3>Range Keywords</h3>
+<p>
+ The keywords "<b>past</b>" and "<b>future</b>" can be used as part of the range.
+ This way "past ~ 1953" represents "Before or during 1953"
+ and "19 Sep 1948 ~ future" means "On or after 19 Sep 1948".
+</p>
+
+<h3>Date Signatures</h3>
+<p>
+ A date signature is a prefix that can be added to a date to show the calendar scheme and format of the following date.
+ They take the form "scheme:format#" where scheme and format are the codes that appear in brackets after the names in the selectors.
+ So a fully qualified date might read "g:dmy# 19 Sep 1948"
+ where the g:dmy# indicates the following date is Gregorian and in the Day Month Year format.
+</p>
+<p>
+ It is possible to use the date signatures to enter a range with a start date in a different calendar scheme to the end date.
+ For example, with the calculator set to Gregorian and format to "Month Day Year" we can enter "j:dmy# 23 Feb 1943 ~ Sep 19, 1948".
+ If the output is set to "Julian Annunciation" and format to "dd Mon yyyy/y" the result should be "23 Feb 1942/3 ~ 6 Sep 1948".
+</p>
+
+<img class='scrnprnt' src='sp/sp3.png' alt='Screen Print 3' />
+<h3>Some More Surprises</h3>
+<p>
+ With some of the calendar variants, the range shorthand can sometimes be useful and sometimes confusing.
+ An example of the former, in a Regnal calendar, just entering the monarch's name is shorthand for the span of their reign.
+</p>
+<p>
+ For a more surprising example, consider the Julian Annunciation calendar were the year change occurs on the 25th March.
+ In this calendar the shorthand year "1748" expands to "25 Mar 1748 ~ 24 Mar 1748/9".
+ But what of the range "Mar 1748",
+ this range includes the start of the year from 25th March to the end of the year on the 24th March, but not the middle.
+ The only interpretation can be two ranges as in "25 Mar 1748 ~ 31 Mar 1748 | 1 Mar 1748/9 ~ 24 Mar 1748/9"
+ (as before, the '|' (vertical bar) is taken to mean "or").
+ As a short-cut that is quite successful but whether it is what was expected, I'm not so sure.
+</p>
+
+<h3>Length of a Range</h3>
+<p>
+ If you wish to know the number of days in any given range, select the "Add Day Count" option from the View menu.
+ The number of days will then be added (in square brackets) to the end of the output,
+ providing there is more than one day.
+</p>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <a href='../../index.htm' class='m-item'>Home</a>
+  <a href='../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='ranges.htm' class='m-item thispage'>Date Ranges</a>
+  <a href='../../dev/man2/calculate.htm' class='m-item nav'>►</a>
+  <a href='../../dev/man2/convert.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>10<sup>th</sup> March 2014</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

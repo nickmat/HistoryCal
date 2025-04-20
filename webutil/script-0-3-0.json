@@ -1,0 +1,64 @@
+{ "folder": "script", "name": "index", "label": "Glich v0.3.0", "title": "Glich v0.3.0 Manual", "subtitle": "Introduction", "content": [
+  { "folder": "script", "name": "index", "label": "Glich Script", "subtitle": "Glich Script Language", "content": [
+    { "name": "types", "label": "Value Types", "subtitle": "Script Value Types" },
+    { "name": "expr", "label": "Expressions", "subtitle": "Script Expressions" },
+    { "folder": "stmts", "name": "index", "label": "Statements", "content": [
+      { "name": "write", "label": "write Statement" },
+      { "name": "file", "label": "Define file" },
+      { "name": "let", "label": "let Statement" },
+      { "name": "end", "label": "end Statement" },
+      { "name": "if", "label": "if Statement" },
+      { "name": "do", "label": "do ... loop", "subtitle": "do ... loop Statement" },
+      { "name": "function", "label": "Define function" },
+      { "name": "command", "label": "command & call", "subtitle": "Define command & call Statement" },
+      { "name": "object", "label": "Define object" },
+      { "name": "module", "label": "Define module" },
+      { "name": "mark", "label": "mark Statement" },
+      { "name": "set", "label": "set Statement" }
+    ] },
+    { "name": "bi-constants", "label": "Built-in Constants" },
+    { "name": "bi-functions", "label": "Built-in Functions" },
+    { "name": "bi-commands", "label": "Built-in Commands" },
+    { "name": "bi-objects", "label": "Built-in Objects" }
+  ]},
+  { "folder": "hics", "name": "index", "label": "Hics Extension", "subtitle": "Hics Language Extension", "content": [
+    { "name": "lexicon", "label": "Define lexicon" },
+    { "name": "grammar", "label": "Define grammar" },
+    { "name": "format", "label": "Define format" },
+    { "name": "scheme", "label": "Define scheme" },
+    { "name": "set", "label": "set Extensions" },
+    { "name": "bi-objects", "label": "Built-in Objects" },
+    { "name": "bi-functions", "label": "Built-in Functions" },
+    { "name": "phrase", "label": "Date Phrase", "subtitle": "Date Phrase Meta Language" }
+  ]},
+  { "folder": "defs", "name": "index", "label": "Hics Library", "subtitle": "Hics Library Calendar Index", "menu": false, "css": "big-list", "content": [
+    { "name": "jdn", "subtitle": "jdn - Julian Day Number", "map-label": false },
+    { "name": "mjd", "subtitle": "mjd - Modified Julian Day", "map-label": false },
+    { "name": "rd", "subtitle": "rd - Rata Die", "map-label": false },
+    { "name": "jwn", "subtitle": "jwn - Julian Week Number", "map-label": false },
+    { "name": "jwsn", "subtitle": "jwsn - Julian Week (Sunday) Number", "map-label": false },
+    { "name": "j", "subtitle": "j - Julian", "map-label": false },
+    { "name": "jce", "subtitle": "jce - Julian Common Era", "map-label": false },
+    { "name": "jn", "subtitle": "jn - Julian Nativity", "map-label": false },
+    { "name": "ja", "subtitle": "ja - Julian Annunciation Florence", "map-label": false },
+    { "name": "jap", "subtitle": "jap - Julian Annunciation Pisa", "map-label": false },
+    { "name": "je", "subtitle": "je - Julian Easter", "map-label": false },
+    { "name": "eh", "subtitle": "eh - Julian Era Hispanica", "map-label": false },
+    { "name": "g", "subtitle": "g - Gregorian", "map-label": false },
+    { "name": "gw", "subtitle": "gw - Gregorian ISO Week", "map-label": false },
+    { "name": "go", "subtitle": "go - Gregorian Ordinal", "map-label": false },
+    { "name": "ay", "subtitle": "ay - Astronomical Year", "map-label": false },
+    { "name": "fr", "subtitle": "fr - French Republican", "map-label": false },
+    { "name": "h", "subtitle": "h - Hebrew", "map-label": false },
+    { "name": "i", "subtitle": "i - Islamic Tabular", "map-label": false },
+    { "name": "ims", "subtitle": "ims - Islamic Microsoft Hijri", "map-label": false },
+    { "name": "if", "subtitle": "if - Islamic Fātimid", "map-label": false },
+    { "name": "c", "subtitle": "c - The lunisolar Chinese calendar", "map-label": false }
+  ]},
+  { "folder": "tut", "name": "index", "label": "Tutorial", "subtitle": "Script Language Tutorial", "content": [
+    { "name": "glich", "label": "Glich Basics" },
+    { "name": "hics_1", "label": "Hics Expressions" },
+    { "name": "hics_2", "label": "Hics Definitions" }          
+  ]},
+  { "name": "gloss", "label": "Glossary" }
+]}

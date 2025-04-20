@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - jn</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />jn - Julian Nativity
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='jn.htm' class='m-item thispage'>jn</a>
+  <a href='../../../../dev/man2/script/defs/ja.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/jce.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Calendar Description - Scheme jn</h2>
+<p>
+ The Julian Nativity calendar is a variant of the <a href='j.htm'>Julian</a> calendar obtained
+ by shifting the year change back from the 1st January to the 25th December.
+</p>
+
+<h3>Use Case</h3>
+<p>
+ This is the form the <i>Anno Domimi</i> or AD era took when it originated.
+ It was developed in 525 CE by the monk Dionysius Exiguus for use
+ when he was calculating tables of the Easter date.
+ It was used by the Venerable Bede in his writing
+ and then by the Church and more generally from the 8th century.
+ It was gradually replaced by the Annunciation year change (25th March)
+ and others from the 9th century.
+ It was in common use up to the 14th century.
+</p>
+
+<h3>Definition</h3>
+
+<p>
+ The <b>Record</b> consists of three julian required <b>Fields</b> named <code>year,</code>
+ <code>month</code> and <code>day</code>, a calculated field <code>cyear</code>
+ and the optional field <code>wday</code>.
+</p>
+<p>
+ The field <code>cyear</code> is the Civil Year while the <code>year</code> is the Historic Year.
+</p>
+<table class='record'>
+<tr><th colspan='5'>Record - Default order</th></tr>
+<tr><td>year</td><td>month</td><td>day</td><td class='rec-calc'>cyear</td><td class='rec-opt'>wday</td></tr>
+</table>
+<table class='record'>
+<tr><th colspan='5'>Record - Ranking order</th></tr>
+<tr><td class='rec-calc'>cyear</td><td>month</td><td>day</td><td class='rec-opt'>wday</td><td>year</td></tr>
+</table>
+<p class='lclear'>
+ The field <code>cyear</code> (Civil Year) equals <code>year</code> (Historic Year)
+ apart from the days 25 Dec to 31 dec, when <code>cyear</code> equals <code>year + 1</code>
+</p>
+
+<div>
+ The <b>Epoch</b> is set at
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>jn</td><th>cyear</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>1</td><td>12</td><td>25</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+   <tr><td rowspan='2' class='sig'>j</td><th>year</th><th>month</th><th>day</th></tr>
+   <tr class='value'><td>0</td><td>12</td><td>25</td></tr>
+ </table>
+ =
+ <table class='rec-value'>
+  <tr><td rowspan='2' class='sig'>jdn</td><th>day</th></tr>
+  <tr class='value'><td>1721417</td></tr>
+ </table>.
+</div>
+
+<h3>Formats</h3>
+<p>
+ Formatting a date for schemes where the New Year date (Historical Year)
+ and Year number increment date (Civil Year) is different
+ can lead to confusion if it is not made clear which year is displayed.
+ It is proposed that the dual dating system is used for this scheme.
+</p>
+<h4>Dual Dates</h4>
+<p>
+ The Civil year is always shown in full.
+ If this is the same as the Historical year then this is the only year shown.
+ If the years differ, then the last digit (or as many as are different)
+ is shown. This is separated from the Civil year with a '/' slash character. 
+</p>
+
+<table class="basic data">
+<tr><th colspan="4">Examples jn:dmy#</th></tr>
+<tr><td class="example">24 Dec 1134</td>
+<td class="example">25 Dec 1135/4</td>
+<td class="example">31 Dec 1135/4</td>
+<td class="example">1 Jan 1135</td></tr>
+</table>
+<p>
+ The term 'Dual Dates' is often used for different types of formatting,
+ such as combining Julian and Gregorian dates.
+ This library only uses the term for Civil/Historical years, as described above.
+</p>
+
+<h4>Formats Provided</h4>
+
+
+<table class='basic data'>
+<tr><th colspan='5'>Formats - Grammar j_sh</th></tr>
+<tr><th>Code</th><th>Rule</th><th>Pseudo</th><th>Example</th><th>Note</th></tr>
+<tr><td><b>dmy</b></td><td>text</td><td><b>Input:</b> day month cyear<br /><b>Output:</b> dd Mon yyyy/h</td><td class='example'>24 Dec 1234<br />25 Dec 1235/4<td>D, S</td></tr>
+<tr><td><b>dmy+</b></td><td>text</td><td><b>Input:</b> day month cyear<br /><b>Output:</b> dd Month yyyy/h</td><td class='example'>24 December 1234<br />25 December 1235/4<td>S</td></tr>
+<tr><td><b>wdmy</b></td><td>text</td><td><b>Input:</b> wday day month cyear<br /><b>Output:</b> Wday dd Mon yyyy/h</td><td class='example'>Sun 24 Dec 1234<br />Mon 25 Dec 1235/4<td></td></tr>
+<tr><td><b>wdmy+</b></td><td>text</td><td><b>Input:</b> wday day month cyear<br /><b>Output:</b> Weekday dd Month yyyy/h</td><td class='example'>Sunday 24 December 1234<br />Monday 25 December 1235/4<td></td></tr>
+<tr><td><b>out</b></td><td>text</td><td><b>Output:</b> ddth Month yyyy/h</td><td class='example'>24th December 1234<br />25th December 1235/4<td>S</td></tr>
+<tr><td><b>full</b></td><td>text</td><td><b>Output:</b> Weekday ddth Month yyyy/h</td><td class='example'>Sunday 24th December 1234<br />Monday 25th December 1235/4<td></td></tr>
+<tr><td><b>mdy</b></td><td>text</td><td><b>Input:</b> month day cyear<br /><b>Output:</b> Mon dd, yyyy/h</td><td class='example'>Dec 24, 1234<br />Dec 25, 1235/4<td>S</td></tr>
+<tr><td><b>mdy+</b></td><td>text</td><td><b>Input:</b> month day cyear<br /><b>Output:</b> Month dd, yyyy/h</td><td class='example'>December 24, 1234<br />December 25, 1235/4<td>S</td></tr>
+<tr><td><b>wmdy</b></td><td>text</td><td><b>Input:</b> wday month day cyear<br /><b>Output:</b> Wday, Mon dd, yyyy/h</td><td class='example'>Sun, Dec 24, 1234<br />Mon, Dec 25, 1235/4<td></td></tr>
+<tr><td><b>wmdy+</b></td><td>text</td><td><b>Input:</b> wday month day cyear<br /><b>Output:</b> Weekday, Month dd, yyyy/h</td><td class='example'>Sunday, December 24, 1234<br />Monday, December 25, 1235/4<td></td></tr>
+<tr><td><b>cdef</b></td><td>text</td><td><b>Input:</b> cyear month day<br /><b>Output:</b> yyyy mm dd</td><td class='example'>1234 12 24<br />1235 12 25<td>H, S</td></tr>
+<tr><td><b>def</b></td><td>text</td><td><b>Input:</b> year month day cyear<br /><b>Output:</b> h mm dd yyyy</td><td class='example'>1234 12 24 1234<br />1234 12 25 1235<td>H</td></tr>
+<tr><td><b>u</b></td><td>unit</td><td><b>Input:</b> 9hy 9m 9d 9cy<br /><b>Output:</b> 9hy 9m 9d 9cy</td><td class='example'>1234hy 12m 24d 1234cy<br />1234hy 12m 25d 1235cy<td>H</td></tr>
+<tr><td colspan='6'>Notes: D = Default, H = Hidden, S = Range shortcut supported.
+Example based on jdn# 2172134 and 2172135</td></tr>
+</table>
+
+<h3>Script</h3>
+<table class='code lfloat'>
+<tr><th>Script - Module hics:julian_shift</th></tr>
+<tr><td
+>grammar j_sh {
+    name "Julian shifted epoch";
+    fields year month day;
+    calculated cyear;
+    optional wday;
+    rank cyear month day;
+    lexicons m w;
+    alias pseudo { w wday; dd day; mm month; yyyy cyear; h year; }
+    alias unit { d day; m month; hy year; cy cyear; }
+    use epoch;
+    format  dmy "{day} |{month:m:a} |{cyear/year}";
+    format "dmy+" "{day} |{month:m} |{cyear/year}";
+    format  wdmy "{wday:w:a} |{day} |{month:m:a} |{cyear/year}";
+    format "wdmy+" "{wday:w} |{day} |{month:m} |{cyear/year}";
+    format  out { output "{day::os} |{month:m} |{cyear/year}"; }
+    format  full { output "{wday:w} |{day::os} |{month:m} |{cyear/year}"; }
+    format  mdy "{month:m:a} |{day}, |{cyear/year}";
+    format "mdy+" "{month:m} |{day}, |{cyear/year}";
+    format  wmdy "{wday:w:a}, |{month:m:a} |{day}, |{cyear/year}";
+    format "wmdy+" "{wday:w}, |{month:m} |{day}, |{cyear/year}";
+    format  cdef {
+        inout "{cyear}| {month}| {day}";
+        visible no;
+    }
+    preferred dmy;
+}
+scheme jn {
+    name "Julian Nativity";
+    base julian;
+    epoch 1721417;    // j:dmy# 25 Dec 0
+    grammar j_sh;
+}
+</td></tr>
+</table>
+<p class='lclear'>
+ The script uses the <b>lexicon</b> "m" definition from
+ <a href='j.htm'><b>j</b> Julian</a> for the <code>month</code> field.
+</p>
+<p>
+ It also uses the <b>lexicon</b> "w" definition from the
+ <a href='jwn.htm'><b>jwn</b> Julian Week Number</a> scheme
+ for the optional field <code>wday.</code>
+</p>
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../dev/index.htm' class='m-item'>Development</a>
+  <a href='../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../dev/man2/script/defs/index.htm' class='m-item'>Hics Library</a>
+  <a href='jn.htm' class='m-item thispage'>jn</a>
+  <a href='../../../../dev/man2/script/defs/ja.htm' class='m-item nav'>►</a>
+  <a href='../../../../dev/man2/script/defs/jce.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>19<sup>th</sup> July 2023</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

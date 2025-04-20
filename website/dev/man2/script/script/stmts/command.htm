@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - command &amp; call</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />Define command &amp; call Statement
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../../dev/index.htm' class='m-item'>Development</a>
+    <a href='../../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../../dev/man2/script/script/index.htm' class='m-item'>Glich Script</a>
+  <a href='../../../../../dev/man2/script/script/stmts/index.htm' class='m-item'>Statements</a>
+  <a href='command.htm' class='m-item thispage'>command &amp; call</a>
+  <a href='../../../../../dev/man2/script/script/stmts/object.htm' class='m-item nav'>►</a>
+  <a href='../../../../../dev/man2/script/script/stmts/function.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+
+<h2>Statements: command, call</h2>
+<p>
+ A command statement is similar to a function definition
+ except it does not return a result and can only be instigated with a call statement.
+ Optionally, arguments can be passed to the command which can then be used as local variables.
+ When calling the command, these augments may be given values or omitted.
+ An argument can be given a default value when the command is defined.
+</p>
+
+<table class='basic'>
+<tr><th>Statement command Format</th></tr>
+ <tr> <!-- See test file - test\tscripts\suite\functions\function012.hcs -->
+<td class='code'><b>command</b> <i>name</i> <b>{</b>
+    <i>statements ...</i>
+<b>}</b>
+
+<b>call</b> <i>name</i><b>;</b></td>
+ </tr>
+ <tr> <!-- See test file - test\tscripts\suite\functions\function014.hcs -->
+<td class='code'><b>command</b> <i>name</i><b>(</b><i>arg</i><b>=</b><i>value</i><b>,</b> <i>arg</i><b>=</b><i>value</i><b>) {</b>
+    <i>statements ...</i>
+<b>}</b>
+
+<b>call</b> <i>name</i><b>(</b><i>value1</i><b>,</b> <i>value2</i><b>);</b>
+</td>
+</table>
+
+<table class='basic'>
+<tr><th colspan='2'>Statement command Format</th></tr>
+<tr><th>Example</th><th>Output</th></tr>
+ <tr> <!-- See test file - test\tscripts\suite\functions\function012.hcs -->
+  <td class='example'><b>command</b> wr_today <b>{</b>
+    write string.g:dmy today;
+<b>}</b>
+    ...
+<b>call</b> wr_today<b>;</b></td>
+  <td>21 May 2017</td>
+ </tr>
+ <tr>
+  <td colspan='2'>Written when today = "g:dmy# 21 May 2017"</td>
+ </tr>
+
+ <tr> <!-- See test file - test\tscripts\suite\functions\function014.hcs -->
+  <td class='example'>object complex { values real imaginary; }
+    
+<b>command</b> write_complex<b>(</b> c <b>) {</b>
+    if v[.object] = complex
+        if c[imaginary] < 0
+            write c[real] + " - " + c[imaginary] + "i";
+        elseif c[imaginary] = 0
+            write c[real];
+        else
+            write c[real] + " + " + c[imaginary] + "i";
+        endif
+    endif
+<b>}</b>
+
+<b>call</b> write_complex( {complex 20, -25} );</b></td>
+  <td>20 - 25i</td>
+ </tr>
+</table>
+
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../../dev/index.htm' class='m-item'>Development</a>
+    <a href='../../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../../dev/man2/script/script/index.htm' class='m-item'>Glich Script</a>
+  <a href='../../../../../dev/man2/script/script/stmts/index.htm' class='m-item'>Statements</a>
+  <a href='command.htm' class='m-item thispage'>command &amp; call</a>
+  <a href='../../../../../dev/man2/script/script/stmts/object.htm' class='m-item nav'>►</a>
+  <a href='../../../../../dev/man2/script/script/stmts/function.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>9<sup>th</sup> March 2023</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

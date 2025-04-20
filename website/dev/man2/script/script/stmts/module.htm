@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+ <title>HistoryCal - Define module</title>
+ <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+ <link rel='icon' type='image/png' href='../../../../../sys/logo32x32.png' />
+ <link rel='stylesheet' type='text/css' href='../../../../../sys/livery.css' />
+ <link rel='stylesheet' type='text/css' href='../../../../../sys/hcal.css' />
+</head>
+<body>
+
+ <div class='heading'>
+  <div class='logo'>
+   <a  href='http://historycal.org'>
+    <img class='logo' src='../../../../../sys/logo266x100.png' alt='Logo' />
+   </a>
+  </div>
+  HistoryCal - Glich v0.3.0 Manual<br />Define module
+  <div class='clear'></div>
+ </div>
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../../dev/index.htm' class='m-item'>Development</a>
+    <a href='../../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../../dev/man2/script/script/index.htm' class='m-item'>Glich Script</a>
+  <a href='../../../../../dev/man2/script/script/stmts/index.htm' class='m-item'>Statements</a>
+  <a href='module.htm' class='m-item thispage'>Define module</a>
+  <a href='../../../../../dev/man2/script/script/stmts/mark.htm' class='m-item nav'>►</a>
+  <a href='../../../../../dev/man2/script/script/stmts/object.htm' class='m-item nav'>◄</a>
+ </div>
+
+<div id='content' class='nomenu'>
+
+<h2>Modules</h2>
+<p>
+ A common use case for Glich is to read in a library of statements
+ ready for for use by the host program.
+ The use of modules is intended to reduce the need to
+ read in all of the statements.
+ A module statement will introduce the object's code name
+ so that the ac it is only read if it is required.
+</p>
+<p>
+ A Glich module is a block of one or more statements.
+ It can be held in the form of a text file
+ or as part of a library internal to the host program.
+ The module name must use lower case characters.
+ (This is to ensure it works across operating systems.)
+</p>
+
+<h2>Statement: module</h2>
+<p>
+ The <b>module</b> statement is used to introduce objects
+ without the need to read the object's statement.
+ When any object in the module is first referenced
+ all of the module code is read in, allowing the object to be used.
+</p>
+
+<table class='basic'>
+<tr><th colspan='2'>module Statement</th></tr>
+<tr><th>Example</th><th>Output</th></tr>
+<tr> <!-- See test file - test\glcscripts\suite\glich\statements\module\module001.glcs -->
+<td class='example'>// Script file: test_mod.glcs
+object test_sum {
+    values one two three;
+    function sum {
+        result = one + two + three;
+    }
+}
+</td>
+<td></td>
+</tr><tr>
+<td class='example'>// Script file: test_run.glcs
+<b>module</b> file:test_mod {
+    object test_sum;
+}
+let ts = {test_sum 1, 2, 3};
+write ts nl ts@sum; 
+</td>
+<td>{test_sum 1, 2, 3}<br>
+6
+</td>
+</tr>
+</table>
+
+
+</div><!--id=content-->
+
+ <div class="crumbs">
+  <div class='dmenu'>
+   <div class='dm-item m-item'>▼</div>
+   <div class='dm-content'>
+    <a href='../../../../../dev/index.htm' class='m-item'>Development</a>
+    <a href='../../../../../index.htm' class='m-item'>Home</a>
+   </div>
+  </div> 
+  <a href='../../../../../dev/man2/index.htm' class='m-item'>V0.1.0 Manual</a>
+  <a href='../../../../../dev/man2/script/index.htm' class='m-item'>Glich v0.3.0</a>
+  <a href='../../../../../dev/man2/script/script/index.htm' class='m-item'>Glich Script</a>
+  <a href='../../../../../dev/man2/script/script/stmts/index.htm' class='m-item'>Statements</a>
+  <a href='module.htm' class='m-item thispage'>Define module</a>
+  <a href='../../../../../dev/man2/script/script/stmts/mark.htm' class='m-item nav'>►</a>
+  <a href='../../../../../dev/man2/script/script/stmts/object.htm' class='m-item nav'>◄</a>
+ </div>
+
+ <div class='tail'></div>
+
+ <div id='valid'>
+  <p>
+   <a href='https://nickmat.github.io/WebPageLayout/website/index.htm'><img src='../../../../../sys/wpl_16.png' alt='Managed by WebPageLayout' height='16' width='16' /></a>
+   <a href='https://www.gueury.com/mozilla/'><img src='../../../../../sys/tidy_16.gif' alt='Validated by HTML Validator (based on Tidy)' height='16' width='39' /></a>
+  </p>
+ </div>
+
+ <div id='create-date'><p>27<sup>th</sup> September 2024</p></div>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+//<![CDATA[
+var sc_project=9849843;
+var sc_invisible=1;
+var sc_security="4988237c";
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+//]]>
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/free-web-stats/"
+class="statcounter"><img class="statcounter"
+src="http://c.statcounter.com/9849843/0/4988237c/1/"
+alt="website statistics" /></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>
