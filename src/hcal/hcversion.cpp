@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     http://historycal.org
  * Created:     30th September 2013
- * Copyright:   Copyright (c) 2013 ~ 2016, Nick Matthews.
+ * Copyright:   Copyright (c) 2013..2025, Nick Matthews.
  * Licence:     GNU GPLv3
  *
  *  HistoryCal is free software: you can redistribute it and/or modify
@@ -45,10 +45,11 @@
 #define VERSION_CONFIG   " debug"
 #endif
 
-#define VERSION_NUM   "0.1.0"
+#define RELEASE_NUM   " R1"
+#define VERSION_NUM   "V0.1.0" RELEASE_NUM
 
 
-#define VERSION   VERSION_NUM VERSION_STATUS VERSION_CONFIG
+#define VERSION   VERSION_NUM VERSION_STATUS VERSION_CONFIG " " __DATE__
 
 /*! A string containing the current full version number.
  */
@@ -56,8 +57,8 @@ const char* hcVersion = VERSION;
 
 /*! A string containing a long hand version name and copyright message.
  */
-const char* hcTitle = "HistoryCal - V" VERSION "\n"
-                      "Copyright (c) 2013 ~ 2023  Nick Matthews\n\n";
+const char* hcTitle = "HistoryCal - " VERSION "\n"
+                      "Copyright (c) 2013..2025  Nick Matthews\n\n";
 
 /*************************************************************************//**
 
@@ -86,7 +87,7 @@ const char* hcTitle = "HistoryCal - V" VERSION "\n"
 cancelled v0.0.7   Use Cal library version 0.2.7.
                    Add GUI for formating.
 
-  active  v0.1.0   Replace Cal library with Glich library.
+  active  v0.1.0 R1  Replace Cal library with Glich library.
 
  See also website http://historycal.org
 
