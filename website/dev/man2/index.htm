@@ -57,14 +57,34 @@
 <div id='content'>
 
 <h2>Introduction</h2>
-<img class='scrnprnt' src='sp/sp1.png' alt='Screen Print 1' />
+<img class='scrnprnt' src='sp/sp1.png' alt='Screen Print 1' width='500px' />
 <p>
- One of the design principles of HistoryCal is that simple things should be simple
- to do and more complex things should be possible. The hope is that, despite the power
- of HistoryCal to do almost anything with dates, the user should find using it
- comes naturally and without the need to refer to this manual too often.
- If, on the other hand, you do want to do something complex - like create your own
- calendar variant - you will find what you need here.
+ HistoryCal is an program to convert between various current and historical calendars.
+ The input and output calendars may be variations of a common basic calendar
+ and may use different formats to describe them.
+</p>
+<p>
+ As well as converting single days, the program can work with ranges of days.
+ A range can in shorthand as, say, a year or a year and month.
+ Not all date formats can take advantage of this ability.
+</p>
+<p>
+ HistoryCal can combine ranges using mathematical set operations.
+ The values 'past' and 'future' can be used
+ so expressions such as "on or before" can be represented
+ as the range 'past..1956'.
+</p>
+<p>
+ Other calculations can be carried out,
+ such as calculating an age on a given day
+ or, given an age and date, calculate the date range the birth date falls.
+</p>
+<p>
+ The entry cal use a mixture of calendar schemes and formats
+ using a date 'signature'.
+ For example, the Gregorian calendar scheme
+ written using the "Month Day, Year" format
+ can prefix the date with 'g:mdy#' (without the '').
 </p>
 
 <!--
