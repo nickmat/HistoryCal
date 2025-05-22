@@ -4,11 +4,21 @@
   { "name": "calculate", "label": "Calculations", "subtitle": "Date Calculations" },
   { "name": "formatting", "label": "Formatting", "subtitle": "Date Formatting" },
   { "folder": "cal", "name": "index", "label": "Calendars", "content": [
-    { "name": "roman", "label": "Roman", "subtitle": "Roman Calendars" },
-    { "label": "French Republic", "subtitle": "French Republic Calendar" },
-    { "label": "Hebrew", "subtitle": "Hebrew Calendar" },
-    { "label": "Islamic", "subtitle": "Islamic Calendars" },
-    { "label": "Chinese", "subtitle": "Chinese Calendars" }
+    { "name": "dcount", "label": "Day Count", "subtitle": "Day Count Calendars" },
+    { "name": "wcount", "label": "Week Count", "subtitle": "Week Count Calendars" },
+    { "folder": "roman", "name": "index", "label": "Roman Calendars", "content": [
+      { "name": "ancient", "label": "Ancient", "subtitle": "Ancient Roman Calendars" },
+      { "name": "pre_julian", "label": "Pre-Julian", "subtitle": "Pre-Julian Calendars" },
+      { "name": "classical", "label": "Julian Classical", "subtitle": "Julian Classical Calendar" },
+      { "name": "julian", "label": "Julian", "subtitle": "Julian Calendars" },
+      { "name": "gregorian", "label": "Gregorian", "subtitle": "Gregorian Calendar" }
+    ]},
+    { "name": "chinese", "label": "Chinese", "subtitle": "Chinese Calendars" },
+    { "name": "hebrew", "label": "Hebrew", "subtitle": "Hebrew Calendar" },
+    { "name": "islamic", "label": "Islamic", "subtitle": "Islamic Calendars" },
+    { "name": "f_rep", "label": "French Republic", "subtitle": "French Republic Calendar" },
+    { "name": "hybrid", "label": "Hybrid", "subtitle": "Hybrid Calendars" },
+    { "name": "regnal", "label": "Regnal", "subtitle": "Regnal Calendars" }
   ]},
   { "insert": "script-0-3-0.json" },
   { "name": "gloss", "label": "Glossary" }
